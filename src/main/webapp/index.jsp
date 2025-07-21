@@ -9,7 +9,7 @@
 <body>
 <header>
     <h1><%= "SIST BOX" %></h1>
-    <nav> 메뉴바</nav>
+    <jsp:include page="JSP/menu.jsp"/>
 </header>
 <br/>
 <article>
