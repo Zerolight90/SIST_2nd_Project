@@ -2,12 +2,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <title>SIST BOX 쌍용박스</title>
+    <link rel="stylesheet" href="./CSS/style.css">
+    <link rel="stylesheet" href="./CSS/reset.css">
 </head>
 <body>
-<h1><%= "Hello World!" %>
-</h1>
+<header>
+    <h1><%= "SIST BOX" %></h1>
+    <jsp:include page="JSP/menu.jsp"/>
+</header>
 <br/>
-<a href="hello-servlet">Hello Servlet</a>
+<article>
+    <div id="content">
+        박스 오피스 영역
+    </div>
+
+    <div id="boon">
+        헤택
+    </div>
+
+    <div id="Curation">
+        큐레이션
+    </div>
+
+    <div id="imformation">
+        메가박스 안내
+    </div>
+</article>
+
+
+
+<jsp:include page="JSP/Footer.jsp"/>
+
 </body>
+
 </html>
