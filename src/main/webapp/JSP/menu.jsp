@@ -13,6 +13,7 @@
         <li><a href="#" class="nav-item">영화</a></li>
         <li><a href="#" class="nav-item">예매</a></li>
         <li><a href="#" class="nav-item active">극장</a></li>
+        <li><a href="#" class="nav-logo"><h1>로고</h1></a></li>
         <li><a href="#" class="nav-item">이벤트</a></li>
         <li><a href="#" class="nav-item">스토어</a></li>
         <li><a href="#" class="nav-item">혜택</a></li>
