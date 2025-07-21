@@ -8,7 +8,6 @@
 </head>
 <body>
 <header>
-    <h1><%= "SIST BOX" %></h1>
     <jsp:include page="JSP/menu.jsp"/>
 </header>
 <br/>

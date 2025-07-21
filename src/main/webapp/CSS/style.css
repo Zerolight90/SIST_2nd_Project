@@ -8,7 +8,7 @@ body{
 /*메뉴 영역*/
 /* 전체 nav 스타일 */
 .main-nav {
-    background-color: #aaaaaa;
+    background-color: #000;
     color: #fff;
     font-family: 'Noto Sans KR', sans-serif;
     padding: 10px 20px;
@@ -17,6 +17,18 @@ body{
     align-items: center;
     flex-wrap: wrap;
 }
+.nav-top{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    font-size: 13px;
+    font-weight: 600;
+
+}
+.nav-top li a{
+    display: block;
+    color: #aaaaaa;
+}
 
 .nav-main{
     display: flex;
@@ -24,6 +36,10 @@ body{
     gap: 30px;
     font-size: 16px;
     font-weight: 600;
+}
+.nav-main li a{
+    display: block;
+    color: #fff;
 }
 
 .nav-main .menu-toggle {
@@ -48,6 +64,19 @@ body{
     align-items: center;
     justify-content: center;
     color: white;
+}
+
+.nav-user{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.nav-user li a{
+    display: block;
+    color: #aaaaaa;
 }
 
 
