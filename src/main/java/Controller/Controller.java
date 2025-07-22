@@ -36,7 +36,7 @@ public class Controller extends HttpServlet {
 
         //현재 서블릿이 생성될 때 멤버변수인 myParm값이 존재한다.
         //그 myparam이 가지고 있는 값을 절대경로로 만들어야 한다.
-        //jsp에서는 application이라느 내장객체가 존재 했지만, 서블릿에서는 직접 얻어내야 한다.
+        //jsp에서는 application이라는 내장객체가 존재 했지만, 서블릿에서는 직접 얻어내야 한다.
 
         ServletContext application = this.getServletContext();
 
@@ -49,7 +49,7 @@ public class Controller extends HttpServlet {
         Properties prop= new Properties();
 //        prop.setProperty("index", "emp.action.IndexAction");
         //위처럼 저장을 해야하지만 이렇게 하면 기능이 하나 생길때마다
-        //소스코드를 수정해야 하는 건거로움이 있다.
+        //소스코드를 수정해야 하는 번거로움이 있다.
 
         //Properties의 load함수를 이용하여 내용들을 읽기한다. 이때 필요한 객체가
         //InputStream이다.
@@ -66,7 +66,7 @@ public class Controller extends HttpServlet {
             e.printStackTrace();
         }
         //생성할 객체들의 경로가 모두 Properties객체로 저장된 상태다.
-        //하지마 현재 컨트롤러 입장에서는 생성할 객체가 몇개이며, 어떤객체인지 알지 못한다.
+        //하지만 현재 컨트롤러 입장에서는 생성할 객체가 몇개이며, 어떤객체인지 알지 못한다.
         //그래서 Preoperties에 저장된 키들을 모두 가져와서 반복자(Iterator)로 수행해야 한다.
 
         Iterator<Object> it = prop.keySet().iterator();
@@ -104,7 +104,7 @@ public class Controller extends HttpServlet {
         //type이라는 파라미터 받기
         String type = request.getParameter("type");
 
-        //type이 전달되지 않아서  null값 이면 index로 초기화 하자
+        //type이 전달되지 않아서 null값 이면 index로 초기화 하자
         if(type == null){
             type = "index";
         }

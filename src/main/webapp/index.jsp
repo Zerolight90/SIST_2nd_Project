@@ -9,7 +9,7 @@
 </head>
 <body>
 <header>
-    <jsp:include page="JSP/menu.jsp"/>
+    <jsp:include page="jsp/menu.jsp"/>
 </header>
 <br/>
 <article>
@@ -18,7 +18,7 @@
     </div>
 
     <div id="boon">
-        헤택
+        혜택
     </div>
 
     <div id="Curation">
@@ -26,13 +26,11 @@
     </div>
 
     <div id="imformation">
-        메가박스 안내
+        쌍용박스 안내
     </div>
 </article>
 
-
-
-<jsp:include page="JSP/Footer.jsp"/>
+<jsp:include page="jsp/Footer.jsp"/>
 
 </body>
 
