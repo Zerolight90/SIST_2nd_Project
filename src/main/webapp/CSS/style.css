@@ -6,11 +6,14 @@ body{
     height: 600px;
 }
 /*메뉴 영역*/
+/*로고 css*/
+
 /* 전체 nav 스타일 */
 .main-nav {
     background-color: #000;
     color: #fff;
     font-family: 'Noto Sans KR', sans-serif;
+    margin-top: 30px;
     padding: 10px 20px;
     display: flex;
     justify-content: space-between;
@@ -23,11 +26,20 @@ body{
     gap: 30px;
     font-size: 13px;
     font-weight: 600;
-
 }
 .nav-top li a{
     display: block;
     color: #aaaaaa;
+    transition: color 0.3s ease;
+}
+.nav-top li a:hover{
+    color: #ffffff;
+}
+
+/*폰트 어썸에서 가져온 돋보기 css*/
+.search-icon i {
+    font-size: 20px;
+    color: #fff;
 }
 
 .nav-main{
@@ -40,7 +52,13 @@ body{
 .nav-main li a{
     display: block;
     color: #fff;
+    transition: color 0.3s ease;
 }
+.nav-main li a:hover{
+    border-bottom: 2px solid #fff;
+}
+
+
 
 .nav-main .menu-toggle {
     background: none;
@@ -58,12 +76,16 @@ body{
     background-color: #fff;
     border-radius: 1px;
 }
+/* 돋보기 아이콘 밑줄 제거 */
+.search-icon:hover {
+    border-bottom: none !important;
+}
 
 .nav-item{
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: #ffffff;
 }
 
 .nav-user{
@@ -77,6 +99,23 @@ body{
 .nav-user li a{
     display: block;
     color: #aaaaaa;
+    transition: color 0.3s ease;
+}
+.nav-user li a:hover{
+    color: #ffffff;
+}
+
+.calendar-icon i,
+.user-icon i {
+    font-size: 20px;  /* 아이콘 크기 */
+    color: #aaaaaa;   /* 기본 색상 */
+    transition: color 0.3s ease;
+}
+
+.calendar-icon:hover i,
+.user-icon:hover i {
+    color: #fff;      /* 호버 시 흰색으로 변경 */
+    cursor: pointer;
 }
 
 
