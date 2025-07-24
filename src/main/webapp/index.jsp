@@ -9,7 +9,7 @@
 </head>
 <body>
 <header>
-    <jsp:include page="jsp/menu.jsp"/>
+    <jsp:include page="JSP/menu.jsp"/>
 </header>
 <br/>
 <article>
@@ -30,7 +30,7 @@
     </div>
 </article>
 
-<jsp:include page="jsp/Footer.jsp"/>
+<jsp:include page="JSP/Footer.jsp"/>
 
 </body>
 

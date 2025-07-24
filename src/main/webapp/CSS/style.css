@@ -6,7 +6,25 @@ body{
     height: 600px;
 }
 /*메뉴 영역*/
+
 /*로고 css*/
+.logo, .nav-logo {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    text-indent: -9999px;
+}
+
+.logo {
+    color: #ffffff;
+}
+
+.nav-logo {
+    display: block;
+    background-image: url("../img/logo.png");
+    background-repeat: no-repeat;
+    background-position: center;
+}
 
 /* 전체 nav 스타일 */
 .main-nav {
@@ -14,51 +32,114 @@ body{
     color: #fff;
     font-family: 'Noto Sans KR', sans-serif;
     margin-top: 30px;
-    padding: 10px 20px;
+    padding: 10px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+    position: relative;
+    height: 90px;
 }
-.nav-top{
+
+.nav-left, .nav-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    border: 1px solid red;
+    position: absolute;
+    top: 0;
+    margin-top: 10px;
+}
+.nav-left { left: 80px; }
+.nav-right { right: 0; margin-right: 20px; }
+
+.nav-center {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.nav-top,
+.nav-user,
+.nav-icon {
     display: flex;
     align-items: center;
     gap: 30px;
-    font-size: 13px;
     font-weight: 600;
 }
-.nav-top li a{
+
+.nav-top {
+    font-size: 14px;
+}
+.nav-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 100px;
+    font-size: 20px;
+    font-weight: 600;
+    border: 1px solid red;
+}
+
+.nav-main li a, .nav-top li a, .nav-user li a, .nav-icon li a {
     display: block;
     color: #aaaaaa;
     transition: color 0.3s ease;
+    text-align: center;
 }
-.nav-top li a:hover{
+
+.nav-main li a:hover,
+.nav-user li a:hover,
+.nav-icon li a:hover,
+.nav-top li a:hover {
     color: #ffffff;
 }
 
-/*폰트 어썸에서 가져온 돋보기 css*/
-.search-icon i {
-    font-size: 20px;
-    color: #fff;
-}
-
-.nav-main{
-    display: flex;
-    align-items: center;
-    gap: 30px;
-    font-size: 16px;
-    font-weight: 600;
-}
-.nav-main li a{
-    display: block;
-    color: #fff;
-    transition: color 0.3s ease;
-}
-.nav-main li a:hover{
+.nav-main li a:hover {
     border-bottom: 2px solid #fff;
 }
 
+/* 돋보기 아이콘 밑줄 제거 */
+.search-icon:hover {
+    border-bottom: none !important;
+}
 
+.nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+}
+
+.nav-user { font-size: 14px; }
+.nav-icon {
+    text-align: right;
+    font-size: 13px;
+    margin-top: 70px;
+    position: absolute;
+    right: 0;
+}
+
+.search-icon i,
+.calendar-icon i,
+.user-icon i {
+    font-size: 20px;
+    color: #aaaaaa;
+    transition: color 0.3s ease;
+}
+.calendar-icon:hover i,
+.user-icon:hover i {
+    color: #fff;
+    cursor: pointer;
+}
+.search-icon i {
+    color: #fff;
+}
 
 .nav-main .menu-toggle {
     background: none;
@@ -66,7 +147,7 @@ body{
     cursor: pointer;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 8px;
     padding: 0;
 }
 .nav-main .menu-toggle span {
@@ -76,50 +157,9 @@ body{
     background-color: #fff;
     border-radius: 1px;
 }
-/* 돋보기 아이콘 밑줄 제거 */
-.search-icon:hover {
-    border-bottom: none !important;
-}
-
-.nav-item{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #ffffff;
-}
-
-.nav-user{
-    display: flex;
-    align-items: center;
-    gap: 30px;
-    font-size: 13px;
-    font-weight: 600;
-}
-
-.nav-user li a{
-    display: block;
-    color: #aaaaaa;
-    transition: color 0.3s ease;
-}
-.nav-user li a:hover{
-    color: #ffffff;
-}
-
-.calendar-icon i,
-.user-icon i {
-    font-size: 20px;  /* 아이콘 크기 */
-    color: #aaaaaa;   /* 기본 색상 */
-    transition: color 0.3s ease;
-}
-
-.calendar-icon:hover i,
-.user-icon:hover i {
-    color: #fff;      /* 호버 시 흰색으로 변경 */
-    cursor: pointer;
-}
 
 
-       /*메인 영역*/
+/*메인 영역*/
 #content{
     font-size: 50px;
     text-align: center;
@@ -166,13 +206,10 @@ body{
     height: 200px;
     margin: 0 auto;
 }
-
 #footer-top ul li {
     display: inline-block;
     margin-right: 20px;
 }
-
-/* 마지막 항목엔 오른쪽 마진 제거 */
 #footer-top ul li:last-child {
     margin-right: 0;
 }
