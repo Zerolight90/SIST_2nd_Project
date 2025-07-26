@@ -1,165 +1,277 @@
 @charset "UTF-8";
 /* CSS style */
 
-body{
-    width:100%;
-    height: 600px;
+body, header, article {
+    margin: 0;
+    padding: 0;
 }
-/*메뉴 영역*/
 
-/*로고 css*/
-.logo, .nav-logo {
+
+header {
     width: 100%;
-    margin: 0 auto;
+    height: 100px;
+    background-color: #222222;
+    /*border: 1px solid white;*/
+}
+/*로고 css*/
+.menu1{
+    position: relative;
+}
+.inner {
+    display: flex;
+    justify-content: center;  /* 수평가운데 */
+    align-items: center;      /* 수직가운데 */
+}
+.logo {
+    display: block; /* 블록 요소로 강제 지정 */
+    position: absolute;
+    top: 30px;
     text-align: center;
+    margin: 0 auto;
+    z-index: 1000;
+    /*border: 1px solid red;*/
+}
+
+.logo_img {
+    display: block;
+    margin: 0 auto;
+}
+.title{
+    display: inline-block;
     text-indent: -9999px;
 }
 
-.logo {
-    color: #ffffff;
-}
-
-.nav-logo {
-    display: block;
-    background-image: url("../img/logo.png");
-    background-repeat: no-repeat;
-    background-position: center;
-}
-
-/* 전체 nav 스타일 */
-.main-nav {
-    background-color: #000;
-    color: #fff;
-    font-family: 'Noto Sans KR', sans-serif;
-    margin-top: 30px;
-    padding: 10px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    position: relative;
-    height: 90px;
-}
-
-.nav-left, .nav-right {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    border: 1px solid red;
-    position: absolute;
-    top: 0;
-    margin-top: 10px;
-}
-.nav-left { left: 80px; }
-.nav-right { right: 0; margin-right: 20px; }
-
-.nav-center {
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    text-align: center;
-}
-
-.nav-top,
-.nav-user,
-.nav-icon {
-    display: flex;
-    align-items: center;
-    gap: 30px;
-    font-weight: 600;
-}
-
+/*메뉴 영역*/
 .nav-top {
-    font-size: 14px;
-}
-.nav-main {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    gap: 100px;
-    font-size: 20px;
-    font-weight: 600;
-    border: 1px solid red;
+    margin: 0 auto;
+    width: 1100px;
+    height: 50px;
+    /*border: 1px solid red;*/
+    position: relative;
 }
-
-.nav-main li a, .nav-top li a, .nav-user li a, .nav-icon li a {
+.nav-top ul li a {
     display: block;
-    color: #aaaaaa;
-    transition: color 0.3s ease;
-    text-align: center;
+    color: #b0b0b0;
 }
-
-.nav-main li a:hover,
-.nav-user li a:hover,
-.nav-icon li a:hover,
-.nav-top li a:hover {
-    color: #ffffff;
+.nav-top ul li a:hover {
+    color: white;
 }
-
-.nav-main li a:hover {
-    border-bottom: 2px solid #fff;
-}
-
-/* 돋보기 아이콘 밑줄 제거 */
-.search-icon:hover {
-    border-bottom: none !important;
-}
-
-.nav-item {
+.nav-top ul  {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #ffffff;
+    gap: 20px;
 }
 
-.nav-user { font-size: 14px; }
-.nav-icon {
-    text-align: right;
-    font-size: 13px;
-    margin-top: 70px;
+.nav-top .nav-l_top  {
     position: absolute;
+    top: 20px;
+}
+.nav-top .nav-r_top  {
+    position: absolute;
+    top: 20px;
     right: 0;
 }
 
-.search-icon i,
-.calendar-icon i,
-.user-icon i {
-    font-size: 20px;
-    color: #aaaaaa;
-    transition: color 0.3s ease;
+.icon-menu{
+    width: 1100px;
+    height: 50px;
+    /*border: 1px solid red;*/
+    margin: 0 auto;
+    position: relative;
+
 }
-.calendar-icon:hover i,
-.user-icon:hover i {
-    color: #fff;
-    cursor: pointer;
-}
-.search-icon i {
-    color: #fff;
+.icon-menu> .nav-side{
+    display: flex;
+    gap: 10px;
+    position: absolute;
+    top: 0;
 }
 
-.nav-main .menu-toggle {
-    background: none;
-    border: none;
-    cursor: pointer;
+.nav-icon{
     display: flex;
-    flex-direction: column;
-    gap: 8px;
+    gap: 20px;
+    position: absolute;
+    top: 8px;
+    right: 0;
+    font-size: 18px;
+}
+
+.icon-menu>.nav-icon>li>a{
+    display: block;
+    color: #b0b0b0;
+}
+.nav-icon li a:hover{
+    color: white;
+}
+
+/* 햄버거/돋보기 크기 통일 및 공통 스타일 */
+.menu-toggle,
+.search-icon {
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    color: #b0b0b0;
+    cursor: pointer;
+    transition: color 0.2s, background 0.2s;
+    font-size: 18px;
     padding: 0;
 }
-.nav-main .menu-toggle span {
+
+.menu-toggle {
+    flex-direction: column;
+}
+
+/* 햄버거 : span 블록 */
+.menu-toggle span {
     display: block;
-    width: 22px;
+    width: 20px;
     height: 2px;
-    background-color: #fff;
-    border-radius: 1px;
+    margin: 3px auto;
+    background: #b0b0b0;
+    border-radius: 2px;
+    transition: background 0.2s;
+}
+
+.menu-toggle:hover span {
+    background: #fff;
+}
+
+/* 돋보기기 아이콘 크기 및 색상 */
+.search-icon i {
+    font-size: 18px;
+    padding-top: 15px;
+    color: #b0b0b0;
+}
+
+/* 돋보기 hover 효과 */
+.search-icon:hover,
+.search-icon:hover i {
+    color: #fff;
+}
+
+/*메인 메뉴 영역*/
+.nav-center {
+    display: flex;
+    width: 800px;
+    height: 50px;
+    margin: 0 auto;
+    /*border: 1px solid red;*/
+    position: relative;
+    top : -50px;
+    justify-content: space-between;
+    align-items: center; /* 수직 가운데 정렬 */
+}
+
+.l_main,
+.r_main {
+    display: flex;
+    gap: 40px;           /* li 사이 간격 조정 */
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;    /* 기본 점 제거 */
+}
+
+.l_main li,
+.r_main li {
+    /* 특별한 float 등 제거 */
+    margin: 0;
+    padding: 0;
+}
+.l_main li a,
+.r_main li a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    padding: 10px 5px;
+    font-size: 18px;
+    font-weight: 400;
+}
+.nav-center a {
+    color: #fff;
+    text-decoration: none;
+    position: relative;
+    padding: 10px 0;
+    display: block;
+}
+
+.nav-center a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: #fff;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+}
+
+.nav-center a:hover::after,
+.nav-center a:focus::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+/* */
+.nav-center .main-item {
+    position: relative;
+}
+
+.nav-center .submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #222;
+    padding: 8px 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    white-space: nowrap;
+    z-index: 1000;
+    gap: 20px;
+}
+
+.nav-center .submenu li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.nav-center .submenu li a {
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 14px;
+    color: #ccc;
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+    white-space: nowrap;
+}
+
+.nav-center .submenu li a:hover {
+    background-color: #444;
+    color: #fff;
+    border-radius: 3px;
+}
+
+.nav-center .main-item:hover > .submenu,
+.nav-center .main-item:focus-within > .submenu {
+    display: flex;
+}
+
+/**/
+
+/*메인 영역*/
+article{
+    margin-top: 0;
 }
 
 
-/*메인 영역*/
 #content{
     font-size: 50px;
     text-align: center;
@@ -197,20 +309,84 @@ body{
     text-align: center;
     font-weight: bold;
     height:600px;
-    background-color: cadetblue;
+    background-color: #ffffff;
 }
 /*푸터 영역*/
-#footer {
-    background: #f8f8fa;
-    width: 100%;
+footer {
+    background-color: #f8f8fa;
+    color: #666666;
     height: 200px;
-    margin: 0 auto;
+    line-height: 1.5;
+    padding: 20px 40px;
+    font-family: 'Noto Sans KR', sans-serif;
 }
-#footer-top ul li {
+
+#footer-top ul {
+    display: flex;
+    width: 1100px;
+    gap: 20px;
+    padding: 20px;
+    margin:0 auto;
+    /*border: 1px solid red;*/
+}
+
+#footer-top ul li a {
+    font: 12px "Noto Sans KR", sans-serif;
+    color: #666666;
+}
+
+#footer-top ul li:nth-child(6) a, #footer-top ul li:nth-child(7) a {
+    font: bold 12px "Noto Sans KR", sans-serif;
+    color: #222222;
+}
+
+
+#footer-top ul li a:hover {
+    text-decoration: underline;
+}
+
+#footer-bottom {
+    width: 1100px;
+    margin:0 auto;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.footer-logo img {
+    height: 40px;
+    vertical-align: middle;
+}
+
+.footer-logo p {
     display: inline-block;
-    margin-right: 20px;
+    margin-left: 10px;
+    font-weight: bold;
+    color: #999;
 }
-#footer-top ul li:last-child {
-    margin-right: 0;
+
+address {
+    font : 12px "Noto Sans KR", sans-serif;
+    color: #444444;
+    max-width: 700px;
+    margin: 10px 0;
 }
+
+.footer-social a {
+    margin-left: 15px;
+    color: #777;
+    font-size: 24px;
+    transition: color 0.3s;
+}
+
+.footer-social a:hover {
+    color: #e50914; /* 예: 메가박스 레드 컬러로 변경 */
+}
+
 
