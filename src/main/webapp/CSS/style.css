@@ -1887,12 +1887,11 @@ header {
 }
 
 /* 컨텐츠(글 등)는 z-index: 10 등으로 올려야 배경 위에 뜸 */
-#content .cont-area{
-    position: relative;
-    z-index: 10;
-}
 #content .cont-area {
+    width: 1000px;
+    margin: 0 auto;
     position: relative;
+    top: 50px;
     z-index: 10;
     font-size: 22px;
     background: transparent; /* 배경은 필요에 따라 조절 */
@@ -1902,6 +1901,7 @@ header {
     justify-content: center;
     padding: 0 60px; /* 좌우 여백으로 공간 확보 */
     box-sizing: border-box;
+    /*border: 1px solid red;*/
 }
 
 /* 박스오피스 버튼 중앙 정렬 및 스타일 */
@@ -1916,9 +1916,9 @@ header {
     border: none;
     color: #fff;
     font-weight: 700;
-    font-size: inherit;
+    font-size: 16px;
     padding-bottom: 6px;
-    border-bottom: 2px solid #fff;
+    border-bottom: 3px solid #595959;
     cursor: default; /* 클릭 효과 없도록 */
     outline: none;
     user-select: none;
@@ -1927,9 +1927,10 @@ header {
 /* 더 많은 영화보기 우측 정렬 */
 #content .cont-area .more-movie {
     position: absolute;
-    right: 0;
+    right: 15px;
+    top: 20px;
     color: #ccc;
-    font-size: inherit;
+    font-size: 16px;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -1938,10 +1939,11 @@ header {
     transition: color 0.3s, text-decoration 0.3s;
 }
 
+
 #content .cont-area .more-movie:hover,
 #content .cont-area .more-movie:focus {
     color: #fff;
-    text-decoration: underline;
+    /*text-decoration: underline;*/
 }
 
 /* 아이콘 크기 조절 (필요시) */
@@ -1950,6 +1952,110 @@ header {
     line-height: 1;
 }
 
+.boxoffice {
+    position: relative;
+    margin-top: 80px;
+    z-index: 15;
+}
+
+.boxoffice ul {
+    position: relative;
+    z-index: 16;
+}
+
+.boxoffice ul li {
+    display: inline-block;
+    vertical-align: top;
+    width: 220px;
+    margin: 0 15px 30px 0;
+    box-sizing: border-box;
+    position: relative;
+    color: #fff;      /* 임시 텍스트 컬러 */
+}
+
+.bage, .tit{
+    display: none;
+}
+.boxoffice ul li .summary {
+    width: 100%;
+    height: 300px; /* 이미지 높이와 동일 */
+    /* 기존 스타일 유지 */
+}
+
+
+.boxoffice ul li .summary {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* 이미지 높이와 동일 */
+    background: rgba(20, 20, 20, 0.88);
+    color: #fff;
+    padding: 22px 16px 18px 16px;
+    font-size: 16px;
+    line-height: 1.7;
+    text-align: left;
+    border-radius: 8px 8px 0 0;
+    box-sizing: border-box;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.boxoffice ul li:hover .summary {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
+
+.boxoffice ul li .summary .review {
+    font-size: 16px;
+    line-height: 1.5;
+    max-height: 6em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #666; /* 구분선 */
+    padding-bottom: 12px;
+}
+
+.boxoffice ul li .summary .rating {
+    text-align: center;
+    margin-top: 12px;
+}
+
+.boxoffice ul li .summary .rating .score {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffd700; /* 골드 컬러 */
+}
+
+
+
+
+
+.boxoffice ul li .img {
+    width: 100%;
+    height: 300px; /* 카드 이미지 비율에 따라 조정 */
+    overflow: hidden;
+    border-radius: 8px 8px 0 0;
+    position: relative;
+}
+
+
+.boxoffice ul li .img img {
+    width: 100%;
+    border-radius: 8px 8px 0 0;
+    display: block;
+}
 
 
 
