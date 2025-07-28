@@ -8,6 +8,7 @@ body, header, article {
 
 
 header {
+    position: relative;
     width: 100%;
     height: 100px;
     background-color: #222222;
@@ -267,13 +268,16 @@ header {
 /**/
 
 /*메인 영역*/
+#content{
+    text-align: center;
+
+}
+
 
 /* 메인 영화 */
 .main-movie {
-    display: block;
+    margin-top: 0;
     position: relative;
-    min-height: 880px;
-    padding: 0 0 80px 0;
 
 }
 
@@ -301,7 +305,6 @@ header {
     background: -webkit-linear-gradient(left, rgba(85,63,5,1) 0%, rgba(23,17,1,0) 50%, rgba(85,63,5,1) 100%);
     background: -o-linear-gradient(left, rgba(85,63,5,1) 0%, rgba(23,17,1,0) 50%, rgba(85,63,5,1) 100%);
     background: -ms-linear-gradient(left, rgba(85,63,5,1) 0%, rgba(23,17,1,0) 50%, rgba(85,63,5,1) 100%);
-
 }
 
 .main-movie .bg:after {
@@ -344,16 +347,17 @@ header {
     width: 1100px;
     height: auto;
     margin: 0 auto;
-    padding: 0 0 50px 0;
+    padding: 0 0 30px 0;
 }
 
 .main-movie .cont-area .more-movie {
     display: block;
     position: absolute;
     right: 0;
-    top: 177px;
+    top: 100px;
     color: #aaa;
     line-height: 16px;
+    font-size: 16px;
 }
 
 .main-movie .cont-area .more-movie i {
@@ -361,7 +365,10 @@ header {
 }
 
 .main-movie .tab-sorting {
-    margin: 169px 0 20px 0;
+    margin: 80px 0 20px 0;
+    display: flex;
+    justify-content: center;
+
 }
 
 .main-movie .tab-sorting button {
@@ -371,6 +378,9 @@ header {
     padding: 0 0 5px 0;
     vertical-align: top;
     color: #aaa;
+    font-size: 20px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 500;
     border: 0;
     border-bottom: 2px solid transparent;
     background-color: transparent;
@@ -396,361 +406,15 @@ header {
     height: 2px;
     margin: -1px 0 0 -18px;
     background-color: rgba(255,255,255,1);
+
 }
 
 .main-movie .tab-sorting button:first-child:after {
     display: none;
 }
 
-.main-movie-list {
-}
-
-.main-movie-list > ol {
-    display: block;
-}
-
-.main-movie-list > ol:before, .main-movie-list > ol:after {
-    content: '';
-    display: table;
-}
-
-.main-movie-list > ol:after {
-    clear: both;
-}
-
-.main-movie-list > ol li {
-    float: left;
-    width: 245px;
-    margin-left: 40px;
-    padding: 0;
-}
-
-.main-movie-list > ol li.first {
-    margin-left: 0;
-}
-
-.main-movie-list > ol li .movie-list-info {
-    overflow: hidden;
-    display: block;
-    position: relative;
-    width: 100%;
-    height: 352px;
-    border-radius: 5px;
-    background-color: #24202b;
-}
-
-/*20200626 스크린타입 */
-/*.main-movie-list > ol li .movie-list-info .screen-type2{position:absolute; right:10px; top:10px;}
-.main-movie-list > ol li .movie-list-info .screen-type2 p{display:inline-block; margin:0 0 0 4px; padding:8px; border-radius:3px; color:#fff; background-color:rgba(0,0,0,0.6);}
-.main-movie-list > ol li .movie-list-info .screen-type2 img{display:block;}*/
-/*240409 변경 및 추가*/
-.main-movie-list > ol li .movie-list-info .screen-type2 {
-    position: absolute;
-    left: 8px;
-    bottom: 8px;
-}
-
-.main-movie-list > ol li .movie-list-info .screen-type2 p {
-    display: block;
-    margin: 0;
-}
-
-.main-movie-list > ol li .movie-list-info .screen-type2 p+p {
-    margin-top: 2px
-}
-
-.main-movie-list > ol li .movie-list-info .screen-type2 img {
-    display: block;
-    width: 60px;
-    height: 20px;
-}
-
-.main-movie-list > ol li .movie-list-info .megaOnly {
-    position: absolute;
-    top: 0;
-    right: 0;
-}
-
-.main-movie-list > ol li .movie-list-info .megaOnly img {
-    width: 38px;
-    height: 38px;
+.list ul{
     display: inline-block;
-}
-
-.main-movie-list > ol li .movie-list-info .movie-grade_box {
-    position: absolute;
-    bottom: 8px;
-    right: 8px;
-    width: 28px;
-    height: 28px;
-}
-
-/*240409 여기까지*/
-.main-movie-list > ol li .movie-list-info .rank {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 150px;
-    color: #fff;
-    padding: 10px 0 0 15px;
-    line-height: 1.1;
-    font-size: 2em;
-    font-style: italic;
-    font-family: 'Roboto';
-    font-weight: 300;
-    color: #fff;
-    text-shadow: 2px 2px 2px rgba(0,0,0,0.8);
-    background: url('../images/main/bg-main-movie-rank.png') no-repeat 0 0;
-}
-
-.main-movie-list > ol li .movie-list-info img.poster {
-    display: block;
-    width: 245px;
-    height: 352px;
-    border-radius: 5px;
-}
-
-.main-movie-list > ol li .movie-list-info .wrap {
-    display: none;
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    padding: 25px;
-    color: #fff;
-    background-color: rgba(0,0,0,0.8);
-}
-
-.main-movie-list > ol li .movie-list-info .wrap:hover, .main-movie-list > ol li .movie-list-info .wrap:focus {
-    color: #fff;
-    text-decoration: none;
-}
-
-.main-movie-list > ol li .movie-list-info .wrap .summary {
-    overflow: hidden;
-    height: 152px;
-}
-
-.main-movie-list > ol li .movie-list-info .wrap .score {
-    overflow: hidden;
-    position: absolute;
-    left: 20px;
-    right: 20px;
-    bottom: 20px;
-    padding: 10px 0 0 0;
-    text-align: center;
-    border-top: 1px solid #3c3c3c;
-    text-align: center;
-}
-
-.main-movie-list > ol li .movie-list-info .wrap .score .preview {
-    display: inline-block;
-    overflow: hidden;
-    vertical-align: middle;
-    line-height: 36px;
-}
-
-.main-movie-list > ol li .movie-list-info .wrap .score .preview .tit {
-    display: block;
-    float: left;
-    margin: 0 19px 0 0;
-    font-size: 0.8667em;
-}
-
-.main-movie-list > ol li .movie-list-info .wrap .score .preview .number {
-    float: left;
-    font-size: 1.6em;
-    color: #59bec9;
-}
-
-.main-movie-list > ol li .movie-list-info .wrap .score .review {
-    display: inline-block;
-    overflow: hidden;
-    vertical-align: middle;
-    line-height: 36px;
-}
-
-.main-movie-list > ol li .movie-list-info .wrap .score .review .tit {
-    display: block;
-    float: right;
-    margin: 0 0 0 19px;
-    font-size: 0.8667em;
-}
-
-.main-movie-list > ol li .movie-list-info .wrap .score .review .number {
-    float: left;
-    font-size: 1.6em;
-    color: #c698f4;
-}
-
-.main-movie-list > ol li .movie-list-info .wrap .score .sign {
-    display: inline-block;
-    overflow: hidden;
-    width: 10px;
-    height: 16px;
-    margin: 0 5px;
-    vertical-align: middle;
-    text-indent: -999px;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-.main-movie-list > ol li .movie-list-info .wrap .score .sign.small {
-    background-image: url('../images/common/bg/bg-arr-white-right.png');
-}
-
-.main-movie-list > ol li .movie-list-info .wrap .score .sign.big {
-    background-image: url('../images/common/bg/bg-arr-white-left.png');
-}
-
-.main-movie-list > ol li .movie-list-info .wrap .score .sign.equal {
-    background-image: url('../images/movie/bg-arr-score-equal.png');
-}
-
-.main-movie-list > ol li .btn-util {
-    overflow: hidden;
-    position: relative;
-    margin-top: 10px;
-    padding: 0 0 0 85px;
-    text-align: left;
-}
-
-.main-movie-list > ol li .btn-util .btn-like {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 80px;
-    height: 36px;
-    line-height: 34px;
-    margin: 0;
-    padding: 0 5px;
-    color: #fff;
-    font-size: 0.8667em;
-    border-color: #555;
-    background-color: rgba(0,0,0,0.4)
-}
-
-.main-movie-list > ol li .btn-util .btn-like .ico-heart-toggle-gray {
-    background-image: url('../images/common/ico/ico-heart-toggle-main.png');
-}
-
-.main-movie-list > ol li .btn-util .case {
-}
-
-.main-movie-list > ol li .btn-util .case .button {
-    display: block;
-    float: left;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    border-radius: 4px;
-}
-
-.main-movie-list > ol li .btn-util .case.col-2 .button {
-    width: 50%;
-    border-radius: 0 4px 4px 0;
-}
-
-.main-movie-list > ol li .btn-util .case.col-2 .button:first-child {
-    border-radius: 4px 0 0 4px;
-}
-
-.main-movie .search-link {
-    overflow: hidden;
-    display: block;
-    height: 75px;
-    margin: 50px 0 0 0;
-    padding: 23px 0 0 0;
-    background-color: rgba(0,0,0,0.2);
-}
-
-.main-movie .search-link .cell {
-    position: relative;
-    float: left;
-    width: 25%;
-    text-align: center;
-    border-left: 1px solid #423e3e;
-}
-
-.main-movie .search-link .cell:first-child {
-    border-left: 0;
-}
-
-.main-movie .search-link .search {
-    position: relative;
-    display: inline-block;
-    width: 200px;
-    height: 30px;
-    padding: 0 30px 0 0;
-    border-bottom: 1px solid #423e3e;
-}
-
-.main-movie .search-link .search .input-text {
-    display: block;
-    width: 100%;
-    height: 100%;
-    border: 0;
-    background-color: transparent;
-    color: #fff;
-}
-
-.main-movie .search-link .search .input-text::placeholder {
-    color: #aaa;
-    opacity: 1;
-}
-
-.main-movie .search-link .search .input-text:-ms-input-placeholder {
-    color: #aaa;
-}
-
-.main-movie .search-link .search .input-text::-ms-input-placeholder {
-    color: #aaa;
-}
-
-.main-movie .search-link .search .btn {
-    display: block;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 30px;
-    height: 100%;
-    font-size: 0;
-    line-height: 0;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    background-color: transparent;
-}
-
-.main-movie .search-link a {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    line-height: 30px;
-    color: #fff;
-}
-
-.main-movie .search-link a .iconset {
-    margin-top: -2px;
-    margin-right: 5px;
-}
-
-.main-movie .moving-mouse {
-    position: relative;
-    width: 100%;
-    height: 24px;
-    margin: 30px 0 0 0;
-    text-align: center;
-}
-
-.main-movie .moving-mouse .iconset {
-    display: block;
-    position: absolute;
-    left: 50%;
-    top: 0;
-    margin: 0 0 0 -8px;
 }
 
 /* 혜택 */
@@ -2167,6 +1831,134 @@ header {
     text-indent: -9999px;
     border: 0;
 }
+
+#content {
+    position: relative;
+    font-size: 50px;
+    text-align: center;
+    font-weight: bold;
+    height: 600px;
+    background-color: aquamarine;
+    overflow: hidden;
+}
+
+/* 배경 이미지 및 패턴 영역 전체 채우기 */
+#content .bg {
+    overflow: hidden;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    min-width: 1100px;
+    height: 100%;
+    left: 0; top: 0;
+}
+
+#content .bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    position: absolute;
+    left: 0; top: 0;
+    z-index: 1;
+}
+
+/* before로 이미지에 어두움+블러를 오버레이 */
+#content .bg::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85); /* 어두운 정도 조절(0.8~0.9) */
+    backdrop-filter: blur(10px);      /* 블러 강도 조절 */
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* 패턴이 어둡고 블러된 배경 위에 올라가도록 (z-index: 3) */
+#content .bg-pattern {
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    z-index: 3;
+    background: url('../images/bg-movie-detail-pattern.png') repeat 0 0; /* 원하는 패턴 이미지로 교체 */
+    opacity: 1;                   /* 패턴 선명도 (상황 맞게 0.3~0.6 조정) */
+    pointer-events: none;
+}
+
+/* 컨텐츠(글 등)는 z-index: 10 등으로 올려야 배경 위에 뜸 */
+#content .cont-area{
+    position: relative;
+    z-index: 10;
+}
+#content .cont-area {
+    position: relative;
+    z-index: 10;
+    font-size: 22px;
+    background: transparent; /* 배경은 필요에 따라 조절 */
+    height: 50px; /* 높이 조절, 필요에 따라 변경 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 60px; /* 좌우 여백으로 공간 확보 */
+    box-sizing: border-box;
+}
+
+/* 박스오피스 버튼 중앙 정렬 및 스타일 */
+#content .cont-area .tab-sorting {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#content .cont-area .tab-sorting .on {
+    background: none;
+    border: none;
+    color: #fff;
+    font-weight: 700;
+    font-size: inherit;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #fff;
+    cursor: default; /* 클릭 효과 없도록 */
+    outline: none;
+    user-select: none;
+}
+
+/* 더 많은 영화보기 우측 정렬 */
+#content .cont-area .more-movie {
+    position: absolute;
+    right: 0;
+    color: #ccc;
+    font-size: inherit;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: color 0.3s, text-decoration 0.3s;
+}
+
+#content .cont-area .more-movie:hover,
+#content .cont-area .more-movie:focus {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* 아이콘 크기 조절 (필요시) */
+#content .cont-area .more-movie i {
+    font-size: 14px;
+    line-height: 1;
+}
+
+
+
+
+
+
+
+
+
+
 
 
 #boon{

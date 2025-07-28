@@ -17,6 +17,7 @@
         <li><a href="#" class="vip-lounge">VIP LOUNGE</a></li>
         <li><a href="#" class="membership">멤버십</a></li>
         <li><a href="#" class="customer-center">고객센터</a></li>
+        <li><a href="#" class="admin_page">관리자</a></li> <!--로그인 할때만 표현됨-->
     </ul>
 
     <ul class="nav-r_top">
