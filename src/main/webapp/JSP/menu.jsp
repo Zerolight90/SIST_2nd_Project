@@ -84,7 +84,7 @@
                 <li><a href="#">당첨자 확인</a></li>
             </ul>
         </li>
-        <li class="main-item"><a href="#">스토어</a></li>
+        <li class="main-item"><a href="#" onclick="goStore()">스토어</a></li>
         <li class="main-item has-submenu">
             <a href="#">혜택</a>
             <ul class="submenu">
@@ -94,5 +94,11 @@
         </li>
     </ul>
 </div>
+    
+    <script>
+        function goStore() {
+            location.href = "Controller?type=store"
+        }
+    </script>
 
 </nav>
