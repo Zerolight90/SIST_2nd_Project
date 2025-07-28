@@ -1,0 +1,214 @@
+@charset "UTF-8";
+
+body {
+    font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', 'Dotum', sans-serif;
+    background-color: #f0f2f5; /* 메가박스 배경색과 유사하게 */
+    margin: 0;
+    padding: 0;
+}
+
+.payment-container {
+    display: flex; /* Flexbox를 사용하여 좌우 레이아웃 분할 */
+    max-width: 1200px; /* 메가박스처럼 넓게 */
+    margin: 40px auto;
+    padding: 20px;
+    gap: 30px; /* 좌우 컬럼 사이 간격 */
+    align-items: flex-start; /* 상단 정렬 */
+}
+
+.payment-info-section {
+    flex: 2; /* 왼쪽 결제 정보 섹션이 더 넓게 */
+    background: #fff;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.payment-summary-section {
+    flex: 1; /* 오른쪽 결제 요약 섹션 */
+    background: #2b2e3a; /* 메가박스 우측 박스 색상과 유사하게 */
+    border-radius: 8px;
+    padding: 30px;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    position: sticky; /* 스크롤 시 고정 */
+    top: 60px; /* 헤더 아래에서 시작. 실제 헤더 높이에 따라 조절이 필요할 수 있음 */
+}
+
+h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.payment-summary-section h2 {
+    color: #fff;
+    margin-bottom: 30px;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: #eee;
+    margin: 20px 0;
+}
+
+.payment-summary-section hr {
+    background: rgba(255,255,255,0.2);
+}
+
+.info-group {
+    margin-bottom: 25px;
+}
+
+.info-group h3 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.payment-summary-section h3 {
+    color: #fff;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed #eee; /* 점선 테두리 */
+}
+
+.payment-summary-section .info-item {
+    border-bottom: 1px dashed rgba(255,255,255,0.2);
+}
+
+.info-item:last-child {
+    border-bottom: none;
+}
+
+.info-item span {
+    font-size: 16px;
+    color: #555;
+}
+
+.info-item strong {
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+}
+
+.payment-summary-section .info-item span,
+.payment-summary-section .info-item strong {
+    color: #fff;
+}
+
+.product-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    margin-bottom: 20px;
+}
+
+.product-card img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.product-details {
+    flex-grow: 1;
+}
+
+.product-details p {
+    margin: 0;
+    font-size: 15px;
+    color: #333;
+}
+
+.product-details .price {
+    font-size: 17px;
+    font-weight: bold;
+    color: #000;
+    margin-top: 5px;
+}
+
+.payment-method-section {
+    margin-top: 30px;
+}
+
+.payment-method-options {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.payment-method-option {
+    flex: 1;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 15px;
+    color: #555;
+}
+
+.payment-method-option.selected {
+    border-color: #007bff; /* 선택 시 강조 색상 */
+    background-color: #e7f3ff;
+    color: #007bff;
+    font-weight: 600;
+}
+
+.pay-button-wrapper {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    text-align: center;
+}
+
+.pay-button {
+    width: 100%;
+    padding: 16px;
+    font-size: 20px;
+    color: #fff;
+    background-color: #007bff; /* 메가박스 결제 버튼 색상과 유사하게 */
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+}
+
+.pay-button:hover {
+    background-color: #0056b3;
+}
+
+.final-amount-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+.final-amount-display span {
+    font-size: 20px;
+    color: #fff;
+}
+
+.final-amount-display strong {
+    font-size: 28px;
+    color: #fff;
+    font-weight: bold;
+}

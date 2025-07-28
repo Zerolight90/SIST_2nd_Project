@@ -24,6 +24,6 @@ public class PaymentAction implements Action {
         request.setAttribute("customerName", customerName);
         request.setAttribute("userIdx", userIdx);
 
-        return "/jsp/payment.jsp";
+        return "./jsp/payment.jsp";
     }
 }
