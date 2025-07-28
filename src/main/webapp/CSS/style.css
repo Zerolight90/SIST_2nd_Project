@@ -2016,12 +2016,8 @@ header {
 .boxoffice ul li .summary .review {
     font-size: 16px;
     line-height: 1.5;
-    max-height: 6em;
     overflow: hidden;
     text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
     margin-bottom: 12px;
     border-bottom: 1px solid #666; /* 구분선 */
     padding-bottom: 12px;
