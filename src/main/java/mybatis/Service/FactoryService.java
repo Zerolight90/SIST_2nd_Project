@@ -18,4 +18,9 @@ public class FactoryService {
             e.printStackTrace();
         }
     }
+
+    public static SqlSessionFactory getFactory() {
+        return factory;
+    }
+
 }
