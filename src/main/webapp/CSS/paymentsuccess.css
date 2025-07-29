@@ -1,0 +1,132 @@
+@charset "UTF-8";
+
+body {
+    background-color: #F4F4F4;
+}
+
+.confirmation_container {
+    width: 1100px;
+    margin: 50px auto;
+    padding: 40px;
+}
+
+.confirmation_container h1 {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #DDD;
+}
+
+.confirmation_box {
+    display: flex;
+    background-color: #2b2e3a;
+    color: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    gap: 40px;
+    align-items: center;
+}
+
+/* 왼쪽 포스터 영역 */
+.ticket_info {
+    text-align: center;
+}
+
+.ticket_info .poster {
+    width: 200px;
+    height: auto;
+    border-radius: 5px;
+    display: block;
+}
+
+.ticket_info .ticket_label {
+    margin-top: -30px;
+    position: relative;
+    background-color: #503396;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.ticket_info .ticket_label p {
+    font-size: 14px;
+    margin: 0;
+}
+
+.ticket_info .ticket_number {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* 오른쪽 예매 상세 내역 */
+.booking_details {
+    flex: 1;
+}
+
+.booking_details h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #503396; /* 포인트 컬러 */
+    margin-bottom: 20px;
+}
+
+.details_table {
+    width: 100%;
+}
+
+.details_table td {
+    padding: 8px 0;
+    font-size: 16px;
+    vertical-align: top;
+}
+
+.details_table .label {
+    width: 120px;
+    color: #AAA;
+}
+
+.details_table .value {
+    color: #FFF;
+    font-weight: 600;
+}
+
+
+/* 예매내역 버튼 */
+.button_container {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.btn_history {
+    padding: 12px 60px;
+    font-size: 16px;
+    border: 1px solid #555;
+    background-color: #FFF;
+    color: #333;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+
+.btn_history:hover {
+    background-color: #f0f0f0;
+    border-color: #333;
+}
+
+
+/* 하단 상영 안내 */
+.screening_guide {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #DDD;
+}
+
+.screening_guide h3 {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.screening_guide p {
+    color: #555;
+    font-size: 14px;
+}

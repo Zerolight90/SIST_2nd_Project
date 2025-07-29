@@ -22,5 +22,4 @@ public class FactoryService {
     public static SqlSessionFactory getFactory() {
         return factory;
     }
-
 }

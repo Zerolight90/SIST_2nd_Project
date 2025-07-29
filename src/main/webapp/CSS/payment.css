@@ -1,214 +1,232 @@
 @charset "UTF-8";
 
+/* =================================
+   결제 페이지 (payment.css)
+================================= */
+
 body {
-    font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', 'Dotum', sans-serif;
-    background-color: #f0f2f5; /* 메가박스 배경색과 유사하게 */
-    margin: 0;
-    padding: 0;
-}
-
-.payment-container {
-    display: flex; /* Flexbox를 사용하여 좌우 레이아웃 분할 */
-    max-width: 1200px; /* 메가박스처럼 넓게 */
-    margin: 40px auto;
-    padding: 20px;
-    gap: 30px; /* 좌우 컬럼 사이 간격 */
-    align-items: flex-start; /* 상단 정렬 */
-}
-
-.payment-info-section {
-    flex: 2; /* 왼쪽 결제 정보 섹션이 더 넓게 */
-    background: #fff;
-    border-radius: 8px;
-    padding: 30px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-}
-
-.payment-summary-section {
-    flex: 1; /* 오른쪽 결제 요약 섹션 */
-    background: #2b2e3a; /* 메가박스 우측 박스 색상과 유사하게 */
-    border-radius: 8px;
-    padding: 30px;
-    color: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    position: sticky; /* 스크롤 시 고정 */
-    top: 60px; /* 헤더 아래에서 시작. 실제 헤더 높이에 따라 조절이 필요할 수 있음 */
-}
-
-h2 {
-    font-size: 24px;
+    background-color: #F4F4F4;
     color: #333;
-    margin-bottom: 20px;
-    font-weight: bold;
 }
 
-.payment-summary-section h2 {
-    color: #fff;
+.payment_container {
+    width: 1100px;
+    margin: 50px auto;
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+/* 1. 왼쪽 컨텐츠 영역 */
+.payment_info_section {
+    flex: 2;
+    background-color: #FFF;
+    padding: 40px;
+    border-radius: 10px;
+}
+
+.payment_info_section h1 {
+    font-size: 26px;
+    font-weight: 700;
     margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #333;
 }
 
-hr {
-    border: 0;
-    height: 1px;
-    background: #eee;
-    margin: 20px 0;
+.info_group {
+    margin-bottom: 40px;
 }
 
-.payment-summary-section hr {
-    background: rgba(255,255,255,0.2);
-}
-
-.info-group {
-    margin-bottom: 25px;
-}
-
-.info-group h3 {
+.info_group h2 {
     font-size: 18px;
-    color: #333;
-    margin-bottom: 15px;
     font-weight: 600;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
 }
 
-.payment-summary-section h3 {
+/* 예매 정보 카드 */
+.booking_card {
+    display: flex;
+    gap: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #EEE;
+}
+
+.booking_card .poster {
+    width: 100px;
+    height: auto;
+    border-radius: 5px;
+}
+
+.booking_card_details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.booking_card_details p {
+    margin: 0;
+    font-size: 16px;
+    color: #555;
+}
+.booking_card_details .title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #000;
+}
+
+
+/* 할인/포인트 입력 필드 */
+.input_dropdown {
+    display: flex;
+    align-items: center;
+    border: 1px solid #DDD;
+    border-radius: 5px;
+    position: relative; /* 화살표 위치 기준점 */
+}
+
+.input_dropdown select {
+    flex: 1;
+    border: none;
+    font-size: 16px;
+    background-color: transparent;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 12px 30px 12px 15px; /* 오른쪽 여백 확보 */
+    cursor: pointer;
+}
+
+.input_dropdown select:focus {
+    outline: none;
+}
+
+/* 아래 화살표 아이콘 추가 */
+.input_dropdown::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid #888; /* 화살표 색상 */
+    pointer-events: none; /* 화살표 뒤의 select가 클릭되도록 설정 */
+}
+
+.input_field {
+    display: flex;
+    align-items: center;
+    border: 1px solid #DDD;
+    border-radius: 5px;
+    padding: 10px 15px;
+}
+
+.input_field input {
+    flex: 1;
+    border: none;
+    font-size: 16px;
+}
+.input_field input:focus {
+    outline: none;
+}
+.input_field .point_info {
+    color: #888;
+    margin-right: 15px;
+}
+.input_field .btn_apply {
+    background: none;
+    border: 1px solid #888;
+    color: #555;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* 2. 오른쪽 결제금액 요약 */
+.payment_summary_section {
+    flex: 1;
+    background-color: #2b2e3a;
     color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    position: sticky;
+    top: 40px;
 }
 
-.info-item {
+.payment_summary_section h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.summary_item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px dashed #eee; /* 점선 테두리 */
-}
-
-.payment-summary-section .info-item {
-    border-bottom: 1px dashed rgba(255,255,255,0.2);
-}
-
-.info-item:last-child {
-    border-bottom: none;
-}
-
-.info-item span {
+    margin-bottom: 15px;
     font-size: 16px;
-    color: #555;
 }
 
-.info-item strong {
-    font-size: 16px;
-    color: #333;
+.summary_item .value {
     font-weight: 600;
 }
 
-.payment-summary-section .info-item span,
-.payment-summary-section .info-item strong {
-    color: #fff;
-}
-
-.product-card {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    background-color: #f9f9f9;
-    margin-bottom: 20px;
-}
-
-.product-card img {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 4px;
-}
-
-.product-details {
-    flex-grow: 1;
-}
-
-.product-details p {
-    margin: 0;
-    font-size: 15px;
-    color: #333;
-}
-
-.product-details .price {
-    font-size: 17px;
-    font-weight: bold;
-    color: #000;
-    margin-top: 5px;
-}
-
-.payment-method-section {
-    margin-top: 30px;
-}
-
-.payment-method-options {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-.payment-method-option {
-    flex: 1;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 15px;
-    color: #555;
-}
-
-.payment-method-option.selected {
-    border-color: #007bff; /* 선택 시 강조 색상 */
-    background-color: #e7f3ff;
-    color: #007bff;
-    font-weight: 600;
-}
-
-.pay-button-wrapper {
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255,255,255,0.2);
-    text-align: center;
-}
-
-.pay-button {
-    width: 100%;
-    padding: 16px;
-    font-size: 20px;
-    color: #fff;
-    background-color: #007bff; /* 메가박스 결제 버튼 색상과 유사하게 */
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-weight: bold;
-}
-
-.pay-button:hover {
-    background-color: #0056b3;
-}
-
-.final-amount-display {
+.final_amount_display {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 20px;
     padding-top: 20px;
-    border-top: 1px solid rgba(255,255,255,0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.final-amount-display span {
-    font-size: 20px;
-    color: #fff;
+.final_amount_display span {
+    font-size: 18px;
+    font-weight: 600;
 }
 
-.final-amount-display strong {
+.final_amount_display .amount {
     font-size: 28px;
-    color: #fff;
     font-weight: bold;
+    color: white; /* 포인트 컬러 */
+}
+
+/* 이전/결제 버튼 */
+.button_group {
+    display: flex;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.pay_button {
+    flex: 1;
+    padding: 15px;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.btn_prev {
+    background-color: #6c757d;
+    color: white;
+}
+.btn_prev:hover {
+    background-color: #5a6268;
+}
+
+.btn_pay {
+    background-color: #503396; /* 포인트 컬러 */
+    color: white;
+}
+.btn_pay:hover {
+    background-color: #503396;
 }
