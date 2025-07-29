@@ -29,7 +29,7 @@ header {
     top: 30px;
     text-align: center;
     margin: 0 auto;
-    z-index: 3100;
+    z-index: 9000;
 }
 .logo_img {
     display: block;
@@ -219,12 +219,9 @@ header {
     flex-wrap: nowrap;
 }
 
-
-
 .nav-center .submenu li {
     margin: 0;
     padding: 0;
-
 }
 .nav-center .submenu li a {
     display: block;
@@ -246,6 +243,19 @@ header {
 .nav-center .main-item:focus-within > .submenu {
     display: flex;
 }
+.submenu-bg {
+    display: block;
+    position: absolute;
+    background-color: red;
+    z-index: 9000;
+    width: 200px;     /* 원하는 submenu 길이로 맞추세요 */
+    height: 100px;    /* 원하는 submenu 높이로 맞추세요 */
+    top: 100%;        /* 부모(li)에 대해 아래쪽에 배치 */
+    left: 0;
+}
+
+
+
 
 /* ================= 박스오피스/#content 영역 ================ */
 #content {
@@ -275,6 +285,7 @@ header {
     position: absolute;
     left: 0; top: 0;
     z-index: 1;
+    pointer-events: none;  /* 배경 클릭 방지 */
 }
 #content .bg::before {
     content: '';
@@ -294,6 +305,7 @@ header {
     background: url('../images/bg-movie-detail-pattern.png') repeat 0 0;
     opacity: 1;
     pointer-events: none;
+
 }
 #content .cont-area {
     width: 1000px;
@@ -528,17 +540,18 @@ header {
 
 /* ============== 퀵메뉴 ============== */
 .quick_menu {
-    width: 1100px;
+    width: 1050px;
     height: 75px;
     margin: 0 auto;
-    background-color: #222;
-    opacity: 0.7;
+    background-color: rgba(17, 17, 17, 0.7); /* 마지막 숫자(0.7)는 투명도, 1이면 불투명, 0이면 완전 투명 */
     z-index: 999;
     position: relative;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    border-radius: 15px;
 }
+
 .cell {
     width: 275px;
     height: 30px;
@@ -556,33 +569,47 @@ header {
 .cell .search {
     display: flex;
     align-items: center;
-    width: 100%;
+    width: 200px;
+    margin: 0 auto;
+    border-bottom: 2px solid #555; /* 밑줄을 전체 컨테이너에 적용 */
+    padding-bottom: 2px;
 }
+
 .cell .search .input-text {
-    flex-grow: 1;
-    height: 28px;
-    border: 1px solid #ccc;
-    padding: 0 8px;
-    font-size: 14px;
-    border-radius: 4px;
-    box-sizing: border-box;
-    background-color: #333;
+    /*flex-grow: 1;*/
+    height: 32px;
+    border: none;
+    outline: none;
+    background: transparent;
     color: #fff;
+    font-size: 15px;
+    padding: 0;           /* 오른쪽 패딩만 4px로 간격 최소화 */
+    box-sizing: border-box;
 }
-.cell .search .input-text::placeholder {
-    color: #bbb;
-}
+
 .cell .search .btn {
     background: none;
     border: none;
-    cursor: pointer;
-    color: #fff;
-    margin-left: 5px;
-    display: flex;
-    align-items: center;
-    font-size: 14px;
     padding: 0;
+    cursor: pointer;
+    display: flex;
+    margin-left: -15px;
+    align-items: center;
+    font-size: 0;                 /* "검색" 텍스트 숨김 */
+    height: 32px;                 /* input 높이와 맞추기 */
 }
+
+.cell .search .btn i {
+    font-size: 15px;
+    color: #fff;
+    line-height: 1;
+}
+
+/* "검색" 텍스트 숨기기 */
+.cell .search .btn {
+    font-size: 0;
+}
+
 .cell a {
     text-decoration: none;
     color: #fff;
@@ -599,10 +626,31 @@ header {
     color: #fff;
 }
 .cell a span {
-    font: 16px "Noto Sans KR", sans-serif !important;
+    font-size: 16px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 300;
+    margin-left: 10px;
     color: #ffffff;
     text-align: center;
 }
+
+.cell a span:hover{
+    text-decoration: underline;
+}
+
+/* ============== 마우스 표출 ============= */
+.mouse {
+    display: block;
+    width: 16px;
+    height: 24px;
+    position: absolute;
+    left: 50%;
+    bottom: 20%;
+    transform: translate(-50%, -50%); /*가운데 정렬*/
+    z-index: 9999; /* 필요시 추가, 다른 요소 위에 노출 */
+}
+
+
 
 /* ============== 기타 섹션 ============== */
 #boon{
@@ -2226,5 +2274,6 @@ address {
     overflow: hidden;
     text-indent: -9999px;
     border: 0;
+
 }
 

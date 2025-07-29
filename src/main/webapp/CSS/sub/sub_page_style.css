@@ -1,0 +1,326 @@
+@charset "UTF-8";
+/* CSS style */
+
+body, header, article {
+    margin: 0;
+    padding: 0;
+}
+
+/* ================= 헤더 ================= */
+header {
+    position: relative;
+    width: 100%;
+    height: 100px;
+    background-color: #000000;
+    opacity: 0.95;
+    z-index: 3000;   /* 헤더 계층 메뉴 가장 위 */
+}
+.menu1{
+    position: relative;
+}
+.inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.logo {
+    display: block;
+    position: absolute;
+    top: 30px;
+    text-align: center;
+    margin: 0 auto;
+    z-index: 9000;
+}
+.logo_img {
+    display: block;
+    margin: 0 auto;
+}
+.title{
+    display: inline-block;
+    text-indent: -9999px;
+}
+
+/* ================= 상단/우측 네비 ================= */
+.nav-top {
+    display: flex;
+    margin: 0 auto;
+    width: 1100px;
+    height: 50px;
+    position: relative;
+    z-index: 3100;
+}
+.nav-top ul li a {
+    display: block;
+    color: #b0b0b0;
+}
+.nav-top ul li a:hover {
+    color: white;
+}
+.nav-top ul  {
+    display: flex;
+    gap: 20px;
+}
+.nav-top .nav-l_top  {
+    position: absolute;
+    top: 20px;
+}
+.nav-top .nav-r_top  {
+    position: absolute;
+    top: 20px;
+    right: 0;
+}
+.icon-menu{
+    width: 1100px;
+    height: 50px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 3100;
+}
+.icon-menu> .nav-side{
+    display: flex;
+    gap: 10px;
+    position: absolute;
+    top: 0;
+}
+.nav-icon{
+    display: flex;
+    gap: 20px;
+    position: absolute;
+    top: 8px;
+    right: 0;
+    font-size: 18px;
+}
+.icon-menu>.nav-icon>li>a{
+    display: block;
+    color: #b0b0b0;
+}
+.nav-icon li a:hover{
+    color: white;
+}
+.menu-toggle,
+.search-icon {
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    color: #b0b0b0;
+    cursor: pointer;
+    transition: color 0.2s, background 0.2s;
+    font-size: 18px;
+    padding: 0;
+}
+.menu-toggle {
+    flex-direction: column;
+}
+.menu-toggle span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    margin: 3px auto;
+    background: #b0b0b0;
+    border-radius: 2px;
+    transition: background 0.2s;
+}
+.menu-toggle:hover span {
+    background: #fff;
+}
+.search-icon i {
+    font-size: 18px;
+    padding-top: 15px;
+    color: #b0b0b0;
+}
+.search-icon:hover,
+.search-icon:hover i {
+    color: #fff;
+}
+
+/* ================= 메인 메뉴(중앙) ================ */
+.nav-center {
+    display: flex;
+    width: 800px;
+    height: 50px;
+    margin: 0 auto;
+    position: relative;
+    top : -50px;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 3200; /* 메뉴 계층 올림 */
+}
+.l_main,
+.r_main {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.l_main li,
+.r_main li {
+    margin: 0;
+    padding: 0;
+}
+.l_main li a,
+.r_main li a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    padding: 10px 5px;
+    font-size: 18px;
+    font-weight: 400;
+}
+.nav-center a {
+    color: #fff;
+    text-decoration: none;
+    position: relative;
+    padding: 10px 0;
+    display: block;
+}
+.nav-center a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: #fff;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+}
+.nav-center a:hover::after,
+.nav-center a:focus::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+/* ------------------ 메뉴/서브메뉴 구조 및 계층 제한 ------------------- */
+.nav-center .main-item {
+    position: relative;     /* submenu 위치 기준점 */
+    z-index: 3250;
+}
+.nav-center .submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 100%;
+    background-color: #000000;
+    opacity: 0.95;
+    padding: 8px;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    white-space: nowrap;
+    z-index: 3500;  /* ★ 반드시 높여줌: 메뉴/컨텐츠 위로 무조건 표시 */
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+
+
+.nav-center .submenu li {
+    margin: 0;
+    padding: 0;
+
+}
+.nav-center .submenu li a {
+    display: block;
+    padding: 8px 20px;
+    font-size: 15px;
+    font-weight: 400;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #ccc;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+    border-radius: 3px;
+}
+.nav-center .submenu li a:hover {
+    background-color: #000000;
+    opacity: 0.95;
+    color: #fff;
+}
+.nav-center .main-item:hover > .submenu,
+.nav-center .main-item:focus-within > .submenu {
+    display: flex;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* ================= 푸터 ================= */
+footer {
+    background-color: #f8f8fa;
+    color: #666666;
+    height: 200px;
+    line-height: 1.5;
+    padding: 20px 40px;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+#footer-top ul {
+    display: flex;
+    width: 1100px;
+    gap: 20px;
+    padding: 20px;
+    margin:0 auto;
+}
+#footer-top ul li a {
+    font: 12px "Noto Sans KR", sans-serif;
+    color: #666666;
+}
+#footer-top ul li:nth-child(6) a, #footer-top ul li:nth-child(7) a {
+    font: bold 12px "Noto Sans KR", sans-serif;
+    color: #222222;
+}
+#footer-top ul li a:hover {
+    text-decoration: underline;
+}
+#footer-bottom {
+    width: 1100px;
+    margin:0 auto;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.footer-logo img {
+    height: 40px;
+    vertical-align: middle;
+}
+.footer-logo p {
+    display: inline-block;
+    margin-left: 10px;
+    font-weight: bold;
+    color: #999;
+}
+address {
+    font : 12px "Noto Sans KR", sans-serif;
+    color: #444444;
+    max-width: 700px;
+    margin: 10px 0;
+}
+.footer-social a {
+    margin-left: 15px;
+    color: #777;
+    font-size: 24px;
+    transition: color 0.3s;
+}
+.footer-social a:hover {
+    color: #e50914;
+}
+
+
+

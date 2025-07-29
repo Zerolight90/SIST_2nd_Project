@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="./CSS/style.css">
     <link rel="stylesheet" href="./CSS/reset.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
     <link rel="icon" href="./images/favicon.png">
 </head>
 
@@ -333,26 +335,46 @@
 
                  <div class="cell">
                      <a href="/booking/timetable" title="상영시간표 보기">
-                         <i class="fas fa-clock"></i>
+                         <i class="fa-solid fa-calendar-days"></i>
                          <span>상영시간표</span>
                      </a>
                  </div>
 
                  <div class="cell">
                      <a href="/movie" title="박스오피스 보기">
-                     <i class="fas fa-ticket-alt"></i>
+                         <i class="fa-solid fa-ranking-star"></i>
                          <span>박스오피스</span>
                      </a>
                  </div>
 
                  <div class="cell">
                      <a href="/booking" title="빠른예매 보기">
-                         <i class="fas fa-receipt"></i>
+                         <i class="fa-solid fa-bolt"></i>
                          <span>빠른예매</span>
                      </a>
                  </div>
-
              </div>
+
+             <div class="mouse">
+                 <img src="images/ico-mouse.png" alt="mouse"/>
+             </div>
+            <script>
+                $(document).ready(function(){
+                    function mouseBounce() {
+                        // .mouse를 아래로 40px 이동 (0.7초)
+                        $(".mouse").animate({top: "+=10px"}, 700, function(){
+                            // 다시 위로 40px 이동 (0.7초), 완료 후 다시 mouseBounce 호출
+                            $(".mouse").animate({top: "-=10px"}, 700, mouseBounce);
+                        });
+                    }
+
+                    // 초기 위치(top: 50%)에서 정확히 움직이려면 position을 absolute로 하고 CSS에서 top 지정 필요
+                    // 움직임 시작
+                    mouseBounce();
+                });
+
+            </script>
+
         </div>
 
         <div id="boon">
