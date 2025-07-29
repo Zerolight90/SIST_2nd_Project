@@ -1,21 +1,19 @@
 @charset "UTF-8";
-/* CSS style */
-
+/* ======== 기본 리셋 ======== */
 body, header, article {
     margin: 0;
     padding: 0;
 }
-
-/* ================= 헤더 ================= */
+/* ======== 헤더 ======== */
 header {
     position: relative;
     width: 100%;
     height: 100px;
     background-color: #000000;
     opacity: 0.95;
-    z-index: 3000;   /* 헤더 계층 메뉴 가장 위 */
+    z-index: 3000;
 }
-.menu1{
+.menu1 {
     position: relative;
 }
 .inner {
@@ -35,12 +33,11 @@ header {
     display: block;
     margin: 0 auto;
 }
-.title{
+.title {
     display: inline-block;
     text-indent: -9999px;
 }
-
-/* ================= 상단/우측 네비 ================= */
+/* ======== 상단/우측 네비 ======== */
 .nav-top {
     display: flex;
     margin: 0 auto;
@@ -69,20 +66,20 @@ header {
     top: 20px;
     right: 0;
 }
-.icon-menu{
+.icon-menu {
     width: 1100px;
     height: 50px;
     margin: 0 auto;
     position: relative;
     z-index: 3100;
 }
-.icon-menu> .nav-side{
+.icon-menu> .nav-side {
     display: flex;
     gap: 10px;
     position: absolute;
     top: 0;
 }
-.nav-icon{
+.nav-icon {
     display: flex;
     gap: 20px;
     position: absolute;
@@ -90,11 +87,11 @@ header {
     right: 0;
     font-size: 18px;
 }
-.icon-menu>.nav-icon>li>a{
+.icon-menu>.nav-icon>li>a {
     display: block;
     color: #b0b0b0;
 }
-.nav-icon li a:hover{
+.nav-icon li a:hover {
     color: white;
 }
 .menu-toggle,
@@ -137,21 +134,19 @@ header {
 .search-icon:hover i {
     color: #fff;
 }
-
-/* ================= 메인 메뉴(중앙) ================ */
+/* ======== 메인 메뉴(중앙) ======== */
 .nav-center {
     display: flex;
     width: 800px;
     height: 50px;
     margin: 0 auto;
     position: relative;
-    top : -50px;
+    top: -50px;
     justify-content: space-between;
     align-items: center;
-    z-index: 3200; /* 메뉴 계층 올림 */
+    z-index: 3200;
 }
-.l_main,
-.r_main {
+.l_main, .r_main {
     display: flex;
     gap: 40px;
     align-items: center;
@@ -159,13 +154,11 @@ header {
     margin: 0;
     list-style: none;
 }
-.l_main li,
-.r_main li {
+.l_main li, .r_main li {
     margin: 0;
     padding: 0;
 }
-.l_main li a,
-.r_main li a {
+.l_main li a, .r_main li a {
     color: #fff;
     text-decoration: none;
     display: block;
@@ -197,28 +190,52 @@ header {
     transform: scaleX(1);
     transform-origin: bottom left;
 }
-/* ------------------ 메뉴/서브메뉴 구조 및 계층 제한 ------------------- */
+/* ======== 메뉴/서브메뉴 구조 및 계층 제한 ======== */
 .nav-center .main-item {
-    position: relative;     /* submenu 위치 기준점 */
+    position: relative;
     z-index: 3250;
 }
+/* ===== submenu-bg(서브메뉴 배경) ===== */
+.nav-center .main-item > .submenu-bg {
+    display: none; /* 기본 숨김 */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 100%; /* 서브메뉴와 같은 폭 */
+    height: 56px; /* 메뉴 아이템 수에 따라 높이 조정 */
+    background: #1a1a1a; /* 원하는 색상/투명도 */
+    border-radius: 6px;
+    z-index: 3400; /* .submenu보다 낮게, 하지만 다른 요소보단 높게 */
+    opacity: 0.96;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.48);
+    pointer-events: none; /* 배경이 메뉴 클릭 방해 막기 */
+    transition: opacity 0.25s;
+}
+.submenu-bg{
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.nav-center .main-item:hover > .submenu-bg,
+.nav-center .main-item:focus-within > .submenu-bg {
+    display: block;
+}
+/* ===== submenu(실제 메뉴) ===== */
 .nav-center .submenu {
     display: none;
     position: absolute;
     top: 100%;
     left: 0;
     min-width: 100%;
-    background-color: #000000;
-    opacity: 0.95;
-    padding: 8px;
+    background-color: transparent; /* 배경은 bg에게 양보 */
+    padding: 8px 0;
     border-radius: 6px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.6);
     white-space: nowrap;
-    z-index: 3500;  /* ★ 반드시 높여줌: 메뉴/컨텐츠 위로 무조건 표시 */
+    z-index: 3500;
     flex-direction: row;
     flex-wrap: nowrap;
+    box-shadow: none;
 }
-
 .nav-center .submenu li {
     margin: 0;
     padding: 0;
@@ -235,27 +252,14 @@ header {
     border-radius: 3px;
 }
 .nav-center .submenu li a:hover {
-    background-color: #000000;
-    opacity: 0.95;
+    background-color: #262626;
     color: #fff;
+    z-index: 9000;
 }
 .nav-center .main-item:hover > .submenu,
 .nav-center .main-item:focus-within > .submenu {
     display: flex;
 }
-.submenu-bg {
-    display: block;
-    position: absolute;
-    background-color: red;
-    z-index: 9000;
-    width: 200px;     /* 원하는 submenu 길이로 맞추세요 */
-    height: 100px;    /* 원하는 submenu 높이로 맞추세요 */
-    top: 100%;        /* 부모(li)에 대해 아래쪽에 배치 */
-    left: 0;
-}
-
-
-
 
 /* ================= 박스오피스/#content 영역 ================ */
 #content {
