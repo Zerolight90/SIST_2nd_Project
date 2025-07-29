@@ -15,6 +15,7 @@ header {
 }
 .menu1 {
     position: relative;
+    width: 100%;
 }
 .inner {
     display: flex;
@@ -201,7 +202,7 @@ header {
     position: absolute;
     top: 100%;
     left: 0;
-    min-width: 100%; /* 서브메뉴와 같은 폭 */
+    /*min-width: 100%; !* 서브메뉴와 같은 폭 *!*/
     height: 56px; /* 메뉴 아이템 수에 따라 높이 조정 */
     background: #1a1a1a; /* 원하는 색상/투명도 */
     border-radius: 6px;
@@ -212,8 +213,8 @@ header {
     transition: opacity 0.25s;
 }
 .submenu-bg{
-    width: 1200px;
-    margin: 0 auto;
+    width: 2400px;
+    /*margin: 0 auto;*/
 }
 
 .nav-center .main-item:hover > .submenu-bg,
