@@ -1,27 +1,33 @@
 @charset "UTF-8";
+
 /* ======== 기본 리셋 ======== */
 body, header, article {
     margin: 0;
     padding: 0;
 }
+
 /* ======== 헤더 ======== */
 header {
     position: relative;
     width: 100%;
     height: 100px;
-    background-color: #000000;
+    background: #000;
     opacity: 0.95;
     z-index: 3000;
 }
+
+/* ======= 상단/우측 네비 ======== */
 .menu1 {
     position: relative;
     width: 100%;
 }
+
 .inner {
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 .logo {
     display: block;
     position: absolute;
@@ -30,16 +36,18 @@ header {
     margin: 0 auto;
     z-index: 9000;
 }
+
 .logo_img {
     display: block;
     margin: 0 auto;
 }
+
 .title {
     display: inline-block;
     text-indent: -9999px;
 }
-/* ======== 상단/우측 네비 ======== */
-.nav-top {
+
+.nav-top, .icon-menu {
     display: flex;
     margin: 0 auto;
     width: 1100px;
@@ -47,39 +55,46 @@ header {
     position: relative;
     z-index: 3100;
 }
-.nav-top ul li a {
-    display: block;
-    color: #b0b0b0;
-}
-.nav-top ul li a:hover {
-    color: white;
-}
-.nav-top ul  {
+
+.nav-top ul,
+.icon-menu > .nav-side {
     display: flex;
     gap: 20px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
 }
-.nav-top .nav-l_top  {
+
+.nav-top .nav-l_top {
     position: absolute;
     top: 20px;
 }
-.nav-top .nav-r_top  {
+
+.nav-top .nav-r_top {
     position: absolute;
     top: 20px;
     right: 0;
 }
-.icon-menu {
-    width: 1100px;
-    height: 50px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 3100;
+
+.nav-top ul li a,
+.icon-menu > .nav-icon > li > a {
+    display: block;
+    color: #b0b0b0;
+    text-decoration: none;
+    transition: color 0.2s, background 0.2s;
 }
-.icon-menu> .nav-side {
-    display: flex;
-    gap: 10px;
-    position: absolute;
-    top: 0;
+
+.nav-top ul li a:hover,
+.nav-icon li a:hover,
+.menu-toggle:hover span,
+.search-icon:hover,
+.search-icon:hover i {
+    color: #ffffff !important;    /* <-- 검정색 유지 */
 }
+.menu-toggle:hover span{
+    background: #ffffff !important;
+}
+
 .nav-icon {
     display: flex;
     gap: 20px;
@@ -88,15 +103,8 @@ header {
     right: 0;
     font-size: 18px;
 }
-.icon-menu>.nav-icon>li>a {
-    display: block;
-    color: #b0b0b0;
-}
-.nav-icon li a:hover {
-    color: white;
-}
-.menu-toggle,
-.search-icon {
+
+.menu-toggle, .search-icon {
     width: 28px;
     height: 28px;
     display: inline-flex;
@@ -107,13 +115,14 @@ header {
     border-radius: 50%;
     color: #b0b0b0;
     cursor: pointer;
-    transition: color 0.2s, background 0.2s;
     font-size: 18px;
     padding: 0;
 }
+
 .menu-toggle {
     flex-direction: column;
 }
+
 .menu-toggle span {
     display: block;
     width: 20px;
@@ -123,19 +132,21 @@ header {
     border-radius: 2px;
     transition: background 0.2s;
 }
-.menu-toggle:hover span {
-    background: #fff;
-}
+
 .search-icon i {
     font-size: 18px;
     padding-top: 15px;
     color: #b0b0b0;
 }
-.search-icon:hover,
-.search-icon:hover i {
-    color: #fff;
-}
+
 /* ======== 메인 메뉴(중앙) ======== */
+.nav-center-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 .nav-center {
     display: flex;
     width: 800px;
@@ -147,6 +158,27 @@ header {
     align-items: center;
     z-index: 3200;
 }
+
+/* ======= submenu-bg(서브메뉴 배경) ======= */
+.submenu-bg {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 100px;
+    width: 100vw;
+    height: 30px;
+    background: #111;
+    z-index: 300;
+    opacity: 0.96;
+    pointer-events: none;
+}
+
+/* ======= 메뉴/서브메뉴 구조 및 계층 제한 ======= */
+.nav-center .main-item {
+    position: relative;
+    z-index: 3250;
+}
+
 .l_main, .r_main {
     display: flex;
     gap: 40px;
@@ -155,80 +187,43 @@ header {
     margin: 0;
     list-style: none;
 }
-.l_main li, .r_main li {
+
+.l_main li,
+.r_main li {
     margin: 0;
     padding: 0;
 }
-.l_main li a, .r_main li a {
+
+.l_main li a,
+.r_main li a,
+.nav-center a {
     color: #fff;
     text-decoration: none;
     display: block;
     padding: 10px 5px;
     font-size: 18px;
     font-weight: 400;
-}
-.nav-center a {
-    color: #fff;
-    text-decoration: none;
     position: relative;
-    padding: 10px 0;
-    display: block;
 }
+
+
 .nav-center a::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 2px;
-    background: #fff;
-    transform: scaleX(0);
-    transform-origin: bottom right;
-    transition: transform 0.25s ease-out;
+    display: none;
 }
+
 .nav-center a:hover::after,
 .nav-center a:focus::after {
     transform: scaleX(1);
     transform-origin: bottom left;
 }
-/* ======== 메뉴/서브메뉴 구조 및 계층 제한 ======== */
-.nav-center .main-item {
-    position: relative;
-    z-index: 3250;
-}
-/* ===== submenu-bg(서브메뉴 배경) ===== */
-.nav-center .main-item > .submenu-bg {
-    display: none; /* 기본 숨김 */
-    position: absolute;
-    top: 100%;
-    left: 0;
-    /*min-width: 100%; !* 서브메뉴와 같은 폭 *!*/
-    height: 56px; /* 메뉴 아이템 수에 따라 높이 조정 */
-    background: #1a1a1a; /* 원하는 색상/투명도 */
-    border-radius: 6px;
-    z-index: 3400; /* .submenu보다 낮게, 하지만 다른 요소보단 높게 */
-    opacity: 0.96;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.48);
-    pointer-events: none; /* 배경이 메뉴 클릭 방해 막기 */
-    transition: opacity 0.25s;
-}
-.submenu-bg{
-    width: 2400px;
-    /*margin: 0 auto;*/
-}
 
-.nav-center .main-item:hover > .submenu-bg,
-.nav-center .main-item:focus-within > .submenu-bg {
-    display: block;
-}
-/* ===== submenu(실제 메뉴) ===== */
 .nav-center .submenu {
     display: none;
     position: absolute;
     top: 100%;
     left: 0;
     min-width: 100%;
-    background-color: transparent; /* 배경은 bg에게 양보 */
+    background: transparent;
     padding: 8px 0;
     border-radius: 6px;
     white-space: nowrap;
@@ -237,30 +232,50 @@ header {
     flex-wrap: nowrap;
     box-shadow: none;
 }
+
 .nav-center .submenu li {
     margin: 0;
     padding: 0;
 }
+
 .nav-center .submenu li a {
     display: block;
-    padding: 8px 20px;
+    padding: 0 20px;
+    line-height: 15px;
     font-size: 15px;
     font-weight: 400;
     font-family: 'Noto Sans KR', sans-serif;
-    color: #ccc;
-    text-decoration: none;
-    transition: background 0.2s, color 0.2s;
-    border-radius: 3px;
-}
-.nav-center .submenu li a:hover {
-    background-color: #262626;
     color: #fff;
+    text-decoration: none;
+    transition: none !important;
+    transform : none !important;
+
+}
+.nav-center .submenu,
+.nav-center .submenu li,
+.nav-center .submenu li a {
+    transition: none !important;
+    transform : none !important;
+}
+
+.nav-center .submenu li a:hover {
+    text-decoration: underline;
+    color: #fff;
+    background: none;
     z-index: 9000;
 }
+.nav-center .submenu li a::after {
+    transition: none !important;
+    transform : none !important;
+}
+
+
 .nav-center .main-item:hover > .submenu,
 .nav-center .main-item:focus-within > .submenu {
     display: flex;
 }
+
+
 
 /* ================= 박스오피스/#content 영역 ================ */
 #content {
@@ -655,22 +670,20 @@ header {
     z-index: 9999; /* 필요시 추가, 다른 요소 위에 노출 */
 }
 
-
-
 /* ============== 기타 섹션 ============== */
 #boon{
-    font-size: 50px;
-    text-align: center;
-    font-weight: bold;
-    height:600px;
-    background-color: brown;
+    display: block;
+    height:845px;
+    background-color: #ffffff;
 }
+
+
 #Curation{
     font-size: 50px;
     text-align: center;
     font-weight: bold;
     height:600px;
-    background-color: beige;
+    background-color: #329eb1;
 }
 #imformation{
     font-size: 50px;
@@ -744,127 +757,6 @@ address {
 .footer-social a:hover {
     color: #e50914;
 }
-
-
-
-
-#boon{
-    font-size: 50px;
-    text-align: center;
-    font-weight: bold;
-    height:600px;
-    background-color: aquamarine;
-}
-
-#boon{
-    font-size: 50px;
-    text-align: center;
-    font-weight: bold;
-    height:600px;
-    background-color: brown;
-}
-
-#Curation{
-    font-size: 50px;
-    text-align: center;
-    font-weight: bold;
-    height:600px;
-    background-color: beige;
-}
-
-#imformation{
-    font-size: 50px;
-    text-align: center;
-    font-weight: bold;
-    height:600px;
-    background-color: #ffffff;
-}
-
-/*푸터 영역*/
-footer {
-    background-color: #f8f8fa;
-    color: #666666;
-    height: 200px;
-    line-height: 1.5;
-    padding: 20px 40px;
-    font-family: 'Noto Sans KR', sans-serif;
-}
-
-#footer-top ul {
-    display: flex;
-    width: 1100px;
-    gap: 20px;
-    padding: 20px;
-    margin:0 auto;
-    /*border: 1px solid red;*/
-}
-
-#footer-top ul li a {
-    font: 12px "Noto Sans KR", sans-serif;
-    color: #666666;
-}
-
-#footer-top ul li:nth-child(6) a, #footer-top ul li:nth-child(7) a {
-    font: bold 12px "Noto Sans KR", sans-serif;
-    color: #222222;
-}
-
-
-#footer-top ul li a:hover {
-    text-decoration: underline;
-}
-
-#footer-bottom {
-    width: 1100px;
-    margin:0 auto;
-    border-top: 1px solid #ddd;
-    padding-top: 20px;
-}
-
-.footer-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-.footer-logo img {
-    height: 40px;
-    vertical-align: middle;
-}
-
-.footer-logo p {
-    display: inline-block;
-    margin-left: 10px;
-    font-weight: bold;
-    color: #999;
-}
-
-address {
-    font : 12px "Noto Sans KR", sans-serif;
-    color: #444444;
-    max-width: 700px;
-    margin: 10px 0;
-}
-
-.footer-social a {
-    margin-left: 15px;
-    color: #777;
-    font-size: 24px;
-    transition: color 0.3s;
-}
-
-.footer-social a:hover {
-    color: #e50914; /* 예: 메가박스 레드 컬러로 변경 */
-}
-
-
-
-
-
-
-
-
 
 /* 혜택 */
 .main-benefit {

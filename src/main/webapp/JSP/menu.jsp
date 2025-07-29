@@ -1,5 +1,3 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<nav>
 <div class="menu1">
     <div class="inner">
         <!-- 로고 -->
@@ -11,6 +9,7 @@
         </h1>
     </div>
 </div>
+
 
 <div class="nav-top">
     <ul class="nav-l_top">
@@ -26,6 +25,7 @@
         <li><a href="#" class="quick-booking">빠른예매</a></li>
     </ul>
 </div>
+
 
 <div class="icon-menu">
     <ul class="nav-side">
@@ -48,6 +48,7 @@
     </ul>
 
 </div>
+
 
 <div class="nav-center">
     <ul class="l_main">
@@ -74,7 +75,6 @@
         </li>
     </ul>
 
-
     <ul class="r_main">
         <li class="main-item has-submenu">
             <a href="#">이벤트</a>
@@ -84,7 +84,7 @@
                 <li><a href="#">당첨자 확인</a></li>
             </ul>
         </li>
-        <li class="main-item"><a href="#">스토어</a></li>
+        <li class="main-item store-menu"><a href="#">스토어</a></li>
         <li class="main-item has-submenu">
             <a href="#">혜택</a>
             <ul class="submenu">
@@ -93,6 +93,20 @@
             </ul>
         </li>
     </ul>
-</div>
+    <div class="submenu-bg"></div>
+    <script>
+        // jQuery 코드
+        $(function () {
+            // "스토어"를 제외한 메뉴만 hover 효과 적용
+            $('.nav-center .main-item:not(.store-menu) > a').mouseenter(function () {
+                $('.submenu-bg').css('display', 'block');
+            });
 
+            $('.nav-center .main-item:not(.store-menu)').mouseleave(function () {
+                $('.submenu-bg').css('display', 'none');
+            });
+        });
+
+    </script>
+</div>
 </nav>

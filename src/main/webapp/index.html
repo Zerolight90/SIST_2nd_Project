@@ -70,7 +70,6 @@
         <ul class="l_main">
                <li class="main-item has-submenu">
                     <a href="#">영화</a>
-                   <div class="submenu-bg"></div>
                     <ul class="submenu">
                         <li><a href="#">전체 영화</a></li>
                     </ul>
@@ -92,7 +91,6 @@
                 </li>
         </ul>
 
-
         <ul class="r_main">
             <li class="main-item has-submenu">
                 <a href="#">이벤트</a>
@@ -102,7 +100,7 @@
                     <li><a href="#">당첨자 확인</a></li>
                 </ul>
             </li>
-            <li class="main-item"><a href="#">스토어</a></li>
+            <li class="main-item store-menu"><a href="#">스토어</a></li>
             <li class="main-item has-submenu">
                 <a href="#">혜택</a>
                 <ul class="submenu">
@@ -110,7 +108,22 @@
                     <li><a href="#">제휴/할인</a></li>
                 </ul>
             </li>
-         </ul>
+        </ul>
+        <div class="submenu-bg"></div>
+        <script>
+            // jQuery 코드
+            $(function () {
+                // "스토어"를 제외한 메뉴만 hover 효과 적용
+                $('.nav-center .main-item:not(.store-menu) > a').mouseenter(function () {
+                    $('.submenu-bg').css('display', 'block');
+                });
+
+                $('.nav-center .main-item:not(.store-menu)').mouseleave(function () {
+                    $('.submenu-bg').css('display', 'none');
+                });
+            });
+
+        </script>
     </div>
 </header>
 
@@ -379,7 +392,7 @@
         </div>
 
         <div id="boon">
-            혜택
+            <h3>혜택</h3>
         </div>
 
         <div id="Curation">
