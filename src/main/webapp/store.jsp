@@ -35,33 +35,102 @@
     </div>
   </div>
 
-  <div class="tabMenu">
-  <nav class="tabs">
-    <ul>
-      <li class="active"><a href="#" data-tab="content-1">새로운 상품</a></li>
-      <li><a href="#" data-tab="content-2">패키지/티켓</a></li>
-      <li><a href="#" data-tab="content-3">팝콘/음료/굿즈</a></li>
-      <li><a href="#" data-tab="content-4">포인트몰 <span class="new-badge">NEW</span></a></li>
+  <div class="ec-base-tab typeLight">
+    <ul class="menu">
+      <li class="selected"><a href="#none">새로운 상품</a></li>
+      <li><a href="#none">메가티켓</a></li>
+      <li><a href="#none">팝콘 / 음료 / 굿즈</a></li>
+      <li><a href="#none">포인트몰</a></li>
     </ul>
-  </nav>
   </div>
+  <!-- 비동기식 페이지 전환 : 라인형-->
+  <div class="ec-base-tab typeLight eTab">
+    <div id="tabCont1_1" class="tabCont" style="display:block;">
+      <div style="width: 1100px; margin-top: 10px; display: flex">
+        <a href="">
+          <div>
+            <p style="font-weight: bold; font-size: 24px; color: #3d008c">
+              소중한 분들과 함께
+            </p>
+            <p style="font-weight: bold; font-size: 24px; color: #329eb1">
+              즐거운 관람 되세요~
+            </p>
+          </div>
+          <div style="margin-top: 15px">
+            <p>
+              러브콤보패키지
+            </p>
+            <p>
+              2인관람권 + 러브콤보 [팝콘(L)1 + 탄산음료(R)2]
+            </p>
+          </div>
+          <div style="margin-top: 15px">
+            <p>
+              34,000원
+            </p>
+          </div>
+        </a>
+        <p class="img">
+          <img src="./images/loveCombo.png" alt=""/>
+        </p>
+      </div>
 
-  <div class="tab-content">
-    <div id="content-1" class="content-panel active">
-      <h2>새로운 상품</h2>
-      <p>새로운 상품 목록이 여기에 표시됩니다.</p>
+      <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+        <h3>메가티켓</h3>
+
+        <div>
+          <a href="" title="더보기">더보기 ></a>
+        </div>
+      </div>
+
+      <div>
+        <ul>
+          <li>
+            <a href="">
+              <div>
+                <img src="./images/normalTicket.png" alt=""/>
+              </div>
+              <div>
+                <div></div>
+                <div></div>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+        <h3>팝콘 / 음료 / 굿즈</h3>
+
+        <div>
+          <a href="" title="더보기">더보기 ></a>
+        </div>
+      </div>
+
+      <div>
+
+      </div>
+
+      <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+        <h3>포인트몰</h3>
+
+        <div>
+          <a href="" title="더보기">더보기 ></a>
+        </div>
+      </div>
+
     </div>
-    <div id="content-2" class="content-panel">
-      <h2>패키지/티켓</h2>
-      <p>패키지 및 티켓 정보가 여기에 표시됩니다.</p>
+
+    <div id="tabCont1_2" class="tabCont" style="display:none;">
+      탭 버튼2 내용영역입니다.
     </div>
-    <div id="content-3" class="content-panel">
-      <h2>팝콘/음료/굿즈</h2>
-      <p>다양한 콤보와 굿즈를 만나보세요.</p>
+
+    <div id="tabCont1_3" class="tabCont" style="display:none;">
+      탭 버튼3 내용영역입니다.
     </div>
-    <div id="content-4" class="content-panel">
-      <h2>포인트몰</h2>
-      <p>포인트로 구매할 수 있는 상품 목록입니다.</p>
+
+    <div id="tabCont1_4" class="tabCont" style="display:none;">
+      탭 버튼4 내용영역입니다.
     </div>
   </div>
 
@@ -72,33 +141,39 @@
 </footer>
 
 <script>
-  // 모든 탭(li)과 콘텐츠 패널(div)을 가져옵니다.
-  const tabs = document.querySelectorAll('.tabs ul li');
-  const contentPanels = document.querySelectorAll('.tab-content .content-panel');
+  // 1. 모든 탭 버튼(li)과 내용 영역(div)을 가져옵니다.
+  const tabs = document.querySelectorAll('.menu li');
+  const tabContents = document.querySelectorAll('.tabCont');
 
-  // 각 탭에 클릭 이벤트 리스너를 추가합니다.
-  tabs.forEach(tab => {
+  // 2. 각 탭 버튼에 클릭 이벤트 리스너를 추가합니다.
+  tabs.forEach((tab, index) => {
     tab.addEventListener('click', (e) => {
       // a 태그의 기본 동작(페이지 이동)을 막습니다.
       e.preventDefault();
 
-      // 모든 탭에서 'active' 클래스를 제거합니다.
-      tabs.forEach(item => item.classList.remove('active'));
+      // 3. 모든 탭에서 'selected' 클래스를 제거합니다.
+      tabs.forEach(item => item.classList.remove('selected'));
 
-      // 클릭된 탭에만 'active' 클래스를 추가합니다.
-      tab.classList.add('active');
+      // 4. 방금 클릭한 탭에만 'selected' 클래스를 추가합니다.
+      tab.classList.add('selected');
 
-      // 모든 콘텐츠 패널에서 'active' 클래스를 제거하여 숨깁니다.
-      contentPanels.forEach(panel => panel.classList.remove('active'));
+      // 5. 모든 내용 영역을 숨깁니다.
+      tabContents.forEach(content => content.style.display = 'none');
 
-      // 클릭된 탭의 a 태그에서 data-tab 속성 값을 가져옵니다. (예: "content-1")
-      const targetContentId = tab.querySelector('a').getAttribute('data-tab');
+      // 6. 클릭한 탭과 순서가 맞는 내용 영역만 보여줍니다.
+      tabContents[index].style.display = 'block';
+    });
+  });
 
-      // 해당 id를 가진 콘텐츠 패널을 찾아 'active' 클래스를 추가하여 보여줍니다.
-      const targetPanel = document.getElementById(targetContentId);
-      if (targetPanel) {
-        targetPanel.classList.add('active');
-      }
+  $(function () {
+    $(".tabCont").click(function () {
+      var tab_id = $(this).attr("data-tab");
+
+      $(".tabCont").style.display = 'none';
+      $(".menu>li").removeClass("selected");
+
+      $(this).addClass("active");
+      $("#" + tab_id).addClass("active");
     });
   });
 </script>

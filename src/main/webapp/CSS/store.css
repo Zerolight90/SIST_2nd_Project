@@ -14,119 +14,40 @@
     padding-top: 13px;
 }
 
-/* 폰트 및 기본 스타일 초기화 */
-body {
-    font-family: Pretendard, sans-serif;
+.box{
+
 }
 
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-/* 탭 메뉴 전체 컨테이너 */
-.tabs {
-    border-bottom: 1px solid #6f42c1;
-}
-
-/* 탭 목록 (ul) */
-.tabs ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+.ec-base-tab {
+    position:relative;
     display: flex;
-    justify-content: center; /* 탭들을 가운데 정렬 (핵심) */
-}
-
-/* 개별 탭 (li > a) */
-.tabs ul li a {
-    display: block;
-    padding: 12px 25px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #555;
-    position: relative;
-    border: 2px solid transparent;
-    border-bottom: none;
-}
-
-/* 활성화된 탭 (active) */
-.tabs ul li.active a {
-    color: #6f42c1;
-    border-color: #6f42c1;
-    border-bottom: 1px solid #fff;
-    margin-bottom: -2px;
-    border-radius: 3px 3px 0 0;
-}
-
-/* NEW 뱃지 스타일 */
-.new-badge {
-    background-color: #ffc107;
-    color: #fff;
-    font-size: 11px;
-    padding: 3px 6px;
-    border-radius: 5px;
-    margin-left: 6px;
-    vertical-align: middle;
-}
-
-/* ▼▼▼ 아래 내용 추가 ▼▼▼ */
-
-/* 탭 콘텐츠 컨테이너 */
-.tab-content {
-    padding: 20px;
-}
-
-/* 콘텐츠 패널 기본 상태 (숨김) */
-.content-panel {
-    display: none;
-    text-align: center;
-}
-
-/* 활성화된 콘텐츠 패널 (보여주기) */
-.content-panel.active {
-    display: block;
-}
-
-.tabMenu{
-    width: 1100px;
-    height: 50px;
+    justify-content: center;
     margin: auto;
 }
-
-/*
-!*스토어 페이지 탭 관련*!
-.tabmenu ul li{ !* 탭 역할 *!
-    display: inline-block;
-    width: 270px;
-    height: 35px;
-    border: 1px solid #dddddd;
-    background-color: white;
-    border-right: 1px solid #fff;
+.ec-base-tab .menu {
+    margin:0 0 20px; border:1px solid #cbcdce; border-bottom-color:#202020; border-left:0; background:#f2f2f2;
+    box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box;
 }
-.tabmenu ul li a{
-    display: block;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    line-height: 35px;
-    font-size: 15px;
-    font-weight: bold;
-    color: #000;
-}
-.tabmenu ul li.selected{
-    background-color: #fff;
-    border: 1px solid #ff4f00;
-    border-bottom: none;
-}
-.tabmenu ul li.selected a{
-    color: #ff4f00;
-}
-.tab_cont{
-    padding-top: 39px;
-    line-height: 1.5em; !* 부모 태그의 1.5배 *!
-    display: none; !* 화면에 안 보이도록 함 *!
-}
-.show{
-    display: block; !* 안 보이던 것이 보이게 된다 *!
-}*/
+.ec-base-tab .menu:after { content:""; display:block; clear:both; }
+.ec-base-tab .menu li { width: 273px; float:left; border-left:1px solid #cbcdce; background:#f2f2f2; }
+.ec-base-tab .menu li a { display:block; min-width:187px; margin:0 0 0 -1px; padding:12px 5px 11px; border-right:1px solid #cbcdce; color:#707070; text-decoration:none; outline:0; text-align:center; background:#f2f2f2; }
+.ec-base-tab .menu li:first-child a { margin-left:0; }
+.ec-base-tab .menu li.selected a { position:relative; top:-1px; left:-2px; margin:0 0 -1px; border:1px solid #202020; border-bottom:0; color:#fff; font-weight:bold; background:#4a5164; }
+.ec-base-tab .menu li.selected:first-child a { left:-1px; }
+.ec-base-tab &gt .right { position:absolute; top:8px; right:10px; line-height:24px; color:#909090; }
+/* typeLight */
+.ec-base-tab.typeLight .menu li.selected a { margin:0 0 -2px; border-bottom:1px solid #fff; color:#404040; background:#fff; }
+/* grid (2~7) */
+.ec-base-tab[class*="grid"] .menu { display:table; table-layout:fixed; width:100%; }
+.ec-base-tab[class*="grid"] .menu li { float:none; display:table-cell; vertical-align:middle; }
+.ec-base-tab[class*="grid"] .menu li a { display:inline-block; width:100%; min-width:0; margin:0; padding:11px 0; border:0; }
+.ec-base-tab[class*="grid"] .menu li.selected { position:relative; top:0; right:-1px; border:1px solid #292929; border-bottom:0; background:#4a5164; }
+.ec-base-tab[class*="grid"] .menu li:first-child.selected { right:0; }
+.ec-base-tab[class*="grid"] .menu li.selected a { position:static; background:none; }
+.ec-base-tab.grid2 .menu li { width:50.5%; }
+.ec-base-tab.grid3 .menu li { width:34%; }
+.ec-base-tab.grid4 .menu li { width:25.5%; }
+.ec-base-tab.grid5 .menu li { width:20.5%; }
+.ec-base-tab.grid6 .menu li { width:17%; }
+.ec-base-tab.grid7 .menu li { width:14.8%; width:15% \0/; }
+.ec-base-tab.grid7 .menu li:first-child { width:13% \0/; }
