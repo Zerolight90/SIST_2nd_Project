@@ -11,6 +11,7 @@
     <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
     <link rel="icon" href="./images/favicon.png">
 </head>
+
 <body>
 <header>
    <jsp:include page="JSP/menu.jsp"/>
@@ -280,10 +281,105 @@
 
     </div>
 
+    <!--혜택-->
+    <div id="boon" class="boon">
+        <div class="boon_tit">
+            <h3>혜택</h3>
+            <a href="#" class="more-event" title="더 많은 혜택">
+                더 많은 혜택보기 <i class="fas fa-plus"></i>
+            </a>
+        </div>
 
-    <div id="boon">
-        혜택
+        <!-- 슬라이더 -->
+        <div class="slider">
+
+            <!--슬라이드 타이틀-->
+            <div class="slider_tit">
+                <a href="#">
+                    <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2025/07/25/l9DoEzumv3TiHQfNaPOCLgBLKXQaecr0.jpg" alt=""/>
+                </a>
+            </div>
+
+            <div class="slider_tit">
+                <a href="#">
+                    <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2025/07/10/F8oz3G1KYzGcXkTytaNB1PV2HYLeE2nx.png" alt=""/>
+                </a>
+            </div>
+
+            <div class="slider_tit">
+                <a href="#">
+                    <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2025/07/07/8Vhr59TwP2wdXZLbjnmTLvdw6FtXeEzU.jpg" alt=""/>
+                </a>
+            </div>
+
+            <div class="slider_tit">
+                <a href="#">
+                    <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2025/06/27/2du87w2EeAtprTO1bZL5VFXnJQo2Z9iD.jpg" alt=""/>
+                </a>
+            </div>
+
+            <!--슬라이드 이미지-->
+            <div class="slider_img">
+                <a href="#">
+                    <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2025/07/25/2q27REHj9CR53xp5LKZmR316DpEotgyH.jpg" alt=""/>
+                </a>
+            </div>
+
+            <div class="slider_img">
+                <a href="#">
+                    <img src="./images/toss_img.png" alt=""/>
+                </a>
+            </div>
+
+            <div class="slider_img">
+                <a href="#">
+                    <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2025/07/07/0xjhWwgS0NBrjz5BoDBKo0u844BqF7a9.jpg" alt=""/>
+                </a>
+            </div>
+
+            <div class="slider_img">
+                <a href="#">
+                    <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2025/06/27/sdXTRaCGQ0fbRVLuUDbzHOs152BFWGFY.jpg" alt=""/>
+                </a>
+            </div>
+
+            <div class="slider_btn">
+                <div class="page">
+                    <span class="on"></span>
+                    <span class="off"></span>
+                    <span class="off"></span>
+                    <span class="off"></span>
+                </div>
+
+                <div class="util">
+                    <button type="button" class="btn-prev" style="opacity: 1;">이전 이벤트 보기</button>
+                    <button type="button" class="btn-next" style="opacity: 1;">다음 이벤트 보기</button>
+
+                    <button type="button" class="btn-pause">일시정지</button>
+                    <button type="button" class="btn-play on">자동재생</button>
+                </div>
+
+                <div class="count">
+                    1 / 4
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="menu_link_bg">
+            <div class="menu-link">
+                <div class="cell vip"><a href="/benefit/viplounge" title="VIP LOUNGE 페이지로 이동">VIP LOUNGE</a></div>
+                <div class="cell membership"><a href="/benefit/membership" title="멤버십 페이지로 이동">멤버십</a></div>
+                <div class="cell card"><a href="/benefit/discount/guide" title="할인카드안내 페이지로 이동">할인카드안내</a></div>
+                <div class="cell event"><a href="/event" title="이벤트 페이지로 이동">이벤트</a></div>
+                <div class="cell store"><a href="/store" title="스토어 페이지로 이동">스토어</a></div>
+            </div>
+        </div>
+
+
     </div>
+
 
     <div id="Curation">
         큐레이션
@@ -293,17 +389,6 @@
         쌍용박스 안내
     </div>
 
-    <div id="boon">
-        혜택
-    </div>
-
-    <div id="Curation">
-        큐레이션
-    </div>
-
-    <div id="imformation">
-        쌍용박스 안내
-    </div>
 </article>
 
 <jsp:include page="JSP/Footer.jsp"/>

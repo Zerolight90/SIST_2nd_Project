@@ -9,9 +9,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="icon" href="./images/favicon.png">
 
-    <script src="JS/main/main.js"></script>
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+
 
 </head>
 
@@ -23,7 +24,7 @@
             <!-- 로고 -->
             <h1 class="logo">
                 <a href="#" class="logo_link">
-                    <img src="./images/logo.png" alt="sist" class="logo_img" />
+                    <img src="./images/logo_W.png" alt="sist" class="logo_img" />
                 </a>
                 <span class="title">S I S T M O V I E P L E X</span>
             </h1>
@@ -114,9 +115,10 @@
             </li>
         </ul>
         <div class="submenu-bg"></div>
+
+        <!--메뉴 디자인 제이쿼리-->
         <script>
-            // jQuery 코드
-            $(function () {
+             $(function () {
                 // "스토어"를 제외한 메뉴만 hover 효과 적용
                 $('.nav-center .main-item:not(.store-menu) > a').mouseenter(function () {
                     $('.submenu-bg').css('display', 'block');
@@ -132,8 +134,9 @@
 </header>
 
 <article>
+    <!-- 박스 오피스 영역-->
          <div id="content">
-<!--            박스 오피스 영역-->
+
             <div class="bg">
                 <div class="bg-pattern"></div>
                 <img src="https://img.megabox.co.kr/SharedImg/2025/06/30/AX9J4sgTtL3cEgfjXjNH4OYQwlkz2dW6_380.jpg" alt="01.jpg"/>
@@ -376,6 +379,8 @@
              <div class="mouse">
                  <img src="images/ico-mouse.png" alt="mouse"/>
              </div>
+
+             <!--마우스 애니메이션 제이쿼리-->
             <script>
                 $(document).ready(function(){
                     function mouseBounce() {
@@ -385,17 +390,16 @@
                             $(".mouse").animate({top: "-=10px"}, 700, mouseBounce);
                         });
                     }
-
                     // 초기 위치(top: 50%)에서 정확히 움직이려면 position을 absolute로 하고 CSS에서 top 지정 필요
                     // 움직임 시작
                     mouseBounce();
                 });
-
             </script>
 
         </div>
 
-        <div id="boon">
+        <!--혜택-->
+        <div id="boon" class="boon">
             <div class="boon_tit">
                 <h3>혜택</h3>
                 <a href="#" class="more-event" title="더 많은 혜택">
@@ -403,6 +407,95 @@
                 </a>
             </div>
 
+            <!-- 슬라이더 -->
+            <div class="slider">
+
+                <!--슬라이드 타이틀-->
+                <div class="slider_tit">
+                    <a href="#">
+                        <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2025/07/25/l9DoEzumv3TiHQfNaPOCLgBLKXQaecr0.jpg" alt=""/>
+                    </a>
+                </div>
+
+                <div class="slider_tit">
+                    <a href="#">
+                        <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2025/07/10/F8oz3G1KYzGcXkTytaNB1PV2HYLeE2nx.png" alt=""/>
+                    </a>
+                </div>
+
+                <div class="slider_tit">
+                    <a href="#">
+                        <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2025/07/07/8Vhr59TwP2wdXZLbjnmTLvdw6FtXeEzU.jpg" alt=""/>
+                    </a>
+                </div>
+
+                <div class="slider_tit">
+                    <a href="#">
+                        <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2025/06/27/2du87w2EeAtprTO1bZL5VFXnJQo2Z9iD.jpg" alt=""/>
+                    </a>
+                </div>
+
+                <!--슬라이드 이미지-->
+                <div class="slider_img">
+                    <a href="#">
+                        <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2025/07/25/2q27REHj9CR53xp5LKZmR316DpEotgyH.jpg" alt=""/>
+                    </a>
+                </div>
+
+                <div class="slider_img">
+                    <a href="#">
+                        <img src="./images/toss_img.png" alt=""/>
+                    </a>
+                </div>
+
+                <div class="slider_img">
+                    <a href="#">
+                        <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2025/07/07/0xjhWwgS0NBrjz5BoDBKo0u844BqF7a9.jpg" alt=""/>
+                    </a>
+                </div>
+
+                <div class="slider_img">
+                    <a href="#">
+                        <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2025/06/27/sdXTRaCGQ0fbRVLuUDbzHOs152BFWGFY.jpg" alt=""/>
+                    </a>
+                </div>
+
+                <div class="slider_btn">
+                    <div class="page">
+                        <span class="on"></span>
+                        <span class="off"></span>
+                        <span class="off"></span>
+                        <span class="off"></span>
+                    </div>
+
+                    <div class="util">
+                        <button type="button" class="btn-prev" style="opacity: 1;">이전 이벤트 보기</button>
+                        <button type="button" class="btn-next" style="opacity: 1;">다음 이벤트 보기</button>
+
+                        <button type="button" class="btn-pause">일시정지</button>
+                        <button type="button" class="btn-play on">자동재생</button>
+                    </div>
+
+                    <div class="count">
+                        1 / 4
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="menu_link_bg">
+                <div class="menu-link">
+                    <div class="cell vip"><a href="/benefit/viplounge" title="VIP LOUNGE 페이지로 이동">VIP LOUNGE</a></div>
+                    <div class="cell membership"><a href="/benefit/membership" title="멤버십 페이지로 이동">멤버십</a></div>
+                    <div class="cell card"><a href="/benefit/discount/guide" title="할인카드안내 페이지로 이동">할인카드안내</a></div>
+                    <div class="cell event"><a href="/event" title="이벤트 페이지로 이동">이벤트</a></div>
+                    <div class="cell store"><a href="/store" title="스토어 페이지로 이동">스토어</a></div>
+                </div>
+            </div>
+
+
+        </div>
 
 
         <div id="Curation">
@@ -412,114 +505,9 @@
         <div id="imformation">
             쌍용박스 안내
         </div>
-    </article>
 
+</article>
 
-
-
-    <!-- section main-benefit : 혜택 -->
-    <div id="main_section02" class="section main-benefit">
-        <!-- wrap -->
-        <div class="wrap">
-            <!-- 혜택 시작 -->
-            <div class="tit-util">
-                <h2 class="tit">혜택</h2>
-                <a href="/event" class="btn-more-cross purple" title="혜택 더보기">더보기</a>
-            </div>
-            <!--
-                왼쪽 글씨 이미지 사이즈 300 * 230, 오른쪽 이미지 635 * 325
-             -->
-            <div class="slider main-condition">
-                <div class="slider-view">
-                    <div class="cell">
-                        <div class="position">
-                            <div class="txt"><a href="https://www.megabox.co.kr/event/detail?eventNo=18261" target="_self" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2025/07/10/F8oz3G1KYzGcXkTytaNB1PV2HYLeE2nx.png" alt="" onerror="noImg(this, 'main');"/></a></div>
-                            <div class="bg"><a href="https://www.megabox.co.kr/event/detail?eventNo=18261" target="_self" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2025/07/10/DETf6vVil3pIJpyjQHasgkT2HXQu8a6U.png" alt="" onerror="noImg(this, 'main');"/></a></div>
-                        </div>
-                    </div>
-                    <div class="cell">
-                        <div class="position">
-                            <div class="txt"><a href="https://megabox.co.kr/event/detail?eventNo=18224" target="_self" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2025/07/07/8Vhr59TwP2wdXZLbjnmTLvdw6FtXeEzU.jpg" alt="" onerror="noImg(this, 'main');"/></a></div>
-                            <div class="bg"><a href="https://megabox.co.kr/event/detail?eventNo=18224" target="_self" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2025/07/07/0xjhWwgS0NBrjz5BoDBKo0u844BqF7a9.jpg" alt="" onerror="noImg(this, 'main');"/></a></div>
-                        </div>
-                    </div>
-                    <div class="cell">
-                        <div class="position">
-                            <div class="txt"><a href="https://megabox.co.kr/event/detail?eventNo=18192" target="_self" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2025/07/02/oOszWtyGLmWmmGhUsSlQRmLSPHGg8Zwu.png" alt="" onerror="noImg(this, 'main');"/></a></div>
-                            <div class="bg"><a href="https://megabox.co.kr/event/detail?eventNo=18192" target="_self" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2025/07/02/QOXQC2yvIMTt88xdOjdlUK6z0vYVoc4X.png" alt="" onerror="noImg(this, 'main');"/></a></div>
-                        </div>
-                    </div>
-                    <div class="cell">
-                        <div class="position">
-                            <div class="txt"><a href="https://www.megabox.co.kr/event/detail?eventNo=18169" target="_self" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2025/06/27/2du87w2EeAtprTO1bZL5VFXnJQo2Z9iD.jpg" alt="" onerror="noImg(this, 'main');"/></a></div>
-                            <div class="bg"><a href="https://www.megabox.co.kr/event/detail?eventNo=18169" target="_self" title=""><img src="https://img.megabox.co.kr/SharedImg/BnftMng/2025/06/27/sdXTRaCGQ0fbRVLuUDbzHOs152BFWGFY.jpg" alt="" onerror="noImg(this, 'main');"/></a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="slider-control">
-
-                    <div class="page">
-                        <!--
-                            cell 갯수만큼 span 반복
-                         -->
-                        <span style="width:25%;"></span>
-                        <span class="on" style="width:25%;"></span>
-                        <span style="width:25%;"></span>
-                        <span style="width:25%;"></span>
-                    </div>
-
-                    <div class="util">
-                        <button type="button" class="btn-prev">이전 이벤트 보기</button>
-                        <button type="button" class="btn-next">다음 이벤트 보기</button>
-
-                        <button type="button" class="btn-pause on">일시정지</button>
-                        <button type="button" class="btn-play">자동재생</button>
-                    </div>
-
-                    <div class="page-count">
-                        <span>1</span> / <em>8</em>
-                    </div>
-
-                </div>
-            </div>
-
-
-            <div class="brn-ad" style="height:204px;">
-                <div class="banner">
-                    <div class="size">
-                        <a href="#" data-no="17169" data-netfunnel="N" class="eventBtn" title="">
-                            <img src="https://img.megabox.co.kr/SharedImg/event/2025/02/06/ZYOQzt9GDvoAZhmLH3SK7L8JOunl1qN4.jpg" alt="[신한카드] Edu Plan+카드 할인혜택" onerror="noImg(this, 'main');"/>
-                        </a>
-                    </div>
-                    <div class="size small">
-                        <a href="#" data-no="18261" data-netfunnel="N" class="eventBtn" title="">
-                            <img src="https://img.megabox.co.kr/SharedImg/event/2025/07/10/6eKG2FH5fNKw9y2SZHwHjbl6KI4zNgSC.png" alt="[토스페이] 토스페이로 결제하고 할인받자!" onerror="noImg(this, 'main');"/>
-                        </a>
-                    </div>
-                </div>
-                <!-- 광고영역 -->
-                <div class="ad-img">
-                    <!-- <img src="../../../static/pc/images/main/@img-main-ad.png" alt="블루멤버스 포인트로" /> -->
-                    <script data-id="M_rwl-o8QV2xFMa0Oy93qQ" name="megabox_p/main/main@main_middle_event_415x530?mlink=341" src="//cast.imp.joins.com/persona.js" async></script>
-                </div>
-                <!-- 광고영역 -->
-            </div>
-            <!-- 혜택 종료 -->
-
-            <div class="menu-link">
-                <div class="cell vip"><a href="/benefit/viplounge" title="VIP LOUNGE 페이지로 이동">VIP LOUNGE</a></div>
-                <div class="cell membership"><a href="/benefit/membership" title="멤버십 페이지로 이동">멤버십</a></div>
-                <div class="cell card"><a href="/benefit/discount/guide" title="할인카드안내 페이지로 이동">할인카드안내</a></div>
-                <div class="cell event"><a href="/event" title="이벤트 페이지로 이동">이벤트</a></div>
-                <div class="cell store"><a href="/store" title="스토어 페이지로 이동">스토어</a></div>
-            </div>
-
-            <!-- grand-open -->
-            <!--// grand-open -->
-        </div>
-        <!--// wrap -->
-    </div>
-    <!--// section main-benefit : 혜택 -->
 
     <div id="main_section03" class="section main-curation">
         <!-- wrap -->
@@ -641,7 +629,6 @@
         </div>
     </div>
     <!--// section main-curation : 큐레이션 -->
-
     <!-- section main-info : 메가박스 안내 -->
     <div id="main_section04" class="section main-info">
 
@@ -757,24 +744,11 @@
         <!--// info-link -->
     </div>
     <!--// section main-info : 메가박스 안내 -->
-
     <!-- main-bottom-ad : 메인 하단 광고 영역 -->
     <div class="main-bottom-ad">
         <script data-id="K3I6ffWoQiqG93YqqRV0LA" name="megabox_p/main/main@main_bottom_1100x227?mlink=342" src="//cast.imp.joins.com/persona.js" async></script>
     </div>
     <!--// main-bottom-ad : 메인 하단 광고 영역 -->
-    </div>
-    </div>
-    <!--// contents -->
-
-    </div>
-    <!--// container -->
-
-    <!-- 		</div> -->
-
-
-
-
     <section id="saw_movie_regi" class="modal-layer">
         <input type="hidden" id="isLogin"   />
         <div class="wrap">
@@ -858,7 +832,7 @@
     </div>
 </footer>
 
-
+<script src="JS/main/slider.js"></script>
 </body>
 
 </html>
