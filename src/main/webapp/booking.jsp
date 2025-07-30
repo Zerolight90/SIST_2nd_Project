@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <title>SIST BOX 쌍용박스</title>
-  <link rel="stylesheet" href="./CSS/style.css">
-  <link rel="stylesheet" href="./CSS/reset.css">
-  <link rel="stylesheet" href="./CSS/booking.css">
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/booking.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link rel="icon" href="./images/favicon.png">
@@ -14,7 +14,7 @@
 <body>
 
 <header>
-  <jsp:include page="JSP/menu.jsp"/>
+  <jsp:include page="jsp/menu.jsp"/>
 </header>
 
 <div class="inner-wrap">
@@ -461,7 +461,7 @@
   }
 </script>
 
-<jsp:include page="JSP/Footer.jsp"/>
+<jsp:include page="jsp/Footer.jsp"/>
 
 </body>
 

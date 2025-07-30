@@ -1,6 +1,7 @@
 package mybatis.dao;
 
-import mybatis.service.FactoryService;
+import mybatis.Service.FactoryService;
+import mybatis.Service.FactoryService;
 import mybatis.vo.CommVO;
 import org.apache.ibatis.session.SqlSession;
 
