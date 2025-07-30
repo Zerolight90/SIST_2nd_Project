@@ -1,0 +1,1007 @@
+@charset "UTF-8";
+
+/* ======== 기본 리셋 ======== */
+body, header, article {
+    margin: 0;
+    padding: 0;
+}
+
+/* ======== 헤더 ======== */
+header {
+    position: relative;
+    width: 100%;
+    height: 100px;
+    background: #000;
+    opacity: 0.95;
+    z-index: 3000;
+}
+
+/* ======= 상단/우측 네비 ======== */
+.menu1 {
+    position: relative;
+    width: 100%;
+}
+
+.inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo {
+    display: block;
+    position: absolute;
+    top: 30px;
+    text-align: center;
+    margin: 0 auto;
+    z-index: 9000;
+}
+
+.logo_img {
+    display: block;
+    margin: 0 auto;
+}
+
+.title {
+    display: inline-block;
+    text-indent: -9999px;
+}
+
+.nav-top, .icon-menu {
+    display: flex;
+    margin: 0 auto;
+    width: 1100px;
+    height: 50px;
+    position: relative;
+    z-index: 3100;
+}
+
+.nav-top ul,
+.icon-menu > .nav-side {
+    display: flex;
+    gap: 20px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.nav-top .nav-l_top {
+    position: absolute;
+    top: 20px;
+}
+
+.nav-top .nav-r_top {
+    position: absolute;
+    top: 20px;
+    right: 0;
+}
+
+.nav-top ul li a,
+.icon-menu > .nav-icon > li > a {
+    display: block;
+    color: #b0b0b0;
+    text-decoration: none;
+    transition: color 0.2s, background 0.2s;
+}
+
+.nav-top ul li a:hover,
+.nav-icon li a:hover,
+.menu-toggle:hover span,
+.search-icon:hover,
+.search-icon:hover i {
+    color: #ffffff !important;    /* <-- 검정색 유지 */
+}
+.menu-toggle:hover span{
+    background: #ffffff !important;
+}
+
+.nav-icon {
+    display: flex;
+    gap: 20px;
+    position: absolute;
+    top: 8px;
+    right: 0;
+    font-size: 18px;
+}
+
+.menu-toggle, .search-icon {
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    color: #b0b0b0;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 0;
+}
+
+.menu-toggle {
+    flex-direction: column;
+}
+
+.menu-toggle span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    margin: 3px auto;
+    background: #b0b0b0;
+    border-radius: 2px;
+    transition: background 0.2s;
+}
+
+.search-icon i {
+    font-size: 18px;
+    padding-top: 15px;
+    color: #b0b0b0;
+}
+
+/* ======== 메인 메뉴(중앙) ======== */
+.nav-center-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-center {
+    display: flex;
+    width: 800px;
+    height: 50px;
+    margin: 0 auto;
+    position: relative;
+    top: -50px;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 3200;
+}
+
+/* ======= submenu-bg(서브메뉴 배경) ======= */
+.submenu-bg {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 100px;
+    width: 100vw;
+    height: 30px;
+    background: #111;
+    z-index: 300;
+    opacity: 0.96;
+    pointer-events: none;
+}
+
+/* ======= 메뉴/서브메뉴 구조 및 계층 제한 ======= */
+.nav-center .main-item {
+    position: relative;
+    z-index: 3250;
+}
+
+.l_main, .r_main {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.l_main li,
+.r_main li {
+    margin: 0;
+    padding: 0;
+}
+
+.l_main li a,
+.r_main li a,
+.nav-center a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    padding: 10px 5px;
+    font-size: 18px;
+    font-weight: 400;
+    position: relative;
+}
+
+
+.nav-center a::after {
+    display: none;
+}
+
+.nav-center a:hover::after,
+.nav-center a:focus::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+.nav-center .submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 100%;
+    background: transparent;
+    padding: 8px 0;
+    border-radius: 6px;
+    white-space: nowrap;
+    z-index: 3500;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    box-shadow: none;
+}
+
+.nav-center .submenu li {
+    margin: 0;
+    padding: 0;
+}
+
+.nav-center .submenu li a {
+    display: block;
+    padding: 0 20px;
+    line-height: 15px;
+    font-size: 15px;
+    font-weight: 400;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #fff;
+    text-decoration: none;
+    transition: none !important;
+    transform : none !important;
+
+}
+.nav-center .submenu,
+.nav-center .submenu li,
+.nav-center .submenu li a {
+    transition: none !important;
+    transform : none !important;
+}
+
+.nav-center .submenu li a:hover {
+    text-decoration: underline;
+    color: #fff;
+    background: none;
+    z-index: 9000;
+}
+.nav-center .submenu li a::after {
+    transition: none !important;
+    transform : none !important;
+}
+
+
+.nav-center .main-item:hover > .submenu,
+.nav-center .main-item:focus-within > .submenu {
+    display: flex;
+}
+
+/* ================= 박스오피스/#content 영역 ================ */
+#content {
+    position: relative;
+    font-size: 50px;
+    text-align: center;
+    font-weight: bold;
+    height: 922px;
+    background-color: aquamarine;
+    /* z-index: 10; ← 메뉴보다 위에 안 오게 아예 빼버림 */
+    overflow: visible;   /* 숨김 주지 않음! 반드시 visible */
+}
+#content .bg {
+    overflow: hidden;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    min-width: 1100px;
+    height: 100%;
+    left: 0; top: 0;
+}
+#content .bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    position: absolute;
+    left: 0; top: 0;
+    z-index: 1;
+    pointer-events: none;  /* 배경 클릭 방지 */
+}
+#content .bg::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    z-index: 2;
+    pointer-events: none;
+}
+#content .bg-pattern {
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    z-index: 3;
+    background: url('../images/bg-movie-detail-pattern.png') repeat 0 0;
+    opacity: 1;
+    pointer-events: none;
+
+}
+#content .cont-area {
+    width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    top: 50px;
+    z-index: 4;
+    font-size: 22px;
+    background: transparent;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 60px;
+    box-sizing: border-box;
+}
+#content .cont-area .tab-sorting {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+#content .cont-area .tab-sorting .on {
+    background: none;
+    border: none;
+    color: #fff;
+    font-weight: 700;
+    font-size: 16px;
+    padding-bottom: 6px;
+    border-bottom: 3px solid #595959;
+    cursor: default;
+    outline: none;
+    user-select: none;
+}
+#content .cont-area .more-movie {
+    position: absolute;
+    right: 5px;
+    top: 35px;
+    color: #ccc;
+    font-size: 15px;
+    font-weight: 300;
+    font-family: 'Noto Sans KR', sans-serif;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: color 0.3s, text-decoration 0.3s;
+}
+#content .cont-area .more-movie:hover,
+#content .cont-area .more-movie:focus {
+    color: #fff;
+}
+#content .cont-area .more-movie i {
+    font-size: 14px;
+    line-height: 1;
+}
+
+/* ============== 박스오피스 리스트 ============= */
+.boxoffice {
+    position: relative;
+    margin-top: 80px;
+    z-index: 4;
+}
+.boxoffice ul {
+    position: relative;
+    z-index: 5;
+}
+.boxoffice ul li {
+    display: inline-block;
+    vertical-align: top;
+    width: 242px;
+    margin: 0 15px 30px 0;
+    box-sizing: border-box;
+    position: relative;
+    color: #fff;
+}
+.tit, .bage.film {
+    display: none !important;
+}
+.boxoffice ul li .img {
+    position: relative;
+    width: 242px;
+    height: 352px;
+    overflow: hidden;
+    border-radius: 8px 8px 0 0;
+}
+.boxoffice ul li .img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 8px 8px 0 0;
+}
+.screen-type2 {
+    position: absolute;
+    left: 8px;
+    bottom: 8px;
+    z-index: 5;
+    background: rgba(0,0,0,0.6);
+    padding: 3px 6px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    max-width: 70px;
+}
+.screen-type2 img {
+    display: block;
+    max-width: 100%;
+    height: 18px;
+    object-fit: contain;
+}
+.movie-grade_box {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    z-index: 15;
+    width: 30px;
+    height: 30px;
+}
+.summary {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(20,20,20,0.88);
+    color: #fff;
+    padding: 22px 16px 18px 16px;
+    font-size: 16px;
+    line-height: 1.7;
+    border-radius: 8px 8px 0 0;
+    box-sizing: border-box;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.boxoffice ul li .img:hover .summary {
+    opacity: 1;
+    pointer-events: auto;
+}
+.summary p.review {
+    font-size: 13px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    max-height: 8em;
+    white-space: normal;
+}
+.summary .review_txt {
+    color: #ffffff;
+    font-size: 14px;
+    margin-right: 20px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 200;
+}
+.summary .rating {
+    text-align: center;
+    color: #329eb1;
+    margin-top: 150px;
+    border-top: 1px solid #666;
+}
+.summary .score {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+.btn-util {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    width: auto;
+    padding: 0;
+    height: 36px;
+    overflow: hidden;
+}
+.btn-util .btn-like {
+    background-color: #000000;
+    border: 1px solid #555;
+    color: #fff;
+    font-size: 13px;
+    font-family: 'Noto Sans', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    width: 80px;
+    height: 36px;
+    border-radius: 6px;
+    padding: 0;
+    box-sizing: border-box;
+}
+.btn-util .btn-like i {
+    color: #fff;
+    font-size: 13px;
+}
+.btn-util .button.gblue {
+    background-color: #2c8c9e;
+    color: #fff;
+    border: 1px solid #2c8c9e;
+    border-left: none;
+    border-radius: 6px;
+    padding: 0;
+    font-weight: 400;
+    text-decoration: none;
+    font-size: 16px;
+    font-family: 'Noto Sans', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 36px;
+    width: 160px;
+    margin-left: 8px;
+    box-sizing: border-box;
+}
+.btn-util .button.gblue:hover {
+    background-color: #227383;
+    border-color: #227383;
+}
+
+/* ============== 퀵메뉴 ============== */
+.quick_menu {
+    width: 1050px;
+    height: 75px;
+    margin: 0 auto;
+    background-color: rgba(17, 17, 17, 0.7); /* 마지막 숫자(0.7)는 투명도, 1이면 불투명, 0이면 완전 투명 */
+    z-index: 999;
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 15px;
+}
+
+.cell {
+    width: 275px;
+    height: 30px;
+    border-left: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    box-sizing: border-box;
+    color: #fff;
+    /*border: 1px solid red;*/
+}
+.quick_menu .cell:first-child {
+    border-left: none;
+}
+.cell .search {
+    display: flex;
+    align-items: center;
+    width: 200px;
+    margin: 0 auto;
+    border-bottom: 2px solid #555; /* 밑줄을 전체 컨테이너에 적용 */
+    padding-bottom: 2px;
+}
+
+.cell .search .input-text {
+    /*flex-grow: 1;*/
+    height: 32px;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #fff;
+    font-size: 15px;
+    padding: 0;           /* 오른쪽 패딩만 4px로 간격 최소화 */
+    box-sizing: border-box;
+}
+
+.cell .search .btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    margin-left: -15px;
+    align-items: center;
+    font-size: 0;                 /* "검색" 텍스트 숨김 */
+    height: 32px;                 /* input 높이와 맞추기 */
+}
+
+.cell .search .btn i {
+    font-size: 15px;
+    color: #fff;
+    line-height: 1;
+}
+
+/* "검색" 텍스트 숨기기 */
+.cell .search .btn {
+    font-size: 0;
+}
+
+.cell a {
+    text-decoration: none;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    font-size: 14px;   /* 반드시 font-size가 0이 아닌지 확인 */
+    white-space: nowrap;
+    /*border: 1px solid blue;*/
+    margin: 0 auto;
+}
+.cell i {
+    font-size: 16px;
+    margin-right: 5px;
+    color: #fff;
+}
+.cell a span {
+    font-size: 16px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 300;
+    margin-left: 10px;
+    color: #ffffff;
+    text-align: center;
+}
+
+.cell a span:hover{
+    text-decoration: underline;
+}
+
+/* ============== 마우스 표출 ============= */
+.mouse {
+    display: block;
+    width: 16px;
+    height: 24px;
+    position: absolute;
+    left: 50%;
+    bottom: 20%;
+    transform: translate(-50%, -50%); /*가운데 정렬*/
+    z-index: 9999; /* 필요시 추가, 다른 요소 위에 노출 */
+}
+
+/* ============== 기타 섹션 ============== */
+#boon{
+    display: block;
+    background-color: #ffffff;
+}
+
+
+.boon_tit{
+    display: flex;
+    width: 1100px;
+    margin: 0 auto;
+    padding-top: 50px;
+    /*border: 1px solid red;*/
+    position: relative;
+}
+.boon_tit h3{
+    color: #222222;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 400;
+    font-size: 36px;
+}
+.boon_tit a{
+    display: block;
+    color: #222222;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 400;
+    font-size: 0;
+    text-align: right;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+.boon_tit i{
+    display: block;
+    color: #222222;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 400;
+    font-size: 35px;
+    text-align: right;
+}
+
+/*슬라이더 css*/
+.slider{
+    position: relative;
+    width: 934px;
+    height: 325px;
+    margin: 0 auto;
+    /*border: 1px solid #3d008c;*/
+    overflow: hidden;
+}
+.slider_tit{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    overflow: hidden;
+    opacity: 1;
+}
+.slider_img{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 300px;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.slider_btn{
+    position: absolute;
+    left: 0;
+    bottom: 42px;
+    z-index: 2;
+}
+.slider_btn .page{
+    float: left;
+    width: 190px;
+    height: 2px;
+    margin-top: 5px;
+    background-color: #ebebeb;
+}
+
+.slider_btn .page .on{
+    display: block;
+    float: left;
+    width: 25%;
+    height: 100%;
+    box-sizing: border-box;
+    background-color: #503396;
+}
+.slider_btn .page .off{
+    display: block;
+    float: left;
+    width: 25%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.util{
+    display: block;
+    unicode-bidi: isolate;
+    float: left;
+    padding: 0 10px 0 15px;
+    box-sizing: border-box;
+}
+.util .btn-prev, .btn-next{
+    display: block;
+    width: 7px;
+    float: left;
+    height: 12px;
+    margin-left: 8px;
+    padding: 0;
+    border: 0;
+    font-size: 0;
+    line-height: 0;
+    background-color: transparent;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url("https://www.megabox.co.kr/static/pc/images/main/btn-benefit-slider-prev.png");
+    cursor: pointer;
+    letter-spacing: -.5px;
+    font-weight: 400;
+    font-family: 'Noto Sans KR', 돋움, serif;
+    text-transform: none;
+    overflow: visible;
+    box-sizing: border-box;
+}
+.util .btn-next{
+      background-image: url("https://www.megabox.co.kr/static/pc/images/main/btn-benefit-slider-next.png");
+ }
+.btn-pause{
+    display: none;
+    width: 6px;
+    background-image: url("https://www.megabox.co.kr/static/pc/images/main/btn-benefit-slider-pause.png");
+    float: left;
+    height: 12px;
+    margin-left: 8px;
+    padding: 0;
+    border: 0;
+    font-size: 0;
+    line-height: 0;
+    background-color: transparent;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    letter-spacing: -.5px;
+    font-weight: 400;
+    font-family: 'Noto Sans KR', 돋움 serif;
+    text-transform: none;
+    overflow: visible;
+    box-sizing: border-box;
+}
+.btn-play{
+    display: block;
+    width: 6px;
+    background-image: url("https://www.megabox.co.kr/static/pc/images/main/btn-benefit-slider-play.png");
+    float: left;
+    height: 12px;
+    margin-left: 8px;
+    padding: 0;
+    border: 0;
+    font-size: 0;
+    line-height: 0;
+    background-color: transparent;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    letter-spacing: -.5px;
+    font-weight: 400;
+    font-family: 'Noto Sans KR', 돋움 serif;
+    text-transform: none;
+    overflow: visible;
+    box-sizing: border-box;
+}
+
+.count{
+    display: block;
+    float: left;
+    line-height: 14px;
+    box-sizing: border-box;
+    unicode-bidi: isolate;
+}
+
+.menu_link_bg{
+    width: 100%;
+    background-color: #503396;
+}
+
+.menu-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 1000px;
+    height: 332px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: 0;
+    font-size: 15px;
+    color: #fff;
+    font-weight: 400;
+    font-family: 'Noto Sans KR', 돋움, serif;
+    letter-spacing: 0;
+    line-height: 1.5;
+}
+
+.menu-link .cell {
+    width: 20%;
+    text-align: center;
+    /* 혹시 border가 있는 경우 아래 한 줄 추가 */
+    border-left: none;
+}
+
+/* 만약 .cell 전부에 기본적 보더가 있고, VIP만 없애고 싶을 때 */
+.menu-link .cell.vip {
+    border-left: none !important;
+}
+
+.menu-link a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    color: #fff !important;
+    text-decoration: none;
+    background-repeat: no-repeat;
+    background-position: center 20px;
+    background-size: auto 50px;  /* 모든 아이콘 높이 50px로 통일 */
+    font-size: 17px;
+    font-weight: 500;
+    padding: 80px 0 0 0;
+}
+
+.menu-link .vip a {
+    background-image: url(../images/ico/ico-vip-main.png);
+}
+.menu-link .membership a {
+    background-image: url(../images/ico/ico-membership-main.png);
+}
+.menu-link .card a {
+    background-image: url(../images/ico/ico-card-main.png);
+}
+.menu-link .event a {
+    background-image: url(../images/ico/ico-event-main.png);
+}
+.menu-link .store a {
+    background-image: url(../images/ico/ico-store-main.png);
+}
+
+#Curation{
+    display: block;
+    height: 840px;
+    background-color: #252451;
+}
+.info p{
+
+    color: #ffffff !important;
+}
+
+
+
+
+
+#imformation{
+    font-size: 50px;
+    text-align: center;
+    font-weight: bold;
+    height:600px;
+    background-color: #ffffff;
+
+}
+
+/* ================= 푸터 ================= */
+footer {
+    background-color: #f8f8fa;
+    color: #666666;
+    height: 200px;
+    line-height: 1.5;
+    padding: 20px 40px;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+#footer-top ul {
+    display: flex;
+    width: 1100px;
+    gap: 20px;
+    padding: 20px;
+    margin:0 auto;
+}
+#footer-top ul li a {
+    font: 12px "Noto Sans KR", sans-serif;
+    color: #666666;
+}
+#footer-top ul li:nth-child(6) a, #footer-top ul li:nth-child(7) a {
+    font: bold 12px "Noto Sans KR", sans-serif;
+    color: #222222;
+}
+#footer-top ul li a:hover {
+    text-decoration: underline;
+}
+#footer-bottom {
+    width: 1100px;
+    margin:0 auto;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.footer-logo img {
+    height: 40px;
+    vertical-align: middle;
+}
+.footer-logo p {
+    display: inline-block;
+    margin-left: 10px;
+    font-weight: bold;
+    color: #999;
+}
+address {
+    font : 12px "Noto Sans KR", sans-serif;
+    color: #444444;
+    max-width: 700px;
+    margin: 10px 0;
+}
+.footer-social a {
+    margin-left: 15px;
+    color: #777;
+    font-size: 24px;
+    transition: color 0.3s;
+}
+.footer-social a:hover {
+    color: #e50914;
+}
