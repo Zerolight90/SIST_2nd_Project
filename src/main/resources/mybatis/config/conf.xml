@@ -9,7 +9,11 @@
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                 <property name="url" value="jdbc:mysql://localhost:3306/movie_jh"/>
+=======
+                <property name="url" value="jdbc:mysql://localhost:3306/my_db"/>
+>>>>>>> Stashed changes
 =======
                 <property name="url" value="jdbc:mysql://localhost:3306/my_db"/>
 >>>>>>> Stashed changes
@@ -20,8 +24,12 @@
     </environments>
     <mappers>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         <mapper resource="mybatis/mapper/Movie.xml"/>
         <mapper resource="mybatis/mapper/payment.xml"/>
+=======
+        <mapper resource="mapper/ex.xml"/>
+>>>>>>> Stashed changes
 =======
         <mapper resource="mapper/ex.xml"/>
 >>>>>>> Stashed changes

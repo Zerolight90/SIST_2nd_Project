@@ -4,6 +4,7 @@
 <html>
 <head>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <meta charset="UTF-8">
     <title>SIST BOX 쌍용박스</title>
     <link rel="stylesheet" href="./CSS/style.css">
@@ -36,6 +37,14 @@
 
 <jsp:include page="jsp/Footer.jsp"/>
 
+=======
+  <meta charset="UTF-8">
+  <title>메인 페이지</title>
+</head>
+<body>
+<h1>애플리케이션 시작</h1>
+<a href="Controller?type=index">컨트롤러로 이동하기</a>
+>>>>>>> Stashed changes
 =======
   <meta charset="UTF-8">
   <title>메인 페이지</title>
