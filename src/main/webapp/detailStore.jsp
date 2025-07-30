@@ -31,7 +31,7 @@
     </div>
   </div>
 
-  <div id="contents" style="width: 1100px; height: 440px; margin: auto;">
+  <div id="contents" style="width: 1100px; margin: auto;">
     <div>
       <h2 style="padding: 10px">일반 관람권</h2>
     </div>
@@ -41,7 +41,7 @@
     <div style="height: 330px; border-top: 1px solid #999999; border-bottom: 1px solid #999999; display: flex">
       <div style="width: 440px; display: inline-block; border-right: 1px solid #999999">
         <p>
-          <img src="./images/normalTicket.png" alt=""/>
+          <img src="./images/normalTicket.png" alt="" style="margin-top: 25px; margin-left: 70px"/>
         </p>
       </div>
 
@@ -73,11 +73,11 @@
             <p>구매일로부터 10일 이내 취소 가능하며, 부분취소는 불가능합니다.</p>
           </div>
         </div>
-        <div class="dsp" id="price" style="display: flex; border-top: 1px solid #ebebeb; border-bottom: 1px solid #ebebeb">
+        <div id="price" style="margin-top: 10px; display: flex; border-top: 1px solid #ebebeb; border-bottom: 1px solid #ebebeb">
           <p style="text-align: center; line-height: 40px;"><span>수량 / 금액</span></p>
           <div style="text-align: center; line-height: 40px; margin-left: 30px">
             <button type="button">-</button>
-            <input type="text" value="1" style="width: 25px; text-align: center"/>
+            <input type="text" value="1" style="width: 25px; text-align: center" disabled/>
             <button type="button">+</button>
           </div>
           <div style="width: 70px; margin-left: 350px; display: flex; font-size: 25px">
@@ -91,8 +91,23 @@
         </div>
       </div>
 
+    </div>
 
-
+    <div style="margin-top: 20px">
+      <div style="border: 1px solid #ebebeb">
+        <a href="#" style="font-size: 16px">
+          구매 후 취소
+          <span>▼</span>
+        </a>
+      </div>
+    </div>
+    <div>
+      <div style="border: 1px solid #ebebeb">
+        <a href="#" style="font-size: 16px">
+          구매 후 취소
+          <span>▼</span>
+        </a>
+      </div>
     </div>
 
   </div>
