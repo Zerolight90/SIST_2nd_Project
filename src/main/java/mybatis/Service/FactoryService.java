@@ -9,13 +9,18 @@ import java.io.Reader;
 public class FactoryService {
     private static SqlSessionFactory factory;
 
-    static{
+    static {
         try {
-            Reader reader = Resources.getResourceAsReader("mybatis/config/conf.xml");
-            factory = new SqlSessionFactoryBuilder().build(reader);
-
-        }catch (Exception e){
+            Reader r = Resources.getResourceAsReader(
+                    "mybatis/config/conf.xml");
+            factory = new SqlSessionFactoryBuilder().build(r);
+            r.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static SqlSessionFactory getFactory(){
+        return factory;
     }
 }
