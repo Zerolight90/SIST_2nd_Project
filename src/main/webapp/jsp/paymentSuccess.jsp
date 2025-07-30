@@ -127,7 +127,7 @@
             </div>
           </c:when>
           <c:otherwise>
-            <h1>구매 완료</h1>
+            <h1>구매 완료 </h1>
             <div class="store-card">
               <img src="${pageContext.request.contextPath}/images/store/sistboxcombo.png" alt="상품 이미지" class="poster">
               <div class="store-details">

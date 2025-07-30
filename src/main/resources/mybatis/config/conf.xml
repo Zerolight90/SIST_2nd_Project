@@ -8,14 +8,22 @@
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+<<<<<<< Updated upstream
                 <property name="url" value="jdbc:mysql://localhost:3306/movie_jh"/>
+=======
+                <property name="url" value="jdbc:mysql://localhost:3306/my_db"/>
+>>>>>>> Stashed changes
                 <property name="username" value="root"/>
                 <property name="password" value="1111"/>
             </dataSource>
         </environment>
     </environments>
     <mappers>
+<<<<<<< Updated upstream
         <mapper resource="mybatis/mapper/Movie.xml"/>
         <mapper resource="mybatis/mapper/payment.xml"/>
+=======
+        <mapper resource="mapper/ex.xml"/>
+>>>>>>> Stashed changes
     </mappers>
 </configuration>
