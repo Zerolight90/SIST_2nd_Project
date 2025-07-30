@@ -36,7 +36,7 @@
   </div>
 
   <div class="ec-base-tab typeLight">
-    <ul class="menu">
+    <ul class="menu" style="font-size: 16px;">
       <li class="selected"><a href="#none">새로운 상품</a></li>
       <li><a href="#none">메가티켓</a></li>
       <li><a href="#none">팝콘 / 음료 / 굿즈</a></li>
@@ -47,7 +47,7 @@
   <div class="ec-base-tab typeLight eTab">
     <div id="tabCont1_1" class="tabCont" style="display:block;">
       <div style="width: 1100px; margin-top: 10px; display: flex">
-        <a href="">
+        <a href="" style="margin-top: 30px">
           <div>
             <p style="font-weight: bold; font-size: 24px; color: #3d008c">
               소중한 분들과 함께
@@ -56,7 +56,7 @@
               즐거운 관람 되세요~
             </p>
           </div>
-          <div style="margin-top: 15px">
+          <div style="margin-top: 45px; font-size: 16px">
             <p>
               러브콤보패키지
             </p>
@@ -64,19 +64,18 @@
               2인관람권 + 러브콤보 [팝콘(L)1 + 탄산음료(R)2]
             </p>
           </div>
-          <div style="margin-top: 15px">
-            <p>
-              34,000원
-            </p>
+          <div style="margin-top: 15px; font-size: 16px; display: flex">
+            <p style="width: 70px; font-weight: bold; color: #3d008c">34,000<span>원</span></p>
+            <p style="width: 70px; text-decoration: line-through">41,900<span>원</span></p>
           </div>
         </a>
-        <p class="img">
+        <p class="img" style="margin-left: 10px">
           <img src="./images/loveCombo.png" alt=""/>
         </p>
       </div>
 
-      <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
-        <h3>메가티켓</h3>
+      <div style="margin-top: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+        <h3 style="font-weight: bold; font-size: 24px; color: #3d008c">메가티켓</h3>
 
         <div>
           <a href="" title="더보기">더보기 ></a>
@@ -85,14 +84,24 @@
 
       <div>
         <ul>
-          <li>
+          <li style="width: 243px; height: 433px; border: 1px solid #ebebeb; border-radius: 10px">
             <a href="">
-              <div>
-                <img src="./images/normalTicket.png" alt=""/>
+              <div class="prodTop">
+                <img src="./images/normalTicket.png" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
               </div>
-              <div>
-                <div></div>
-                <div></div>
+              <div class="prodBottom">
+                <div style="padding-top: 15px">
+                  <p class="storeCardText" style="margin-left: 20px; margin-bottom: 10px; height: 39px; font-size: 16px; font-weight: bold">일반 관람권</p>
+                  <p class="storeCardText" style="margin-left: 20px;">일반 관람권</p>
+                  <p class="storeCardText" style="width: 200px; border-bottom: 2px solid #ebebeb; padding-top: 20px; margin-left: 20px"></p>
+                </div>
+                <div class="price" style="margin-left: 20px; margin-top: 6px; font-size: 20px">
+                  <p style="text-decoration: line-through">15,000원</p>
+                  <p style="font-weight: bold; color: #3d008c">
+                    <span>14,000</span>
+                    <span>원</span>
+                  </p>
+                </div>
               </div>
             </a>
           </li>
@@ -122,15 +131,75 @@
     </div>
 
     <div id="tabCont1_2" class="tabCont" style="display:none;">
-      탭 버튼2 내용영역입니다.
+      <div>
+        <ul>
+          <li style="width: 243px; height: 433px; border: 1px solid #ebebeb; border-radius: 10px">
+            <a href="">
+              <div class="prodTop">
+                <img src="./images/normalTicket.png" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
+              </div>
+              <div class="prodBottom">
+                <div style="padding-top: 20px">
+                  <p style="margin-left: 20px; margin-bottom: 10px; height: 39px; font-size: 16px; font-weight: bold">일반 관람권</p>
+                  <p style="margin-left: 20px;">일반 관람권</p>
+                  <p style="width: 200px; border-bottom: 2px solid #ebebeb; padding-top: 30px; margin-left: 20px"></p>
+                </div>
+                <div class="price">
+
+                </div>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
 
     <div id="tabCont1_3" class="tabCont" style="display:none;">
-      탭 버튼3 내용영역입니다.
+      <div>
+        <ul>
+          <li style="width: 243px; height: 433px; border: 1px solid #ebebeb; border-radius: 10px">
+            <a href="">
+              <div class="prodTop">
+                <img src="./images/normalTicket.png" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
+              </div>
+              <div class="prodBottom">
+                <div style="padding-top: 20px">
+                  <p style="margin-left: 20px; margin-bottom: 10px; height: 39px; font-size: 16px; font-weight: bold">일반 관람권</p>
+                  <p style="margin-left: 20px;">일반 관람권</p>
+                  <p style="width: 200px; border-bottom: 2px solid #ebebeb; padding-top: 30px; margin-left: 20px"></p>
+                </div>
+                <div class="price">
+
+                </div>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
 
     <div id="tabCont1_4" class="tabCont" style="display:none;">
-      탭 버튼4 내용영역입니다.
+      <div>
+        <ul>
+          <li style="width: 243px; height: 433px; border: 1px solid #ebebeb; border-radius: 10px">
+            <a href="">
+              <div class="prodTop">
+                <img src="./images/normalTicket.png" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
+              </div>
+              <div class="prodBottom">
+                <div style="padding-top: 20px">
+                  <p style="margin-left: 20px; margin-bottom: 10px; height: 39px; font-size: 16px; font-weight: bold">일반 관람권</p>
+                  <p style="margin-left: 20px;">일반 관람권</p>
+                  <p style="width: 200px; border-bottom: 2px solid #ebebeb; padding-top: 30px; margin-left: 20px"></p>
+                </div>
+                <div class="price">
+
+                </div>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 

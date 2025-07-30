@@ -18,6 +18,18 @@
 
 }
 
+.storeCardText{
+    margin-left: 20px;
+}
+
+.detailStore {
+    width: 1100px;
+}
+
+.dsp {
+    padding-top: 15px;
+}
+
 .ec-base-tab {
     position:relative;
     display: flex;
