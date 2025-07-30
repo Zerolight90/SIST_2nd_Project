@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,6 +22,7 @@
         <h1 class="title">빠른예매</h1>
     </div>
 
+    <!-- 변수 생성 -->
     <div class="booking-section">
         <div class="seat-area">
             <div class="controls">
@@ -62,8 +65,9 @@
                 <button class="reset-btn" onclick="resetAll()">초기화</button>
             </div>
 
+            <!-- 스크린 이미지 영역 -->
             <div class="screen-area">
-                <div class="screen">SCREEN</div>
+                <div><img src="https://www.megabox.co.kr/static/pc/images/reserve/img-theater-screen.png" alt="스크린 이미지"></div>
             </div>
 
             <div class="seat-map" id="seat-map">
@@ -107,15 +111,28 @@
                 </div>
 
                 <div class="price-section">
+                    <div id="total_person">총 인원:</div>
                     <div class="total-price" id="total-price">0 원</div>
                     <div class="price-detail">최종 결제금액</div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="payment-section">
+        <button onclick="goPay()" class="payment-btn">결제하기</button>
+    </div>
 </div>
 
 <script>
+    function goPay() {
+        location.href = "pay.jsp";
+    }
+    // 값을 사용하기 위한 멤버변수 선언
+    let adult = document.getElementById('adult-count');
+    let teen = document.getElementById('teen-count');
+    let senior = document.getElementById('senior-count');
+    let special = document.getElementById('special-count');
+
     // 좌석 데이터
     const seatData = {
         adult: 0,
@@ -199,32 +216,35 @@
     }
 
     // 인원 수 변경
-    function changeCount(type, delta) {
-        const currentCount = seatData[type];
+    function changeCount(type, delta) { <!-- 만약 adult, 1 이 들어오면 -->
+        const currentCount = seatData[type]; <!-- seat[type]의  -->
         const newCount = Math.max(0, Math.min(8, currentCount + delta));
 
         seatData[type] = newCount;
 
 // DOM 요소를 확실하게 찾아서 업데이트
-        const countElement = document.getElementById(`${type}-count`);
-        if (countElement) {
-            countElement.innerHTML = newCount;
-            countElement.innerText = newCount;
-        }
+        if(type == 'adult')
+            adult.innerText = newCount;
+        if(type == 'teen')
+            teen.innerText = newCount;
+        if(type == 'senior')
+            senior.innerText = newCount;
+        if(type == 'special')
+            special.innerText = newCount;
 
-// 추가 보험: querySelector로도 시도
-        const countSpan = document.querySelector(`#${type}-count`);
-        if (countSpan) {
-            countSpan.innerHTML = newCount;
-        }
-
+        <%--const countElement = document.getElementById(`${type}-count`);--%>
+        <%--if (countElement) {--%>
+        <%--    countElement.innerHTML = newCount;--%>
+        <%--    countElement.innerText = newCount;--%>
         updateTotalPersons();
         updatePrice();
     }
 
     // 총 인원 수 업데이트
     function updateTotalPersons() {
-        totalPersons = Object.values(seatData).reduce((sum, count) => sum + count, 0);
+        totalPersons = Number(adult.innerText) + Number(teen.innerText) + Number(senior.innerText) + Number(special.innerText); // 사용자가 추가한 모든 인원의 총 합을 totalPersons 에 담음
+        let tperson = document.getElementById('total_person');
+        tperson.innerText = '총 인원:' + totalPersons;
 
 // 선택된 좌석이 총 인원보다 많으면 초과분 제거
         if (selectedSeats.length > totalPersons) {
@@ -254,7 +274,7 @@
                 seat.classList.add('selected');
                 selectedSeats.push(seatId);
             } else {
-                alert(`최대 ${totalPersons}개의 좌석만 선택할 수 있습니다.`);
+                alert('최대' + totalPersons + '개의 좌석만 선택할 수 있습니다.');
                 return;
             }
         }
