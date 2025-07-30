@@ -1,3 +1,4 @@
+<%@ page import="util.Paging" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -86,10 +87,10 @@
     <thead>
     <tr class="title">
       <th class="no">번호</th>
-      <th class="subject">제목</th>
-      <th class="writer">글쓴이</th>
-      <th class="reg">날짜</th>
-      <th class="hit">조회수</th>
+      <th class="name">이름</th>
+      <th class="id">아이디</th>
+      <th class="birth">생년월일</th>
+      <th class="gen">성별</th>
     </tr>
     </thead>
 
