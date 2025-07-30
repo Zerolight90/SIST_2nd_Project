@@ -1,88 +1,146 @@
 @charset "UTF-8";
 
 body {
-    background-color: #F4F4F4;
+    background-color: #F8F9FA;
 }
 
 .confirmation_container {
-    width: 1100px;
+    width: 1000px;
     margin: 50px auto;
-    padding: 40px;
+    padding: 0;
 }
 
 .confirmation_container h1 {
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 700;
-    margin-bottom: 30px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #DDD;
+    margin-bottom: 25px;
+    padding-bottom: 25px;
+    border-bottom: 2px solid #333;
 }
 
+/* 1. [수정] 메인 정보 박스 */
 .confirmation_box {
     display: flex;
-    background-color: #2b2e3a;
     color: #fff;
-    padding: 40px;
     border-radius: 10px;
-    gap: 40px;
-    align-items: center;
+    position: relative;
+    align-items: stretch; /* 자식 높이 맞춤 */
 }
 
-/* 왼쪽 포스터 영역 */
+/* 2. [수정 없음] 왼쪽에만 반원 구멍 효과 */
+.confirmation_box::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -15px;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #F8F9FA;
+}
+
+/* 3. [추가] 왼쪽 티켓 영역을 감싸는 div */
+.ticket_area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 4. [수정] 왼쪽 티켓 정보 스타일 */
 .ticket_info {
-    text-align: center;
+    flex: 1; /* 높이 자동 확장 */
+    width: 200px;
+    padding: 30px;
+    background-color: #495057;
+    border-right: 2px dashed #6C757D;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 
-.ticket_info .poster {
-    width: 200px;
-    height: auto;
-    border-radius: 5px;
-    display: block;
+/* 5. [수정] 오른쪽 예매 상세 내역 */
+.booking_details {
+    width: 800px;
+    padding: 30px 40px;
+    background-color: #343A40;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 .ticket_info .ticket_label {
-    margin-top: -30px;
-    position: relative;
-    background-color: #503396;
-    padding: 10px;
-    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center; /* 텍스트 가운데 정렬 추가 */
 }
 
+/* 6. 티켓 정보 및 예매 내역 내부 스타일 */
 .ticket_info .ticket_label p {
-    font-size: 14px;
-    margin: 0;
+    font-size: 13px;
+    color: #CED4DA;
+    margin: 0 0 4px 0;
 }
 
 .ticket_info .ticket_number {
     font-size: 18px;
     font-weight: bold;
+    color: #FFF;
 }
 
-/* 오른쪽 예매 상세 내역 */
-.booking_details {
-    flex: 1;
+.poster_placeholder {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    border: 1px solid #6C757D;
+    border-radius: 5px;
+    background-color: #343A40;
+    margin-top: 20px;
+}
+
+.poster_placeholder .icon {
+    font-size: 20px;
+    color: #ADB5BD;
+}
+
+.poster_placeholder .text {
+    font-size: 14px;
+    color: #CED4DA;
+}
+
+.ticket_info .poster {
+    width: 180px;
+    height: auto;
+    border-radius: 5px;
+    display: block;
+    margin: 0 auto;
+}
+
+.ticket_info .poster_title {
+    text-align: center;
+    font-weight: bold;
+    color: #FFF;
+    font-size: 16px;
+    margin-top: 20px;
 }
 
 .booking_details h2 {
     font-size: 24px;
     font-weight: bold;
-    color: #503396; /* 포인트 컬러 */
+    color: #FFF;
     margin-bottom: 20px;
 }
 
 .details_table {
     width: 100%;
+    font-size: 15px;
 }
 
 .details_table td {
-    padding: 8px 0;
-    font-size: 16px;
-    vertical-align: top;
+    padding: 10px 0;
 }
 
 .details_table .label {
     width: 120px;
-    color: #AAA;
+    color: #ADB5BD;
 }
 
 .details_table .value {
@@ -90,8 +148,9 @@ body {
     font-weight: 600;
 }
 
-
-/* 예매내역 버튼 */
+/* ============================
+   하단 버튼 및 기타 (수정 없음)
+============================ */
 .button_container {
     text-align: center;
     margin-top: 40px;
@@ -100,7 +159,7 @@ body {
 .btn_history {
     padding: 12px 60px;
     font-size: 16px;
-    border: 1px solid #555;
+    border: 1px solid #86B7FE;
     background-color: #FFF;
     color: #333;
     border-radius: 5px;
@@ -111,22 +170,10 @@ body {
 
 .btn_history:hover {
     background-color: #f0f0f0;
-    border-color: #333;
 }
 
-
-/* 하단 상영 안내 */
 .screening_guide {
     margin-top: 40px;
     padding-top: 20px;
     border-top: 1px solid #DDD;
-}
-
-.screening_guide h3 {
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-.screening_guide p {
-    color: #555;
-    font-size: 14px;
 }

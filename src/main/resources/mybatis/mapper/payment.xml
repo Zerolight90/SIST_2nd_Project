@@ -4,8 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="payment">
-    <insert id="addPayment" parameterType="mybatis.vo.PaymentVO">
-        INSERT INTO Payment
+
+    <resultMap id="paymentResultMap" type="mybatis.vo.PaymentVO" autoMapping="true">
+        <id property="paymentIdx" column="paymentIdx"/>
+    </resultMap>
+
+    <insert id="addPayment" parameterType="mybatis.vo.PaymentVO" useGeneratedKeys="true" keyProperty="paymentIdx">
+        INSERT INTO payment
         (
             userIdx, reservationIdx, productIdx, orderId, paymentTransactionId,
             paymentQuantity, paymentMethod, paymentTotal, paymentDiscount, paymentFinal,
@@ -15,11 +20,12 @@
             (
                 #{userIdx}, #{reservationIdx}, #{productIdx}, #{orderId}, #{paymentTransactionId},
                 #{paymentQuantity}, #{paymentMethod}, #{paymentTotal}, #{paymentDiscount}, #{paymentFinal},
-                #{paymentType},    0,                 NOW()              )
+                #{paymentType}, 0, NOW()
+            )
     </insert>
 
     <update id="updatePaymentStatusAndCancelDate" parameterType="map">
-        UPDATE Payment
+        UPDATE payment
         SET
             paymentStatus = #{paymentStatus},       -- 0: 완료, 1: 취소
             paymentCancelDate = #{paymentCancelDate}
@@ -27,21 +33,15 @@
             paymentTransactionId = #{paymentKey}    -- 토스 API 거래 ID
     </update>
 
-    <select id="getAllPayments" resultType="mybatis.vo.PaymentVO">
-        SELECT
-            paymentIdx, paymentType, userIdx, reservationIdx, productIdx, orderId, paymentTransactionId,
-            paymentQuantity, paymentMethod, paymentTotal, paymentDiscount, paymentFinal,
-            paymentStatus, paymentDate, paymentCancelDate
-        FROM Payment
+    <select id="getAllPayments" resultMap="paymentResultMap">
+        SELECT *
+        FROM payment
         ORDER BY paymentDate DESC
     </select>
 
-    <select id="getPaymentsByUserIdx" parameterType="long" resultType="mybatis.vo.PaymentVO">
-        SELECT
-            paymentIdx, paymentType, userIdx, reservationIdx, productIdx, orderId, paymentTransactionId,
-            paymentQuantity, paymentMethod, paymentTotal, paymentDiscount, paymentFinal,
-            paymentStatus, paymentDate, paymentCancelDate
-        FROM Payment
+    <select id="getPaymentsByUserIdx" parameterType="long" resultMap="paymentResultMap">
+        SELECT *
+        FROM payment
         WHERE userIdx = #{userIdx}
         ORDER BY paymentDate DESC
     </select>
