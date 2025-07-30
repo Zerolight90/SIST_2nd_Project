@@ -1,0 +1,349 @@
+@charset "UTF-8";
+
+/*이너 선 스타일(확인용)*/
+.inner-wrap{
+    width: 1100px;
+    margin: 0 auto;
+    border: 1px solid darkblue;
+}
+
+
+/***********제목 시작***********/
+#theaterInfo .all-theater {
+    color:#222222;
+}
+
+#theaterInfo .theater,
+#theaterDetails .theater,
+#theaterPriceInfo .theater{
+    color:#503396;
+}
+
+.notice-title{
+    display: inline-block;
+}
+
+.event-title{
+    display: inline-block;
+
+}
+
+.more{
+    float: right;
+}
+
+.m70{
+    margin-top: 70px !important;
+}
+
+.m50{
+    margin-top: 50px !important;
+}
+
+.m30{
+    margin-top: 30px !important;
+}
+
+.m15{
+    margin-bottom: 15px !important;
+}
+
+.table-wrap {
+    margin-top: 20px;
+}
+
+#theaterDetails .big {
+    padding: 0 0 20px 0;
+    font-size: 1.8666em;
+}
+
+h3.small-tit {
+    padding: 0 0 10px 0;
+    font-size: 1.2em;
+    color: #222;
+}
+
+.aqua{
+    color: #01738b;
+}
+
+/***********제목 끝***********/
+
+
+/**********극장 리스트 시작*********/
+
+/*극장 리스트 탭 스타일*/
+/*.ec-base-tab .menu {
+    display: flex;
+    list-style: none;
+    border-bottom: 1px solid #ddd;
+    padding-left: 0;
+}
+
+.ec-base-tab .menu li {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.ec-base-tab .menu li.selected {
+    background-color: #eee;
+    font-weight: bold;
+}
+
+.tabCont ul {
+    margin: 10px 0;
+    padding-left: 20px;
+    list-style: disc;
+}
+
+!*좋아하는 극장*!
+.favorite-box {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+!*로그인 버튼*!
+.login-btn {
+    border: 1px solid #8c65c9;
+    background: #fff;
+    color: #8c65c9;
+    padding: 5px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}*/
+/**********극장 리스트 끝************/
+
+
+
+/*******이벤트 시작*********/
+
+/*이벤트 이미지 스타일*/
+#event_img img{
+    border-radius: 10px;
+    width: 535px;
+    height: 250px;
+}
+
+#event_img #img2{
+    margin-left: 30px;
+}
+
+/********이벤트 끝*********/
+
+/***********공지사항 테이블 시작*********/
+/* 테이블 래퍼 */
+.table-wrap {
+    width: 100%;
+    margin: 20px 0;
+    /*font-family: 'Noto Sans KR', sans-serif;*/
+    font-size: 14px;
+}
+
+/* 테이블 기본 스타일 */
+.notice-board {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 2px solid #333;
+}
+
+.notice-board th,
+.notice-board td {
+    padding: 12px 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+/* 헤더 스타일 */
+.notice-board thead th {
+    background-color: #f8f8f8;
+    color: #333;
+    font-weight: bold;
+}
+
+/* 링크 스타일 */
+.notice-board td a {
+    color: #333;
+    text-decoration: none;
+}
+
+/*테이블 제목 스타일*/
+.notice-board td a:hover {
+    text-decoration: underline;
+    color: purple; /* 링크에 호버시 색상 변화 */
+}
+
+/* 줄 간격 조정 */
+.notice-board tbody tr:hover {
+    background-color: #f2f2f2;
+}
+
+/******공지사항 테이블 끝*******/
+
+
+/*제목, 더보기*/
+
+.header_wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 1000px;
+    margin-bottom: 20px;
+}
+
+.notice-title.notice {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+
+.more.notice a:hover {
+    text-decoration: underline;
+}
+
+/*****************탭 시작****************/
+.ec-base-tab {
+    border: 5px solid gray;   /* 빨간 네모 테두리 */
+    border-radius: 10px;
+    width: 100%;        /* 영역 폭 제한 (선택사항) */
+    height: 240px;
+    margin: 20px auto;       /* 중앙 정렬 */
+    box-sizing: border-box;
+}
+
+/*****************탭 끝****************/
+
+
+
+.icon {
+    width: 111px;
+    height: 111px;
+    background-image: url("https://img.megabox.co.kr/static/pc/images/common/ico/ico-facility-theater.png");
+}
+
+
+
+
+
+/*
+*/
+
+
+.collapsible {
+    background-color: #777;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+}
+.active,
+.collapsible:hover {
+    /*background-color: #555;*/
+    cursor: pointer;
+}
+.content {
+    padding: 0 18px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    background-color: #f1f1f1;
+}
+.collapsible:after {
+    content: '\002B';
+    color: white;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+}
+.active:after {
+    content: "\2212";
+}
+
+
+
+
+
+
+/*공지*/
+
+/* 전체 공지사항 박스 */
+.theater-notice-info {
+    border: 1px solid red;
+    width: 100%;
+    /*padding: 20px;*/
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 30px auto;
+}
+
+/*!* "공지사항" 타이틀 *!
+.th-title.notice {
+    font-size: 24px;
+    font-weight: bold;
+    color: #3b2e84;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}*/
+
+/* 공지사항 버튼 스타일 */
+.collapsible {
+    width: 100%;
+    background-color: #f9f9f9;
+    border: none;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 15px 20px;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: default; /* 클릭 없음 */
+}
+
+/* 제목 텍스트 (좌측) */
+.notice-tit{
+    border-top: 2px solid gray;
+}
+
+/* 제목 텍스트 (좌측) */
+.notice-tit-list {
+    flex: 1;
+    font-weight: bold;
+    color: #333;
+}
+
+/* 지역 (중앙) */
+.notice-area {
+    width: 100px;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+}
+
+/* 날짜 (우측) */
+.notice-date {
+    width: 120px;
+    text-align: right;
+    font-size: 14px;
+    color: #999;
+}
+
+/* 공지 상세 내용 */
+.content {
+    background-color: #f1f1f1;
+    /*padding: 15px 20px;*/
+    border-bottom: 1px solid #ccc;
+    font-size: 15px;
+    line-height: 1.5;
+}
