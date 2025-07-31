@@ -23,7 +23,34 @@
       </div>
       <div class="adminContent">
           <div>
-              <strong>콘텐츠 영역</strong>
+              <div>
+                  <h2>회원 목록</h2>
+              </div>
+              <div>
+                  <div>전체 130건</div>
+                  <div></div>
+              </div>
+              <div>
+                  <table>
+                      <caption></caption>
+                      <tbody>
+                        <tr>
+                            <td>번호</td>
+                            <td>이름</td>
+                            <td>아이디</td>
+                            <td>이메일</td>
+                            <td>전화번호</td>
+                            <td>보유 포인트</td>
+                            <td>등급</td>
+                            <td>상태</td>
+                        </tr>
+                        <tr>
+
+                        </tr>
+                      </tbody>
+                  </table>
+              </div>
+              <div></div>
           </div>
       </div>
   </div>
