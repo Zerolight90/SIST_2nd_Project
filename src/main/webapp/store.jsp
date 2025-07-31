@@ -65,8 +65,8 @@
             </p>
           </div>
           <div style="margin-top: 15px; font-size: 16px; display: flex">
-            <p style="width: 70px; font-weight: bold; color: #3d008c">34,000<span>원</span></p>
-            <p style="width: 70px; text-decoration: line-through">41,900<span>원</span></p>
+            <p style="width: 100px; font-weight: bold; font-size: 20px; color: #3d008c">34,000<span>원</span></p>
+            <p style="width: 70px; text-decoration: line-through; margin-left: 5px">41,900<span>원</span></p>
           </div>
         </a>
         <p class="img" style="margin-left: 10px">
