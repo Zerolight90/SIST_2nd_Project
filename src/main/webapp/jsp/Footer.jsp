@@ -40,4 +40,25 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // 로고 3번 클릭하면 admin page 이동
+        let clickCount = 0;
+        let clickTimer = null;
+
+        $('.footer-logo').on('click', function() {
+            clickCount += 1;
+
+            if(clickCount === 3) {
+                window.open('adminBase.jsp', '_blank'); // 새 창 또는 새 탭에서 이동((57)) ((355))
+                clickCount = 0; // 클릭 카운트 초기화
+                clearTimeout(clickTimer);
+                return;
+            }
+            clearTimeout(clickTimer);
+            clickTimer = setTimeout(function() {
+                clickCount = 0;
+            }, 700); // 700ms 안에 3번 클릭 시만 이동((57))
+        });
+    </script>
 </footer>
