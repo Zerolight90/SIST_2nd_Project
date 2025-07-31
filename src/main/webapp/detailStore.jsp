@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="./css/store.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
   <link rel="icon" href="./images/favicon.png">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 </head>
 
 <body>
@@ -31,21 +33,21 @@
     </div>
   </div>
 
-  <div id="contents" style="width: 1100px; height: 440px; margin: auto;">
+  <div id="contents" style="width: 1100px; margin: auto;">
     <div>
       <h2 style="padding: 10px">일반 관람권</h2>
     </div>
     <div>
       <p style="padding: 10px">일반 관람권</p>
     </div>
-    <div style="height: 330px; border-top: 1px solid #999999; border-bottom: 1px solid #999999; display: flex">
+    <div style="border-top: 1px solid #999999; border-bottom: 1px solid #999999; display: flex">
       <div style="width: 440px; display: inline-block; border-right: 1px solid #999999">
         <p>
           <img src="./images/normalTicket.png" alt=""/>
         </p>
       </div>
 
-      <div style="width: 600px; height: 284px; display: inline-block; padding-bottom: 15px; padding-left: 15px">
+      <div style="width: 600px; display: inline-block; padding-bottom: 15px; padding-left: 15px">
         <div class="dsp" id="theater" style="display: flex">
           <p style="width: 80px"><span>사용극장</span></p>
           <div style="padding-left: 32px">
