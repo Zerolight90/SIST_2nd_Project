@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>메가박스 극장 정보</title>
+
+    <!-- 폰트어썸 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+</head>
+<body>
+<div id="contents" class="no-padding">
+    <div class="theater-detail-page">
+        <div class="img" style="border:1px solid red">
+            <h1>백그라운드 이미지</h1>
+        </div>
+        <div class="inner-wrap">
+            <!-- 탭 메뉴 -->
+            <ul class="sub-tab-menu">
+                <li><a href="javascript:void(0);" class="tab-link active" onclick="ex1()">극장정보</a></li>
+                <li><a href="javascript:void(0);" class="tab-link" onclick="ex2()">상영시간표</a></li>
+                <li><a href="javascript:void(0);" class="tab-link" onclick="ex3()">관람료</a></li>
+            </ul>
+
+            <div id="tab1" class="tab-content show"></div>
+            <div id="tab2" class="tab-content"></div>
+            <div id="tab3" class="tab-content"></div>
+        </div>
+
+    </div>
+</div>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script>
+    function ex1() {
+        activateTab(0);
+        $("#tab1").load("theater_info.html");
+    }
+
+    function ex2() {
+        activateTab(1);
+        $("#tab2").load("theater_timetable.html");
+    }
+
+    function ex3() {
+        activateTab(2);
+        $("#tab3").load("theater_price.html");
+    }
+
+    function activateTab(index) {
+        $(".tab-link").removeClass("active");
+        $(".tab-link").eq(index).addClass("active");
+
+        $(".tab-content").removeClass("show");
+        $("#tab" + (index + 1)).addClass("show");
+    }
+
+    $(document).ready(function () {
+        ex1();
+    });
+</script>
+
+</body>
+</html>
