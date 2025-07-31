@@ -943,6 +943,9 @@ header {
 
 /* ================= 푸터 ================= */
 footer {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
     background-color: #f8f8fa;
     color: #666666;
     height: 200px;
