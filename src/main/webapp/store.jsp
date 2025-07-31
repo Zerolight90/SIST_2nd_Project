@@ -45,7 +45,7 @@
   </div>
   <!-- 비동기식 페이지 전환 : 라인형-->
   <div class="ec-base-tab typeLight eTab">
-    <div id="tabCont1_1" class="tabCont" style="display:block;">
+    <div id="tabCont1_1" class="tabCont" style="display:block; margin-bottom: 50px">
       <div style="width: 1100px; margin-top: 10px; display: flex">
         <a href="" style="margin-top: 30px">
           <div>
@@ -65,8 +65,8 @@
             </p>
           </div>
           <div style="margin-top: 15px; font-size: 16px; display: flex">
-            <p style="width: 70px; font-weight: bold; color: #3d008c">34,000<span>원</span></p>
-            <p style="width: 70px; text-decoration: line-through">41,900<span>원</span></p>
+            <p style="width: 100px; font-weight: bold; font-size: 20px; color: #3d008c">34,000<span>원</span></p>
+            <p style="width: 70px; text-decoration: line-through; margin-left: 5px">41,900<span>원</span></p>
           </div>
         </a>
         <p class="img" style="margin-left: 10px">
@@ -108,7 +108,7 @@
         </ul>
       </div>
 
-      <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+      <div style="margin-top: 50px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
         <h3>팝콘 / 음료 / 굿즈</h3>
 
         <div>
@@ -117,10 +117,32 @@
       </div>
 
       <div>
-
+        <ul>
+          <li style="width: 243px; height: 433px; border: 1px solid #ebebeb; border-radius: 10px">
+            <a href="">
+              <div class="prodTop">
+                <img src="./images/normalTicket.png" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
+              </div>
+              <div class="prodBottom">
+                <div style="padding-top: 15px">
+                  <p class="storeCardText" style="margin-left: 20px; margin-bottom: 10px; height: 39px; font-size: 16px; font-weight: bold">일반 관람권</p>
+                  <p class="storeCardText" style="margin-left: 20px;">일반 관람권</p>
+                  <p class="storeCardText" style="width: 200px; border-bottom: 2px solid #ebebeb; padding-top: 20px; margin-left: 20px"></p>
+                </div>
+                <div class="price" style="margin-left: 20px; margin-top: 6px; font-size: 20px">
+                  <p style="text-decoration: line-through">15,000원</p>
+                  <p style="font-weight: bold; color: #3d008c">
+                    <span>14,000</span>
+                    <span>원</span>
+                  </p>
+                </div>
+              </div>
+            </a>
+          </li>
+        </ul>
       </div>
 
-      <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+      <div style="margin-top: 50px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
         <h3>포인트몰</h3>
 
         <div>
@@ -128,9 +150,6 @@
         </div>
       </div>
 
-    </div>
-
-    <div id="tabCont1_2" class="tabCont" style="display:none;">
       <div>
         <ul>
           <li style="width: 243px; height: 433px; border: 1px solid #ebebeb; border-radius: 10px">
@@ -139,13 +158,46 @@
                 <img src="./images/normalTicket.png" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
               </div>
               <div class="prodBottom">
-                <div style="padding-top: 20px">
-                  <p style="margin-left: 20px; margin-bottom: 10px; height: 39px; font-size: 16px; font-weight: bold">일반 관람권</p>
-                  <p style="margin-left: 20px;">일반 관람권</p>
-                  <p style="width: 200px; border-bottom: 2px solid #ebebeb; padding-top: 30px; margin-left: 20px"></p>
+                <div style="padding-top: 15px">
+                  <p class="storeCardText" style="margin-left: 20px; margin-bottom: 10px; height: 39px; font-size: 16px; font-weight: bold">일반 관람권</p>
+                  <p class="storeCardText" style="margin-left: 20px;">일반 관람권</p>
+                  <p class="storeCardText" style="width: 200px; border-bottom: 2px solid #ebebeb; padding-top: 20px; margin-left: 20px"></p>
                 </div>
-                <div class="price">
+                <div class="price" style="margin-left: 20px; margin-top: 6px; font-size: 20px">
+                  <p style="text-decoration: line-through">15,000원</p>
+                  <p style="font-weight: bold; color: #3d008c">
+                    <span>14,000</span>
+                    <span>원</span>
+                  </p>
+                </div>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
 
+    </div>
+
+    <div id="tabCont1_2" class="tabCont" style="display:none; width: 1100px">
+      <div>
+        <ul>
+          <li style="width: 243px; height: 433px; border: 1px solid #ebebeb; border-radius: 10px">
+            <a href="">
+              <div class="prodTop">
+                <img src="./images/normalTicket.png" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
+              </div>
+              <div class="prodBottom">
+                <div style="padding-top: 15px">
+                  <p class="storeCardText" style="margin-left: 20px; margin-bottom: 10px; height: 39px; font-size: 16px; font-weight: bold">일반 관람권</p>
+                  <p class="storeCardText" style="margin-left: 20px;">일반 관람권</p>
+                  <p class="storeCardText" style="width: 200px; border-bottom: 2px solid #ebebeb; padding-top: 20px; margin-left: 20px"></p>
+                </div>
+                <div class="price" style="margin-left: 20px; margin-top: 6px; font-size: 20px">
+                  <p style="text-decoration: line-through">15,000원</p>
+                  <p style="font-weight: bold; color: #3d008c">
+                    <span>14,000</span>
+                    <span>원</span>
+                  </p>
                 </div>
               </div>
             </a>
@@ -154,7 +206,7 @@
       </div>
     </div>
 
-    <div id="tabCont1_3" class="tabCont" style="display:none;">
+    <div id="tabCont1_3" class="tabCont" style="display:none; width: 1100px">
       <div>
         <ul>
           <li style="width: 243px; height: 433px; border: 1px solid #ebebeb; border-radius: 10px">
@@ -163,13 +215,17 @@
                 <img src="./images/normalTicket.png" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
               </div>
               <div class="prodBottom">
-                <div style="padding-top: 20px">
-                  <p style="margin-left: 20px; margin-bottom: 10px; height: 39px; font-size: 16px; font-weight: bold">일반 관람권</p>
-                  <p style="margin-left: 20px;">일반 관람권</p>
-                  <p style="width: 200px; border-bottom: 2px solid #ebebeb; padding-top: 30px; margin-left: 20px"></p>
+                <div style="padding-top: 15px">
+                  <p class="storeCardText" style="margin-left: 20px; margin-bottom: 10px; height: 39px; font-size: 16px; font-weight: bold">일반 관람권</p>
+                  <p class="storeCardText" style="margin-left: 20px;">일반 관람권</p>
+                  <p class="storeCardText" style="width: 200px; border-bottom: 2px solid #ebebeb; padding-top: 20px; margin-left: 20px"></p>
                 </div>
-                <div class="price">
-
+                <div class="price" style="margin-left: 20px; margin-top: 6px; font-size: 20px">
+                  <p style="text-decoration: line-through">15,000원</p>
+                  <p style="font-weight: bold; color: #3d008c">
+                    <span>14,000</span>
+                    <span>원</span>
+                  </p>
                 </div>
               </div>
             </a>
@@ -178,7 +234,7 @@
       </div>
     </div>
 
-    <div id="tabCont1_4" class="tabCont" style="display:none;">
+    <div id="tabCont1_4" class="tabCont" style="display:none; width: 1100px">
       <div>
         <ul>
           <li style="width: 243px; height: 433px; border: 1px solid #ebebeb; border-radius: 10px">
@@ -187,13 +243,17 @@
                 <img src="./images/normalTicket.png" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
               </div>
               <div class="prodBottom">
-                <div style="padding-top: 20px">
-                  <p style="margin-left: 20px; margin-bottom: 10px; height: 39px; font-size: 16px; font-weight: bold">일반 관람권</p>
-                  <p style="margin-left: 20px;">일반 관람권</p>
-                  <p style="width: 200px; border-bottom: 2px solid #ebebeb; padding-top: 30px; margin-left: 20px"></p>
+                <div style="padding-top: 15px">
+                  <p class="storeCardText" style="margin-left: 20px; margin-bottom: 10px; height: 39px; font-size: 16px; font-weight: bold">일반 관람권</p>
+                  <p class="storeCardText" style="margin-left: 20px;">일반 관람권</p>
+                  <p class="storeCardText" style="width: 200px; border-bottom: 2px solid #ebebeb; padding-top: 20px; margin-left: 20px"></p>
                 </div>
-                <div class="price">
-
+                <div class="price" style="margin-left: 20px; margin-top: 6px; font-size: 20px">
+                  <p style="text-decoration: line-through">15,000원</p>
+                  <p style="font-weight: bold; color: #3d008c">
+                    <span>14,000</span>
+                    <span>원</span>
+                  </p>
                 </div>
               </div>
             </a>
