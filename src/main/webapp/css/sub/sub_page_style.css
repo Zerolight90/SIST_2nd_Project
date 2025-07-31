@@ -5,6 +5,11 @@ body, header, article {
     margin: 0;
     padding: 0;
 }
+body{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* 뷰포트 높이의 100% */
+}
 
 /* ======== 헤더 ======== */
 header {
@@ -16,6 +21,10 @@ header {
     z-index: 3000;
     color: #000;         /* <-- 모든 글자 검정 */
 }
+article{
+    flex-grow: 1;
+}
+
 
 /* ======= 상단/우측 네비 ======== */
 .menu1 {
@@ -171,7 +180,7 @@ header {
     top: 100px;
     width: 100vw;
     height: 30px;
-    background: #009996  !important;    /* <-- 흰색 */
+    background: #009996  !important;
     z-index: 300;
     opacity: 0.96;
     pointer-events: none;

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Title</title>
@@ -20,16 +21,28 @@
          <jsp:include page="/admin.jsp"/>
       </div>
       <div class="adminContent">
-          <div>
+          <div style="margin-left: 20px">
               <div>
                   <h2>회원 목록</h2>
               </div>
               <div>
                   <div>전체 130건</div>
-                  <div></div>
+                  <div>
+                      <span>가입월:</span>
+                      jqueryui
+                      <select>
+                          <option>사용자 상태 (전체)</option>
+                      </select>
+                      <select>회원 등급 (전체)</select>
+                      <select>
+                          검색 대상 (전체)
+                      </select>
+                      <input type="text">
+                      <a href="#">초기화</a>
+                  </div>
               </div>
               <div>
-                  <table>
+                  <table border="1" style="border-collapse: collapse; border-top: 2px solid #000000; width: 700px">
                       <caption></caption>
                       <tbody>
                         <tr>
@@ -42,9 +55,18 @@
                             <td>등급</td>
                             <td>상태</td>
                         </tr>
-                        <tr>
 
+                        <tr>
+                            <%--<td>${vo.idx}</td>
+                            <td>${vo.name}</td>
+                            <td>${vo.id}</td>
+                            <td>${vo.email}</td>
+                            <td>${vo.phone}</td>
+                            <td>${vo.point}</td>
+                            <td>${vo.class}</td>
+                            <td>${vo.status}</td>--%>
                         </tr>
+
                       </tbody>
                   </table>
               </div>
