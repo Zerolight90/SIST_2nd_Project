@@ -18,12 +18,15 @@ header {
 
 /* ======= 상단/우측 네비 ======== */
 .menu1 {
-    position: relative;
+    /*position: relative;*/
     width: 100%;
 }
 
 .inner {
+    position: relative;
     display: flex;
+    width: 1100px;
+    margin: 0 auto;
     justify-content: center;
     align-items: center;
 }
@@ -140,9 +143,17 @@ header {
 }
 
 /* ======== 메인 메뉴(중앙) ======== */
-.nav-center-wrapper {
+.nav{
+    width: 1100px;
+    height: 100%;
+    margin: 0 auto;
     position: relative;
-    width: 100%;
+    /*border: 1px solid red;*/
+}
+.nav-center-wrapper {
+    position: absolute;
+    margin: 0 auto;
+    width: 800px;
     display: flex;
     justify-content: center;
 }
@@ -152,8 +163,9 @@ header {
     width: 800px;
     height: 50px;
     margin: 0 auto;
-    position: relative;
-    top: -50px;
+    position: absolute;
+    top: -55px;
+    left: 155px;
     justify-content: space-between;
     align-items: center;
     z-index: 3200;
@@ -174,7 +186,7 @@ header {
 }
 
 /* ======= 메뉴/서브메뉴 구조 및 계층 제한 ======= */
-.nav-center .main-item {
+ .main-item {
     position: relative;
     z-index: 3250;
 }
@@ -241,7 +253,7 @@ header {
 .nav-center .submenu li a {
     display: block;
     padding: 0 20px;
-    line-height: 15px;
+    line-height: 25px;
     font-size: 15px;
     font-weight: 400;
     font-family: 'Noto Sans KR', sans-serif;
@@ -965,6 +977,7 @@ header {
     text-align: right;
 }
 .curation-area{
+    display: flex;
     width: 1100px;
     height: 430px;
     margin: 0 auto;
@@ -975,6 +988,7 @@ header {
 .curr-img {
     position: absolute;
     padding-left: 20px;
+    /*border: 1px solid red;*/
 }
 .justify{
     display: flex;
@@ -987,6 +1001,7 @@ header {
     /*border: 1px solid red;*/
 }
 .justify a{
+    width: 100px;
      color: #ffffff !important;
 }
 
@@ -1017,30 +1032,75 @@ header {
     background-color: #01738b;
     border-radius: 5px;
 }
-
-.info .txt{
+.info {
     display: block;
-    width: 200px;
-    font-size: 25px;
-    font-weight: 300;
-    font-family: 'Noto Sans KR', 돋움, serif;
+    margin: 0 auto;
+    width: 1100px;
+    height: 300px;
+    color: #fff;
+    font-family: 'Noto Sans KR', sans-serif;
+    /*border: 1px solid red;*/
+    /*background: rgba(0,0,0,0.8); !* 임시 배경 추가 *!*/
     position: absolute;
     top: 0;
-    left: 370px;
-    color: #ffffff !important;
+    left: 350px;
+    z-index: 100;                /* 강조 */
 }
-
-.info >.tit{
-    display: block;
-    width: 200px;
+.info .txt {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 101;
     font-size: 25px;
     font-weight: 300;
-    font-family: 'Noto Sans KR', 돋움, serif;
-    position: absolute;
-    top: 10px;
-    left: 370px;
-    color: #ffffff !important;
 }
+.info > .info_tit {
+    position: absolute;
+    width: 900px;
+    top: 40px;
+    left: 0;
+    z-index: 102;
+    font-size: 35px;
+    font-weight: 400;
+}
+.info > .info_summary {
+    position: absolute;
+    border-top: 1px solid #4a5164;
+    padding-top: 20px;
+    top: 120px;
+    left: 0;
+    width: 800px;
+    height: 180px;
+    z-index: 103;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 300;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+.list {
+    width: 800px;
+    position: absolute;
+    top: 380px;
+    left: 350px;
+
+}
+
+.list > ul {
+    display: flex;
+    gap: 20px;          /* 아이템 사이 간격 */
+    padding: 0;         /* 기본 마진/패딩 제거 */
+    margin: 0;
+ }
+
+.list > ul > li {
+    flex: 1 1 0;        /* li가 균등하게 가로로 늘어나게 지정(원한다면) */
+    min-width: 0;       /* 넘침 방지 */
+}
+
 
 
 

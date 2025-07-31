@@ -28,12 +28,15 @@ article{
 
 /* ======= 상단/우측 네비 ======== */
 .menu1 {
-    position: relative;
+    /*position: relative;*/
     width: 100%;
 }
 
 .inner {
+    position: relative;
     display: flex;
+    width: 1100px;
+    margin: 0 auto;
     justify-content: center;
     align-items: center;
 }
@@ -151,12 +154,19 @@ article{
 }
 
 /* ======== 메인 메뉴(중앙) ======== */
-.nav-center-wrapper {
+.nav{
+    width: 1100px;
+    height: 100%;
+    margin: 0 auto;
     position: relative;
-    width: 100%;
+    /*border: 1px solid red;*/
+}
+.nav-center-wrapper {
+    position: absolute;
+    margin: 0 auto;
+    width: 800px;
     display: flex;
     justify-content: center;
-    background: #fff !important;    /* <-- 흰색 */
 }
 
 .nav-center {
@@ -164,12 +174,12 @@ article{
     width: 800px;
     height: 50px;
     margin: 0 auto;
-    position: relative;
-    top: -50px;
+    position: absolute;
+    top: 45px;
+    left: 155px;
     justify-content: space-between;
     align-items: center;
     z-index: 3200;
-    background: #fff !important;   /* <-- 흰색 */
 }
 
 /* ======= submenu-bg(서브메뉴 배경) ======= */
@@ -187,7 +197,7 @@ article{
 }
 
 /* ======= 메뉴/서브메뉴 구조 및 계층 제한 ======= */
-.nav-center .main-item {
+.main-item {
     position: relative;
     z-index: 3250;
 }
@@ -253,7 +263,7 @@ article{
 .nav-center .submenu li a {
     display: block;
     padding: 0 20px;
-    line-height: 15px;
+    line-height: 25px;
     font-size: 15px;
     font-weight: 400;
     font-family: 'Noto Sans KR', sans-serif;
