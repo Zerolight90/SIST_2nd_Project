@@ -1,0 +1,272 @@
+@charset "UTF-8";
+
+/* ========================================
+   결제 페이지 (payment.css)
+======================================== */
+
+/* 1. 기본 및 레이아웃
+---------------------------------------- */
+body {
+    background-color: #F8F9FA;
+    color: #495057;
+}
+
+.payment_container {
+    width: 1100px;
+    margin: 50px auto;
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+/* 2. 왼쪽 정보 영역
+---------------------------------------- */
+.payment_info_section {
+    flex: 2;
+}
+
+.payment_info_section h1 {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #333;
+}
+
+.info_group {
+    margin-bottom: 40px;
+}
+
+.info_group h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+/* 2-1. 예매/구매 정보 카드 */
+.booking_card {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.booking_card .poster {
+    width: 100px;
+    height: auto;
+    border-radius: 5px;
+}
+
+.booking_card_details .payment_movie_title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 8px;
+}
+
+.booking_card_details .info_line {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* 2-2. 할인 및 포인트 입력 필드 */
+.input_dropdown {
+    display: flex;
+    position: relative;
+    border: 1px solid #DDD;
+    border-radius: 5px;
+}
+
+.input_dropdown select {
+    flex: 1;
+    border: none;
+    font-size: 16px;
+    background-color: transparent;
+    appearance: none;
+    padding: 12px 30px 12px 15px;
+    cursor: pointer;
+}
+
+.input_dropdown select:focus {
+    outline: none;
+}
+
+.input_dropdown::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid #888;
+    pointer-events: none;
+}
+
+.input_field {
+    display: flex;
+    align-items: center;
+    border: 1px solid #DDD;
+    border-radius: 5px;
+    padding: 10px 15px;
+}
+
+.input_field input {
+    flex: 1;
+    border: none;
+    font-size: 16px;
+}
+
+.input_field input:focus {
+    outline: none;
+}
+
+.input_field .point_info {
+    color: #888;
+    margin-right: 15px;
+}
+
+.input_field .btn_apply {
+    background: none;
+    border: 1px solid #888;
+    color: #555;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* 2-3. 결제 타입 선택 버튼 */
+.payment_type_nav {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.payment_type_button {
+    padding: 15px;
+    font-size: 15px;
+    text-align: center;
+    border: 1px solid #DEE2E6;
+    background-color: #FFF;
+    color: #495057;
+    cursor: pointer;
+    position: relative;
+}
+
+.payment_type_button:first-child {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+.payment_type_button:last-child {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-left-width: 0;
+}
+
+.payment_type_button.active {
+    background-color: #343A40;
+    color: #FFF;
+    border-color: #343A40;
+    font-weight: bold;
+}
+
+.payment_type_button .benefit_badge {
+    display: inline-block;
+    background-color: #17A2B8;
+    color: white;
+    font-size: 10px;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+/* 2-4. 토스 결제 위젯 영역 */
+.payment_widget_area {
+    margin-top: -1px;
+}
+
+
+/* 3. 오른쪽 결제 요약 영역
+---------------------------------------- */
+.payment_summary_section {
+    flex: 1;
+    background-color: #343A40;
+    color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    position: sticky;
+    top: 40px;
+}
+
+.payment_summary_section h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.summary_item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.final_amount_display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.final_amount_display span {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.final_amount_display .amount {
+    font-size: 28px;
+    font-weight: bold;
+    color: #17A2B8;
+}
+
+/* 3-1. 하단 버튼 그룹 */
+.button_group {
+    display: flex;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.pay_button {
+    flex: 1;
+    padding: 15px;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.btn_prev {
+    background-color: #6C757D;
+    color: white;
+}
+.btn_prev:hover {
+    background-color: #5A6268;
+}
+
+.btn_pay {
+    background-color: #17A2B8;
+    color: white;
+}
+.btn_pay:hover {
+    background-color: #128293;
+}

@@ -1,0 +1,179 @@
+@charset "UTF-8";
+
+body {
+    background-color: #F8F9FA;
+}
+
+.confirmation_container {
+    width: 1000px;
+    margin: 50px auto;
+    padding: 0;
+}
+
+.confirmation_container h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    padding-bottom: 25px;
+    border-bottom: 2px solid #333;
+}
+
+/* 1. [수정] 메인 정보 박스 */
+.confirmation_box {
+    display: flex;
+    color: #fff;
+    border-radius: 10px;
+    position: relative;
+    align-items: stretch; /* 자식 높이 맞춤 */
+}
+
+/* 2. [수정 없음] 왼쪽에만 반원 구멍 효과 */
+.confirmation_box::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -15px;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #F8F9FA;
+}
+
+/* 3. [추가] 왼쪽 티켓 영역을 감싸는 div */
+.ticket_area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 4. [수정] 왼쪽 티켓 정보 스타일 */
+.ticket_info {
+    flex: 1; /* 높이 자동 확장 */
+    width: 200px;
+    padding: 30px;
+    background-color: #495057;
+    border-right: 2px dashed #6C757D;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+/* 5. [수정] 오른쪽 예매 상세 내역 */
+.booking_details {
+    width: 800px;
+    padding: 30px 40px;
+    background-color: #343A40;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.ticket_info .ticket_label {
+    margin-bottom: 15px;
+    text-align: center; /* 텍스트 가운데 정렬 추가 */
+}
+
+/* 6. 티켓 정보 및 예매 내역 내부 스타일 */
+.ticket_info .ticket_label p {
+    font-size: 13px;
+    color: #CED4DA;
+    margin: 0 0 4px 0;
+}
+
+.ticket_info .ticket_number {
+    font-size: 18px;
+    font-weight: bold;
+    color: #FFF;
+}
+
+.poster_placeholder {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    border: 1px solid #6C757D;
+    border-radius: 5px;
+    background-color: #343A40;
+    margin-top: 20px;
+}
+
+.poster_placeholder .icon {
+    font-size: 20px;
+    color: #ADB5BD;
+}
+
+.poster_placeholder .text {
+    font-size: 14px;
+    color: #CED4DA;
+}
+
+.ticket_info .poster {
+    width: 180px;
+    height: auto;
+    border-radius: 5px;
+    display: block;
+    margin: 0 auto;
+}
+
+.ticket_info .poster_title {
+    text-align: center;
+    font-weight: bold;
+    color: #FFF;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.booking_details h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #FFF;
+    margin-bottom: 20px;
+}
+
+.details_table {
+    width: 100%;
+    font-size: 15px;
+}
+
+.details_table td {
+    padding: 10px 0;
+}
+
+.details_table .label {
+    width: 120px;
+    color: #ADB5BD;
+}
+
+.details_table .value {
+    color: #FFF;
+    font-weight: 600;
+}
+
+/* ============================
+   하단 버튼 및 기타 (수정 없음)
+============================ */
+.button_container {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.btn_history {
+    padding: 12px 60px;
+    font-size: 16px;
+    border: 1px solid #86B7FE;
+    background-color: #FFF;
+    color: #333;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+
+.btn_history:hover {
+    background-color: #f0f0f0;
+}
+
+.screening_guide {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #DDD;
+}
