@@ -1,0 +1,184 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>SIST BOX 쌍용박스</title>
+  <link rel="stylesheet" href="./css/sub/sub_page_style.css">
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+  <link rel="icon" href="./images/favicon.png">
+</head>
+
+<body>
+<header>
+  <div class="menu1">
+    <div class="inner">
+      <!-- 로고 -->
+      <h1 class="logo">
+        <a href="#" class="logo_link">
+          <img src="./images/logo.png" alt="sist" class="logo_img" />
+        </a>
+        <span class="title">S I S T M O V I E P L E X</span>
+      </h1>
+    </div>
+  </div>
+
+
+  <div class="nav-top">
+    <ul class="nav-l_top">
+      <li><a href="#" class="vip-lounge">VIP LOUNGE</a></li>
+      <li><a href="#" class="membership">멤버십</a></li>
+      <li><a href="#" class="customer-center">고객센터</a></li>
+      <li><a href="#" class="admin_page">관리자</a></li> <!--로그인 할때만 표현됨-->
+    </ul>
+
+    <ul class="nav-r_top">
+      <li><a href="#" class="login">로그인</a></li>
+      <li><a href="#" class="signup">회원가입</a></li>
+      <li><a href="#" class="quick-booking">빠른예매</a></li>
+    </ul>
+  </div>
+
+
+  <div class="icon-menu">
+    <ul class="nav-side">
+      <li>
+        <button class="menu-toggle" aria-label="메뉴 열기">
+          <span></span><span></span><span></span>
+        </button>
+      </li>
+
+      <li>
+        <a href="#" class="search-icon" aria-label="검색">
+          <i class="fas fa-search"></i>
+        </a>
+      </li>
+    </ul>
+
+    <ul class="nav-icon">
+      <li><a href="#" class="calendar-icon" aria-label="상영시간표"><i class="fa-regular fa-calendar"></i></a></li>
+      <li><a href="#" class="user-icon" aria-label="나의 SIST"><i class="fa-regular fa-user"></i></a></li>
+    </ul>
+  </div>
+
+  <div class="nav-center">
+    <ul class="l_main">
+      <li class="main-item has-submenu">
+        <a href="#">영화</a>
+        <ul class="submenu">
+          <li><a href="#">전체 영화</a></li>
+        </ul>
+      </li>
+      <li class="main-item has-submenu">
+        <a href="#">예매</a>
+        <ul class="submenu">
+          <li><a href="#">빠른예매</a></li>
+          <li><a href="#">상영시간표</a></li>
+          <li><a href="#">더 부티크 프라이빗 예매</a></li>
+        </ul>
+      </li>
+      <li class="main-item has-submenu">
+        <a href="#">극장</a>
+        <ul class="submenu">
+          <li><a href="#">전체 극장</a></li>
+          <li><a href="#">특별관</a></li>
+        </ul>
+      </li>
+    </ul>
+
+
+    <ul class="r_main">
+      <li class="main-item has-submenu">
+        <a href="#">이벤트</a>
+        <ul class="submenu">
+          <li><a href="#">진행중인 이벤트</a></li>
+          <li><a href="#">지난 이벤트</a></li>
+          <li><a href="#">당첨자 확인</a></li>
+        </ul>
+      </li>
+      <li class="main-item store-menu"><a href="#">스토어</a></li>
+      <li class="main-item has-submenu">
+        <a href="#">혜택</a>
+        <ul class="submenu">
+          <li><a href="#">메가박스 멤버쉽</a></li>
+          <li><a href="#">제휴/할인</a></li>
+        </ul>
+      </li>
+    </ul>
+    <div class="submenu-bg"></div>
+    <script>
+      // jQuery 코드
+      $(function () {
+        // "스토어"를 제외한 메뉴만 hover 효과 적용
+        $('.nav-center .main-item:not(.store-menu) > a').mouseenter(function () {
+          $('.submenu-bg').css('display', 'block');
+        });
+
+        $('.nav-center .main-item:not(.store-menu)').mouseleave(function () {
+          $('.submenu-bg').css('display', 'none');
+        });
+      });
+
+    </script>
+  </div>
+
+</header>
+
+
+<div id="contents" class="no-padding">
+  <div class="theater-detail-page">
+    <div class="img" style="border:1px solid red">
+      <h1>백그라운드 이미지</h1>
+    </div>
+    <div class="inner-wrap">
+      <!-- 탭 메뉴 -->
+      <ul class="sub-tab-menu">
+        <li><a href="javascript:void(0);" class="tab-link active" onclick="ex1()">극장정보</a></li>
+        <li><a href="javascript:void(0);" class="tab-link" onclick="ex2()">상영시간표</a></li>
+        <li><a href="javascript:void(0);" class="tab-link" onclick="ex3()">관람료</a></li>
+      </ul>
+
+      <div id="tab1" class="tab-content show"></div>
+      <div id="tab2" class="tab-content"></div>
+      <div id="tab3" class="tab-content"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script>
+  function ex1() {
+    activateTab(0);
+    $("#tab1").load("theater_info.jsp");
+  }
+
+  function ex2() {
+    activateTab(1);
+    $("#tab2").load("theater_timetable.jsp");
+  }
+
+  function ex3() {
+    activateTab(2);
+    $("#tab3").load("theater_price.jsp");
+  }
+
+  function activateTab(index) {
+    $(".tab-link").removeClass("active");
+    $(".tab-link").eq(index).addClass("active");
+
+    $(".tab-content").removeClass("show");
+    $("#tab" + (index + 1)).addClass("show");
+  }
+
+  $(document).ready(function () {
+    ex1();
+  });
+</script>
+  
+  </body>
+</html>

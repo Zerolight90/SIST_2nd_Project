@@ -206,8 +206,8 @@ table th {
 .ec-base-tab {
     border: 5px solid gray;   /* 빨간 네모 테두리 */
     border-radius: 10px;
-    width: 100%;        /* 영역 폭 제한 (선택사항) */
-    height: 240px;
+    width: 1085px;        /* 영역 폭 제한 (선택사항) */
+    height: 292px;
     margin: 20px auto;       /* 중앙 정렬 */
     box-sizing: border-box;
 }
@@ -408,4 +408,374 @@ li::marker {
 
 .tab-content.show {
     display: block !important;
+}
+
+
+
+/*전체극장>나의 선호극장 정보*/
+.all-theater-box .favorite-box{
+    position:absolute;
+    padding: 0 20px;
+    width:100%;
+    bottom: 0;
+    left: 0;
+    line-height: 54px;
+    border-radius: 0 0 10px 10px;
+    background-color: #ecf0f4;
+    box-sizing: border-box;
+}
+
+/*전체극장 리스트*/
+/* theater.css 파일에 아래 내용 추가 또는 수정 */
+
+.ec-base-tab {
+    border: 5px solid gray;
+    border-radius: 10px;
+    width: 1085px;
+    height: 292px; /* 이 값은 필요에 따라 조절하세요. */
+    margin: 20px auto;
+    box-sizing: border-box;
+    position: relative; /* favorite-box의 absolute 위치 지정을 위해 추가 */
+}
+
+.theater-list {
+    display: flex; /* 내부 ul들을 가로로 정렬 */
+    justify-content: space-around; /* 극장 목록 열들 사이에 공간을 균등하게 배분 */
+    padding: 20px; /* theater-list 내부 여백 */
+    height: calc(100% - 54px); /* favorite-box 높이를 제외한 공간 활용 */
+    box-sizing: border-box;
+}
+
+.region-col {
+    flex: 1; /* 각 열이 사용 가능한 공간을 균등하게 차지 */
+    padding: 0 10px; /* 각 열 내부 좌우 여백 */
+    border-right: 1px solid #ddd; /* 열 사이에 구분선 추가 */
+    list-style: none; /* 리스트 마커 제거 */
+    padding-left: 0; /* 기본 패딩 제거 */
+    margin: 0; /* 기본 마진 제거 */
+}
+
+.region-col:last-child {
+    border-right: none; /* 마지막 열에는 구분선 제거 */
+}
+
+.region-col li {
+    padding: 5px 0; /* 각 극장명 위아래 여백 */
+    font-size: 14px;
+    color: #333;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+}
+
+/*전체극장>나의 선호극장 정보*/
+.all-theater-box .favorite-box{
+    position:absolute;
+    padding: 0 20px;
+    width:100%;
+    bottom: 0;
+    left: 0;
+    line-height: 54px; /* 높이 고정 및 텍스트 세로 중앙 정렬 */
+    border-radius: 0 0 10px 10px;
+    background-color: #ecf0f4;
+    box-sizing: border-box;
+    display: flex; /* 내부 요소 정렬을 위해 flexbox 사용 */
+    align-items: center; /* 세로 중앙 정렬 */
+    justify-content: space-between; /* 요소들을 양 끝으로 분리 */
+}
+
+.all-theater-box .favorite-box span {
+    margin-right: 10px; /* 텍스트와 버튼 사이 간격 */
+}
+
+.all-theater-box .favorite-box .login-btn {
+    padding: 8px 15px;
+    background-color: #503396; /* 로그인 버튼 색상 */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+
+.show-movie-list .show-movie .title {
+    border: 1px solid gray;
+    background-color: #F7F8F9;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.show-movie-list .show-movie .show-theater-info{
+    border: 1px solid gray;
+}
+
+
+
+/*상영시간표*/
+
+/* 상영시간표 전체 섹션 컨테이너 */
+.show-movie-list {
+    width: 1100px; /* 전체 컨테이너 너비 */
+    margin: 40px auto; /* 중앙 정렬 */
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* 각 영화의 상영 정보 박스 */
+.show-movie {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f0f0f0; /* 영화별 구분선 */
+}
+
+.show-movie:last-child {
+    border-bottom: none; /* 마지막 영화는 구분선 없음 */
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+/* 영화 제목 및 정보 (그리드 이미지의 "좀비딸" 부분) */
+.show-movie .title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.show-movie .movie-grade {
+    display: inline-block;
+    width: 20px; /* 등급 아이콘 크기 */
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #fff;
+    margin-right: 8px;
+    background-color: #777; /* 기본 등급 색상, 실제 등급에 따라 변경 필요 */
+}
+/* 예시: 12세 등급 */
+.show-movie .movie-grade.age-12 {
+    background-color: #3b99dc; /* 12세 관람가 파란색 */
+}
+/* 필요에 따라 다른 등급 (15, 18, 전체 등)에 대한 클래스 추가 */
+
+.show-movie .movie-title {
+    font-size: 15px;
+    font-weight: bold;
+    color: #333;
+    margin-right: 725px;
+}
+
+.show-movie .information {
+    font-size: 14px;
+    color: #666;
+}
+
+.show-movie .show-status {
+    font-weight: bold;
+    color: #503396; /* 상영중 색상 */
+}
+
+/* 각 상영관 정보 (1관, 4관 등) */
+.show-theater-info {
+    border: 1px solid #eee;
+    border-radius: 6px;
+    overflow: hidden; /* 내부 테두리 잘라내기 */
+}
+
+.show-theater-info .theater-info {
+    display: flex;
+    align-items: stretch; /* 세로 높이를 맞춤 */
+    border-bottom: 1px solid #f9f9f9; /* 상영관별 구분선 */
+}
+
+.show-theater-info .theater-info:last-child {
+    border-bottom: none;
+}
+
+.show-theater-info .theater-type {
+    flex-basis: 180px; /* 상영관 이름, 총 좌석 수 영역 고정 너비 */
+    padding: 15px 20px;
+    background-color: #f7f7f7;
+    border-right: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 세로 중앙 정렬 */
+    text-align: left;
+}
+
+.show-theater-info .theater-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.show-theater-info .chair {
+    font-size: 13px;
+    color: #777;
+}
+
+.show-theater-info .theater-time {
+    flex-grow: 1; /* 남은 공간을 모두 차지 */
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+}
+
+.show-theater-info .theater-type-area {
+    width: 50px; /* 2D, 3D 등 타입 영역 너비 */
+    text-align: center;
+    font-size: 14px;
+    color: #888;
+    border-right: 1px solid #eee;
+    padding: 0 10px;
+}
+
+.show-theater-info .theater-time-box {
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: wrap; /* 시간 버튼이 넘치면 다음 줄로 */
+    gap: 10px; /* 시간 버튼 사이 간격 */
+    padding-left: 20px;
+}
+
+.show-theater-info .time-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80px; /* 시간 버튼 너비 */
+    height: 60px; /* 시간 버튼 높이 */
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background-color: #fcfcfc;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.show-theater-info .time-btn:hover {
+    background-color: #e6e6e6;
+    border-color: #ccc;
+}
+
+.show-theater-info .time-btn span {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.show-theater-info .time-btn em {
+    font-style: normal; /* 기본 기울임 제거 */
+    font-size: 12px;
+    color: #503396; /* 남은 좌석수 색상 */
+    margin-top: 3px;
+}
+
+/* 날짜 선택 및 기타 상단 메뉴 (grgrg.PNG 상단 부분) */
+.show-schedule-header {
+    width: 1100px;
+    margin: 0 auto 30px;
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.show-schedule-header h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.date-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.date-navigation .month-selector {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #555;
+    font-weight: bold;
+}
+
+.date-navigation .month-selector button {
+    background: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    color: #555;
+}
+
+.date-navigation .calendar-days {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: #f7f7f7;
+    border-radius: 6px;
+}
+
+.date-navigation .calendar-days li {
+    flex: 1;
+    padding: 10px 0;
+    text-align: center;
+    font-size: 14px;
+    color: #777;
+    cursor: pointer;
+    border-right: 1px solid #eee;
+}
+
+.date-navigation .calendar-days li:last-child {
+    border-right: none;
+}
+
+.date-navigation .calendar-days li.today {
+    background-color: #503396;
+    color: #fff;
+    border-radius: 6px;
+}
+
+.date-navigation .calendar-days li span {
+    display: block;
+}
+.date-navigation .calendar-days li .day-of-week {
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+.info-icons {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap; /* 아이콘이 많으면 줄바꿈 */
+    gap: 15px; /* 아이콘 간격 */
+    margin-top: 20px;
+    font-size: 13px;
+    color: #666;
+}
+
+.info-icons .icon-item {
+    display: flex;
+    align-items: center;
+}
+
+.info-icons .icon-item img {
+    width: 18px; /* 아이콘 크기 */
+    height: 18px;
+    margin-right: 5px;
+}
+
+.info-icons .info-link {
+    margin-left: auto; /* 우측 정렬 */
+    font-weight: bold;
+    color: #503396;
+    text-decoration: none;
 }
