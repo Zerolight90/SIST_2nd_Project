@@ -796,8 +796,8 @@ header {
     box-sizing: border-box;
 }
 .util .btn-next{
-      background-image: url("https://www.megabox.co.kr/static/pc/images/main/btn-benefit-slider-next.png");
- }
+    background-image: url("https://www.megabox.co.kr/static/pc/images/main/btn-benefit-slider-next.png");
+}
 .btn-pause{
     display: none;
     width: 6px;
