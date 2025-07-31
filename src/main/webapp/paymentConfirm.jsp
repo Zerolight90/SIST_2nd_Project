@@ -6,9 +6,9 @@
 <head>
   <title>결제 완료</title>
   <c:set var="basePath" value="${pageContext.request.contextPath}"/>
-  <link rel="stylesheet" href="${basePath}/CSS/reset.css">
-  <link rel="stylesheet" href="${basePath}/CSS/style.css">
-  <link rel="stylesheet" href="${basePath}/CSS/paymentconfirm.css">
+  <link rel="stylesheet" href="${basePath}/css/reset.css">
+  <link rel="stylesheet" href="${basePath}/css/style.css">
+  <link rel="stylesheet" href="${basePath}/css/paymentconfirm.css">
   <link rel="icon" href="${basePath}/images/favicon.png">
 </head>
 <body>

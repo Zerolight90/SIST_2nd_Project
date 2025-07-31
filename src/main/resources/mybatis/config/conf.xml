@@ -18,5 +18,6 @@
         <mapper resource="mybatis/mapper/Movie.xml"/>
         <mapper resource="mybatis/mapper/payment.xml"/>
         <mapper resource="mybatis/mapper/Users.xml"/>
+        <mapper resource="mybatis/mapper/Coupon.xml"/>
     </mappers>
 </configuration>
