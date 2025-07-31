@@ -1,7 +1,7 @@
 @charset "UTF-8";
 .ec-base-tab { position:relative; }
 .ec-base-tab .menu {
-    margin:0 0 20px; border:1px solid #cbcdce; border-bottom-color:#202020; border-left:0; background:#f2f2f2;
+    /*margin:0 0 20px;*/ border:1px solid #cbcdce; border-bottom-color:#202020; border-left:0; background:#f2f2f2;
     box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box;
 }
 .ec-base-tab .menu:after { content:""; display:block; clear:both; }
