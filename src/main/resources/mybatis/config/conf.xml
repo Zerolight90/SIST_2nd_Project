@@ -16,6 +16,7 @@
     </environments>
     <mappers>
         <mapper resource="mybatis/mapper/Movie.xml"/>
+        <mapper resource="mybatis/mapper/payment.xml"/>
         <mapper resource="mybatis/mapper/Users.xml"/>
     </mappers>
 </configuration>
