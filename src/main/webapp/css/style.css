@@ -143,6 +143,7 @@ header {
 }
 
 /* ======== 메인 메뉴(중앙) ======== */
+/* ======== 메인 메뉴(중앙) ======== */
 .nav{
     width: 1100px;
     height: 100%;
@@ -164,7 +165,7 @@ header {
     height: 50px;
     margin: 0 auto;
     position: absolute;
-    top: -55px;
+    top: 45px;
     left: 155px;
     justify-content: space-between;
     align-items: center;
