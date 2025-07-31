@@ -4,6 +4,8 @@
     <title>Title</title>
     <link rel="stylesheet" href="./css/sub/sub_page_style.css">
     <link rel="stylesheet" href="./css/admin.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 </head>
 <body style="margin: auto">
     <!-- 관리자 화면에 처음 들어오는 보이는 상단영역 -->
