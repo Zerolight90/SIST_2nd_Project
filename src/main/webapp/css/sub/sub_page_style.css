@@ -171,7 +171,7 @@ header {
     top: 100px;
     width: 100vw;
     height: 30px;
-    background: #009996  !important;    /* <-- 흰색 */
+    background: #009996  !important;
     z-index: 300;
     opacity: 0.96;
     pointer-events: none;
