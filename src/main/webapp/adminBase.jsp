@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Title</title>
+    <link rel="stylesheet" href="./css/sub/sub_page_style.css">
     <link rel="stylesheet" href="./css/admin.css">
 </head>
 <body style="margin: auto">

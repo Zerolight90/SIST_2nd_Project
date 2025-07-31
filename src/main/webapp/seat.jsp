@@ -6,8 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <title>SIST BOX 쌍용박스</title>
-    <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/sub/sub_page_style.css">
     <link rel="stylesheet" href="./css/seat.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
     <link rel="icon" href="./images/favicon.png">
