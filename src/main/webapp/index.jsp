@@ -223,7 +223,7 @@
                             <i class="fas fa-heart"></i> 2.2k
                         </button>
                         <div class="case">
-                            <a href="#" class="button gblue" title="영화 예매하기">예매</a>
+                            <a href="booking.jsp" class="button gblue" title="영화 예매하기">예매</a>
                         </div>
                     </div>
                 </li>

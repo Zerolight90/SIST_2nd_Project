@@ -127,7 +127,7 @@
 
 <script>
     function goPay() {
-        location.href = "pay.jsp";
+        location.href = "Controller?type=pay_movie";
     }
     // 값을 사용하기 위한 멤버변수 선언
     let adult = document.getElementById('adult-count');

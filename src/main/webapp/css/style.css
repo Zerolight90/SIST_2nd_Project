@@ -923,10 +923,125 @@ header {
     height: 840px;
     background-color: #252451;
 }
-.info p{
+.Curation_tit{
+    display: flex;
+    width: 1100px;
+    margin: 0 auto;
+    padding-top: 50px;
+    /*border: 1px solid red;*/
+    position: relative;
+}
+.Curation_tit h3{
+    color: #FFFFFF;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 400;
+    font-size: 36px;
+}
+.Curation_tit a{
+    display: inline-block;
+    width: 130px;
+    color: #999999 !important;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    text-align: right;
+    line-height: 18px;
+    position: absolute;
+    right: 50px;
+    bottom: 5px;
+    padding-bottom: 3px;
+    /*border: 1px solid red;*/
+}
+.Curation_tit i{
+    display: inline-block;
+    position: absolute;
+    bottom: 2px;
+    padding-left: 10px;
+    color: #999999;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 20px;
+    text-align: right;
+}
+.curation-area{
+    width: 1100px;
+    height: 430px;
+    margin: 0 auto;
+    padding-top: 20px;
+    position: relative;
+}
 
+.curr-img {
+    position: absolute;
+    padding-left: 20px;
+}
+.justify{
+    display: flex;
+    gap: 30px;
+    width: 300px;
+    height: 60px;
+    margin: 0 auto;
+    padding-top: 15px;
+    text-align: center;
+    /*border: 1px solid red;*/
+}
+.justify a{
+     color: #ffffff !important;
+}
+
+.justify .left{
+    width: 144px;
+    height: 50px;
+    font-size: 20px;
+    letter-spacing: 5px;
+    line-height: 45px;
+    font-weight: 400;
+    font-family: 'Noto Sans KR', 돋움, serif;
+    text-align: center;
+    color: #ffffff !important;
+    border: 2px solid #FFFFFF;
+    border-radius: 5px;
+}
+
+.justify .right{
+    width: 140px;
+    height: 54px;
+    font-size: 20px;
+    letter-spacing: 10px;
+    line-height: 50px;
+    font-weight: 400;
+    font-family: 'Noto Sans KR', 돋움, serif;
+    text-align: center;
+    color: #ffffff !important;
+    background-color: #01738b;
+    border-radius: 5px;
+}
+
+.info .txt{
+    display: block;
+    width: 200px;
+    font-size: 25px;
+    font-weight: 300;
+    font-family: 'Noto Sans KR', 돋움, serif;
+    position: absolute;
+    top: 0;
+    left: 370px;
     color: #ffffff !important;
 }
+
+.info >.tit{
+    display: block;
+    width: 200px;
+    font-size: 25px;
+    font-weight: 300;
+    font-family: 'Noto Sans KR', 돋움, serif;
+    position: absolute;
+    top: 10px;
+    left: 370px;
+    color: #ffffff !important;
+}
+
 
 
 
@@ -943,6 +1058,9 @@ header {
 
 /* ================= 푸터 ================= */
 footer {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
     background-color: #f8f8fa;
     color: #666666;
     height: 200px;

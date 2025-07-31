@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div class="menu1">
     <div class="inner">
@@ -61,9 +62,9 @@
             </ul>
         </li>
         <li class="main-item has-submenu">
-            <a href="#">예매</a>
+            <a href="<c:url value="/booking.jsp"/>">예매</a>
             <ul class="submenu">
-                <li><a href="#">빠른예매</a></li>
+                <li><a href="<c:url value="/booking.jsp"/>">빠른예매</a></li>
                 <li><a href="#">상영시간표</a></li>
                 <li><a href="#">더 부티크 프라이빗 예매</a></li>
             </ul>
@@ -86,7 +87,7 @@
                 <li><a href="#">당첨자 확인</a></li>
             </ul>
         </li>
-        <li class="main-item store-menu"><a href="#">스토어</a></li>
+        <li class="main-item store-menu"><a href="<c:url value="/store.jsp"/>">스토어</a></li>
         <li class="main-item has-submenu">
             <a href="#">혜택</a>
             <ul class="submenu">
