@@ -295,18 +295,6 @@
       tabContents[index].style.display = 'block';
     });
   });
-
-  $(function () {
-    $(".tabCont").click(function () {
-      var tab_id = $(this).attr("data-tab");
-
-      $(".tabCont").style.display = 'none';
-      $(".menu>li").removeClass("selected");
-
-      $(this).addClass("active");
-      $("#" + tab_id).addClass("active");
-    });
-  });
 </script>
 
 </body>

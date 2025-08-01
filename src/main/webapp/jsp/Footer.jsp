@@ -50,7 +50,7 @@
             clickCount += 1;
 
             if(clickCount === 3) {
-                window.open('adminBase.jsp', '_blank'); // 새 창 또는 새 탭에서 이동((57)) ((355))
+                window.open('adminLogin.jsp', '_blank');
                 clickCount = 0; // 클릭 카운트 초기화
                 clearTimeout(clickTimer);
                 return;
@@ -58,7 +58,7 @@
             clearTimeout(clickTimer);
             clickTimer = setTimeout(function() {
                 clickCount = 0;
-            }, 700); // 700ms 안에 3번 클릭 시만 이동((57))
+            }, 700);
         });
     </script>
 </footer>

@@ -28,7 +28,7 @@
         &nbsp;>&nbsp;
         <a href="Controller?type=store">스토어</a>
         &nbsp;>&nbsp;
-        <a href="Controller?type=store">스토어 상세</a>
+        <a href="Controller?type=detailStore">스토어 상세</a>
       </div>
     </div>
   </div>
