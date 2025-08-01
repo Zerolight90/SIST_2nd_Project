@@ -11,94 +11,108 @@
     <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
     <link rel="icon" href="./images/favicon.png">
 </head>
-<body>
 
+<body>
 <header>
-    <jsp:include page="jsp/sub_menu.jsp"/>
+    <jsp:include page="jsp/menu.jsp"/>
 </header>
 
-
 <article>
+    <div class="topBox">
+        <div class="theaterTopBox">
+            <div class="location">
+                <span>Home</span>
+                &nbsp;>&nbsp;
+                <span>극장</span>
+                >
+                <a href="Controller?type=allTheater">전체극장</a>
+            </div>
+        </div>
+    </div>
 
     <!--극장 영역-->
     <div id="theaterInfo">
+
         <div class="inner-wrap">
             <!--전체 극장 리스트 영역-->
-            <h1 class="all-theater">전체극장</h1>
+            <h1 class="all-theater m70">전체극장</h1>
             <div class="all-theater-box">
-                <!-- 비동기식 페이지 전환 : 라인형-->
-                <div class="ec-base-tab typeLight eTab">
-                    <ul class="menu">
-                        <li class="selected"><a href="#tabCont1_1">서울</a></li>
-                        <li><a href="#tabCont1_2">경기</a></li>
-                        <li><a href="#tabCont1_3">인천</a></li>
-                        <li><a href="#tabCont1_4">대전/충청/세종</a></li>
-                        <li><a href="#tabCont1_5">부산/대구/경상</a></li>
-                        <li><a href="#tabCont1_6">광주/전라</a></li>
-                        <li><a href="#tabCont1_7">강원</a></li>
-                        <li><a href="#tabCont1_8">제주</a></li>
-                    </ul>
-                    <div id="tabCont1_1" class="theater-tabCont" style="display:block;">
-                        <div class="theater-list">
-                            <ul class="region-col">
-                                <li>강남</li>
-                                <li>더 부티크 목동현대백화점</li>
-                                <li>상봉</li>
-                                <li>송파파크하비오</li>
-                                <li>코엑스</li>
-                            </ul>
-                            <ul class="region-col">
-                                <li>강남</li>
-                                <li>더 부티크 목동현대백화점</li>
-                                <li>상봉</li>
-                                <li>송파파크하비오</li>
-                                <li>코엑스</li>
-                            </ul>
-                            <ul class="region-col">
-                                <li>강남</li>
-                                <li>더 부티크 목동현대백화점</li>
-                                <li>상봉</li>
-                                <li>송파파크하비오</li>
-                                <li>코엑스</li>
-                            </ul>
-                        </div>
+                <div class="theater-wrapper m50">
+                <!-- 지역 탭 -->
+                <ul class="region-tabs">
+                    <li class="active">서울</li>
+                    <li>경기</li>
+                    <li>인천</li>
+                    <li>대전/충청/세종</li>
+                    <li>부산/대구/경상</li>
+                    <li>광주/전라</li>
+                    <li>강원</li>
+                    <li>제주</li>
+                </ul>
+                <!-- 극장 리스트 -->
+                <div class="theater-list">
+                    <div class="theater-column">
+                        <ul>
+                            <li><a href="#">강남</a></li>
+                            <li><a href="#">더부티크목동현대백화점</a></li>
+                            <li><a href="#">상봉</a></li>
+                            <li><a href="#">송파파크하비오</a></li>
+                            <li><a href="#">코엑스</a></li>
+                        </ul>
                     </div>
-                    <div id="tabCont1_2" class="theater-tabCont" style="display:none;">
-                        탭 메뉴2 내용영역입니다.
+                    <div class="theater-column">
+                        <ul>
+                            <li>강동</li>
+                            <li>동대문</li>
+                            <li>상암월드컵경기장</li>
+                            <li>신촌</li>
+                            <li>홍대</li>
+                        </ul>
                     </div>
-                    <div id="tabCont1_3" class="theater-tabCont" style="display:none;">
-                        탭 메뉴3 내용영역입니다.
+                    <div class="theater-column">
+                        <ul>
+                            <li>구의아트플</li>
+                            <li>마곡</li>
+                            <li>성수</li>
+                            <li>이수</li>
+                            <li>화곡 <sup>ⓡ</sup></li>
+                        </ul>
                     </div>
-                    <div id="tabCont1_4" class="theater-tabCont" style="display:none;">
-                        탭 메뉴4 내용영역입니다.
-                    </div>
-                    <div id="tabCont1_5" class="theater-tabCont" style="display:none;">
-                        탭 메뉴5 내용영역입니다.
-                    </div>
-                    <div id="tabCont1_6" class="theater-tabCont" style="display:none;">
-                        탭 메뉴6 내용영역입니다.
-                    </div>
-                    <div id="tabCont1_7" class="theater-tabCont" style="display:none;">
-                        탭 메뉴7 내용영역입니다.
-                    </div>
-                    <div id="tabCont1_8" class="theater-tabCont" style="display:none;">
-                        탭 메뉴8 내용영역입니다.
-                    </div>
-
-                    <div class="favorite-box">
-                        <span>■ 나의 선호극장 정보</span>
-                        <button class="login-btn">로그인하기</button>
+                    <div class="theater-column">
+                        <ul>
+                            <li>군자</li>
+                            <li>목동</li>
+                            <li>센트럴</li>
+                            <li>창동</li>
+                            <li>ARTNINE</li>
+                        </ul>
                     </div>
                 </div>
+                <div class="user-theater">
+                    <%--로그인전--%>
+                    <div class="theater-footer" style="border:1px solid red; border-radius: 5px; height:46px;">
+                        <div class="my-theater">나의 선호극장 정보</div>
+                        <button class="login-btn">로그인하기</button>
+                    </div>
 
 
+                    <%--로그인 후--%>
+                    <div class="theater-footer" style="border:1px solid red; border-radius: 5px; height:46px;">
+                        <div class="my-theater">***님의 선호극장</div>
+                        <button class="favorite-theater">선호극장 관리</button>
+                    </div>
+                </div>
             </div>
+        </div>
+
+
+
             <!--전체 극장 리스트 영역 끝-->
 
             <!--극장 이벤트 영역-->
             <div class="event-box m70 m15">
                 <h1 class="theater event-title">극장 이벤트</h1>
-                <span class="more event"><a href="#">더보기</a></span>
+                <span class="more event"><a href="#">더보기 ></a></span>
             </div>
 
             <div id="event_img" style="display:flex;">
@@ -123,7 +137,7 @@
             <!--극장 공지사항-->
             <div class="event-box m70 m15">
                 <h1 class="theater notice-title">극장 공지사항</h1>
-                <span class="more notice"><a href="#">더보기</a></span>
+                <span class="more notice"><a href="#">더보기 ></a></span>
             </div>
 
             <div class="notice-board-wrapper">
@@ -173,45 +187,10 @@
             <!--극장 공지사항 끝-->
         </div>
     </div>
-
 </article>
 
 <script>
-    // 1. 모든 탭 버튼(li)과 내용 영역(div)을 가져옵니다.
-    const tabs = document.querySelectorAll('.menu li');
-    const tabContents = document.querySelectorAll('.tabCont');
 
-    // 2. 각 탭 버튼에 클릭 이벤트 리스너를 추가합니다.
-    tabs.forEach((tab, index) => {
-        tab.addEventListener('click', (e) => {
-            // a 태그의 기본 동작(페이지 이동)을 막습니다.
-            e.preventDefault();
-
-            // 3. 모든 탭에서 'selected' 클래스를 제거합니다.
-            tabs.forEach(item => item.classList.remove('selected'));
-
-            // 4. 방금 클릭한 탭에만 'selected' 클래스를 추가합니다.
-            tab.classList.add('selected');
-
-            // 5. 모든 내용 영역을 숨깁니다.
-            tabContents.forEach(content => content.style.display = 'none');
-
-            // 6. 클릭한 탭과 순서가 맞는 내용 영역만 보여줍니다.
-            tabContents[index].style.display = 'block';
-        });
-    });
-
-    $(function () {
-        $(".tabCont").click(function () {
-            var tab_id = $(this).attr("data-tab");
-
-            $(".tabCont").style.display = 'none';
-            $(".menu>li").removeClass("selected");
-
-            $(this).addClass("active");
-            $("#" + tab_id).addClass("active");
-        });
-    });
 </script>
 
 </body>

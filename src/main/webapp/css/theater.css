@@ -3,9 +3,58 @@
 /*이너 선 스타일(확인용)*/
 .inner-wrap{
     width: 1100px;
-    margin: 0 auto;
+    margin: auto;
+    border: none;
     /*border: 1px solid darkblue;*/
 }
+
+/*상단 바(진입경로)*/
+.topBox {
+    background-color: #e2e2e2;
+    height: 42px;
+}
+.theaterTopBox {
+    width: 1100px;
+    height: 42px;
+    margin: auto;
+}
+
+.location {
+    padding-top: 13px;
+}
+
+
+/*상단 건물 이미지*/
+.img {
+    width: 1100px;
+    height: 190px;
+    background-image: url('../images/img-theater-detail.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;       /* 이미지 비율 유지하며 요소 크기에 맞게 채움 */
+    background-position: center;  /* 중앙 정렬 */
+    margin: 0 auto;               /* 가운데 정렬 (부모가 block 기준일 경우) */
+    display: flex;
+    align-items: center;         /* 텍스트 수직 가운데 */
+    justify-content: center;     /* 텍스트 수평 가운데 */
+    color: white;                /* 텍스트 색상 */
+    font-size: 24px;             /* 텍스트 크기 조절 */
+    font-weight: bold;
+}
+
+
+.theater-detail-page{
+    background-color: #111;
+}
+
+
+/*li태그 점*/
+
+.floor-info li,
+.section .show-li {
+    display: list-item !important;
+    list-style: disc inside !important;
+}
+
 
 
 /***********제목 시작***********/
@@ -45,6 +94,24 @@
 }
 
 .m15{
+    margin-bottom: 15px !important;
+}
+
+
+
+.mtb70{
+    margin-bottom: 70px !important;
+}
+
+.mtb50{
+    margin-bottom: 50px !important;
+}
+
+.mtb30{
+    margin-bottom: 30px !important;
+}
+
+.mtb15{
     margin-bottom: 15px !important;
 }
 
@@ -150,7 +217,7 @@ table th {
 .notice-board td {
     padding: 12px 10px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    /*border-bottom: 1px solid #ddd;*/
 }
 
 /* 헤더 스타일 */
@@ -202,19 +269,6 @@ table th {
     text-decoration: underline;
 }
 
-/*****************탭 시작****************/
-.ec-base-tab {
-    border: 5px solid gray;   /* 빨간 네모 테두리 */
-    border-radius: 10px;
-    width: 1085px;        /* 영역 폭 제한 (선택사항) */
-    height: 292px;
-    margin: 20px auto;       /* 중앙 정렬 */
-    box-sizing: border-box;
-}
-
-/*****************탭 끝****************/
-
-
 
 .icon {
     width: 111px;
@@ -223,12 +277,11 @@ table th {
 }
 
 
-
-
-
-/*
-*/
-
+.box-info ul{
+    border:1px solid #e0e0e0;
+    border-radius: 5px;
+    padding: 10px;
+}
 
 .collapsible {
     background-color: #777;
@@ -260,12 +313,6 @@ table th {
     float: right;
     margin-left: 5px;
 }
-/*.active:after {
-    content: "\2212";
-}*/
-
-
-
 
 
 
@@ -273,24 +320,14 @@ table th {
 
 /* 전체 공지사항 박스 */
 .theater-notice-info {
-    border: 1px solid red;
+    /*border: 1px solid red;*/
     width: 100%;
-    /*padding: 20px;*/
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     margin: 30px auto;
 }
 
-/*!* "공지사항" 타이틀 *!
-.th-title.notice {
-    font-size: 24px;
-    font-weight: bold;
-    color: #3b2e84;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 10px;
-}*/
 
 /* 공지사항 버튼 스타일 */
 .collapsible {
@@ -346,7 +383,8 @@ table th {
 
 /*li태그*/
 li::marker {
-    font-size: 0.2em; /* 점의 크기 사이즈조절 */
+    font-size: 0.4em; /* 점의 크기 사이즈조절 */
+    text-align: center;
 }
 
 
@@ -358,24 +396,25 @@ li::marker {
     padding: 0;
     margin: 40px auto 0;
     width: 1100px;
-    border-bottom: 1px solid #ccc;
 }
 
 .sub-tab-menu li {
     flex: 1; /* 탭 너비 균등 분배 */
     text-align: center;
+    border: 1px solid #ccc;
 }
 
 .tab-link {
+    all: unset; /* 기본 버튼 스타일 초기화 */
     display: block;
     width: 100%;
     padding: 16px 0;
-    text-decoration: none;
     font-size: 18px;
     font-weight: bold;
     color: #000;
+    text-align: center;
     border-bottom: 3px solid transparent;
-    /*transition: all 0.3s;*/
+    cursor: pointer;
 }
 
 .tab-link:hover {
@@ -387,22 +426,14 @@ li::marker {
     border-bottom: 3px solid #503396;
 }
 
-
-
 * {
     box-sizing: border-box;
 }
 
-/*body {
-    font-family: 'Noto Sans KR', sans-serif;
-    margin: 0;
-    padding: 0;
-}*/
-
 
 .tab-content {
     display: none;
-    border: 1px solid #ccc;
+    /*border: 1px solid #ccc;*/
     border-top: none;
 }
 
@@ -422,27 +453,6 @@ li::marker {
     line-height: 54px;
     border-radius: 0 0 10px 10px;
     background-color: #ecf0f4;
-    box-sizing: border-box;
-}
-
-/*전체극장 리스트*/
-/* theater.css 파일에 아래 내용 추가 또는 수정 */
-
-.ec-base-tab {
-    border: 5px solid gray;
-    border-radius: 10px;
-    width: 1085px;
-    height: 292px; /* 이 값은 필요에 따라 조절하세요. */
-    margin: 20px auto;
-    box-sizing: border-box;
-    position: relative; /* favorite-box의 absolute 위치 지정을 위해 추가 */
-}
-
-.theater-list {
-    display: flex; /* 내부 ul들을 가로로 정렬 */
-    justify-content: space-around; /* 극장 목록 열들 사이에 공간을 균등하게 배분 */
-    padding: 20px; /* theater-list 내부 여백 */
-    height: calc(100% - 54px); /* favorite-box 높이를 제외한 공간 활용 */
     box-sizing: border-box;
 }
 
@@ -466,37 +476,6 @@ li::marker {
     white-space: nowrap; /* 텍스트 줄바꿈 방지 */
 }
 
-/*전체극장>나의 선호극장 정보*/
-.all-theater-box .favorite-box{
-    position:absolute;
-    padding: 0 20px;
-    width:100%;
-    bottom: 0;
-    left: 0;
-    line-height: 54px; /* 높이 고정 및 텍스트 세로 중앙 정렬 */
-    border-radius: 0 0 10px 10px;
-    background-color: #ecf0f4;
-    box-sizing: border-box;
-    display: flex; /* 내부 요소 정렬을 위해 flexbox 사용 */
-    align-items: center; /* 세로 중앙 정렬 */
-    justify-content: space-between; /* 요소들을 양 끝으로 분리 */
-}
-
-.all-theater-box .favorite-box span {
-    margin-right: 10px; /* 텍스트와 버튼 사이 간격 */
-}
-
-.all-theater-box .favorite-box .login-btn {
-    padding: 8px 15px;
-    background-color: #503396; /* 로그인 버튼 색상 */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-
 .show-movie-list .show-movie .title {
     border: 1px solid gray;
     background-color: #F7F8F9;
@@ -510,8 +489,8 @@ li::marker {
 
 
 
-/*상영시간표*/
 
+/*지워야될수도 있음*/
 /* 상영시간표 전체 섹션 컨테이너 */
 .show-movie-list {
     width: 1100px; /* 전체 컨테이너 너비 */
@@ -779,3 +758,136 @@ li::marker {
     color: #503396;
     text-decoration: none;
 }
+
+
+
+/***********all_theater*************/
+
+/*전체극장 목록*/
+.theater-wrapper {
+    width: 1100px;
+    border: 2px solid #aaa;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+/* 탭 메뉴 */
+.region-tabs {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+}
+
+.region-tabs li {
+    list-style: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-right: 1px solid #ddd;
+    background-color: #f9f9f9;
+}
+
+.region-tabs li:last-child {
+    border-right: none;
+}
+
+.region-tabs li.active {
+    background-color: #444;
+    color: white;
+    font-weight: bold;
+}
+
+/* 극장 리스트 영역 */
+.theater-list {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 10px;
+}
+
+.theater-column {
+    width: 20%;
+}
+
+.theater-column ul {
+    padding-left: 0;
+}
+
+.theater-column li {
+    list-style: none;
+    padding: 3px 0;
+    font-size: 14px;
+    color: #333;
+}
+
+/*.theater-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 40px;
+    padding: 0 10px 6px 10px;
+    background-color: #f2f5f9;
+    border-top: 1px solid #e0e0e0;
+    margin-top: 10px;
+    border-radius: 0 0 8px 8px;
+    box-sizing: border-box;
+}*/
+
+.my-theater {
+    font-size: 14px;
+    color: #007b9e;
+    line-height: 1;
+}
+
+.login-btn {
+    border: 1px solid #6945db;
+    color: #6945db;
+    background: white;
+    padding: 6px 14px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.login-btn:hover {
+    background: #6945db;
+    color: white;
+}
+
+.theater-footer {
+    position: relative;
+    height: 40px;
+    border-top: 1px solid #e0e0e0;
+    background-color: #f2f5f9;
+    margin-top: 10px;
+    border-radius: 0 0 8px 8px;
+}
+
+/* 선호극장 텍스트 */
+.my-theater {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    font-size: 14px;
+    color: #007b9e;
+}
+
+/* 로그인 버튼 */
+.login-btn,
+.favorite-theater {
+    position: absolute;
+    bottom: 6px;
+    right: 10px;
+    border: 1px solid #6945db;
+    color: #6945db;
+    background: white;
+    padding: 6px 14px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.login-btn:hover,
+.favorite-theater:hover {
+    background: #6945db;
+    color: white;
+}
+
+/*all_theater끝*/
