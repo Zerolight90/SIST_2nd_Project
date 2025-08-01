@@ -12,15 +12,15 @@
     <insert id="addPayment" parameterType="mybatis.vo.PaymentVO" useGeneratedKeys="true" keyProperty="paymentIdx">
         INSERT INTO payment
         (
-            userIdx, reservationIdx, productIdx, orderId, paymentTransactionId,
-            paymentQuantity, paymentMethod, paymentTotal, paymentDiscount, paymentFinal,
-            paymentType, paymentStatus, paymentDate
+            paymentType, orderId, paymentTransactionId, paymentMethod, paymentTotal,
+            paymentDiscount, paymentFinal, paymentStatus, paymentDate,
+            userIdx, reservIdx, productIdx, couponUserIdx
         )
         VALUES
             (
-                #{userIdx}, #{reservationIdx}, #{productIdx}, #{orderId}, #{paymentTransactionId},
-                #{paymentQuantity}, #{paymentMethod}, #{paymentTotal}, #{paymentDiscount}, #{paymentFinal},
-                #{paymentType}, 0, NOW()
+                #{paymentType}, #{orderId}, #{paymentTransactionId}, #{paymentMethod}, #{paymentTotal},
+                #{paymentDiscount}, #{paymentFinal}, 0, NOW(),
+                #{userIdx}, #{reservIdx}, #{productIdx}, #{couponUserIdx}
             )
     </insert>
 

@@ -6,7 +6,7 @@
 <mapper namespace="coupon">
 
     <resultMap id="myCouponResultMap" type="mybatis.vo.MyCouponVO">
-        <id property="couponUserIdx" column="couponUserIdx"/>
+        <result property="couponUserIdx" column="couponUserIdx"/>
         <result property="couponName" column="couponName"/>
         <result property="couponValue" column="couponValue"/>
     </resultMap>
@@ -21,7 +21,9 @@
                 JOIN
             Coupon c ON cum.couponIdx = c.couponIdx
         WHERE
-            cum.userIdx = #{userIdx} AND cum.couponUserStatus = 0 -- 0: 미사용
+            cum.userIdx = #{userIdx}
+          AND cum.couponUserStatus = 0 -- 0: 미사용
+          AND c.couponExpDate >= NOW()
     </select>
 
     <update id="useCoupon" parameterType="int">

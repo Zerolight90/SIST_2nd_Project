@@ -1,5 +1,6 @@
 package Action;
 
+import mybatis.dao.CouponDAO; // CouponDAO import 추가
 import mybatis.dao.PaymentDAO;
 import mybatis.vo.PaymentVO;
 import org.json.simple.JSONObject;
@@ -18,22 +19,20 @@ import java.util.Base64;
 public class PaymentConfirmAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String paymentTypeForView = ""; // 뷰 구분을 위한 변수
+
         try {
             request.setCharacterEncoding("UTF-8");
 
-            // 1. Toss Payments로부터 받은 파라미터
+            // 1. Toss Payments로부터 받은 파라미터 + JSP에서 넘겨준 쿠폰 ID
             String orderId = request.getParameter("orderId");
             String paymentKey = request.getParameter("paymentKey");
             String amount = request.getParameter("amount");
+            int couponUserIdx = Integer.parseInt(request.getParameter("couponUserIdx")); // 쿠폰 ID 받기
 
-            // 로그 추가: 파라미터 확인 (디버깅용)
-            System.out.println("PaymentConfirmAction: orderId=" + orderId + ", paymentKey=" + paymentKey + ", amount=" + amount);
-
-
-            // 2. 결제 승인 API 호출
-            String secretKey = "test_gsk_docs_OaPz8L5KdmQXkzRz3y47BMw6"; // 테스트 시크릿 키
-            String keyColon = secretKey + ":";
-            String authorizations = "Basic " + Base64.getEncoder().encodeToString(keyColon.getBytes(StandardCharsets.UTF_8));
+            // 2. 결제 승인 API 호출 (기존과 동일)
+            String secretKey = "test_gsk_docs_OaPz8L5KdmQXkzRz3y47BMw6";
+            String authorizations = "Basic " + Base64.getEncoder().encodeToString((secretKey + ":").getBytes(StandardCharsets.UTF_8));
 
             URL url = new URL("https://api.tosspayments.com/v1/payments/confirm");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -49,74 +48,70 @@ public class PaymentConfirmAction implements Action {
 
             OutputStream outputStream = connection.getOutputStream();
             outputStream.write(reqObj.toString().getBytes("UTF-8"));
-            outputStream.flush(); // outputStream.close() 대신 flush()만 할 수도 있음
+            outputStream.flush();
 
             int code = connection.getResponseCode();
             boolean isSuccess = (code == 200);
 
-            // 응답 스트림 읽기
-            BufferedReader reader;
-            if (isSuccess) {
-                reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
-            } else {
-                reader = new BufferedReader(new InputStreamReader(connection.getErrorStream(), StandardCharsets.UTF_8));
-            }
+            BufferedReader reader = new BufferedReader(new InputStreamReader(isSuccess ? connection.getInputStream() : connection.getErrorStream(), StandardCharsets.UTF_8));
             JSONParser parser = new JSONParser();
             JSONObject resObj = (JSONObject) parser.parse(reader);
-            reader.close(); // BufferedReader도 닫아줘야 함
+            reader.close();
 
-            // 로그 추가: Toss Payments 응답 확인 (디버깅용)
-            System.out.println("Toss Payments Response: " + resObj.toJSONString());
-
-            // 3. 결제 타입 구분 및 DB 저장 로직
-            String paymentTypeForView = "pay_movie";
-
+            // 3. 결제 성공 시 DB 저장 로직
             if (isSuccess) {
-                String orderName = resObj.get("orderName").toString();
                 PaymentVO vo = new PaymentVO();
+                String resOrderId = resObj.get("orderId").toString();
+                String resOrderName = resObj.get("orderName").toString();
 
-                if (orderName.endsWith("구매")) {
-                    paymentTypeForView = "pay_store";
+                // 🔴 수정: orderId의 접두사로 영화/스토어 구분
+                if (resOrderId.startsWith("SIST_STORE_")) {
+                    paymentTypeForView = "paymentStore";
                     vo.setPaymentType(2); // 2: 상품
-                    // 실제 product 테이블에 있는 ID로 설정 (임시)
-                    vo.setProductIdx(1); // 이 부분은 실제 상품 ID로 교체 필요!
-                } else {
-                    paymentTypeForView = "pay_movie";
+
+                    // 🔴 수정: orderName에서 실제 상품 ID 추출 (예: "상품명_1" -> 1)
+                    String productIdxStr = resOrderName.substring(resOrderName.lastIndexOf("_") + 1);
+                    vo.setProductIdx(Integer.parseInt(productIdxStr));
+
+                } else if (resOrderId.startsWith("SIST_MOVIE_")) {
+                    paymentTypeForView = "paymentMovie";
                     vo.setPaymentType(1); // 1: 영화
-                    vo.setReservationIdx(100L); // 이 부분은 실제 예약 ID로 교체 필요!
+
+                    // 🔴 수정: orderName에서 실제 예매 ID 추출 (예: "영화제목_1" -> 1)
+                    String reservIdxStr = resOrderName.substring(resOrderName.lastIndexOf("_") + 1);
+                    vo.setReservationIdx(Long.parseLong(reservIdxStr));
                 }
 
-                // 임시 테스트용 userIdx 설정
-                vo.setUserIdx(1L); // 로그인된 사용자 ID로 교체 필요!
+                // 🔴 수정: 쿠폰 사용 정보 저장 및 처리
+                if (couponUserIdx > 0) {
+                    vo.setCouponUserIdx(couponUserIdx);
+                    // (심화) 실제 할인액을 DB에서 조회하여 vo.setCouponDiscount()에 저장할 수 있음
+                    CouponDAO.useCoupon(couponUserIdx); // 쿠폰 상태를 '사용 완료'로 변경
+                }
 
                 // 공통 정보 설정
-                vo.setOrderId(resObj.get("orderId").toString());
+                vo.setUserIdx(1L); // TODO: 실제 로그인된 사용자 ID로 교체 필요
+                vo.setOrderId(resOrderId);
                 vo.setPaymentTransactionId(resObj.get("paymentKey").toString());
                 vo.setPaymentMethod(resObj.get("method").toString());
                 vo.setPaymentFinal(Integer.parseInt(resObj.get("totalAmount").toString()));
+                // (심화) 할인액, 할인 전 금액 계산 로직 추가...
 
-                int dbResult = PaymentDAO.addPayment(vo);
-
-                // 로그 추가: DB 저장 결과 (디버깅용)
-                System.out.println("DB Save Result: " + (dbResult > 0 ? "Success" : "Fail"));
-
+                PaymentDAO.addPayment(vo);
             }
 
             // 4. JSTL에서 사용할 수 있도록 request에 데이터 저장
             request.setAttribute("isSuccess", isSuccess);
-            request.setAttribute("paymentType", paymentTypeForView);
-            request.setAttribute("resObj", resObj); // Toss Payments 응답 객체를 그대로 전달
+            request.setAttribute("paymentType", paymentTypeForView); // 🔴 올바르게 구분된 paymentType 전달
+            request.setAttribute("resObj", resObj);
 
-            // 성공 페이지로 포워딩
             return "paymentConfirm.jsp";
 
         } catch (Exception e) {
             e.printStackTrace();
-            // 에러 발생 시 처리
             request.setAttribute("isSuccess", false);
             request.setAttribute("errorMessage", "결제 처리 중 오류가 발생했습니다: " + e.getMessage());
-            // 에러 페이지로 포워딩 (paymentFail.jsp가 있다면 해당 경로로)
-            return "paymentFail.jsp"; // 또는 오류 메시지를 표시할 다른 JSP 페이지
+            return "paymentConfirm.jsp"; // 에러 발생 시에도 paymentConfirm.jsp로 포워딩하여 실패 화면 표시
         }
     }
 }

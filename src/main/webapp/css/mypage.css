@@ -1,0 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+/* --- 기본 & 레이아웃 --- */
+body, html {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: white;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+article {
+    padding: 40px 0;
+}
+
+.container {
+    display: flex;
+    width: 1200px;
+    margin: 0 auto;
+    background-color: #fff;
+    box-shadow: 0 0 15px rgba(0,0,0,0.05);
+    min-height: 80vh;
+}
+
+.side-nav {
+    width: 220px;
+    padding: 40px 20px;
+    background-color: #fff;
+    border-right: 1px solid #eee;
+    flex-shrink: 0;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 40px;
+}
+
+/* --- 사이드 네비게이션 --- */
+.side-nav h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.side-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.side-nav li a {
+    display: block;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: #555;
+    font-size: 16px;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.3s, color 0.3s;
+    cursor: pointer;
+}
+
+.side-nav li a.active,
+.side-nav li a:hover {
+    background-color: #f8f8f8;
+    color: #8e44ad; /* 변경됨 */
+    font-weight: 500;
+}
+
+/* --- 공통 컨텐츠 스타일 --- */
+.content-title {
+    font-size: 22px;
+    font-weight: 700;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #333;
+    margin-bottom: 30px;
+}
+.content-section { margin-bottom: 40px; }
+
+/* --- 테이블 스타일 --- */
+.data-table { width: 100%; border-collapse: collapse; text-align: center; font-size: 15px; }
+.data-table th, .data-table td { padding: 15px 10px; border-bottom: 1px solid #e0e0e0; }
+.data-table th { background-color: #f9f9f9; font-weight: 500; color: #333; }
+.data-table td { color: #555; }
+.data-table .item-title { text-align: left; }
+.data-table .status-used { color: #999; }
+.data-table .status-available { color: #8e44ad; font-weight: bold; } /* 변경됨 */
+
+/* --- 버튼 스타일 --- */
+.btn { display: inline-block; padding: 8px 15px; border: 1px solid #ccc; background-color: #fff; color: #333; border-radius: 4px; cursor: pointer; font-size: 14px; transition: all 0.2s; }
+.btn:hover { background-color: #f0f0f0; }
+.btn-primary { background-color: #8e44ad; border-color: #8e44ad; color: #fff; } /* 변경됨 */
+.btn-primary:hover { background-color: #732d91; border-color: #732d91; } /* 변경됨 */
+
+/* --- 필터/조회 영역 --- */
+.filter-area { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; }
+.filter-area select, .filter-area input[type="date"] { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+.filter-area .radio-group input { margin-right: 5px; }
+.filter-area .radio-group label { margin-right: 15px; }
+
+/* --- 페이징 스타일 --- */
+.pagination { display: flex; justify-content: center; margin-top: 30px; }
+.pagination a, .pagination strong { margin: 0 5px; padding: 8px 12px; text-decoration: none; border: 1px solid #ddd; color: #333; border-radius: 4px; }
+.pagination a:hover { background-color: #f0f0f0; }
+.pagination strong { background-color: #8e44ad; color: white; border-color: #8e44ad; } /* 변경됨 */
+
+/* --- 예매내역 카드 --- */
+.reservation-card { display: flex; border: 1px solid #eee; border-radius: 8px; padding: 20px; margin-bottom: 20px; align-items: center; transition: box-shadow 0.3s; }
+.reservation-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.reservation-card img { width: 80px; height: 120px; object-fit: cover; border-radius: 4px; margin-right: 20px; }
+.reservation-card .info { flex-grow: 1; }
+.reservation-card .info p { margin: 0 0 8px 0; }
+.reservation-card .info .date { font-size: 14px; color: #888; }
+.reservation-card .info .title { font-size: 18px; font-weight: bold; }
+.reservation-card .info .details { font-size: 15px; color: #555; }
+.reservation-card .action { width: 100px; text-align: center; }
+
+/* --- 탭 스타일 --- */
+.tab-nav { display: flex; border-bottom: 1px solid #ddd; margin-bottom: 20px; }
+.tab-nav a { padding: 10px 20px; text-decoration: none; color: #888; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -1px; }
+.tab-nav a.active { color: #8e44ad; font-weight: 500; border-bottom-color: #8e44ad; } /* 변경됨 */
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+
+/* --- 무비스토리 --- */
+.review-item { display: flex; padding: 20px 0; border-bottom: 1px solid #f0f0f0; }
+.review-item img { width: 80px; margin-right: 20px; }
+.review-item .review-content { flex-grow: 1; }
+.review-item .review-actions a { color: #888; text-decoration: none; font-size: 14px; margin-left: 10px; }
+.movie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
+.movie-card { text-align: center; }
+.movie-card img { width: 100%; border-radius: 8px; margin-bottom: 10px; }
+
+/* --- 회원정보 --- */
+.form-layout { max-width: 600px; margin: 0 auto; }
+.form-group { display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid #f0f0f0; }
+.form-group .form-label { width: 150px; font-weight: 500; }
+.form-group .form-value { flex-grow: 1; display: flex; align-items: center; gap: 10px; }
+
+/* --- 포인트 (수정됨) --- */
+.point-summary-box {
+    display: flex;
+    background-color: #fff; /* 흰색 배경으로 변경 */
+    color: #333; /* 텍스트 색상을 어둡게 변경 */
+    padding: 30px;
+    border-radius: 8px;
+    margin-bottom: 40px;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #e0e0e0; /* 테두리 추가 */
+}
+.point-summary-box .available-points .points {
+    font-size: 36px;
+    font-weight: 700;
+    color: #8e44ad; /* 변경됨 */
+}
+.point-summary-box .point-details {
+    flex-basis: 55%;
+    background-color: #f9f9f9; /* 내부 상세 정보는 연한 회색으로 변경 */
+    color: #333;
+    padding: 20px;
+    border-radius: 6px;
+}
+.point-details table { width: 100%; }
+.point-details .value { text-align: right; font-weight: 500; }
+.point-details .total { font-size: 18px; color: #8e44ad; font-weight: bold; border-top: 1px solid #eee; padding-top: 10px; } /* 변경됨 */
