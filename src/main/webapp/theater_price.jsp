@@ -2,45 +2,6 @@
 <html>
 <head>
     <title>Title</title>
-  <style>
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-      font-size: 14px;
-      color: #333;
-    }
-
-    table th, table td {
-      border: 1px solid #ddd;
-      padding: 12px 16px;
-      text-align: center;
-    }
-
-    table th {
-      background-color: #F7F8F9;
-      font-weight: bold;
-    }
-
-
-    .table-container {
-      display: flex;
-      justify-content: space-between; /* 양 끝에 붙도록 변경 */
-      width: 1100px;
-      margin: 0 auto;
-      flex-wrap: nowrap; /* 줄 바꿈 방지 */
-    }
-
-    .section {
-      flex: 1;
-      flex-basis: 48%; /* 1100px의 약 절반 (마진 고려) */
-      max-width: 48%; /* 최대 너비 제한 */
-      margin: 10px; /* 테이블 사이 여백 */
-      box-sizing: border-box;
-    }
-
-
-  </style>
   <link rel="stylesheet" href="./css/theater.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
 
@@ -64,7 +25,7 @@
         <!--관람료 표-->
         <div class="table-container">
           <div class="section">
-            <h3>· 2D</h3>
+            <h3 class="show-li">2D</h3>
             <table class="price-table">
               <thead>
               <tr>
@@ -102,7 +63,7 @@
           </div>
 
           <div class="section">
-            <h3>· 3D</h3>
+            <h3 class="show-li">3D</h3>
             <table class="price-table">
               <thead>
               <tr>
@@ -149,10 +110,10 @@
         </div>
         <div class="theater-age-info">
           <div class="event-box m30">
-            <ul>
-              <li><span class="aqua">경로</span>&nbsp;<span>65세 이상 본인에 한함(신분증 확인)</span></li>
-              <li><span class="aqua">청소년 요금</span>&nbsp;<span>7세~19세의 초,중,고 재학생(학생증, 교복, 청소년증, 의료보험증, 주민등록 등/초본, 그 외 청소년 확인 가능 서류)</span></li>
-              <li>생후 48개월 미만의 경우 증빙원(예 : 의료보험증, 주민등록 초/등본 등) 지참 시에만 무료 관람 가능</li>
+            <ul class="floor-info">
+              <li class="show-li"><span class="aqua">경로</span>&nbsp;<span>65세 이상 본인에 한함(신분증 확인)</span></li>
+              <li class="show-li"><span class="aqua">청소년 요금</span>&nbsp;<span>7세~19세의 초,중,고 재학생(학생증, 교복, 청소년증, 의료보험증, 주민등록 등/초본, 그 외 청소년 확인 가능 서류)</span></li>
+              <li class="show-li">생후 48개월 미만의 경우 증빙원(예 : 의료보험증, 주민등록 초/등본 등) 지참 시에만 무료 관람 가능</li>
             </ul>
           </div>
         </div>
@@ -163,14 +124,14 @@
         </div>
         <div class="theater-benefit-info">
           <div class="event-box m30">
-            <ul>
-              <li><span class="aqua">국가유공자</span>&nbsp;<span>현장에서 국가유공자증을 소지한 본인 외 동반 1인까지 적용</span></li>
-              <li><span class="aqua">장애인</span>&nbsp;<span>현장에서 복지카드를 소지한 장애인(중증:동반 1인까지/경증:본인에 한함)</span></li>
-              <li><span class="aqua">미취학아동</span>&nbsp;<span>부모 동반한 생후 48개월부터~6세 까지의 미취학아동 본인(의료보험증, 주민등록 초/등본 확인)</span></li>
-              <li><span class="aqua">소방종사자</span>&nbsp;<span>공무원증을 소지하거나 정복을 입은 소방관 본인</span></li>
+            <ul class="floor-info">
+              <li class="show-li"><span class="aqua">국가유공자</span>&nbsp;<span>현장에서 국가유공자증을 소지한 본인 외 동반 1인까지 적용</span></li>
+              <li class="show-li"><span class="aqua">장애인</span>&nbsp;<span>현장에서 복지카드를 소지한 장애인(중증:동반 1인까지/경증:본인에 한함)</span></li>
+              <li class="show-li"><span class="aqua">미취학아동</span>&nbsp;<span>부모 동반한 생후 48개월부터~6세 까지의 미취학아동 본인(의료보험증, 주민등록 초/등본 확인)</span></li>
+              <li class="show-li"><span class="aqua">소방종사자</span>&nbsp;<span>공무원증을 소지하거나 정복을 입은 소방관 본인</span></li>
             </ul>
             <br/><br/>
-            <p class="mt70">관람 가격 및 시간대 운영은 극장마다 상이할 수 있으며, 상기 가격은 메가박스 **점에 한하여 적용됩니다.</p>
+            <p class="m70">관람 가격 및 시간대 운영은 극장마다 상이할 수 있으며, 상기 가격은 메가박스 **점에 한하여 적용됩니다.</p>
           </div>
         </div>
       </div>

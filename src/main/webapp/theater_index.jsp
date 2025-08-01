@@ -5,6 +5,7 @@
   <title>SIST BOX 쌍용박스</title>
   <link rel="stylesheet" href="./css/sub/sub_page_style.css">
   <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/theater.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
@@ -12,7 +13,7 @@
 </head>
 
 <body>
-<header>
+<%--<header>
   <div class="menu1">
     <div class="inner">
       <!-- 로고 -->
@@ -124,42 +125,62 @@
     </script>
   </div>
 
+</header>--%>
+
+<header>
+  <jsp:include page="jsp/menu.jsp"/>
 </header>
 
+<div class="topBox">
+  <div class="theaterTopBox">
+    <div class="location">
+      <span>Home</span>
+      &nbsp;>&nbsp;
+      <span>전체극장</span>
+      >
+      <a href="#">극장정보</a>
+    </div>
+  </div>
+</div>
 
 <div id="contents" class="no-padding">
   <div class="theater-detail-page">
-    <div class="img" style="border:1px solid red">
-      <h1>백그라운드 이미지</h1>
+    <div class="img">
+      <p>더부티크 목동 현대 백화점</p>
     </div>
-    <div class="inner-wrap">
-      <!-- 탭 메뉴 -->
-      <ul class="sub-tab-menu">
-        <li><a href="javascript:void(0);" class="tab-link active" onclick="ex1()">극장정보</a></li>
-        <li><a href="javascript:void(0);" class="tab-link" onclick="ex2()">상영시간표</a></li>
-        <li><a href="javascript:void(0);" class="tab-link" onclick="ex3()">관람료</a></li>
-      </ul>
+  </div>
+  <div class="inner-wrap">
+    <!-- 탭 메뉴 -->
+    <ul class="sub-tab-menu">
+      <li><button type="button" class="tab-link active" onclick="ex1()">극장정보</button></li>
+      <li><button type="button" class="tab-link" onclick="ex2()">상영시간표</button></li>
+      <li><button type="button" class="tab-link" onclick="ex3()">관람료</button></li>
+    </ul>
 
-      <div id="tab1" class="tab-content show"></div>
-      <div id="tab2" class="tab-content"></div>
-      <div id="tab3" class="tab-content"></div>
-    </div>
+    <div id="tab1" class="tab-content show"></div>
+    <div id="tab2" class="tab-content"></div>
+    <div id="tab3" class="tab-content"></div>
 
   </div>
 </div>
 
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7e9af1de8ac409c7ec1e76b2d2022b5e&autoload=false" async onload="initMap()"></script>
 
 <script>
   function ex1() {
     activateTab(0);
-    $("#tab1").load("theater_info.jsp");
+    $("#tab1").load("theater_info.jsp", function(){
+      initMap();
+    });
   }
 
   function ex2() {
     activateTab(1);
-    $("#tab2").load("theater_timetable.jsp");
+    $("#tab2").load("theater_timetable.jsp", function () {
+
+    });
   }
 
   function ex3() {
@@ -178,7 +199,63 @@
   $(document).ready(function () {
     ex1();
   });
+
+
+
+
+  function collapse(element) {
+    var before = document.getElementsByClassName("active")[0]               // 기존에 활성화된 버튼
+    if (before && document.getElementsByClassName("active")[0] != element) {  // 자신 이외에 이미 활성화된 버튼이 있으면
+      before.nextElementSibling.style.maxHeight = null;   // 기존에 펼쳐진 내용 접고
+      before.classList.remove("active");                  // 버튼 비활성화
+    }
+    element.classList.toggle("active");         // 활성화 여부 toggle
+
+    var content = element.nextElementSibling;
+    if (content.style.maxHeight != 0) {         // 버튼 다음 요소가 펼쳐져 있으면
+      content.style.maxHeight = null;         // 접기
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";  // 접혀있는 경우 펼치기
+    }
+  }
+
+  function initMap() {
+
+    // 지금 브렌치는 선영이 작성하고 있는 내용입니다.
+    var container = document.getElementById('map');
+    var options = {
+      center: new kakao.maps.LatLng(37.5284455288195, 127.125357402766), //위도, 경도
+      level: 3
+    };
+
+    var map = new kakao.maps.Map(container, options);
+
+
+    // 버튼을 클릭하면 아래 배열의 좌표들이 모두 보이게 지도 범위를 재설정합니다
+    var points = [
+      new kakao.maps.LatLng(37.5284455288195, 127.125357402766)
+    ];
+
+    // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+    var bounds = new kakao.maps.LatLngBounds();
+
+    var i, marker;
+    for (i = 0; i < points.length; i++) {
+      // 마커를 생성
+      marker = new kakao.maps.Marker({ position : points[i] });
+      marker.setMap(map); //마커가 지도위에 표시되도록 함
+
+      // LatLngBounds 객체에 좌표를 추가합니다
+      bounds.extend(points[i]);
+    }
+
+  }
 </script>
+
+<%--주소(Address) : 서울 강동구 성내로 48
+위도(Latitude) : 37.5284455288195 / 경도(Longitude) : 127.125357402766--%>
+<%--카카오map--%>
+
   
   </body>
 </html>

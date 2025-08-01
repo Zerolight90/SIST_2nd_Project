@@ -10,20 +10,14 @@
     <!--영화관 상세정보 영역-->
     <div id="theaterDetails">
       <div class="inner-wrap">
-        <!--지역, 영화관명-->
-        <div>
-
-        </div>
-
-        <!--첫번째텝 -->
-
-        <!--텝제목 -->
-        <div class="theater-info-text mt40" style="outline:solid 1px blue" >
+        <div class="theater-info-text m50">
           <p class="big">
             강동구청역 도보 5분, 전 좌석 가죽시트로 쾌적하고 편안하게! 언제나 즐거운 우리동네 극장<br>
           </p>
+          <hr>
           <p></p>
         </div>
+        <hr>
         <!--시설안내-->
         <div class="event-box m70">
           <h2 class="theater traffic">시설안내</h2>
@@ -40,12 +34,12 @@
           <h3 class="small-tit m15">층별안내</h3>
 
           <div class="sisul-floor-info">
-            <p class="floor-info">
+            <ul class="floor-info">
               <li>1층 : 매표소, 매점, 무인 발권기, 로비, 엘리베이터, 남·여 화장실, 남·여 장애인 화장실, 캡슐 토이, 투썸 플레이스</li>
               <li>2층 : 1관·2관, 로비, 엘리베이터, 음료 자판기, 남·여 화장실</li>
               <li>4층 : 3관·4관, 로비, 엘리베이터, 음료 자판기, 남·여 화장실</li>
               <li>6층 : 5관~10관, 로비, 엘리베이터, 음료 자판기, 남·여 화장실</li>
-            </p>
+            </ul>
           </div>
         </div>
 
@@ -57,8 +51,11 @@
             <h2 class="theater traffic">교통안내</h2>
           </div>
           <h3 class="small-tit m30">지도</h3>
-          <p><li>도로명주소: 서울특별시 강동구 성내로 48 <button>주소 복사</button></li> </p>
-          <div id="map" style="width:500px; height:400px; border:1px solid purple;"></div>
+          <p>도로명주소: 서울특별시 강동구 성내로 48 <button>주소 복사</button></p>
+         <%--카카오맵--%>
+          <div id="map" style="width:500px; height:400px; border:1px solid purple;">
+
+          </div>
           <h3 class="small-tit m50">주차</h3>
           <div class="parking-info" style="width:1100px; height: 400px; border:1px solid gray; border-radius: 10px;">
 
@@ -114,6 +111,10 @@
     </div>
   </article>
 
+  <%--주소(Address) : 서울 강동구 성내로 48
+  위도(Latitude) : 37.5284455288195 / 경도(Longitude) : 127.125357402766--%>
+  <%--카카오map--%>
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7e9af1de8ac409c7ec1e76b2d2022b5e"></script>
   <script>
     function collapse(element) {
       var before = document.getElementsByClassName("active")[0]               // 기존에 활성화된 버튼
@@ -130,7 +131,36 @@
         content.style.maxHeight = content.scrollHeight + "px";  // 접혀있는 경우 펼치기
       }
     }
+
+
+    // 지금 브렌치는 선영이 작성하고 있는 내용입니다.
+    var container = document.getElementById('map');
+    var options = {
+      center: new kakao.maps.LatLng(37.5284455288195, 127.125357402766), //위도, 경도
+      level: 3
+    };
+
+    var map = new kakao.maps.Map(container, options);
+
+
+    // 버튼을 클릭하면 아래 배열의 좌표들이 모두 보이게 지도 범위를 재설정합니다
+    var points = [
+      new kakao.maps.LatLng(37.5284455288195, 127.125357402766)
+    ];
+
+    // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+    var bounds = new kakao.maps.LatLngBounds();
+
+    var i, marker;
+    for (i = 0; i < points.length; i++) {
+      // 마커를 생성
+      marker = new kakao.maps.Marker({ position : points[i] });
+      marker.setMap(map); //마커가 지도위에 표시되도록 함
+
+      // LatLngBounds 객체에 좌표를 추가합니다
+      bounds.extend(points[i]);
+    }
   </script>
-  
+
   </body>
 </html>
