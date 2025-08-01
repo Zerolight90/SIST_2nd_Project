@@ -1154,11 +1154,13 @@ header {
 .list > ul > li {
     flex: 1 1 0;        /* li가 균등하게 가로로 늘어나게 지정(원한다면) */
     min-width: 0;       /* 넘침 방지 */
+
 }
 
 /*=====임포메션===*/
 #imformation{
     display: block;
+    width: 100%;
     height: 840px;
     background-color: #FFFFFF;
 }
@@ -1179,21 +1181,46 @@ header {
 
 .info_slider {
     display: flex;
-    width: 1100px;
+    width: 1200px;
     margin: 0 auto;
     position: relative;
     align-items: center;
+    overflow: hidden;
+}
+.info_slider ul {
+    display: flex;
+    width: 1200px;
+    margin: 0 auto;
+    padding-top: 50px;
+    gap: 20px;
+    /*border: 1px solid red;*/
+    /*overflow: hidden;*/
+    /*transition: transform 0.5s;*/
+}
+.info_slider ul li{
+    position: relative;
+    right: 0;
+    display: flex;
+    margin: 0 auto;
+    /*padding-top: 50px;*/
+    gap: 20px;
+    /*border: 1px solid blueviolet;*/
+    /*overflow: hidden;*/
+    /*transition: transform 0.5s;*/
 }
 
-.info_btn {
-    position: absolute;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
 
+.info_btn {
+    position: relative;
+    width: 1100px;
+    height: 50px;
+    margin: 0 auto;
+    /*border: 1px solid red;*/
 }
 
 .b_btn, .n_btn {
+    position: absolute;
+    bottom: 130px;
     margin-top: 40px;
     font-size: 70px;
     font-family: 'Noto Sans KR', 돋움 serif;
@@ -1202,6 +1229,18 @@ header {
     border: none;
     cursor: pointer;
     color: #cccccc;
+}
+
+.b_btn{
+    position: absolute;
+
+    left: 0;
+}
+
+.n_btn{
+    position: absolute;
+
+    right: 0;
 }
 
 .info_slider ul{
@@ -1240,6 +1279,9 @@ header {
     transform: translateY(-170px);
 }
 
+/*.info_slider ul {*/
+/*    transition: transform 0.5s;*/
+/*}*/
 
 
 /* ================= 푸터 ================= */

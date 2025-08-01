@@ -596,10 +596,6 @@
             </div>
 
             <div class="info_slider">
-                <div class="info_btn">
-                    <button class="b_btn">&lt;</button>
-                    <button class="n_btn">&gt;</button>
-                </div>
                  <ul>
                     <li>
                         <a href="#">
@@ -669,10 +665,45 @@
                 </ul>
             </div>
 
+            <div class="info_btn">
+                <button class="b_btn">&lt;</button>
+                <button class="n_btn">&gt;</button>
+            </div>
+
+
             <script>
+                $(document).ready(function(){
+                    // li 개수(슬라이드 개수)
+                    var maxIndex = $('.info_slider ul li').length - 1; // 9, 인덱스 기준
+                    var moveWidth = 185;
+                    var minRight = 0;
+                    var maxRight = moveWidt * axIndex; // 18 *  = 1665
+
+                    // 모든 li에 공통 right 값 관리 (공동으로 움직이고 싶으면)
+                    var currRight = 0;
+
+                    // 왼쪽 버튼 클릭
+                    $('.b_btn').on('click', function(){
+                        if(currRight < maxRight){
+                            currRight += moveWidth;
+                            $('.info_slider ul li').css('right', currRight + 'px');
+                        }
+                    });
+
+                    // 오른쪽 버튼 클릭
+                    $('.n_btn').on('click', function(){
+                        if(currRight > minRight){
+                            currRight -= moveWidth;
+                            $('.info_slider ul li').css('right', currRight + 'px');
+                        }
+                    });
+                });
+
 
             </script>
         </div>
+
+
 </article>
 
 
