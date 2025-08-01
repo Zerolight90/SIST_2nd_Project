@@ -5,6 +5,7 @@
     <title>Title</title>
 <%--    <link rel="stylesheet" href="./css/sub/sub_page_style.css">--%>
     <link rel="stylesheet" href="./css/admin.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
     <style>
         /* 기본 폰트 및 여백 초기화 */
         body {
@@ -197,7 +198,7 @@
               </div>
               <form class="search-form" action="#" method="get">
                   <p>가입일 : </p>
-                  <p>jQueryUI DatePicker</p>
+                  <p>Date: <input type="text" id="datepicker"></p>
                   <select name="user_status">
                       <option value="">사용자 상태 선택</option>
                       <option value="active">활성</option>
@@ -258,7 +259,7 @@
               </tr>
               <tr>
                   <td>3</td>
-                  <td>dpdlcl0111</td>
+                  <td>이도</td>
                   <td>dpdlcl0111</td>
                   <td>dpdlcl0111@gmail.com</td>
                   <td>010-1234-1234</td>
@@ -307,5 +308,14 @@
           </nav>
       </div>
   </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+    <script>
+        $( function() {
+            $( "#datepicker" ).datepicker();
+        } );
+    </script>
+
 </body>
 </html>
