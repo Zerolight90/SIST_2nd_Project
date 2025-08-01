@@ -7,12 +7,11 @@
   <title>SIST BOX - 결제하기</title>
   <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 
-  <%-- 필수 라이브러리 추가 --%>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://js.tosspayments.com/v1/payment-widget"></script>
 
   <link rel="stylesheet" href="${basePath}/css/reset.css">
-  <link rel="stylesheet" href="${basePath}/css/style.css">
+  <link rel="stylesheet" href="${basePath}/css/sub/sub_page_style.css">
   <link rel="stylesheet" href="${basePath}/css/payment.css">
   <link rel="icon" href="${basePath}/images/favicon.png">
 </head>
@@ -24,100 +23,87 @@
   <div class="payment_container">
     <div class="payment_info_section">
       <h1>결제하기</h1>
-
+      <%-- 🔴 c:otherwise 대신 paymentStore를 명시적으로 분기 🔴 --%>
       <c:choose>
-        <c:when test="${paymentType == 'pay_movie'}">
+        <c:when test="${paymentType == 'paymentMovie'}">
           <div class="info_group">
             <h2>예매정보</h2>
             <div class="booking_card">
-              <img src="${displayInfo.posterUrl}" alt="포스터 이미지" class="poster">
+              <img src="${basePath}/${reservationInfo.posterUrl}" alt="포스터 이미지" class="poster">
               <div class="booking_card_details">
-                <p class="payment_movie_title">${displayInfo.title}</p>
-                <c:forEach var="detail" items="${displayInfo.details}">
-                  <p class="info_line">${detail}</p>
+                <p class="payment_movie_title">${reservationInfo.title}</p>
+                <p class="info_line">${reservationInfo.theaterName} / ${reservationInfo.screenName}</p>
+                <p class="info_line">일시: ${reservationInfo.startTime}</p>
+                <p class="info_line">좌석: ${reservationInfo.seatInfo}</p>
+              </div>
+            </div>
+          </div>
+          <div class="info_group">
+            <h2>할인 적용</h2>
+            <div class="input_dropdown">
+              <select name="coupon" id="couponSelector">
+                <option value="0" data-discount="0">쿠폰 선택</option>
+                <c:forEach var="coupon" items="${couponList}">
+                  <option value="${coupon.couponUserIdx}" data-discount="${coupon.couponValue}">
+                      ${coupon.couponName} (-${coupon.couponValue}원)
+                  </option>
                 </c:forEach>
+              </select>
+            </div>
+          </div>
+        </c:when>
+        <c:when test="${paymentType == 'paymentStore'}">
+          <div class="info_group">
+            <h2>구매정보</h2>
+            <div class="booking_card">
+              <img src="${basePath}/${productInfo.prodImg}" alt="상품 이미지" class="poster">
+              <div class="booking_card_details">
+                <p class="payment_movie_title">${productInfo.prodName}</p>
+                <p class="info_line">수량: 1개</p>
               </div>
             </div>
           </div>
         </c:when>
-        <c:otherwise>
-          <div class="info_group">
-            <h2>구매정보</h2>
-            <div class="booking_card">
-              <img src="${productInfo.prodImg}" alt="상품 이미지" class="poster">
-              <div class="booking_card_details">
-                <p class="payment_movie_title">${productInfo.prodName}</p>
-              </div>
-            </div>
-          </div>
-        </c:otherwise>
       </c:choose>
-
-      <c:if test="${paymentType == 'pay_movie'}">
-        <div class="info_group">
-          <h2>할인 적용</h2>
-          <div class="input_dropdown">
-            <select name="coupon" id="couponSelector">
-              <option value="0" data-uservalue="0">쿠폰 선택</option>
-              <c:forEach var="coupon" items="${couponList}">
-                <option value="${coupon.couponUserIdx}" data-uservalue="${coupon.couponValue}">
-                    ${coupon.couponName}
-                </option>
-              </c:forEach>
-            </select>
-          </div>
-        </div>
-        <div class="info_group">
-          <h2>포인트 사용</h2>
-          <div class="input_field">
-            <input type="text" placeholder="0">
-            <span class="point_info">보유 0원</span>
-            <button class="btn_apply">사용</button>
-          </div>
-        </div>
-      </c:if>
-
       <div class="info_group">
         <h2>결제수단</h2>
         <div id="payment-widget"></div>
       </div>
     </div>
-
     <div class="payment_summary_section">
       <h2>결제금액</h2>
+      <%-- 🔴 c:otherwise 대신 paymentStore를 명시적으로 분기 🔴 --%>
       <c:choose>
-        <c:when test="${paymentType == 'pay_movie'}">
-          <%-- ▼▼▼▼▼▼▼▼▼▼▼ CSS 구조에 맞게 수정 ▼▼▼▼▼▼▼▼▼▼▼ --%>
+        <c:when test="${paymentType == 'paymentMovie'}">
           <div class="summary_item">
             <span>상품 금액</span>
-            <span class="value">${displayInfo.price} 원</span>
+            <span class="value">${reservationInfo.finalAmount} 원</span>
           </div>
-          <div class="summary_item">
+          <div class="summary_item discount_item">
             <span>할인 금액</span>
-            <span class="value">- ${displayInfo.discount} 원</span>
+            <span class="value" id="discountAmountText">- 0 원</span>
           </div>
           <div class="final_amount_display">
             <span>총 결제 금액</span>
             <div class="amount">
-              <span class="number">${displayInfo.finalAmount}</span>
+              <span class="number" id="finalAmountNumber">${reservationInfo.finalAmount}</span>
               <span class="currency">원</span>
             </div>
           </div>
-          <%-- ▲▲▲▲▲▲▲▲▲▲▲ CSS 구조에 맞게 수정 ▲▲▲▲▲▲▲▲▲▲▲ --%>
         </c:when>
-        <c:otherwise>
+        <c:when test="${paymentType == 'paymentStore'}">
           <div class="summary_item">
             <span>상품 금액</span>
-            <span class="value">${productInfo.prodPrice} 원</span>
+            <span class="value">${finalAmount} 원</span>
           </div>
           <div class="final_amount_display">
             <span>총 결제 금액</span>
             <div class="amount">
-              <span class="number">${productInfo.prodPrice}</span>
+              <span class="number">${finalAmount}</span>
               <span class="currency">원</span>
             </div>
           </div>
-        </c:otherwise>
+        </c:when>
       </c:choose>
       <div class="button_group">
         <button class="pay_button btn_prev" onclick="history.back()">이전</button>
@@ -132,24 +118,52 @@
 
 <script>
   const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
-  const customerKey = "temp_customer_123";
-
+  const customerKey = "SIST_USER_${paymentType == 'paymentMovie' ? reservationInfo.userIdx : 'store_user'}";
   const paymentWidget = PaymentWidget(clientKey, customerKey);
 
-  const originalFinalAmount = <c:out value='${paymentType == "pay_store" ? productInfo.prodPrice : displayInfo.finalAmount}' />;
+  const originalAmount = ${paymentType == 'paymentMovie' ? reservationInfo.finalAmount : finalAmount};
+  let finalAmount = originalAmount;
 
-  paymentWidget.renderPaymentMethods("#payment-widget", { value: originalFinalAmount });
+  const paymentMethods = paymentWidget.renderPaymentMethods("#payment-widget", { value: finalAmount });
 
+  // 쿠폰 선택 이벤트 리스너
+  $('#couponSelector').on('change', function() {
+    const selectedOption = $(this).find('option:selected');
+    const discount = parseInt(selectedOption.data('discount'), 10);
+    finalAmount = originalAmount - discount;
+    $('#discountAmountText').text("- " + discount.toLocaleString() + " 원");
+    $('#finalAmountNumber').text(finalAmount.toLocaleString());
+    paymentMethods.updateAmount(finalAmount);
+  });
+
+  // 결제 요청 함수
   function requestPayment() {
-    const orderName = "<c:out value='${paymentType == "pay_store" ? productInfo.prodName.concat(" 구매") : displayInfo.title.concat(" 예매")}' />";
+    const paymentType = "${paymentType}";
 
+    let orderId = "";
+    let orderName = "";
+    let successUrl = "";
+    const failUrl = 'http://localhost:8080/paymentFail.jsp';
+
+    // 🔴 else 대신 paymentStore를 명시적으로 분기 🔴
+    if (paymentType === 'paymentMovie') {
+      const selectedCouponIdx = $('#couponSelector').val() || 0;
+      orderId = "SIST_MOVIE_" + new Date().getTime();
+      orderName = "${reservationInfo.title}_${reservationInfo.reservIdx}";
+      successUrl = 'http://localhost:8080/Controller?type=paymentConfirm&couponUserIdx=' + selectedCouponIdx;
+    } else if (paymentType === 'paymentStore') {
+      orderId = "SIST_STORE_" + new Date().getTime();
+      orderName = "${productInfo.prodName}_${productInfo.productIdx}";
+      successUrl = 'http://localhost:8080/Controller?type=paymentConfirm&couponUserIdx=0';
+    }
+
+    // 최종적으로 위에서 설정된 정보로 결제 요청
     paymentWidget.requestPayment({
-      orderId: "SISTBOX_" + new Date().getTime(),
+      orderId: orderId,
       orderName: orderName,
-      customerName: "김쌍용",
-      successUrl: window.location.origin + "<%= request.getContextPath() %>/Controller?type=paymentConfirm",
-      failUrl: window.location.origin + "<%= request.getContextPath() %>/Controller?type=paymentFail.jsp"
-
+      customerName: "김자바",
+      successUrl: successUrl,
+      failUrl: failUrl
     });
   }
 </script>

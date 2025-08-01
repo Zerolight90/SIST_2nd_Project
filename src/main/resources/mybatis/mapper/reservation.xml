@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="reservation">
+
+    <resultMap id="reservationDetailsResult" type="mybatis.vo.ReservationVO">
+        <id property="reservIdx" column="reservIdx"/>
+        <result property="userIdx" column="userIdx"/>
+        <result property="finalAmount" column="finalAmount"/>
+        <result property="title" column="movieTitle"/>
+        <result property="posterUrl" column="moviePosterUrl"/>
+        <result property="theaterName" column="theaterName"/>
+        <result property="screenName" column="screenName"/>
+        <result property="startTime" column="startTime"/>
+        <result property="seatInfo" column="seatInfo"/>
+    </resultMap>
+
+    <select id="getDetails" parameterType="long" resultMap="reservationDetailsResult">
+        SELECT
+            r.reservIdx,
+            r.userIdx,
+            r.finalAmount,
+            m.title AS movieTitle,
+            m.posterUrl AS moviePosterUrl,
+            t.name AS theaterName,
+            sc.name AS screenName,
+            DATE_FORMAT(s.startTime, '%Y-%m-%d %H:%i') AS startTime,
+            (SELECT GROUP_CONCAT(seatNumber SEPARATOR ', ') FROM ReservationSeatMapping WHERE reservIdx = r.reservIdx) AS seatInfo
+        FROM
+            Reservation r
+                JOIN
+            Schedule s ON r.scheduleIdx = s.scheduleIdx
+                JOIN
+            Movie m ON s.movieIdx = m.movieIdx
+                JOIN
+            Theater t ON s.theaterIdx = t.theaterIdx
+                JOIN
+            Screen sc ON s.screenIdx = sc.screenIdx
+        WHERE
+            r.reservIdx = #{reservIdx}
+    </select>
+</mapper>

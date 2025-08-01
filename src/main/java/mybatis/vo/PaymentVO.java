@@ -1,56 +1,128 @@
 package mybatis.vo;
 
-// 결제 정보 테이블(Payment)에 해당하는 VO
+import java.util.Date;
+
 public class PaymentVO {
 
     private long paymentIdx;
-    private int paymentType; // 결제 종류 (1: 영화, 2: 상품)
+    private int paymentType; // 1: 영화, 2: 상품
     private String orderId;
-
-    private long userIdx;
-    private Long reservationIdx; // 영화 예매 ID (상품 구매 시에는 null이 될 수 있음)
-    private Integer productIdx;  // 상품 ID (영화 예매 시에는 null이 될 수 있음)
-    private String paymentTransactionId; // Toss Payments에서 발급하는 거래 키
-    private int paymentQuantity;
+    private String paymentTransactionId; // Toss Payments 거래 키
     private String paymentMethod;
     private int paymentTotal; // 할인 전 총 금액
     private int paymentDiscount; // 할인액
     private int paymentFinal; // 최종 결제 금액
+    private Date paymentDate;
 
-    // Getters and Setters
-    public long getPaymentIdx() { return paymentIdx; }
-    public void setPaymentIdx(long paymentIdx) { this.paymentIdx = paymentIdx; }
+    // Foreign Keys
+    private long userIdx;
+    private Long reservationIdx;
+    private Integer productIdx;
+    private Integer couponUserIdx;
 
-    public int getPaymentType() { return paymentType; }
-    public void setPaymentType(int paymentType) { this.paymentType = paymentType; }
+    // Getters and Setters (생략)
 
-    public String getOrderId() { return orderId; }
-    public void setOrderId(String orderId) { this.orderId = orderId; }
+    public long getPaymentIdx() {
+        return paymentIdx;
+    }
 
-    public long getUserIdx() { return userIdx; }
-    public void setUserIdx(long userIdx) { this.userIdx = userIdx; }
+    public void setPaymentIdx(long paymentIdx) {
+        this.paymentIdx = paymentIdx;
+    }
 
-    public Long getReservationIdx() { return reservationIdx; }
-    public void setReservationIdx(Long reservationIdx) { this.reservationIdx = reservationIdx; }
+    public int getPaymentType() {
+        return paymentType;
+    }
 
-    public Integer getProductIdx() { return productIdx; }
-    public void setProductIdx(Integer productIdx) { this.productIdx = productIdx; }
+    public void setPaymentType(int paymentType) {
+        this.paymentType = paymentType;
+    }
 
-    public String getPaymentTransactionId() { return paymentTransactionId; }
-    public void setPaymentTransactionId(String paymentTransactionId) { this.paymentTransactionId = paymentTransactionId; }
+    public String getOrderId() {
+        return orderId;
+    }
 
-    public int getPaymentQuantity() { return paymentQuantity; }
-    public void setPaymentQuantity(int paymentQuantity) { this.paymentQuantity = paymentQuantity; }
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
 
-    public String getPaymentMethod() { return paymentMethod; }
-    public void setPaymentMethod(String paymentMethod) { this.paymentMethod = paymentMethod; }
+    public String getPaymentTransactionId() {
+        return paymentTransactionId;
+    }
 
-    public int getPaymentTotal() { return paymentTotal; }
-    public void setPaymentTotal(int paymentTotal) { this.paymentTotal = paymentTotal; }
+    public void setPaymentTransactionId(String paymentTransactionId) {
+        this.paymentTransactionId = paymentTransactionId;
+    }
 
-    public int getPaymentDiscount() { return paymentDiscount; }
-    public void setPaymentDiscount(int paymentDiscount) { this.paymentDiscount = paymentDiscount; }
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
 
-    public int getPaymentFinal() { return paymentFinal; }
-    public void setPaymentFinal(int paymentFinal) { this.paymentFinal = paymentFinal; }
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public int getPaymentTotal() {
+        return paymentTotal;
+    }
+
+    public void setPaymentTotal(int paymentTotal) {
+        this.paymentTotal = paymentTotal;
+    }
+
+    public int getPaymentDiscount() {
+        return paymentDiscount;
+    }
+
+    public void setPaymentDiscount(int paymentDiscount) {
+        this.paymentDiscount = paymentDiscount;
+    }
+
+    public int getPaymentFinal() {
+        return paymentFinal;
+    }
+
+    public void setPaymentFinal(int paymentFinal) {
+        this.paymentFinal = paymentFinal;
+    }
+
+    public Date getPaymentDate() {
+        return paymentDate;
+    }
+
+    public void setPaymentDate(Date paymentDate) {
+        this.paymentDate = paymentDate;
+    }
+
+    public long getUserIdx() {
+        return userIdx;
+    }
+
+    public void setUserIdx(long userIdx) {
+        this.userIdx = userIdx;
+    }
+
+    public Long getReservationIdx() {
+        return reservationIdx;
+    }
+
+    public void setReservationIdx(Long reservationIdx) {
+        this.reservationIdx = reservationIdx;
+    }
+
+    public Integer getProductIdx() {
+        return productIdx;
+    }
+
+    public void setProductIdx(Integer productIdx) {
+        this.productIdx = productIdx;
+    }
+
+    public Integer getCouponUserIdx() {
+        return couponUserIdx;
+    }
+
+    public void setCouponUserIdx(Integer couponUserIdx) {
+        this.couponUserIdx = couponUserIdx;
+    }
 }

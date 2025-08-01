@@ -1,79 +1,117 @@
 package mybatis.vo;
 
-// 예매 정보 테이블(Reservation)에 해당하는 VO
 public class ReservationVO {
 
-    private int reservIdx;
-    private int userIdx;
-    private int theaterIdx;
-    private int sIdx; // 상영관 ID
-    private int timeTableIdx;
-    private long reservationDate;
-    private int reservationStatus;
-    private String customReservationIdx;
+    // 기본 정보
+    private long reservIdx;      // 예매 고유 ID (PK)
+    private long userIdx;        // 예매한 사용자 ID
+    private String reservStatus;   // 예매 상태 (예: PENDING_PAYMENT, COMPLETED, CANCELED)
+    private int finalAmount;     // 최종 결제해야 할 금액
+
+    // JOIN을 통해 가져올 정보들
+    private String title;          // 영화 제목
+    private String posterUrl;      // 영화 포스터 이미지 경로
+    private String theaterName;    // 극장 이름 (예: 강남점)
+    private String screenName;     // 상영관 이름 (예: IMAX관, 5관)
+    private String startTime;      // 상영 시작 시간 (날짜 포함)
+    private String seatInfo;       // 예매한 좌석 정보 (예: A1, A2)
+    private int adultCount;        // 성인 인원 수
+    private int teenCount;         // 청소년 인원 수
 
     // Getters and Setters
-    public int getReservIdx() {
+    public long getReservIdx() {
         return reservIdx;
     }
 
-    public void setReservIdx(int reservIdx) {
+    public void setReservIdx(long reservIdx) {
         this.reservIdx = reservIdx;
     }
 
-    public int getUserIdx() {
+    public long getUserIdx() {
         return userIdx;
     }
 
-    public void setUserIdx(int userIdx) {
+    public void setUserIdx(long userIdx) {
         this.userIdx = userIdx;
     }
 
-    public int getTheaterIdx() {
-        return theaterIdx;
+    public String getReservStatus() {
+        return reservStatus;
     }
 
-    public void setTheaterIdx(int theaterIdx) {
-        this.theaterIdx = theaterIdx;
+    public void setReservStatus(String reservStatus) {
+        this.reservStatus = reservStatus;
     }
 
-    public int getsIdx() {
-        return sIdx;
+    public int getFinalAmount() {
+        return finalAmount;
     }
 
-    public void setsIdx(int sIdx) {
-        this.sIdx = sIdx;
+    public void setFinalAmount(int finalAmount) {
+        this.finalAmount = finalAmount;
     }
 
-    public int getTimeTableIdx() {
-        return timeTableIdx;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTimeTableIdx(int timeTableIdx) {
-        this.timeTableIdx = timeTableIdx;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public long getReservationDate() {
-        return reservationDate;
+    public String getPosterUrl() {
+        return posterUrl;
     }
 
-    public void setReservationDate(long reservationDate) {
-        this.reservationDate = reservationDate;
+    public void setPosterUrl(String posterUrl) {
+        this.posterUrl = posterUrl;
     }
 
-    public int getReservationStatus() {
-        return reservationStatus;
+    public String getTheaterName() {
+        return theaterName;
     }
 
-    public void setReservationStatus(int reservationStatus) {
-        this.reservationStatus = reservationStatus;
+    public void setTheaterName(String theaterName) {
+        this.theaterName = theaterName;
     }
 
-    public String getCustomReservationIdx() {
-        return customReservationIdx;
+    public String getScreenName() {
+        return screenName;
     }
 
-    public void setCustomReservationIdx(String customReservationIdx) {
-        this.customReservationIdx = customReservationIdx;
+    public void setScreenName(String screenName) {
+        this.screenName = screenName;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getSeatInfo() {
+        return seatInfo;
+    }
+
+    public void setSeatInfo(String seatInfo) {
+        this.seatInfo = seatInfo;
+    }
+
+    public int getAdultCount() {
+        return adultCount;
+    }
+
+    public void setAdultCount(int adultCount) {
+        this.adultCount = adultCount;
+    }
+
+    public int getTeenCount() {
+        return teenCount;
+    }
+
+    public void setTeenCount(int teenCount) {
+        this.teenCount = teenCount;
     }
 }
