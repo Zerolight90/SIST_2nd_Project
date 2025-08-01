@@ -7,7 +7,7 @@
             <!-- 로고 -->
             <h1 class="logo">
                 <a href="#" class="logo_link">
-                    <img src="./images/logo_W.png" alt="sist" class="logo_img" />
+                    <img src="./images/logo.png" alt="sist" class="logo_img" />
                 </a>
                 <span class="title">S I S T M O V I E P L E X</span>
             </h1>
@@ -20,11 +20,12 @@
             <li><a href="#" class="vip-lounge">VIP LOUNGE</a></li>
             <li><a href="#" class="membership">멤버십</a></li>
             <li><a href="#" class="customer-center">고객센터</a></li>
+            <li><a href="#" class="admin_page">관리자</a></li> <!--로그인 할때만 표현됨-->
         </ul>
 
         <ul class="nav-r_top">
             <li><a href="#" class="login">로그인</a></li>
-            <li><a href="../join.jsp" class="signup">회원가입</a></li>
+            <li><a href="#" class="signup">회원가입</a></li>
             <li><a href="#" class="quick-booking">빠른예매</a></li>
         </ul>
     </div>

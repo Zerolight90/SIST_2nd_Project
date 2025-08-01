@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>SIST BOX 쌍용박스</title>
-    <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="icon" href="./images/favicon.png">
-
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
@@ -42,7 +41,7 @@
 
         <ul class="nav-r_top">
             <li><a href="#" class="login">로그인</a></li>
-            <li><a href="#" class="signup">회원가입</a></li>
+            <li><a href="./join/join.html" class="signup">회원가입</a></li>
             <li><a href="#" class="quick-booking">빠른예매</a></li>
         </ul>
     </div>
@@ -496,7 +495,7 @@
             </div>
         </div>
 
-
+        <!--큐레이션-->
         <div id="Curation">
             <div class="Curation_tit">
                 <h3>큐레이션</h3>
@@ -509,7 +508,7 @@
             <div class="curation-area">
                 <!-- curr-img -->
                 <div class="curr-img">
-                    <p class="bage film">메가박스 필름소사이어티</p>
+                    <p class="curr-img film">메가박스 필름소사이어티</p>
                     <div class="img">
                         <a href="#" title="영화상세 보기">
                             <img src="https://img.megabox.co.kr/SharedImg/2025/06/25/vpsfG90KfghLzOlqQlbM08MSblmwgl2w_420.jpg" alt="이사">
@@ -541,40 +540,48 @@
                     <ul>
                         <li>
                             <a href="#" title="영화상세 보기">
-                                <p class="bage film">필름소사이어티</p>
+                                <p class="list film">
+                                    <img src ="https://www.megabox.co.kr/static/pc/images/main/bg-bage-curation-classic-m.png" alt="f">
+                                    [오페라] 살로메 @The Met</p>
                                 <div class="img"><img src="https://img.megabox.co.kr/SharedImg/2025/07/30/2rjo3n80E7xYoxI7Iegwbscv3eop38HQ_230.jpg" alt="반 고흐. 밀밭과 구름 낀 하늘"></div>
 
-                                <p class="tit">반 고흐. 밀밭과 구름 낀 하늘</p>
+                                <p class="list_tit">[오페라] 살로메 @The Met</p>
 
                             </a>
                         </li>
 
                         <li>
                             <a href="#" title="영화상세 보기">
-                                <p class="bage film">필름소사이어티</p>
+                                <p class="list film">
+                                    <img src ="https://www.megabox.co.kr/static/pc/images/main/bg-bage-curation-film-m.png" alt="f">
+                                    스왈로우테일 버터플라이</p>
                                 <div class="img"><img src="https://img.megabox.co.kr/SharedImg/2025/06/30/w2nnbPYseX6AEYRAtUFANOMy4uUAJRos_230.jpg" alt="반 고흐. 밀밭과 구름 낀 하늘"></div>
 
-                                <p class="tit">반 고흐. 밀밭과 구름 낀 하늘</p>
+                                <p class="list_tit">스왈로우테일 버터플라이</p>
 
                             </a>
                         </li>
 
                         <li>
                             <a href="#" title="영화상세 보기">
-                                <p class="bage film">필름소사이어티</p>
+                                <p class="list film">
+                                    <img src = "https://www.megabox.co.kr/static/pc/images/main/bg-bage-curation-film-m.png" alt="f">
+                                    필름소사이어티</p>
                                 <div class="img"><img src="https://img.megabox.co.kr/SharedImg/2025/07/01/bH7Oy3v0WXrni0IGZPujFnCpht3kEUEi_230.jpg" alt="반 고흐. 밀밭과 구름 낀 하늘"></div>
 
-                                <p class="tit">반 고흐. 밀밭과 구름 낀 하늘</p>
+                                <p class="list_tit">미세리코르디아</p>
 
                             </a>
                         </li>
 
                         <li>
                             <a href="#" title="영화상세 보기">
-                                <p class="bage film">필름소사이어티</p>
+                                <p class="list film">
+                                    <img src ="https://www.megabox.co.kr/static/pc/images/main/bg-bage-curation-classic-m.png" alt="f">
+                                    필름소사이어티</p>
                                 <div class="img"><img src="https://img.megabox.co.kr/SharedImg/2025/07/04/2gu3t4RJ8rYYBi7NoP9cJ1BUDu5vzMn2_230.jpg" alt="반 고흐. 밀밭과 구름 낀 하늘" onerror="noImg(this, 'main');"></div>
 
-                                <p class="tit">반 고흐. 밀밭과 구름 낀 하늘</p>
+                                <p class="list_tit">반 고흐. 밀밭과 구름 낀 하늘</p>
 
                             </a>
                         </li>
@@ -584,7 +591,87 @@
         </div>
 
         <div id="imformation">
-            쌍용박스 안내
+            <div class="imformation_tit">
+                <h3>쌍용박스 안내</h3>
+            </div>
+
+            <div class="info_slider">
+                <div class="info_btn">
+                    <button class="b_btn">&lt;</button>
+                    <button class="n_btn">&gt;</button>
+                </div>
+                 <ul>
+                    <li>
+                        <a href="#">
+                            <img src="images/infomation_img/bg-main-dolbycinema.png" alt="dolbyatmos" draggable="false"/>
+                            슬라이드1</a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <img src="images/infomation_img/bg-main-dva.png" alt="dolbyatmos" draggable="false"/>
+                            슬라이드2
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <img src="images/infomation_img/bg-main-mx4d.png" alt="dolbyatmos" draggable="false"/>
+                            슬라이드3
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <img src="images/infomation_img/bg-main-dolbyatmos.png" alt="dolbyatmos" draggable="false"/>
+                            슬라이드4
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#"><img src="images/infomation_img/bg-main-led.png" alt="dolbyatmos" draggable="false"/>
+                            슬라이드5
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <img src="images/infomation_img/bg-main-private.png" alt="dolbyatmos" draggable="false"/>
+                            슬라이드6
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#"><img src="images/infomation_img/bg-main-suite.png" alt="dolbyatmos" draggable="false"/>
+                            슬라이드7
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <img src="images/infomation_img/bg-main-boutiq.png" alt="dolbyatmos" draggable="false"/>
+                            슬라이드8
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#"><img src="./images/infomation_img/bg-main-recliner.png" alt="dolbyatmos" draggable="false"/>
+                            슬라이드9
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <img src="images/infomation_img/bg-main-comfort.png" alt="dolbyatmos" draggable="false"/>
+                            슬라이드10
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <script>
+
+            </script>
         </div>
 </article>
 

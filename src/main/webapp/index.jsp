@@ -377,17 +377,185 @@
                 <div class="cell store"><a href="/store" title="스토어 페이지로 이동">스토어</a></div>
             </div>
         </div>
-
-
     </div>
 
 
+    <!--큐레이션-->
     <div id="Curation">
-        큐레이션
+        <div class="Curation_tit">
+            <h3>큐레이션</h3>
+
+            <a href="#" class="more-event" title="더 많은 혜택">
+                큐레이션 더 보기 <i class="fas fa-plus"></i>
+            </a>
+        </div>
+
+        <div class="curation-area">
+            <!-- curr-img -->
+            <div class="curr-img">
+                <p class="curr-img film">메가박스 필름소사이어티</p>
+                <div class="img">
+                    <a href="#" title="영화상세 보기">
+                        <img src="https://img.megabox.co.kr/SharedImg/2025/06/25/vpsfG90KfghLzOlqQlbM08MSblmwgl2w_420.jpg" alt="이사">
+                    </a>
+                </div>
+
+                <div class="btn-group justify">
+                    <div class="left">
+                        <a href="#" class="button" title="영화상세 보기">상세정보</a>
+                    </div>
+                    <div class="right">
+                        <a href="#" class="button gblue" title="영화 예매하기">예매</a>
+                    </div>
+                </div>
+
+                <div class="info">
+                    <p class="txt"><span>#</span>필름소사이어티</p>
+                    <p class="info_tit">이사</p>
+                    <p class="info_summary">
+                        화목한 가정을 자부하던 6학년 소녀 렌<br>어느 날 아빠가 집을 나가고 엄마가 이혼을 선언했다.<br><br>
+                        “나는 엄마 아빠가 싸워도 참았어<br>근데 왜 엄마 아빠는 못 참는 거야?”<br><br>엄마가 만든 ‘둘을 위한
+                        계약서’도 싫고<br>친구들이 이 사실을 알아챌까 두렵다<br><br>“엄마, 부탁이 있어<br>이번 주 토요일 비와
+                        호수에 가자”<br><br>몰래 꾸민 세 가족 여행<br>엄마 아빠와 다시 함께 살 수 있을까?
+                    </p>
+                </div>
+            </div>
+
+            <div class="list">
+                <ul>
+                    <li>
+                        <a href="#" title="영화상세 보기">
+                            <p class="list film">
+                                <img src ="https://www.megabox.co.kr/static/pc/images/main/bg-bage-curation-classic-m.png" alt="f">
+                                [오페라] 살로메 @The Met</p>
+                            <div class="img"><img src="https://img.megabox.co.kr/SharedImg/2025/07/30/2rjo3n80E7xYoxI7Iegwbscv3eop38HQ_230.jpg" alt="반 고흐. 밀밭과 구름 낀 하늘"></div>
+
+                            <p class="list_tit">[오페라] 살로메 @The Met</p>
+
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" title="영화상세 보기">
+                            <p class="list film">
+                                <img src ="https://www.megabox.co.kr/static/pc/images/main/bg-bage-curation-film-m.png" alt="f">
+                                스왈로우테일 버터플라이</p>
+                            <div class="img"><img src="https://img.megabox.co.kr/SharedImg/2025/06/30/w2nnbPYseX6AEYRAtUFANOMy4uUAJRos_230.jpg" alt="반 고흐. 밀밭과 구름 낀 하늘"></div>
+
+                            <p class="list_tit">스왈로우테일 버터플라이</p>
+
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" title="영화상세 보기">
+                            <p class="list film">
+                                <img src = "https://www.megabox.co.kr/static/pc/images/main/bg-bage-curation-film-m.png" alt="f">
+                                필름소사이어티</p>
+                            <div class="img"><img src="https://img.megabox.co.kr/SharedImg/2025/07/01/bH7Oy3v0WXrni0IGZPujFnCpht3kEUEi_230.jpg" alt="반 고흐. 밀밭과 구름 낀 하늘"></div>
+
+                            <p class="list_tit">미세리코르디아</p>
+
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" title="영화상세 보기">
+                            <p class="list film">
+                                <img src ="https://www.megabox.co.kr/static/pc/images/main/bg-bage-curation-classic-m.png" alt="f">
+                                필름소사이어티</p>
+                            <div class="img"><img src="https://img.megabox.co.kr/SharedImg/2025/07/04/2gu3t4RJ8rYYBi7NoP9cJ1BUDu5vzMn2_230.jpg" alt="반 고흐. 밀밭과 구름 낀 하늘" onerror="noImg(this, 'main');"></div>
+
+                            <p class="list_tit">반 고흐. 밀밭과 구름 낀 하늘</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 
     <div id="imformation">
-        쌍용박스 안내
+        <div class="imformation_tit">
+            <h3>쌍용박스 안내</h3>
+        </div>
+
+        <div class="info_slider">
+            <div class="info_btn">
+                <button class="b_btn">&lt;</button>
+                <button class="n_btn">&gt;</button>
+            </div>
+            <ul>
+                <li>
+                    <a href="#">
+                        <img src="images/infomation_img/bg-main-dolbycinema.png" alt="dolbyatmos" draggable="false"/>
+                        슬라이드1</a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <img src="images/infomation_img/bg-main-dva.png" alt="dolbyatmos" draggable="false"/>
+                        슬라이드2
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <img src="images/infomation_img/bg-main-mx4d.png" alt="dolbyatmos" draggable="false"/>
+                        슬라이드3
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <img src="images/infomation_img/bg-main-dolbyatmos.png" alt="dolbyatmos" draggable="false"/>
+                        슬라이드4
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#"><img src="images/infomation_img/bg-main-led.png" alt="dolbyatmos" draggable="false"/>
+                        슬라이드5
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <img src="images/infomation_img/bg-main-private.png" alt="dolbyatmos" draggable="false"/>
+                        슬라이드6
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#"><img src="images/infomation_img/bg-main-suite.png" alt="dolbyatmos" draggable="false"/>
+                        슬라이드7
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <img src="images/infomation_img/bg-main-boutiq.png" alt="dolbyatmos" draggable="false"/>
+                        슬라이드8
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#"><img src="./images/infomation_img/bg-main-recliner.png" alt="dolbyatmos" draggable="false"/>
+                        슬라이드9
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <img src="images/infomation_img/bg-main-comfort.png" alt="dolbyatmos" draggable="false"/>
+                        슬라이드10
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <script>
+
+        </script>
     </div>
 
 </article>

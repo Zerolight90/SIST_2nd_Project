@@ -15,7 +15,7 @@
 <body>
 
 <header>
-  <jsp:include page="jsp/menu.jsp"/>
+  <jsp:include page="jsp/sub_menu.jsp"/>
 </header>
 
 <div class="inner-wrap">

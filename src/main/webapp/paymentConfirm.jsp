@@ -13,7 +13,7 @@
 </head>
 <body>
 <header>
-  <jsp:include page="${basePath}/jsp/menu.jsp"/>
+  <jsp:include page="jsp/sub_menu.jsp"/>
 </header>
 <article>
   <div class="confirmation_container">
