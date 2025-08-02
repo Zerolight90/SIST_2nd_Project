@@ -30,7 +30,7 @@ public class PaymentConfirmAction implements Action {
             String amount = request.getParameter("amount");
             int couponUserIdx = Integer.parseInt(request.getParameter("couponUserIdx")); // 쿠폰 ID 받기
 
-            // 2. 결제 승인 API 호출 (기존과 동일)
+            // 2. 결제 승인 API 호출
             String secretKey = "test_gsk_docs_OaPz8L5KdmQXkzRz3y47BMw6";
             String authorizations = "Basic " + Base64.getEncoder().encodeToString((secretKey + ":").getBytes(StandardCharsets.UTF_8));
 
@@ -64,12 +64,12 @@ public class PaymentConfirmAction implements Action {
                 String resOrderId = resObj.get("orderId").toString();
                 String resOrderName = resObj.get("orderName").toString();
 
-                // 🔴 수정: orderId의 접두사로 영화/스토어 구분
+                // orderId의 접두사로 영화/스토어 구분
                 if (resOrderId.startsWith("SIST_STORE_")) {
                     paymentTypeForView = "paymentStore";
                     vo.setPaymentType(2); // 2: 상품
 
-                    // 🔴 수정: orderName에서 실제 상품 ID 추출 (예: "상품명_1" -> 1)
+                    // orderName에서 실제 상품 ID 추출 (예: "상품명_1" -> 1)
                     String productIdxStr = resOrderName.substring(resOrderName.lastIndexOf("_") + 1);
                     vo.setProductIdx(Integer.parseInt(productIdxStr));
 
@@ -77,12 +77,12 @@ public class PaymentConfirmAction implements Action {
                     paymentTypeForView = "paymentMovie";
                     vo.setPaymentType(1); // 1: 영화
 
-                    // 🔴 수정: orderName에서 실제 예매 ID 추출 (예: "영화제목_1" -> 1)
+                    // orderName에서 실제 예매 ID 추출 (예: "영화제목_1" -> 1)
                     String reservIdxStr = resOrderName.substring(resOrderName.lastIndexOf("_") + 1);
                     vo.setReservationIdx(Long.parseLong(reservIdxStr));
                 }
 
-                // 🔴 수정: 쿠폰 사용 정보 저장 및 처리
+                // 쿠폰 사용 정보 저장 및 처리
                 if (couponUserIdx > 0) {
                     vo.setCouponUserIdx(couponUserIdx);
                     // (심화) 실제 할인액을 DB에서 조회하여 vo.setCouponDiscount()에 저장할 수 있음

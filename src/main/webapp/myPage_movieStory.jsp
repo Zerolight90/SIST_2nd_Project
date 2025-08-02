@@ -2,8 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.List, java.util.ArrayList, java.util.Map, java.util.HashMap" %>
 <%
-  // Action 클래스에서 데이터를 받아오는 것이 좋습니다.
-  // 여기서는 JSP에서 직접 샘플 데이터를 생성합니다.
   Map<String, String> review1 = new HashMap<>();
   review1.put("poster", "https://placehold.co/80x120/222/fff?text=Hitman2");
   review1.put("title", "히트맨 2");
@@ -86,7 +84,7 @@
         this.classList.add('active');
 
         tabPanes.forEach(pane => {
-          // 클릭된 탭에 해당하는 컨텐츠만 active 클래스를 추가하고, 나머지는 제거합니다.
+          // 클릭된 탭에 해당하는 컨텐츠만 active 클래스를 추가하고, 나머지는 제거
           if (pane.getAttribute('data-tab-content') === targetTab) {
             pane.classList.add('active');
           } else {

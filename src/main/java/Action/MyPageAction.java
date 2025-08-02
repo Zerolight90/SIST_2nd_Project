@@ -27,9 +27,6 @@ public class MyPageAction implements Action {
             switch (type) {
                 case "myReservation":
 
-                    // =================================================================
-                    // 주석 처리했던 Paging 관련 코드를 다시 활성화합니다.
-                    // =================================================================
                     String cPage = request.getParameter("cPage");
                     int nowPage = 1;
                     if (cPage != null && !cPage.isEmpty()) {
@@ -39,7 +36,7 @@ public class MyPageAction implements Action {
                     pvo.setTotalCount(23); // TODO: DB에서 실제 데이터 총 개수로 변경해야 합니다.
                     pvo.setNowPage(nowPage);
 
-                    // JSP에서 페이징을 사용하기 위해 request에 저장합니다.
+                    // JSP에서 페이징을 사용하기 위해 request에 저장
                     request.setAttribute("pvo", pvo);
                     // =================================================================
 
@@ -59,7 +56,6 @@ public class MyPageAction implements Action {
                     viewPath = "/myPage_reservationHistory.jsp";
                     break;
 
-                // 다른 케이스들은 기존과 동일
                 case "myCoupon":
                     viewPath = "/myPage_couponList.jsp";
                     break;

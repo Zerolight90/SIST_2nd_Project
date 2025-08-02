@@ -24,7 +24,7 @@ public class PaymentMovieAction implements Action {
             long reservIdx = Long.parseLong(reservIdxParam);
             ReservationVO reservation = ReservationDAO.getReservationDetails(reservIdx);
 
-            // 2. DAO의 결과가 null인지 확인 (핵심!)
+            // 2. DAO의 결과가 null인지 확인
             if (reservation == null) {
                 System.out.println("### MoviePaymentAction 오류: reservIdx '" + reservIdx + "'에 해당하는 예매 정보가 DB에 없습니다.");
                 // 여기에 사용자에게 보여줄 에러 메시지를 설정할 수 있습니다.
