@@ -1,4 +1,25 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<head>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <!-- 모달 창의 제목 표시줄을 숨기고, X 버튼 스타일을 정의하는 CSS -->
+    <style>
+        .no-titlebar .ui-dialog-titlebar {
+            display: none;
+        }
+        .custom-close-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #888;
+        }
+    </style>
+</head>
 
 <footer>
     <div id="footer-top">
@@ -41,24 +62,63 @@
         </div>
     </div>
 
+    <div id="admin-login-modal" title="관리자 로그인" style="display:none;"></div>
+
     <script>
-        // 로고 3번 클릭하면 admin page 이동
-        let clickCount = 0;
-        let clickTimer = null;
+        $(function() {
+            let dialogOptions = {
+                autoOpen: false,
+                modal: true,
+                width: 'auto',
+                height: 'auto',
+                resizable: false,
+                dialogClass: 'no-titlebar', // 제목 표시줄을 숨기기
+                // 모달이 열릴 때마다 실행되는 open 이벤트 핸들러 추가
+                open: function() {
+                    // X 버튼
+                    let closeButton = $('<button type="button" class="custom-close-button">&times;</button>');
 
-        $('.footer-logo').on('click', function() {
-            clickCount += 1;
+                    // X 버튼 클릭 시 다얄로그 닫기
+                    closeButton.on('click', function() {
+                        $("#admin-login-modal").dialog("close");
+                    });
 
-            if(clickCount === 3) {
-                window.open('adminLogin.jsp', '_blank');
-                clickCount = 0; // 클릭 카운트 초기화
+                    // 모달에 버튼 추가
+                    $(this).append(closeButton);
+                },
+                close: function() {
+                    // 모달이 닫힐 때 내부 내용 청소
+                    $(this).empty();
+                }
+            };
+
+            $("#admin-login-modal").dialog(dialogOptions);
+
+            // 로고 3번 클릭 이벤트
+            let clickCount = 0;
+            let clickTimer = null;
+
+            $('.footer-logo').on('click', function() {
+                clickCount += 1;
+
+                if (clickCount === 3) {
+                    $("#admin-login-modal").load("adminLogin.jsp", function(response, status, xhr) {
+                        if (status == "error") {
+                            $(this).html("로그인 창을 불러오는 데 실패했습니다: " + xhr.status + " " + xhr.statusText);
+                        }
+                        $("#admin-login-modal").dialog("open");
+                    });
+
+                    clickCount = 0;
+                    clearTimeout(clickTimer);
+                    return;
+                }
+
                 clearTimeout(clickTimer);
-                return;
-            }
-            clearTimeout(clickTimer);
-            clickTimer = setTimeout(function() {
-                clickCount = 0;
-            }, 700);
+                clickTimer = setTimeout(function() {
+                    clickCount = 0;
+                }, 700);
+            });
         });
     </script>
 </footer>

@@ -3,8 +3,8 @@
 <head>
     <title>Title</title>
 </head>
-<body style="width: 350px; height: 280px">
-  <div style="width: 350px; height: 280px; border: 1px solid #000000; border-radius: 5px;">
+<body style="width: 350px; height: 250px">
+  <div style="width: 350px; height: 250px; border: 1px solid #000000; border-radius: 5px;">
     <div style="text-align: center; margin: 0 auto;">
       <h2>관리자 로그인</h2>
     </div>
