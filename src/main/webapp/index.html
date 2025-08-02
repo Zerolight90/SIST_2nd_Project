@@ -595,113 +595,115 @@
                 <h3>쌍용박스 안내</h3>
             </div>
 
-            <div class="info_slider">
-                 <ul>
-                    <li>
-                        <a href="#">
-                            <img src="images/infomation_img/bg-main-dolbycinema.png" alt="dolbyatmos" draggable="false"/>
-                            슬라이드1</a>
-                    </li>
+            <div class="slider-container">
 
-                    <li>
-                        <a href="#">
-                            <img src="images/infomation_img/bg-main-dva.png" alt="dolbyatmos" draggable="false"/>
-                            슬라이드2
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#">
-                            <img src="images/infomation_img/bg-main-mx4d.png" alt="dolbyatmos" draggable="false"/>
-                            슬라이드3
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#">
-                            <img src="images/infomation_img/bg-main-dolbyatmos.png" alt="dolbyatmos" draggable="false"/>
-                            슬라이드4
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#"><img src="images/infomation_img/bg-main-led.png" alt="dolbyatmos" draggable="false"/>
-                            슬라이드5
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#">
-                            <img src="images/infomation_img/bg-main-private.png" alt="dolbyatmos" draggable="false"/>
-                            슬라이드6
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#"><img src="images/infomation_img/bg-main-suite.png" alt="dolbyatmos" draggable="false"/>
-                            슬라이드7
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#">
-                            <img src="images/infomation_img/bg-main-boutiq.png" alt="dolbyatmos" draggable="false"/>
-                            슬라이드8
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#"><img src="./images/infomation_img/bg-main-recliner.png" alt="dolbyatmos" draggable="false"/>
-                            슬라이드9
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#">
-                            <img src="images/infomation_img/bg-main-comfort.png" alt="dolbyatmos" draggable="false"/>
-                            슬라이드10
-                        </a>
-                    </li>
-                </ul>
+                <div class="slider-box">
+                    <!-- 10개의 슬라이드 아이템 -->
+                    <div class="slide-item"><img src="./images/infomation_img/bg-main-boutiq.png" alt="이미지 1"></div>
+                    <div class="slide-item"><img src="./images/infomation_img/bg-main-comfort.png" alt="이미지 2"></div>
+                    <div class="slide-item"><img src="./images/infomation_img/bg-main-dolbyatmos.png" alt="이미지 3"></div>
+                    <div class="slide-item"><img src="./images/infomation_img/bg-main-dolbycinema.png" alt="이미지 4"></div>
+                    <div class="slide-item"><img src="./images/infomation_img/bg-main-dva.png" alt="이미지 5"></div>
+                    <div class="slide-item"><img src="./images/infomation_img/bg-main-led.png" alt="이미지 6"></div>
+                    <div class="slide-item"><img src="./images/infomation_img/bg-main-mx4d.png" alt="이미지 7"></div>
+                    <div class="slide-item"><img src="./images/infomation_img/bg-main-suite.png" alt="이미지 8"></div>
+                    <div class="slide-item"><img src="./images/infomation_img/bg-main-private.png" alt="이미지 9"></div>
+                    <div class="slide-item"><img src="./images/infomation_img/bg-main-recliner.png" alt="이미지 10"></div>
+                </div>
             </div>
 
-            <div class="info_btn">
-                <button class="b_btn">&lt;</button>
-                <button class="n_btn">&gt;</button>
+            <div class="button-container">
+                <button class="prev-btn"><i class="fas fa-chevron-left"></i></button>
+                <button class="next-btn"><i class="fas fa-chevron-right"></i></button>
             </div>
 
 
-            <script>
-                $(document).ready(function(){
-                    // li 개수(슬라이드 개수)
-                    var maxIndex = $('.info_slider ul li').length - 1; // 9, 인덱스 기준
-                    var moveWidth = 185;
-                    var minRight = 0;
-                    var maxRight = moveWidt * axIndex; // 18 *  = 1665
 
-                    // 모든 li에 공통 right 값 관리 (공동으로 움직이고 싶으면)
-                    var currRight = 0;
+            <div class="info-link">
+                <div class="table">
+                    <div class="info_cell">
+                        <a href="/support" title="고객센터 페이지로 이동">
+                            <i class="fa-solid fa-headset"></i>
+                            <span>고객센터</span>
+                        </a>
+                    </div>
 
-                    // 왼쪽 버튼 클릭
-                    $('.b_btn').on('click', function(){
-                        if(currRight < maxRight){
-                            currRight += moveWidth;
-                            $('.info_slider ul li').css('right', currRight + 'px');
-                        }
-                    });
+                    <div class="info_cell">
+                        <a href="/support/faq" title="자주 묻는 질문 페이지로 이동">
+                            <i class="fa-solid fa-circle-question"></i>
+                            <span>자주 묻는 질문</span>
+                        </a>
+                    </div>
 
-                    // 오른쪽 버튼 클릭
-                    $('.n_btn').on('click', function(){
-                        if(currRight > minRight){
-                            currRight -= moveWidth;
-                            $('.info_slider ul li').css('right', currRight + 'px');
-                        }
-                    });
+                    <div class="info_cell">
+                        <a href="/support/inquiry" title="1:1 문의 페이지로 이동">
+                            <i class="fa-solid fa-comment-dots"></i>
+                            <span>1:1 문의</span>
+                        </a>
+                    </div>
+
+                    <div class="info_cell">
+                        <a href="/support/rent" title="단체/대관문의 페이지로 이동">
+                            <i class="fa-solid fa-users"></i>
+                            <span>단체/대관문의</span>
+                        </a>
+                    </div>
+
+                    <div class="info_cell">
+                        <a href="/support/lost" title="분실물 문의/접수 페이지로 이동">
+                            <i class="fa-solid fa-box-open"></i>
+                            <span>분실물 문의/접수</span>
+                        </a>
+                    </div>
+
+                    <div class="info_cell">
+                        <a href="/booking/privatebooking" title="더 부티크 프라이빗 대관예매 페이지로 이동">
+                            <i class="fa-solid fa-store"></i>
+                            <span>더 부티크 프라이빗<br>대관예매</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <script>
+            $(document).ready(function(){
+                const moveAmount = 190; // 한 번에 이동할 픽셀 값
+                const animationSpeed = 500; // 애니메이션 속도 (0.5초)
+                const maxRight = 760; // '다음' 버튼이 비활성화될 right 값
+
+                // '다음' 버튼 클릭 이벤트
+                $('.next-btn').click(function(){
+                    // .slide-item의 현재 right 위치 값을 가져옵니다.
+                    let currentRight = parseInt($('.slide-item').css('right'), 10) || 0;
+
+                    // 현재 right 값이 760보다 작을 때만 애니메이션을 실행합니다.
+                    if (currentRight < maxRight) {
+                        $('.slide-item').animate({
+                            right: '+=' + moveAmount + 'px'
+                        }, animationSpeed);
+                    }
                 });
 
+                // '이전' 버튼 클릭 이벤트
+                $('.prev-btn').click(function(){
+                    // .slide-item의 현재 right 위치 값을 가져옵니다.
+                    let currentRight = parseInt($('.slide-item').css('right'), 10) || 0;
 
-            </script>
-        </div>
+                    // 현재 right 값이 0보다 클 때만 애니메이션을 실행합니다.
+                    if (currentRight > 0) {
+                        $('.slide-item').animate({
+                            right: '-=' + moveAmount + 'px'
+                        }, animationSpeed);
+                    }
+                });
+            });
+
+
+
+
+        </script>
 
 
 </article>
