@@ -23,7 +23,6 @@
   <div class="payment_container">
     <div class="payment_info_section">
       <h1>결제하기</h1>
-      <%-- 🔴 c:otherwise 대신 paymentStore를 명시적으로 분기 🔴 --%>
       <c:choose>
         <c:when test="${paymentType == 'paymentMovie'}">
           <div class="info_group">
@@ -72,7 +71,6 @@
     </div>
     <div class="payment_summary_section">
       <h2>결제금액</h2>
-      <%-- 🔴 c:otherwise 대신 paymentStore를 명시적으로 분기 🔴 --%>
       <c:choose>
         <c:when test="${paymentType == 'paymentMovie'}">
           <div class="summary_item">
@@ -145,7 +143,6 @@
     let successUrl = "";
     const failUrl = 'http://localhost:8080/paymentFail.jsp';
 
-    // 🔴 else 대신 paymentStore를 명시적으로 분기 🔴
     if (paymentType === 'paymentMovie') {
       const selectedCouponIdx = $('#couponSelector').val() || 0;
       orderId = "SIST_MOVIE_" + new Date().getTime();

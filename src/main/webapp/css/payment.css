@@ -204,7 +204,7 @@ body {
 .final_amount_display .amount {
     display: flex;
     align-items: baseline;
-    color: #0d6efd;
+    color: #45B7D1;
 }
 
 .final_amount_display .number {
@@ -244,7 +244,7 @@ body {
 }
 
 .btn_pay {
-    background-color: #0d6efd;
+    background-color: #45B7D1;
     color: white;
 }
 .btn_pay:hover {
