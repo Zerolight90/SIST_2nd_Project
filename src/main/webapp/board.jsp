@@ -16,7 +16,7 @@
 <body>
 
 <header>
-    <jsp:include page="jsp/sub_menu.jsp"/>
+    <jsp:include page="common/sub_menu.jsp"/>
 </header>
 
 <div>
@@ -308,7 +308,7 @@
 
 
     <footer>
-        <jsp:include page="jsp/Footer.jsp"/>
+        <jsp:include page="common/Footer.jsp"/>
     </footer>
 
     <script>

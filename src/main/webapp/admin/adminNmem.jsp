@@ -4,7 +4,7 @@
 <head>
   <title>Title</title>
   <%--    <link rel="stylesheet" href="./css/sub/sub_page_style.css">--%>
-  <link rel="stylesheet" href="./css/admin.css">
+  <link rel="stylesheet" href="../../../../target/SIST_2nd_Project-1.0-SNAPSHOT/css/admin.css">
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
   <style>
     /* 기본 폰트 및 여백 초기화 */
@@ -188,7 +188,7 @@
   <div class="admin-container">
     <!-- 1. 페이지 제목 -->
     <div class="page-title">
-      <h2>결제 내역 목록</h2>
+      <h2>비회원 목록</h2>
     </div>
 
     <!-- 2. 상단 컨트롤 바 -->
@@ -197,23 +197,13 @@
         전체 <strong>130</strong>건
       </div>
       <form class="search-form" action="#" method="get">
-        <p>결제일 : </p>
+        <p>등록일 : </p>
         <p><input type="text" id="datepicker"></p>
-        <select name="user_status">
-          <option value="">결제 상태 선택</option>
-          <option value="active">완료</option>
-          <option value="dormant">취소</option>
-        </select>
-        <select name="user_level">
-          <option value="">결제 종류 선택</option>
-          <option value="basic">영화 예매</option>
-          <option value="vip">상품 구매</option>
-        </select>
         <select name="search_field">
           <option value="all">검색 대상 선택</option>
-          <option value="name">결제 종류</option>
-          <option value="id">결제 방식</option>
-          <option value="email">결제 상태</option>
+          <option value="name">이름</option>
+          <option value="id">아이디</option>
+          <option value="email">이메일</option>
         </select>
         <input type="text" name="search_keyword" placeholder="검색어를 입력해주세요.">
         <button type="submit" class="btn btn-search">검색</button>
@@ -225,25 +215,19 @@
     <table class="member-table">
       <thead>
       <tr>
-        <th>결제 ID</th>
-        <th>사용자 ID</th>
-        <th>결제 종류</th>
-        <th>결제 방식</th>
-        <th>최종 결제금액</th>
-        <th>결제 상태</th>
-        <th>결제일시</th>
+        <th>번호</th>
+        <th>이름</th>
+        <th>이메일</th>
+        <th>등록일</th>
       </tr>
       </thead>
       <tbody>
       <!-- 예시 데이터 행 (실제로는 DB에서 반복문으로 생성) -->
       <tr>
         <td>1</td>
-        <td>이도</td>
-        <td>영화 예매</td>
-        <td>간편결제</td>
-        <td>15,000원</td>
-        <td>완료</td>
-        <td>2025-08-01 08:00:00</td>
+        <td>정일우</td>
+        <td>zuirune@gmail.com</td>
+        <td>2025-08-01 15:00:00</td>
       </tr>
       </tbody>
     </table>

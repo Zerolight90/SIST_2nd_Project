@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>SIST BOX 쌍용박스</title>
-  <link rel="stylesheet" href="./css/sub/sub_page_style.css">
-  <link rel="stylesheet" href="./css/reset.css">
-  <link rel="stylesheet" href="./css/store.css">
+  <link rel="stylesheet" href="../../../../target/SIST_2nd_Project-1.0-SNAPSHOT/css/sub/sub_page_style.css">
+  <link rel="stylesheet" href="../../../../target/SIST_2nd_Project-1.0-SNAPSHOT/css/reset.css">
+  <link rel="stylesheet" href="../../../../target/SIST_2nd_Project-1.0-SNAPSHOT/css/store.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
-  <link rel="icon" href="./images/favicon.png">
+  <link rel="icon" href="../../../../target/SIST_2nd_Project-1.0-SNAPSHOT/images/favicon.png">
 </head>
 <body>
 
@@ -39,7 +39,7 @@
       <div style="height: 330px; border-top: 1px solid #999999; border-bottom: 1px solid #999999; display: flex">
         <div style="width: 440px; display: inline-block; border-right: 1px solid #999999">
           <p>
-            <img src="./images/normalTicket.png" alt=""/>
+            <img src="../../../../target/SIST_2nd_Project-1.0-SNAPSHOT/images/normalTicket.png" alt=""/>
           </p>
         </div>
 

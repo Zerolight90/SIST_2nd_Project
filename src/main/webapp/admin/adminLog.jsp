@@ -4,7 +4,7 @@
 <head>
   <title>Title</title>
   <%--    <link rel="stylesheet" href="./css/sub/sub_page_style.css">--%>
-  <link rel="stylesheet" href="./css/admin.css">
+  <link rel="stylesheet" href="../../../../target/SIST_2nd_Project-1.0-SNAPSHOT/css/admin.css">
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
   <style>
     /* 기본 폰트 및 여백 초기화 */
@@ -188,7 +188,7 @@
   <div class="admin-container">
     <!-- 1. 페이지 제목 -->
     <div class="page-title">
-      <h2>상영 시간표 목록</h2>
+      <h2>로그 목록</h2>
     </div>
 
     <!-- 2. 상단 컨트롤 바 -->
@@ -197,17 +197,15 @@
         전체 <strong>130</strong>건
       </div>
       <form class="search-form" action="#" method="get">
-        <p>상영일 : </p>
+        <p>시작일 : </p>
         <p><input type="text" id="datepicker"></p>
-        <select name="user_status">
-          <option value="">극장 선택</option>
-          <option value="active">강남</option>
-          <option value="dormant">강북</option>
-        </select>
-        <select name="user_level">
-          <option value="">상영관 선택</option>
-          <option value="basic">IMAX 1관</option>
-          <option value="vip">4DX 2관</option>
+        <p>종료일 : </p>
+        <p>jQueryUI DatePicker</p>
+        <select name="search_field">
+          <option value="all">검색 유형 선택</option>
+          <option value="name">대상</option>
+          <option value="id">로그 정보</option>
+          <option value="email">관리자 ID</option>
         </select>
         <input type="text" name="search_keyword" placeholder="검색어를 입력해주세요.">
         <button type="submit" class="btn btn-search">검색</button>
@@ -220,26 +218,26 @@
       <thead>
       <tr>
         <th>번호</th>
-        <th>극장</th>
-        <th>상영관</th>
-        <th>영화제목</th>
-        <th>상영일</th>
-        <th>시작 시간</th>
-        <th>종료 시간</th>
-        <th>잔여 좌석 / 총 좌석</th>
+        <th>로그 유형</th>
+        <th>관리자 ID</th>
+        <th>대상</th>
+        <th>로그 정보</th>
+        <th>이전 값</th>
+        <th>변경 후 값</th>
+        <th>날짜</th>
       </tr>
       </thead>
       <tbody>
       <!-- 예시 데이터 행 (실제로는 DB에서 반복문으로 생성) -->
       <tr>
         <td>1</td>
-        <td>강남</td>
-        <td>IMAX 1관</td>
-        <td>어벤져스</td>
-        <td>2025-08-01</td>
-        <td>09:00:00</td>
-        <td>11:20:00</td>
-        <td>36 / 36</td>
+        <td>0</td>
+        <td>1</td>
+        <td>useridx : 30</td>
+        <td>사용자 비활성화</td>
+        <td>{"status" : "active"}</td>
+        <td>{"status" : "inactive"}</td>
+        <td>2025-08-01 09:00:00</td>
       </tr>
       </tbody>
     </table>
@@ -262,6 +260,8 @@
   </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 <script>
   $( function() {
     // Datepicker에 적용할 옵션 정의

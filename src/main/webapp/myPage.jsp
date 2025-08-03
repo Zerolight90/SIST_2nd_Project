@@ -15,7 +15,7 @@
 
 <%-- 공통 헤더 (메뉴) --%>
 <header>
-  <jsp:include page="/jsp/menu.jsp"/>
+  <jsp:include page="common/menu.jsp"/>
 </header>
 
 <%-- 마이페이지 컨텐츠 --%>
@@ -39,7 +39,7 @@
 
 <%-- 공통 푸터 --%>
 <footer>
-  <jsp:include page="/jsp/Footer.jsp"/>
+  <jsp:include page="common/Footer.jsp"/>
 </footer>
 
 <script>

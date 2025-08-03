@@ -14,7 +14,7 @@
 </head>
 <body>
 <header>
-  <jsp:include page="jsp/sub_menu.jsp"/>
+  <jsp:include page="common/sub_menu.jsp"/>
 </header>
 <article>
   <div class="confirmation_container">
@@ -86,7 +86,7 @@
   </div>
 </article>
 <footer>
-  <jsp:include page="${basePath}/jsp/Footer.jsp"/>
+  <jsp:include page="${basePath}/common/Footer.jsp"/>
 </footer>
 </body>
 </html>

@@ -15,7 +15,7 @@
 
 <body>
 <header>
-   <jsp:include page="jsp/menu.jsp"/>
+   <jsp:include page="common/menu.jsp"/>
 </header>
 
 <article>
@@ -600,7 +600,7 @@
     </script>
 </article>
 
-<jsp:include page="jsp/Footer.jsp"/>
+<jsp:include page="common/Footer.jsp"/>
 
 <script src="js/main/slider.js"></script>
 </body>
