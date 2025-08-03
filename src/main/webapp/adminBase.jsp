@@ -70,7 +70,7 @@
             font-size: 14px;
         }
         .search-form input[type="text"] {
-            width: 250px;
+            width: 200px;
         }
 
         .search-form .btn {
@@ -198,7 +198,7 @@
               </div>
               <form class="search-form" action="#" method="get">
                   <p>가입일 : </p>
-                  <p>Date: <input type="text" id="datepicker"></p>
+                  <p><input type="text" id="datepicker"></p>
                   <select name="user_status">
                       <option value="">사용자 상태 선택</option>
                       <option value="active">활성</option>
@@ -313,7 +313,20 @@
     <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
     <script>
         $( function() {
-            $( "#datepicker" ).datepicker();
+            // Datepicker에 적용할 옵션 정의
+            let option = {
+                monthNames: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+                monthNamesShort: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+                dayNamesMin: [ "일", "월", "화", "수", "목", "금", "토" ],
+                weekHeader: "주",
+                dateFormat: "yy-mm-dd",
+                showMonthAfterYear: true,
+                yearSuffix: "년",
+                showOtherMonths: true,
+                selectOtherMonths: true
+            };
+
+            $("#datepicker").datepicker(option);
         } );
     </script>
 

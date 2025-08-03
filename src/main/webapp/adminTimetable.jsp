@@ -5,6 +5,7 @@
   <title>Title</title>
   <%--    <link rel="stylesheet" href="./css/sub/sub_page_style.css">--%>
   <link rel="stylesheet" href="./css/admin.css">
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
   <style>
     /* 기본 폰트 및 여백 초기화 */
     body {
@@ -197,7 +198,7 @@
       </div>
       <form class="search-form" action="#" method="get">
         <p>상영일 : </p>
-        <p>jQueryUI DatePicker</p>
+        <p><input type="text" id="datepicker"></p>
         <select name="user_status">
           <option value="">극장 선택</option>
           <option value="active">강남</option>
@@ -260,5 +261,25 @@
     </nav>
   </div>
 </div>
+
+<script>
+  $( function() {
+    // Datepicker에 적용할 옵션 정의
+    let option = {
+      monthNames: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+      monthNamesShort: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+      dayNamesMin: [ "일", "월", "화", "수", "목", "금", "토" ],
+      weekHeader: "주",
+      dateFormat: "yy-mm-dd",
+      showMonthAfterYear: true,
+      yearSuffix: "년",
+      showOtherMonths: true,
+      selectOtherMonths: true
+    };
+
+    $("#datepicker").datepicker(option);
+  } );
+</script>
+
 </body>
 </html>

@@ -75,7 +75,7 @@
             <p>구매일로부터 10일 이내 취소 가능하며, 부분취소는 불가능합니다.</p>
           </div>
         </div>
-        <div id="price" style="margin-top: 10px; display: flex; border-top: 1px solid #ebebeb; border-bottom: 1px solid #ebebeb">
+        <div id="price" style="width: 600px; margin-top: 10px; display: flex; border-top: 1px solid #ebebeb; border-bottom: 1px solid #ebebeb">
           <p style="text-align: center; line-height: 40px;"><span>수량 / 금액</span></p>
           <div style="text-align: center; line-height: 40px; margin-left: 30px">
             <button id="minus" type="button">-</button>
@@ -110,7 +110,7 @@
       <li>본 상품은 현금으로 환불이 불가합니다.</li>
     </ul>
 
-    <a href="" class="close2" style="line-height: 39px; height: 39px; margin-top: 30px; border: 1px solid #ebebeb; border-radius: 5px; display: flex">
+    <a href="" class="close2" style="line-height: 39px; height: 39px; margin-top: 30px; margin-bottom: 30px; border: 1px solid #ebebeb; border-radius: 5px; display: flex">
       <p style="margin-left: 15px; font-size: 15px">상품이용 안내</p>
       <span style="margin-left: 970px">▽</span>
     </a>
