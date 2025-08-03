@@ -19,8 +19,9 @@
 </header>
 
 <article>
+    <!-- 박스 오피스 영역-->
     <div id="content">
-        <!--            박스 오피스 영역-->
+
         <div class="bg">
             <div class="bg-pattern"></div>
             <img src="https://img.megabox.co.kr/SharedImg/2025/06/30/AX9J4sgTtL3cEgfjXjNH4OYQwlkz2dW6_380.jpg" alt="01.jpg"/>
@@ -223,7 +224,7 @@
                             <i class="fas fa-heart"></i> 2.2k
                         </button>
                         <div class="case">
-                            <a href="booking.jsp" class="button gblue" title="영화 예매하기">예매</a>
+                            <a href="#" class="button gblue" title="영화 예매하기">예매</a>
                         </div>
                     </div>
                 </li>
@@ -263,6 +264,8 @@
         <div class="mouse">
             <img src="images/ico-mouse.png" alt="mouse"/>
         </div>
+
+        <!--마우스 애니메이션 제이쿼리-->
         <script>
             $(document).ready(function(){
                 function mouseBounce() {
@@ -272,12 +275,10 @@
                         $(".mouse").animate({top: "-=10px"}, 700, mouseBounce);
                     });
                 }
-
                 // 초기 위치(top: 50%)에서 정확히 움직이려면 position을 absolute로 하고 CSS에서 top 지정 필요
                 // 움직임 시작
                 mouseBounce();
             });
-
         </script>
 
     </div>
@@ -379,7 +380,6 @@
         </div>
     </div>
 
-
     <!--큐레이션-->
     <div id="Curation">
         <div class="Curation_tit">
@@ -467,6 +467,7 @@
                             <div class="img"><img src="https://img.megabox.co.kr/SharedImg/2025/07/04/2gu3t4RJ8rYYBi7NoP9cJ1BUDu5vzMn2_230.jpg" alt="반 고흐. 밀밭과 구름 낀 하늘" onerror="noImg(this, 'main');"></div>
 
                             <p class="list_tit">반 고흐. 밀밭과 구름 낀 하늘</p>
+
                         </a>
                     </li>
                 </ul>
@@ -479,85 +480,124 @@
             <h3>쌍용박스 안내</h3>
         </div>
 
-        <div class="info_slider">
-            <div class="info_btn">
-                <button class="b_btn">&lt;</button>
-                <button class="n_btn">&gt;</button>
+        <div class="slider-container">
+
+            <div class="slider-box">
+                <!-- 10개의 슬라이드 아이템 -->
+                <div class="slide-item"><img src="./images/infomation_img/bg-main-boutiq.png" alt="이미지 1"></div>
+                <div class="slide-item"><img src="./images/infomation_img/bg-main-comfort.png" alt="이미지 2"></div>
+                <div class="slide-item"><img src="./images/infomation_img/bg-main-dolbyatmos.png" alt="이미지 3"></div>
+                <div class="slide-item"><img src="./images/infomation_img/bg-main-dolbycinema.png" alt="이미지 4"></div>
+                <div class="slide-item"><img src="./images/infomation_img/bg-main-dva.png" alt="이미지 5"></div>
+                <div class="slide-item"><img src="./images/infomation_img/bg-main-led.png" alt="이미지 6"></div>
+                <div class="slide-item"><img src="./images/infomation_img/bg-main-mx4d.png" alt="이미지 7"></div>
+                <div class="slide-item"><img src="./images/infomation_img/bg-main-suite.png" alt="이미지 8"></div>
+                <div class="slide-item"><img src="./images/infomation_img/bg-main-private.png" alt="이미지 9"></div>
+                <div class="slide-item"><img src="./images/infomation_img/bg-main-recliner.png" alt="이미지 10"></div>
             </div>
-            <ul>
-                <li>
-                    <a href="#">
-                        <img src="images/infomation_img/bg-main-dolbycinema.png" alt="dolbyatmos" draggable="false"/>
-                        슬라이드1</a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <img src="images/infomation_img/bg-main-dva.png" alt="dolbyatmos" draggable="false"/>
-                        슬라이드2
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <img src="images/infomation_img/bg-main-mx4d.png" alt="dolbyatmos" draggable="false"/>
-                        슬라이드3
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <img src="images/infomation_img/bg-main-dolbyatmos.png" alt="dolbyatmos" draggable="false"/>
-                        슬라이드4
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#"><img src="images/infomation_img/bg-main-led.png" alt="dolbyatmos" draggable="false"/>
-                        슬라이드5
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <img src="images/infomation_img/bg-main-private.png" alt="dolbyatmos" draggable="false"/>
-                        슬라이드6
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#"><img src="images/infomation_img/bg-main-suite.png" alt="dolbyatmos" draggable="false"/>
-                        슬라이드7
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <img src="images/infomation_img/bg-main-boutiq.png" alt="dolbyatmos" draggable="false"/>
-                        슬라이드8
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#"><img src="./images/infomation_img/bg-main-recliner.png" alt="dolbyatmos" draggable="false"/>
-                        슬라이드9
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <img src="images/infomation_img/bg-main-comfort.png" alt="dolbyatmos" draggable="false"/>
-                        슬라이드10
-                    </a>
-                </li>
-            </ul>
         </div>
 
-        <script>
+        <div class="button-container">
+            <button class="prev-btn"><i class="fas fa-chevron-left"></i></button>
+            <button class="next-btn"><i class="fas fa-chevron-right"></i></button>
+        </div>
 
-        </script>
+        <div class="notice">
+            <p class="notice-tit">지점</p>
+            <p class="notice-content">
+                <a href="#"><span>[인천학익(시티오씨엘)]</span>[인천학익] 1만원 관람 혜택 운영 변경 안내</a>
+            </p>
+            <p class="date">2025.07.31</p>
+            <p class="more-notice">
+                <a href="/support/notice" title="전체공지 더보기">더보기
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </p>
+        </div>
+
+
+
+        <div class="info-link">
+            <div class="table">
+                <div class="info_cell">
+                    <a href="/support" title="고객센터 페이지로 이동">
+                        <i class="fa-solid fa-headset"></i>
+                        <span>고객센터</span>
+                    </a>
+                </div>
+
+                <div class="info_cell">
+                    <a href="/support/faq" title="자주 묻는 질문 페이지로 이동">
+                        <i class="fa-solid fa-circle-question"></i>
+                        <span>자주 묻는 질문</span>
+                    </a>
+                </div>
+
+                <div class="info_cell">
+                    <a href="/support/inquiry" title="1:1 문의 페이지로 이동">
+                        <i class="fa-solid fa-comment-dots"></i>
+                        <span>1:1 문의</span>
+                    </a>
+                </div>
+
+                <div class="info_cell">
+                    <a href="/support/rent" title="단체/대관문의 페이지로 이동">
+                        <i class="fa-solid fa-users"></i>
+                        <span>단체/대관문의</span>
+                    </a>
+                </div>
+
+                <div class="info_cell">
+                    <a href="/support/lost" title="분실물 문의/접수 페이지로 이동">
+                        <i class="fa-solid fa-box-open"></i>
+                        <span>분실물 문의/접수</span>
+                    </a>
+                </div>
+
+                <div class="info_cell">
+                    <a href="/booking/privatebooking" title="더 부티크 프라이빗 대관예매 페이지로 이동">
+                        <i class="fa-solid fa-store"></i>
+                        <span>더 부티크 프라이빗<br>대관예매</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
     </div>
 
+    <script>
+        $(document).ready(function(){
+            const moveAmount = 190; // 한 번에 이동할 픽셀 값
+            const animationSpeed = 500; // 애니메이션 속도 (0.5초)
+            const maxRight = 760; // '다음' 버튼이 비활성화될 right 값
+
+            // '다음' 버튼 클릭 이벤트
+            $('.next-btn').click(function(){
+                // .slide-item의 현재 right 위치 값을 가져옵니다.
+                let currentRight = parseInt($('.slide-item').css('right'), 10) || 0;
+
+                // 현재 right 값이 760보다 작을 때만 애니메이션을 실행합니다.
+                if (currentRight < maxRight) {
+                    $('.slide-item').animate({
+                        right: '+=' + moveAmount + 'px'
+                    }, animationSpeed);
+                }
+            });
+
+            // '이전' 버튼 클릭 이벤트
+            $('.prev-btn').click(function(){
+                // .slide-item의 현재 right 위치 값을 가져옵니다.
+                let currentRight = parseInt($('.slide-item').css('right'), 10) || 0;
+
+                // 현재 right 값이 0보다 클 때만 애니메이션을 실행합니다.
+                if (currentRight > 0) {
+                    $('.slide-item').animate({
+                        right: '-=' + moveAmount + 'px'
+                    }, animationSpeed);
+                }
+            });
+        });
+    </script>
 </article>
 
 <jsp:include page="jsp/Footer.jsp"/>

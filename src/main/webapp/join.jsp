@@ -73,9 +73,9 @@
     <!-- 5. 이메일_전화번호 -->
     <div class="field">
         <b>본인 확인 이메일*<small>(*필수사항)</small></b>
-        <input type="email" placeholder="필수입력">
+        <input type="email" id="email" name="email" placeholder="필수입력">
         <input class="c_btn" type="button" value="인증번호 받기">
-        <input class="c_num" type="text" placeholder="인증번호를 입력하세요">
+        <input class="c_num" id="email_auth_key"  type="text" placeholder="인증번호를 입력하세요">
     </div>
 
     <div class="field tel-number">
@@ -90,7 +90,7 @@
     </div>
 
     <!-- 6. 가입하기 버튼 -->
-    <input type="submit" value="가입하기">
+    <button id="join_btn" type="submit">가입하기</button>
 
     <!-- 7. 푸터 -->
     <div class="member-footer">
@@ -102,17 +102,11 @@
         </div>
         <span><a href="#none">SIST CINEMA Corp.</a></span>
     </div>
+</div>
 
-    <script>
-        // jQuery 코드
-        $(function () {
-            // "스토어"를 제외한 메뉴만 hover 효과 적용
-            $('.c_btn').click(function () {
-                alert("인증번호가 전송됐습니다.")
-                $('.c_num').css('display', 'block');
-            });
-        });
-    </script>
+
+
+
 
 </body>
 </html>
