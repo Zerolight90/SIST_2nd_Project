@@ -18,120 +18,121 @@
   <jsp:include page="jsp/sub_menu.jsp"/>
 </header>
 
-<div class="inner-wrap">
-  <div class="util-title">
-    <h2>예매</h2>
-  </div>
-
-  <div id="booking-wrap">
-    <!-- 상단 날짜영역 -->
-    <div class="booking-date">
-      <button class="bf_btn" onclick="changeDate(-1)">
-        <i class="fas fa-chevron-left"></i>
-      </button>
-      <div class="date-wrap" id="dateWrap">
-        <!-- 날짜가 동적으로 생성됩니다 -->
-      </div>
-      <button class="nt_btn" onclick="changeDate(1)">
-        <i class="fas fa-chevron-right"></i>
-      </button>
+  <div class="inner-wrap">
+    <div class="util-title">
+      <h2>예매</h2>
     </div>
+    <form action="Controller?type=seat" method="post">
+      <div id="booking-wrap">
+        <!-- 상단 날짜영역 -->
+        <div class="booking-date">
+          <button class="bf_btn" onclick="changeDate(-1)">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <div class="date-wrap" id="dateWrap">
+            <!-- 날짜가 동적으로 생성됩니다 -->
+          </div>
+          <button class="nt_btn" onclick="changeDate(1)">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
 
-    <!-- 중앙의 영화 / 극장 / 시간 영역 -->
-    <div id="book-wrap-body">
-      <!-- 영화 선택 -->
-      <div class="book-box" id="movie-box">
-        <h3 class="box-tit">영화</h3>
-        <div class="book-main" id="movie-list">
-          <div class="main-in">
-            <div class="ec-base-tab typeLight eTab">
-              <ul class="menu">
-                <li class="selected"><a href="#" onclick="switchTab(this, 'movie-all')">전체</a></li>
-                <li><a href="#" onclick="switchTab(this, 'movie-curation')">큐레이션</a></li>
-              </ul>
-              <div id="movie-all" class="tabCont active">
-                <div class="movie-item" data-movie="1">
-                  <span class="movie-rating rating-12">12</span>
-                  <span class="movie-title">범퍼카</span>
-                </div>
-                <div class="movie-item" data-movie="2">
-                  <span class="movie-rating rating-15">15</span>
-                  <span class="movie-title">F1 더 무비</span>
-                </div>
-                <div class="movie-item" data-movie="3">
-                  <span class="movie-rating rating-15">15</span>
-                  <span class="movie-title">전직 특수 요원</span>
-                </div>
-                <div class="movie-item" data-movie="4">
-                  <span class="movie-rating rating-18">18</span>
-                  <span class="movie-title">몬스터</span>
-                </div>
-                <div class="movie-item" data-movie="5">
-                  <span class="movie-rating rating-12">12</span>
-                  <span class="movie-title">컨더스키 4: 제로드 출동</span>
-                </div>
-                <div class="movie-item" data-movie="6">
-                  <span class="movie-rating rating-all">ALL</span>
-                  <span class="movie-title">베드 가이즈 2</span>
-                </div>
-              </div>
-              <div id="movie-curation" class="tabCont">
-                <div class="movie-item" data-movie="1">
-                  <span class="movie-rating rating-12">12</span>
-                  <span class="movie-title">범퍼카</span>
-                </div>
-                <div class="movie-item" data-movie="3">
-                  <span class="movie-rating rating-15">15</span>
-                  <span class="movie-title">전직 특수 요원</span>
-                </div>
-                <div class="movie-item" data-movie="6">
-                  <span class="movie-rating rating-all">ALL</span>
-                  <span class="movie-title">베드 가이즈 2</span>
+        <!-- 중앙의 영화 / 극장 / 시간 영역 -->
+        <div id="book-wrap-body">
+          <!-- 영화 선택 -->
+          <div class="book-box" id="movie-box">
+            <h3 class="box-tit">영화</h3>
+            <div class="book-main" id="movie-list">
+              <div class="main-in">
+                <div class="ec-base-tab typeLight eTab">
+                  <ul class="menu">
+                    <li class="selected"><a href="#" onclick="switchTab(this, 'movie-all')">전체</a></li>
+                    <li><a href="#" onclick="switchTab(this, 'movie-curation')">큐레이션</a></li>
+                  </ul>
+                  <div id="movie-all" class="tabCont active">
+                    <div class="movie-item" data-movie="1">
+                      <span class="movie-rating rating-12">12</span>
+                      <span class="movie-title">범퍼카</span>
+                    </div>
+                    <div class="movie-item" data-movie="2">
+                      <span class="movie-rating rating-15">15</span>
+                      <span class="movie-title">F1 더 무비</span>
+                    </div>
+                    <div class="movie-item" data-movie="3">
+                      <span class="movie-rating rating-15">15</span>
+                      <span class="movie-title">전직 특수 요원</span>
+                    </div>
+                    <div class="movie-item" data-movie="4">
+                      <span class="movie-rating rating-18">18</span>
+                      <span class="movie-title">몬스터</span>
+                    </div>
+                    <div class="movie-item" data-movie="5">
+                      <span class="movie-rating rating-12">12</span>
+                      <span class="movie-title">컨더스키 4: 제로드 출동</span>
+                    </div>
+                    <div class="movie-item" data-movie="6">
+                      <span class="movie-rating rating-all">ALL</span>
+                      <span class="movie-title">베드 가이즈 2</span>
+                    </div>
+                  </div>
+                  <div id="movie-curation" class="tabCont">
+                    <div class="movie-item" data-movie="1">
+                      <span class="movie-rating rating-12">12</span>
+                      <span class="movie-title">범퍼카</span>
+                    </div>
+                    <div class="movie-item" data-movie="3">
+                      <span class="movie-rating rating-15">15</span>
+                      <span class="movie-title">전직 특수 요원</span>
+                    </div>
+                    <div class="movie-item" data-movie="6">
+                      <span class="movie-rating rating-all">ALL</span>
+                      <span class="movie-title">베드 가이즈 2</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
+            <div class="book_ft">모든영화<br/>목록에서 영화를 선택하세요.</div>
           </div>
-        </div>
-        <div class="book_ft">모든영화<br/>목록에서 영화를 선택하세요.</div>
-      </div>
 
-      <!-- 극장 선택 -->
-      <div class="book-box" id="theater-box">
-        <h3 class="box-tit">극장</h3>
-        <div class="book-main" id="theater-list">
-          <div class="main-in">
-            <div class="ec-base-tab typeLight eTab">
-              <ul class="menu">
-                <li class="selected"><a href="#" onclick="switchTab(this, 'theater-all')">전체</a></li>
-                <li><a href="#" onclick="switchTab(this, 'theater-special')">특별관</a></li>
-              </ul>
-              <div id="theater-all" class="tabCont active">
-                <div class="empty-state">영화를 먼저 선택해주세요.</div>
+          <!-- 극장 선택 -->
+          <div class="book-box" id="theater-box">
+            <h3 class="box-tit">극장</h3>
+            <div class="book-main" id="theater-list">
+              <div class="main-in">
+                <div class="ec-base-tab typeLight eTab">
+                  <ul class="menu">
+                    <li class="selected"><a href="#" onclick="switchTab(this, 'theater-all')">전체</a></li>
+                    <li><a href="#" onclick="switchTab(this, 'theater-special')">특별관</a></li>
+                  </ul>
+                  <div id="theater-all" class="tabCont active">
+                    <div class="empty-state">영화를 먼저 선택해주세요.</div>
+                  </div>
+                  <div id="theater-special" class="tabCont">
+                    <div class="empty-state">영화를 먼저 선택해주세요.</div>
+                  </div>
+                </div>
               </div>
-              <div id="theater-special" class="tabCont">
-                <div class="empty-state">영화를 먼저 선택해주세요.</div>
-              </div>
+            </div>
+            <div class="book_ft">전체극장<br/>목록에서 극장을 선택하세요.</div>
+          </div>
+
+          <!-- 시간 선택 -->
+          <div id="date-box">
+            <h3 class="date-box-tit">시간</h3>
+            <div id="date-list">
+              <div class="empty-state">영화와 극장을 선택해주세요.</div>
             </div>
           </div>
         </div>
-        <div class="book_ft">전체극장<br/>목록에서 극장을 선택하세요.</div>
-      </div>
 
-      <!-- 시간 선택 -->
-      <div id="date-box">
-        <h3 class="date-box-tit">시간</h3>
-        <div id="date-list">
-          <div class="empty-state">영화와 극장을 선택해주세요.</div>
+        <!-- 광고영역 -->
+        <div class="book-add">
+          <a href="#" onclick="proceedToSeatSelection(this.form)">좌석선택 하러가기</a>
         </div>
       </div>
-    </div>
-
-    <!-- 광고영역 -->
-    <div class="book-add">
-      <a href="#" onclick="proceedToSeatSelection()">좌석선택 하러가기</a>
-    </div>
+    </form>
   </div>
-</div>
 
 <script>
   let selectedMovie = null;
@@ -452,17 +453,21 @@
   }
 
   // 좌석선택 진행
-  function proceedToSeatSelection() {
-    if (!selectedMovie || !selectedTheater || !selectedTime) {
-      alert('영화, 극장, 시간을 모두 선택해주세요.');
-      return;
-    }
+  function proceedToSeatSelection(frm) {
+    // if (!selectedMovie || !selectedTheater || !selectedTime) {
+    //   alert('영화, 극장, 시간을 모두 선택해주세요.');
+    //   return;
+    // }
 
     alert(`좌석선택 페이지로 이동합니다.\n\n영화: ${selectedMovie.name}\n극장: ${selectedTheater.name}\n시간: ${selectedTime}`);
+    location.href = "Controller?type=seat";
   }
+
 </script>
 
 <jsp:include page="jsp/Footer.jsp"/>
+
+
 
 </body>
 
