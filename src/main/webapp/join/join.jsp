@@ -90,7 +90,7 @@
     </div>
 
     <!-- 6. 가입하기 버튼 -->
-    <button id="join_btn" type="submit">가입하기</button>
+    <input id="join_btn" type="submit"/>
 
     <!-- 7. 푸터 -->
     <div class="member-footer">
