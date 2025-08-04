@@ -774,25 +774,35 @@ li::marker {
 /* 탭 메뉴 */
 .region-tabs {
     display: flex;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #3d008c;
+    border-top: 1px solid #3d008c;
 }
 
 .region-tabs li {
     list-style: none;
-    padding: 10px 20px;
+
+    /*border: none !important;*/
+    /*padding: 10px 20px;*/
     cursor: pointer;
-    border-right: 1px solid #ddd;
-    background-color: #f9f9f9;
+    /*border-right: 1px solid #ddd;*/
+    /*background-color: #f9f9f9;*/
+    width: 100%;
 }
+
+
 
 .region-tabs li:last-child {
     border-right: none;
 }
 
-.region-tabs li.active {
+/*.region-tabs li.active {
     background-color: #444;
     color: white;
     font-weight: bold;
+}*/
+
+.area_mv{
+    width: 100% !important;
 }
 
 /* 극장 리스트 영역 */
