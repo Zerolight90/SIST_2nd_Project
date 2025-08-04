@@ -1,15 +1,14 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
   <title>SIST BOX 쌍용박스</title>
-  <link rel="stylesheet" href="<c:url value="/css/sub/sub_page_style.css"/>">
-  <link rel="stylesheet" href="<c:url value="/css/reset.css"/>">
-  <link rel="stylesheet" href="<c:url value="/css/store.css"/>">
+  <link rel="stylesheet" href="../css/sub/sub_page_style.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/store.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
-  <link rel="icon" href="<c:url value="/images/favicon.png"/>">
+  <link rel="icon" href="../images/favicon.png">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 </head>
@@ -17,7 +16,7 @@
 <body>
 
 <header>
-  <jsp:include page="/common/sub_menu.jsp"/>
+  <jsp:include page="../common/sub_menu.jsp"/>
 </header>
 
 <article>
@@ -43,7 +42,7 @@
       <li class="selected"><a href="#none">새로운 상품</a></li>
       <li><a href="#none">메가티켓</a></li>
       <li><a href="#none">팝콘 / 음료 / 굿즈</a></li>
-      <li><a href="#none">포인트몰</a></li>
+      <%--<li><a href="#none">포인트몰</a></li>--%>
     </ul>
   </div>
   <!-- 비동기식 페이지 전환 : 라인형-->
@@ -73,7 +72,7 @@
           </div>
         </a>
         <p class="img" style="margin-left: 10px">
-          <img src="<c:url value="/images/loveCombo.png"/>" alt=""/>
+          <img src="../images/loveCombo.png" alt=""/>
         </p>
       </div>
 
@@ -90,7 +89,7 @@
           <li style="width: 243px; height: 433px; border: 1px solid #ebebeb; border-radius: 10px">
             <a href="">
               <div class="prodTop">
-                <img src="<c:url value="/images/normalTicket.png"/>" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
+                <img src="../images/normalTicket.png" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
               </div>
               <div class="prodBottom">
                 <div style="padding-top: 15px">
@@ -124,7 +123,7 @@
           <li style="width: 243px; height: 433px; border: 1px solid #ebebeb; border-radius: 10px">
             <a href="">
               <div class="prodTop">
-                <img src="<c:url value="/images/normalTicket.png"/>" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
+                <img src="../images/normalTicket.png" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
               </div>
               <div class="prodBottom">
                 <div style="padding-top: 15px">
@@ -145,20 +144,20 @@
         </ul>
       </div>
 
-      <div style="margin-top: 50px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+      <%--<div style="margin-top: 50px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
         <h3>포인트몰</h3>
 
         <div>
           <a href="" title="더보기">더보기 ></a>
         </div>
-      </div>
+      </div>--%>
 
-      <div>
+      <%--<div>
         <ul>
           <li style="width: 243px; height: 433px; border: 1px solid #ebebeb; border-radius: 10px">
             <a href="">
               <div class="prodTop">
-                <img src="<c:url value="/images/normalTicket.png"/>" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
+                <img src="../images/normalTicket.png" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
               </div>
               <div class="prodBottom">
                 <div style="padding-top: 15px">
@@ -177,7 +176,7 @@
             </a>
           </li>
         </ul>
-      </div>
+      </div>--%>
 
     </div>
 
@@ -187,7 +186,7 @@
           <li style="width: 243px; height: 433px; border: 1px solid #ebebeb; border-radius: 10px">
             <a href="">
               <div class="prodTop">
-                <img src="<c:url value="/images/normalTicket.png"/>" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
+                <img src="../images/normalTicket.png" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
               </div>
               <div class="prodBottom">
                 <div style="padding-top: 15px">
@@ -215,7 +214,7 @@
           <li style="width: 243px; height: 433px; border: 1px solid #ebebeb; border-radius: 10px">
             <a href="">
               <div class="prodTop">
-                <img src="<c:url value="/images/normalTicket.png"/>" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
+                <img src="../images/normalTicket.png" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
               </div>
               <div class="prodBottom">
                 <div style="padding-top: 15px">
@@ -237,13 +236,13 @@
       </div>
     </div>
 
-    <div id="tabCont1_4" class="tabCont" style="display:none; width: 1100px">
+    <%--<div id="tabCont1_4" class="tabCont" style="display:none; width: 1100px">
       <div>
         <ul>
           <li style="width: 243px; height: 433px; border: 1px solid #ebebeb; border-radius: 10px">
             <a href="">
               <div class="prodTop">
-                <img src="<c:url value="/images/normalTicket.png"/>" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
+                <img src="../images/normalTicket.png" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
               </div>
               <div class="prodBottom">
                 <div style="padding-top: 15px">
@@ -263,13 +262,13 @@
           </li>
         </ul>
       </div>
-    </div>
+    </div>--%>
   </div>
 
 </article>
 
 <footer>
-  <jsp:include page="/common/Footer.jsp"/>
+  <jsp:include page="../common/Footer.jsp"/>
 </footer>
 
 <script>
