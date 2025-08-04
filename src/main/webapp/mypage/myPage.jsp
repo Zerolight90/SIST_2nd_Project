@@ -15,7 +15,7 @@
 
 <%-- 공통 헤더 (메뉴) --%>
 <header>
-  <jsp:include page="../common/menu.jsp"/>
+  <jsp:include page="../common/sub_menu.jsp"/>
 </header>
 
 <%-- 마이페이지 컨텐츠 --%>

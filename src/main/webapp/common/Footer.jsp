@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <head>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
@@ -41,7 +42,7 @@
     <div id="footer-bottom">
         <div class="footer-bottom">
             <div class="footer-logo">
-                <img src="images/Simbol_logo.png" alt="SIST 로고" />
+                <img src="<c:url value="/images/Simbol_logo.png"/>" alt="SIST 로고" />
                 <p>MEET PLAY SHARE</p>
             </div>
 

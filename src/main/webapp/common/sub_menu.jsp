@@ -85,9 +85,9 @@
                 </ul>
             </li>
             <li class="main-item has-submenu">
-                <a href="<c:url value="/theater_index.jsp"/>">극장</a>
+                <a href="<c:url value="/allTheater.jsp"/>">극장</a>
                 <ul class="submenu">
-                    <li><a href="<c:url value="/theater_index.jsp"/>">전체 극장</a></li>
+                    <li><a href="<c:url value="/allTheater.jsp"/>">전체 극장</a></li>
                     <li><a href="#">특별관</a></li>
                 </ul>
             </li>

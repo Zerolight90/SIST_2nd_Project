@@ -269,7 +269,7 @@
 </article>
 
 <footer>
-  <jsp:include page="jsp/Footer.jsp"/>
+  <jsp:include page="/common/Footer.jsp"/>
 </footer>
 
 <script>
