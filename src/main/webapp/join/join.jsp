@@ -105,9 +105,9 @@
 </div>
 
 <script>
-    // join.jsp 파일 내 <script> 태그 안
+
     $(function (){
-        // 기존 아이디 검사 로직...
+
         $("#u_id").on("keyup", function (){
             let u_id = $(this).val().trim();
             let idCheckRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{4,12}$/;
