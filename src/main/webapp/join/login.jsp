@@ -18,7 +18,7 @@
     String mode = request.getParameter("mode");
     //HttpSession객체가 session이라는 이름으로 이미 생성되어 제공되고 있다.
     //이런 HttpSession은 브라우저를 닫을 때까지 사용가능함!
-    // 세션에 "mvo"라는 이름으로 저장된 것이 있다면 로그인을 한 상태로 인지하자!
+    // 세션에 "mvo"라는 이름으로 저장된 것이 있다면 로그인을 한 상태로 인지하자!`
     // 먼저 세션으로부터 "mvo"라는 이름으로 저장된 객체를 얻어내어
     // Object형 변수 obj에 저장하자!
     Object obj = session.getAttribute("mvo");
