@@ -1,0 +1,239 @@
+/* allmovie.css */
+
+/* 탭 메뉴 스타일 */
+.tabs {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 30px 0;
+    display: flex;
+    justify-content: center; /* 탭 메뉴 가운데 정렬 */
+    border-bottom: 1px solid #d1d1d1;
+}
+
+.tabs li {
+    padding: 18px 40px; /* 탭 크기 확대 */
+    cursor: pointer;
+    color: #666;
+    font-size: 18px; /* 탭 폰트 크기 확대 */
+    font-weight: 500;
+    position: relative;
+    bottom: -1px;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.tabs li.active {
+    border-bottom: 3px solid #503396;
+    color: #503396;
+    font-weight: bold;
+}
+
+.tabs li:not(.active):hover {
+    color: #333;
+}
+
+/* 탭 콘텐츠 */
+.tab-content {
+    display: none;
+}
+.tab-content.active {
+    display: block;
+}
+
+/* 영화 정렬 및 검색 영역 */
+.movie-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto 20px auto; /* 좌우 auto 마진으로 가운데 정렬 */
+    max-width: 1080px; /* 너비를 줄여 검색창을 왼쪽으로 이동시키는 효과 */
+}
+
+.movie-options .total-count {
+    color: #666;
+}
+.movie-options .total-count strong {
+    color: #503396;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.search-box input {
+    border: none;
+    padding: 8px 12px;
+    font-size: 14px;
+    outline: none;
+}
+.search-box button {
+    border: none;
+    background-color: #f1f1f1;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+.search-box button:hover {
+    background-color: #e1e1e1;
+}
+
+/* 영화 목록 스타일 */
+.movie-list {
+    display: grid;
+    grid-template-columns: repeat(4, 260px);
+    justify-content: center;
+    gap: 40px 25px;
+    /* 총 너비 = (260 * 4) + (25 * 3) = 1040 + 75 = 1115px */
+}
+
+.movie-item {
+    border: 1px solid #e9e9e9;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: left;
+    background-color: #fff;
+    width: 260px;
+}
+
+.movie-item .poster-link {
+    display: block;
+    position: relative;
+}
+
+.movie-item img {
+    width: 260px;
+    height: 372px;
+    object-fit: cover;
+    display: block;
+}
+
+.movie-info {
+    padding: 15px;
+}
+
+.movie-info h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.movie-stats {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.movie-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.movie-actions .like-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #fff;
+    font-size: 14px;
+    color: #666;
+}
+.movie-actions .like-btn .heart-icon {
+    width: 16px;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'%3E%3C/path%3E%3C/svg%3E");
+    transition: all 0.2s;
+}
+
+.movie-actions .like-btn.liked .heart-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23e40000' stroke='%23e40000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'%3E%3C/path%3E%3C/svg%3E");
+}
+
+.movie-actions .reserve-btn {
+    flex-grow: 1;
+    padding: 9px 12px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    background-color: #503396;
+    color: #fff;
+    border: 1px solid #503396;
+    text-decoration: none;
+}
+.movie-actions .reserve-btn:hover {
+    background-color: #3d277a;
+}
+
+/* 초기에 숨길 영화 아이템 */
+.movie-item.hidden {
+    display: none;
+}
+
+/* 더보기 버튼 */
+.more-btn-wrap {
+    text-align: center;
+    margin: 40px 0;
+}
+
+.more-btn {
+    padding: 12px 50px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.more-btn:hover {
+    background-color: #f1f1f1;
+}
+
+.more-btn i {
+    margin-left: 5px;
+}
+
+/* TOP 버튼 */
+.top-btn {
+    display: none; /* 스크롤 시 보이도록 JS로 제어 */
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+    font-size: 14px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    transition: background-color 0.3s, opacity 0.3s;
+    opacity: 0;
+}
+
+.top-btn.visible {
+    display: flex;
+    opacity: 1;
+}
+
+.top-btn:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.top-btn i {
+    font-size: 16px;
+}
