@@ -3,8 +3,8 @@
 <html>
 <head>
     <title>Title</title>
-<%--    <link rel="stylesheet" href="./css/sub/sub_page_style.css">--%>
-    <link rel="stylesheet" href="../../../../target/SIST_2nd_Project-1.0-SNAPSHOT/css/admin.css">
+    <%--    <link rel="stylesheet" href="./css/sub/sub_page_style.css">--%>
+    <link rel="stylesheet" href="./css/admin.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
     <style>
         /* 기본 폰트 및 여백 초기화 */
@@ -167,168 +167,198 @@
             font-weight: bold;
         }
 
+        .ui-dialog-titlebar {
+            display: none;
+        }
+        /* 모달 창 자체의 불필요한 패딩 제거 */
+        .no-titlebar.ui-dialog .ui-dialog-content {
+            padding: 0;
+        }
+
     </style>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 </head>
 <body style="margin: auto">
-    <!-- 관리자 화면에 처음 들어오는 보이는 상단영역 -->
-  <div class="dashHead bold">
+<!-- 관리자 화면에 처음 들어오는 보이는 상단영역 -->
+<div class="dashHead bold">
     <div style="display: inline-block; justify-content: space-between; align-items: center"><p style="margin-left: 10px">admin 관리자님</p></div>
     <div style="display: inline-block; float: right; padding-top: 13px; padding-right: 10px">
-      <a href="">SIST</a>
-      <a href="">로그아웃</a>
+        <a href="">SIST</a>
+        <a href="">로그아웃</a>
     </div>
-  </div>
+</div>
 
-  <div class="dashBody">
-      <div class="dashLeft">
-         <jsp:include page="/admin.jsp"/>
-      </div>
-      <div class="admin-container">
-          <!-- 1. 페이지 제목 -->
-          <div class="page-title">
-              <h2>회원 목록</h2>
-          </div>
+<div class="dashBody">
+    <div class="dashLeft">
+        <jsp:include page="/admin.jsp"/>
+    </div>
+    <div class="admin-container">
+        <!-- 1. 페이지 제목 -->
+        <div class="page-title">
+            <h2>회원 목록</h2>
+        </div>
 
-          <!-- 2. 상단 컨트롤 바 -->
-          <div class="control-bar">
-              <div class="total-count">
-                  전체 <strong>130</strong>건
-              </div>
-              <form class="search-form" action="#" method="get">
-                  <p>가입일 : </p>
-                  <p><input type="text" id="datepicker"></p>
-                  <select name="user_status">
-                      <option value="">사용자 상태 선택</option>
-                      <option value="active">활성</option>
-                      <option value="dormant">탈퇴</option>
-                  </select>
-                  <select name="user_level">
-                      <option value="">회원 등급 선택</option>
-                      <option value="basic">BASIC</option>
-                      <option value="vip">VIP</option>
-                  </select>
-                  <select name="search_field">
-                      <option value="all">검색 대상 선택</option>
-                      <option value="name">이름</option>
-                      <option value="id">아이디</option>
-                      <option value="email">이메일</option>
-                  </select>
-                  <input type="text" name="search_keyword" placeholder="검색어를 입력해주세요.">
-                  <button type="submit" class="btn btn-search">검색</button>
-                  <button type="button" class="btn btn-reset">초기화</button>
-              </form>
-          </div>
+        <!-- 2. 상단 컨트롤 바 -->
+        <div class="control-bar">
+            <div class="total-count">
+                전체 <strong>130</strong>건
+            </div>
+            <form class="search-form" action="#" method="get">
+                <p>가입일 : </p>
+                <p><input type="text" id="datepicker"></p>
+                <select name="user_status">
+                    <option value="">사용자 상태 선택</option>
+                    <option value="active">활성</option>
+                    <option value="dormant">탈퇴</option>
+                </select>
+                <select name="user_level">
+                    <option value="">회원 등급 선택</option>
+                    <option value="basic">BASIC</option>
+                    <option value="vip">VIP</option>
+                </select>
+                <select name="search_field">
+                    <option value="all">검색 대상 선택</option>
+                    <option value="name">이름</option>
+                    <option value="id">아이디</option>
+                    <option value="email">이메일</option>
+                </select>
+                <input type="text" name="search_keyword" placeholder="검색어를 입력해주세요.">
+                <button type="submit" class="btn btn-search">검색</button>
+                <button type="button" class="btn btn-reset">초기화</button>
+            </form>
+        </div>
 
-          <!-- 3. 회원 목록 테이블 -->
-          <table class="member-table">
-              <thead>
-              <tr>
-                  <th>번호</th>
-                  <th>이름</th>
-                  <th>아이디</th>
-                  <th>이메일</th>
-                  <th>전화번호</th>
-                  <th>보유 포인트</th>
-                  <th>등급</th>
-                  <th>상태</th>
-              </tr>
-              </thead>
-              <tbody>
-              <!-- 예시 데이터 행 (실제로는 DB에서 반복문으로 생성) -->
-              <tr>
-                  <td>1</td>
-                  <td>정일우</td>
-                  <td>abcdff123</td>
-                  <td>zuirune@gmail.com</td>
-                  <td>010-8967-3903</td>
-                  <td>500</td>
-                  <td>BASIC</td>
-                  <td><span class="status-badge status-active">활성</span></td>
-              </tr>
-              <tr>
-                  <td>2</td>
-                  <td>이소이</td>
-                  <td>abc12345</td>
-                  <td>hm7266@naver.com</td>
-                  <td>010-1234-5678</td>
-                  <td>0</td>
-                  <td>VIP</td>
-                  <td><span class="status-badge status-active">활성</span></td>
-              </tr>
-              <tr>
-                  <td>3</td>
-                  <td>이도</td>
-                  <td>dpdlcl0111</td>
-                  <td>dpdlcl0111@gmail.com</td>
-                  <td>010-1234-1234</td>
-                  <td>7998</td>
-                  <td>BASIC</td>
-                  <td><span class="status-badge status-active">활성</span></td>
-              </tr>
-              <tr>
-                  <td>4</td>
-                  <td>이이</td>
-                  <td>google</td>
-                  <td>hdy7272@naver.com</td>
-                  <td>010-1234-1234</td>
-                  <td>0</td>
-                  <td>BASIC</td>
-                  <td><span class="status-badge status-active">활성</span></td>
-              </tr>
-              <tr>
-                  <td>5</td>
-                  <td>이종겸</td>
-                  <td>test12345</td>
-                  <td>byu4167@gmail.com</td>
-                  <td>010-1231-1232</td>
-                  <td>0</td>
-                  <td>BASIC</td>
-                  <td><span class="status-badge status-dormant">탈퇴</span></td>
-              </tr>
-              <!-- ... 이하 데이터 생략 ... -->
-              </tbody>
-          </table>
+        <!-- 3. 회원 목록 테이블 -->
+        <table class="member-table">
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>이름</th>
+                <th>아이디</th>
+                <th>이메일</th>
+                <th>전화번호</th>
+                <th>보유 포인트</th>
+                <th>등급</th>
+                <th>상태</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- 예시 데이터 행 (실제로는 DB에서 반복문으로 생성) -->
+            <tr id="userTr">
+                <td>1</td>
+                <td>정일우</td>
+                <td>abcdff123</td>
+                <td>zuirune@gmail.com</td>
+                <td>010-8967-3903</td>
+                <td>500</td>
+                <td>BASIC</td>
+                <td><span class="status-badge status-active">활성</span></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>이소이</td>
+                <td>abc12345</td>
+                <td>hm7266@naver.com</td>
+                <td>010-1234-5678</td>
+                <td>0</td>
+                <td>VIP</td>
+                <td><span class="status-badge status-active">활성</span></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>이도</td>
+                <td>dpdlcl0111</td>
+                <td>dpdlcl0111@gmail.com</td>
+                <td>010-1234-1234</td>
+                <td>7998</td>
+                <td>BASIC</td>
+                <td><span class="status-badge status-active">활성</span></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>이이</td>
+                <td>google</td>
+                <td>hdy7272@naver.com</td>
+                <td>010-1234-1234</td>
+                <td>0</td>
+                <td>BASIC</td>
+                <td><span class="status-badge status-active">활성</span></td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>이종겸</td>
+                <td>test12345</td>
+                <td>byu4167@gmail.com</td>
+                <td>010-1231-1232</td>
+                <td>0</td>
+                <td>BASIC</td>
+                <td><span class="status-badge status-dormant">탈퇴</span></td>
+            </tr>
+            <!-- ... 이하 데이터 생략 ... -->
+            </tbody>
+        </table>
 
-          <!-- 4. 페이징 -->
-          <nav class="pagination">
-              <a href="#" class="nav-arrow">&lt;</a>
-              <strong class="current-page">1</strong>
-              <a href="#">2</a>
-              <a href="#">3</a>
-              <a href="#">4</a>
-              <a href="#">5</a>
-              <a href="#">6</a>
-              <a href="#">7</a>
-              <a href="#">8</a>
-              <a href="#">9</a>
-              <a href="#">10</a>
-              <a href="#" class="nav-arrow">&gt;</a>
-          </nav>
-      </div>
-  </div>
+        <!-- 4. 페이징 -->
+        <nav class="pagination">
+            <a href="#" class="nav-arrow">&lt;</a>
+            <strong class="current-page">1</strong>
+            <a href="#">2</a>
+            <a href="#">3</a>
+            <a href="#">4</a>
+            <a href="#">5</a>
+            <a href="#">6</a>
+            <a href="#">7</a>
+            <a href="#">8</a>
+            <a href="#">9</a>
+            <a href="#">10</a>
+            <a href="#" class="nav-arrow">&gt;</a>
+        </nav>
+    </div>
+</div>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
-    <script>
-        $( function() {
-            // Datepicker에 적용할 옵션 정의
-            let option = {
-                monthNames: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
-                monthNamesShort: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
-                dayNamesMin: [ "일", "월", "화", "수", "목", "금", "토" ],
-                weekHeader: "주",
-                dateFormat: "yy-mm-dd",
-                showMonthAfterYear: true,
-                yearSuffix: "년",
-                showOtherMonths: true,
-                selectOtherMonths: true
-            };
+<div id="adminUsersModal" style="display:none;"></div>
 
-            $("#datepicker").datepicker(option);
-        } );
-    </script>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+<script>
+    $( function() {
+        // Datepicker에 적용할 옵션 정의
+        let option = {
+            monthNames: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+            monthNamesShort: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+            dayNamesMin: [ "일", "월", "화", "수", "목", "금", "토" ],
+            weekHeader: "주",
+            dateFormat: "yy-mm-dd",
+            showMonthAfterYear: true,
+            yearSuffix: "년",
+            showOtherMonths: true,
+            selectOtherMonths: true
+        };
+
+        $("#datepicker").datepicker(option);
+
+        $("#adminUsersModal").dialog({
+            autoOpen: false,
+            modal: true,
+            resizable: false,
+            width: 'auto',
+            dialogClass: 'no-titlebar'
+        });
+
+        $("#userTr").on('click', function () {
+
+            let urlToLoad = "adminUsersModal.jsp";
+
+            $("#adminUsersModal").load(urlToLoad, function(response, status, xhr) {
+                if (status == "error") {
+                    $(this).html("사용자 정보를 불러오는 데 실패했습니다.");
+                }
+                $("#adminUsersModal").dialog('open');
+            });
+        });
+    } );
+</script>
 
 </body>
 </html>
