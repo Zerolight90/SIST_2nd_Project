@@ -101,9 +101,9 @@
       <tbody>
       <!-- 예시 데이터 행 (실제로는 DB에서 반복문으로 생성) -->
       <tr>
-        <th class="w100">제목</th>
-        <td class>
-          <input type="text" id="title"/>
+        <th class="w100"><label for="board_title">제목</label></th>
+        <td>
+          <input type="text" id="board_title" name="title"/>
         </td>
       </tr>
       <tr>
@@ -114,7 +114,7 @@
         </td>
       </tr>
       <tr>
-        <th class="w100">게시기간</th>
+        <th class="w100"><label for="board_reg_date">게시기간</label></th>
         <td>
           <%--에디터가 들어갈 자리--%>
             <input type="text" id="start_reg_date" name="start_reg_date"/>
@@ -130,10 +130,10 @@
         </td>
       </tr>
       <tr>
-        <th class="w100">내용</th>
+        <th class="w100"><label for="board_content">내용</label></th>
         <td>
           <%--에디터가 들어갈 자리--%>
-          <textarea rows="12" cols="50" id="content"></textarea>
+          <textarea rows="12" cols="50" id="board_content"></textarea>
         </td>
       </tr>
       <tr>
@@ -184,7 +184,7 @@
     });
 
     //게시글 작성
-    $("#content").summernote({
+    $("#board_content").summernote({
       lang: "ko-KR",
       height: 300,
       callbacks: {
@@ -225,7 +225,7 @@
       //res로 들어온다. 그 json에 img_url이라는 이름으로
       //이미지의 경로를 보내도록 되어있다.
       //그것을 받아 editor에 img태그를 넣어주면 된다.
-      $("#content").summernote("editor.insertImage", res.img_url);
+      $("#board_content").summernote("editor.insertImage", res.img_url);
       console.log(res.img_url);
     });
 

@@ -50,9 +50,11 @@
 /*li태그 점*/
 
 .floor-info li,
-.section .show-li {
+.section .show-li,
+.direct_inquiry_info>ul>li{
     display: list-item !important;
     list-style: disc inside !important;
+    padding: 0 0 0 8px !important;
 }
 
 
