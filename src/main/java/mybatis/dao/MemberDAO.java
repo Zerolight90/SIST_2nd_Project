@@ -39,6 +39,8 @@ public class MemberDAO {
         SqlSession ss = FactoryService.getFactory().openSession();
         MemVO vo = ss.selectOne("member.id_check", m_id);
         ss.close();
-        return (vo == null)?true:false;
+        // 수정된 부분: vo가 null이면 (아이디가 DB에 없으면) false (사용 가능),
+        //             vo가 null이 아니면 (아이디가 DB에 있으면) true (중복)
+        return (vo != null); // 간결하게 표현 가능
     }
 }

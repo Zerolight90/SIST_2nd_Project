@@ -58,7 +58,8 @@ a{
 }
 
 .member input[type=button],
-.member input[type=submit]{
+.member input[type=submit]
+{
     background-color: rebeccapurple;
     color:#fff
 }
@@ -146,6 +147,17 @@ a{
 .member-footer div a:last-child:after{
     display: none;
 }
+
+.field input.error {
+    border: 1.5px solid red;
+}
+
+.field .error-msg {
+    color: red; /* 기본 메시지 색상은 빨간색으로 */
+    font-size: 0.8em;
+    margin-left: 5px;
+}
+
 
 @media (max-width:768px) {
     .member{

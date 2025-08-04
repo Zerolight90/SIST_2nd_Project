@@ -106,7 +106,7 @@
             return;
         }
             //요청할 서버경로를 변경한다.
-            document.forms[0].action = "/Controller?type=index"
+            document.forms[0].action = "/Controller?type=login"
             document.forms[0].submit();//서버로 보내기
     }
 </script>
