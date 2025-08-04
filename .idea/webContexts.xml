@@ -8,6 +8,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/index.html" value="file://$PROJECT_DIR$/target/SIST_2nd_Project-1.0-SNAPSHOT" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/join/join.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/sub_menu.jsp" value="file://$PROJECT_DIR$/target/SIST_2nd_Project-1.0-SNAPSHOT" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/mypage/myPage_userInfo.jsp" value="file://$PROJECT_DIR$/src/main/webapp/mypage" />
       </map>
     </option>
   </component>

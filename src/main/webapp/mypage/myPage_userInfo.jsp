@@ -16,7 +16,6 @@
       <span class="form-label">아이디</span>
       <div class="form-value">
         <span>zuirune</span>
-        <button class="btn btn-sm">회원탈퇴</button>
       </div>
     </div>
     <div class="form-group">
@@ -38,15 +37,32 @@
       </div>
     </div>
     <div class="form-group">
+      <span class="form-label">생년월일</span>
+      <div class="form-value">
+        <span>2002-02-02</span>
+        <button class="btn btn-bir">생년월일 변경</button>
+      </div>
+      <div class="form-group" id="bir_day-change-form" style="display: none;">
+        <span class="form-label">변경할 생년월일</span>
+        <div class="form-value">
+          <input type="text" placeholder="'-' 없이 입력">
+          <button class="btn btn-bir btn-primary">변경</button>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
       <span class="form-label">이메일</span>
       <div class="form-value">abc@gmail.com</div>
     </div>
     <div class="form-group">
       <span class="form-label">비밀번호</span>
       <div class="form-value">
+        <span>************</span>
         <button class="btn btn-sm">비밀번호 변경</button>
       </div>
     </div>
+    <div class="form-group">
+      <button class="btn btn-exit">회원탈퇴</button>
   </div>
 </div>
 </body>

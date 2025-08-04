@@ -21,7 +21,7 @@ public class MyPageAction implements Action {
         try {
 
             if (type == null || type.equals("myPage")) {
-                return "/myPage.jsp";
+                return "./mypage/myPage.jsp";
             }
 
             switch (type) {
@@ -53,23 +53,23 @@ public class MyPageAction implements Action {
                     }
                     request.setAttribute("reservationList", sampleList);
 
-                    viewPath = "/myPage_reservationHistory.jsp";
+                    viewPath = "./mypage/myPage_reservationHistory.jsp";
                     break;
 
                 case "myCoupon":
-                    viewPath = "/myPage_couponList.jsp";
+                    viewPath = "./mypage/myPage_couponList.jsp";
                     break;
                 case "myPoint":
-                    viewPath = "/myPage_pointHistory.jsp";
+                    viewPath = "./mypage/myPage_pointHistory.jsp";
                     break;
                 case "myMovieStory":
-                    viewPath = "/myPage_movieStory.jsp";
+                    viewPath = "./mypage/myPage_movieStory.jsp";
                     break;
                 case "myUserInfo":
-                    viewPath = "/myPage_userInfo.jsp";
+                    viewPath = "./mypage/myPage_userInfo.jsp";
                     break;
                 default:
-                    viewPath = "/myPage.jsp";
+                    viewPath = "./mypage/myPage.jsp";
                     break;
             }
         } catch (Exception e) {
