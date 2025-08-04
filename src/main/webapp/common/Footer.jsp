@@ -41,7 +41,7 @@
     <div id="footer-bottom">
         <div class="footer-bottom">
             <div class="footer-logo">
-                <img src="images/Simbol_logo.png" alt="SIST 로고" />
+                <img src="../images/Simbol_logo.png" alt="SIST 로고" />
                 <p>MEET PLAY SHARE</p>
             </div>
 

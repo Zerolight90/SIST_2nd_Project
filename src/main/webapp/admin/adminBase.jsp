@@ -4,7 +4,7 @@
 <head>
     <title>Title</title>
     <%--    <link rel="stylesheet" href="./css/sub/sub_page_style.css">--%>
-    <link rel="stylesheet" href="./css/admin.css">
+    <link rel="stylesheet" href="../css/admin.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
     <style>
         /* 기본 폰트 및 여백 초기화 */
@@ -191,7 +191,7 @@
 
 <div class="dashBody">
     <div class="dashLeft">
-        <jsp:include page="/admin.jsp"/>
+        <jsp:include page="/admin/admin.jsp"/>
     </div>
     <div class="admin-container">
         <!-- 1. 페이지 제목 -->
