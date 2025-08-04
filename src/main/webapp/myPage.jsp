@@ -6,17 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <title>마이페이지</title>
-  <%-- 공통 CSS와 마이페이지 전용 CSS를 모두 포함합니다. --%>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/reset.css">
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sub/sub_page_style.css"> <%-- 실제 프로젝트의 공통 CSS 경로 --%>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mypage.css"> <%-- 마이페이지 전용 CSS --%>
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sub/sub_page_style.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mypage.css">
   <link rel="icon" href="${pageContext.request.contextPath}/images/favicon.png">
 </head>
 <body>
 
 <%-- 공통 헤더 (메뉴) --%>
 <header>
-  <jsp:include page="/jsp/menu.jsp"/>
+  <jsp:include page="common/menu.jsp"/>
 </header>
 
 <%-- 마이페이지 컨텐츠 --%>
@@ -40,7 +39,7 @@
 
 <%-- 공통 푸터 --%>
 <footer>
-  <jsp:include page="/jsp/Footer.jsp"/>
+  <jsp:include page="common/Footer.jsp"/>
 </footer>
 
 <script>

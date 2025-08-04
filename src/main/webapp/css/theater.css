@@ -890,4 +890,179 @@ li::marker {
     color: white;
 }
 
+/*고객센터영역*/
+
+/*고객센터영역-공지사항*/
+.notice-tab-wrap{
+    position: relative;
+    margin-bottom: 50px;
+}
+
+.notice-tab-wrap ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background: none !important;
+}
+.notice-tab-wrap ul li{
+    position: relative;
+    float: left;
+    width: 20% !important;
+    border: 1px solid #d8d9db;
+    border-left: 0 !important;
+}
+
+.notice-tab-wrap ul li.on.btn{
+    border-left: 1px solid black;
+    border-top: 1px solid black;
+}
+
+.notice-tab-wrap ul li .btn {
+    display: block;
+    width: 100% !important;
+    height: 34px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    line-height: 34px;
+    text-align: center;
+    background-color: transparent;
+    text-decoration: none
+}
+
+.aside {
+    width: 200px;
+    float: left;
+    margin-top: 50px;
+}
+
+.lnb {
+    background: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.lnb .tit {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #222;
+}
+
+.lnb ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.lnb ul li {
+    margin-bottom: 10px;
+}
+
+.lnb ul li a {
+    display: block;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.lnb ul li.on a,
+.lnb ul li a:hover {
+    background-color: #503396;
+    color: #fff;
+}
+
+.page-content {
+    float: right;
+    width: calc(100% - 260px);
+    margin-left: 50px;
+    margin-top: 50px;
+}
+
+.tit{
+    padding: 0 0 26px 0;
+    font-size: 1.8666em;
+    font-weight: 400;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    color: #222;
+}
+
+.board-list-util {
+    margin: 30px 0 15px 0;
+    text-align: right;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.board-list-util .result-count {
+    position: relative;
+    float: left;
+    margin: 0;
+    padding-top: 15px;
+    line-height: 1.1;
+    vertical-align: top;
+    align-items: center;
+
+}
+.dropdown {
+    padding-top: 15px;
+    line-height: 1.1;
+    vertical-align: center;
+    margin-left: auto;
+}
+
+.board-search{
+    padding-top: 15px;
+    line-height: 1.1;
+    vertical-align: top;
+}
+#searchTxt{
+    height: 35px;
+    text-align: center;
+    width: 180px;
+    border: 1px solid #d8d9db;
+    border-radius: 3px;
+}
+#searchBtn{
+    height: 35px;
+    text-align: center;
+    border: 1px solid #d8d9db;
+    border-radius: 3px;
+}
+
+#dropdown-select{
+    margin-right: 10px;
+    border-radius: 5px;
+    height: 35px;
+    text-align: center;
+    width: 80px;
+    border: 1px solid #d8d9db;
+}
+#dropdown-mv{
+    margin-right: 10px;
+    border-radius: 5px;
+    height: 35px;
+    text-align: center;
+    width: 80px;
+    border: 1px solid #d8d9db;
+}
+
+.pagination {
+    clear: both;
+    position: relative;
+    margin: 0 auto;
+    padding: 30px 0 0 0;
+    text-align: center;
+}
+
+/*//고객센터영역-공지사항 끝*/
+/*//고객센터영역 끝*/
+
 /*all_theater끝*/

@@ -24,8 +24,8 @@
         </ul>
 
         <ul class="nav-r_top">
-            <li><a href="#" class="login">로그인</a></li>
-            <li><a href="#" class="signup">회원가입</a></li>
+            <li><a href="/join/login.jsp" class="login">로그인</a></li>
+            <li><a href="/join/join.jsp" class="signup">회원가입</a></li>
             <li><a href="#" class="quick-booking">빠른예매</a></li>
         </ul>
     </div>
@@ -88,7 +88,7 @@
                     <li><a href="#">당첨자 확인</a></li>
                 </ul>
             </li>
-            <li class="main-item store-menu"><a href="<c:url value="/store.jsp"/>">스토어</a></li>
+            <li class="main-item store-menu"><a href="<c:url value="/store/store.jsp"/>">스토어</a></li>
             <li class="main-item has-submenu">
                 <a href="#">혜택</a>
                 <ul class="submenu">

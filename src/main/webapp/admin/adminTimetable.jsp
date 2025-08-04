@@ -4,7 +4,8 @@
 <head>
   <title>Title</title>
   <%--    <link rel="stylesheet" href="./css/sub/sub_page_style.css">--%>
-  <link rel="stylesheet" href="./css/admin.css">
+  <link rel="stylesheet" href="../../../../target/SIST_2nd_Project-1.0-SNAPSHOT/css/admin.css">
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
   <style>
     /* 기본 폰트 및 여백 초기화 */
     body {
@@ -187,7 +188,7 @@
   <div class="admin-container">
     <!-- 1. 페이지 제목 -->
     <div class="page-title">
-      <h2>관리자 목록</h2>
+      <h2>상영 시간표 목록</h2>
     </div>
 
     <!-- 2. 상단 컨트롤 바 -->
@@ -196,21 +197,17 @@
         전체 <strong>130</strong>건
       </div>
       <form class="search-form" action="#" method="get">
+        <p>상영일 : </p>
+        <p><input type="text" id="datepicker"></p>
         <select name="user_status">
-          <option value="">관리자 상태 선택</option>
-          <option value="active">활성</option>
-          <option value="dormant">정지</option>
+          <option value="">극장 선택</option>
+          <option value="active">강남</option>
+          <option value="dormant">강북</option>
         </select>
         <select name="user_level">
-          <option value="">관리자 등급 선택</option>
-          <option value="basic">SUPER</option>
-          <option value="vip">MANAGER</option>
-        </select>
-        <select name="search_field">
-          <option value="all">검색 대상 선택</option>
-          <option value="name">아이디</option>
-          <option value="id">등급</option>
-          <option value="email">상태</option>
+          <option value="">상영관 선택</option>
+          <option value="basic">IMAX 1관</option>
+          <option value="vip">4DX 2관</option>
         </select>
         <input type="text" name="search_keyword" placeholder="검색어를 입력해주세요.">
         <button type="submit" class="btn btn-search">검색</button>
@@ -223,18 +220,26 @@
       <thead>
       <tr>
         <th>번호</th>
-        <th>아이디</th>
-        <th>등급</th>
-        <th>상태</th>
+        <th>극장</th>
+        <th>상영관</th>
+        <th>영화제목</th>
+        <th>상영일</th>
+        <th>시작 시간</th>
+        <th>종료 시간</th>
+        <th>잔여 좌석 / 총 좌석</th>
       </tr>
       </thead>
       <tbody>
       <!-- 예시 데이터 행 (실제로는 DB에서 반복문으로 생성) -->
       <tr>
         <td>1</td>
-        <td>leedo</td>
-        <td>SUPER</td>
-        <td>활성</td>
+        <td>강남</td>
+        <td>IMAX 1관</td>
+        <td>어벤져스</td>
+        <td>2025-08-01</td>
+        <td>09:00:00</td>
+        <td>11:20:00</td>
+        <td>36 / 36</td>
       </tr>
       </tbody>
     </table>
@@ -256,5 +261,25 @@
     </nav>
   </div>
 </div>
+
+<script>
+  $( function() {
+    // Datepicker에 적용할 옵션 정의
+    let option = {
+      monthNames: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+      monthNamesShort: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+      dayNamesMin: [ "일", "월", "화", "수", "목", "금", "토" ],
+      weekHeader: "주",
+      dateFormat: "yy-mm-dd",
+      showMonthAfterYear: true,
+      yearSuffix: "년",
+      showOtherMonths: true,
+      selectOtherMonths: true
+    };
+
+    $("#datepicker").datepicker(option);
+  } );
+</script>
+
 </body>
 </html>

@@ -14,7 +14,7 @@
 </head>
 <body>
 <header>
-  <jsp:include page="jsp/sub_menu.jsp"/>
+  <jsp:include page="common/sub_menu.jsp"/>
 </header>
 <article>
   <div class="confirmation_container">
@@ -22,7 +22,7 @@
       <%-- ==================== 결제 성공 ==================== --%>
       <c:when test="${isSuccess}">
         <c:choose>
-          <%-- 🔴 영화 예매 성공 화면 (수정된 부분) 🔴 --%>
+          <%-- 영화 예매 성공 화면 --%>
           <c:when test="${paymentType == 'paymentMovie'}">
             <h1>예매 완료</h1>
             <div class="confirmation_box">
@@ -86,7 +86,7 @@
   </div>
 </article>
 <footer>
-  <jsp:include page="${basePath}/jsp/Footer.jsp"/>
+  <jsp:include page="${basePath}/common/Footer.jsp"/>
 </footer>
 </body>
 </html>

@@ -913,7 +913,7 @@ header {
     background-size: auto 50px;  /* 모든 아이콘 높이 50px로 통일 */
     font-size: 17px;
     font-weight: 500;
-    padding: 80px 0 0 0;
+    padding: 120px 0 0 0;
 }
 
 .menu-link .vip a {
@@ -1154,11 +1154,13 @@ header {
 .list > ul > li {
     flex: 1 1 0;        /* li가 균등하게 가로로 늘어나게 지정(원한다면) */
     min-width: 0;       /* 넘침 방지 */
+
 }
 
 /*=====임포메션===*/
 #imformation{
     display: block;
+    width: 100%;
     height: 840px;
     background-color: #FFFFFF;
 }
@@ -1177,67 +1179,211 @@ header {
     font-size: 36px;
 }
 
-.info_slider {
+/*박스 슬라이더*/
+.slider-container {
     display: flex;
-    width: 1100px;
-    margin: 0 auto;
-    position: relative;
-    align-items: center;
-}
-
-.info_btn {
-    position: absolute;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-
-}
-
-.b_btn, .n_btn {
-    margin-top: 40px;
-    font-size: 70px;
-    font-family: 'Noto Sans KR', 돋움 serif;
-    line-height: 20px;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    color: #cccccc;
-}
-
-.info_slider ul{
-    display: flex;
-    width: 940px;
+    align-content: center;
+    width: 100%; /* 컨테이너 너비 조절 */
     margin: 0 auto;
     padding-top: 50px;
-    gap: 20px;
+    position: relative;
+    /*overflow: hidden;*/
+}
+
+.slider-box {
+    position: relative;
+    display: flex;
+    width: 1140px;
+    height: 200px;
+    margin: 0 auto;
+    /*border: 1px solid red;*/
     overflow: hidden;
+    /*transition: transform 0.5s ease-in-out;*/
+}
+
+.slide-item {
+    flex: 0 0 170px; /* 슬라이드 아이템 너비 고정 */
+    width: 170px;
+    height: 170px;
+    margin: 0 10px;
+    overflow: hidden; /* 박스 영역을 벗어나는 이미지를 숨김 */
+    border: 2px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 10px;
+   position: relative;
+    right: 0;
+    z-index: 30;
+
+}
+
+.slide-item img {
+    width: 170px;
+    height: 340px;
+    object-fit: cover;
+
+}
+
+.slide-item:hover img {
+    transform: translateY(-170px); /* 호버 시 이미지를 Y축으로 -170px 이동 */
+}
+
+.button-container{
+    position: relative;
+    top: -150px;
+    margin: 0 auto;
+    width: 1300px;
+    height: 80px;
     /*border: 1px solid red;*/
 }
 
-.info_slider ul li{
-    width: 170px;
-    height: 170px;
-    /*border: 1px solid blue;*/
+.button-container button {
+    position: absolute;
+    /*background-color: #333;*/
+    color: #222222;
+    border: none;
+    padding: 10px 15px;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 0 10px;
+    border-radius: 5px;
+
 }
 
-.info_slider ul li a {
-    overflow: hidden;
+.button-container button:hover {
+    /*background-color: #555;*/
+}
+
+
+/* 4. 개별 버튼(#prev-btn, #next-btn) 스타일링 */
+
+.prev-btn, .next-btn {
+    position: absolute; /* slider-container를 기준으로 위치 지정 */
+    top: 50%; /* 상단에서 50% 위치 */
+
+    transform: translateY(-50%); /* Y축으로 -50% 이동하여 수직 중앙 정렬 */
+    background-color: #FFFFFF;
+    /*color: white;*/
+    border: none;
+    padding: 10px 15px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    z-index: 10; /* 다른 요소 위에 버튼이 보이도록 설정 */
+
+}
+
+/* '이전' 버튼 위치 */
+
+.button-container #prev-btn {
+    left: 0; /* slider-container의 왼쪽에 배치 */
+}
+
+/* '다음' 버튼 위치 */
+
+.next-btn {
+    right: 0; /* slider-container의 오른쪽에 배치 */
+}
+
+.prev-btn:hover, .next-btn:hover {
+    /*background-color: #555;*/
+}
+
+.info-link {
     display: block;
-    width: 170px;
-    height: 170px;
-    border-radius: 10px;
-    box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.2);
+    width: 1100px;
+    margin: 0 auto;
+    padding: 50px 0;
+}
+
+.info-link:before, .info-link:after {
+    content: '';
+    display: table;
+}
+
+.info-link:after {
+    clear: both;
+}
+
+.info-link .table {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.info-link .table .info_cell {
+    display: table-cell;
+    width: 16.6%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.info-link .table .info_cell:first-child {
+    width: 16.7%;
+}
+
+.info-link .table .info_cell a {
+    display: inline-block;
+    font-size: 15px;
+    color: #000000;
+}
+
+.info-link .table .info_cell a i {
+    display: block;
+    margin: 0 auto;
+    font-size: 40px;
+    color: skyblue;
+}
+
+.info-link .table .info_cell a span {
+    display: block;
+    margin: 0 auto;
+    padding: 10px 0 0 0;
+    line-height: 1.3;
+}
+
+.notice{
+    display: flex;
+    padding: 15px 0;
     position: relative;
+    width: 1100px;
+    margin: 0 auto;
+    font-size: 15px;
+    font-family: 'Noto Sans KR', sans-serif;
+    border-top: 1px solid #888888;
+    border-bottom: 1px solid #888888;
+}
+.notice .notice-tit{
+    padding-left: 30px;
+    font-weight: 400;
+}
+.notice .notice-content a span{
+    font-weight: 400;
+    color: #329eb1;
 }
 
-.info_slider ul li a img {
+.notice .notice-content{
+    position: absolute;
+    left: 100px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-left: 30px;
+    border-left: 1px solid #aaaaaa;
+
+}
+
+.notice .date{
+    position: absolute;
+    right: 150px;
+    padding-right: 30px;
+    border-right: 1px solid #aaaaaa;
+}
+
+.more-notice a{
     display: block;
-    width: 170px;
-    height: 340px;
-}
-
-.info_slider ul li a:hover img {
-    transform: translateY(-170px);
+    position: absolute;
+    right: 0;
+    padding-right: 30px;
+    color: #4a5164;
 }
 
 

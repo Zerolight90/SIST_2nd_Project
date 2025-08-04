@@ -4,7 +4,7 @@
 <head>
   <title>Title</title>
   <%--    <link rel="stylesheet" href="./css/sub/sub_page_style.css">--%>
-  <link rel="stylesheet" href="./css/admin.css">
+  <link rel="stylesheet" href="../../../../target/SIST_2nd_Project-1.0-SNAPSHOT/css/admin.css">
   <style>
     /* 기본 폰트 및 여백 초기화 */
     body {
@@ -187,7 +187,7 @@
   <div class="admin-container">
     <!-- 1. 페이지 제목 -->
     <div class="page-title">
-      <h2>로그 목록</h2>
+      <h2>관리자 목록</h2>
     </div>
 
     <!-- 2. 상단 컨트롤 바 -->
@@ -196,15 +196,21 @@
         전체 <strong>130</strong>건
       </div>
       <form class="search-form" action="#" method="get">
-        <p>시작일 : </p>
-        <p>jQueryUI DatePicker</p>
-        <p>종료일 : </p>
-        <p>jQueryUI DatePicker</p>
+        <select name="user_status">
+          <option value="">관리자 상태 선택</option>
+          <option value="active">활성</option>
+          <option value="dormant">정지</option>
+        </select>
+        <select name="user_level">
+          <option value="">관리자 등급 선택</option>
+          <option value="basic">SUPER</option>
+          <option value="vip">MANAGER</option>
+        </select>
         <select name="search_field">
-          <option value="all">검색 유형 선택</option>
-          <option value="name">대상</option>
-          <option value="id">로그 정보</option>
-          <option value="email">관리자 ID</option>
+          <option value="all">검색 대상 선택</option>
+          <option value="name">아이디</option>
+          <option value="id">등급</option>
+          <option value="email">상태</option>
         </select>
         <input type="text" name="search_keyword" placeholder="검색어를 입력해주세요.">
         <button type="submit" class="btn btn-search">검색</button>
@@ -217,26 +223,18 @@
       <thead>
       <tr>
         <th>번호</th>
-        <th>로그 유형</th>
-        <th>관리자 ID</th>
-        <th>대상</th>
-        <th>로그 정보</th>
-        <th>이전 값</th>
-        <th>변경 후 값</th>
-        <th>날짜</th>
+        <th>아이디</th>
+        <th>등급</th>
+        <th>상태</th>
       </tr>
       </thead>
       <tbody>
       <!-- 예시 데이터 행 (실제로는 DB에서 반복문으로 생성) -->
       <tr>
         <td>1</td>
-        <td>0</td>
-        <td>1</td>
-        <td>useridx : 30</td>
-        <td>사용자 비활성화</td>
-        <td>{"status" : "active"}</td>
-        <td>{"status" : "inactive"}</td>
-        <td>2025-08-01 09:00:00</td>
+        <td>leedo</td>
+        <td>SUPER</td>
+        <td>활성</td>
       </tr>
       </tbody>
     </table>
