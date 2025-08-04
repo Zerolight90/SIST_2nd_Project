@@ -13,9 +13,8 @@
     <link rel="icon" href="./images/favicon.png">
 
 </head>
-<%
-    MemVO mvo = (MemVO) request.getAttribute("mvo");
-%>
+
+
 <body>
 <header>
    <jsp:include page="common/menu.jsp"/>

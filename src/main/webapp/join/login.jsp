@@ -22,12 +22,27 @@
     // 먼저 세션으로부터 "mvo"라는 이름으로 저장된 객체를 얻어내어
     // Object형 변수 obj에 저장하자!
     Object obj = session.getAttribute("mvo");
+    String loginError = (String) request.getAttribute("loginError");
+    String errorMessage = (String) request.getAttribute("errorMessage");
+
     if(obj == null){
 %>
 <article>
 
     <div id="log_fail" class="show">
         <h2>로그인</h2>
+        <%
+            // 에러 메시지가 있을 경우 표시
+            if (loginError != null && loginError.equals("true")) {
+        %>
+
+        <div class="error-message">
+            <%= errorMessage != null ? errorMessage : "로그인에 실패했습니다." %>
+        </div>
+
+        <%
+            }
+        %>
         <form action="" method="post">
             <tr>
                 <td><label for="s_id"></label></td>
@@ -90,9 +105,9 @@
             pw.focus();
             return;
         }
-        //요청할 서버경로를 변경한다.
-        document.forms[0].action =  "Controller?type=index"
-        document.forms[0].submit();//서버로 보내기
+            //요청할 서버경로를 변경한다.
+            document.forms[0].action = "/Controller?type=index"
+            document.forms[0].submit();//서버로 보내기
     }
 </script>
 

@@ -168,3 +168,9 @@ article {
     display: block !important;
 }
 
+.error-message {
+    font-weight: bold;
+    color: red;
+    margin-bottom: 10px;
+}
+
