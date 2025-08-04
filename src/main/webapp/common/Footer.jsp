@@ -102,7 +102,7 @@
                 clickCount += 1;
 
                 if (clickCount === 3) {
-                    $("#admin-login-modal").load("adminLogin.jsp", function(response, status, xhr) {
+                    $("#admin-login-modal").load("./admin/adminLogin.jsp", function(response, status, xhr) {
                         if (status == "error") {
                             $(this).html("로그인 창을 불러오는 데 실패했습니다: " + xhr.status + " " + xhr.statusText);
                         }
