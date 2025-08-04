@@ -1,14 +1,15 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
   <title>SIST BOX 쌍용박스</title>
-  <link rel="stylesheet" href="../../../../target/SIST_2nd_Project-1.0-SNAPSHOT/css/sub/sub_page_style.css">
-  <link rel="stylesheet" href="../../../../target/SIST_2nd_Project-1.0-SNAPSHOT/css/reset.css">
-  <link rel="stylesheet" href="../../../../target/SIST_2nd_Project-1.0-SNAPSHOT/css/store.css">
+  <link rel="stylesheet" href="<c:url value="/css/sub/sub_page_style.css"/>">
+  <link rel="stylesheet" href="<c:url value="/css/reset.css"/>">
+  <link rel="stylesheet" href="<c:url value="/css/store.css"/>">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
-  <link rel="icon" href="../../../../target/SIST_2nd_Project-1.0-SNAPSHOT/images/favicon.png">
+  <link rel="icon" href="<c:url value="/images/favicon.png"/>">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 </head>
@@ -16,7 +17,7 @@
 <body>
 
 <header>
-  <jsp:include page="jsp/sub_menu.jsp"/>
+  <jsp:include page="/common/sub_menu.jsp"/>
 </header>
 
 <article>

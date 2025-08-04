@@ -1,3 +1,4 @@
+<%@ page import="mybatis.vo.MemVO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -7,7 +8,7 @@
             <!-- 로고 -->
             <h1 class="logo">
                 <a href="#" class="logo_link">
-                    <img src="./images/logo.png" alt="sist" class="logo_img" />
+                    <img src="<c:url value="/images/logo.png"/>" alt="sist" class="logo_img" />
                 </a>
                 <span class="title">S I S T M O V I E P L E X</span>
             </h1>
@@ -23,11 +24,24 @@
             <li><a href="#" class="admin_page">관리자</a></li> <!--로그인 할때만 표현됨-->
         </ul>
 
-        <ul class="nav-r_top">
-            <li><a href="/join/login.jsp" class="login">로그인</a></li>
-            <li><a href="/join/join.jsp" class="signup">회원가입</a></li>
-            <li><a href="#" class="quick-booking">빠른예매</a></li>
-        </ul>
+
+        <c:if test="${empty sessionScope.mvo}">
+            <ul class="nav-r_top">
+                <li><a href="<c:url value="/join/login.jsp"/>" class="login" target="_blank">로그인</a></li>
+                <li><a href="<c:url value="/join/join.jsp"/>" class="signup">회원가입</a></li>
+                <li><a href="#" class="quick-booking">빠른예매</a></li>
+            </ul>
+        </c:if>
+
+        <c:if test="${not empty sessionScope.mvo}">
+            <%-- 로그인 상태일 때 표시될 메뉴 --%>
+            <ul class="nav-r_top" id="log_suc">
+                    <%-- 세션에 저장된 mvo 객체에서 사용자 이름을 가져와 출력합니다. --%>
+                <li><a href="#">(${sessionScope.mvo.m_name})님 환영합니다</a></li>
+                <li><a href="<c:url value="/join/logout.jsp"/>" class="btn">로그아웃</a></li>
+                <li><a href="#" class="quick-booking">빠른예매</a></li>
+            </ul>
+        </c:if>
     </div>
 
 
