@@ -13,7 +13,7 @@
 </head>
 <body>
 <!-- Header -->
-<jsp:include page="../common/menu.jsp" />
+<jsp:include page="../common/sub_menu.jsp" />
 
 <div id="container">
     <div class="content">
