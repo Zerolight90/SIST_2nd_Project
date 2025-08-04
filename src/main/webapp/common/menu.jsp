@@ -123,8 +123,6 @@
                     $('.submenu-bg').css('display', 'none');
                 });
             });
-
-
         </script>
     </div>
 </div>
