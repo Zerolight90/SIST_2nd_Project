@@ -73,7 +73,7 @@
           </div>
         </a>
         <p class="img" style="margin-left: 10px">
-          <img src="../../../../target/SIST_2nd_Project-1.0-SNAPSHOT/images/loveCombo.png" alt=""/>
+          <img src="<c:url value="/images/loveCombo.png"/>" alt=""/>
         </p>
       </div>
 
@@ -90,7 +90,7 @@
           <li style="width: 243px; height: 433px; border: 1px solid #ebebeb; border-radius: 10px">
             <a href="">
               <div class="prodTop">
-                <img src="../../../../target/SIST_2nd_Project-1.0-SNAPSHOT/images/normalTicket.png" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
+                <img src="<c:url value="/images/normalTicket.png"/>" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
               </div>
               <div class="prodBottom">
                 <div style="padding-top: 15px">
@@ -124,7 +124,7 @@
           <li style="width: 243px; height: 433px; border: 1px solid #ebebeb; border-radius: 10px">
             <a href="">
               <div class="prodTop">
-                <img src="../../../../target/SIST_2nd_Project-1.0-SNAPSHOT/images/normalTicket.png" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
+                <img src="<c:url value="/images/normalTicket.png"/>" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
               </div>
               <div class="prodBottom">
                 <div style="padding-top: 15px">
@@ -158,7 +158,7 @@
           <li style="width: 243px; height: 433px; border: 1px solid #ebebeb; border-radius: 10px">
             <a href="">
               <div class="prodTop">
-                <img src="../../../../target/SIST_2nd_Project-1.0-SNAPSHOT/images/normalTicket.png" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
+                <img src="<c:url value="/images/normalTicket.png"/>" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
               </div>
               <div class="prodBottom">
                 <div style="padding-top: 15px">
@@ -187,7 +187,7 @@
           <li style="width: 243px; height: 433px; border: 1px solid #ebebeb; border-radius: 10px">
             <a href="">
               <div class="prodTop">
-                <img src="../../../../target/SIST_2nd_Project-1.0-SNAPSHOT/images/normalTicket.png" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
+                <img src="<c:url value="/images/normalTicket.png"/>" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
               </div>
               <div class="prodBottom">
                 <div style="padding-top: 15px">
@@ -215,7 +215,7 @@
           <li style="width: 243px; height: 433px; border: 1px solid #ebebeb; border-radius: 10px">
             <a href="">
               <div class="prodTop">
-                <img src="../../../../target/SIST_2nd_Project-1.0-SNAPSHOT/images/normalTicket.png" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
+                <img src="<c:url value="/images/normalTicket.png"/>" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
               </div>
               <div class="prodBottom">
                 <div style="padding-top: 15px">
@@ -243,7 +243,7 @@
           <li style="width: 243px; height: 433px; border: 1px solid #ebebeb; border-radius: 10px">
             <a href="">
               <div class="prodTop">
-                <img src="../../../../target/SIST_2nd_Project-1.0-SNAPSHOT/images/normalTicket.png" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
+                <img src="<c:url value="/images/normalTicket.png"/>" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
               </div>
               <div class="prodBottom">
                 <div style="padding-top: 15px">
