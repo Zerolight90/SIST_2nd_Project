@@ -1,4 +1,4 @@
-<%@ page import="mybatis.vo.MemVO" %>
+<%@ page import="mybatis.vo.MemberVO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -85,7 +85,7 @@
         //obj가  null이 아닐 경우다.
         // 이름을 얻기 위해 Object형으로 두면 안되고, MemVO로 형변환을 해야
         // 이름을 얻을 수 있다.
-        MemVO mvo = (MemVO) obj;
+        MemberVO mvo = (MemberVO) obj;
     }
 
     %>

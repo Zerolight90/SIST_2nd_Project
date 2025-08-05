@@ -1,7 +1,7 @@
 package Action;
 
 import mybatis.dao.MemberDAO;
-import mybatis.vo.MemVO;
+import mybatis.vo.MemberVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +14,7 @@ public class LoginAction implements Action {
         String u_id = request.getParameter("u_id");
         String u_pw = request.getParameter("u_pw");
 
-        MemVO mvo = MemberDAO.login(u_id, u_pw);
+        MemberVO mvo = MemberDAO.login(u_id, u_pw);
 
         // 로그인 성공 여부 확인
         if (mvo != null) {

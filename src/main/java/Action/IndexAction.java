@@ -1,11 +1,7 @@
 package Action;
 
-import mybatis.dao.MemberDAO;
-import mybatis.vo.MemVO;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 public class IndexAction implements Action {
 

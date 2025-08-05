@@ -1,6 +1,6 @@
 package mybatis.vo;
 
-public class MemVO {
+public class MemberVO {
     private String m_idx, m_name, m_id, m_pw, m_phone,
             m_addr, reg_date, status, etc1, etc2;
 

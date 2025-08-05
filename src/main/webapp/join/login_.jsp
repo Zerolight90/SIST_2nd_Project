@@ -1,4 +1,4 @@
-<%@ page import="mybatis.vo.MemVO" %>
+<%@ page import="mybatis.vo.MemberVO" %>
 <%@ page import="mybatis.dao.MemberDAO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
@@ -8,7 +8,7 @@
     String mPw = request.getParameter("u_pw");
 
     if(mId != null && mPw != null){
-        MemVO mvo = MemberDAO.login(mId, mPw);
+        MemberVO mvo = MemberDAO.login(mId, mPw);
         int mode = 0;
         if(mvo != null){
             // HttpSession에 "mvo"라는 이름으로 MemVO객체를 저장한다.
