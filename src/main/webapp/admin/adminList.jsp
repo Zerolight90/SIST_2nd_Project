@@ -229,13 +229,26 @@
       </tr>
       </thead>
       <tbody>
-      <!-- 예시 데이터 행 (실제로는 DB에서 반복문으로 생성) -->
-      <tr>
-        <td>1</td>
-        <td>leedo</td>
-        <td>SUPER</td>
-        <td>활성</td>
-      </tr>
+        <c:forEach var="vo" items="${requestScope.ar}" varStatus="status">
+          <tr>
+            <td>${vo.adminIdx}</td>
+            <td>${vo.adminId}</td>
+            <td>${vo.adminLevel}</td>
+
+            <c:if test="${vo.adminstatus == 0}">
+              <td>정지</td>
+            </c:if>
+            <c:if test="${vo.adminstatus == 1}">
+              <td>활동</td>
+            </c:if>
+          </tr>
+        </c:forEach>
+        <%--<tr>
+          <td>1</td>
+          <td>leedo</td>
+          <td>SUPER</td>
+          <td>활성</td>
+        </tr>--%>
       </tbody>
     </table>
 

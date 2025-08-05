@@ -34,8 +34,8 @@
     </div>
     <div class="leftDiv">
       <p class="bold">시스템 관리</p>
-      <div class="leftDivInner"><a href="Controller?type=">관리자 권한 관리</a></div>
-      <div class="leftDivInner"><a href="">관리자 / 사용자 로그 관리</a></div>
+      <div class="leftDivInner"><a href="Controller?type=adminList">관리자 권한 관리</a></div>
+      <div class="leftDivInner"><a href="Controller?type=adminLog">관리자 / 사용자 로그 관리</a></div>
     </div>
   </div>
 
