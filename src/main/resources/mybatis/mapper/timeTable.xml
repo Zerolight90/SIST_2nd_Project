@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="timeTable">
+
+
+    <resultMap id="map100" type="mybatis.vo.TimeTableVO">
+        <id property="mIdx" column="mIdx"/>
+
+        <!-- timeTableVO에 있는 멤버변수들 중 List<Movie> m_list; -->
+        <collection property="m_list" ofType="mybatis.vo.MovieVO"
+                    select="movie.list" column="mIdx"/>
+        <!-- movie.list를 호출하면서 mIdx값을 인자로 보낸다. -->
+    </resultMap>
+
+    <select id="all" resultMap="map100" parameterType="String"> <!-- 상영중이거나 상영예정인 영화들만 보여주는 쿼리 -->
+        SELECT *
+        FROM time_table t
+        INNER JOIN movie m
+        ON t.mIdx = m.mIdx
+        WHERE t.startTime &lt; #{now}
+    </select>
+
+    <select id="time" resultType="mybatis.vo.TimeTableVO" parameterType="Map"> <!-- 인자를 두개받아야해서 Map으로 받음 -->
+        SELECT *
+        FROM time_table
+        WHERE tIdx = ${tIdx}
+        AND mIdx = ${mIdx}
+    </select>
+</mapper>
