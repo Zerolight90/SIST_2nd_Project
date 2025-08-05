@@ -24,5 +24,8 @@
         <mapper resource="mybatis/mapper/member.xml"/>
         <mapper resource="mybatis/mapper/board.xml"/>
         <mapper resource="mybatis/mapper/theater.xml"/>
+        <mapper resource="mybatis/mapper/nmem.xml"/>
+        <mapper resource="mybatis/mapper/admin.xml"/>
+        <mapper resource="mybatis/mapper/log.xml"/>
     </mappers>
 </configuration>

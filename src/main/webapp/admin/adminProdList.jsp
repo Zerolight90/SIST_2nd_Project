@@ -3,9 +3,9 @@
 <html>
 <head>
     <title>Title</title>
-    <link rel="stylesheet" href="./css/sub/sub_page_style.css">
-    <link rel="stylesheet" href="./css/admin.css">
-    <link rel="stylesheet" href="./css/productadd.css">
+    <link rel="stylesheet" href="../css/sub/sub_page_style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="../css/productadd.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 </head>
@@ -21,7 +21,7 @@
 
 <div class="dashBody">
     <div class="dashLeft">
-        <jsp:include page="admin/admin.jsp"/>
+        <jsp:include page="admin.jsp"/>
     </div>
     <div class="adminContent">
         <div style="margin-left: 20px">

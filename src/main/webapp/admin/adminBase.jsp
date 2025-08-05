@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
+<html id="ajaxArea">
 <head>
     <title>Title</title>
     <%--    <link rel="stylesheet" href="./css/sub/sub_page_style.css">--%>
@@ -179,7 +179,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 </head>
-<body style="margin: auto">
+<body style="margin: auto" id="ajax">
 <!-- 관리자 화면에 처음 들어오는 보이는 상단영역 -->
 <div class="dashHead bold">
     <div style="display: inline-block; justify-content: space-between; align-items: center"><p style="margin-left: 10px">admin 관리자님</p></div>
@@ -239,13 +239,29 @@
                 <th>이메일</th>
                 <th>전화번호</th>
                 <th>보유 포인트</th>
-                <th>등급</th>
                 <th>상태</th>
             </tr>
             </thead>
             <tbody>
             <!-- 예시 데이터 행 (실제로는 DB에서 반복문으로 생성) -->
-            <tr id="userTr">
+            <c:forEach var="vo" items="${requestScope.ar}" varStatus="status">
+                <tr id="userTr">
+                    <td>${vo.userIdx}</td>
+                    <td>${vo.name}</td>
+                    <td>${vo.id}</td>
+                    <td>${vo.email}</td>
+                    <td>${vo.phone}</td>
+                    <td>${vo.totalPoints}</td>
+                    
+                    <c:if test="${vo.status == 0}">
+                        <td><span class="status-badge status-active">활성</span></td>
+                    </c:if>
+                    <c:if test="${vo.status == 1}">
+                        <td><span class="status-badge status-dormant">탈퇴</span></td>
+                    </c:if>
+                </tr>
+            </c:forEach>
+            <%--<tr id="userTr">
                 <td>1</td>
                 <td>정일우</td>
                 <td>abcdff123</td>
@@ -254,47 +270,7 @@
                 <td>500</td>
                 <td>BASIC</td>
                 <td><span class="status-badge status-active">활성</span></td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>이소이</td>
-                <td>abc12345</td>
-                <td>hm7266@naver.com</td>
-                <td>010-1234-5678</td>
-                <td>0</td>
-                <td>VIP</td>
-                <td><span class="status-badge status-active">활성</span></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>이도</td>
-                <td>dpdlcl0111</td>
-                <td>dpdlcl0111@gmail.com</td>
-                <td>010-1234-1234</td>
-                <td>7998</td>
-                <td>BASIC</td>
-                <td><span class="status-badge status-active">활성</span></td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>이이</td>
-                <td>google</td>
-                <td>hdy7272@naver.com</td>
-                <td>010-1234-1234</td>
-                <td>0</td>
-                <td>BASIC</td>
-                <td><span class="status-badge status-active">활성</span></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>이종겸</td>
-                <td>test12345</td>
-                <td>byu4167@gmail.com</td>
-                <td>010-1231-1232</td>
-                <td>0</td>
-                <td>BASIC</td>
-                <td><span class="status-badge status-dormant">탈퇴</span></td>
-            </tr>
+            </tr>--%>
             <!-- ... 이하 데이터 생략 ... -->
             </tbody>
         </table>
