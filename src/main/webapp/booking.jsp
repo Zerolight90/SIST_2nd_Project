@@ -1,4 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +15,7 @@
   <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
   <link rel="icon" href="./images/favicon.png">
 </head>
-<body>
+<div>
 
 <header>
   <jsp:include page="common/sub_menu.jsp"/>
@@ -26,15 +29,30 @@
       <div id="booking-wrap">
         <!-- 상단 날짜영역 -->
         <div class="booking-date">
-          <button class="bf_btn" onclick="changeDate(-1)">
-            <i class="fas fa-chevron-left"></i>
-          </button>
-          <div class="date-wrap" id="dateWrap">
-            <!-- 날짜가 동적으로 생성됩니다 -->
+<%--          <button class="bf_btn" onclick="changeDate(-1)">--%>
+<%--            <i class="fas fa-chevron-left"></i>--%>
+<%--          </button>--%>
+
+          <div class="date-container">
+            <c:set var="dArr" value="${requestScope.dateArr}" scope="page"/>
+            <c:forEach var="date" items="${dArr}">
+              <div class="date-item">
+                <c:set var="dayStr" value="${fn:substring(date, 8, 10)}" />
+                <c:choose>
+                  <c:when test="${fn:startsWith(dayStr, '0')}">
+                    ${fn:substring(dayStr, 1, 2)} <!-- 0으로 시작하면 마지막 글자만 보여주고 -->
+                  </c:when>
+                  <c:otherwise>
+                    ${dayStr}  <!-- 0으로 시작하지 않으면 모두 보여준다 -->
+                  </c:otherwise>
+                </c:choose>
+              </div>
+            </c:forEach>
           </div>
-          <button class="nt_btn" onclick="changeDate(1)">
-            <i class="fas fa-chevron-right"></i>
-          </button>
+
+<%--          <button class="nt_btn" onclick="changeDate(1)">--%>
+<%--            <i class="fas fa-chevron-right"></i>--%>
+<%--          </button>--%>
         </div>
 
         <!-- 중앙의 영화 / 극장 / 시간 영역 -->
@@ -49,46 +67,19 @@
                     <li class="selected"><a href="#" onclick="switchTab(this, 'movie-all')">전체</a></li>
                     <li><a href="#" onclick="switchTab(this, 'movie-curation')">큐레이션</a></li>
                   </ul>
-                  <div id="movie-all" class="tabCont active">
-                    <div class="movie-item" data-movie="1">
-                      <span class="movie-rating rating-12">12</span>
-                      <span class="movie-title">범퍼카</span>
-                    </div>
-                    <div class="movie-item" data-movie="2">
-                      <span class="movie-rating rating-15">15</span>
-                      <span class="movie-title">F1 더 무비</span>
-                    </div>
-                    <div class="movie-item" data-movie="3">
-                      <span class="movie-rating rating-15">15</span>
-                      <span class="movie-title">전직 특수 요원</span>
-                    </div>
-                    <div class="movie-item" data-movie="4">
-                      <span class="movie-rating rating-18">18</span>
-                      <span class="movie-title">몬스터</span>
-                    </div>
-                    <div class="movie-item" data-movie="5">
-                      <span class="movie-rating rating-12">12</span>
-                      <span class="movie-title">컨더스키 4: 제로드 출동</span>
-                    </div>
-                    <div class="movie-item" data-movie="6">
-                      <span class="movie-rating rating-all">ALL</span>
-                      <span class="movie-title">베드 가이즈 2</span>
-                    </div>
-                  </div>
-                  <div id="movie-curation" class="tabCont">
-                    <div class="movie-item" data-movie="1">
-                      <span class="movie-rating rating-12">12</span>
-                      <span class="movie-title">범퍼카</span>
-                    </div>
-                    <div class="movie-item" data-movie="3">
-                      <span class="movie-rating rating-15">15</span>
-                      <span class="movie-title">전직 특수 요원</span>
-                    </div>
-                    <div class="movie-item" data-movie="6">
-                      <span class="movie-rating rating-all">ALL</span>
-                      <span class="movie-title">베드 가이즈 2</span>
-                    </div>
-                  </div>
+
+                  <c:set var="tArr" value="${requestScope.timeArr}" scope="page"/>
+                    <c:forEach var="tvo" items="${tArr}" varStatus="i">
+                      <c:if test="${tvo.m_list != null && fn:length(tvo.m_list) > 0}">
+                        <c:forEach var="movie" items="${tvo.m_list}" varStatus="i">
+                          <div class="movie_all">
+                            title:${movie.name}
+                          </div>
+                          <hr/>
+                        </c:forEach>
+                      </c:if>
+                    </c:forEach>
+
                 </div>
               </div>
             </div>
@@ -105,12 +96,22 @@
                     <li class="selected"><a href="#" onclick="switchTab(this, 'theater-all')">전체</a></li>
                     <li><a href="#" onclick="switchTab(this, 'theater-special')">특별관</a></li>
                   </ul>
-                  <div id="theater-all" class="tabCont active">
-                    <div class="empty-state">영화를 먼저 선택해주세요.</div>
-                  </div>
-                  <div id="theater-special" class="tabCont">
-                    <div class="empty-state">영화를 먼저 선택해주세요.</div>
-                  </div>
+                  <c:set var="tArr" value="${requestScope.theaterArr}"/>
+                  <c:if test="${tArr != null && fn:length(tArr) > 0}">
+                    <ul>
+                    <c:forEach var="theaterVo" items="${tArr}" varStatus="i">
+                      <ol>${theaterVo.tName}</ol>
+                    </c:forEach>
+                    </ul>
+                  </c:if>
+                  <c:if test="${tArr != null && fn:length(tArr) > 0}">
+                    <div id="theater-all" class="tabCont active">
+                      <div class="empty-state">영화를 먼저 선택해주세요.</div>
+                    </div>
+                    <div id="theater-special" class="tabCont">
+                      <div class="empty-state">영화를 먼저 선택해주세요.</div>
+                    </div>
+                  </c:if>
                 </div>
               </div>
             </div>
@@ -130,10 +131,9 @@
         <div class="book-add">
           <a href="#" onclick="proceedToSeatSelection(this.form)">좌석선택 하러가기</a>
         </div>
-      </div>
     </form>
   </div>
-
+</div>
 <script>
   let selectedMovie = null;
   let selectedTheater = null;
