@@ -37,7 +37,7 @@
             <%-- 로그인 상태일 때 표시될 메뉴 --%>
             <ul class="nav-r_top" id="log_suc">
                     <%-- 세션에 저장된 mvo 객체에서 사용자 이름을 가져와 출력합니다. --%>
-                <li><a href="#">(${sessionScope.mvo.m_name})님 환영합니다</a></li>
+                <li><a href="#">(${sessionScope.mvo.name})님 환영합니다</a></li>
                 <li><a href="<c:url value="/join/logout.jsp"/>" class="btn">로그아웃</a></li>
                 <li><a href="#" class="quick-booking">빠른예매</a></li>
             </ul>
@@ -71,9 +71,9 @@
     <div class="nav-center">
         <ul class="l_main">
             <li class="main-item has-submenu">
-                <a href="/allmovie/allmovie.jsp">영화</a>
+                <a href="<c:url value="/allmovie/allmovie.jsp"/>">영화</a>
                 <ul class="submenu">
-                    <li><a href="/allmovie/allmovie.jsp">전체 영화</a></li>
+                    <li><a href="<c:url value="/allmovie/allmovie.jsp"/>">전체 영화</a></li>
                 </ul>
             </li>
             <li class="main-item has-submenu">

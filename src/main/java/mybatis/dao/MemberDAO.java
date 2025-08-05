@@ -43,4 +43,5 @@ public class MemberDAO {
         //             vo가 null이 아니면 (아이디가 DB에 있으면) true (중복)
         return (vo != null); // 간결하게 표현 가능
     }
+
 }

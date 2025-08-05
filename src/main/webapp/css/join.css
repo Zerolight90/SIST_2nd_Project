@@ -156,6 +156,7 @@ a{
     color: red; /* 기본 메시지 색상은 빨간색으로 */
     font-size: 0.8em;
     margin-left: 5px;
+    font-weight: bold;
 }
 
 

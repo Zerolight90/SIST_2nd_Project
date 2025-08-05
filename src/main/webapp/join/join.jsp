@@ -17,6 +17,8 @@
 <div class="member">
     <img class="logo" src="../images/logo.png">
 
+
+    <form id="joinForm" action="/Controller?type=join" method="post">
     <div class="field">
         <b>아이디<small>(*필수사항) <span id="id_check_msg" class="error-msg"></span></small></b>
         <span class="placehold-text"><input id="u_id" name="u_id" type="text"
@@ -44,40 +46,41 @@
     <div class="field birth">
         <b>생년월일<small>(*필수사항)</small></b>
         <div>
-            <input type="number" placeholder="년(4자)">
-            <select>
+            <input class="year" type="number" name="u_year" placeholder="년(4자)">
+            <select class="month" name="u_month">
                 <option value="">월</option>
-                <option value="">1월</option>
-                <option value="">2월</option>
-                <option value="">3월</option>
-                <option value="">4월</option>
-                <option value="">5월</option>
-                <option value="">6월</option>
-                <option value="">7월</option>
-                <option value="">8월</option>
-                <option value="">9월</option>
-                <option value="">10월</option>
-                <option value="">11월</option>
-                <option value="">12월</option>
+                <option value="01">1월</option>
+                <option value="02">2월</option>
+                <option value="03">3월</option>
+                <option value="04">4월</option>
+                <option value="05">5월</option>
+                <option value="06">6월</option>
+                <option value="07">7월</option>
+                <option value="08">8월</option>
+                <option value="09">9월</option>
+                <option value="10">10월</option>
+                <option value="11">11월</option>
+                <option value="12">12월</option>
             </select>
-            <input type="number" placeholder="일">
+            <input class="day" type="number"  name="u_day" placeholder="일">
         </div>
     </div>
 
     <div class="field gender">
         <b>성별</b>
         <div>
-            <label><input type="radio" name="gender">남자</label>
-            <label><input type="radio" name="gender">여자</label>
-            <label><input type="radio" name="gender">선택안함</label>
+            <label><input type="radio" name="u_gender">남자</label>
+            <label><input type="radio" name="u_gender">여자</label>
+            <label><input type="radio" name="u_gender">선택안함</label>
         </div>
     </div>
 
     <div class="field">
         <b>본인 확인 이메일*<small>(*필수사항)</small></b>
-        <input type="email" id="email" name="email" placeholder="필수입력">
-        <input class="c_btn" type="button" value="인증번호 받기">
+        <input type="email" id="email" name="u_email" placeholder="필수입력">
+        <input class="c_btn" type="button" value="인증번호 받기" style="cursor: pointer">
         <input class="c_num" id="email_auth_key"  type="text" placeholder="인증번호를 입력하세요">
+        <span id="email_auth_msg" class="error-msg"></span>
     </div>
 
     <div class="field tel-number">
@@ -86,12 +89,13 @@
             <option value="">대한민국 +82</option>
         </select>
         <div>
-            <input type="tel" placeholder="전화번호 입력">
+            <input type="tel" name="u_phone" placeholder="전화번호 입력">
         </div>
 
     </div>
 
-    <input id="join_btn" type="submit" value="가입하기"/>
+    <input id="join_btn" type="submit" value="가입하기" style="cursor: pointer"/>
+    </form>
 
     <div class="member-footer">
         <div>
@@ -147,11 +151,7 @@
         // 비밀번호 유효성 검사
         $("#u_pw").on("keyup", function() {
             let u_pw = $(this).val();
-            // 영문, 숫자, 특수문자 중 2가지 이상 조합, 8~16자
-            // (?=.*[a-zA-Z]) : 최소 하나의 영문자
-            // (?=.*[0-9]) : 최소 하나의 숫자
-            // (?=.*[!@#$%^&*]) : 최소 하나의 특수문자
-            // .{8,16} : 8자에서 16자
+
             let pwCheckRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/; // 영문, 숫자, 특수문자 조합 8~16자 (예시)
 
             // 초기화
@@ -203,7 +203,67 @@
                 }
             }
         }
+        // 폼 제출 이벤트 핸들러 (유효성 검사)
+
+        $("#joinForm").submit(function(event) {
+
+
+            if ($("#u_id").val().trim() === "" || $("#id_check_msg").text().includes("중복된 아이디입니다.") || !$("#id_check_msg").text().includes("사용 가능한 아이디입니다.")) {
+                alert("아이디를 올바르게 입력해주세요.");
+                $("#u_id").focus();
+                return false;
+            }
+
+            if ($("#u_pw").val().trim() === "" || !$("#pw_check_msg").text().includes("유효한 비밀번호입니다.")) {
+                alert("비밀번호를 올바르게 입력해주세요.");
+                $("#u_pw").focus();
+                return false;
+            }
+
+            if ($("#u_pw_confirm").val().trim() === "" || !$("#pw_confirm_check_msg").text().includes("비밀번호가 일치합니다.")) {
+                alert("비밀번호 재확인을 올바르게 입력해주세요.");
+                $("#u_pw_confirm").focus();
+                return false;
+
+            }
+
+            if ($("#u_name").val().trim() === "") {
+                alert("이름을 입력해주세요.");
+                $("#u_name").focus();
+                return false;
+            }
+
+            // 생년월일 (년, 월, 일) 필수 입력 검사
+
+            let birthYear = $('.year').val();
+            let birthMonth = $('.month').val();
+            let birthDay = $('.day').val();
+
+            if (birthYear === "" || birthMonth === "" || birthDay === "") {
+                alert("생년월일을 모두 입력해주세요.");
+                return false;
+            }
+
+            let u_birth = birthYear + birthMonth + birthDay;
+
+            if ($("#email").val().trim() === "") {
+
+                alert("이메일을 입력해주세요.");
+                $("#email").focus();
+                return false;
+            }
+
+            if ($('input').val().trim() === "") {
+                alert("휴대전화 번호를 입력해주세요.");
+                $('input').focus();
+                return false;
+            }
+
+            return true;
+
+        });
     });
+
 
 </script>
 

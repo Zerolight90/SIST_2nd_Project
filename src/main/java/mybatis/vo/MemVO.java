@@ -1,63 +1,92 @@
 package mybatis.vo;
 
 public class MemVO {
-    private String m_idx, m_name, m_id, m_pw, m_phone,
-            m_addr, reg_date, status, etc1, etc2;
+    String userIdx, id, pw, birth, name, gender, phone, email, totalPoints, status;
 
-    public String getM_idx() {
-        return m_idx;
+    //기본 생성자
+    public MemVO(){}
+
+    public MemVO(String id, String pw, String birth, String name, String gender, String phone, String email, String status) {
+        this.id = id;
+        this.pw = pw;
+        this.birth = birth;
+        this.name = name;
+        this.gender = gender;
+        this.phone = phone;
+        this.email = email;
+        this.status = status;
     }
 
-    public void setM_idx(String m_idx) {
-        this.m_idx = m_idx;
+    public String getUserIdx() {
+        return userIdx;
     }
 
-    public String getM_name() {
-        return m_name;
+    public void setUserIdx(String userIdx) {
+        this.userIdx = userIdx;
     }
 
-    public void setM_name(String m_name) {
-        this.m_name = m_name;
+    public String getId() {
+        return id;
     }
 
-    public String getM_id() {
-        return m_id;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setM_id(String m_id) {
-        this.m_id = m_id;
+    public String getPw() {
+        return pw;
     }
 
-    public String getM_pw() {
-        return m_pw;
+    public void setPw(String pw) {
+        this.pw = pw;
     }
 
-    public void setM_pw(String m_pw) {
-        this.m_pw = m_pw;
+    public String getBirth() {
+        return birth;
     }
 
-    public String getM_phone() {
-        return m_phone;
+    public void setBirth(String birth) {
+        this.birth = birth;
     }
 
-    public void setM_phone(String m_phone) {
-        this.m_phone = m_phone;
+    public String getName() {
+        return name;
     }
 
-    public String getM_addr() {
-        return m_addr;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setM_addr(String m_addr) {
-        this.m_addr = m_addr;
+    public String getGender() {
+        return gender;
     }
 
-    public String getReg_date() {
-        return reg_date;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
-    public void setReg_date(String reg_date) {
-        this.reg_date = reg_date;
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTotalPoints() {
+        return totalPoints;
+    }
+
+    public void setTotalPoints(String totalPoints) {
+        this.totalPoints = totalPoints;
     }
 
     public String getStatus() {
@@ -68,19 +97,4 @@ public class MemVO {
         this.status = status;
     }
 
-    public String getEtc1() {
-        return etc1;
-    }
-
-    public void setEtc1(String etc1) {
-        this.etc1 = etc1;
-    }
-
-    public String getEtc2() {
-        return etc2;
-    }
-
-    public void setEtc2(String etc2) {
-        this.etc2 = etc2;
-    }
 }
