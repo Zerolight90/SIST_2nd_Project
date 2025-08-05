@@ -96,64 +96,68 @@
       <h2>공지사항</h2>
     </div>
 
-    <!-- 3. 공지사항 테이블 -->
-    <table class="board-table">
-      <tbody>
-      <!-- 예시 데이터 행 (실제로는 DB에서 반복문으로 생성) -->
-      <tr>
-        <th class="w100"><label for="board_title">제목</label></th>
-        <td>
-          <input type="text" id="board_title" name="title"/>
-        </td>
-      </tr>
-      <tr>
-        <th class="w100">지점명</th>
-        <td>
-          <%--지점명 들어갈 자리--%>
-          <span>강동점</span>
-        </td>
-      </tr>
-      <tr>
-        <th class="w100"><label for="board_reg_date">게시기간</label></th>
-        <td>
-          <%--에디터가 들어갈 자리--%>
-            <input type="text" id="start_reg_date" name="start_reg_date"/>
-            ~
-            <input type="text" id="end_reg_date" name="end_reg_date"/>
-        </td>
-      </tr>
-      <tr>
-        <th class="w100">구분</th>
-        <%--공지/이벤트 구분--%>
-        <td>
-          <span>공지</span>
-        </td>
-      </tr>
-      <tr>
-        <th class="w100"><label for="board_content">내용</label></th>
-        <td>
-          <%--에디터가 들어갈 자리--%>
-          <textarea rows="12" cols="50" id="board_content"></textarea>
-        </td>
-      </tr>
-      <tr>
-        <th>첨부파일:</th>
-        <td>
-          <input type="file" id="file" name="file"/>
-        </td>
-        <%--보안상의 이유로 file에는 value를 넣어줄 수 없다. 바깥쪽에 스크립틀릿으로 if문으로 비교하자--%>
-      </tr>
-      </tbody>
+    <form action="Controller?type=adminWriteBoard" method="post"
+          encType="multipart/form-data">
+      <input type="hidden" name="boardType" value="공지사항"/>
+      <!-- 3. 공지사항 테이블 -->
+      <table class="board-table">
+        <caption>공지사항 글쓰기</caption>
+        <tbody>
+        <!-- 예시 데이터 행 (실제로는 DB에서 반복문으로 생성) -->
+        <tr>
+          <th class="w100"><label for="boardTitle">제목</label></th>
+          <td>
+            <input type="text" id="boardTitle" name="boardTitle"/>
+          </td>
+        </tr>
+        <tr>
+          <th class="w100">지점명</th>
+          <td>
+            <%--지점명 들어갈 자리--%>
+            <span>강동점</span>
+          </td>
+        </tr>
+        <tr>
+          <th class="w100"><label for="board_reg_date">게시기간</label></th>
+          <td>
+            <%--에디터가 들어갈 자리--%>
+              <input type="text" id="start_reg_date" name="start_reg_date"/>
+              ~
+              <input type="text" id="end_reg_date" name="end_reg_date"/>
+          </td>
+        </tr>
+        <tr>
+          <th class="w100">구분</th>
+          <%--공지/이벤트 구분--%>
+          <td>
+            <span>공지</span>
+          </td>
+        </tr>
+        <tr>
+          <th class="w100"><label for="board_content">내용</label></th>
+          <td>
+            <%--에디터가 들어갈 자리--%>
+            <textarea rows="12" cols="50" id="board_content" name="boardContent"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <th>첨부파일:</th>
+          <td>
+            <input type="file" id="file" name="file"/>
+          </td>
+          <%--보안상의 이유로 file에는 value를 넣어줄 수 없다. 바깥쪽에 스크립틀릿으로 if문으로 비교하자--%>
+        </tr>
+        </tbody>
       <tfoot>
       <tr>
         <td colspan="2">
-          <button type="button" id="save_btn">등록</button>
+          <button type="button" id="save_btn" onclick="sendData()">등록</button>
           <button type="button" id="cancel_btn">취소</button>
         </td>
       </tr>
       </tfoot>
     </table>
-
+    </form>
   </div>
 </div>
 
@@ -199,6 +203,12 @@
 
     $(".btn").button();
   });
+
+  function sendData(){
+    //유효성 검사 생략
+
+    document.forms[0].submit();
+  }
 
 
   function sendImg(file, editor) {

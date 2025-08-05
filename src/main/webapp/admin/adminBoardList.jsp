@@ -194,7 +194,7 @@
     <!-- 2. 상단 컨트롤 바 -->
     <div class="control-bar">
       <div class="total-count">
-        전체 <strong>130</strong>건
+        전체 <strong>${totalCount}</strong>건
       </div>
       <form class="search-form" action="#" method="get">
         <select name="search_field">
@@ -227,16 +227,65 @@
         <th>게시여부</th>
       </tr>
       </thead>
-      <tbody>
-      <!-- 예시 데이터 행 (실제로는 DB에서 반복문으로 생성) -->
+      <tfoot>
       <tr>
-        <td>1</td>
-        <td>메가박스</td>
-        <td>공지</td>
-        <td><a href="#">[토스페이-현대카드] 시스템 점검 안내</a></td>
-        <td>2024년 10월 9일 ~ 2025년 12월 7일</td>
-        <td>게시 중</td>
+        <td colspan="4">
+          <ol class="paging">
+            <c:set var="p" value="${requestScope.page}" scope="page"/>
+            <c:if test="${p.startPage < p.pagePerBlock}">
+              <li class = "disable">&lt;</li> <%--&lt; :: <<--%>
+            </c:if>
+            <c:if test="${p.startPage >= p.pagePerBlock}">
+              <li><a href="Controller?type=list&cPage=${p.nowPage-p.pagePerBlock}">&lt;</a></li>
+            </c:if>
+
+            <%--숫자를 찍음--%>
+            <c:forEach begin="${p.startPage}" end="${p.endPage}" varStatus="vs">
+              <c:if test="${p.nowPage == vs.index}">
+                <%--<li class="now">1</li>--%>
+                <%--now가 계속 찍히면 안된다. --%>
+                <%--<li <% if(p.getNowPage() == i){ %>class="now"<% }%>><%=i%></li>--%>
+                <li class="now">${vs.index}</li>
+              </c:if>
+              <c:if test="${p.nowPage != vs.index}">
+
+                <li><a href="Controller?type=list&cPage=${vs.index}">${vs.index}</a></li>
+              </c:if>
+            </c:forEach>
+
+
+            <c:if test="${p.endPage < p.totalPage}">
+              <li><a href="Controller?type=list&cPage=${p.nowPage+p.pagePerBlock}">&gt;</a></li> <%--&gt; :: >>--%>
+            </c:if>
+            <c:if test="${p.endPage >= p.totalPage}">
+              <li class="disable">&gt;</li>
+            </c:if>
+          </ol>
+        </td>
       </tr>
+      </tfoot>
+      <tbody>
+      <!-- DB에서 반복문으로 생성 -->
+        <c:forEach items="${requestScope.ar}" var="vo" varStatus="vs1">
+          <tr>
+            <c:set var="num" value="${p.totalCount - ((p.nowPage-1)*p.numPerPage+ vs1.index)}"/>
+            <td>${num}</td>
+            <td>${vo.tvo.tName}</td>
+            <td>${vo.boardType}</td>
+            <td><a href="#">${vo.boardTitle}</a></td>
+            <td>${vo.boardRegDate} ~ ${vo.boardEndRegDate}</td>
+            <%--확인하기--%>
+            <td>
+              <c:if test="${vo.boardStatus eq '0'}"> 게시중</c:if>
+              <c:if test="${vo.boardStatus eq '1'}"> 게시종료</c:if>
+            </td>
+          </tr>
+        </c:forEach>
+
+      <td>
+        <input type="button" value="글쓰기"
+               onclick="javascript:location.href='Controller?type=adminWriteBoard'"/>
+      </td>
       </tbody>
     </table>
 
