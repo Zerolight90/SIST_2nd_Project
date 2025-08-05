@@ -11,8 +11,17 @@
 <h2 class="content-title">예매/구매 내역</h2>
 
 <div class="filter-area">
-    <select><option>예매내역</option></select>
-    <select><option>2025년</option></select>
+    <select>
+        <option>예매내역</option>
+    </select>
+    <select>
+        <option>2025년</option>
+        <option>2024년</option>
+        <option>2023년</option>
+        <option>2022년</option>
+        <option>2021년</option>
+        <option>2020년</option>
+    </select>
     <button class="btn btn-primary">조회</button>
 </div>
 
