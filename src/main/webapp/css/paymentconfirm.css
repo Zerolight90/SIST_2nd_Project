@@ -50,7 +50,7 @@ body {
 /* 4. [수정] 왼쪽 티켓 정보 스타일 */
 .ticket_info {
     flex: 1; /* 높이 자동 확장 */
-    width: 200px;
+    width: 300px;
     padding: 30px;
     background-color: #495057;
     border-right: 2px dashed #6C757D;
@@ -60,7 +60,7 @@ body {
 
 /* 5. [수정] 오른쪽 예매 상세 내역 */
 .booking_details {
-    width: 800px;
+    width: 700px;
     padding: 30px 40px;
     background-color: #343A40;
     border-top-right-radius: 10px;

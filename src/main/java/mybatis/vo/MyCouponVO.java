@@ -5,32 +5,15 @@ package mybatis.vo;
  */
 public class MyCouponVO {
 
-    private int couponUserIdx; // 쿠폰-사용자 매핑 테이블의 고유 ID (PK)
-    private String couponName;   // 화면에 표시할 쿠폰 이름
-    private int couponValue;     // 할인될 금액
+    private int couponUserIdx; // 쿠폰-사용자 매핑 테이블의 고유 ID (PK) [cite: 33]
+    private String couponName;   // 화면에 표시할 쿠폰 이름 [cite: 36]
+    private int couponValue;     // 할인될 금액 (coupon 테이블에 couponValue 컬럼이 있다고 가정)
 
     // Getters and Setters
-    public int getCouponUserIdx() {
-        return couponUserIdx;
-    }
-
-    public void setCouponUserIdx(int couponUserIdx) {
-        this.couponUserIdx = couponUserIdx;
-    }
-
-    public String getCouponName() {
-        return couponName;
-    }
-
-    public void setCouponName(String couponName) {
-        this.couponName = couponName;
-    }
-
-    public int getCouponValue() {
-        return couponValue;
-    }
-
-    public void setCouponValue(int couponValue) {
-        this.couponValue = couponValue;
-    }
+    public int getCouponUserIdx() { return couponUserIdx; }
+    public void setCouponUserIdx(int couponUserIdx) { this.couponUserIdx = couponUserIdx; }
+    public String getCouponName() { return couponName; }
+    public void setCouponName(String couponName) { this.couponName = couponName; }
+    public int getCouponValue() { return couponValue; }
+    public void setCouponValue(int couponValue) { this.couponValue = couponValue; }
 }

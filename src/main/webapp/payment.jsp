@@ -1,11 +1,30 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%
+  // reservationInfo.title에서 '를 \'로 치환해 JavaScript safe 문자열로 변환
+  String jsSafeTitle = "";
+  if (request.getAttribute("reservationInfo") != null) {
+    Object reservationInfoObj = request.getAttribute("reservationInfo");
+    try {
+      Class<?> cls = reservationInfoObj.getClass();
+      java.lang.reflect.Method getTitleMethod = cls.getMethod("getTitle");
+      String originalTitle = (String) getTitleMethod.invoke(reservationInfoObj);
+      if (originalTitle != null) {
+        jsSafeTitle = originalTitle.replace("'", "\\'");
+      }
+    } catch (Exception e) {
+      jsSafeTitle = "제목없음";
+    }
+  }
+  request.setAttribute("jsSafeTitle", jsSafeTitle);
+%>
 <!DOCTYPE html>
 <html>
 <head>
   <title>SIST BOX - 결제하기</title>
-  <c:set var="basePath" value="${pageContext.request.contextPath}"/>
+  <c:set var="basePath" value="${pageContext.request.contextPath}" />
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://js.tosspayments.com/v1/payment-widget"></script>
@@ -16,6 +35,7 @@
   <link rel="icon" href="${basePath}/images/favicon.png">
 </head>
 <body>
+
 <header>
   <jsp:include page="common/sub_menu.jsp"/>
 </header>
@@ -50,18 +70,24 @@
               </select>
             </div>
           </div>
-        </c:when>
-        <c:when test="${paymentType == 'paymentStore'}">
+
+          <%-- 포인트 사용 기능 추가 --%>
           <div class="info_group">
-            <h2>구매정보</h2>
-            <div class="booking_card">
-              <img src="${basePath}/${productInfo.prodImg}" alt="상품 이미지" class="poster">
-              <div class="booking_card_details">
-                <p class="payment_movie_title">${productInfo.prodName}</p>
-                <p class="info_line">수량: 1개</p>
-              </div>
+            <h2>포인트 사용</h2>
+            <div class="input_field">
+              <input type="text" id="pointInput" placeholder="0">
+              <span class="point_info">보유
+                <span id="availablePoints">
+                    <fmt:formatNumber value="${memberInfo.totalPoints}" pattern="#,##0" />
+                </span> P
+              </span>
+              <button class="btn_apply" id="applyPointBtn">사용</button>
             </div>
           </div>
+
+        </c:when>
+        <c:when test="${paymentType == 'paymentStore'}">
+          <%-- 스토어 결제 로직 --%>
         </c:when>
       </c:choose>
       <div class="info_group">
@@ -78,8 +104,12 @@
             <span class="value">${reservationInfo.finalAmount} 원</span>
           </div>
           <div class="summary_item discount_item">
-            <span>할인 금액</span>
-            <span class="value" id="discountAmountText">- 0 원</span>
+            <span>쿠폰 할인</span>
+            <span class="value" id="couponDiscountText">- 0 원</span>
+          </div>
+          <div class="summary_item discount_item">
+            <span>포인트 사용</span>
+            <span class="value" id="pointDiscountText">- 0 원</span>
           </div>
           <div class="final_amount_display">
             <span>총 결제 금액</span>
@@ -90,17 +120,7 @@
           </div>
         </c:when>
         <c:when test="${paymentType == 'paymentStore'}">
-          <div class="summary_item">
-            <span>상품 금액</span>
-            <span class="value">${finalAmount} 원</span>
-          </div>
-          <div class="final_amount_display">
-            <span>총 결제 금액</span>
-            <div class="amount">
-              <span class="number">${finalAmount}</span>
-              <span class="currency">원</span>
-            </div>
-          </div>
+          <%-- 스토어 결제 로직 --%>
         </c:when>
       </c:choose>
       <div class="button_group">
@@ -115,54 +135,103 @@
 </footer>
 
 <script>
-  const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
-  const customerKey = "SIST_USER_${paymentType == 'paymentMovie' ? reservationInfo.userIdx : 'store_user'}";
-  const paymentWidget = PaymentWidget(clientKey, customerKey);
+  $(document).ready(function() {
+    // ----------------------------------------------------------------
+    // 초기 변수 설정
+    // ----------------------------------------------------------------
+    const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
+    const customerKey = "SIST_USER_<c:out value="${reservationInfo.userIdx}" default="UNKNOWN"/>";
+    const originalAmount = parseInt('<c:out value="${reservationInfo.finalAmount}" default="0"/>', 10);
+    const availablePoints = parseInt('<c:out value="${memberInfo.totalPoints}" default="0"/>', 10);
+    let couponDiscount = 0;
+    let pointDiscount = 0;
+    let finalAmount = originalAmount;
 
-  const originalAmount = ${paymentType == 'paymentMovie' ? reservationInfo.finalAmount : finalAmount};
-  let finalAmount = originalAmount;
+    const paymentWidget = PaymentWidget(clientKey, customerKey);
+    const paymentMethods = paymentWidget.renderPaymentMethods("#payment-widget", { value: finalAmount });
+    const $pointWarningMessage = $('#pointWarningMessage');
 
-  const paymentMethods = paymentWidget.renderPaymentMethods("#payment-widget", { value: finalAmount });
-
-  // 쿠폰 선택 이벤트 리스너
-  $('#couponSelector').on('change', function() {
-    const selectedOption = $(this).find('option:selected');
-    const discount = parseInt(selectedOption.data('discount'), 10);
-    finalAmount = originalAmount - discount;
-    $('#discountAmountText').text("- " + discount.toLocaleString() + " 원");
-    $('#finalAmountNumber').text(finalAmount.toLocaleString());
-    paymentMethods.updateAmount(finalAmount);
-  });
-
-  // 결제 요청 함수
-  function requestPayment() {
-    const paymentType = "${paymentType}";
-
-    let orderId = "";
-    let orderName = "";
-    let successUrl = "";
-    const failUrl = 'http://localhost:8080/paymentFail.jsp';
-
-    if (paymentType === 'paymentMovie') {
-      const selectedCouponIdx = $('#couponSelector').val() || 0;
-      orderId = "SIST_MOVIE_" + new Date().getTime();
-      orderName = "${reservationInfo.title}_${reservationInfo.reservIdx}";
-      successUrl = 'http://localhost:8080/Controller?type=paymentConfirm&couponUserIdx=' + selectedCouponIdx;
-    } else if (paymentType === 'paymentStore') {
-      orderId = "SIST_STORE_" + new Date().getTime();
-      orderName = "${productInfo.prodName}_${productInfo.productIdx}";
-      successUrl = 'http://localhost:8080/Controller?type=paymentConfirm&couponUserIdx=0';
+    // ----------------------------------------------------------------
+    // 함수 정의
+    // ----------------------------------------------------------------
+    function updatePaymentSummary() {
+      let amountAfterCoupon = originalAmount - couponDiscount;
+      pointDiscount = parseInt($('#pointInput').val()) || 0;
+      if (pointDiscount > amountAfterCoupon) {
+        pointDiscount = amountAfterCoupon;
+        $('#pointInput').val(pointDiscount);
+      }
+      finalAmount = originalAmount - couponDiscount - pointDiscount;
+      $('#couponDiscountText').text("- " + couponDiscount.toLocaleString() + " 원");
+      $('#pointDiscountText').text("- " + pointDiscount.toLocaleString() + " 원");
+      $('#finalAmountNumber').text(finalAmount.toLocaleString());
+      paymentMethods.updateAmount(finalAmount);
     }
 
-    // 최종적으로 위에서 설정된 정보로 결제 요청
-    paymentWidget.requestPayment({
-      orderId: orderId,
-      orderName: orderName,
-      customerName: "김자바",
-      successUrl: successUrl,
-      failUrl: failUrl
+    function displayPointWarning(message) { $pointWarningMessage.text(message).show(); }
+    function clearPointWarning() { $pointWarningMessage.text('').hide(); }
+
+    // ----------------------------------------------------------------
+    // 이벤트 리스너 바인딩
+    // ----------------------------------------------------------------
+    $('#couponSelector').on('change', function() {
+      couponDiscount = parseInt($(this).find('option:selected').data('discount'), 10) || 0;
+      updatePaymentSummary();
     });
-  }
+    $('#pointInput').on('input', function() {
+      this.value = this.value.replace(/[^0-9]/g, '');
+      let inputPoints = parseInt(this.value) || 0;
+      clearPointWarning();
+      if (inputPoints > availablePoints) {
+        displayPointWarning("보유 포인트를 초과할 수 없습니다.");
+        this.value = availablePoints;
+      }
+      updatePaymentSummary();
+    });
+    $('#useAllPointsBtn').on('click', function() {
+      clearPointWarning();
+      let amountAfterCoupon = originalAmount - couponDiscount;
+      let pointsToUse = Math.min(amountAfterCoupon, availablePoints);
+      $('#pointInput').val(pointsToUse);
+      updatePaymentSummary();
+    });
+
+    // ----------------------------------------------------------------
+    // 최종 결제 요청
+    // ----------------------------------------------------------------
+    window.requestPayment = function() {
+      const currentCouponDiscount = parseInt($('#couponSelector').find('option:selected').data('discount'), 10) || 0;
+      let currentPointDiscount = parseInt($('#pointInput').val()) || 0;
+      if (currentPointDiscount > availablePoints) currentPointDiscount = availablePoints;
+      const amountAfterCoupon = originalAmount - currentCouponDiscount;
+      if (currentPointDiscount > amountAfterCoupon) currentPointDiscount = amountAfterCoupon;
+      const finalAmountForPayment = originalAmount - currentCouponDiscount - currentPointDiscount;
+
+      console.log("결제 요청 직전 계산된 최종 금액:", finalAmountForPayment);
+      paymentMethods.updateAmount(finalAmountForPayment);
+
+      const orderId = "SIST_MOVIE_" + new Date().getTime();
+      const orderName = '<c:out value="${jsSafeTitle}"/>_<c:out value="${reservationInfo.reservIdx}"/>';
+      const successUrl = window.location.origin + '${basePath}/Controller?type=paymentConfirm&couponUserIdx=' + $('#couponSelector').val() + "&usedPoints=" + currentPointDiscount;
+      const failUrl = window.location.origin + '${basePath}/paymentFail.jsp';
+
+      paymentWidget.requestPayment({
+        amount: finalAmountForPayment,
+        orderId: orderId,
+        orderName: orderName,
+        customerName: "<c:out value='${memberInfo.name}'/>",
+        customerEmail: "<c:out value='${memberInfo.email}'/>",
+        successUrl: successUrl,
+        failUrl: failUrl,
+      });
+    }
+
+    // ----------------------------------------------------------------
+    // 페이지 로드 시 초기화
+    // ----------------------------------------------------------------
+    $('#availablePointsText').text(availablePoints.toLocaleString());
+  });
 </script>
 </body>
 </html>
+

@@ -2,43 +2,43 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="reservation">
 
-    <resultMap id="reservationDetailsResult" type="mybatis.vo.ReservationVO">
-        <id property="reservIdx" column="reservIdx"/>
-        <result property="userIdx" column="userIdx"/>
-        <result property="finalAmount" column="finalAmount"/>
-        <result property="title" column="movieTitle"/>
-        <result property="posterUrl" column="moviePosterUrl"/>
-        <result property="theaterName" column="theaterName"/>
-        <result property="screenName" column="screenName"/>
-        <result property="startTime" column="startTime"/>
-        <result property="seatInfo" column="seatInfo"/>
-    </resultMap>
-
-    <select id="getDetails" parameterType="long" resultMap="reservationDetailsResult">
+    <select id="getDetails" parameterType="long" resultType="mybatis.vo.ReservationVO">
         SELECT
             r.reservIdx,
             r.userIdx,
-            r.finalAmount,
-            m.title AS movieTitle,
-            m.posterUrl AS moviePosterUrl,
-            t.name AS theaterName,
-            sc.name AS screenName,
-            DATE_FORMAT(s.startTime, '%Y-%m-%d %H:%i') AS startTime,
-            (SELECT GROUP_CONCAT(seatNumber SEPARATOR ', ') FROM ReservationSeatMapping WHERE reservIdx = r.reservIdx) AS seatInfo
+            m.name AS title,
+            'images/movie_poster_default.jpg' AS posterUrl,
+            th.tName AS theaterName,
+            s.sName AS screenName,
+            tt.timeTableStartTime AS startTime,
+            '확인된 좌석 정보' AS seatInfo,
+            15000 AS finalAmount
         FROM
-            Reservation r
+            reservation r
                 JOIN
-            Schedule s ON r.scheduleIdx = s.scheduleIdx
+            time_table tt ON r.timeTableIdx = tt.timeTableIdx
                 JOIN
-            Movie m ON s.movieIdx = m.movieIdx
+            movie m ON tt.mIdx = m.mIdx
                 JOIN
-            Theater t ON s.theaterIdx = t.theaterIdx
+            theater th ON r.tIdx = th.tIdx
                 JOIN
-            Screen sc ON s.screenIdx = sc.screenIdx
+            screen s ON r.sIdx = s.sIdx
         WHERE
             r.reservIdx = #{reservIdx}
     </select>
+
+    <update id="updateStatusToPaid" parameterType="long">
+        UPDATE reservation
+        SET status = 1
+        WHERE reservIdx = #{reservIdx}
+    </update>
+
+    <insert id="insertReservation" parameterType="mybatis.vo.ReservationVO"
+            useGeneratedKeys="true" keyProperty="reservIdx">
+        INSERT INTO reservation (userIdx, tIdx, sIdx, timeTableIdx, priceIdx, reservDate, status)
+        VALUES (#{userIdx}, 1, 1, 1, 1, NOW(), 1)
+    </insert>
+
 </mapper>

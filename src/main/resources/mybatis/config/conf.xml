@@ -15,12 +15,14 @@
         </environment>
     </environments>
     <mappers>
+        <mapper resource="mybatis/mapper/board.xml"/>
+        <mapper resource="mybatis/mapper/coupon.xml"/>
+        <mapper resource="mybatis/mapper/member.xml"/>
         <mapper resource="mybatis/mapper/Movie.xml"/>
         <mapper resource="mybatis/mapper/payment.xml"/>
-        <mapper resource="mybatis/mapper/Users.xml"/>
-        <mapper resource="mybatis/mapper/coupon.xml"/>
+        <mapper resource="mybatis/mapper/point.xml"/>
         <mapper resource="mybatis/mapper/product.xml"/>
         <mapper resource="mybatis/mapper/reservation.xml"/>
-        <mapper resource="mybatis/mapper/member.xml"/>
+        <mapper resource="mybatis/mapper/Users.xml"/>
     </mappers>
 </configuration>
