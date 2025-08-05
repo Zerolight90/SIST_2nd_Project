@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="theater">
+
+    <!--파라미터를 기본키로 받아서 해당 극장정보를 반환한다.-->
+    <select id="getTheater" resultType="mybatis.vo.TheaterVO" parameterType="String">
+        SELECT * FROM theater
+        WHERE tIdx = #{tIdx}
+    </select>
+
+
+</mapper>
