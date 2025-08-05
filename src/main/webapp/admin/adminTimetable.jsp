@@ -183,7 +183,7 @@
 
 <div class="dashBody">
   <div class="dashLeft">
-    <jsp:include page="/admin.jsp"/>
+    <jsp:include page="/admin/admin.jsp"/>
   </div>
   <div class="admin-container">
     <!-- 1. 페이지 제목 -->

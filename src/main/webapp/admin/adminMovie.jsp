@@ -183,7 +183,7 @@
 
 <div class="dashBody">
   <div class="dashLeft">
-    <jsp:include page="/admin.jsp"/>
+    <jsp:include page="/admin/admin.jsp"/>
   </div>
   <div class="admin-container">
     <!-- 1. 페이지 제목 -->
@@ -235,16 +235,18 @@
       </tr>
       </thead>
       <tbody>
-      <!-- 예시 데이터 행 (실제로는 DB에서 반복문으로 생성) -->
-      <tr>
-        <td>1</td>
-        <td>어벤져스</td>
-        <td>99%</td>
-        <td>140분</td>
-        <td>15세 관람가</td>
-        <td>2025-08-01</td>
-        <td>개봉</td>
-      </tr>
+        <!-- 예시 데이터 행 (실제로는 DB에서 반복문으로 생성) -->
+        <c:forEach var="vo" items="${requestScope.ar}" varStatus="status">
+          <tr>
+            <td>${vo.mIdx}</td>
+            <td>${vo.name}</td>
+            <td>${vo.dir}</td>
+            <td>${vo.gen}</td>
+            <td>${vo.age}</td>
+            <td>${vo.date}</td>
+            <td>${vo.audNum}</td>
+          </tr>
+        </c:forEach>
       </tbody>
     </table>
 

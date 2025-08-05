@@ -68,4 +68,16 @@ public class PaymentDAO {
         ss.close();
         return list;
     }
+
+    public static PaymentVO[] getAllPayment(){
+        PaymentVO[] ar = null;
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<PaymentVO> list = ss.selectList("payment.getAllPayment");
+        ar = new PaymentVO[list.size()];
+        list.toArray(ar);
+
+        ss.close();
+        return ar;
+    }
 }

@@ -183,7 +183,7 @@
 
 <div class="dashBody">
   <div class="dashLeft">
-    <jsp:include page="/admin.jsp"/>
+    <jsp:include page="/admin/admin.jsp"/>
   </div>
   <div class="admin-container">
     <!-- 1. 페이지 제목 -->
@@ -236,15 +236,31 @@
       </thead>
       <tbody>
       <!-- 예시 데이터 행 (실제로는 DB에서 반복문으로 생성) -->
-      <tr>
-        <td>1</td>
-        <td>이도</td>
-        <td>영화 예매</td>
-        <td>간편결제</td>
-        <td>15,000원</td>
-        <td>완료</td>
-        <td>2025-08-01 08:00:00</td>
-      </tr>
+      <c:forEach var="vo" items="${requestScope.ar}" varStatus="status">
+        <tr>
+          <td>${vo.paymentIdx}</td>
+          <td>${vo.userIdx}</td>
+
+          <c:if test="${vo.paymentType == 0}">
+            <td>영화</td>
+          </c:if>
+          <c:if test="${vo.paymentType == 1}">
+            <td>상품</td>
+          </c:if>
+
+          <td>${vo.paymentMethod}</td>
+          <td>${vo.paymentFinal}원</td>
+
+          <c:if test="${vo.paymentStatus == 0}">
+            <td>완료</td>
+          </c:if>
+          <c:if test="${vo.paymentStatus == 1}">
+            <td>취소</td>
+          </c:if>
+
+          <td>${vo.paymentDate}</td>
+        </tr>
+      </c:forEach>
       </tbody>
     </table>
 
