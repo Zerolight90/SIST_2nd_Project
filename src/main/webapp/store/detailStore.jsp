@@ -4,11 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <title>SIST BOX 쌍용박스</title>
-  <link rel="stylesheet" href="../../../../target/SIST_2nd_Project-1.0-SNAPSHOT/css/sub/sub_page_style.css">
-  <link rel="stylesheet" href="../../../../target/SIST_2nd_Project-1.0-SNAPSHOT/css/reset.css">
-  <link rel="stylesheet" href="../../../../target/SIST_2nd_Project-1.0-SNAPSHOT/css/store.css">
+  <link rel="stylesheet" href="../css/sub/sub_page_style.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/store.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
-  <link rel="icon" href="../../../../target/SIST_2nd_Project-1.0-SNAPSHOT/images/favicon.png">
+  <link rel="icon" href="../images/favicon.png">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 </head>
@@ -16,7 +16,7 @@
 <body>
 
 <header>
-  <jsp:include page="../../../../target/SIST_2nd_Project-1.0-SNAPSHOT/common/sub_menu.jsp"/>
+  <jsp:include page="../common/sub_menu.jsp"/>
 </header>
 
 <article>
@@ -43,7 +43,7 @@
     <div style="height: 315px; border-top: 1px solid #999999; border-bottom: 1px solid #999999; display: flex; margin-top: 10px">
       <div style="width: 440px; display: inline-block; border-right: 1px solid #999999">
         <p>
-          <img src="../../../../target/SIST_2nd_Project-1.0-SNAPSHOT/images/normalTicket.png" alt="" style="margin-top: 17px; margin-left: 70px"/>
+          <img src="../images/normalTicket.png" alt="" style="margin-top: 17px; margin-left: 70px"/>
         </p>
       </div>
 
@@ -83,7 +83,7 @@
             <button id="plus" type="button">+</button>
           </div>
           <div style="width: 70px; margin-left: 350px; display: flex; font-size: 25px">
-            <p id="price">14,700</p>
+            <p id="totalPrice">14700</p>
             <span>원</span>
           </div>
         </div>
@@ -206,6 +206,8 @@
       let int = parseInt(num);
       let newVal = int + 1;
       $("#num").val(newVal);
+
+      updatePrice();
     })
 
     $("#minus").on('click', function () {
@@ -215,14 +217,27 @@
         let int = parseInt(num);
         let newVal = int - 1;
         $("#num").val(newVal);
+
+        updatePrice();
       }
     })
   });
+</script>
+<script>
+  function updatePrice() {
+    let num = $("#num").val();
+    let price = $("#price").text();
+    let inum = parseInt(num);
+    let iprice = parseInt(price);
+    let rnum = 14700 * inum;
+    console.log(rnum);
 
+    $("#totalPrice").text(rnum.toLocaleString());
+  }
 </script>
 
 <footer>
-  <jsp:include page="../../../../target/SIST_2nd_Project-1.0-SNAPSHOT/common/Footer.jsp"/>
+  <jsp:include page="../common/Footer.jsp"/>
 </footer>
 </body>
 </html>
