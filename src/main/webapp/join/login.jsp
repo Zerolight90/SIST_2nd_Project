@@ -15,6 +15,14 @@
 
 <body>
 <article>
+    <%-- 가입완료 메시지 알림 --%>
+
+    <c:if test="${not empty msg}">
+        <script>
+            alert("${msg}");
+        </script>
+    </c:if>
+
 
     <c:if test="${empty sessionScope.mvo}">
         <div id="log_fail" class="show">
@@ -52,7 +60,7 @@
                     <a href="javascript:exe()" class="btn login-btn">
                         로그인
                     </a>
-                    <a href="./join/join.html" class="btn signup-btn">
+                    <a href="<c:url value="/join/join.jsp"/>" class="btn signup-btn">
                         회원가입
                     </a>
                 </div>

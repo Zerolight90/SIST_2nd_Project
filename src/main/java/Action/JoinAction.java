@@ -73,12 +73,13 @@ public class JoinAction implements Action {
 
         if(result > 0) {
             // 회원가입 성공 시, 가입 완료 메시지와 사용자 이름을 request 속성에 설정
-            request.setAttribute("msg", "회원가입이 완료되었습니다,");
+            request.setAttribute("msg", "회원가입이 완료되었습니다");
             request.setAttribute("param_u_name", name); // 로그인 페이지로 전달할 사용자 이름
             return "/join/login.jsp"; // 회원가입 성공 후 이동할 페이지 경로
         } else {
             // 회원가입 실패 시
             request.setAttribute("errorMsg", "회원가입에 실패했습니다. 다시 시도하세요.");
+
             // 실패 시 기존 입력 데이터 유지
             request.setAttribute("param_u_id", request.getParameter("u_id"));
             request.setAttribute("param_u_pw", request.getParameter("u_pw"));
@@ -89,6 +90,7 @@ public class JoinAction implements Action {
             request.setAttribute("param_u_gender", request.getParameter("u_gender"));
             request.setAttribute("param_u_phone", request.getParameter("u_phone"));
             request.setAttribute("param_u_email", request.getParameter("u_email"));
+
             return "/join/join.jsp";
         }
     }

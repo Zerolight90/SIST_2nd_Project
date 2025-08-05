@@ -23,6 +23,8 @@ public class EmailAuthServlet extends HttpServlet {
         resp.setContentType("application/json; charset=UTF-8");
         PrintWriter out = resp.getWriter();
 
+
+
         if (email == null || email.trim().isEmpty()) {
             out.print("{\"success\":false, \"message\":\"이메일이 필요합니다.\"}");
             return;

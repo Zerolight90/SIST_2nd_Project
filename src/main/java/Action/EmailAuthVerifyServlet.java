@@ -9,8 +9,13 @@ public class EmailAuthVerifyServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        String sessionAuthCode = (String) session.getAttribute("authCode");
-        String inputAuthCode = req.getParameter("authCode"); // JS에서 data: {authCode: ...}
+        // 여기에 generate6DigitAuthCode() 절대 호출하지 마세요 (새 코드 생성 금지!)
+
+        String sessionAuthCode = (String) session.getAttribute("emailAuthCode");
+        String inputAuthCode = req.getParameter("authCode");
+        sessionAuthCode.trim().equals(inputAuthCode.trim());
+
+
 
         resp.setContentType("application/json; charset=UTF-8");
         PrintWriter out = resp.getWriter();
@@ -19,7 +24,7 @@ public class EmailAuthVerifyServlet extends HttpServlet {
         String message = "";
 
         if (sessionAuthCode == null) {
-            message = "인증번호 발송 기록이 없습니다. 다시 발송해주세요.";
+            message = "인증번호 발송 기록이 없습니다. 다시 시도해주세요.";
         } else if (inputAuthCode == null || inputAuthCode.trim().isEmpty()) {
             message = "인증번호를 입력해주세요.";
         } else if (sessionAuthCode.trim().equals(inputAuthCode.trim())) {
@@ -28,8 +33,8 @@ public class EmailAuthVerifyServlet extends HttpServlet {
         } else {
             message = "인증번호가 일치하지 않습니다.";
         }
+        System.out.println("세션의 인증코드: " + sessionAuthCode + ", 입력값: " + inputAuthCode);
 
-        // 반드시 escape 처리 (문자열에 " 있을 때 에러 방지)
         message = message.replace("\"", "\\\"");
         out.print("{\"match\": " + match + ", \"message\": \"" + message + "\"}");
         out.flush();
