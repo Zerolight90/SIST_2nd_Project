@@ -2,6 +2,7 @@ package Action;
 
 import mybatis.dao.MemberDAO;
 import mybatis.vo.MemVO;
+import mybatis.vo.MemberVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

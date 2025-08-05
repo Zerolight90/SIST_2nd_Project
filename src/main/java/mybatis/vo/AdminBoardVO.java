@@ -2,7 +2,16 @@ package mybatis.vo;
 
 public class AdminBoardVO {
 
-    private String boardIdx, adminIdx, theateridx, boardType, boardTitle, boardContent, boardRegDate, boardStatus;
+    private String boardIdx, adminIdx, tIdx, boardType, boardTitle, boardContent, boardRegDate, boardEndRegDate, boardStatus;
+    private TheaterVO tvo;
+
+    public TheaterVO getTvo() {
+        return tvo;
+    }
+
+    public void setTvo(TheaterVO tvo) {
+        this.tvo = tvo;
+    }
 
     public String getBoardIdx() {
         return boardIdx;
@@ -20,12 +29,12 @@ public class AdminBoardVO {
         this.adminIdx = adminIdx;
     }
 
-    public String getTheateridx() {
-        return theateridx;
+    public String gettIdx() {
+        return tIdx;
     }
 
-    public void setTheateridx(String theateridx) {
-        this.theateridx = theateridx;
+    public void settIdx(String tIdx) {
+        this.tIdx = tIdx;
     }
 
     public String getBoardType() {
@@ -58,6 +67,14 @@ public class AdminBoardVO {
 
     public void setBoardRegDate(String boardRegDate) {
         this.boardRegDate = boardRegDate;
+    }
+
+    public String getBoardEndRegDate() {
+        return boardEndRegDate;
+    }
+
+    public void setBoardEndRegDate(String boardEndRegDate) {
+        this.boardEndRegDate = boardEndRegDate;
     }
 
     public String getBoardStatus() {

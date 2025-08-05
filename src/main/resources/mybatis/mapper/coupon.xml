@@ -2,35 +2,39 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="coupon">
 
-    <resultMap id="myCouponResultMap" type="mybatis.vo.MyCouponVO">
-        <result property="couponUserIdx" column="couponUserIdx"/>
-        <result property="couponName" column="couponName"/>
-        <result property="couponValue" column="couponValue"/>
-    </resultMap>
+    <select id="getAvailableMovieCoupons" parameterType="long" resultType="mybatis.vo.MyCouponVO">
+        SELECT
+            cum.couponUserIdx,
+            c.couponName
+        FROM coupon_user_mapping cum
+                 JOIN coupon c ON cum.couponIdx = c.couponIdx
+        WHERE
+            cum.userIdx = #{userIdx}
+          AND c.couponStatus = 0
+          AND c.couponExpDate > NOW()
+          AND c.couponCategory = '영화'
+    </select>
 
-    <select id="getAvailableCoupons" parameterType="long" resultMap="myCouponResultMap">
+    <update id="useCoupon" parameterType="long">
+        UPDATE coupon c
+            JOIN coupon_user_mapping cum ON c.couponIdx = cum.couponIdx
+            SET
+                c.couponStatus = 1,
+                c.couponUseDate = NOW()
+        WHERE
+            cum.couponUserIdx = #{couponUserIdx}
+    </update>
+
+    <select id="getCouponByCouponUserIdx" parameterType="long" resultType="mybatis.vo.MyCouponVO">
         SELECT
             cum.couponUserIdx,
             c.couponName,
             c.couponValue
-        FROM
-            CouponUserMapping cum
-                JOIN
-            Coupon c ON cum.couponIdx = c.couponIdx
-        WHERE
-            cum.userIdx = #{userIdx}
-          AND cum.couponUserStatus = 0 -- 0: 미사용
-          AND c.couponExpDate >= NOW()
+        FROM coupon_user_mapping cum
+                 JOIN coupon c ON cum.couponIdx = c.couponIdx
+        WHERE cum.couponUserIdx = #{couponUserIdx}
     </select>
-
-    <update id="useCoupon" parameterType="int">
-        UPDATE CouponUserMapping
-        SET couponUserStatus = 1, -- 1: 사용 완료
-            couponUserDate = NOW()
-        WHERE couponUserIdx = #{couponUserIdx}
-    </update>
 
 </mapper>

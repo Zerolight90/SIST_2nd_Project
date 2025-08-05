@@ -183,7 +183,7 @@
 
 <div class="dashBody">
   <div class="dashLeft">
-    <jsp:include page="/admin.jsp"/>
+    <jsp:include page="/admin/admin.jsp"/>
   </div>
   <div class="admin-container">
     <!-- 1. 페이지 제목 -->
@@ -229,16 +229,18 @@
       </thead>
       <tbody>
       <!-- 예시 데이터 행 (실제로는 DB에서 반복문으로 생성) -->
-      <tr>
-        <td>1</td>
-        <td>0</td>
-        <td>1</td>
-        <td>useridx : 30</td>
-        <td>사용자 비활성화</td>
-        <td>{"status" : "active"}</td>
-        <td>{"status" : "inactive"}</td>
-        <td>2025-08-01 09:00:00</td>
-      </tr>
+      <c:forEach var="vo" items="${requestScope.ar}" varStatus="status">
+        <tr>
+          <td>${vo.logIdx}</td>
+          <td>${vo.logType}</td>
+          <td>${vo.adminIdx}</td>
+          <td>${vo.logTarget}</td>
+          <td>${vo.logInfo}</td>
+          <td>${vo.logPerValue}</td>
+          <td>${vo.logCurValue}</td>
+          <td>${vo.logDate}</td>
+        </tr>
+      </c:forEach>
       </tbody>
     </table>
 

@@ -3,7 +3,6 @@ package mybatis.dao;
 import mybatis.Service.FactoryService;
 import mybatis.vo.PaymentVO;
 import org.apache.ibatis.session.SqlSession;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,11 +11,10 @@ import java.util.Map;
 public class PaymentDAO {
 
     // 결제 정보 추가
-    public static int addPayment(PaymentVO vo) {
+    public static long addPayment(PaymentVO vo) {
         SqlSession ss = FactoryService.getFactory().openSession(false);
-        int result = 0;
         try {
-            result = ss.insert("payment.addPayment", vo);
+            int result = ss.insert("payment.addPayment", vo);
             if (result > 0) {
                 ss.commit();
             } else {
@@ -26,18 +24,15 @@ public class PaymentDAO {
             e.printStackTrace();
             ss.rollback();
         } finally {
-            if (ss != null) {
-                ss.close();
-            }
+            if (ss != null) ss.close();
         }
-        return result;
+        return vo.getPaymentIdx();
     }
 
     // 결제 상태를 '취소'로 변경 (환불 처리)
     public static int cancelPayment(String paymentKey) {
         SqlSession ss = FactoryService.getFactory().openSession(false);
         int result = 0;
-
         Map<String, Object> map = new HashMap<>();
         map.put("paymentKey", paymentKey);
         map.put("paymentStatus", 1); // 1: 취소
@@ -54,9 +49,7 @@ public class PaymentDAO {
             e.printStackTrace();
             ss.rollback();
         } finally {
-            if (ss != null) {
-                ss.close();
-            }
+            if (ss != null) ss.close();
         }
         return result;
     }
@@ -67,5 +60,17 @@ public class PaymentDAO {
         List<PaymentVO> list = ss.selectList("payment.getPaymentsByUserIdx", userIdx);
         ss.close();
         return list;
+    }
+
+    public static PaymentVO[] getAllPayment(){
+        PaymentVO[] ar = null;
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<PaymentVO> list = ss.selectList("payment.getAllPayment");
+        ar = new PaymentVO[list.size()];
+        list.toArray(ar);
+
+        ss.close();
+        return ar;
     }
 }

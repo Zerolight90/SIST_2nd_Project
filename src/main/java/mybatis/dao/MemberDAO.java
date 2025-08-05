@@ -5,6 +5,7 @@ import mybatis.vo.MemVO;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class MemberDAO {
 
@@ -42,6 +43,21 @@ public class MemberDAO {
         // 수정된 부분: vo가 null이면 (아이디가 DB에 없으면) false (사용 가능),
         //             vo가 null이 아니면 (아이디가 DB에 있으면) true (중복)
         return (vo != null); // 간결하게 표현 가능
+    }
+
+    public static MemVO[] getMemInfo(){
+        MemVO[] ar = null;
+
+        try {
+            SqlSession ss = FactoryService.getFactory().openSession();
+            List<MemVO> list = ss.selectList("member.getMemInfo");
+            ar = new MemVO[list.size()];
+            list.toArray(ar);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ar;
     }
 
 }

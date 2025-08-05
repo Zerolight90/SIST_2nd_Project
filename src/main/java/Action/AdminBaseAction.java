@@ -1,16 +1,20 @@
 package Action;
 
 import mybatis.dao.MemberDAO;
+import mybatis.vo.MemVO;
+import mybatis.vo.MemberVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class IndexAction implements Action {
+public class AdminBaseAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        MemVO[] ar = MemberDAO.getMemInfo();
 
-            return "index.jsp"; // Controller가 forward할 로그인 페이지 경로
-        }
+        request.setAttribute("ar", ar);
+
+        return "admin/adminBase.jsp";
     }
-
+}

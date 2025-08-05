@@ -16,6 +16,6 @@ public class ProductAddAction implements Action{
         String status = request.getParameter("addStatus");
 
 
-        return "productList.jsp";
+        return "adminProdList.jsp";
     }
 }

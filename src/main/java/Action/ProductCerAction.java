@@ -16,6 +16,6 @@ public class ProductCerAction implements Action{
         String status = request.getParameter("cerStatus");
 
 
-        return "productList.jsp";
+        return "adminProdList.jsp";
     }
 }
