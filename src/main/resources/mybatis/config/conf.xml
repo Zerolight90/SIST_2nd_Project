@@ -8,17 +8,19 @@
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/my_db"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/web_movie"/>
                 <property name="username" value="root"/>
                 <property name="password" value="1111"/>
             </dataSource>
         </environment>
     </environments>
     <mappers>
+        <mapper resource="mybatis/mapper/board.xml"/>
+        <mapper resource="mybatis/mapper/coupon.xml"/>
+        <mapper resource="mybatis/mapper/member.xml"/>
         <mapper resource="mybatis/mapper/Movie.xml"/>
         <mapper resource="mybatis/mapper/payment.xml"/>
-        <mapper resource="mybatis/mapper/Users.xml"/>
-        <mapper resource="mybatis/mapper/coupon.xml"/>
+        <mapper resource="mybatis/mapper/point.xml"/>
         <mapper resource="mybatis/mapper/product.xml"/>
         <mapper resource="mybatis/mapper/reservation.xml"/>
         <mapper resource="mybatis/mapper/member.xml"/>
@@ -27,5 +29,6 @@
         <mapper resource="mybatis/mapper/nmem.xml"/>
         <mapper resource="mybatis/mapper/admin.xml"/>
         <mapper resource="mybatis/mapper/log.xml"/>
+        <mapper resource="mybatis/mapper/Users.xml"/>
     </mappers>
 </configuration>

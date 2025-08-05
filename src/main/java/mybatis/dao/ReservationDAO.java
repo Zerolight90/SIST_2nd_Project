@@ -26,4 +26,21 @@ public class ReservationDAO {
         ss.close();
         return result;
     }
+
+    // 결제 완료 후 예매 정보를 DB에 저장하고 생성된 reservIdx를 반환하는 메소드
+    public static long insertReservation(ReservationVO vo) {
+        SqlSession ss = FactoryService.getFactory().openSession(false);
+        try {
+            ss.insert("reservation.insertReservation", vo);
+            ss.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            ss.rollback();
+        } finally {
+            if (ss != null) {
+                ss.close();
+            }
+        }
+        return vo.getReservIdx(); // keyProperty에 의해 채워진 reservIdx 반환
+    }
 }
