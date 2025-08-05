@@ -17,4 +17,19 @@ public class MovieDAO {
         ss.close();
         return list;
     }
+    public static MovieVO[] getAllMovie() {
+        MovieVO[] ar = null;
+
+        try {
+            SqlSession ss = FactoryService.getFactory().openSession();
+            List<MovieVO> list = ss.selectList("movie.getMovieInfo");
+            ar = new MovieVO[list.size()];
+            list.toArray(ar);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ar;
+    }
+
 }
