@@ -1,7 +1,21 @@
 package mybatis.vo;
 
 public class MemberVO {
-    private String userIdx, id, pw, birth, name, gender, phone, email, totalPoints, status;
+    String userIdx, id, pw, birth, name, gender, phone, email, totalPoints, status;
+
+    //기본 생성자
+    public MemberVO(){}
+
+    public MemberVO(String id, String pw, String birth, String name, String gender, String phone, String email, String status) {
+        this.id = id;
+        this.pw = pw;
+        this.birth = birth;
+        this.name = name;
+        this.gender = gender;
+        this.phone = phone;
+        this.email = email;
+        this.status = status;
+    }
 
     public String getUserIdx() {
         return userIdx;

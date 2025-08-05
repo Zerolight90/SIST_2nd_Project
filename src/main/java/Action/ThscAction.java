@@ -9,7 +9,7 @@ public class ThscAction implements Action{
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         
 
-        request.setAttribute("ar", ar);
+//        request.setAttribute("ar", ar);
 
         return "admin/adminTheaterScreen.jsp";
     }
