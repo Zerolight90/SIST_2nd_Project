@@ -20,6 +20,6 @@
     <!-- 아이디를 인자로 받아서 중복확인하는 select -->
     <select id="id_check" parameterType="String" resultType="mybatis.vo.MemVO">
         SELECT * FROM web_movie.user
-        WHERE id = #{m_id}
+        WHERE id = #{u_id}
     </select>
 </mapper>

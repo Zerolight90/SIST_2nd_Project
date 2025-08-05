@@ -9,9 +9,8 @@ public class EmailAuthVerifyServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        // 세션에서 "emailAuthCode"를 가져옵니다.
-        String sessionAuthCode = (String) session.getAttribute("emailAuthCode");
-        String inputAuthCode = req.getParameter("authCode"); // 클라이언트에서 전송된 인증번호
+        String sessionAuthCode = (String) session.getAttribute("authCode");
+        String inputAuthCode = req.getParameter("authCode"); // JS에서 data: {authCode: ...}
 
         resp.setContentType("application/json; charset=UTF-8");
         PrintWriter out = resp.getWriter();
@@ -20,21 +19,18 @@ public class EmailAuthVerifyServlet extends HttpServlet {
         String message = "";
 
         if (sessionAuthCode == null) {
-            // 세션에 인증 코드가 없는 경우 (예: 인증번호 발송 요청이 없었거나 세션 만료)
             message = "인증번호 발송 기록이 없습니다. 다시 발송해주세요.";
         } else if (inputAuthCode == null || inputAuthCode.trim().isEmpty()) {
-            // 입력된 인증 코드가 비어있는 경우
             message = "인증번호를 입력해주세요.";
-        } else if (sessionAuthCode.equals(inputAuthCode)) {
-            // 인증 코드가 일치하는 경우
+        } else if (sessionAuthCode.trim().equals(inputAuthCode.trim())) {
             match = true;
             message = "인증번호가 일치합니다.";
         } else {
-            // 인증 코드가 일치하지 않는 경우
             message = "인증번호가 일치하지 않습니다.";
         }
 
-        // JSON 형식으로 응답: match와 message 포함
+        // 반드시 escape 처리 (문자열에 " 있을 때 에러 방지)
+        message = message.replace("\"", "\\\"");
         out.print("{\"match\": " + match + ", \"message\": \"" + message + "\"}");
         out.flush();
     }

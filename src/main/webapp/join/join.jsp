@@ -66,7 +66,7 @@
 
         <div class="field gender">
             <b>성별</b>
-            <div>
+            <div style="border: none; background: none;">
                 <label><input type="radio" name="u_gender">남자</label>
                 <label><input type="radio" name="u_gender">여자</label>
                 <label><input type="radio" name="u_gender">선택안함</label>
@@ -82,12 +82,12 @@
             <input class="c_num" id="email_auth_key" name="email_auth_key" type="text"
                    placeholder="인증번호를 입력하세요" value="${param.email_auth_key}">
             <!-- 이메일 인증 메시지 표시 영역 -->
-            <span id="email_auth_msg" class="error-msg" style="color: red;">
-                <!-- 서버 측 유효성 검사 오류 메시지 표시 -->
-                <c:if test="${not empty errorMsg}">
-                    ${errorMsg}
-                </c:if>
-            </span>
+            <c:if test="${not empty errorMsg}">
+                <span id="email_auth_msg" class="error-msg" style="color: red;">
+                        ${errorMsg}
+                </span>
+            </c:if>
+
         </div>
 
 
@@ -233,6 +233,7 @@
                 $("#email").removeClass("error");
             }
 
+            alert("인증번호가 발송되었습니다.");
 
             $.ajax({
                 url: "/EmailAuthServlet",
@@ -241,6 +242,7 @@
                 dataType: "json"
             }).done(function(response) {
                 if(response.success) {
+
                     $("#email_auth_msg").text("인증번호가 발송되었습니다. 메일을 확인하세요.").css("color", "green");
 
                     $("#email_auth_key").show();
@@ -261,30 +263,27 @@
 
         $("#email_auth_key").on("keyup blur", function () {
             let authCode = $(this).val().trim();
-            // 인증번호가 비어있으면 메시지 초기화
             if (authCode.length === 0) {
                 $("#email_auth_msg").text("");
                 return;
             }
 
             $.ajax({
-                url: "/Action/EmailAuthVerifyServlet",  // 새로 생성할 인증번호 검증 서블릿
+                url: "/Action/EmailAuthVerifyServlet",
                 type: "POST",
-                data: { authCode: authCode },
+                data: { authCode: authCode }, // key가 반드시 "authCode"
                 dataType: "json"
             }).done(function (response) {
                 if (response.match) {
-                    // 인증번호 일치 시
                     $("#email_auth_msg").text("인증번호가 일치합니다.").css("color", "green");
-                    $("#email_auth_key").removeClass("error").addClass("success"); // 성공 스타일 추가
+                    $("#email_auth_key").removeClass("error").addClass("success");
                 } else {
-                    // 인증번호 불일치 시
-                    $("#email_auth_msg").text("인증번호가 일치하지 않습니다.").css("color", "red");
-                    $("#email_auth_key").addClass("error").removeClass("success"); // 에러 스타일 추가
+                    $("#email_auth_msg").text(response.message).css("color", "red");
+                    $("#email_auth_key").addClass("error").removeClass("success");
                 }
-
-            })
+            });
         });
+
 
         // 유효성 검사
         $("#joinForm").submit(function(event) {

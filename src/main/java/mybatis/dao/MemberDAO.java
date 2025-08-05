@@ -36,9 +36,9 @@ public class MemberDAO {
     }
 
     //아이디를 인자로 받아서 아이디 사용여부를 확인하는 기능
-    public static boolean idCheck(String m_id) {
+    public static boolean idCheck(String u_id) {
         SqlSession ss = FactoryService.getFactory().openSession();
-        MemVO vo = ss.selectOne("member.id_check", m_id);
+        MemVO vo = ss.selectOne("member.id_check", u_id);
         ss.close();
         // 수정된 부분: vo가 null이면 (아이디가 DB에 없으면) false (사용 가능),
         //             vo가 null이 아니면 (아이디가 DB에 있으면) true (중복)

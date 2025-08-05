@@ -16,15 +16,22 @@
 <body>
 <article>
 
-
     <c:if test="${empty sessionScope.mvo}">
         <div id="log_fail" class="show">
             <h2>로그인</h2>
-            <c:if test="${loginError eq 'true'}">
-                <div class="error-message">
-                    <c:out value="${empty errorMessage ? '로그인에 실패했습니다.' : errorMessage}"/>
+
+
+            <c:if test="${loginError != null and loginError == true}">
+
+                <div class="error-message" style="color:red;">
+
+                    <c:out value="${errorMessage != null ? errorMessage : '로그인에 실패했습니다.'}"/>
+
                 </div>
+
             </c:if>
+
+
             <form action="" method="post">
                 <tr>
                     <td><label for="s_id"></label></td>
