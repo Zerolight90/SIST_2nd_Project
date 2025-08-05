@@ -1,7 +1,6 @@
 package mybatis.vo;
 
 public class MovieVO {
-
     private String mIdx, name, dir, gen, age, date, actor, synop, audNum;
 
     public String getmIdx() {

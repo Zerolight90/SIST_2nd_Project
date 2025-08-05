@@ -1,9 +1,15 @@
 package mybatis.vo;
 
 public class TheaterVO {
+    private String tIdx, tName, tRegion, tAddress, tInfo, tScreenCount, tRegDate, tStatus;
 
-    private String  tName, tRegion, tAddress, tInfo, tRegDate;
-    private int tIdx, tScreenCount, tStatus;
+    public String gettIdx() {
+        return tIdx;
+    }
+
+    public void settIdx(String tIdx) {
+        this.tIdx = tIdx;
+    }
 
     public String gettName() {
         return tName;
@@ -37,6 +43,14 @@ public class TheaterVO {
         this.tInfo = tInfo;
     }
 
+    public String gettScreenCount() {
+        return tScreenCount;
+    }
+
+    public void settScreenCount(String tScreenCount) {
+        this.tScreenCount = tScreenCount;
+    }
+
     public String gettRegDate() {
         return tRegDate;
     }
@@ -45,27 +59,11 @@ public class TheaterVO {
         this.tRegDate = tRegDate;
     }
 
-    public int gettIdx() {
-        return tIdx;
-    }
-
-    public void settIdx(int tIdx) {
-        this.tIdx = tIdx;
-    }
-
-    public int gettScreenCount() {
-        return tScreenCount;
-    }
-
-    public void settScreenCount(int tScreenCount) {
-        this.tScreenCount = tScreenCount;
-    }
-
-    public int gettStatus() {
+    public String gettStatus() {
         return tStatus;
     }
 
-    public void settStatus(int tStatus) {
+    public void settStatus(String tStatus) {
         this.tStatus = tStatus;
     }
 }

@@ -1,18 +1,19 @@
 package mybatis.dao;
 
 import mybatis.Service.FactoryService;
-import mybatis.vo.MovieVO;
+import mybatis.vo.TheaterVO;
 import org.apache.ibatis.session.SqlSession;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class MovieDAO {
-    public static List<MovieVO> getList(String now) {
-        List<MovieVO> list = null;
+public class TheatherDAO {
+    // 영화관 목록 반환
+    public static List<TheaterVO> getList(){
+        List<TheaterVO> list = null;
         SqlSession ss = FactoryService.getFactory().openSession();
 
-        list = ss.selectList("timeTable.all", now);
+        // 목록 쿼리
+        list = ss.selectList("theater.all");
 
         ss.close();
         return list;

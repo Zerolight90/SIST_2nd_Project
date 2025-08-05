@@ -2,9 +2,15 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="movie">
-    <select id="getMovieInfo" resultType="mybatis.vo.MovieVO">
+    <select id="all" resultType="mybatis.vo.MovieVO">
+        SELECT * FROM movie <!-- 모든 영화를 보여줌 -->
+    </select>
+
+    <!-- 상영중인 영화들의 mIdx를 인자로 받아서 반환한다. . -->
+    <select id="list" resultType="mybatis.vo.MovieVO"
+            parameterType="String">
         select * from movie
+        WHERE mIdx = #{mIdx}
     </select>
 </mapper>

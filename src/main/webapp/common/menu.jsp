@@ -28,7 +28,7 @@
         <ul class="nav-r_top">
             <li><a href="/join/login.jsp" class="login">로그인</a></li>
             <li><a href="/join/join.jsp" class="signup">회원가입</a></li>
-            <li><a href="#" class="quick-booking">빠른예매</a></li>
+            <li><a href="<c:url value="Controller?type=booking"/>" class="quick-booking">빠른예매</a></li>
         </ul>
         </c:if>
 
@@ -76,9 +76,9 @@
                 </ul>
             </li>
             <li class="main-item has-submenu">
-                <a href="<c:url value="/booking.jsp"/>">예매</a>
+                <a href="<c:url value="Controller?type=booking"/>">예매</a>
                 <ul class="submenu">
-                    <li><a href="<c:url value="/booking.jsp"/>">빠른예매</a></li>
+                    <li><a href="<c:url value="Controller?type=booking"/>">빠른예매</a></li>
                     <li><a href="#">상영시간표</a></li>
                     <li><a href="#">더 부티크 프라이빗 예매</a></li>
                 </ul>
