@@ -36,4 +36,25 @@
         VALUES (1, 1, #{boardType}, #{title}, #{content}, #{fname}, #{oname}, #{boardRegDate}, #{boardEndRegDate}, 0)
     </insert>
 
+    <!--게시물 보기-->
+    <select id="getBoard" parameterType="String" resultMap="map1">
+        SELECT * FROM board
+        WHERE boardIdx = #{boardIdx}
+    </select>
+
+    <!--게시물 삭제-->
+    <!--추후 로그인 한 경우에는 같은 아이디글만 삭제하도록 구현할 예정-->
+    <update id="del" parameterType="String">
+        UPDATE board
+        SET boardStatus = 1
+        WHERE boardIdx = #{boardIdx}
+    </update>
+
+
+    <!--게시물 수정-->
+    <update id="edit" parameterType="Map">
+        UPDATE board
+
+    </update>
+
 </mapper>
