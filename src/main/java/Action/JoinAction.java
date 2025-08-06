@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class JoinAction implements Action {
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession();
         String sessionAuthCode = (String) session.getAttribute("emailAuthCode");
         String inputAuthCode = request.getParameter("email_auth_key");
@@ -19,7 +19,7 @@ public class JoinAction implements Action {
 
         // 1. 이메일 인증번호 유효성 검사 (서버 측 최종 검증)
         if (sessionAuthCode == null || !sessionAuthCode.equals(inputAuthCode) || !sessionEmail.equals(inputEmail)) {
-            request.setAttribute("errorMsg", "이메일 인증번호가 일치하지 않거나 이메일 인증이 필요합니다.");
+//            request.setAttribute("errorMsg", "이메일 인증번호가 일치하지 않거나 이메일 인증이 필요합니다.");
             // 오류 발생 시 기존 입력 데이터 유지
             request.setAttribute("param_u_id", request.getParameter("u_id"));
             request.setAttribute("param_u_pw", request.getParameter("u_pw"));
@@ -30,6 +30,7 @@ public class JoinAction implements Action {
             request.setAttribute("param_u_gender", request.getParameter("u_gender"));
             request.setAttribute("param_u_phone", request.getParameter("u_phone"));
             request.setAttribute("param_u_email", request.getParameter("u_email"));
+
             return "/join/join.jsp"; // 오류 메시지와 함께 회원가입 페이지로 다시 포워딩
         }
 
@@ -73,12 +74,13 @@ public class JoinAction implements Action {
 
         if(result > 0) {
             // 회원가입 성공 시, 가입 완료 메시지와 사용자 이름을 request 속성에 설정
-            request.setAttribute("msg", "회원가입이 완료되었습니다,");
+            request.setAttribute("msg", "회원가입이 완료되었습니다");
             request.setAttribute("param_u_name", name); // 로그인 페이지로 전달할 사용자 이름
             return "/join/login.jsp"; // 회원가입 성공 후 이동할 페이지 경로
         } else {
             // 회원가입 실패 시
             request.setAttribute("errorMsg", "회원가입에 실패했습니다. 다시 시도하세요.");
+
             // 실패 시 기존 입력 데이터 유지
             request.setAttribute("param_u_id", request.getParameter("u_id"));
             request.setAttribute("param_u_pw", request.getParameter("u_pw"));
@@ -89,6 +91,7 @@ public class JoinAction implements Action {
             request.setAttribute("param_u_gender", request.getParameter("u_gender"));
             request.setAttribute("param_u_phone", request.getParameter("u_phone"));
             request.setAttribute("param_u_email", request.getParameter("u_email"));
+
             return "/join/join.jsp";
         }
     }

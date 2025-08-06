@@ -52,8 +52,8 @@ body {
     flex: 1; /* 높이 자동 확장 */
     width: 300px;
     padding: 30px;
-    background-color: #495057;
-    border-right: 2px dashed #6C757D;
+    background-color: #6C757D;
+    border-right: 2px dashed white;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
 }
@@ -62,7 +62,7 @@ body {
 .booking_details {
     width: 700px;
     padding: 30px 40px;
-    background-color: #343A40;
+    background-color: #495057;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
 }
@@ -129,6 +129,12 @@ body {
     margin-bottom: 20px;
 }
 
+.store_black {
+    font-size: 24px;
+    font-weight: bold;
+    color: black;
+}
+
 .details_table {
     width: 100%;
     font-size: 15px;
@@ -159,9 +165,8 @@ body {
 .btn_history {
     padding: 12px 60px;
     font-size: 16px;
-    border: 1px solid #86B7FE;
-    background-color: #FFF;
-    color: #333;
+    background-color: #503396;
+    color: white;
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
@@ -169,7 +174,7 @@ body {
 }
 
 .btn_history:hover {
-    background-color: #f0f0f0;
+    background-color: #503396;
 }
 
 .screening_guide {

@@ -1,8 +1,13 @@
 package mybatis.dao;
 
 import mybatis.Service.FactoryService;
+import mybatis.vo.MyReservationVO;
 import mybatis.vo.ReservationVO;
 import org.apache.ibatis.session.SqlSession;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ReservationDAO {
 
@@ -42,5 +47,25 @@ public class ReservationDAO {
             }
         }
         return vo.getReservIdx(); // keyProperty에 의해 채워진 reservIdx 반환
+    }
+
+    // 특정 사용자의 예매 내역 총 개수 조회 (페이징용)
+    public static int getTotalReservationCount(long userIdx) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int count = ss.selectOne("reservation.getTotalCount", userIdx);
+        ss.close();
+        return count;
+    }
+
+    // 특정 사용자의 예매 내역 목록 조회 (페이징 처리)
+    public static List<MyReservationVO> getReservationList(long userIdx, int begin, int end) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        Map<String, Object> map = new HashMap<>();
+        map.put("userIdx", userIdx);
+        map.put("begin", begin);
+        map.put("end", end);
+        List<MyReservationVO> list = ss.selectList("reservation.getList", map);
+        ss.close();
+        return list;
     }
 }

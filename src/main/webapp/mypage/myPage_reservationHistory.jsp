@@ -27,20 +27,18 @@
 
 <div class="content-section">
     <c:if test="${empty reservationList}">
-        <p>예매 내역이 없습니다.</p>
+        <p class="no-content">예매 내역이 없습니다.</p>
     </c:if>
 
     <c:forEach var="item" items="${reservationList}">
         <div class="reservation-card">
-            <img src="${pageContext.request.contextPath}${item.posterPath}" alt="영화포스터">
+            <img src="${cp}${item.posterUrl}" alt="영화포스터">
             <div class="info">
-                <p class="date">결제일시: ${item.paymentDate}</p>
+                <p class="date">결제일시: <fmt:formatDate value="${item.paymentDate}" pattern="yyyy-MM-dd HH:mm"/></p>
                 <p class="title">${item.movieTitle}</p>
-                <p class="details">${item.theaterInfo} | ${item.screenDate}</p>
+                <p class="details">${item.theaterInfo} | <fmt:formatDate value="${item.screenDate}" pattern="yyyy-MM-dd HH:mm"/></p>
             </div>
-            <div class="action">
-                <button class="mybtn">취소</button>
-            </div>
+            <div class="action"><button class="mybtn">취소</button></div>
         </div>
     </c:forEach>
 </div>

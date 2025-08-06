@@ -15,4 +15,10 @@
         VALUES (#{userIdx}, #{paymentIdx}, #{transactionType}, #{amount}, #{description}, NOW())
     </insert>
 
+    <select id="getHistory" parameterType="long" resultType="mybatis.vo.PointVO">
+        SELECT * FROM point
+        WHERE userIdx = #{userIdx}
+        ORDER BY transactionDate DESC
+    </select>
+
 </mapper>
