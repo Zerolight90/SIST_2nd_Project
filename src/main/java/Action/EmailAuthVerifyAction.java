@@ -31,6 +31,8 @@ public class EmailAuthVerifyAction implements Action {
             if (inputAuthCode == null || inputAuthCode.trim().isEmpty()) {
                 message = "인증번호를 입력해주세요.";
             } else if (sessionAuthCode == null) { // 세션에 인증 코드가 없는 경우 (예: 세션 만료)
+                 session.removeAttribute("emailAuthCode");
+                 session.removeAttribute("emailToVerify");
                 message = "인증 시간이 만료되었거나, 인증번호를 발송하지 않았습니다. 다시 시도해주세요.";
             } else if (sessionAuthCode.trim().equals(inputAuthCode.trim())) {
                 match = true;
@@ -47,9 +49,6 @@ public class EmailAuthVerifyAction implements Action {
             out.flush();
             out.close();
 
-
-//            session.removeAttribute("emailAuthCode");
-//            session.removeAttribute("emailToVerify");
         } catch (Exception e) {
             e.printStackTrace();
         }
