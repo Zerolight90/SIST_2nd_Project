@@ -63,7 +63,7 @@
         </div>
     </c:if>
     <c:if test="${not empty sessionScope.mvo}">
-        <%-- MemVO mvo = (MemVO) session.getAttribute("mvo"); --%>
+        <%-- MemberVO mvo = (MemberVO) session.getAttribute("mvo"); --%>
         <%-- 이 부분은 JSTL EL로 직접 접근하여 사용되므로 별도의 코드 변환이 필요하지 않습니다. --%>
         <%-- 예: ${sessionScope.mvo.name}와 같이 직접 속성에 접근하여 사용합니다. --%>
     </c:if>

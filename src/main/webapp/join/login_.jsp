@@ -11,7 +11,7 @@
         MemberVO mvo = MemberDAO.login(mId, mPw);
         int mode = 0;
         if(mvo != null){
-            // HttpSession에 "mvo"라는 이름으로 MemVO객체를 저장한다.
+            // HttpSession에 "mvo"라는 이름으로 MemberVO객체를 저장한다.
             session.setAttribute("mvo", mvo);
             mode = 1;
         }
