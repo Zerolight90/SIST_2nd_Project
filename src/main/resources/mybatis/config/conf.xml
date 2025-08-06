@@ -17,6 +17,7 @@
     <mappers>
         <mapper resource="mybatis/mapper/board.xml"/>
         <mapper resource="mybatis/mapper/coupon.xml"/>
+        <mapper resource="mybatis/mapper/member.xml"/>
         <mapper resource="mybatis/mapper/movie.xml"/>
         <mapper resource="mybatis/mapper/payment.xml"/>
         <mapper resource="mybatis/mapper/point.xml"/>
@@ -24,12 +25,16 @@
         <mapper resource="mybatis/mapper/product.xml"/>
         <mapper resource="mybatis/mapper/reservation.xml"/>
         <mapper resource="mybatis/mapper/member.xml"/>
+        <mapper resource="mybatis/mapper/board.xml"/>
+        <mapper resource="mybatis/mapper/theater.xml"/>
         <mapper resource="mybatis/mapper/nmem.xml"/>
         <mapper resource="mybatis/mapper/admin.xml"/>
         <mapper resource="mybatis/mapper/log.xml"/>
+        <mapper resource="mybatis/mapper/board.xml"/>
         <mapper resource="mybatis/mapper/timeTable.xml"/>
         <mapper resource="mybatis/mapper/theater.xml"/>
         <mapper resource="mybatis/mapper/thsc.xml"/>
         <mapper resource="mybatis/mapper/screen.xml"/>
+        <mapper resource="mybatis/mapper/movie_story.xml"/>
     </mappers>
 </configuration>

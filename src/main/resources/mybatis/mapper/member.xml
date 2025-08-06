@@ -26,4 +26,8 @@
     <select id="getMemInfo" resultType="mybatis.vo.MemberVO">
         select * from user
     </select>
+
+    <select id="findByIdx" parameterType="long" resultType="mybatis.vo.MemberVO">
+        SELECT * FROM user WHERE userIdx = #{userIdx}
+    </select>
 </mapper>

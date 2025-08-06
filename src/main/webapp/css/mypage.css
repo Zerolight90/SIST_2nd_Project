@@ -86,10 +86,10 @@ article {
 .data-table .status-available { color: #8e44ad; font-weight: bold; } /* 변경됨 */
 
 /* --- 버튼 스타일 --- */
-.btn { display: inline-block; padding: 8px 15px; border: 1px solid #ccc; background-color: #fff; color: #333; border-radius: 4px; cursor: pointer; font-size: 14px; transition: all 0.2s; }
-.btn:hover { background-color: #f0f0f0; }
-.btn-primary { background-color: #8e44ad; border-color: #8e44ad; color: #fff; } /* 변경됨 */
-.btn-primary:hover { background-color: #732d91; border-color: #732d91; } /* 변경됨 */
+.mybtn { display: inline-block; padding: 8px 15px; border: 1px solid #ccc; background-color: #fff; color: #333; border-radius: 4px; cursor: pointer; font-size: 14px; transition: all 0.2s; }
+.mybtn:hover { background-color: #f0f0f0; }
+.mybtn-primary { background-color: #8e44ad; border-color: #8e44ad; color: #fff; } /* 변경됨 */
+.mybtn-primary:hover { background-color: #732d91; border-color: #732d91; } /* 변경됨 */
 
 /* --- 필터/조회 영역 --- */
 .filter-area { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; }

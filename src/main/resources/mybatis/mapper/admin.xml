@@ -7,4 +7,22 @@
     <select id="getAllAdmin" resultType="mybatis.vo.AdminVO">
         select * from admin
     </select>
+
+    <select id="salesByTheater" resultType="mybatis.vo.RevenueVO">
+        SELECT
+        t.tName AS theaterName,
+        SUM(p.paymentFinal) AS totalSales
+        FROM
+        payment p
+        JOIN
+        reservation r ON p.reservIdx = r.reservIdx
+        JOIN
+        theater t ON r.tIdx = t.tIdx
+        WHERE
+        p.paymentStatus = 0 -- 0:결제완료, 1:취소
+        GROUP BY
+        t.tName
+        ORDER BY
+        totalSales DESC
+    </select>
 </mapper>

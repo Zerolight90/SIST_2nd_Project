@@ -14,7 +14,20 @@
             cum.userIdx = #{userIdx}
           AND c.couponStatus = 0
           AND c.couponExpDate > NOW()
-          AND c.couponCategory = '영화'
+          AND c.couponCategory = '영화' -- '영화' 쿠폰만 조회
+    </select>
+
+    <select id="getAvailableStoreCoupons" parameterType="long" resultType="mybatis.vo.MyCouponVO">
+        SELECT
+            cum.couponUserIdx,
+            c.couponName
+        FROM coupon_user_mapping cum
+                 JOIN coupon c ON cum.couponIdx = c.couponIdx
+        WHERE
+            cum.userIdx = #{userIdx}
+          AND c.couponStatus = 0
+          AND c.couponExpDate > NOW()
+          AND c.couponCategory = '매점' -- '매점' 쿠폰만 조회
     </select>
 
     <update id="useCoupon" parameterType="long">
@@ -35,6 +48,18 @@
         FROM coupon_user_mapping cum
                  JOIN coupon c ON cum.couponIdx = c.couponIdx
         WHERE cum.couponUserIdx = #{couponUserIdx}
+    </select>
+
+    <select id="getHistory" parameterType="long" resultType="mybatis.vo.MyCouponVO">
+        SELECT
+            c.couponCategory,
+            c.couponName,
+            c.couponExpDate,
+            c.couponStatus
+        FROM coupon_user_mapping cum
+                 JOIN coupon c ON cum.couponIdx = c.couponIdx
+        WHERE cum.userIdx = #{userIdx}
+        ORDER BY c.couponExpDate DESC
     </select>
 
 </mapper>

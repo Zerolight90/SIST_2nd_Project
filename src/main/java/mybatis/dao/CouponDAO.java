@@ -40,6 +40,26 @@ public class CouponDAO {
         return list;
     }
 
+    // 특정 사용자가 사용 가능한 '스토어' 쿠폰 목록 가져오기
+    public static List<MyCouponVO> getAvailableStoreCoupons(long userIdx) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<MyCouponVO> list = ss.selectList("coupon.getAvailableStoreCoupons", userIdx);
+        ss.close();
+
+        // 쿠폰명에서 할인 금액 파싱하는 로직
+        Pattern pattern = Pattern.compile("(\\d{1,3}(,\\d{3})*|\\d+)\\s*원");
+        for (MyCouponVO vo : list) {
+            Matcher matcher = pattern.matcher(vo.getCouponName());
+            if (matcher.find()) {
+                String valueStr = matcher.group(1);
+                vo.setCouponValue(Integer.parseInt(valueStr.replace(",", "")));
+            } else {
+                vo.setCouponValue(0);
+            }
+        }
+        return list;
+    }
+
     // 특정 쿠폰을 '사용 완료' 상태로 변경
     public static int useCoupon(long couponUserIdx) {
         SqlSession ss = FactoryService.getFactory().openSession(false);
@@ -68,5 +88,13 @@ public class CouponDAO {
         MyCouponVO vo = ss.selectOne("coupon.getCouponByCouponUserIdx", couponUserIdx);
         ss.close();
         return vo;
+    }
+
+    // 특정 사용자의 모든 쿠폰 내역 조회
+    public static List<MyCouponVO> getCouponHistory(long userIdx) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<MyCouponVO> list = ss.selectList("coupon.getHistory", userIdx);
+        ss.close();
+        return list;
     }
 }

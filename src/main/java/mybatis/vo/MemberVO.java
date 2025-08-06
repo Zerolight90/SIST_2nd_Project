@@ -6,7 +6,8 @@ public class MemberVO {
     //기본 생성자
     public MemberVO(){}
 
-    public MemberVO(String id, String pw, String birth, String name, String gender, String phone, String email, String status) {
+    public MemberVO(String userIdx, String id, String pw, String birth, String name, String gender, String phone, String email, String status) {
+        this.userIdx = userIdx;
         this.id = id;
         this.pw = pw;
         this.birth = birth;

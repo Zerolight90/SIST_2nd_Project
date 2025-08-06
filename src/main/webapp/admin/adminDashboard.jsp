@@ -136,29 +136,55 @@
     }
   });
 
+  // 극장별 총 매출 차트
+  const theaterLabels = [];
+  const salesData = [];
+  <c:forEach var="revenue" items="${revenueList}">
+    theaterLabels.push('${revenue.theaterName}'); // 극장 이름을 배열에 추가
+    salesData.push(${revenue.totalSales});       // 총 매출액을 배열에 추가
+  </c:forEach>
+
+  // 2. 위에서 만든 JavaScript 배열을 차트 데이터로 사용합니다.
   const ptx = document.getElementById('payChart');
   new Chart(ptx, {
-    type: 'bar',
-    data: {
-      labels: ['강남', '강북', '서초', '방배'],
-      datasets: [{
-        label: '극장 매출액',
-        data: [12000, 19000, 30000, 50000],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      responsive: false,
-      // 파이 차트에서는 scales(축) 옵션이 필요 없습니다.
-      plugins: {
-        // 범례(legend) 위치 등 설정
-        legend: {
-          position: 'top',
-        }
-      }
-    }
+  type: 'bar',
+  data: {
+  labels: theaterLabels, // 하드코딩된 데이터 대신 JSTL로 만든 배열 사용
+  datasets: [{
+  label: '극장 매출액',
+  data: salesData,     // 하드코딩된 데이터 대신 JSTL로 만든 배열 사용
+  borderWidth: 1,
+  backgroundColor: [ // 막대 색상 추가 (선택 사항)
+  'rgba(255, 99, 132, 0.2)',
+  'rgba(54, 162, 235, 0.2)',
+  'rgba(255, 206, 86, 0.2)',
+  'rgba(75, 192, 192, 0.2)',
+  'rgba(153, 102, 255, 0.2)'
+  ],
+  borderColor: [
+  'rgba(255, 99, 132, 1)',
+  'rgba(54, 162, 235, 1)',
+  'rgba(255, 206, 86, 1)',
+  'rgba(75, 192, 192, 1)',
+  'rgba(153, 102, 255, 1)'
+  ]
+  }]
+  },
+  options: {
+  responsive: false,
+  plugins: {
+  legend: {
+  position: 'top',
+  }
+  },
+  scales: {
+  y: {
+  beginAtZero: true
+  }
+  }
+  }
   });
-</script>
+  </script>
 
 </body>
 </html>

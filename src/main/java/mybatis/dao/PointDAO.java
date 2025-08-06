@@ -4,6 +4,7 @@ import mybatis.Service.FactoryService;
 import mybatis.vo.PointVO;
 import org.apache.ibatis.session.SqlSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PointDAO {
@@ -54,5 +55,12 @@ public class PointDAO {
             }
         }
         return result;
+    }
+    // [추가] 특정 사용자의 포인트 사용/적립 내역 조회
+    public static List<PointVO> getPointHistory(long userIdx) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<PointVO> list = ss.selectList("point.getHistory", userIdx);
+        ss.close();
+        return list;
     }
 }
