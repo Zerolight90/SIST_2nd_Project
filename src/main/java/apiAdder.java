@@ -14,7 +14,7 @@ import java.sql.PreparedStatement;
 public class apiAdder {
 
     // DB 연결을 위한 정보
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/my_db?serverTimezone=UTC";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/web_movie?serverTimezone=UTC";
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "1111";
 
@@ -57,7 +57,7 @@ public class apiAdder {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 
-                String sql = "INSERT INTO movies (movie_id, title, overview, poster_path, release_date, popularity, vote_average) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                String sql = "INSERT INTO movie (mIdx, name, synop, poster, date, audNum) VALUES (?, ?, ?, ?, ?, ?)";
                 ps = conn.prepareStatement(sql);
 
                 // 영화 정보를 DB에 INSERT
@@ -70,7 +70,7 @@ public class apiAdder {
                     ps.setString(4, "https://image.tmdb.org/t/p/w500" + movie.get("poster_path").getAsString());
                     ps.setString(5, movie.get("release_date").getAsString());
                     ps.setDouble(6, movie.get("popularity").getAsDouble());
-                    ps.setDouble(7, movie.get("vote_average").getAsDouble());
+                    /*ps.setDouble(7, movie.get("vote_average").getAsDouble());*/
 
                     ps.executeUpdate();
                     System.out.println(movie.get("title").getAsString() + " 저장 완료!");
