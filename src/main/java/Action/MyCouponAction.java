@@ -17,9 +17,9 @@ public class MyCouponAction implements Action {
         if (mvo == null) {
             return "/mypage/myPage_couponList.jsp";
         }
-        long userIdx = mvo.getUserIdx();
+        String userIdx = mvo.getUserIdx();
 
-        List<MyCouponVO> list = CouponDAO.getCouponHistory(userIdx);
+        List<MyCouponVO> list = CouponDAO.getCouponHistory(Long.parseLong(userIdx));
         request.setAttribute("couponList", list);
         return "/mypage/myPage_couponList.jsp";
     }
