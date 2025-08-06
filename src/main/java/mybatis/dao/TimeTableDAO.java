@@ -26,7 +26,7 @@ public class TimeTableDAO {
     }
 
     // 영화 시간표 반환
-    public static TimeTableVO[] getList(String date, String tIdx, String mIdx){
+    public static TimeTableVO[] getTimeList(String date, String tIdx, String mIdx){
         List<TimeTableVO> list = null;
 
         Map<String, String> map = new HashMap<String, String>();

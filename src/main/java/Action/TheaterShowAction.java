@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class TheaterShowAction implements Action{
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response){
         System.out.println("TheaterShowAction");
         // 해당 날짜의 영화를 상영중인 영화관을 선택하면 예약할 수 있는 상영관을 보여줘야한다.
         // 그러기 위한 인자 3개를 받고 각각

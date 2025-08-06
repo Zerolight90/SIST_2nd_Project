@@ -2,11 +2,10 @@ package Action;
 
 import mybatis.dao.CouponDAO;
 import mybatis.dao.PaymentDAO;
+
+import mybatis.dao.PointDAO;
 import mybatis.dao.ReservationDAO;
-import mybatis.vo.MemberVO;
-import mybatis.vo.MyCouponVO;
-import mybatis.vo.PaymentVO;
-import mybatis.vo.ReservationVO;
+import mybatis.vo.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
