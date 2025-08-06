@@ -11,7 +11,7 @@ public class AdminBaseAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        MemVO[] ar = MemberDAO.getMemInfo();
+        MemberVO[] ar = MemberDAO.getMemInfo();
 
         request.setAttribute("ar", ar);
 

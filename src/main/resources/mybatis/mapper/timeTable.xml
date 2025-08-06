@@ -28,4 +28,17 @@
         WHERE tIdx = ${tIdx}
         AND mIdx = ${mIdx}
     </select>
+    
+    <select id="getTimetableList" resultType="mybatis.vo.TimeTableVO">
+        select m.name, t.timeTableIdx, t.timeTableStartTime, t.timeTableEndTime, r.tName, s.sName, s.sSeatCount
+        from time_table t
+        inner join movie m ON m.mIdx = t.mIdx
+        inner join theater r ON r.tIdx = t.tIdx
+        inner join screen s ON s.sIdx = t.sIdx
+    </select>
+    <select id="getRemainSeat" resultType="mybatis.vo.SeatStatusVO">
+        select * from seat_status s
+        inner join time_table t ON s.timeTableIdx = t.timeTableIdx
+        where s.seatStatus = 1
+    </select>
 </mapper>

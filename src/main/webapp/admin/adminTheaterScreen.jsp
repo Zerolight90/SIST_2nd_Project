@@ -221,16 +221,39 @@
       </tr>
       </thead>
       <tbody>
-      <!-- 예시 데이터 행 (실제로는 DB에서 반복문으로 생성) -->
-      <tr>
-        <td>서울</td>
-        <td>강남</td>
-        <td>IMAX 1관</td>
-        <td>IMAX</td>
-        <td>36</td>
-        <td>운영</td>
-        <td>운영</td>
-      </tr>
+        <c:forEach var="vo" items="${requestScope.ar}" varStatus="status">
+          <tr>
+            <td>${vo.tRegion}</td>
+            <td>${vo.tName}</td>
+            <td>${vo.sName}</td>
+
+            <c:if test="${vo.codeIdx == 1}">
+              <td>2D</td>
+            </c:if>
+            <c:if test="${vo.codeIdx == 2}">
+              <td>3D</td>
+            </c:if>
+            <c:if test="${vo.codeIdx == 3}">
+              <td>4D</td>
+            </c:if>
+
+            <td>${vo.sSeatCount}</td>
+
+            <c:if test="${vo.tStatus == 0}">
+              <td>운영종료</td>
+            </c:if>
+            <c:if test="${vo.tStatus == 1}">
+              <td>운영중</td>
+            </c:if>
+
+            <c:if test="${vo.sStatus == 0}">
+              <td>운영종료</td>
+            </c:if>
+            <c:if test="${vo.sStatus == 1}">
+              <td>운영중</td>
+            </c:if>
+          </tr>
+        </c:forEach>
       </tbody>
     </table>
 

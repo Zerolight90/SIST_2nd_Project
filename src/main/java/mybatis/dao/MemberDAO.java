@@ -2,6 +2,7 @@ package mybatis.dao;
 
 import mybatis.Service.FactoryService;
 import mybatis.vo.MemVO;
+import mybatis.vo.MemberVO;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.HashMap;
@@ -45,13 +46,13 @@ public class MemberDAO {
         return (vo != null); // 간결하게 표현 가능
     }
 
-    public static MemVO[] getMemInfo(){
-        MemVO[] ar = null;
+    public static MemberVO[] getMemInfo(){
+        MemberVO[] ar = null;
 
         try {
             SqlSession ss = FactoryService.getFactory().openSession();
             List<MemVO> list = ss.selectList("member.getMemInfo");
-            ar = new MemVO[list.size()];
+            ar = new MemberVO[list.size()];
             list.toArray(ar);
         } catch (Exception e) {
             e.printStackTrace();

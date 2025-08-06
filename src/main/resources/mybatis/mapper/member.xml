@@ -22,4 +22,8 @@
         SELECT * FROM web_movie.user
         WHERE id = #{m_id}
     </select>
+
+    <select id="getMemInfo" resultType="mybatis.vo.MemberVO">
+        select * from user
+    </select>
 </mapper>

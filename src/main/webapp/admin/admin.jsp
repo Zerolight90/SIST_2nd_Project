@@ -1,7 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <nav>
   <div class="dashLeft">
-    <div class="leftDiv"><p class="bold">대시보드</p></div>
+    <div class="leftDiv">
+      <p class="bold">대시보드</p>
+      <div class="leftDivInner"><a href="">통계 차트</a></div>
+    </div>
     <div class="leftDiv">
       <p class="bold">사용자 관리</p>
       <div class="leftDivInner"><a href="Controller?type=admin">회원 정보 관리</a></div>

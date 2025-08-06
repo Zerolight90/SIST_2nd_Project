@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
   <title>Title</title>
@@ -230,17 +231,19 @@
       </tr>
       </thead>
       <tbody>
-      <!-- 예시 데이터 행 (실제로는 DB에서 반복문으로 생성) -->
-      <tr>
-        <td>1</td>
-        <td>강남</td>
-        <td>IMAX 1관</td>
-        <td>어벤져스</td>
-        <td>2025-08-01</td>
-        <td>09:00:00</td>
-        <td>11:20:00</td>
-        <td>36 / 36</td>
-      </tr>
+        <c:set var="vo2" value="${requestScope.ar2}"/>
+        <c:forEach var="vo" items="${requestScope.ar}" varStatus="status">
+          <tr>
+            <td>${vo.timeTableIdx}</td>
+            <td>${vo.tName}</td>
+            <td>${vo.sName}</td>
+            <td>${vo.name}</td>
+            <td>2025-08-01</td>
+            <td>${vo.timeTableStartTime}</td>
+            <td>${vo.timeTableEndTime}</td>
+            <td>${vo.sSeatCount - fn:length(vo2)} / ${vo.sSeatCount}</td>
+          </tr>
+        </c:forEach>
       </tbody>
     </table>
 

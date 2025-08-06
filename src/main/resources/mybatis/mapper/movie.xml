@@ -13,4 +13,8 @@
         select * from movie
         WHERE mIdx = #{mIdx}
     </select>
+
+    <select id="getMovieInfo" resultType="mybatis.vo.MovieVO">
+        select * from movie
+    </select>
 </mapper>

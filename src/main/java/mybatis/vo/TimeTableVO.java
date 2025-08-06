@@ -5,6 +5,43 @@ import java.util.List;
 public class TimeTableVO {
     private String timeTableIdx, tIdx, mIdx, sIdx, timeTableStartTime, timeTableEndTime, status;
 
+    private String name;
+    private String tName;
+    private String sName, sSeatCount;
+    private String seatStatus, seatStatusIdx;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String gettName() {
+        return tName;
+    }
+
+    public void settName(String tName) {
+        this.tName = tName;
+    }
+
+    public String getsName() {
+        return sName;
+    }
+
+    public void setsName(String sName) {
+        this.sName = sName;
+    }
+
+    public String getsSeatCount() {
+        return sSeatCount;
+    }
+
+    public void setsSeatCount(String sSeatCount) {
+        this.sSeatCount = sSeatCount;
+    }
+
     private List<MovieVO> m_list;
 
     public List<MovieVO> getM_list() {

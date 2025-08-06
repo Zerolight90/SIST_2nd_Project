@@ -35,7 +35,8 @@
         ORDER BY paymentDate DESC
     </select>
 
-
-
+    <select id="getAllPayment" resultType="mybatis.vo.PaymentVO">
+        select * from payment
+    </select>
 
 </mapper>

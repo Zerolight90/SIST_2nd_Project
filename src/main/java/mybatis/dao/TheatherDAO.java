@@ -18,4 +18,16 @@ public class TheatherDAO {
         ss.close();
         return list;
     }
+
+    public static TheaterVO[] getThscInfo(){
+        TheaterVO[] ar = null;
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<TheaterVO> list = ss.selectList("thsc.getThscInfo");
+        ar = new TheaterVO[list.size()];
+        list.toArray(ar);
+
+        ss.close();
+        return ar;
+    }
 }

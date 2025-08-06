@@ -2,9 +2,12 @@ package mybatis.dao;
 
 
 import mybatis.Service.FactoryService;
+import mybatis.vo.MovieVO;
+import mybatis.vo.SeatStatusVO;
 import mybatis.vo.TimeTableVO;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,5 +43,29 @@ public class TimeTableDAO {
 
         ss.close();
         return ar;
+    }
+
+    public static TimeTableVO[] getTimetableList(){
+        TimeTableVO[] ar = null;
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<TimeTableVO> list = ss.selectList("timeTable.getTimetableList");
+        ar = new TimeTableVO[list.size()];
+        list.toArray(ar);
+
+        ss.close();
+        return ar;
+    }
+
+    public static SeatStatusVO[] getRemainSeat(){
+        SeatStatusVO[] ar2 = null;
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<SeatStatusVO> list = ss.selectList("timeTable.getRemainSeat");
+        ar2 = new SeatStatusVO[list.size()];
+        list.toArray(ar2);
+
+        ss.close();
+        return ar2;
     }
 }
