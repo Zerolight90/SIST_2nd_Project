@@ -15,16 +15,31 @@
 
 <body>
 <article>
+    <%-- 가입완료 메시지 알림 --%>
+
+    <c:if test="${not empty msg}">
+        <script>
+            alert("${msg}");
+        </script>
+    </c:if>
 
 
     <c:if test="${empty sessionScope.mvo}">
         <div id="log_fail" class="show">
             <h2>로그인</h2>
-            <c:if test="${loginError eq 'true'}">
-                <div class="error-message">
-                    <c:out value="${empty errorMessage ? '로그인에 실패했습니다.' : errorMessage}"/>
+
+
+            <c:if test="${loginError != null and loginError == true}">
+
+                <div class="error-message" style="color:red;">
+
+                    <c:out value="${errorMessage != null ? errorMessage : '로그인에 실패했습니다.'}"/>
+
                 </div>
+
             </c:if>
+
+
             <form action="" method="post">
                 <tr>
                     <td><label for="s_id"></label></td>
@@ -45,7 +60,7 @@
                     <a href="javascript:exe()" class="btn login-btn">
                         로그인
                     </a>
-                    <a href="./join/join.html" class="btn signup-btn">
+                    <a href="<c:url value="Controller?type=join"/>" class="btn signup-btn">
                         회원가입
                     </a>
                 </div>

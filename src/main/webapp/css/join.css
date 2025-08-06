@@ -43,6 +43,15 @@ a{
     display: none;
 }
 
+/* join.css에 추가 */
+input.error {
+    border: 2px solid #ff4d4f !important; /* 진한 빨강 */
+}
+input.success {
+    border: 2px solid #37b047 !important; /* 진한 초록 */
+}
+
+
 .member b{
     /* border: 1px solid #000; */
     display: block; /*수직 정렬하기 */

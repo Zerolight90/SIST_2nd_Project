@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 public class JoinAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response){
@@ -37,7 +38,7 @@ public class JoinAction implements Action {
         session.removeAttribute("emailAuthCode");
         session.removeAttribute("emailToVerify");
 
-        // 3. 요청 파라미터 수집 및 MemberVO 객체 세팅 (이메일 인증 성공 후 실행)
+        // 3. 요청 파라미터 수집 및 MemVO 객체 세팅 (이메일 인증 성공 후 실행)
         String id = request.getParameter("u_id");
         String pw = request.getParameter("u_pw");
         String birthYearStr = request.getParameter("u_year");
@@ -60,6 +61,7 @@ public class JoinAction implements Action {
         // 이메일은 이미 위에서 검증되었으므로 그대로 사용
 
         MemberVO mvo = new MemberVO();
+
         mvo.setId(id);
         mvo.setPw(pw);
         mvo.setBirth(formattedBirth);
