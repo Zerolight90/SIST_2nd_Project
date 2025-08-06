@@ -22,7 +22,7 @@
         <option>2021년</option>
         <option>2020년</option>
     </select>
-    <button class="btn btn-primary">조회</button>
+    <button class="mybtn mybtn-primary">조회</button>
 </div>
 
 <div class="content-section">
@@ -39,7 +39,7 @@
                 <p class="details">${item.theaterInfo} | ${item.screenDate}</p>
             </div>
             <div class="action">
-                <button class="btn">취소</button>
+                <button class="mybtn">취소</button>
             </div>
         </div>
     </c:forEach>

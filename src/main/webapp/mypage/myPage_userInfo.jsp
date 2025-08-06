@@ -26,27 +26,27 @@
       <span class="form-label">휴대폰</span>
       <div class="form-value">
         <span>010-1234-5678</span>
-        <button class="btn btn-sm">휴대폰번호 변경</button>
+        <button class="mybtn mybtn-sm">휴대폰번호 변경</button>
       </div>
     </div>
     <div class="form-group" id="phone-change-form" style="display: none;">
       <span class="form-label">변경할 휴대폰 번호</span>
       <div class="form-value">
         <input type="text" placeholder="'-' 없이 입력">
-        <button class="btn btn-sm btn-primary">변경</button>
+        <button class="mybtn mybtn-sm mybtn-primary">변경</button>
       </div>
     </div>
     <div class="form-group">
       <span class="form-label">생년월일</span>
       <div class="form-value">
         <span>2002-02-02</span>
-        <button class="btn btn-bir">생년월일 변경</button>
+        <button class="mybtn mybtn-bir">생년월일 변경</button>
       </div>
       <div class="form-group" id="bir_day-change-form" style="display: none;">
         <span class="form-label">변경할 생년월일</span>
         <div class="form-value">
           <input type="text" placeholder="'-' 없이 입력">
-          <button class="btn btn-bir btn-primary">변경</button>
+          <button class="mybtn mybtn-bir mybtn-primary">변경</button>
         </div>
       </div>
     </div>
@@ -58,11 +58,11 @@
       <span class="form-label">비밀번호</span>
       <div class="form-value">
         <span>************</span>
-        <button class="btn btn-sm">비밀번호 변경</button>
+        <button class="mybtn mybtn-sm">비밀번호 변경</button>
       </div>
     </div>
     <div class="form-group">
-      <button class="btn btn-exit">회원탈퇴</button>
+      <button class="mybtn mybtn-exit">회원탈퇴</button>
   </div>
 </div>
 </body>
