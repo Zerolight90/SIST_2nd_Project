@@ -272,7 +272,11 @@
             <td>${num}</td>
             <td>${vo.tvo.tName}</td>
             <td>${vo.boardType}</td>
-            <td><a href="#">${vo.boardTitle}</a></td>
+            <td>
+              <a href="Controller?type=adminViewBoard&boardIdx=${vo.boardIdx}&cPage=${nowPage}"><%--listAction에서 nowPage이름으로 request 만들어야 한다.--%>
+                ${vo.boardTitle}
+              </a>
+            </td>
             <td>${vo.boardRegDate} ~ ${vo.boardEndRegDate}</td>
             <%--확인하기--%>
             <td>

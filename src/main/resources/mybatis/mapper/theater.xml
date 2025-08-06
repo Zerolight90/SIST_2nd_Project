@@ -6,4 +6,10 @@
     <select id="all" resultType="mybatis.vo.TheaterVO">
         SELECT * FROM theater <!-- 모든 영화관을 보여줌 -->
     </select>
+
+    <!--파라미터를 기본키로 받아서 해당 극장정보를 반환한다.-->
+    <select id="getTheater" resultType="mybatis.vo.TheaterVO" parameterType="String">
+        SELECT * FROM theater
+        WHERE tIdx = #{tIdx}
+    </select>
 </mapper>

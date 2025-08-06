@@ -107,7 +107,7 @@
         <tr>
           <th class="w100"><label for="boardTitle">제목</label></th>
           <td>
-            <input type="text" id="boardTitle" name="boardTitle"/>
+            <input type="text" id="boardTitle" name="title"/>
           </td>
         </tr>
         <tr>
@@ -121,9 +121,9 @@
           <th class="w100"><label for="board_reg_date">게시기간</label></th>
           <td>
             <%--에디터가 들어갈 자리--%>
-              <input type="text" id="start_reg_date" name="start_reg_date"/>
+              <input type="text" id="start_reg_date" name="boardRegDate"/>
               ~
-              <input type="text" id="end_reg_date" name="end_reg_date"/>
+              <input type="text" id="end_reg_date" name="boardEndRegDate"/>
           </td>
         </tr>
         <tr>
@@ -137,7 +137,7 @@
           <th class="w100"><label for="board_content">내용</label></th>
           <td>
             <%--에디터가 들어갈 자리--%>
-            <textarea rows="12" cols="50" id="board_content" name="boardContent"></textarea>
+            <textarea rows="12" cols="50" id="board_content" name="content"></textarea>
           </td>
         </tr>
         <tr>
@@ -195,19 +195,20 @@
         onImageUpload: function (files, editor) {
           //에디터에 이미지를 추가될 때 수행하는 곳
           //이미지를 여러 개 추가할 수 있으므로 files는 배열이다.
+          //console.log("테스트");
           for(let i=0; i<files.length; i++)
             sendImg(files[i], editor);
         }
       }
     });
-
-    $(".btn").button();
   });
 
+  //게시글 등록
   function sendData(){
     //유효성 검사 생략
 
     document.forms[0].submit();
+    /*location.href="Controller?type=adminBoardList";*/
   }
 
 
@@ -222,7 +223,7 @@
 
     //비동기식 통신
     $.ajax({
-      url: "Controller?type=saveImg",
+      url: "Controller?type=adminSaveImg",
       data: frm,
       type: "post",
       contentType: false,
@@ -236,7 +237,7 @@
       //이미지의 경로를 보내도록 되어있다.
       //그것을 받아 editor에 img태그를 넣어주면 된다.
       $("#board_content").summernote("editor.insertImage", res.img_url);
-      console.log(res.img_url);
+      console.log("img_url:::::::::::::::"+ res.img_url);
     });
 
   }

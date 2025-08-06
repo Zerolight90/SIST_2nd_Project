@@ -54,13 +54,15 @@ public class AdminBoardDAO {
         Map<String, String> map = new HashMap<>();
 
         map.put("boardType", boardType);
-        map.put("boardTitle", boardTitle);
+        map.put("title", boardTitle);
         map.put("writer", writer);
-        map.put("boardContent", boardContent);
+        map.put("content", boardContent);
         map.put("fname", fname);
         map.put("oname", oname);
         map.put("boardRegDate", boardRegDate);
         map.put("boardEndRegDate", boardEndRegDate);
+
+
         map.put("boardStatus", boardStatus);
 
 
@@ -76,6 +78,34 @@ public class AdminBoardDAO {
 
         return cnt;
     }
+
+    //게시글 보기
+    public static AdminBoardVO getBoard(String boardIdx){
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        AdminBoardVO vo = ss.selectOne("board.getBoard", boardIdx);
+
+        ss.close();
+
+        return vo;
+    }
+
+    //게시글 삭제
+    public static int delBbs(String boardIdx){
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int cnt = ss.update("board.del", boardIdx);
+
+        if(cnt>0)
+            ss.commit();
+        else
+            ss.rollback();
+
+        ss.close();
+
+        return cnt;
+    }
     
-    
+
+
 }
