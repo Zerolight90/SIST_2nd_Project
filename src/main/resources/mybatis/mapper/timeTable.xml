@@ -22,13 +22,22 @@
         WHERE t.startTime &lt; #{now}
     </select>
 
-    <select id="time" resultType="mybatis.vo.TimeTableVO" parameterType="Map"> <!-- 인자를 두개받아야해서 Map으로 받음 -->
+    <!-- 각 인자들을 갖고 비교한 쿼리문을 가져왔는데 화면에 mIdx를 보여주는게 아닌 이름을 보여줘야함 -->
+    <select id="time" resultMap="map100" parameterType="Map"> <!-- 인자를 두개받아야해서 Map으로 받음 -->
         SELECT *
         FROM time_table
-        WHERE tIdx = ${tIdx}
-        AND mIdx = ${mIdx}
+        WHERE startTime &lt; #{date}
+        AND endTime &gt; #{date}
+        AND mIdx = #{mIdx}
+        AND tIdx = #{tIdx}
     </select>
-    
+
+    <select id="select" resultType="mybatis.vo.TimeTableVO" parameterType="mybatis.vo.TimeTableVO">
+        SELECT *
+        FROM time_table
+        WHERE timeTableIdx = #{timeTableIdx}
+    </select>
+
     <select id="getTimetableList" resultType="mybatis.vo.TimeTableVO">
         select m.name, t.timeTableIdx, t.timeTableStartTime, t.timeTableEndTime, r.tName, s.sName, s.sSeatCount
         from time_table t
@@ -41,4 +50,5 @@
         inner join time_table t ON s.timeTableIdx = t.timeTableIdx
         where s.seatStatus = 1
     </select>
+
 </mapper>

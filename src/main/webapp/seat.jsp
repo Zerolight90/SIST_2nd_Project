@@ -92,17 +92,21 @@
             </div>
         </div>
 
+        <c:set var="time" value="${requestScope.time}" scope="page"/> <!--상영정보-->
+        <c:set var="theater" value="${requestScope.theater}" scope="page"/> <!--영화관-->
+        <c:set var="movie" value="${requestScope.movie}" scope="page"/> <!--영화-->
+        <c:set var="screen" value="${requestScope.screen}" scope="page"/> <!--상영관-->
+
         <div class="info-panel">
             <div class="movie-poster">
-                <div class="poster-img">F1 더 무비<br>2D(자막)</div>
+                <div class="poster-img">${movie.name}<br>${movie.age}</div>
             </div>
-
             <div class="movie-info">
-                <div class="movie-title">F1 더 무비</div>
+                <div class="movie-title">${movie.name}</div>
                 <div class="movie-details">
-                    감독: 드라마코어닷1관<br>
-                    2025.07.29(화)<br>
-                    12:25~15:10
+                    상영관: ${screen.sName}<br>
+                    ${time.startTime}<br>
+                    ${time.endTime}
                 </div>
 
                 <div class="selected-info">

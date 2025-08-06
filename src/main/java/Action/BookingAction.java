@@ -48,14 +48,6 @@ public class BookingAction implements Action{
         request.setAttribute("theaterArr", theaterArr);
         //------------------------------------------------------------------------------
 
-        // 시간표 보여주는 영역  ----------------------------------------------------------
-        String tIdx = request.getParameter("tIdx");
-        String mIdx = request.getParameter("mIdx");
-        TimeTableVO[] theaterTime = TimeTableDAO.getList(tIdx, mIdx);
-        theaterList.toArray(theaterArr);
-        request.setAttribute("theaterArr", theaterArr);
-        //------------------------------------------------------------------------------
-
         return "booking.jsp";
     }
 }
