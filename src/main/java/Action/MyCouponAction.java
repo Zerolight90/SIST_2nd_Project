@@ -1,7 +1,7 @@
 package Action;
 
 import mybatis.dao.CouponDAO;
-import mybatis.vo.MemVO; // MemVO 임포트
+import mybatis.vo.MemberVO;
 import mybatis.vo.MyCouponVO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +12,7 @@ public class MyCouponAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        MemVO mvo = (MemVO) session.getAttribute("mvo");
+        MemberVO mvo = (MemberVO) session.getAttribute("mvo");
 
         if (mvo == null) {
             return "/mypage/myPage_couponList.jsp";

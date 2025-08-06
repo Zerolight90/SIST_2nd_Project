@@ -2,7 +2,7 @@ package Action;
 
 import mybatis.dao.CouponDAO;
 import mybatis.dao.MemberDAO;
-import mybatis.vo.MemVO;
+import mybatis.vo.MemberVO;
 import mybatis.vo.MyCouponVO;
 import mybatis.vo.ReservationVO;
 
@@ -14,8 +14,6 @@ import java.util.List;
 public class PaymentMovieAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        // [버그 추적] execute 메소드 실행 시작
-        System.out.println("\n--- PaymentMovieAction 시작 ---");
 
         // 인코딩 설정 (POST 방식 파라미터 한글 깨짐 방지)
         try {
@@ -25,8 +23,8 @@ public class PaymentMovieAction implements Action {
         }
 
         HttpSession session = request.getSession();
-        MemVO mvo = (MemVO) session.getAttribute("loginUser"); // [수정]
-        long userIdx = (mvo == null) ? 1L : mvo.getUserIdx();
+        MemberVO mvo = (MemberVO) session.getAttribute("loginUser"); // [수정]
+        String userIdx = (mvo == null) ? String.valueOf(1L) : mvo.getUserIdx();
 
         try {
             String movieTitle = request.getParameter("movieTitle");
@@ -53,7 +51,7 @@ public class PaymentMovieAction implements Action {
             reservation.setFinalAmount(Integer.parseInt(amountStr));
 
             // 사용 가능한 쿠폰 목록 조회
-            List<MyCouponVO> couponList = CouponDAO.getAvailableMovieCoupons(userIdx);
+            List<MyCouponVO> couponList = CouponDAO.getAvailableMovieCoupons(Long.parseLong(userIdx));
 
             // '무료' 쿠폰 처리 로직
             for (MyCouponVO coupon : couponList) {
@@ -63,7 +61,7 @@ public class PaymentMovieAction implements Action {
             }
 
             // 사용자의 포인트 정보를 포함한 전체 회원 정보 조회
-            MemVO memberInfo = MemberDAO.getMemberByIdx(userIdx); // [수정]
+            MemberVO memberInfo = MemberDAO.getMemberByIdx(Long.parseLong(userIdx)); // [수정]
 
             // 조회된 모든 정보를 request 객체에 저장
             request.setAttribute("reservationInfo", reservation);

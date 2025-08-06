@@ -1,7 +1,7 @@
 package Action;
 
 import mybatis.dao.MemberDAO;
-import mybatis.vo.MemVO;
+import mybatis.vo.MemberVO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession; // HttpSession 임포트
@@ -10,7 +10,7 @@ public class MyUserInfoAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        MemVO mvo = (MemVO) session.getAttribute("mvo");
+        MemberVO mvo = (MemberVO) session.getAttribute("mvo");
 
         if (mvo == null) {
             return "/mypage/myPage_userInfo.jsp";

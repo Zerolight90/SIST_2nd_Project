@@ -6,24 +6,24 @@
 
     <!--아이디와 비밀번호를 인자로 받아서 로그인을 수행하는 select -->
     <select id="login" parameterType="Map"
-            resultType="mybatis.vo.MemVO">
+            resultType="mybatis.vo.MemberVO">
         SELECT * FROM web_movie.user
         WHERE id = #{m_id} AND pw = #{m_pw} AND status = 0
     </select>
 
     <!--인자로 MemVO를 받아서 memeber를 추가하는 insert -->
-    <insert id="add" parameterType="mybatis.vo.MemVO">
+    <insert id="add" parameterType="mybatis.vo.MemberVO">
         INSERT INTO web_movie.user(id, pw, birth, name, gender, phone, email, totalPoints, status)
         VALUES(#{id}, #{pw}, #{birth}, #{name}, #{gender}, #{phone}, #{email}, 0, 0)
     </insert>
 
     <!-- 아이디를 인자로 받아서 중복확인하는 select -->
-    <select id="id_check" parameterType="String" resultType="mybatis.vo.MemVO">
+    <select id="id_check" parameterType="String" resultType="mybatis.vo.MemberVO">
         SELECT * FROM web_movie.user
         WHERE id = #{m_id}
     </select>
 
-    <select id="findByIdx" parameterType="long" resultType="mybatis.vo.MemVO">
+    <select id="findByIdx" parameterType="long" resultType="mybatis.vo.MemberVO">
         SELECT * FROM user WHERE userIdx = #{userIdx}
     </select>
 </mapper>

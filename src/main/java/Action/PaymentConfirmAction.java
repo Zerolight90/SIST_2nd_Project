@@ -25,8 +25,8 @@ public class PaymentConfirmAction implements Action {
         HttpSession session = request.getSession();
 
         // 1. 세션에서 로그인 정보 및 임시 결제 정보 가져오기
-        MemVO mvo = (MemVO) session.getAttribute("loginUser");
-        long userIdx = (mvo == null) ? 1L : mvo.getUserIdx();
+        MemberVO mvo = (MemberVO) session.getAttribute("loginUser");
+        String userIdx = (mvo == null) ? String.valueOf(1L) : mvo.getUserIdx();
 
         ReservationVO tempReservation = (ReservationVO) session.getAttribute("reservationInfoForPayment");
         ProductVO tempProduct = (ProductVO) session.getAttribute("productInfoForPayment");
@@ -93,7 +93,7 @@ public class PaymentConfirmAction implements Action {
             }
 
             PaymentVO pvo = new PaymentVO();
-            pvo.setUserIdx(userIdx);
+            pvo.setUserIdx(Long.parseLong(userIdx));
             pvo.setOrderId(orderId);
             pvo.setPaymentTransactionId(paymentKey);
             pvo.setPaymentMethod((String) tossResponse.get("method"));
@@ -105,7 +105,7 @@ public class PaymentConfirmAction implements Action {
 
             if (paymentType.equals("paymentMovie")) {
                 ReservationVO reservation = (ReservationVO) paidItem;
-                reservation.setUserIdx(userIdx);
+                reservation.setUserIdx(Long.parseLong(userIdx));
                 long newReservIdx = ReservationDAO.insertReservation(reservation);
                 pvo.setReservIdx(newReservIdx);
             } else { // paymentStore
@@ -120,7 +120,7 @@ public class PaymentConfirmAction implements Action {
             }
 
             if (usedPoints > 0) {
-                PointDAO.usePoints(userIdx, usedPoints, paymentIdx);
+                PointDAO.usePoints(Long.parseLong(userIdx), usedPoints, paymentIdx);
             }
 
             // 5. 최종 확인 페이지(JSP)로 정보 전달

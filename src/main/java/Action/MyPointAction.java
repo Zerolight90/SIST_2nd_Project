@@ -2,7 +2,7 @@ package Action;
 
 import mybatis.dao.MemberDAO;
 import mybatis.dao.PointDAO;
-import mybatis.vo.MemVO;
+import mybatis.vo.MemberVO;
 import mybatis.vo.PointVO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +15,7 @@ public class MyPointAction implements Action {
         try {
             // 1. 세션에서 로그인 정보 가져오기
             HttpSession session = request.getSession();
-            MemVO mvo = (MemVO) session.getAttribute("mvo");
+            MemberVO mvo = (MemberVO) session.getAttribute("mvo");
 
             // 2. 로그인 정보가 없으면 JSP로 그냥 이동 (JSP에서 empty로 처리)
             if (mvo == null) {
@@ -23,10 +23,10 @@ public class MyPointAction implements Action {
             }
 
             // 3. 로그인된 사용자의 ID를 얻어 DB 조회
-            long userIdx = mvo.getUserIdx();
+            String userIdx = mvo.getUserIdx();
 
-            MemVO memberInfo = MemberDAO.getMemberByIdx(userIdx);
-            List<PointVO> list = PointDAO.getPointHistory(userIdx);
+            MemberVO memberInfo = MemberDAO.getMemberByIdx(Long.parseLong(userIdx));
+            List<PointVO> list = PointDAO.getPointHistory(Long.parseLong(userIdx));
 
             // 4. 조회된 결과를 request에 저장
             request.setAttribute("memberInfo", memberInfo);

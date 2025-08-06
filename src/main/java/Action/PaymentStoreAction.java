@@ -2,7 +2,7 @@ package Action;
 
 import mybatis.dao.CouponDAO;
 import mybatis.dao.MemberDAO;
-import mybatis.vo.MemVO;
+import mybatis.vo.MemberVO;
 import mybatis.vo.MyCouponVO;
 import mybatis.vo.ProductVO;
 
@@ -25,8 +25,8 @@ public class PaymentStoreAction implements Action {
         }
 
         HttpSession session = request.getSession();
-        MemVO mvo = (MemVO) session.getAttribute("loginUser");
-        long userIdx = (mvo == null) ? 1L : mvo.getUserIdx();
+        MemberVO mvo = (MemberVO) session.getAttribute("loginUser");
+        String userIdx = (mvo == null) ? String.valueOf(1L) : mvo.getUserIdx();
 
         try {
             String prodIdxStr = request.getParameter("prodIdx");
@@ -48,10 +48,10 @@ public class PaymentStoreAction implements Action {
             product.setProdPrice(Integer.parseInt(amountStr));
 
             // '매점' 카테고리의 사용 가능한 쿠폰 목록 조회
-            List<MyCouponVO> couponList = CouponDAO.getAvailableStoreCoupons(userIdx);
+            List<MyCouponVO> couponList = CouponDAO.getAvailableStoreCoupons(Long.parseLong(userIdx));
 
             // 사용자의 포인트 정보를 포함한 전체 회원 정보 조회
-            MemVO memberInfo = MemberDAO.getMemberByIdx(userIdx);
+            MemberVO memberInfo = MemberDAO.getMemberByIdx(Long.parseLong(userIdx));
 
             // 조회된 모든 정보를 request 객체에 저장
             request.setAttribute("productInfo", product);
