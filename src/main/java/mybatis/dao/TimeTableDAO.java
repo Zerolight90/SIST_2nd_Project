@@ -23,22 +23,31 @@ public class TimeTableDAO {
     }
 
     // 영화 시간표 반환
-    public static TimeTableVO[] getList(String tIdx, String mIdx){
+    public static TimeTableVO[] getTimeList(String date, String mIdx, String tIdx) {
         List<TimeTableVO> list = null;
 
         Map<String, String> map = new HashMap<String, String>();
-        map.put("tIdx", tIdx);
+        map.put("date", date);
         map.put("mIdx", mIdx);
+        map.put("tIdx", tIdx);
 
         SqlSession ss = FactoryService.getFactory().openSession();
 
-        // 우선 상영중, 예정인 모든 영화를 보여주는 구간
-        list = ss.selectList("timeTable.all", map);
+        // 요소 3개를 담은 map을 인자로 전달하여
+        list = ss.selectList("timeTable.time", map);
 
         TimeTableVO[] ar = new TimeTableVO[list.size()];
         list.toArray(ar);
 
         ss.close();
         return ar;
+    }
+    
+    // 사용자가 선택한 TimeTableVO를 얻어오는 함수
+    public static TimeTableVO getSelect(String tvoIdx){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        TimeTableVO tvo = ss.selectOne("timeTable.select", tvoIdx);
+        ss.close();
+        return tvo;
     }
 }

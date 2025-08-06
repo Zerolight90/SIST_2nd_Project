@@ -1,7 +1,7 @@
 package mybatis.dao;
 
 import mybatis.Service.FactoryService;
-import mybatis.vo.MemVO;
+import mybatis.vo.MemberVO;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.HashMap;
@@ -23,7 +23,7 @@ public class MemberDAO {
         return mvo;
     }
 
-    public static int registry(MemVO mvo){
+    public static int registry(MemberVO mvo){
         SqlSession ss = FactoryService.getFactory().openSession();
         int cnt = ss.insert("member.add", mvo);
         if(cnt > 0)

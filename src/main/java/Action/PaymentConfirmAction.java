@@ -1,11 +1,8 @@
 package Action;
 
 import mybatis.dao.CouponDAO;
-import mybatis.dao.MemberDAO;
 import mybatis.dao.PaymentDAO;
-import mybatis.dao.PointDAO;
 import mybatis.dao.ReservationDAO;
-import mybatis.vo.MemVO;
 import mybatis.vo.MyCouponVO;
 import mybatis.vo.PaymentVO;
 import mybatis.vo.ReservationVO;

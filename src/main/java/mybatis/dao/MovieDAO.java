@@ -2,6 +2,7 @@ package mybatis.dao;
 
 import mybatis.Service.FactoryService;
 import mybatis.vo.MovieVO;
+import mybatis.vo.ScreenVO;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.ArrayList;
@@ -31,5 +32,10 @@ public class MovieDAO {
 
         return ar;
     }
-
+    public static MovieVO getById(String mIdx) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        MovieVO movie = ss.selectOne("movie.list", mIdx);
+        ss.close();
+        return movie;
+    }
 }

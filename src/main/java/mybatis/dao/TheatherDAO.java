@@ -18,4 +18,12 @@ public class TheatherDAO {
         ss.close();
         return list;
     }
+
+    public static TheaterVO getById(String tIdx){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        TheaterVO theater = null;
+        theater = ss.selectOne("theater.select", tIdx);
+        ss.close();
+        return theater;
+    }
 }
