@@ -82,11 +82,11 @@
                 <input class="c_num" id="email_auth_key" name="email_auth_key" type="text"
                        placeholder="인증번호를 입력하세요" value="${param.email_auth_key}">
                 <!-- 이메일 인증 메시지 표시 영역 -->
-                <c:if test="${not empty errorMsg}">
+
                     <span id="email_auth_msg" class="error-msg" style="color: red;">
-                            ${errorMsg}
+<%--                            ${errorMsg}--%>
                     </span>
-                </c:if>
+
 
             </div>
 
@@ -136,24 +136,21 @@
                     $("#id_check_msg").text("아이디는 영문/숫자 조합 4~12자여야 합니다.");
                     return;
                 }
-
                 $.ajax({
-                    url: "idCheck.jsp", // 아이디 중복 확인 JSP 경로
+                    url: "Controller?type=idcheck",
                     type: "post",
                     data: { u_id: u_id },
                     dataType: 'json'
-                }).done(function (result){
-                    if (result.isDuplicate) {
+
+                }).done(function (response){
+                    console.log(response)
+                    if (response.isDuplicate) {
                         $("#u_id").addClass("error");
                         $("#id_check_msg").text("중복된 아이디입니다.");
                     } else {
                         $("#id_check_msg").text("사용 가능한 아이디입니다.").css("color", "green");
                     }
-                }).fail(function (xhr, status, error) {
-                    console.error("ID Check AJAX Error:", status, error);
-                    $("#id_check_msg").text("아이디 확인 중 오류가 발생했습니다. 다시 시도해주세요.");
-                    $("#u_id").addClass("error");
-                });
+                })
             });
 
 
@@ -236,7 +233,7 @@
                 alert("인증번호가 발송되었습니다.");
 
                 $.ajax({
-                    url: "/EmailAuthServlet",
+                    url:  "Controller?type=emailAuth",
                     type: "POST",
                     data: { email: email },
                     dataType: "json"
@@ -268,13 +265,11 @@
                 }
 
                 $.ajax({
-                    url: "/Action/EmailAuthVerifyServlet",
+                    url:"Controller?type=emailAuthVerify",
                     type: "POST",
                     data: { authCode: authCode},
                     dataType: "json"
-                })
-                    .done(function (response) {
-
+                }).done(function (response) {
                     if (response.match) {
                         $("#email_auth_msg").text("인증번호가 일치합니다.").css("color", "green");
                         $("#email_auth_key")
@@ -293,51 +288,6 @@
             // 유효성 검사
             $("#joinForm").submit(function(event) {
 
-                if ($("#u_id").val().trim() === "" || $("#id_check_msg").text().includes("중복된 아이디입니다.") || !$("#id_check_msg").text().includes("사용 가능한 아이디입니다.")) {
-                    alert("아이디를 올바르게 입력해주세요.");
-                    $("#u_id").focus();
-                    return false;
-                }
-
-                if ($("#u_pw").val().trim() === "" || !$("#pw_check_msg").text().includes("유효한 비밀번호입니다.")) {
-                    alert("비밀번호를 올바르게 입력해주세요.");
-                    $("#u_pw").focus();
-                    return false;
-                }
-
-                if ($("#u_pw_confirm").val().trim() === "" || !$("#pw_confirm_check_msg").text().includes("비밀번호가 일치합니다.")) {
-                    alert("비밀번호 재확인을 올바르게 입력해주세요.");
-                    $("#u_pw_confirm").focus();
-                    return false;
-                }
-
-                if ($("#u_name").val().trim() === "") {
-                    alert("이름을 입력해주세요.");
-                    $("#u_name").focus();
-                    return false;
-                }
-
-                let birthYear = $('.year').val();
-                let birthMonth = $('.month').val();
-                let birthDay = $('.day').val();
-
-                if (birthYear === "" || birthMonth === "" || birthDay === "") {
-                    alert("생년월일을 모두 입력해주세요.");
-                    return false;
-                }
-
-                if ($("#email").val().trim() === "") {
-                    alert("이메일을 입력해주세요.");
-                    $("#email").focus();
-                    return false;
-                }
-
-                if ($('input[name="u_phone"]').val().trim() === "") {
-                    alert("휴대전화 번호를 입력해주세요.");
-                    $('input[name="u_phone"]').focus();
-                    return false;
-                }
-
                 // 이메일 인증번호 입력 여부 검사 (클라이언트 측)
                 let emailAuthKey = $("#email_auth_key").val().trim();
                 if (emailAuthKey === "" || $("#email_auth_key").css("display") === "none") {
@@ -346,6 +296,53 @@
                     return false;
                 }
                 return true;
+
+                // if ($("#u_id").val().trim() === "" || $("#id_check_msg").text().includes("중복된 아이디입니다.") || !$("#id_check_msg").text().includes("사용 가능한 아이디입니다.")) {
+                //     alert("아이디를 올바르게 입력해주세요.");
+                //     $("#u_id").focus();
+                //     return false;
+                // }
+                //
+                // if ($("#u_pw").val().trim() === "" || !$("#pw_check_msg").text().includes("유효한 비밀번호입니다.")) {
+                //     alert("비밀번호를 올바르게 입력해주세요.");
+                //     $("#u_pw").focus();
+                //     return false;
+                // }
+                //
+                // if ($("#u_pw_confirm").val().trim() === "" || !$("#pw_confirm_check_msg").text().includes("비밀번호가 일치합니다.")) {
+                //     alert("비밀번호 재확인을 올바르게 입력해주세요.");
+                //     $("#u_pw_confirm").focus();
+                //     return false;
+                // }
+                //
+                // if ($("#u_name").val().trim() === "") {
+                //     alert("이름을 입력해주세요.");
+                //     $("#u_name").focus();
+                //     return false;
+                // }
+                //
+                // let birthYear = $('.year').val();
+                // let birthMonth = $('.month').val();
+                // let birthDay = $('.day').val();
+                //
+                // if (birthYear === "" || birthMonth === "" || birthDay === "") {
+                //     alert("생년월일을 모두 입력해주세요.");
+                //     return false;
+                // }
+                //
+                // if ($("#email").val().trim() === "") {
+                //     alert("이메일을 입력해주세요.");
+                //     $("#email").focus();
+                //     return false;
+                // }
+                //
+                // if ($('input[name="u_phone"]').val().trim() === "") {
+                //     alert("휴대전화 번호를 입력해주세요.");
+                //     $('input[name="u_phone"]').focus();
+                //     return false;
+                // }
+
+
             });
         });
     </script>

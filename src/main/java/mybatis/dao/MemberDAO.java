@@ -23,6 +23,7 @@ public class MemberDAO {
         return mvo;
     }
 
+    //회원가입
     public static int registry(MemVO mvo){
         SqlSession ss = FactoryService.getFactory().openSession();
         int cnt = ss.insert("member.add", mvo);

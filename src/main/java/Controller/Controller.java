@@ -5,9 +5,6 @@
     import javax.servlet.http.*;
     import javax.servlet.annotation.WebServlet;
 
-
-
-
     import java.io.FileInputStream;
     import java.io.IOException;
     import java.util.HashMap;
@@ -111,7 +108,12 @@
             //원하는 객체를 얻어내자
             Action action = actionMap.get(type);
 
-            String viewPath = action.execute(request, response);
+            String viewPath = null;
+            try {
+                viewPath = action.execute(request, response);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
 
             //viewPath가 null이면 현재 컨트롤러를 sendRedirect로 다시 호출되도록 하자
             if(viewPath == null){
@@ -122,6 +124,8 @@
                 disp.forward(request, response);
 
             }
+
+
         }
 
         @Override
