@@ -60,4 +60,12 @@ public class MemberDAO {
         return ar;
     }
 
+    // userIdx로 특정 회원 정보 조회하는 메소드
+    public static MemVO getMemberByIdx(long userIdx) { // [수정]
+        SqlSession ss = FactoryService.getFactory().openSession();
+        MemVO vo = ss.selectOne("member.findByIdx", userIdx); // [수정]
+        ss.close();
+        return vo;
+    }
+
 }

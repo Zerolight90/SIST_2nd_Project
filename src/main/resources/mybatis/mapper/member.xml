@@ -22,4 +22,8 @@
         SELECT * FROM web_movie.user
         WHERE id = #{m_id}
     </select>
+
+    <select id="findByIdx" parameterType="long" resultType="mybatis.vo.MemVO">
+        SELECT * FROM user WHERE userIdx = #{userIdx}
+    </select>
 </mapper>

@@ -1,12 +1,20 @@
 package mybatis.vo;
 
 public class MemVO {
-    String userIdx, id, pw, birth, name, gender, phone, email, totalPoints, status;
-
+    String id;
+    String pw;
+    String birth;
+    String name;
+    String gender;
+    String phone;
+    String email;
+    String totalPoints;
+    String status;
+    private long userIdx;
     //기본 생성자
     public MemVO(){}
 
-    public MemVO(String id, String pw, String birth, String name, String gender, String phone, String email, String status) {
+    public MemVO(String id, String pw, String birth, String name, String gender, String phone, String email, String status, long userIdx) {
         this.id = id;
         this.pw = pw;
         this.birth = birth;
@@ -17,11 +25,11 @@ public class MemVO {
         this.status = status;
     }
 
-    public String getUserIdx() {
+    public long getUserIdx() {
         return userIdx;
     }
 
-    public void setUserIdx(String userIdx) {
+    public void setUserIdx(long userIdx) {
         this.userIdx = userIdx;
     }
 
