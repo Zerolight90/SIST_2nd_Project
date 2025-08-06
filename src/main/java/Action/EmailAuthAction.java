@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
 import java.util.Properties;
-import java.io.IOException; // IOException 명시적으로 임포트
+
 
 public class EmailAuthAction implements Action {
 

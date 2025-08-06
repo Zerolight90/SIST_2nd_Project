@@ -1,11 +1,9 @@
 package Action;
 
 import mybatis.dao.CouponDAO;
-import mybatis.dao.MemberDAO;
 import mybatis.dao.PaymentDAO;
-import mybatis.dao.PointDAO;
 import mybatis.dao.ReservationDAO;
-import mybatis.vo.MemVO;
+import mybatis.vo.MemberVO;
 import mybatis.vo.MyCouponVO;
 import mybatis.vo.PaymentVO;
 import mybatis.vo.ReservationVO;
@@ -31,7 +29,7 @@ public class PaymentConfirmAction implements Action {
         HttpSession session = request.getSession();
 
         // 1. 세션에서 로그인 정보 및 임시 예매 정보 가져오기
-        MemVO mvo = (MemVO) session.getAttribute("loginUser");
+        MemberVO mvo = (MemberVO) session.getAttribute("loginUser");
 
         ReservationVO tempReservation = (ReservationVO) session.getAttribute("reservationInfoForPayment");
 

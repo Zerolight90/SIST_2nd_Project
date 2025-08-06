@@ -1,7 +1,7 @@
 package Action;
 
 import mybatis.dao.MemberDAO;
-import mybatis.vo.MemVO;
+import mybatis.vo.MemberVO;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +21,7 @@ public class LoginAction implements Action {
             return "/join/login.jsp";
         }
 
-        MemVO mvo = MemberDAO.login(u_id, u_pw);
+        MemberVO mvo = MemberDAO.login(u_id, u_pw);
 
         if (mvo != null) {
             HttpSession session = request.getSession();

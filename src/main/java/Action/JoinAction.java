@@ -1,12 +1,12 @@
 package Action;
 
 import mybatis.dao.MemberDAO;
-import mybatis.vo.MemVO;
+import mybatis.vo.MemberVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
+
 
 public class JoinAction implements Action {
     @Override
@@ -60,7 +60,8 @@ public class JoinAction implements Action {
         String phone = request.getParameter("u_phone");
         // 이메일은 이미 위에서 검증되었으므로 그대로 사용
 
-        MemVO mvo = new MemVO();
+        MemberVO mvo = new MemberVO();
+
         mvo.setId(id);
         mvo.setPw(pw);
         mvo.setBirth(formattedBirth);

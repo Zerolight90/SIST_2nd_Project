@@ -60,7 +60,7 @@
                     <a href="javascript:exe()" class="btn login-btn">
                         로그인
                     </a>
-                    <a href="<c:url value="/join/join.jsp"/>" class="btn signup-btn">
+                    <a href="<c:url value="Controller?type=join"/>" class="btn signup-btn">
                         회원가입
                     </a>
                 </div>

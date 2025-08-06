@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
-import java.io.IOException; // IOException 명시적으로 임포트
+
 
 public class EmailAuthVerifyAction implements Action {
 
@@ -16,6 +16,8 @@ public class EmailAuthVerifyAction implements Action {
             HttpSession session = request.getSession();
             String sessionAuthCode = (String) session.getAttribute("emailAuthCode");
             String inputAuthCode = request.getParameter("authCode");
+
+
 //        System.out.println("=========");
 //        System.out.println(sessionAuthCode);
 //        System.out.println(inputAuthCode);

@@ -118,6 +118,21 @@
 
     <script>
         $(function (){
+            if ("${not empty requestScope.errorMsg}" === "true" || "${not empty param.email_auth_key}" === "true") {
+
+                $("#email_auth_key").css("display", "block");
+                $("#email_auth_msg").css("display", "block");
+                if ("${requestScope.errorMsg}" !== "") {
+                    $("#email_auth_msg").text("${requestScope.errorMsg}").css("color", "red");
+                    $("#email_auth_key").addClass("error"); // 오류 시 빨간 테두리
+                } else if ("${not empty param.email_auth_key}" === "true") { // 인증번호만 있을 경우 (성공이거나 아직 확인 전)
+                    // 만약 서버에서 인증 성공 여부도 같이 내려준다면 여기에 초록색 메시지 등 추가 가능
+                    $("#email_auth_msg").text("인증번호를 입력해주세요.").css("color", "red"); // 초기 상태
+                }
+
+            }
+
+
             // 아이디 유효성 검사 및 중복 확인
             $("#u_id").on("keyup", function (){
                 let u_id = $(this).val().trim();
@@ -176,7 +191,6 @@
                 } else {
                     $("#pw_check_msg").text("유효한 비밀번호입니다.").css("color", "green");
                 }
-
 
                 checkPasswordMatch();
             });

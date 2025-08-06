@@ -17,6 +17,6 @@ public class IdCheckAction implements Action {
             request.setAttribute("chk", isDuplicate);
 
 
-        return "/join/idCheck.jsp"; // AJAX 요청은 뷰 페이지로 포워드하지 않으므로 null 반환
+        return "/join/idCheck.jsp";
     }
 }
