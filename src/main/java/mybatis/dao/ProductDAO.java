@@ -13,9 +13,21 @@ public class ProductDAO {
      */
     public static List<ProductVO> getAllProducts() {
         SqlSession ss = FactoryService.getFactory().openSession();
-        List<ProductVO> list = ss.selectList("product.getAllProducts");
+        List<ProductVO> list = ss.selectList("product.getAllProduct");
         ss.close();
         return list;
+    }
+
+    public static ProductVO[] getAllProd(){
+        ProductVO[] ar = null;
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<ProductVO> list = ss.selectList("product.getAllProd");
+        ar = new ProductVO[list.size()];
+        list.toArray(ar);
+
+        ss.close();
+        return ar;
     }
 
     /**

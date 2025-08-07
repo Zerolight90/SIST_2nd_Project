@@ -21,7 +21,7 @@
     </div>
     <div class="leftDiv">
       <p class="bold">상품 관리</p>
-      <div class="leftDivInner"><a href="javascript:prodInfo()">상품 정보 관리</a></div>
+      <div class="leftDivInner"><a href="Controller?type=productInfo">상품 정보 관리</a></div>
     </div>
     <div class="leftDiv">
       <p class="bold">결제 관리</p>

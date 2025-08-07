@@ -3,6 +3,7 @@ package mybatis.dao;
 
 import mybatis.Service.FactoryService;
 import mybatis.vo.MovieVO;
+import mybatis.vo.ReservationVO;
 import mybatis.vo.SeatStatusVO;
 import mybatis.vo.TimeTableVO;
 import org.apache.ibatis.session.SqlSession;
@@ -58,12 +59,12 @@ public class TimeTableDAO {
         return ar;
     }
 
-    public static SeatStatusVO[] getRemainSeat(){
-        SeatStatusVO[] ar2 = null;
+    public static ReservationVO[] getRemainSeat(){
+        ReservationVO[] ar2 = null;
 
         SqlSession ss = FactoryService.getFactory().openSession();
-        List<SeatStatusVO> list = ss.selectList("timeTable.getRemainSeat");
-        ar2 = new SeatStatusVO[list.size()];
+        List<ReservationVO> list = ss.selectList("timeTable.getRemainSeat");
+        ar2 = new ReservationVO[list.size()];
         list.toArray(ar2);
 
         ss.close();

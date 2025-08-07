@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <html id="ajaxArea">
 <head>
     <title>Title</title>
@@ -202,30 +204,25 @@
         <!-- 2. 상단 컨트롤 바 -->
         <div class="control-bar">
             <div class="total-count">
-                전체 <strong>130</strong>건
+                전체 <strong>${fn:length(requestScope.ar)}</strong>건
             </div>
             <form class="search-form" action="#" method="get">
                 <p>가입일 : </p>
                 <p><input type="text" id="datepicker"></p>
-                <select name="user_status">
+                <select name="user_status" id="user_status">
                     <option value="">사용자 상태 선택</option>
                     <option value="active">활성</option>
                     <option value="dormant">탈퇴</option>
                 </select>
-                <select name="user_level">
-                    <option value="">회원 등급 선택</option>
-                    <option value="basic">BASIC</option>
-                    <option value="vip">VIP</option>
-                </select>
-                <select name="search_field">
+                <select name="search_field" id="search_field">
                     <option value="all">검색 대상 선택</option>
                     <option value="name">이름</option>
                     <option value="id">아이디</option>
                     <option value="email">이메일</option>
                 </select>
-                <input type="text" name="search_keyword" placeholder="검색어를 입력해주세요.">
-                <button type="submit" class="btn btn-search">검색</button>
-                <button type="button" class="btn btn-reset">초기화</button>
+                <input type="text" name="search_keyword" placeholder="검색어를 입력해주세요."/>
+                <button type="submit" class="btn btn-search" onclick="adminSearch()">검색</button>
+                <button type="button" class="btn btn-reset" onclick="adminReset()">초기화</button>
             </form>
         </div>
 
@@ -243,35 +240,23 @@
             </tr>
             </thead>
             <tbody>
-            <!-- 예시 데이터 행 (실제로는 DB에서 반복문으로 생성) -->
-            <c:forEach var="vo" items="${requestScope.ar}" varStatus="status">
-                <tr id="userTr">
-                    <td>${vo.userIdx}</td>
-                    <td>${vo.name}</td>
-                    <td>${vo.id}</td>
-                    <td>${vo.email}</td>
-                    <td>${vo.phone}</td>
-                    <td>${vo.totalPoints}</td>
-                    
-                    <c:if test="${vo.status == 0}">
-                        <td><span class="status-badge status-active">활성</span></td>
-                    </c:if>
-                    <c:if test="${vo.status == 1}">
-                        <td><span class="status-badge status-dormant">탈퇴</span></td>
-                    </c:if>
-                </tr>
-            </c:forEach>
-            <%--<tr id="userTr">
-                <td>1</td>
-                <td>정일우</td>
-                <td>abcdff123</td>
-                <td>zuirune@gmail.com</td>
-                <td>010-8967-3903</td>
-                <td>500</td>
-                <td>BASIC</td>
-                <td><span class="status-badge status-active">활성</span></td>
-            </tr>--%>
-            <!-- ... 이하 데이터 생략 ... -->
+                <c:forEach var="vo" items="${requestScope.ar}" varStatus="status">
+                    <tr id="userTr">
+                        <td>${vo.userIdx}</td>
+                        <td>${vo.name}</td>
+                        <td>${vo.id}</td>
+                        <td>${vo.email}</td>
+                        <td>${vo.phone}</td>
+                        <td>${vo.totalPoints}</td>
+
+                        <c:if test="${vo.status == 0}">
+                            <td><span class="status-badge status-active">활성</span></td>
+                        </c:if>
+                        <c:if test="${vo.status == 1}">
+                            <td><span class="status-badge status-dormant">탈퇴</span></td>
+                        </c:if>
+                    </tr>
+                </c:forEach>
             </tbody>
         </table>
 
@@ -333,6 +318,9 @@
                 $("#adminUsersModal").dialog('open');
             });
         });
+
+        function adminSearch() {
+        }
     } );
 </script>
 

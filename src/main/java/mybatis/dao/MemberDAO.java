@@ -48,15 +48,24 @@ public class MemberDAO {
     public static MemberVO[] getMemInfo(){
         MemberVO[] ar = null;
 
-        try {
-            SqlSession ss = FactoryService.getFactory().openSession();
-            List<MemberVO> list = ss.selectList("member.getMemInfo");
-            ar = new MemberVO[list.size()];
-            list.toArray(ar);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<MemberVO> list = ss.selectList("member.getMemInfo");
+        ar = new MemberVO[list.size()];
+        list.toArray(ar);
 
+        ss.close();
+        return ar;
+    }
+
+    public static MemberVO[] getMemByStatus(String status){
+        MemberVO[] ar = null;
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<MemberVO> list = ss.selectList("member.findByStatus", status);
+        ar = new MemberVO[list.size()];
+        list.toArray(ar);
+
+        ss.close();
         return ar;
     }
 

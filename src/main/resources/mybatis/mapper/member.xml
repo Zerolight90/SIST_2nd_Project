@@ -27,6 +27,11 @@
         select * from user
     </select>
 
+    <select id="findByStatus" resultType="mybatis.vo.MemberVO" parameterType="String">
+        select * from user
+        where status = #{status}
+    </select>
+
     <select id="findByIdx" parameterType="long" resultType="mybatis.vo.MemberVO">
         SELECT * FROM user WHERE userIdx = #{userIdx}
     </select>

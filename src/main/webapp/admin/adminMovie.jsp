@@ -231,7 +231,7 @@
         <th>상영시간</th>
         <th>관람등급</th>
         <th>개봉일</th>
-        <th>영화상태</th>
+        <th>관객수</th>
       </tr>
       </thead>
       <tbody>
@@ -241,8 +241,17 @@
             <td>${vo.mIdx}</td>
             <td>${vo.name}</td>
             <td>${vo.dir}</td>
-            <td>${vo.gen}</td>
-            <td>${vo.age}</td>
+            <td>${vo.runtime}</td>
+
+            <c:choose>
+              <c:when test="${vo.age == '12' || vo.age == '15' || vo.age == '19'}">
+                <td>${vo.age}세 이용가</td>
+              </c:when>
+              <c:otherwise>
+                <td>${vo.age}</td>
+              </c:otherwise>
+            </c:choose>
+
             <td>${vo.date}</td>
             <td>${vo.audNum}</td>
           </tr>
