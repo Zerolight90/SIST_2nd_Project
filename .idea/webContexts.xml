@@ -5,6 +5,7 @@
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/webapp/1all_theater.html" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin/adminBase.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/allmovie/allmovie.jsp" value="file://$PROJECT_DIR$/src/main/webapp/allmovie" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/index.html" value="file://$PROJECT_DIR$/target/SIST_2nd_Project-1.0-SNAPSHOT" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/join/join.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/sub_menu.jsp" value="file://$PROJECT_DIR$/target/SIST_2nd_Project-1.0-SNAPSHOT" />

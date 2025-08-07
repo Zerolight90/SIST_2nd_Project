@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mypage.css">
 </head>
 <body>
+
 <h2 class="content-title">예매/구매 내역</h2>
 
 <div class="filter-area">

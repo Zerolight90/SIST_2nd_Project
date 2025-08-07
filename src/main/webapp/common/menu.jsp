@@ -70,9 +70,9 @@
     <div class="nav-center">
         <ul class="l_main">
             <li class="main-item has-submenu">
-                <a href="<c:url value="/allmovie/allmovie.jsp"/>">영화</a>
+                <a href="<c:url value='/Controller?type=allmovie'/>">영화</a>
                 <ul class="submenu">
-                    <li><a href="<c:url value="/allmovie/allmovie.jsp"/>">전체 영화</a></li>
+                    <li><a href="<c:url value='/Controller?type=allmovie'/>">전체 영화</a></li>
                 </ul>
             </li>
             <li class="main-item has-submenu">

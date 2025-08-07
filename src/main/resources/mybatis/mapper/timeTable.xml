@@ -39,7 +39,7 @@
     </select>
 
     <select id="getTimetableList" resultType="mybatis.vo.TimeTableVO">
-        select m.name, t.timeTableIdx, t.timeTableStartTime, t.timeTableEndTime, r.tName, s.sName, s.sSeatCount
+        select m.name, t.timeTableIdx, t.StartTime, t.EndTime, r.tName, s.sName, s.sSeatCount
         from time_table t
         inner join movie m ON m.mIdx = t.mIdx
         inner join theater r ON r.tIdx = t.tIdx

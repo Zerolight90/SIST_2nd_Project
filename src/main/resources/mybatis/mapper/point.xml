@@ -10,15 +10,20 @@
         WHERE userIdx = #{userIdx} AND totalPoints >= #{pointsToUse}
     </update>
 
-    <insert id="insertPointHistory" parameterType="mybatis.vo.PointVO">
-        INSERT INTO point (userIdx, paymentIdx, transactionType, amount, description, transactionDate)
-        VALUES (#{userIdx}, #{paymentIdx}, #{transactionType}, #{amount}, #{description}, NOW())
-    </insert>
-
     <select id="getHistory" parameterType="long" resultType="mybatis.vo.PointVO">
         SELECT * FROM point
         WHERE userIdx = #{userIdx}
         ORDER BY transactionDate DESC
     </select>
 
+    <insert id="insertPointHistory" parameterType="mybatis.vo.PointVO">
+        INSERT INTO point (userIdx, paymentIdx, transactionType, amount, description, transactionDate)
+        VALUES (#{userIdx}, #{paymentIdx}, #{transactionType}, #{amount}, #{description}, NOW())
+    </insert>
+
+    <update id="decreaseUserPoints" parameterType="java.util.Map">
+        UPDATE user
+        SET totalPoints = totalPoints - #{pointsToUse}
+        WHERE userIdx = #{userIdx}
+          AND totalPoints >= #{pointsToUse} </update>
 </mapper>

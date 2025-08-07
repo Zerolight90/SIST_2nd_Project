@@ -239,8 +239,8 @@
             <td>${vo.sName}</td>
             <td>${vo.name}</td>
             <td>2025-08-01</td>
-            <td>${vo.timeTableStartTime}</td>
-            <td>${vo.timeTableEndTime}</td>
+            <td>${vo.StartTime}</td>
+            <td>${vo.EndTime}</td>
             <td>${vo.sSeatCount - fn:length(vo2)} / ${vo.sSeatCount}</td>
           </tr>
         </c:forEach>

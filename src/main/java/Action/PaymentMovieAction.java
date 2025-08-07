@@ -61,7 +61,7 @@ public class PaymentMovieAction implements Action {
             }
 
             // 사용자의 포인트 정보를 포함한 전체 회원 정보 조회
-            MemberVO memberInfo = MemberDAO.getMemberByIdx(Long.parseLong(userIdx)); // [수정]
+            MemberVO memberInfo = MemberDAO.getMemberByIdx(Long.parseLong(userIdx));
 
             // 조회된 모든 정보를 request 객체에 저장
             request.setAttribute("reservationInfo", reservation);

@@ -12,7 +12,7 @@
             'images/movie_poster_default.jpg' AS posterUrl,
             th.tName AS theaterName,
             s.sName AS screenName,
-            tt.timeTableStartTime AS startTime,
+            tt.StartTime AS startTime,
             '확인된 좌석 정보' AS seatInfo,
             15000 AS finalAmount
         FROM
@@ -51,7 +51,7 @@
             p.paymentDate,
             m.name AS movieTitle,
             t.tName AS theaterInfo,
-            tt.timeTableStartTime AS screenDate
+            tt.StartTime AS screenDate
         FROM reservation r
                  JOIN payment p ON r.reservIdx = p.reservIdx
                  JOIN time_table tt ON r.timeTableIdx = tt.timeTableIdx
