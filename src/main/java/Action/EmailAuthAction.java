@@ -1,5 +1,6 @@
 package Action;
 
+import util.ConfigUtil;
 import util.EmailSend.EmailAuthUtil;
 import javax.mail.*;
 import javax.mail.internet.*;
@@ -61,7 +62,7 @@ public class EmailAuthAction implements Action {
         try {
             String host = "smtp.gmail.com";
             String from = "ant7773@gmail.com";
-            String password = "jsudqrxxycbqtojx";
+            String password = ConfigUtil.getProperty("gmail.app.password");
 
             Properties props = new Properties();
             props.put("mail.smtp.host", host);

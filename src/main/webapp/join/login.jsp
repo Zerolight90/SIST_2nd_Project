@@ -22,8 +22,16 @@
         </script>
     </c:if>
 
+        <%
+            if (session.getAttribute("mvo") != null || session.getAttribute("kvo") != null) {
+                response.sendRedirect("/index.jsp");
+                return;
+            }
+        %>
 
-    <c:if test="${empty sessionScope.mvo}">
+
+
+        <c:if test="${empty sessionScope.mvo}">
         <div id="log_fail" class="show">
             <h2>로그인</h2>
             <c:if test="${loginError != null and loginError == true}">
@@ -67,11 +75,15 @@
                 <div class="sns-login-section">
                     <p class="sns-login-title">- 또는 SNS 계정으로 로그인 -</p>
                     <div class="button-group sns-buttons">
-                        <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=062a60d2c107a7fcc160911d7057055b&redirect_uri=http://localhost:8080/Controller?type=kakaoLogin&response_type=code&prompt=select_account" class="sns-btn kakao">
-                            <img src="../images/sns/sns_kakao_logo.png" alt="카카오 로그인"></a>
+                        <a href="https://kauth.kakao.com/oauth/authorize?client_id=${kakaoApiKey}&redirect_uri=${kakaoRedirectUri}&response_type=code&prompt=select_account" class="sns-btn kakao">
+                            <img src="../images/sns/sns_kakao_logo.png" alt="카카오 로그인">
+                        </a>
+
                         <a href="#" class="sns-btn naver"><img src="../images/sns/sns_naver_logo.png" alt="네이버 로그인"></a>
                         <!--                    <a href="#" class="sns-btn google"><img src="../images/sns_google.png" alt="구글 로그인"></a>-->
                     </div>
+
+                    <a class="sns-login-title">-ID/PW 찾기-</a>
                 </div>
 
             </form>
