@@ -3,7 +3,7 @@ package mybatis.vo;
 import java.util.List;
 
 public class TimeTableVO {
-    private String timeTableIdx, tIdx, mIdx, sIdx, timeTableStartTime, timeTableEndTime, status;
+    private String timeTableIdx, tIdx, mIdx, sIdx, StartTime, EndTime, status;
 
     private String name;
     private String tName;
@@ -84,20 +84,20 @@ public class TimeTableVO {
         this.sIdx = sIdx;
     }
 
-    public String getTimeTableStartTime() {
-        return timeTableStartTime;
+    public String getStartTime() {
+        return StartTime;
     }
 
-    public void setTimeTableStartTime(String timeTableStartTime) {
-        this.timeTableStartTime = timeTableStartTime;
+    public void setStartTime(String startTime) {
+        StartTime = startTime;
     }
 
-    public String getTimeTableEndTime() {
-        return timeTableEndTime;
+    public String getEndTime() {
+        return EndTime;
     }
 
-    public void setTimeTableEndTime(String timeTableEndTime) {
-        this.timeTableEndTime = timeTableEndTime;
+    public void setEndTime(String endTime) {
+        EndTime = endTime;
     }
 
     public String getStatus() {

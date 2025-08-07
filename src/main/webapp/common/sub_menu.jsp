@@ -21,15 +21,13 @@
             <li><a href="#" class="vip-lounge">VIP LOUNGE</a></li>
             <li><a href="#" class="membership">멤버십</a></li>
             <li><a href="#" class="customer-center">고객센터</a></li>
-            <li><a href="#" class="admin_page">관리자</a></li> <!--로그인 할때만 표현됨-->
         </ul>
 
-
-        <c:if test="${empty sessionScope.mvo}">
+        <c:if test="${empty sessionScope.mvo && empty sessionScope.kvo}">
             <ul class="nav-r_top">
-                <li><a href="<c:url value="Controller?type=login"/>" class="login">로그인</a></li>
-                <li><a href="<c:url value="Controller?type=join"/>" class="signup">회원가입</a></li>
-                <li><a href="#" class="quick-booking">빠른예매</a></li>
+                <li><a href="<c:url value="/Controller?type=login"/>" class="login">로그인</a></li>
+                <li><a href="<c:url value="/Controller?type=join"/>" class="signup">회원가입</a></li>
+                <li><a href="<c:url value="/Controller?type=booking"/>" class="quick-booking">빠른예매</a></li>
             </ul>
         </c:if>
 
@@ -37,8 +35,19 @@
             <%-- 로그인 상태일 때 표시될 메뉴 --%>
             <ul class="nav-r_top" id="log_suc">
                     <%-- 세션에 저장된 mvo 객체에서 사용자 이름을 가져와 출력합니다. --%>
-                <li><a href="#">(${sessionScope.mvo.name})님 환영합니다</a></li>
+                <li><a href="<c:url value="/mypage/myPage.jsp"/>">(${sessionScope.mvo.name})님 환영합니다</a></li>
                 <li><a href="<c:url value="/join/logout.jsp"/>" class="btn">로그아웃</a></li>
+                <li><a href="#" class="quick-booking">빠른예매</a></li>
+            </ul>
+        </c:if>
+
+
+        <c:if test="${not empty sessionScope.kvo}">
+            <%-- 로그인 상태일 때 표시될 메뉴 --%>
+            <ul class="nav-r_top" id="log_suc">
+                    <%-- 세션에 저장된 mvo 객체에서 사용자 이름을 가져와 출력합니다. --%>
+                <li><a href="<c:url value="/mypage/myPage.jsp"/>">(${sessionScope.kvo.k_name})님 환영합니다</a></li>
+                <li><a href="<c:url value="/Controller?type=kakaoLogout"/>" class="btn">로그아웃</a></li>
                 <li><a href="#" class="quick-booking">빠른예매</a></li>
             </ul>
         </c:if>
@@ -77,9 +86,9 @@
                 </ul>
             </li>
             <li class="main-item has-submenu">
-                <a href="<c:url value="/booking.jsp"/>">예매</a>
+                <a href="<c:url value="/Controller?type=booking"/>">예매</a>
                 <ul class="submenu">
-                    <li><a href="<c:url value="/booking.jsp"/>">빠른예매</a></li>
+                    <li><a href="<c:url value="/Controller?type=booking"/>">빠른예매</a></li>
                     <li><a href="#">상영시간표</a></li>
                     <li><a href="#">더 부티크 프라이빗 예매</a></li>
                 </ul>
@@ -124,8 +133,6 @@
                     $('.submenu-bg').css('display', 'none');
                 });
             });
-
-
         </script>
     </div>
 </div>
