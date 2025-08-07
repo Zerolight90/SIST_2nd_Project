@@ -10,7 +10,15 @@ public class TimeTableVO {
     private String sName, sSeatCount;
     private String seatStatus, seatStatusIdx;
 
-    private ReservationVO vo;
+    private int reservationCount;
+
+    public int getReservationCount() {
+        return reservationCount;
+    }
+
+    public void setReservationCount(int reservationCount) {
+        this.reservationCount = reservationCount;
+    }
 
     public String getDate() {
         return date;

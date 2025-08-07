@@ -9,7 +9,7 @@ public class StoreAction implements Action{
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
 
-        return "store.jsp";
+        return "store/store.jsp";
     }
 
 }

@@ -59,12 +59,12 @@ public class TimeTableDAO {
         return ar;
     }
 
-    public static ReservationVO[] getRemainSeat(){
-        ReservationVO[] ar2 = null;
+    public static TimeTableVO[] getRemainSeat(){
+        TimeTableVO[] ar2 = null;
 
         SqlSession ss = FactoryService.getFactory().openSession();
-        List<ReservationVO> list = ss.selectList("timeTable.getRemainSeat");
-        ar2 = new ReservationVO[list.size()];
+        List<TimeTableVO> list = ss.selectList("timeTable.getRemainSeat");
+        ar2 = new TimeTableVO[list.size()];
         list.toArray(ar2);
 
         ss.close();

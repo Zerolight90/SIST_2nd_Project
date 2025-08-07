@@ -211,8 +211,8 @@
                 <p><input type="text" id="datepicker"></p>
                 <select name="user_status" id="user_status">
                     <option value="">사용자 상태 선택</option>
-                    <option value="active">활성</option>
-                    <option value="dormant">탈퇴</option>
+                    <option value="0">활성</option>
+                    <option value="1">탈퇴</option>
                 </select>
                 <select name="search_field" id="search_field">
                     <option value="all">검색 대상 선택</option>
@@ -318,10 +318,25 @@
                 $("#adminUsersModal").dialog('open');
             });
         });
-
-        function adminSearch() {
-        }
     } );
+
+    $(".btn-search").onclick(function () {
+        adminSearch();
+    })
+</script>
+<script>
+    function adminSearch() {
+        let formdata = $(".search-form").serialize();
+
+        $.ajax({
+            url: "Controller?type=userSearch",
+            type: "post",
+            data: formdata,
+            dataType: "html",
+        }).done(function (response) {
+            $(".member-table tbody").html(response);
+        })
+    }
 </script>
 
 </body>

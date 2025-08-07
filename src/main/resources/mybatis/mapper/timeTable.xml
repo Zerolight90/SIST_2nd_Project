@@ -39,15 +39,30 @@
     </select>
 
     <select id="getTimetableList" resultType="mybatis.vo.TimeTableVO">
-        select m.name, t.timeTableIdx, t.startTime, t.endTime, t.date, r.tName, s.sName, s.sSeatCount
+        select m.name, t.timeTableIdx, t.startTime, t.endTime, t.date, r.tName, s.sName, s.sSeatCount,
+        (SELECT COUNT(*) FROM reservation res WHERE res.timeTableIdx = t.timeTableIdx) AS reservationCount
         from time_table t
         inner join movie m ON m.mIdx = t.mIdx
         inner join theater r ON r.tIdx = t.tIdx
         inner join screen s ON s.sIdx = t.sIdx
     </select>
-    <select id="getRemainSeat" resultType="mybatis.vo.ReservationVO">
+    <!--<select id="getRemainSeat" resultType="mybatis.vo.ReservationVO">
         select * from reservation r
         inner join time_table t ON r.timeTableIdx = t.timeTableIdx
-    </select>
+    </select>-->
 
+    <select id="getRemainSeat" resultType="mybatis.vo.TimeTableVO">
+        SELECT
+        tt.timeTableIdx,
+        tt.startTime,
+        COUNT(r.reservIdx) AS reservationCount
+        FROM
+        time_table tt
+        LEFT JOIN
+        reservation r ON tt.timeTableIdx = r.timeTableIdx
+        GROUP BY
+        tt.timeTableIdx, tt.startTime
+        ORDER BY
+        tt.startTime
+    </select>
 </mapper>

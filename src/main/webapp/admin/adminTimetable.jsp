@@ -241,7 +241,7 @@
             <td>${vo.date}</td>
             <td>${vo.startTime}</td>
             <td>${vo.endTime}</td>
-            <td>${vo.sSeatCount - fn:length(vo2)} / ${vo.sSeatCount}</td>
+            <td>${vo.sSeatCount - vo.reservationCount} / ${vo.sSeatCount}</td>
           </tr>
         </c:forEach>
       </tbody>

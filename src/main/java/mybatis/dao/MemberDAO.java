@@ -57,11 +57,11 @@ public class MemberDAO {
         return ar;
     }
 
-    public static MemberVO[] getMemByStatus(String status){
+    public static MemberVO[] getMemSearch(String status, String field, String keyword){
         MemberVO[] ar = null;
 
         SqlSession ss = FactoryService.getFactory().openSession();
-        List<MemberVO> list = ss.selectList("member.findByStatus", status);
+        List<MemberVO> list = ss.selectList("member.getMemSearch", status);
         ar = new MemberVO[list.size()];
         list.toArray(ar);
 

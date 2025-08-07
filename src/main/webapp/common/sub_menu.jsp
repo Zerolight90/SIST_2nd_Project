@@ -27,8 +27,8 @@
 
         <c:if test="${empty sessionScope.mvo}">
             <ul class="nav-r_top">
-                <li><a href="<c:url value="Controller?type=login"/>" class="login">로그인</a></li>
-                <li><a href="<c:url value="Controller?type=join"/>" class="signup">회원가입</a></li>
+                <li><a href="<c:url value="/Controller?type=login"/>" class="login">로그인</a></li>
+                <li><a href="<c:url value="/Controller?type=join"/>" class="signup">회원가입</a></li>
                 <li><a href="#" class="quick-booking">빠른예매</a></li>
             </ul>
         </c:if>

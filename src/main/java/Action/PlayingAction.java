@@ -14,11 +14,11 @@ public class PlayingAction implements Action{
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         TimeTableVO[] ar = TimeTableDAO.getTimetableList();
-        ReservationVO[] ar2 = TimeTableDAO.getRemainSeat();
+        /*TimeTableVO[] ar2 = TimeTableDAO.getRemainSeat();*/
 
         request.setAttribute("ar", ar);
-        request.setAttribute("ar2", ar2);
-        System.out.println(ar2.length);
+        /*request.setAttribute("ar2", ar2);
+        System.out.println(ar2.length);*/
 
         return "admin/adminTimetable.jsp";
     }

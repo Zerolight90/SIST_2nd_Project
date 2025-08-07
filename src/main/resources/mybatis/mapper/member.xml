@@ -27,7 +27,7 @@
         select * from user
     </select>
 
-    <select id="findByStatus" resultType="mybatis.vo.MemberVO" parameterType="String">
+    <select id="getMemSearch" resultType="mybatis.vo.MemberVO" parameterType="String">
         select * from user
         where status = #{status}
     </select>
