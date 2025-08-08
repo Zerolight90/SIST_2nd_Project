@@ -24,6 +24,13 @@
         <h1 class="title">빠른예매</h1>
     </div>
 
+    <c:set var="time" value="${requestScope.time}" scope="page"/> <!--상영정보-->
+    <c:set var="theater" value="${requestScope.theater}" scope="page"/> <!--영화관-->
+    <c:set var="movie" value="${requestScope.movie}" scope="page"/> <!--영화-->
+    <c:set var="screen" value="${requestScope.screen}" scope="page"/> <!--상영관-->
+    <c:set var="type" value="${requestScope.typeVO}" scope="page"/> <!-- 현재 상영관의 type에 가격 -->
+    <c:set var="price" value="${requestScope.price}" scope="page"/> <!-- 현재 상영관의 type에 가격 -->
+
     <!-- 변수 생성 -->
     <div class="booking-section">
         <div class="seat-area">
@@ -31,36 +38,36 @@
                 <div class="control-group">
                     <label>성인</label>
                     <div class="counter">
-                        <button onclick="changeCount('adult', -1)">-</button>
+                        <button onclick="changeCount('adult-count', -1)">-</button>
                         <span id="adult-count">0</span>
-                        <button onclick="changeCount('adult', 1)">+</button>
+                        <button onclick="changeCount('adult-count', 1)">+</button>
                     </div>
                 </div>
 
                 <div class="control-group">
                     <label>청소년</label>
                     <div class="counter">
-                        <button onclick="changeCount('teen', -1)">-</button>
+                        <button onclick="changeCount('teen-count', -1)">-</button>
                         <span id="teen-count">0</span>
-                        <button onclick="changeCount('teen', 1)">+</button>
+                        <button onclick="changeCount('teen-count', 1)">+</button>
                     </div>
                 </div>
 
                 <div class="control-group">
                     <label>경로</label>
                     <div class="counter">
-                        <button onclick="changeCount('senior', -1)">-</button>
+                        <button onclick="changeCount('senior-count', -1)">-</button>
                         <span id="senior-count">0</span>
-                        <button onclick="changeCount('senior', 1)">+</button>
+                        <button onclick="changeCount('senior-count', 1)">+</button>
                     </div>
                 </div>
 
                 <div class="control-group">
                     <label>우대</label>
                     <div class="counter">
-                        <button onclick="changeCount('special', -1)">-</button>
+                        <button onclick="changeCount('special-count', -1)">-</button>
                         <span id="special-count">0</span>
-                        <button onclick="changeCount('special', 1)">+</button>
+                        <button onclick="changeCount('special-count', 1)">+</button>
                     </div>
                 </div>
 
@@ -72,9 +79,18 @@
                 <div><img src="https://www.megabox.co.kr/static/pc/images/reserve/img-theater-screen.png" alt="스크린 이미지"></div>
             </div>
 
-            <div class="seat-map" id="seat-map">
-                <!-- 좌석은 JavaScript로 동적 생성 -->
-            </div>
+            <c:set var="alphabet" value="ZABCDEFGHIJKLMNOPQRSTUVWXY"/>
+
+            <c:forEach var="row" begin="1" end="${screen.sRow}" varStatus="i">
+                <c:forEach var="col" begin="1" end="${screen.sColumn}" varStatus="j">
+                    <button class="seat-item"
+                            data-seat="${fn:substring(alphabet, i.index, i.index+1)}${j.count}"
+                            onclick="selectSeat(this)">
+                            ${fn:substring(alphabet, i.index, i.index+1)}${j.count}
+                    </button>
+                </c:forEach>
+                <br/>
+            </c:forEach>
 
             <div class="legend">
                 <div class="legend-item">
@@ -92,11 +108,6 @@
             </div>
         </div>
 
-        <c:set var="time" value="${requestScope.time}" scope="page"/> <!--상영정보-->
-        <c:set var="theater" value="${requestScope.theater}" scope="page"/> <!--영화관-->
-        <c:set var="movie" value="${requestScope.movie}" scope="page"/> <!--영화-->
-        <c:set var="screen" value="${requestScope.screen}" scope="page"/> <!--상영관-->
-
         <div class="info-panel">
             <div class="movie-poster">
                 <div class="poster-img">${movie.name}<br>${movie.age}</div>
@@ -104,7 +115,7 @@
             <div class="movie-info">
                 <div class="movie-title">${movie.name}</div>
                 <div class="movie-details">
-                    상영관: ${screen.sName}<br>
+                    상영관: ${screen.sName}${screen.screenCode}<br>
                     ${time.startTime}<br>
                     ${time.endTime}
                 </div>
@@ -129,262 +140,180 @@
     </div>
 </div>
 
+<!-- 단순히 최소한의 정보만 던져도 되지만 나중에 표현될 정보가 추가될 가능성이 있으니 객체를 던짐 -->
+<div style="display: none">
+    <form name="ff">
+        <!-- 가격 정보 -->
+        <input type="hidden" name="teenPrice" id="teenPrice" value="${price.teen}">
+        <input type="hidden" name="elderPrice" id="elderPrice" value="${price.elder}">
+        <input type="hidden" name="dayPrice" id="dayPrice" value="${price.day}">
+        <input type="hidden" name="weekPrice" id="weekPrice" value="${price.week}">
+        <input type="hidden" name="morningPrice" id="morningPrice" value="${price.morning}">
+        <input type="hidden" name="normalPrice" id="normalPrice" value="${price.normal}">
+
+        <input type="hidden" name="time" value="${time.startTime}">
+        <input type="hidden" name="theater" value="${theater.tName}">
+        <input type="hidden" name="movie" value="${movie.title}">
+        <input type="hidden" name="movie" value="${movie.poster}">
+        <input type="hidden" name="screen" value="${screen.sName}">
+        <input type="hidden" name="typePrice" value="${type.codeType}"> <!-- 코드타입의 가격 보냄 -->
+        <input type="hidden" name="seat" value=""> <!-- 스크립트에서 value에 담아서 보냄 -->
+        <input type="hidden" name="amount" value=""> <!-- 스크립트에서 value에 담아서 보냄 -->
+    </form>
+</div>
+
 <script>
-    function goPay() {
-        location.href = "Controller?type=paymentMovie";
-    }
+    // 가격 설정
+    let teenPrice = Number(document.getElementById('teenPrice').value);
+    let specialPrice = Number(document.getElementById('elderPrice').value); // 노인과 취약계층 가격 동일
+    let dayPrice = Number(document.getElementById('dayPrice').value);
+    let weekPrice = Number(document.getElementById('weekPrice').value);
+    let morningPrice = Number(document.getElementById('morningPrice').value);
+    let normalPrice = Number(document.getElementById('normalPrice').value); // 성인과 낮의 가격 동일
+
     // 값을 사용하기 위한 멤버변수 선언
     let adult = document.getElementById('adult-count');
     let teen = document.getElementById('teen-count');
     let senior = document.getElementById('senior-count');
     let special = document.getElementById('special-count');
 
-    // 좌석 데이터
-    const seatData = {
-        adult: 0,
-        teen: 0,
-        senior: 0,
-        special: 0
-    };
+    let seat_list = [];
+    let total_price = 0;
 
-    const prices = {
-        adult: 14000,
-        teen: 11000,
-        senior: 7000,
-        special: 5000
-    };
-
-    let selectedSeats = [];
     let totalPersons = 0;
 
-    // 좌석 맵 생성
-    function createSeatMap() {
-        const seatMap = document.getElementById('seat-map');
-        const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-        const seatsPerRow = [4, 6, 8, 8, 8, 8, 8, 6]; // 각 행별 좌석 수
-        const occupiedSeats = ['C3', 'C6', 'D5', 'F7', 'G2', 'G8']; // 이미 선택된 좌석
+    // 사용자가 선택한 좌석들은 배열에 저장되어 있다
 
-        seatMap.innerHTML = '';
 
-        rows.forEach((row, rowIndex) => {
-            const seatRow = document.createElement('div');
-            seatRow.className = 'seat-row';
+    function goPay() {
+        document.ff.seat.value = seat_list.join(', ');
+        document.ff.amount.value = total_price;
+        document.ff.action = "Controller?type=paymentMovie"
 
-            const rowLabel = document.createElement('div');
-            rowLabel.className = 'row-label';
-            rowLabel.textContent = row;
-            seatRow.appendChild(rowLabel);
+        // console.log(document.ff.seat.value)
+        // console.log(document.ff.amount.value)
 
-            const seatCount = seatsPerRow[rowIndex];
-            const maxSeats = 8;
-            const emptySeats = (maxSeats - seatCount) / 2;
-
-// 왼쪽 여백
-            for (let i = 0; i < emptySeats; i++) {
-                const emptySeat = document.createElement('div');
-                emptySeat.className = 'seat disabled';
-                seatRow.appendChild(emptySeat);
-            }
-
-// 실제 좌석
-            for (let i = 1; i <= seatCount; i++) {
-                const seat = document.createElement('button');
-                seat.className = 'seat';
-                seat.textContent = i;
-                seat.dataset.seatId = `${row}${i}`;
-
-                if (occupiedSeats.includes(`${row}${i}`)) {
-                    seat.className += ' occupied';
-                    seat.disabled = true;
-                } else {
-                    seat.onclick = () => selectSeat(seat);
-                }
-
-                seatRow.appendChild(seat);
-
-// 중간 통로
-                if (seatCount > 4 && i === Math.floor(seatCount / 2)) {
-                    const aisle = document.createElement('div');
-                    aisle.className = 'aisle';
-                    seatRow.appendChild(aisle);
-                }
-            }
-
-// 오른쪽 여백
-            for (let i = 0; i < emptySeats; i++) {
-                const emptySeat = document.createElement('div');
-                emptySeat.className = 'seat disabled';
-                seatRow.appendChild(emptySeat);
-            }
-
-            seatMap.appendChild(seatRow);
-        });
+        document.ff.submit();
     }
 
     // 인원 수 변경
-    function changeCount(type, delta) { <!-- 만약 adult, 1 이 들어오면 -->
-        const currentCount = seatData[type]; <!-- seat[type]의  -->
-        const newCount = Math.max(0, Math.min(8, currentCount + delta));
+    function changeCount(type, int) {
+        // console.log("normalPrice:", normalPrice);
+        // console.log("teenPrice:", teenPrice);
+        // console.log("specialPrice:", specialPrice);
+        let element = document.getElementById(type);
+        let currentCount = parseInt(element.innerText);
+        let newCount = currentCount + int;
 
-        seatData[type] = newCount;
+        // 보이는 숫자가 0이면 연산해도 돌아감
+        if(newCount < 0) newCount = 0;
 
-// DOM 요소를 확실하게 찾아서 업데이트
-        if(type == 'adult')
-            adult.innerText = newCount;
-        if(type == 'teen')
-            teen.innerText = newCount;
-        if(type == 'senior')
-            senior.innerText = newCount;
-        if(type == 'special')
-            special.innerText = newCount;
-
-        <%--const countElement = document.getElementById(`${type}-count`);--%>
-        <%--if (countElement) {--%>
-        <%--    countElement.innerHTML = newCount;--%>
-        <%--    countElement.innerText = newCount;--%>
+        element.innerText = newCount;
         updateTotalPersons();
-        updatePrice();
     }
 
     // 총 인원 수 업데이트
     function updateTotalPersons() {
-        totalPersons = Number(adult.innerText) + Number(teen.innerText) + Number(senior.innerText) + Number(special.innerText); // 사용자가 추가한 모든 인원의 총 합을 totalPersons 에 담음
+        let adult_num = Number(adult.innerText);
+        let teen_num = Number(teen.innerText);
+        let senior_num = Number(senior.innerText);
+        let special_num = Number(special.innerText);
+
+        totalPersons = adult_num + teen_num + senior_num + special_num;
         let tperson = document.getElementById('total_person');
-        tperson.innerText = '총 인원:' + totalPersons;
+        tperson.innerText = '총 인원: ' + totalPersons;
 
-// 선택된 좌석이 총 인원보다 많으면 초과분 제거
-        if (selectedSeats.length > totalPersons) {
-            const excessSeats = selectedSeats.slice(totalPersons);
-            excessSeats.forEach(seatId => {
-                const seat = document.querySelector(`[data-seat-id="${seatId}"]`);
-                if (seat) {
-                    seat.classList.remove('selected');
-                }
-            });
-            selectedSeats = selectedSeats.slice(0, totalPersons);
-            updateSelectedSeatsDisplay();
+        // 가격 계산
+        total_price = 0;
+        if (adult_num > 0) {
+            total_price += adult_num * normalPrice;
         }
+        if (teen_num > 0) {
+            total_price += teen_num * teenPrice;
+        }
+        if (senior_num > 0) {
+            total_price += senior_num * specialPrice;
+        }
+        if(special_num > 0) {
+            total_price += special_num * specialPrice;
+        }
+
+        document.getElementById("total-price").innerText = total_price + " 원";
     }
 
-    // 좌석 선택
+    // 좌석 버튼 클릭 시 색이 바뀌는 부분
     function selectSeat(seat) {
-        const seatId = seat.dataset.seatId;
+        // 현재 선택된 모든 좌석의 개수를 세기
+        let selectedSeats = document.querySelectorAll('.seat-item[style*="background-color: rgb(0, 123, 255)"], .seat-item[style*="background: rgb(0, 123, 255)"]');
+        let currentSelectedCount = selectedSeats.length;
 
-        if (seat.classList.contains('selected')) {
-// 좌석 선택 해제
-            seat.classList.remove('selected');
-            selectedSeats = selectedSeats.filter(id => id !== seatId);
+        // 클릭한 좌석이 이미 선택된 상태인지 확인
+        let isAlreadySelected = seat.style.backgroundColor === 'rgb(0, 123, 255)' || seat.style.backgroundColor === '#007bff';
+
+        if (isAlreadySelected) {
+            // 이미 선택된 좌석을 다시 클릭하면 선택 취소
+            seat.style.backgroundColor = '#ccc';
+            seat.style.borderColor = '#ddd';
         } else {
-            // 좌석 선택
-            if (selectedSeats.length < totalPersons) {
-                seat.classList.add('selected');
-                selectedSeats.push(seatId);
-            } else {
-                alert('최대' + totalPersons + '개의 좌석만 선택할 수 있습니다.');
-                return;
+            // 새로운 좌석을 선택하려는 경우
+            // 현재 선택된 좌석 수가 총 인원 수와 같거나 많은지 확인
+            if (currentSelectedCount >= totalPersons) {
+                alert("총 인원(" + totalPersons + "명)보다 많은 좌석을 선택할 수 없습니다.");
+                return; // 함수 종료, 좌석 선택하지 않음
             }
+
+            // 좌석 선택 (색상 변경)
+            seat.style.backgroundColor = '#007bff';
+            seat.style.borderColor = '#0056b3';
+
+            // 좌석을 선택하면 총 금액도 변해야 함
+
         }
 
+        // 선택된 좌석 표시 업데이트 (필요한 경우)
         updateSelectedSeatsDisplay();
-        updatePrice();
     }
+
+    // 선택된 좌석 표시를 업데이트하는 함수 (선택사항)
+    function updateSelectedSeatsDisplay() {
+        let selectedSeats = document.querySelectorAll('.seat-item[style*="background-color: rgb(0, 123, 255)"], .seat-item[style*="background: rgb(0, 123, 255)"]');
+        seat_list = [];
+
+        selectedSeats.forEach(seat => {
+            seat_list.push(seat.getAttribute('data-seat'));
+        });
+
+        let display = document.getElementById('selected-seats-display');
+        if (seat_list.length > 0) {
+            display.innerText = selectedSeats.length;
+            // console.log(seat_list);
+        } else {
+            display.innerText = '-';
+        }
+    }
+
+    // 선택된 좌석이 총 인원보다 많으면 초과분 제거
+
+
 
     // 선택된 좌석 표시 업데이트
-    function updateSelectedSeatsDisplay() {
-        const display = document.getElementById('selected-seats-display');
-        if (display) {
-            if (selectedSeats.length === 0) {
-                display.innerHTML = '-';
-                display.innerText = '-';
-            } else {
-                const seatsText = selectedSeats.sort().join(', ');
-                display.innerHTML = seatsText;
-                display.innerText = seatsText;
-            }
-        }
-    }
 
     // 가격 업데이트
-    function updatePrice() {
-        let totalPrice = 0;
-
-// 선택된 좌석이 있을 때만 가격 계산
-        if (selectedSeats.length > 0) {
-// 티켓 타입별로 가격 계산 (선택된 좌석 수만큼)
-            const seatCount = selectedSeats.length;
-            let remainingSeats = seatCount;
-
-// 우선순위: 성인 > 청소년 > 경로 > 우대
-            if (seatData.adult > 0) {
-                const adultSeats = Math.min(seatData.adult, remainingSeats);
-                totalPrice += adultSeats * prices.adult;
-                remainingSeats -= adultSeats;
+    function updateTotalPrice() {
+        // seat_list를 돌면서 안에 있는 글자들의 첫번째 글자를 가져옴
+        for (let i = 0; i < seat_list.length; i++) {
+            let seat = seat_list[i];
+            let seat_type = seat.charAt(0);
+            // 만약 A 열이라면 총 가격에서 -1000
+            if(seat_type === 'A') {
+                total_price = total_price - 1000;
             }
-
-            if (seatData.teen > 0 && remainingSeats > 0) {
-                const teenSeats = Math.min(seatData.teen, remainingSeats);
-                totalPrice += teenSeats * prices.teen;
-                remainingSeats -= teenSeats;
-            }
-
-            if (seatData.senior > 0 && remainingSeats > 0) {
-                const seniorSeats = Math.min(seatData.senior, remainingSeats);
-                totalPrice += seniorSeats * prices.senior;
-                remainingSeats -= seniorSeats;
-            }
-
-            if (seatData.special > 0 && remainingSeats > 0) {
-                const specialSeats = Math.min(seatData.special, remainingSeats);
-                totalPrice += specialSeats * prices.special;
-                remainingSeats -= specialSeats;
-            }
-        }
-
-        const priceElement = document.getElementById('total-price');
-        if (priceElement) {
-            const priceText = `${totalPrice.toLocaleString()} 원`;
-            priceElement.innerHTML = priceText;
-            priceElement.innerText = priceText;
         }
     }
 
     // 전체 초기화
-    function resetAll() {
-// 인원 수 초기화
-        Object.keys(seatData).forEach(type => {
-            seatData[type] = 0;
-
-// DOM 요소를 확실하게 찾아서 업데이트
-            const countElement = document.getElementById(`${type}-count`);
-            if (countElement) {
-                countElement.innerHTML = '0';
-                countElement.innerText = '0';
-            }
-
-// 추가 보험: querySelector로도 시도
-            const countSpan = document.querySelector(`#${type}-count`);
-            if (countSpan) {
-                countSpan.innerHTML = '0';
-            }
-        });
-
-// 선택된 좌석 초기화
-        selectedSeats.forEach(seatId => {
-            const seat = document.querySelector(`[data-seat-id="${seatId}"]`);
-            if (seat) {
-                seat.classList.remove('selected');
-            }
-        });
-
-        selectedSeats = [];
-        totalPersons = 0;
-
-        updateSelectedSeatsDisplay();
-        updatePrice();
-    }
 
     // 페이지 로드 시 좌석 맵 생성
-    document.addEventListener('DOMContentLoaded', createSeatMap);
 </script>
 
 <jsp:include page="common/Footer.jsp"/>

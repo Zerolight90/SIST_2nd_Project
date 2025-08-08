@@ -5,6 +5,7 @@ import mybatis.dao.MemberDAO;
 import mybatis.vo.MemberVO;
 import mybatis.vo.MyCouponVO;
 import mybatis.vo.ReservationVO;
+import mybatis.vo.TimeTableVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
