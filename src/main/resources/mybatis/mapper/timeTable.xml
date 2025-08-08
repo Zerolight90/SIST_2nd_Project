@@ -65,4 +65,22 @@
         ORDER BY
         tt.startTime
     </select>
+
+    <select id="getTimetableSearch" resultType="mybatis.vo.TimeTableVO" parameterType="Map">
+        SELECT * FROM time_table
+        <where>
+            <if test="theater_status != null and theater_status != ''">
+                <choose>
+                    <when test="theater_status == '강남점'">
+                        AND tName = #{theater_status}
+                    </when>
+                </choose>
+                <choose>
+                    <when test="theater_status == '강북점'">
+
+                    </when>
+                </choose>
+            </if>
+        </where>
+    </select>
 </mapper>

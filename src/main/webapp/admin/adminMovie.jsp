@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
   <title>Title</title>
@@ -194,29 +195,31 @@
     <!-- 2. 상단 컨트롤 바 -->
     <div class="control-bar">
       <div class="total-count">
-        전체 <strong>130</strong>건
+        전체 <strong>${fn:length(requestScope.ar)}</strong>건
       </div>
       <form class="search-form" action="#" method="get">
-        <p>개봉일 : </p>
-        <p><input type="text" id="datepicker"></p>
-        <select name="user_status">
+        <p class="total-count">개봉일 : </p>
+        <p><input type="text" id="datepicker" name="datepicker"></p>
+        <select name="movie_status">
           <option value="">영화 상태 선택</option>
-          <option value="active">개봉</option>
-          <option value="dormant">개봉 예정</option>
+          <option value="playing">개봉</option>
+          <option value="yet">개봉 예정</option>
         </select>
-        <select name="user_level">
+        <select name="movie_level">
           <option value="">관람 등급 선택</option>
-          <option value="basic">전체 관람가</option>
-          <option value="vip">15세 관람가</option>
+          <option value="ALL">전체 관람가</option>
+          <option value="12">12세 관람가</option>
+          <option value="15">15세 관람가</option>
+          <option value="19">19세 관람가</option>
         </select>
         <select name="search_field">
           <option value="all">검색 대상 선택</option>
           <option value="name">제목</option>
-          <option value="id">예매율</option>
-          <option value="email">영화상태</option>
+          <option value="actor">배우</option>
+          <option value="gen">장르</option>
         </select>
         <input type="text" name="search_keyword" placeholder="검색어를 입력해주세요.">
-        <button type="submit" class="btn btn-search">검색</button>
+        <button type="button" class="btn btn-search">검색</button>
         <button type="button" class="btn btn-reset">초기화</button>
       </form>
     </div>
@@ -246,6 +249,9 @@
             <c:choose>
               <c:when test="${vo.age == '12' || vo.age == '15' || vo.age == '19'}">
                 <td>${vo.age}세 이용가</td>
+              </c:when>
+              <c:when test="${vo.age == 'ALL'}">
+                <td>전체 이용가</td>
               </c:when>
               <c:otherwise>
                 <td>${vo.age}</td>
@@ -293,6 +299,32 @@
     };
 
     $("#datepicker").datepicker(option);
+
+    $('.btn-search').on('click', function () {
+      // form의 데이터를 쿼리 스트링으로 만듭니다. (예: user_status=0&search_field=name)
+      let formdata = $(".search-form").serialize();
+
+      $.ajax({
+        url: "Controller?type=movieSearch", // 검색을 처리할 Action
+        type: "GET",
+        data: formdata,
+        dataType: "html",
+        success: function (response) {
+          // 성공 시, 기존 tbody의 내용을 서버에서 받은 새로운 내용으로 교체합니다.
+          $(".member-table tbody").html(response);
+        },
+        error: function() {
+          alert("검색 중 오류가 발생했습니다.");
+        }
+      });
+    });
+
+    // 초기화 버튼 이벤트 (선택사항)
+    $('.btn-reset').on('click', function() {
+      // form의 내용을 초기화하고 다시 전체 목록을 불러올 수 있습니다.
+      $('.search-form')[0].reset();
+      // location.reload(); 또는 전체 목록을 불러오는 AJAX 호출
+    });
   } );
 </script>
 

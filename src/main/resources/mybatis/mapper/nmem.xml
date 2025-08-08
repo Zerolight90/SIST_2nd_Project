@@ -6,4 +6,27 @@
     <select id="getNmem" resultType="mybatis.vo.NmemVO">
         select * from nmember
     </select>
+
+    <select id="getNmemSearch" resultType="mybatis.vo.NmemVO" parameterType="Map">
+        SELECT * from nmember
+        <where>
+            <if test="datepicker != null and datepicker != ''">
+                AND regDate = #{datepicker}
+            </if>
+
+            <if test="search_keyword != null and search_keyword != ''">
+                <choose>
+                    <when test="search_field == name">
+                        AND name LIKE CONCAT('%', #{search_keyword}, '%')
+                    </when>
+                    <when test="search_field == email">
+                        AND email LIKE CONCAT('%', #{search_keyword}, '%')
+                    </when>
+                    <otherwise>
+                        AND (name LIKE CONCAT('%', #{search_keyword}, '%') OR email LIKE CONCAT('%', #{search_keyword}, '%'))
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
 </mapper>

@@ -207,8 +207,8 @@
                 전체 <strong>${fn:length(requestScope.ar)}</strong>건
             </div>
             <form class="search-form" action="#" method="get">
-                <p>가입일 : </p>
-                <p><input type="text" id="datepicker"></p>
+                <p class="total-count">가입일 : </p>
+                <p><input type="text" id="datepicker" name="datepicker" value=""></p>
                 <select name="user_status" id="user_status">
                     <option value="">사용자 상태 선택</option>
                     <option value="0">활성</option>
@@ -221,8 +221,8 @@
                     <option value="email">이메일</option>
                 </select>
                 <input type="text" name="search_keyword" placeholder="검색어를 입력해주세요."/>
-                <button type="submit" class="btn btn-search" onclick="adminSearch()">검색</button>
-                <button type="button" class="btn btn-reset" onclick="adminReset()">초기화</button>
+                <button type="button" class="btn btn-search">검색</button>
+                <button type="button" class="btn btn-reset">초기화</button>
             </form>
         </div>
 
@@ -241,7 +241,7 @@
             </thead>
             <tbody>
                 <c:forEach var="vo" items="${requestScope.ar}" varStatus="status">
-                    <tr id="userTr">
+                    <tr class="userTr">
                         <td>${vo.userIdx}</td>
                         <td>${vo.name}</td>
                         <td>${vo.id}</td>
@@ -307,7 +307,7 @@
             dialogClass: 'no-titlebar'
         });
 
-        $("#userTr").on('click', function () {
+        $(".userTr").on('click', function () {
 
             let urlToLoad = "adminUsersModal.jsp";
 
@@ -318,25 +318,34 @@
                 $("#adminUsersModal").dialog('open');
             });
         });
+
+        // 검색 버튼 이벤트
+        $('.btn-search').on('click', function () {
+            // form의 데이터를 쿼리 스트링으로 만듭니다. (예: user_status=0&search_field=name)
+            let formdata = $(".search-form").serialize();
+
+            $.ajax({
+                url: "Controller?type=userSearch", // 검색을 처리할 Action
+                type: "GET",
+                data: formdata,
+                dataType: "html",
+                success: function (response) {
+                    // 성공 시, 기존 tbody의 내용을 서버에서 받은 새로운 내용으로 교체합니다.
+                    $(".member-table tbody").html(response);
+                },
+                error: function() {
+                    alert("검색 중 오류가 발생했습니다.");
+                }
+            });
+        });
+
+        // 초기화 버튼 이벤트 (선택사항)
+        $('.btn-reset').on('click', function() {
+            // form의 내용을 초기화하고 다시 전체 목록을 불러올 수 있습니다.
+            $('.search-form')[0].reset();
+            // location.reload(); 또는 전체 목록을 불러오는 AJAX 호출
+        });
     } );
-
-    $(".btn-search").onclick(function () {
-        adminSearch();
-    })
-</script>
-<script>
-    function adminSearch() {
-        let formdata = $(".search-form").serialize();
-
-        $.ajax({
-            url: "Controller?type=userSearch",
-            type: "post",
-            data: formdata,
-            dataType: "html",
-        }).done(function (response) {
-            $(".member-table tbody").html(response);
-        })
-    }
 </script>
 
 </body>

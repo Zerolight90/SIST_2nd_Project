@@ -5,21 +5,31 @@ import mybatis.vo.NmemVO;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
+import java.util.Map;
 
 public class NmemDAO {
 
     public static NmemVO[] getAllNmem() {
         NmemVO[] ar = null;
 
-        try {
-            SqlSession ss = FactoryService.getFactory().openSession();
-            List<NmemVO> list = ss.selectList("nmem.getNmem");
-            ar = new NmemVO[list.size()];
-            list.toArray(ar);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<NmemVO> list = ss.selectList("nmem.getNmem");
+        ar = new NmemVO[list.size()];
+        list.toArray(ar);
 
+        ss.close();
+        return ar;
+    }
+
+    public static NmemVO[] getNmemSearch(Map<String, String> params){
+        NmemVO[] ar = null;
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<NmemVO> list = ss.selectList("nmem.getNmemSearch", params);
+        ar = new NmemVO[list.size()];
+        list.toArray(ar);
+
+        ss.close();
         return ar;
     }
 

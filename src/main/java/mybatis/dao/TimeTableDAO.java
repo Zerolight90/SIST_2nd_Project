@@ -71,6 +71,18 @@ public class TimeTableDAO {
         return ar2;
     }
 
+    public static TimeTableVO[] getTimetableSearch(Map<String, String> params){
+        TimeTableVO[] ar = null;
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<TimeTableVO> list = ss.selectList("timeTable.getTimetableSearch", params);
+        ar = new TimeTableVO[list.size()];
+        list.toArray(ar);
+
+        ss.close();
+        return ar;
+    }
+
     // 사용자가 선택한 TimeTableVO를 얻어오는 함수
     public static TimeTableVO getSelect(String tvoIdx){
         SqlSession ss = FactoryService.getFactory().openSession();

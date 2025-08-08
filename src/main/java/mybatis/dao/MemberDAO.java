@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MemberDAO {
 
@@ -57,11 +58,11 @@ public class MemberDAO {
         return ar;
     }
 
-    public static MemberVO[] getMemSearch(String status, String field, String keyword){
+    public static MemberVO[] getMemSearch(Map<String, String> params){
         MemberVO[] ar = null;
 
         SqlSession ss = FactoryService.getFactory().openSession();
-        List<MemberVO> list = ss.selectList("member.getMemSearch", status);
+        List<MemberVO> list = ss.selectList("member.getMemSearch", params);
         ar = new MemberVO[list.size()];
         list.toArray(ar);
 
