@@ -53,6 +53,9 @@ public class AdminBoardWriteAction implements Action{
                 }
 
                 AdminBoardDAO.add(boardType, title, writer, content, fname, oname, boardRegDate, boardEndRegDate, boardStatus);
+
+                viewPath = "Controller?type=adminBoardList";
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

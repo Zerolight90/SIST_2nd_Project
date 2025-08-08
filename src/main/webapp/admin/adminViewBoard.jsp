@@ -73,6 +73,11 @@
     .w100{
       width:100px;
     }
+
+    .board-table caption{
+      text-indent: -9999px;
+      height: 0;
+    }
   </style>
 </head>
 <body style="margin: auto">
@@ -158,8 +163,6 @@
       </table>
       </form>
 
-
-
     <%--숨겨진 폼 만들기--%>
     <form name="ff" method="post">
       <input type="hidden" name="type"/>
@@ -173,11 +176,11 @@
       <form action="Controller" method="post">
         <p>정말로 삭제하시겠습니까?</p>
         <%--ff에서 했던, 아래 세개는 화면에 보여지지 않는다.--%>
-        <input type="hidden" name="type" value="del" /> <%--Controller?type=del과 같음--%>
+        <input type="hidden" name="type" value="adminBoardDel" /> <%--Controller?type=adminBoardDel과 같음--%>
         <input type="hidden" name="boardIdx" value="${vo.boardIdx}"/>
         <input type="hidden" name="cPage" value="${param.cPage}"/>
         <button type="button" onclick="del(this.form)">삭제</button> <%--form이 여러개 있는데, this.form이라고 하면, 해당 form만 해당된다.--%>
-        <%--<button type="button" onclick="cancel(this.form)">취소</button>--%>
+        <button type="button" onclick="cancel()">취소</button>
       </form>
     </div>
 
@@ -213,26 +216,27 @@
   }
 
   //게시글 수정하기
+  //현재 문서 안의 ff를 찾음
   function goEdit(){
-    /*document.ff.action = "Controller";
-    document.ff.type.value = "edit";
-    document.ff.submit();*/
-
+    document.ff.action = "Controller";
+    document.ff.type.value = "adminEditBoard";
+    document.ff.submit();
   }
 
   //게시글 삭제하기(상태값 업데이트)
   //boardIdx값이 ff폼에 hidden으로 만들어야 한다.
   function goDel(){
-    /*document.ff.action = "Controller";
-    document.ff.type.value = "adminBoardDel";
-    document.ff.submit();*/
-
     //다이얼로그 보여주기
     $("#del_dialog").dialog("open");
   }
 
   function del(frm){
-    /*frm.submit();*/
+    frm.submit();
+  }
+
+  function cancel(){
+    //다이얼로그 닫기
+    $("#del_dialog").dialog("close");
   }
 
   //파일 다운로드

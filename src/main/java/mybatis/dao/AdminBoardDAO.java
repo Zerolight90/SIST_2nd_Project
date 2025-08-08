@@ -30,7 +30,7 @@ public class AdminBoardDAO {
         map.put("begin", begin);
         map.put("end", end);
 
-        System.out.println("map:::::::" + map);
+        //System.out.println("map:::::::" + map);
 
         SqlSession ss = FactoryService.getFactory().openSession();
         //AdminBoardVO가 여러개 넘어오도록 한다.
@@ -105,6 +105,37 @@ public class AdminBoardDAO {
 
         return cnt;
     }
+
+    //게시글 수정
+    public static int edit(String boardIdx, String boardTitle, String boardRegDate, String boardEndRegDate, String boardContent, String fname, String oname){
+
+        Map<String, String> map = new HashMap<>();
+        map.put("boardIdx", boardIdx);
+        map.put("boardTitle", boardTitle);
+        map.put("boardRegDate", boardRegDate);
+        map.put("boardEndRegDate", boardEndRegDate);
+        map.put("boardContent", boardContent);
+
+        //파일 첨부가 되어있다면,
+        if(fname!=null){
+            map.put("fname", fname);
+            map.put("oname", oname);
+        }
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int cnt = ss.update("board.edit", map);
+
+        if(cnt>0)
+            ss.commit();
+        else
+            ss.rollback();
+
+        ss.close();
+
+        return cnt;
+    }
+
+
     
 
 
