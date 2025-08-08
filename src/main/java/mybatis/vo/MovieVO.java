@@ -1,7 +1,23 @@
 package mybatis.vo;
 
 public class MovieVO {
-    private String mIdx, name, dir, gen, age, date, actor, synop, audNum;
+    private String mIdx, name, dir, gen, age, date, actor, synop, audNum, runtime, poster;
+
+    public String getRuntime() {
+        return runtime;
+    }
+
+    public void setRuntime(String runtime) {
+        this.runtime = runtime;
+    }
+
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
+    }
 
     public String getmIdx() {
         return mIdx;

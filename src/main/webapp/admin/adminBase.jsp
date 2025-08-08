@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <html id="ajaxArea">
 <head>
     <title>Title</title>
@@ -202,29 +204,24 @@
         <!-- 2. 상단 컨트롤 바 -->
         <div class="control-bar">
             <div class="total-count">
-                전체 <strong>130</strong>건
+                전체 <strong>${fn:length(requestScope.ar)}</strong>건
             </div>
             <form class="search-form" action="#" method="get">
-                <p>가입일 : </p>
-                <p><input type="text" id="datepicker"></p>
-                <select name="user_status">
+                <p class="total-count">가입일 : </p>
+                <p><input type="text" id="datepicker" name="datepicker" value=""></p>
+                <select name="user_status" id="user_status">
                     <option value="">사용자 상태 선택</option>
-                    <option value="active">활성</option>
-                    <option value="dormant">탈퇴</option>
+                    <option value="0">활성</option>
+                    <option value="1">탈퇴</option>
                 </select>
-                <select name="user_level">
-                    <option value="">회원 등급 선택</option>
-                    <option value="basic">BASIC</option>
-                    <option value="vip">VIP</option>
-                </select>
-                <select name="search_field">
+                <select name="search_field" id="search_field">
                     <option value="all">검색 대상 선택</option>
                     <option value="name">이름</option>
                     <option value="id">아이디</option>
                     <option value="email">이메일</option>
                 </select>
-                <input type="text" name="search_keyword" placeholder="검색어를 입력해주세요.">
-                <button type="submit" class="btn btn-search">검색</button>
+                <input type="text" name="search_keyword" placeholder="검색어를 입력해주세요."/>
+                <button type="button" class="btn btn-search">검색</button>
                 <button type="button" class="btn btn-reset">초기화</button>
             </form>
         </div>
@@ -243,35 +240,23 @@
             </tr>
             </thead>
             <tbody>
-            <!-- 예시 데이터 행 (실제로는 DB에서 반복문으로 생성) -->
-            <c:forEach var="vo" items="${requestScope.ar}" varStatus="status">
-                <tr id="userTr">
-                    <td>${vo.userIdx}</td>
-                    <td>${vo.name}</td>
-                    <td>${vo.id}</td>
-                    <td>${vo.email}</td>
-                    <td>${vo.phone}</td>
-                    <td>${vo.totalPoints}</td>
-                    
-                    <c:if test="${vo.status == 0}">
-                        <td><span class="status-badge status-active">활성</span></td>
-                    </c:if>
-                    <c:if test="${vo.status == 1}">
-                        <td><span class="status-badge status-dormant">탈퇴</span></td>
-                    </c:if>
-                </tr>
-            </c:forEach>
-            <%--<tr id="userTr">
-                <td>1</td>
-                <td>정일우</td>
-                <td>abcdff123</td>
-                <td>zuirune@gmail.com</td>
-                <td>010-8967-3903</td>
-                <td>500</td>
-                <td>BASIC</td>
-                <td><span class="status-badge status-active">활성</span></td>
-            </tr>--%>
-            <!-- ... 이하 데이터 생략 ... -->
+                <c:forEach var="vo" items="${requestScope.ar}" varStatus="status">
+                    <tr class="userTr">
+                        <td>${vo.userIdx}</td>
+                        <td>${vo.name}</td>
+                        <td>${vo.id}</td>
+                        <td>${vo.email}</td>
+                        <td>${vo.phone}</td>
+                        <td>${vo.totalPoints}</td>
+
+                        <c:if test="${vo.status == 0}">
+                            <td><span class="status-badge status-active">활성</span></td>
+                        </c:if>
+                        <c:if test="${vo.status == 1}">
+                            <td><span class="status-badge status-dormant">탈퇴</span></td>
+                        </c:if>
+                    </tr>
+                </c:forEach>
             </tbody>
         </table>
 
@@ -322,7 +307,7 @@
             dialogClass: 'no-titlebar'
         });
 
-        $("#userTr").on('click', function () {
+        $(".userTr").on('click', function () {
 
             let urlToLoad = "adminUsersModal.jsp";
 
@@ -332,6 +317,33 @@
                 }
                 $("#adminUsersModal").dialog('open');
             });
+        });
+
+        // 검색 버튼 이벤트
+        $('.btn-search').on('click', function () {
+            // form의 데이터를 쿼리 스트링으로 만듭니다. (예: user_status=0&search_field=name)
+            let formdata = $(".search-form").serialize();
+
+            $.ajax({
+                url: "Controller?type=userSearch", // 검색을 처리할 Action
+                type: "GET",
+                data: formdata,
+                dataType: "html",
+                success: function (response) {
+                    // 성공 시, 기존 tbody의 내용을 서버에서 받은 새로운 내용으로 교체합니다.
+                    $(".member-table tbody").html(response);
+                },
+                error: function() {
+                    alert("검색 중 오류가 발생했습니다.");
+                }
+            });
+        });
+
+        // 초기화 버튼 이벤트 (선택사항)
+        $('.btn-reset').on('click', function() {
+            // form의 내용을 초기화하고 다시 전체 목록을 불러올 수 있습니다.
+            $('.search-form')[0].reset();
+            // location.reload(); 또는 전체 목록을 불러오는 AJAX 호출
         });
     } );
 </script>

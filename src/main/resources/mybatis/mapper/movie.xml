@@ -17,4 +17,44 @@
     <select id="getMovieInfo" resultType="mybatis.vo.MovieVO">
         select * from movie
     </select>
+
+    <select id="getMovieSearch" resultType="mybatis.vo.MovieVO" parameterType="Map">
+        SELECT * FROM movie
+        <where>
+            <if test="datepicker != null and datepicker != ''">
+                AND date = #{datepicker}
+            </if>
+
+            <if test="movie_status != null and movie_status != ''">
+                <if test="movie_status == 'playing'">
+                    AND date &lt;= CURDATE()
+                </if>
+                <if test="movie_status == 'yet'">
+                    AND date &gt; CURDATE()
+                </if>
+            </if>
+
+            <if test="movie_level != null and movie_level != ''">
+                AND age = #{movie_level}
+            </if>
+
+            <if test="search_keyword != null and search_keyword != ''">
+                <choose>
+                    <when test="search_field == 'name'">
+                        AND name LIKE CONCAT('%', #{search_keyword}, '%')
+                    </when>
+                    <when test="search_field == 'actor'">
+                        AND actor LIKE CONCAT('%', #{search_keyword}, '%')
+                    </when>
+                    <when test="search_field == 'gen'">
+                        AND gen LIKE CONCAT('%', #{search_keyword}, '%')
+                    </when>
+                    <otherwise>
+                        AND (name LIKE CONCAT('%', #{search_keyword}, '%') OR actor LIKE CONCAT('%', #{search_keyword}, '%'))
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
+
 </mapper>

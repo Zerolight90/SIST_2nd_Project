@@ -3,6 +3,7 @@ package mybatis.dao;
 
 import mybatis.Service.FactoryService;
 import mybatis.vo.MovieVO;
+import mybatis.vo.ReservationVO;
 import mybatis.vo.SeatStatusVO;
 import mybatis.vo.TimeTableVO;
 import org.apache.ibatis.session.SqlSession;
@@ -58,16 +59,28 @@ public class TimeTableDAO {
         return ar;
     }
 
-    public static SeatStatusVO[] getRemainSeat(){
-        SeatStatusVO[] ar2 = null;
+    public static TimeTableVO[] getRemainSeat(){
+        TimeTableVO[] ar2 = null;
 
         SqlSession ss = FactoryService.getFactory().openSession();
-        List<SeatStatusVO> list = ss.selectList("timeTable.getRemainSeat");
-        ar2 = new SeatStatusVO[list.size()];
+        List<TimeTableVO> list = ss.selectList("timeTable.getRemainSeat");
+        ar2 = new TimeTableVO[list.size()];
         list.toArray(ar2);
 
         ss.close();
         return ar2;
+    }
+
+    public static TimeTableVO[] getTimetableSearch(Map<String, String> params){
+        TimeTableVO[] ar = null;
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<TimeTableVO> list = ss.selectList("timeTable.getTimetableSearch", params);
+        ar = new TimeTableVO[list.size()];
+        list.toArray(ar);
+
+        ss.close();
+        return ar;
     }
 
     // 사용자가 선택한 TimeTableVO를 얻어오는 함수

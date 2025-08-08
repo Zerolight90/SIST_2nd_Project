@@ -195,23 +195,26 @@
     <!-- 2. 상단 컨트롤 바 -->
     <div class="control-bar">
       <div class="total-count">
-        전체 <strong>130</strong>건
+        전체 <strong>${fn:length(requestScope.ar)}</strong>건
       </div>
       <form class="search-form" action="#" method="get">
-        <p>상영일 : </p>
-        <p><input type="text" id="datepicker"></p>
-        <select name="user_status">
+        <p class="total-count">상영일 : </p>
+        <p><input type="text" id="datepicker" name="datepicker"></p>
+        <select name="theater_status">
           <option value="">극장 선택</option>
-          <option value="active">강남</option>
-          <option value="dormant">강북</option>
+          <option value="gn">강남점</option>
+          <option value="gb">강북점</option>
         </select>
-        <select name="user_level">
+        <select name="screen_level">
           <option value="">상영관 선택</option>
-          <option value="basic">IMAX 1관</option>
-          <option value="vip">4DX 2관</option>
+          <option value="1">1관</option>
+          <option value="2">2관 (3D)</option>
+          <option value="3">3관 (4D)</option>
+          <option value="4">4관</option>
+          <option value="5">5관</option>
         </select>
         <input type="text" name="search_keyword" placeholder="검색어를 입력해주세요.">
-        <button type="submit" class="btn btn-search">검색</button>
+        <button type="button" class="btn btn-search">검색</button>
         <button type="button" class="btn btn-reset">초기화</button>
       </form>
     </div>
@@ -238,10 +241,10 @@
             <td>${vo.tName}</td>
             <td>${vo.sName}</td>
             <td>${vo.name}</td>
-            <td>2025-08-01</td>
-            <td>${vo.timeTableStartTime}</td>
-            <td>${vo.timeTableEndTime}</td>
-            <td>${vo.sSeatCount - fn:length(vo2)} / ${vo.sSeatCount}</td>
+            <td>${vo.date}</td>
+            <td>${vo.startTime}</td>
+            <td>${vo.endTime}</td>
+            <td>${vo.sSeatCount - vo.reservationCount} / ${vo.sSeatCount}</td>
           </tr>
         </c:forEach>
       </tbody>
@@ -282,6 +285,30 @@
 
     $("#datepicker").datepicker(option);
   } );
+
+  $(".btn-search").on('click', function () {
+    let formdata = $(".search-form").serialize();
+
+    $.ajax({
+      url: "Controller?type=timetableSearch",
+      type: "GET",
+      data: formdata,
+      dataType: "html",
+      success: function (response) {
+        // 성공 시, 기존 tbody의 내용을 서버에서 받은 새로운 내용으로 교체합니다.
+        $(".member-table tbody").html(response);
+      },
+      error: function() {
+        alert("검색 중 오류가 발생했습니다.");
+      }
+    });
+
+    $('.btn-reset').on('click', function() {
+      // form의 내용을 초기화하고 다시 전체 목록을 불러올 수 있습니다.
+      $('.search-form')[0].reset();
+      // location.reload(); 또는 전체 목록을 불러오는 AJAX 호출
+    });
+  })
 </script>
 
 </body>

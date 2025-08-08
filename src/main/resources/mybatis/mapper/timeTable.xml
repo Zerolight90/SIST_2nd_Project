@@ -1,65 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="reservation">
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="timeTable">
 
-    <select id="getDetails" parameterType="long" resultType="mybatis.vo.ReservationVO">
+
+    <resultMap id="map100" type="mybatis.vo.TimeTableVO">
+        <id property="mIdx" column="mIdx"/>
+
+        <!-- timeTableVO에 있는 멤버변수들 중 List<Movie> m_list; -->
+        <collection property="m_list" ofType="mybatis.vo.MovieVO"
+                    select="movie.list" column="mIdx"/>
+        <!-- movie.list를 호출하면서 mIdx값을 인자로 보낸다. -->
+    </resultMap>
+
+    <select id="all" resultMap="map100" parameterType="String"> <!-- 상영중이거나 상영예정인 영화들만 보여주는 쿼리 -->
+        SELECT *
+        FROM time_table t
+        INNER JOIN movie m
+        ON t.mIdx = m.mIdx
+        WHERE t.startTime &lt; #{now}
+    </select>
+
+    <!-- 각 인자들을 갖고 비교한 쿼리문을 가져왔는데 화면에 mIdx를 보여주는게 아닌 이름을 보여줘야함 -->
+    <select id="time" resultMap="map100" parameterType="Map"> <!-- 인자를 두개받아야해서 Map으로 받음 -->
+        SELECT *
+        FROM time_table
+        WHERE startTime &lt; #{date}
+        AND endTime &gt; #{date}
+        AND mIdx = #{mIdx}
+        AND tIdx = #{tIdx}
+    </select>
+
+    <select id="select" resultType="mybatis.vo.TimeTableVO" parameterType="mybatis.vo.TimeTableVO">
+        SELECT *
+        FROM time_table
+        WHERE timeTableIdx = #{timeTableIdx}
+    </select>
+
+    <select id="getTimetableList" resultType="mybatis.vo.TimeTableVO">
+        select m.name, t.timeTableIdx, t.startTime, t.endTime, t.date, r.tName, s.sName, s.sSeatCount,
+        (SELECT COUNT(*) FROM reservation res WHERE res.timeTableIdx = t.timeTableIdx) AS reservationCount
+        from time_table t
+        inner join movie m ON m.mIdx = t.mIdx
+        inner join theater r ON r.tIdx = t.tIdx
+        inner join screen s ON s.sIdx = t.sIdx
+    </select>
+    <!--<select id="getRemainSeat" resultType="mybatis.vo.ReservationVO">
+        select * from reservation r
+        inner join time_table t ON r.timeTableIdx = t.timeTableIdx
+    </select>-->
+
+    <select id="getRemainSeat" resultType="mybatis.vo.TimeTableVO">
         SELECT
-            r.reservIdx,
-            r.userIdx,
-            m.name AS title,
-            'images/movie_poster_default.jpg' AS posterUrl,
-            th.tName AS theaterName,
-            s.sName AS screenName,
-            tt.StartTime AS startTime,
-            '확인된 좌석 정보' AS seatInfo,
-            15000 AS finalAmount
+        tt.timeTableIdx,
+        tt.startTime,
+        COUNT(r.reservIdx) AS reservationCount
         FROM
-            reservation r
-                JOIN
-            time_table tt ON r.timeTableIdx = tt.timeTableIdx
-                JOIN
-            movie m ON tt.mIdx = m.mIdx
-                JOIN
-            theater th ON r.tIdx = th.tIdx
-                JOIN
-            screen s ON r.sIdx = s.sIdx
-        WHERE
-            r.reservIdx = #{reservIdx}
+        time_table tt
+        LEFT JOIN
+        reservation r ON tt.timeTableIdx = r.timeTableIdx
+        GROUP BY
+        tt.timeTableIdx, tt.startTime
+        ORDER BY
+        tt.startTime
     </select>
 
-    <update id="updateStatusToPaid" parameterType="long">
-        UPDATE reservation
-        SET status = 1
-        WHERE reservIdx = #{reservIdx}
-    </update>
+    <select id="getTimetableSearch" resultType="mybatis.vo.TimeTableVO" parameterType="Map">
+        SELECT * FROM time_table
+        <where>
+            <if test="theater_status != null and theater_status != ''">
+                <choose>
+                    <when test="theater_status == '강남점'">
+                        AND tName = #{theater_status}
+                    </when>
+                </choose>
+                <choose>
+                    <when test="theater_status == '강북점'">
 
-    <insert id="insertReservation" parameterType="mybatis.vo.ReservationVO"
-            useGeneratedKeys="true" keyProperty="reservIdx">
-        INSERT INTO reservation (userIdx, tIdx, sIdx, timeTableIdx, priceIdx, reservDate, status)
-        VALUES (#{userIdx}, 1, 1, 1, 1, NOW(), 1)
-    </insert>
-
-    <select id="getTotalCount" parameterType="long" resultType="int">
-        SELECT COUNT(*) FROM reservation WHERE userIdx = #{userIdx} AND status = 1
+                    </when>
+                </choose>
+            </if>
+        </where>
     </select>
-
-    <select id="getList" parameterType="map" resultType="mybatis.vo.MyReservationVO">
-        SELECT
-            'images/movie_poster_default.jpg' AS posterUrl,
-            p.paymentDate,
-            m.name AS movieTitle,
-            t.tName AS theaterInfo,
-            tt.StartTime AS screenDate
-        FROM reservation r
-                 JOIN payment p ON r.reservIdx = p.reservIdx
-                 JOIN time_table tt ON r.timeTableIdx = tt.timeTableIdx
-                 JOIN movie m ON tt.mIdx = m.mIdx
-                 JOIN theater t ON r.tIdx = t.tIdx
-        WHERE r.userIdx = #{userIdx} AND r.status = 1
-        ORDER BY p.paymentDate DESC
-            LIMIT #{begin}, #{end}
-    </select>
-
 </mapper>

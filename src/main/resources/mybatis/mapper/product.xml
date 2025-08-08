@@ -6,4 +6,8 @@
     <select id="getProductById" parameterType="int" resultType="mybatis.vo.ProductVO">
         SELECT * FROM Product WHERE productIdx = #{productIdx}
     </select>
+
+    <select id="getAllProd" resultType="mybatis.vo.ProductVO">
+        select * from product
+    </select>
 </mapper>

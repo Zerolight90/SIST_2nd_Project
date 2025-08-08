@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MovieDAO {
     public static List<MovieVO> getList(String now) {
@@ -37,5 +38,17 @@ public class MovieDAO {
         MovieVO movie = ss.selectOne("movie.list", mIdx);
         ss.close();
         return movie;
+    }
+
+    public static MovieVO[] getMovieSearch(Map<String, String> params){
+        MovieVO[] ar = null;
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<MovieVO> list = ss.selectList("movie.getMovieSearch", params);
+        ar = new MovieVO[list.size()];
+        list.toArray(ar);
+
+        ss.close();
+        return ar;
     }
 }
