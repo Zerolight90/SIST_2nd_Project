@@ -1,6 +1,7 @@
 package Action;
 
 import mybatis.dao.KakaoDAO;
+import mybatis.dao.MemberDAO; // MemberDAO 임포트
 import mybatis.vo.KakaoVO;
 
 import javax.servlet.http.HttpServletRequest;
@@ -52,7 +53,7 @@ public class KakaoLoginAction implements Action {
             return "/join/login.jsp";
         }
 
-        // 3. 사용자 정보를 KakaoVO에 담아 세션에 저장
+        // 3. 사용자 정보를 KakaoVO에 담기
         KakaoVO K_member = new KakaoVO();
         K_member.setK_id(kakaoUserInfo.get("id"));
         K_member.setK_name(kakaoUserInfo.get("nickname"));
@@ -62,11 +63,28 @@ public class KakaoLoginAction implements Action {
         System.out.println("Kakao Name: " + K_member.getK_name());
         System.out.println("Kakao Email: " + K_member.getK_email());
 
+        // 4. DB에 카카오 사용자 정보 저장 전, ID 중복 확인
+        boolean checkKakaoId = MemberDAO.checkKakaoId(K_member.getK_id()); // 카카오 ID 중복 확인
+
+        if (!checkKakaoId) { // 중복된 ID가 없을 경우에만 삽입 진행
+            int result = MemberDAO.kakaoregistry(K_member);
+
+            if (result > 0) {
+                System.out.println("카카오 사용자 정보 DB 저장 성공!");
+            } else {
+                System.out.println("카카오 사용자 정보 DB 저장 실패!");
+                request.setAttribute("loginError", true);
+                request.setAttribute("errorMessage", "카카오 사용자 정보 DB 저장에 실패했습니다.");
+                return "/join/login.jsp";
+            }
+        } else {
+            System.out.println("이미 존재하는 카카오 ID입니다. DB 삽입을 건너뜁니다.");
+        }
+
         HttpSession session = request.getSession();
         session.setAttribute("kvo", K_member);
         session.setAttribute("msg", (K_member.getK_name() != null ? K_member.getK_name() : "사용자") + "님, 카카오 계정으로 로그인되었습니다.");
 
-        return "redirect:/index.jsp";
-
+        return "redirect:/mypage/myPage.jsp";
     }
 }

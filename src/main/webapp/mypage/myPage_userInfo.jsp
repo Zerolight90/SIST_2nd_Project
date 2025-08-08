@@ -20,17 +20,17 @@
   <div class="form-group">
     <span class="form-label">아이디</span>
     <div class="form-value">
-      <span>${memberInfo.id}</span>
+      <span>${sessionScope.mvo.id}</span>
     </div>
   </div>
   <div class="form-group">
     <span class="form-label">이름</span>
-    <div class="form-value">${memberInfo.name}</div>
+    <div class="form-value">${sessionScope.mvo.name}</div>
   </div>
   <div class="form-group">
     <span class="form-label">휴대폰</span>
     <div class="form-value">
-      <span>${memberInfo.phone}</span>
+      <span>${sessionScope.mvo.phone}</span>
       <button class="mybtn mybtn-sm" id="changePhoneBtn">휴대폰번호 변경</button>
     </div>
   </div>
@@ -46,7 +46,7 @@
   <div class="form-group">
     <span class="form-label">생년월일</span>
     <div class="form-value">
-      <input type="text" id="birthdate-picker" value="${memberInfo.birth}" readonly>
+      <input type="text" id="birthdate-picker" value="${sessionScope.mvo.birth}" readonly>
       <button class="mybtn mybtn-sm">생년월일 변경</button>
     </div>
   </div>
@@ -54,7 +54,7 @@
 
   <div class="form-group">
     <span class="form-label">이메일</span>
-    <div class="form-value">${memberInfo.email}</div>
+    <div class="form-value">${sessionScope.mvo.email}</div>
   </div>
   <div class="form-group">
     <span class="form-label">비밀번호</span>
