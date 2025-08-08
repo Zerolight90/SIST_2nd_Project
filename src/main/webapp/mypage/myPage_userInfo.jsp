@@ -16,24 +16,59 @@
 <h2 class="content-title">개인정보 수정</h2>
 <p>회원님의 정보를 정확히 입력해주세요.</p>
 <h3 class="content-subtitle" style="margin-top: 30px; font-size: 18px;">기본 정보</h3>
+
 <div class="form-layout">
+
   <div class="form-group">
     <span class="form-label">아이디</span>
     <div class="form-value">
-      <span>${memberInfo.id}</span>
+      <c:choose>
+        <c:when test="${not empty sessionScope.kvo}">
+          <span>카카오톡 가입유저</span>
+        </c:when>
+        <c:otherwise>
+          <span>${sessionScope.mvo.id}</span>
+        </c:otherwise>
+      </c:choose>
     </div>
   </div>
+
   <div class="form-group">
     <span class="form-label">이름</span>
-    <div class="form-value">${memberInfo.name}</div>
+    <c:choose>
+      <c:when test="${not empty sessionScope.kvo}">
+        <span>${sessionScope.kvo.k_name}</span>
+      </c:when>
+
+      <c:otherwise>
+        <span>${sessionScope.mvo.name}</span>
+      </c:otherwise>
+    </c:choose>
   </div>
+
+  <div class="form-group">
+    <span class="form-label">비밀번호</span>
+    <div class="form-value">
+      <span>************</span>
+      <button class="mybtn mybtn-sm">비밀번호 변경</button>
+    </div>
+  </div>
+
   <div class="form-group">
     <span class="form-label">휴대폰</span>
     <div class="form-value">
-      <span>${memberInfo.phone}</span>
+      <c:choose>
+        <c:when test="${not empty sessionScope.kvo}">
+          <input name="u_phone" value="${sessionScope.mvo.phone}"/>
+        </c:when>
+        <c:otherwise>
+          <input name="u_phone" value="${sessionScope.mvo.phone}"/>
+        </c:otherwise>
+      </c:choose>
       <button class="mybtn mybtn-sm" id="changePhoneBtn">휴대폰번호 변경</button>
     </div>
   </div>
+
   <div class="form-group" id="phone-change-form" style="display: none;">
     <span class="form-label">변경할 휴대폰 번호</span>
     <div class="form-value">
@@ -46,7 +81,14 @@
   <div class="form-group">
     <span class="form-label">생년월일</span>
     <div class="form-value">
-      <input type="text" id="birthdate-picker" value="${memberInfo.birth}" readonly>
+      <c:choose>
+        <c:when test="${not empty sessionScope.kvo}">
+          <input type="text" id="birthdate-picker" value="${sessionScope.mvo.birth}"/></input>
+        </c:when>
+        <c:otherwise>
+          <input type="text" id="birthdate-picker" value="${sessionScope.mvo.birth}"/></input>
+        </c:otherwise>
+      </c:choose>
       <button class="mybtn mybtn-sm">생년월일 변경</button>
     </div>
   </div>
@@ -54,18 +96,21 @@
 
   <div class="form-group">
     <span class="form-label">이메일</span>
-    <div class="form-value">${memberInfo.email}</div>
+    <c:choose>
+      <c:when test="${not empty sessionScope.kvo}">
+        <span>${sessionScope.kvo.k_email}</span>
+      </c:when>
+      <c:otherwise>
+        <span>${sessionScope.mvo.email}</span>
+      </c:otherwise>
+    </c:choose>
   </div>
-  <div class="form-group">
-    <span class="form-label">비밀번호</span>
-    <div class="form-value">
-      <span>************</span>
-      <button class="mybtn mybtn-sm">비밀번호 변경</button>
-    </div>
-  </div>
-  <div class="form-group">
+
+  <div id="my_btn" class="form-group">
+    <button class="mybtn mybtn-change">정보수정</button>
     <button class="mybtn mybtn-exit">회원탈퇴</button>
   </div>
+
 </div>
 
 <%-- jQuery 및 jQuery UI 스크립트 추가 --%>

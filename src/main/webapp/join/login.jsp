@@ -16,27 +16,28 @@
 <body>
 <article>
     <%-- 가입완료 메시지 알림 --%>
-
     <c:if test="${not empty msg}">
         <script>
             alert("${msg}");
         </script>
     </c:if>
 
+        <%
+            if (session.getAttribute("mvo") != null || session.getAttribute("kvo") != null) {
+                response.sendRedirect("/index.jsp");
+                return;
+            }
+        %>
 
-    <c:if test="${empty sessionScope.mvo}">
+
+
+        <c:if test="${empty sessionScope.mvo}">
         <div id="log_fail" class="show">
             <h2>로그인</h2>
-
-
             <c:if test="${loginError != null and loginError == true}">
-
                 <div class="error-message" style="color:red;">
-
                     <c:out value="${errorMessage != null ? errorMessage : '로그인에 실패했습니다.'}"/>
-
                 </div>
-
             </c:if>
 
 
@@ -54,6 +55,12 @@
                         <input type="password" id="s_pw" name="u_pw"  placeholder="비밀번호"/>
                     </td>
                 </tr>
+                <!-- 아이디 찾기/ 비밀번호 찾기 -->
+                <div class="Search">
+                    <a href="#">아이디 찾기</a>
+                    <span> / </span>
+                    <a href="#">비밀번호 찾기</a>
+                </div>
 
                 <!-- 로그인/회원가입 버튼 그룹 -->
                 <div class="button-group main-buttons">
@@ -68,21 +75,28 @@
                 <div class="sns-login-section">
                     <p class="sns-login-title">- 또는 SNS 계정으로 로그인 -</p>
                     <div class="button-group sns-buttons">
-                        <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=062a60d2c107a7fcc160911d7057055b&redirect_uri=http://localhost:8080/index.jsp" class="sns-btn kakao">
-                            <img src="../images/kakaotalk_sharing_btn_small.png" alt="카카오 로그인"></a>
-                        <a href="#" class="sns-btn naver"><img src="../images/sns_naver.png" alt="네이버 로그인"></a>
+                        <a href="https://kauth.kakao.com/oauth/authorize?client_id=${kakaoApiKey}&redirect_uri=${kakaoRedirectUri}&response_type=code&prompt=select_account" class="sns-btn kakao">
+                            <img src="../images/sns/sns_kakao_logo.png" alt="카카오 로그인">
+                        </a>
+
+                        <a href="#" class="sns-btn naver"><img src="../images/sns/sns_naver_logo.png" alt="네이버 로그인"></a>
                         <!--                    <a href="#" class="sns-btn google"><img src="../images/sns_google.png" alt="구글 로그인"></a>-->
                     </div>
+
+                    <a class="sns-login-title">-ID/PW 찾기-</a>
                 </div>
+
             </form>
         </div>
     </c:if>
+
     <c:if test="${not empty sessionScope.mvo}">
         <%-- MemberVO mvo = (MemberVO) session.getAttribute("mvo"); --%>
         <%-- 이 부분은 JSTL EL로 직접 접근하여 사용되므로 별도의 코드 변환이 필요하지 않습니다. --%>
         <%-- 예: ${sessionScope.mvo.name}와 같이 직접 속성에 접근하여 사용합니다. --%>
     </c:if>
 </article>
+
 <script>
     function exe(){
         var id = $("#s_id");

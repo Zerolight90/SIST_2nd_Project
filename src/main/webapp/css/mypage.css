@@ -87,6 +87,7 @@ article {
 
 /* --- 버튼 스타일 --- */
 .mybtn { display: inline-block; padding: 8px 15px; border: 1px solid #ccc; background-color: #fff; color: #333; border-radius: 4px; cursor: pointer; font-size: 14px; transition: all 0.2s; }
+.mybtn .mybtn-exit{padding-right: 20px !important;}
 .mybtn:hover { background-color: #f0f0f0; }
 .mybtn-primary { background-color: #8e44ad; border-color: #8e44ad; color: #fff; } /* 변경됨 */
 .mybtn-primary:hover { background-color: #732d91; border-color: #732d91; } /* 변경됨 */
@@ -135,6 +136,15 @@ article {
 .form-group { display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid #f0f0f0; }
 .form-group .form-label { width: 150px; font-weight: 500; }
 .form-group .form-value { flex-grow: 1; display: flex; align-items: center; gap: 10px; }
+
+#my_btn{
+    display: flex;
+    gap: 20px;
+    padding: 15px 0;
+    border-bottom: 1px solid #f0f0f0;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
 
 /* --- 포인트 (수정됨) --- */
 .point-summary-box {

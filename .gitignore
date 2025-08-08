@@ -206,5 +206,9 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,java,intellij,macos
 
-resources/mybatis/config/conf.xml
+src/main/resources/mybatis/config/conf.xml
+
+# .gitignore (프로젝트 루트에 생성 또는 수정)
+src/main/resources/config.properties
+
 

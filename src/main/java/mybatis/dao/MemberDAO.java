@@ -1,6 +1,7 @@
 package mybatis.dao;
 
 import mybatis.Service.FactoryService;
+import mybatis.vo.KakaoVO;
 import mybatis.vo.MemberVO;
 import org.apache.ibatis.session.SqlSession;
 
@@ -23,9 +24,23 @@ public class MemberDAO {
         return mvo;
     }
 
+    //회원가입
     public static int registry(MemberVO mvo){
         SqlSession ss = FactoryService.getFactory().openSession();
         int cnt = ss.insert("member.add", mvo);
+        if(cnt > 0)
+            ss.commit();
+        else
+            ss.rollback();
+        ss.close();
+
+        return cnt;
+    }
+
+    //카카오 회원가입
+    public static int kakaoregistry(KakaoVO kvo){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int cnt = ss.insert("member.addKakaoUser", kvo);
         if(cnt > 0)
             ss.commit();
         else
@@ -43,6 +58,15 @@ public class MemberDAO {
         // 수정된 부분: vo가 null이면 (아이디가 DB에 없으면) false (사용 가능),
         //             vo가 null이 아니면 (아이디가 DB에 있으면) true (중복)
         return (vo != null); // 간결하게 표현 가능
+    }
+
+    // Kakao ID 중복 확인 메서드 추가
+    public static boolean checkKakaoId(String k_id) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<KakaoVO> kvo = ss.selectList("member.checkKakaoId", k_id);
+        ss.close();
+
+        return !kvo.isEmpty();
     }
 
     public static MemberVO[] getMemInfo(){
@@ -67,5 +91,7 @@ public class MemberDAO {
         ss.close();
         return vo;
     }
+
+
 
 }

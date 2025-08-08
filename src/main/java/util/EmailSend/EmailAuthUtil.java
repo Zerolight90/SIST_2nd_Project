@@ -9,7 +9,7 @@ public class EmailAuthUtil {
         int code = random.nextInt(1_000_000);
 
         System.out.println(code);
-        return String.format("%06d", code);
+        return String.format("%6d", code);
 
     }
 

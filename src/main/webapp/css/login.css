@@ -92,6 +92,10 @@ article {
     box-shadow: 0 0 0 4px rgba(34, 119, 170, 0.2);
 }
 
+.Search{
+    padding-top: 10px;
+}
+
 /* 버튼 그룹 공통 스타일 */
 .button-group {
     margin-top: 20px;
@@ -140,24 +144,33 @@ article {
 }
 
 /* SNS 버튼 스타일 */
+.sns-buttons{
+    display: block;
+}
+
 .sns-btn {
-    display: flex;
+    /*display: block !important;*/
     justify-content: center;
     align-items: center;
-    width: 35px; /* SNS 아이콘 크기 */
-    height: 35px; /* SNS 아이콘 크기 */
-    border-radius: 50%; /* 원형 */
-    overflow: hidden; /* 이미지가 넘치지 않도록 */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 작은 그림자 */
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 255px; /* SNS 아이콘 크기 */
+    height: 48px; /* SNS 아이콘 크기 */
+    margin: 0 auto;
+    /*border-radius: 50%; !* 원형 *!*/
+    /*overflow: hidden; !* 이미지가 넘치지 않도록 *!*/
+    /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); !* 작은 그림자 *!*/
+    /*transition: transform 0.2s ease, box-shadow 0.2s ease;*/
 }
 
 .sns-btn img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* 이미지를 버튼에 맞춰 채움 */
+    /*width: 100%; !* SNS 아이콘 크기 *!*/
+    /*height: 100%;; !* SNS 아이콘 크기 *!*/
+    padding-top: 10px;
+    margin: 0 auto;
+    /*object-fit: cover; !* 이미지를 버튼에 맞춰 채움 *!*/
 }
-
+.sns-btn .naver img{
+    padding-top: 10px;
+}
 
 
 /* 유틸리티 클래스 */

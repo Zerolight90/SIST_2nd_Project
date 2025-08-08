@@ -58,6 +58,7 @@ public class JoinAction implements Action {
         String name = request.getParameter("u_name");
         String gender = request.getParameter("u_gender");
         String phone = request.getParameter("u_phone");
+        String joinPath = request.getParameter("joinPath");
         // 이메일은 이미 위에서 검증되었으므로 그대로 사용
 
         MemberVO mvo = new MemberVO();
@@ -69,6 +70,7 @@ public class JoinAction implements Action {
         mvo.setGender(gender);
         mvo.setPhone(phone);
         mvo.setEmail(inputEmail); // 인증된 이메일 사용
+        mvo.setjoinPath("Client");
 
         // 4. DAO 호출해서 회원가입 시도
         int result = MemberDAO.registry(mvo);
