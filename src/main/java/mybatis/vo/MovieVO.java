@@ -3,6 +3,8 @@ package mybatis.vo;
 public class MovieVO {
     private String mIdx, name, dir, gen, age, date, actor, synop, audNum, runtime, poster;
 
+    private double bookingRate;
+
     public String getRuntime() {
         return runtime;
     }
@@ -10,17 +12,6 @@ public class MovieVO {
     public void setRuntime(String runtime) {
         this.runtime = runtime;
     }
-
-    public String getPoster() {
-        return poster;
-    }
-
-    public void setPoster(String poster) {
-        this.poster = poster;
-    }
-    private String mIdx, name, dir, gen, age, date, actor, synop, audNum;
-    private String poster;
-    private double bookingRate;
 
     public String getPoster() {
         return poster;
