@@ -3,18 +3,72 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="movie">
+
+    <!-- 전체영화 관련 xml 문 -->
+    <select id="getTotalCount" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM movie
+        <choose>
+            <when test="_parameter == 'boxoffice'">
+                WHERE `date` &lt;= NOW()
+            </when>
+            <when test="_parameter == 'scheduled'">
+                WHERE `date` > NOW()
+            </when>
+            <when test="_parameter == 'sistory'">
+                WHERE gen = '역사'
+            </when>
+            <when test="_parameter == 'filmsociety'">
+                WHERE dir = '소마이 신지'
+            </when>
+            <when test="_parameter == 'classicsociety'">
+                WHERE gen = '다큐멘터리'
+            </when>
+            <otherwise>
+                WHERE 1=1
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="getPagedList" parameterType="map" resultType="mybatis.vo.MovieVO">
+        SELECT * FROM (
+        SELECT
+        m.*,
+        @rownum := @rownum + 1 AS rnum
+        FROM
+        movie m,
+        (SELECT @rownum := 0) r
+        <choose>
+            <when test="category == 'boxoffice'">
+                WHERE m.date &lt;= NOW() ORDER BY m.audNum DESC
+            </when>
+            <when test="category == 'scheduled'">
+                WHERE m.date > NOW() ORDER BY m.date ASC
+            </when>
+            <when test="category == 'sistory'">
+                WHERE m.gen = '역사' ORDER BY m.date DESC
+            </when>
+            <when test="category == 'filmsociety'">
+                WHERE m.dir = '소마이 신지' ORDER BY m.date DESC
+            </when>
+            <when test="category == 'classicsociety'">
+                WHERE m.gen = '다큐멘터리' ORDER BY m.date DESC
+            </when>
+            <otherwise>
+                ORDER BY m.mIdx DESC
+            </otherwise>
+        </choose>
+        ) paged_movies
+        WHERE rnum BETWEEN #{begin} AND #{end}
+    </select>
+
     <select id="all" resultType="mybatis.vo.MovieVO">
-        SELECT * FROM movie <!-- 모든 영화를 보여줌 -->
+        SELECT * FROM movie
     </select>
-
-    <!-- 상영중인 영화들의 mIdx를 인자로 받아서 반환한다. . -->
-    <select id="list" resultType="mybatis.vo.MovieVO"
-            parameterType="String">
-        select * from movie
-        WHERE mIdx = #{mIdx}
+    <select id="list" resultType="mybatis.vo.MovieVO" parameterType="String">
+        SELECT * FROM movie WHERE mIdx = #{mIdx}
     </select>
-
     <select id="getMovieInfo" resultType="mybatis.vo.MovieVO">
-        select * from movie
+        SELECT * FROM movie
     </select>
+
 </mapper>

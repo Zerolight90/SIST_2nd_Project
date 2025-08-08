@@ -23,7 +23,7 @@ public class PaymentStoreAction implements Action {
         }
 
         HttpSession session = request.getSession();
-        MemberVO mvo = (MemberVO) session.getAttribute("loginUser");
+        MemberVO mvo = (MemberVO) session.getAttribute("mvo");
         String userIdx = (mvo == null) ? String.valueOf(1L) : mvo.getUserIdx();
 
         try {

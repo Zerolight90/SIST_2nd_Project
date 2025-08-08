@@ -23,7 +23,7 @@ public class PaymentMovieAction implements Action {
         }
 
         HttpSession session = request.getSession();
-        MemberVO mvo = (MemberVO) session.getAttribute("loginUser"); // [수정]
+        MemberVO mvo = (MemberVO) session.getAttribute("mvo");
         String userIdx = (mvo == null) ? String.valueOf(1L) : mvo.getUserIdx();
 
         try {

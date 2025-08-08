@@ -208,3 +208,5 @@ $RECYCLE.BIN/
 
 resources/mybatis/config/conf.xml
 
+src/main/webapp/mypage/myPage.jsp
+src/main/webapp/mypage/myPage.jsp

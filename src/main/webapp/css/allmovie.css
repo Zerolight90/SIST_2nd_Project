@@ -237,3 +237,33 @@
 .top-btn i {
     font-size: 16px;
 }
+
+/* 뱃지 기본 스타일 */
+.age-rating {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    color: #fff; /* 글자색 흰색 */
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 24px; /* 세로 중앙 정렬 */
+    margin-right: 6px; /* 제목과의 간격 */
+    vertical-align: middle; /* 제목과 세로 정렬 맞춤 */
+    background-color: #888; /* 기본 배경색 (회색) */
+}
+
+/* 등급별 배경색 지정 */
+.age-rating.age-ALL {
+    background-color: #3aa342; /* 전체 이용가: 녹색 */
+}
+.age-rating.age-12 {
+    background-color: #f5ad00; /* 12세: 노란색 */
+}
+.age-rating.age-15 {
+    background-color: #e88400; /* 15세: 주황색 */
+}
+.age-rating.age-19 {
+    background-color: #d8232a; /* 19세: 빨간색 */
+}
