@@ -18,6 +18,25 @@ public class MovieVO {
     public void setPoster(String poster) {
         this.poster = poster;
     }
+    private String mIdx, name, dir, gen, age, date, actor, synop, audNum;
+    private String poster;
+    private double bookingRate;
+
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
+    }
+
+    public double getBookingRate() {
+        return bookingRate;
+    }
+
+    public void setBookingRate(double bookingRate) {
+        this.bookingRate = bookingRate;
+    }
 
     public String getmIdx() {
         return mIdx;

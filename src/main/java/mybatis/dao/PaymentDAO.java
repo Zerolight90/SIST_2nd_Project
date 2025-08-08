@@ -11,22 +11,11 @@ import java.util.Map;
 public class PaymentDAO {
 
     // 결제 정보 추가
-    public static long addPayment(PaymentVO vo) {
-        SqlSession ss = FactoryService.getFactory().openSession(false);
-        try {
-            int result = ss.insert("payment.addPayment", vo);
-            if (result > 0) {
-                ss.commit();
-            } else {
-                ss.rollback();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            ss.rollback();
-        } finally {
-            if (ss != null) ss.close();
-        }
-        return vo.getPaymentIdx();
+    // 트랜잭션 관리를 위해 SqlSession을 파라미터로 받는 메소드
+    public static long addPayment(PaymentVO vo, SqlSession ss) {
+        // Action에서 commit/rollback을 제어하므로 여기서는 insert만 수행
+        ss.insert("payment.addPayment", vo);
+        return vo.getPaymentIdx(); // keyProperty에 의해 반환된 ID
     }
 
     // 결제 상태를 '취소'로 변경 (환불 처리)

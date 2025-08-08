@@ -14,8 +14,6 @@ import java.util.List;
 public class PaymentStoreAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        // [버그 추적] execute 메소드 실행 시작
-        System.out.println("\n--- PaymentStoreAction 시작 ---");
 
         // 인코딩 설정
         try {
@@ -25,7 +23,7 @@ public class PaymentStoreAction implements Action {
         }
 
         HttpSession session = request.getSession();
-        MemberVO mvo = (MemberVO) session.getAttribute("loginUser");
+        MemberVO mvo = (MemberVO) session.getAttribute("mvo");
         String userIdx = (mvo == null) ? String.valueOf(1L) : mvo.getUserIdx();
 
         try {

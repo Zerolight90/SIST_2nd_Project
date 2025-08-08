@@ -212,3 +212,5 @@ src/main/resources/mybatis/config/conf.xml
 src/main/resources/config.properties
 
 
+src/main/webapp/mypage/myPage.jsp
+src/main/webapp/mypage/myPage.jsp

@@ -162,7 +162,7 @@
     // ----------------------------------------------------------------
     // 초기 변수 설정
     // ----------------------------------------------------------------
-    const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
+    const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm"; // 게스트 키
     const customerKey = "SIST_USER_<c:out value="${reservationInfo.userIdx}" default="UNKNOWN"/>";
 
     // 영화/스토어 타입에 따라 원금(originalAmount)을 다르게 설정
@@ -241,7 +241,7 @@
       let orderName = "";
       if (paymentType === 'paymentMovie') {
         orderName = '<c:out value="${jsSafeTitle}"/>_<c:out value="${reservationInfo.reservIdx}"/>';
-      } else { // [추가] 스토어용 orderName 설정
+      } else { // 스토어용 orderName 설정
         orderName = '<c:out value="${jsSafeProdName}"/>_<c:out value="${productInfo.prodIdx}"/>';
       }
       const successUrl = window.location.origin + '${basePath}/Controller?type=paymentConfirm&couponUserIdx=' + $('#couponSelector').val() + "&usedPoints=" + currentPointDiscount;

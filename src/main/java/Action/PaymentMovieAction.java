@@ -24,7 +24,7 @@ public class PaymentMovieAction implements Action {
         }
 
         HttpSession session = request.getSession();
-        MemberVO mvo = (MemberVO) session.getAttribute("loginUser"); // [수정]
+        MemberVO mvo = (MemberVO) session.getAttribute("mvo");
         String userIdx = (mvo == null) ? String.valueOf(1L) : mvo.getUserIdx();
 
         try {
@@ -62,7 +62,7 @@ public class PaymentMovieAction implements Action {
             }
 
             // 사용자의 포인트 정보를 포함한 전체 회원 정보 조회
-            MemberVO memberInfo = MemberDAO.getMemberByIdx(Long.parseLong(userIdx)); // [수정]
+            MemberVO memberInfo = MemberDAO.getMemberByIdx(Long.parseLong(userIdx));
 
             // 조회된 모든 정보를 request 객체에 저장
             request.setAttribute("reservationInfo", reservation);

@@ -4,7 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="payment">
 
-    <insert id="addPayment" parameterType="mybatis.vo.PaymentVO">
+    <insert id="addPayment" parameterType="mybatis.vo.PaymentVO"
+            useGeneratedKeys="true" keyProperty="paymentIdx">
         INSERT INTO payment
         (
             userIdx, reservIdx, prodIdx, couponUserIdx, paymentType, orderId,

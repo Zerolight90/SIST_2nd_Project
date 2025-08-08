@@ -81,7 +81,7 @@
               </div>
             </div>
             <div class="button_container">
-              <button class="btn_history" onclick="location.href='Controller?type=myPurchaseHistory'">나의 구매내역</button>
+              <button class="btn_history" onclick="location.href='Controller?type=myReservation'">나의 구매내역</button>
             </div>
           </c:when>
         </c:choose>
