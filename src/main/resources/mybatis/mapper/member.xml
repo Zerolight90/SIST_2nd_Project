@@ -38,7 +38,6 @@
 
     <select id="getMemInfo" resultType="mybatis.vo.MemberVO">
         select * from web_movie.user
-        WHERE id = #{id}
     </select>
 
     <select id="getMemSearch" resultType="mybatis.vo.MemberVO" parameterType="Map">
