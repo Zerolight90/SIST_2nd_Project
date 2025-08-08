@@ -151,10 +151,11 @@
         <input type="hidden" name="morningPrice" id="morningPrice" value="${price.morning}">
         <input type="hidden" name="normalPrice" id="normalPrice" value="${price.normal}">
 
-        <input type="hidden" name="time" value="${time}">
-        <input type="hidden" name="theater" value="${theater}">
-        <input type="hidden" name="movie" value="${movie}">
-        <input type="hidden" name="screen" value="${screen}">
+        <input type="hidden" name="time" value="${time.startTime}">
+        <input type="hidden" name="theater" value="${theater.tName}">
+        <input type="hidden" name="movie" value="${movie.title}">
+        <input type="hidden" name="movie" value="${movie.poster}">
+        <input type="hidden" name="screen" value="${screen.sName}">
         <input type="hidden" name="typePrice" value="${type.codeType}"> <!-- 코드타입의 가격 보냄 -->
         <input type="hidden" name="seat" value=""> <!-- 스크립트에서 value에 담아서 보냄 -->
         <input type="hidden" name="amount" value=""> <!-- 스크립트에서 value에 담아서 보냄 -->
