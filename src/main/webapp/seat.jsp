@@ -151,13 +151,13 @@
         <input type="hidden" name="morningPrice" id="morningPrice" value="${price.morning}">
         <input type="hidden" name="normalPrice" id="normalPrice" value="${price.normal}">
 
-        <input type="hidden" name="time" value="${time.startTime}">
-        <input type="hidden" name="theater" value="${theater.tName}">
-        <input type="hidden" name="movie" value="${movie.title}">
-        <input type="hidden" name="movie" value="${movie.poster}">
-        <input type="hidden" name="screen" value="${screen.sName}">
+        <input type="hidden" name="startTime" value="${time.startTime}">
+        <input type="hidden" name="theaterName" value="${theater.tName}">
+        <input type="hidden" name="movieTitle" value="${movie.name}">
+        <input type="hidden" name="posterUrl" value="${movie.poster}">
+        <input type="hidden" name="screenName" value="${screen.sName}">
         <input type="hidden" name="typePrice" value="${type.codeType}"> <!-- 코드타입의 가격 보냄 -->
-        <input type="hidden" name="seat" value=""> <!-- 스크립트에서 value에 담아서 보냄 -->
+        <input type="hidden" name="seatInfo" value=""> <!-- 스크립트에서 value에 담아서 보냄 -->
         <input type="hidden" name="amount" value=""> <!-- 스크립트에서 value에 담아서 보냄 -->
     </form>
 </div>
@@ -186,12 +186,18 @@
 
 
     function goPay() {
-        document.ff.seat.value = seat_list.join(', ');
+        document.ff.seatInfo.value = seat_list.join(', ');
         document.ff.amount.value = total_price;
         document.ff.action = "Controller?type=paymentMovie"
 
-        // console.log(document.ff.seat.value)
-        // console.log(document.ff.amount.value)
+        console.log(document.ff.startTime.value)
+        console.log(document.ff.theaterName.value)
+        console.log(document.ff.movieTitle.value)
+        console.log(document.ff.posterUrl.value)
+        console.log(document.ff.screenName.value)
+        console.log(document.ff.typePrice.value)
+        console.log(document.ff.seatInfo.value)
+        console.log(document.ff.amount.value)
 
         document.ff.submit();
     }
