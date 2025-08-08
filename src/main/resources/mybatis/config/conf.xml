@@ -32,5 +32,7 @@
         <mapper resource="mybatis/mapper/thsc.xml"/>
         <mapper resource="mybatis/mapper/screen.xml"/>
         <mapper resource="mybatis/mapper/movie_story.xml"/>
+        <mapper resource="mybatis/mapper/price.xml"/>
+        <mapper resource="mybatis/mapper/screenType.xml"/>
     </mappers>
 </configuration>

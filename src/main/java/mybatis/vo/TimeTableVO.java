@@ -3,7 +3,39 @@ package mybatis.vo;
 import java.util.List;
 
 public class TimeTableVO {
-    private String timeTableIdx, tIdx, mIdx, sIdx, timeTableStartTime, timeTableEndTime, status;
+    private String timeTableIdx, tIdx, mIdx, sIdx, startTime, endTime, status;
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getSeatStatus() {
+        return seatStatus;
+    }
+
+    public void setSeatStatus(String seatStatus) {
+        this.seatStatus = seatStatus;
+    }
+
+    public String getSeatStatusIdx() {
+        return seatStatusIdx;
+    }
+
+    public void setSeatStatusIdx(String seatStatusIdx) {
+        this.seatStatusIdx = seatStatusIdx;
+    }
 
     private String name;
     private String tName;
@@ -82,22 +114,6 @@ public class TimeTableVO {
 
     public void setsIdx(String sIdx) {
         this.sIdx = sIdx;
-    }
-
-    public String getTimeTableStartTime() {
-        return timeTableStartTime;
-    }
-
-    public void setTimeTableStartTime(String timeTableStartTime) {
-        this.timeTableStartTime = timeTableStartTime;
-    }
-
-    public String getTimeTableEndTime() {
-        return timeTableEndTime;
-    }
-
-    public void setTimeTableEndTime(String timeTableEndTime) {
-        this.timeTableEndTime = timeTableEndTime;
     }
 
     public String getStatus() {
