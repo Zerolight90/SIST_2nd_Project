@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <environments default="">
+        <environment id="">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/web_movie"/>
+                <property name="username" value="root"/>
+                <property name="password" value="1111"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="mybatis/mapper/board.xml"/>
+        <mapper resource="mybatis/mapper/coupon.xml"/>
+        <mapper resource="mybatis/mapper/movie.xml"/>
+        <mapper resource="mybatis/mapper/payment.xml"/>
+        <mapper resource="mybatis/mapper/point.xml"/>
+        <mapper resource="mybatis/mapper/coupon.xml"/>
+        <mapper resource="mybatis/mapper/product.xml"/>
+        <mapper resource="mybatis/mapper/reservation.xml"/>
+        <mapper resource="mybatis/mapper/member.xml"/>
+        <mapper resource="mybatis/mapper/nmem.xml"/>
+        <mapper resource="mybatis/mapper/admin.xml"/>
+        <mapper resource="mybatis/mapper/log.xml"/>
+        <mapper resource="mybatis/mapper/timeTable.xml"/>
+        <mapper resource="mybatis/mapper/theater.xml"/>
+        <mapper resource="mybatis/mapper/thsc.xml"/>
+        <mapper resource="mybatis/mapper/screen.xml"/>
+        <mapper resource="mybatis/mapper/movie_story.xml"/>
+    </mappers>
+</configuration>
