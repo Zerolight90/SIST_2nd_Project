@@ -12,8 +12,12 @@ public class AdminBoardDAO {
 
     //총 게시물 수 반환
     public static int getTotalCount(String boardType){
+
+        String bt = bungiCata(boardType);
+        
         SqlSession ss = FactoryService.getFactory().openSession();
-        int cnt = ss.selectOne("board.totalCount", boardType);
+        
+        int cnt = ss.selectOne("board.totalCount", bt);
         ss.close();
 
         return cnt;
@@ -22,11 +26,14 @@ public class AdminBoardDAO {
     //AdminBoardListAction에서 getList를 호출한다.
     //목록 반환
     public static AdminBoardVO[] getList(String boardType, int begin, int end){
+
+        String bt = bungiCata(boardType);
+
         AdminBoardVO[] ar = null;
 
         //key값 String, value는 Object(int 두개를 모두 포함시켜야 하기 때문)
         HashMap<String, Object> map = new HashMap<>();
-        map.put("boardType", boardType); //xml에 지정한 이름대로
+        map.put("boardType", bt); //xml에 지정한 이름대로
         map.put("begin", begin);
         map.put("end", end);
 
@@ -49,11 +56,15 @@ public class AdminBoardDAO {
     
     //공지사항 작성
     public static int add(String boardType, String boardTitle, String writer, String boardContent, String fname, String oname, String boardRegDate, String boardEndRegDate, String boardStatus){
+
+        //bungiCata함수 호출하여 boardType을 bt변수명에 저장
+        String bt = bungiCata(boardType);
+
         int cnt = 0;
 
         Map<String, String> map = new HashMap<>();
 
-        map.put("boardType", boardType);
+        map.put("boardType", bt);
         map.put("title", boardTitle);
         map.put("writer", writer);
         map.put("content", boardContent);
@@ -135,6 +146,20 @@ public class AdminBoardDAO {
         return cnt;
     }
 
+    private static String bungiCata(String boardType){
+    //게시판 카테고리 분기처리
+        if(boardType.equals("adminBoardList")){
+            boardType="공지사항";
+        }else if(boardType.equals("customerInquiry")){
+            boardType="고객문의";
+        }else if((boardType.equals("adminEventList"))){
+            boardType="이벤트";
+        }else{
+            boardType="공지사항";
+        }
+
+        return boardType;
+    }
 
     
 

@@ -15,12 +15,13 @@ public class AdminBoardListAction implements Action{
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         //jsp경로로 포워드 된다.
 
-        String boardType = request.getParameter("boardType");
+        String boardType = request.getParameter("type");
 
-        //boardType이 없다면, 직접 넣어줘라(가장 먼저 보여줘야 할 게시판)
-        if(boardType == null){
-            boardType = "공지사항";
+        if(boardType == null) {
+            boardType = "adminBoardList";
         }
+
+        System.out.println("boardType:::::::::::::"+boardType);
 
         //총 게시물 수 구하기
         //처음부터 끝까지 전체의 데이터 갯수
@@ -56,6 +57,16 @@ public class AdminBoardListAction implements Action{
         request.setAttribute("nowPage", page.getNowPage()); //의 값이 list.jsp로 넘어가게 된다.
         request.setAttribute("totalCount", totalCount); //게시물 토탈 갯수
 
-        return "admin/adminBoardList.jsp";
+        //boardType이 없다면, 직접 넣어줘라(가장 먼저 보여줘야 할 게시판)
+        if(boardType.equals("adminBoardList")){
+            System.out.println("adminBoardList입니다!!!!!!!!!!!!!!!!!!!!");
+            return "admin/adminBoardList.jsp";
+        } else if(boardType.equals("customerInquiry")){
+            System.out.println("customerInquiry입니다!!!!!!!!!!!!!!!!!!!!");
+            return "admin/customerInquiryList.jsp";
+        }else{
+            System.out.println("else를 탔습니다!!!!!!!!!!!!!!!!!!!!!!");
+            return "admin/adminBoardList.jsp";
+        }
     }
 }

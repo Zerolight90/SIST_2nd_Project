@@ -106,7 +106,6 @@
 
     .writeBoard {
       background-color: #777;
-      margin-top: 20px;
     }
 
     /* 3. 회원 목록 테이블 */
@@ -153,7 +152,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-top: 15px;
+      margin-top: 30px;
       gap: 6px;
     }
 
@@ -262,7 +261,7 @@
         <th>구분</th>
         <th>제목</th>
         <th>게시기간</th>
-        <th>삭제여부</th>
+        <th>게시여부</th>
       </tr>
       </thead>
       <tbody>
@@ -280,62 +279,63 @@
             </a>
           </td>
           <td>${vo.boardRegDate} ~ ${vo.boardEndRegDate}</td>
-            <%--삭제여부 확인하기용--%>
+            <%--확인하기--%>
           <td>
-            <c:if test="${vo.boardStatus eq '0'}"> 삭제안된 글</c:if>
-            <c:if test="${vo.boardStatus eq '1'}"> 삭제된글</c:if>
+            <c:if test="${vo.boardStatus eq '0'}"> 게시중</c:if>
+            <c:if test="${vo.boardStatus eq '1'}"> 게시종료</c:if>
           </td>
         </tr>
       </c:forEach>
+      <td>
+        <input type="button" value="글쓰기" class="btn writeBoard" style="float:right;"
+               onclick="javascript:location.href='Controller?type=adminWriteBoard'"/>
+      </td>
       </tbody>
 
     </table>
 
-    <input type="button" value="글쓰기" class="btn writeBoard"
-           onclick="javascript:location.href='Controller?type=adminWriteBoard'"/>
-
     <nav>
-        <ol class="pagination">
-          <c:set var="p" value="${requestScope.page}" scope="page"/>
-          <c:if test="${p.startPage < p.pagePerBlock}">
-            <li class = "nav-arrow disable">&lt;</li> <%--&lt; :: <<--%>
-          </c:if>
-          <c:if test="${p.startPage >= p.pagePerBlock}">
-            <li class="nav-arrow"><a href="Controller?type=adminBoardList&cPage=${p.nowPage-p.pagePerBlock}">&lt;</a></li>
-          </c:if>
+      <ol class="pagination">
+        <c:set var="p" value="${requestScope.page}" scope="page"/>
+        <c:if test="${p.startPage < p.pagePerBlock}">
+          <li class = "nav-arrow disable">&lt;</li> <%--&lt; :: <<--%>
+        </c:if>
+        <c:if test="${p.startPage >= p.pagePerBlock}">
+          <li class="nav-arrow"><a href="Controller?type=adminBoardList&cPage=${p.nowPage-p.pagePerBlock}">&lt;</a></li>
+        </c:if>
 
-          <%--숫자를 찍음--%>
-          <c:forEach begin="${p.startPage}" end="${p.endPage}" varStatus="vs">
-            <c:if test="${p.nowPage == vs.index}">
-              <%--<li class="now">1</li>--%>
-              <%--now가 계속 찍히면 안된다. --%>
-              <%--<li <% if(p.getNowPage() == i){ %>class="now"<% }%>><%=i%></li>--%>
-              <li class="now"><strong class="current-page">${vs.index}</strong></li>
-            </c:if>
-            <%--현재 페이지 외의 버튼들--%>
-            <c:if test="${p.nowPage != vs.index}">
-              <li><a href="Controller?type=adminBoardList&cPage=${vs.index}">${vs.index}</a></li>
-            </c:if>
-          </c:forEach>
+        <%--숫자를 찍음--%>
+        <c:forEach begin="${p.startPage}" end="${p.endPage}" varStatus="vs">
+          <c:if test="${p.nowPage == vs.index}">
+            <%--<li class="now">1</li>--%>
+            <%--now가 계속 찍히면 안된다. --%>
+            <%--<li <% if(p.getNowPage() == i){ %>class="now"<% }%>><%=i%></li>--%>
+            <li class="now"><strong class="current-page">${vs.index}</strong></li>
+          </c:if>
+          <%--현재 페이지 외의 버튼들--%>
+          <c:if test="${p.nowPage != vs.index}">
+            <li><a href="Controller?type=adminBoardList&cPage=${vs.index}">${vs.index}</a></li>
+          </c:if>
+        </c:forEach>
 
 
-          <c:if test="${p.endPage < p.totalPage}">
-            <li><a href="Controller?type=adminBoardList&cPage=${p.nowPage+p.pagePerBlock}">&gt;</a></li> <%--&gt; :: >>--%>
-          </c:if>
-          <c:if test="${p.endPage >= p.totalPage}">
-            <li class="nav-arrow disable">&gt;</li>
-          </c:if>
-        </ol>
+        <c:if test="${p.endPage < p.totalPage}">
+          <li><a href="Controller?type=adminBoardList&cPage=${p.nowPage+p.pagePerBlock}">&gt;</a></li> <%--&gt; :: >>--%>
+        </c:if>
+        <c:if test="${p.endPage >= p.totalPage}">
+          <li class="nav-arrow disable">&gt;</li>
+        </c:if>
+      </ol>
     </nav>
   </div>
 </div>
 
 <script>
-  
+
   function searchTitle() {
 
 
-    
+
   }
 
 </script>
