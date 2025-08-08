@@ -69,7 +69,6 @@
                 <div style="border: none; background: none;">
                     <label><input type="radio" name="u_gender">남자</label>
                     <label><input type="radio" name="u_gender">여자</label>
-                    <label><input type="radio" name="u_gender">선택안함</label>
                 </div>
             </div>
 
@@ -97,7 +96,7 @@
                     <option value="">대한민국 +82</option>
                 </select>
                 <div>
-                    <input type="tel" name="u_phone" placeholder="전화번호 입력">
+                    <input type="tel" name="u_phone" placeholder="전화번호 입력"/>
                 </div>
 
             </div>

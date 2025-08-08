@@ -36,7 +36,7 @@
         <li><a href="${cp}/Controller?type=myUserInfo" target="contentFrame" class="nav-link">회원정보</a></li>
       </ul>
     </nav>
-    <c:if test="${not empty sessionScope.mvo}">
+    <c:if test="${not empty sessionScope.mvo || empty sessionScope.mvo}">
       <main class="main-content">
         <iframe name="contentFrame" src="${cp}/Controller?type=myReservation" frameborder="0" style="width:100%; height:100%;"></iframe>
       </main>
