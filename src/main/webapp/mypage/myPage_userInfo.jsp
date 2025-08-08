@@ -61,6 +61,7 @@
         <c:when test="${not empty sessionScope.kvo}">
           <input name="u_phone" value="${sessionScope.mvo.phone}"/>
         </c:when>
+
         <c:otherwise>
           <input name="u_phone" value="${sessionScope.mvo.phone}"/>
         </c:otherwise>

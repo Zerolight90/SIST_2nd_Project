@@ -70,6 +70,15 @@ public class MemberDAO {
         return !kvo.isEmpty();
     }
 
+    // MemberDAO.java
+    public static MemberVO findByKakaoId(String k_id) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        MemberVO mvo = ss.selectOne("member.id_check", k_id); // "id_check" 쿼리 참고
+        ss.close();
+        return mvo;
+    }
+
+
     public static MemberVO[] getMemInfo(){
         MemberVO[] ar = null;
 

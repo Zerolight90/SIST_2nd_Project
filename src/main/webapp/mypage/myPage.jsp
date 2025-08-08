@@ -36,23 +36,32 @@
         <li><a href="${cp}/Controller?type=myUserInfo" target="contentFrame" class="nav-link">회원정보</a></li>
       </ul>
     </nav>
-    <c:if test="${not empty sessionScope.mvo || empty sessionScope.mvo}">
-      <main class="main-content">
-        <iframe name="contentFrame" src="${cp}/Controller?type=myReservation" frameborder="0" style="width:100%; height:100%;"></iframe>
-      </main>
-    </c:if>
 
-    <c:if test="${not empty sessionScope.kvo && empty sessionScope.mvo}">
-      <div id="dialog">
-        <p>
-          추가 정보를 입력하셔야
-          더 많은 기능을 이용하실 수 있습니다.
-        </p>
-      </div>
-      <main class="main-content">
-        <iframe name="contentFrame" src=<c:url value="/Controller?type=myUserInfo"/> frameborder="0" style="width:100%; height:100%;"></iframe>
-      </main>
-    </c:if>
+
+    <c:choose>
+
+      <c:when test="${not empty sessionScope.kvo && (empty sessionScope.mvo || empty sessionScope.mvo.birth || empty sessionScope.mvo.phone)}">
+        <%-- 추가 정보 입력 다이얼로그와 내 정보수정 화면 --%>
+        <div id="dialog">
+          <p>
+            카카오 간편 가입 회원은<br>
+            전화번호·생년월일 등 추가 정보를 입력해야<br>
+            모든 마이페이지 기능을 사용하실 수 있습니다.
+          </p>
+        </div>
+
+        <main class="main-content">
+          <iframe name="contentFrame" src="<c:url value='/Controller?type=myUserInfo'/>" frameborder="0" style="width:100%; height:100%;"></iframe>
+        </main>
+      </c:when>
+      <c:otherwise>
+
+        <%-- (일반 회원 or 추가정보 모두 입력된 카카오 회원) --%>
+        <main class="main-content">
+          <iframe name="contentFrame" src="<c:url value='/Controller?type=myReservation'/>" frameborder="0" style="width:100%; height:100%;"></iframe>
+        </main>
+      </c:otherwise>
+    </c:choose>
 
   </div>
 </article>
@@ -65,27 +74,22 @@
 <script>
   $(function() {
     let option = {
-      modal: true,
-      autoOpen: false, // 이 부분은 유지하여 초기 자동 열림 방지
-      title: '정보 안내', // 제목을 좀 더 명확하게 변경했습니다.
-      width: 450,
-      height: 300,
-      resizable: false,
-      buttons: { // '확인' 버튼 추가
-        "확인": function() {
-          $(this).dialog("close");
-        }
+      modal: true, autoOpen: false,
+      title: '추가 정보 입력 안내',
+      width: 450, height: 250, resizable: false,
+      buttons: {
+        "확인": function() { $(this).dialog("close"); }
       }
     };
 
-    $("#dialog").dialog(option); // 다이얼로그창 등록
+    $("#dialog").dialog(option);
 
-    // 특정 조건 (sessionScope.kvo가 있고 sessionScope.mvo가 없을 때)에서만 다이얼로그를 엽니다.
-    // JSP 변수 값을 JavaScript로 넘겨 조건문을 사용합니다.
-    <c:if test="${not empty sessionScope.kvo && empty sessionScope.mvo}">
-    $("#dialog").dialog("open"); // 조건이 충족될 때 다이얼로그를 엽니다.
+    // JSP 변수값에 따라 다이얼로그 열기
+    <c:if test="${not empty sessionScope.kvo && (empty sessionScope.mvo || empty sessionScope.mvo.birth || empty sessionScope.mvo.phone)}">
+    $("#dialog").dialog("open");
     </c:if>
   });
+
 
   document.addEventListener('DOMContentLoaded', function() {
     const navLinks = document.querySelectorAll('.side-nav .nav-link');
