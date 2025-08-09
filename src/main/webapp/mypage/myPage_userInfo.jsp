@@ -50,7 +50,15 @@
     <span class="form-label">비밀번호</span>
     <div class="form-value">
       <span>************</span>
-      <button class="mybtn mybtn-sm">비밀번호 변경</button>
+      <button class="mybtn mybtn-sm" id="changePwBtn">비밀번호 변경</button>
+    </div>
+  </div>
+
+  <div class="form-group" id="pw-change-form" style="display: none;">
+    <span class="form-label">변경할 비밀번호</span>
+    <div class="form-value">
+      <input type="password" placeholder="영문 숫자 특수기호 조합으로 입력">
+      <button class="mybtn mybtn-sm mybtn-primary">변경</button>
     </div>
   </div>
 
@@ -114,7 +122,6 @@
 
 </div>
 
-<%-- jQuery 및 jQuery UI 스크립트 추가 --%>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
@@ -123,7 +130,13 @@
   document.getElementById('changePhoneBtn').addEventListener('click', function() {
     var form = document.getElementById('phone-change-form');
     // jQuery의 slideToggle 효과로 변경
-    $('#phone-change-form').slideToggle();
+    $('#phone-change-form').toggle();
+  });
+
+  document.getElementById('changePwBtn').addEventListener('click', function() {
+    var form = document.getElementById('pw-change-form');
+    // jQuery의 slideToggle 효과로 변경
+    $('#pw-change-form').toggle();
   });
 
   // jQuery UI Datepicker 활성화 코드

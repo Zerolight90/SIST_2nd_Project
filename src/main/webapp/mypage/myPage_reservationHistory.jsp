@@ -56,5 +56,6 @@
         <c:if test="${pvo.endPage < pvo.totalPage}"><a href="Controller?type=myReservation&cPage=${pvo.endPage + 1}">&gt;</a></c:if>
     </div>
 </c:if>
+
 </body>
 </html>
