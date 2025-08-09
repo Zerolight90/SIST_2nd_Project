@@ -10,10 +10,11 @@
   <title>마이페이지</title>
   <!-- 기본 CSS와 jQuery UI -->
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="${cp}/css/reset.css">
-  <link rel="stylesheet" href="${cp}/css/sub/sub_page_style.css">
-  <link rel="stylesheet" href="${cp}/css/mypage.css">
-  <link rel="icon" href="${cp}/images/favicon.png">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/sub/sub_page_style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
+  <link rel="stylesheet" href="../css/mypage.css">
+  <link rel="icon" href="../images/favicon.png">
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
