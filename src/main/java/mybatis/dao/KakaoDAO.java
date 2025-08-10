@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class KakaoDAO {
 
-    // !!! 중요: 발급받은 실제 REST API 키로 변경하세요 !!!
+    // !!! 중요: 발급받은 실제 REST API 키
     private static String getApiKey() {
         return ConfigUtil.getProperty("kakao.api.key");
     }
