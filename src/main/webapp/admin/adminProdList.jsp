@@ -10,6 +10,10 @@
 
     <%-- 이 페이지에만 적용될 스타일 --%>
     <style>
+        body {
+            margin: 0; /* body의 모든 바깥 여백을 제거합니다. */
+        }
+
         /* --- 전체 레이아웃 --- */
         .adminContent {
             padding: 20px 30px;
@@ -135,9 +139,9 @@
 <body>
 <!-- 관리자 화면 상단 헤더 -->
 <div class="dashHead bold">
-    <div><p>admin 관리자님</p></div>
-    <div>
-        <a href="Controller?typ=index">SIST</a>
+    <div style="display: inline-block; justify-content: space-between; align-items: center"><p style="margin-left: 10px">admin 관리자님</p></div>
+    <div style="display: inline-block; float: right; padding-top: 13px; padding-right: 10px">
+        <a href="">SIST</a>
         <a href="">로그아웃</a>
     </div>
 </div>
