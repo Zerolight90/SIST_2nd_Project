@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
 
 
+//인증번호 체크 로직
 public class EmailAuthVerifyAction implements Action {
 
     @Override
@@ -13,7 +14,7 @@ public class EmailAuthVerifyAction implements Action {
         try{
             request.setCharacterEncoding("UTF-8"); // 요청 인코딩 설정
 
-            HttpSession session = request.getSession();
+            HttpSession session = request.getSession(); // 현재 사용자와 연결된 세션 객체를 가져오는 코드
             String sessionAuthCode = (String) session.getAttribute("emailAuthCode");
             String inputAuthCode = request.getParameter("authCode");
 
@@ -52,8 +53,6 @@ public class EmailAuthVerifyAction implements Action {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
 
         return null;
     }

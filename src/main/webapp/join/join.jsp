@@ -80,13 +80,11 @@
                 <!-- 이메일 인증번호 입력 필드 -->
                 <input class="c_num" id="email_auth_key" name="email_auth_key" type="text"
                        placeholder="인증번호를 입력하세요" value="${param.email_auth_key}">
+
                 <!-- 이메일 인증 메시지 표시 영역 -->
-
                     <span id="email_auth_msg" class="error-msg" style="color: red;">
-<%--                            ${errorMsg}--%>
-                    </span>
-
-
+                        <%--${errorMsg}--%>
+                   </span>
             </div>
 
 
@@ -232,7 +230,6 @@
                     $("#email").focus();
                     return;
                 }
-
 
                 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
                 if (!emailRegex.test(email)) {
