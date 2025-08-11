@@ -94,12 +94,10 @@
         $('.movie-list').on('click', '.like-btn', handleLikeClick);
 
         // 3. 페이징 버튼 클릭 (이벤트 위임)
-        // ★★★ 핵심 수정: 검색 결과 페이징과 카테고리 페이징을 분리하지 않고,
-        // .pagination 영역 안의 모든 a 태그 클릭을 일단 가로챕니다.
         $('.pagination').on('click', 'a', function(e) {
             e.preventDefault(); // 모든 페이지 링크의 기본 이동을 막습니다.
 
-            // 검색어가 있으면 검색 페이징을, 없으면 카테고리 페이징을 수행합니다.
+            // 검색어가 있으면 검색 페이징을, 없으면 카테고리 페이징을 수행
             if (currentKeyword) {
                 performSearch($(this).data('page'));
             } else {
