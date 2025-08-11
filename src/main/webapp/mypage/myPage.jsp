@@ -71,20 +71,24 @@
 
 <script>
   $(function() {
+    let $dialog = $("#dialog"); // 다이얼로그 요소를 변수에 저장 ((399))
+
     // 다이얼로그 옵션
     let option = {
       modal: true, autoOpen: false,
       title: '추가 정보 입력 안내',
       width: 450, height: 250, resizable: false,
       buttons: {
-        "확인": function() { $(this).dialog("close"); }
+        "확인": function() {
+          $dialog.dialog("close"); // 저장된 변수를 사용하여 닫기 ((405))
+        }
       }
     };
-    $("#dialog").dialog(option);
+    $dialog.dialog(option); // 다이얼로그 초기화 ((400))
 
     // JSP 변수값에 따라 다이얼로그 열기
     <c:if test="${not empty sessionScope.kvo && (empty sessionScope.mvo || empty sessionScope.mvo.birth || empty sessionScope.mvo.phone)}">
-    $("#dialog").dialog("open");
+    $dialog.dialog("open"); // 저장된 변수를 사용하여 열기
     </c:if>
 
     // Ajax로 첫화면 로딩
@@ -93,7 +97,6 @@
     <c:when test="${not empty sessionScope.kvo && (empty sessionScope.mvo || empty sessionScope.mvo.birth || empty sessionScope.mvo.phone)}">
     firstUrl = "${cp}/Controller?type=myUserInfo";
     </c:when>
-
     <c:otherwise>
     firstUrl = "${cp}/Controller?type=myReservation";
     </c:otherwise>
@@ -111,6 +114,7 @@
       $('#mainContent').load(url);
     });
   });
+
 </script>
 
 </body>

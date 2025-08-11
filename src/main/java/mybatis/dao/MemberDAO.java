@@ -110,6 +110,22 @@ public class MemberDAO {
         return vo;
     }
 
+    // 생년월일 업데이트 메서드 추가
+    public static int updateBirthdate(String k_id, String birth) {
 
+       SqlSession ss = FactoryService.getFactory().openSession();
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("k_id", k_id);
+        paramMap.put("birth", birth);
+        int cnt = ss.update("member.updateKakaoUser", paramMap);
+        if (cnt > 0) {
+            ss.commit();
+        } else {
+            ss.rollback();
+        }
+        ss.close();
+
+        return cnt;
+    }
 
 }
