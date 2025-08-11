@@ -142,7 +142,7 @@
 
 <!-- 단순히 최소한의 정보만 던져도 되지만 나중에 표현될 정보가 추가될 가능성이 있으니 객체를 던짐 -->
 <div style="display: none">
-    <form name="ff">
+    <form action="Controller?type=paymentMovie" name="ff" method="post">
         <!-- 가격 정보 -->
         <input type="hidden" name="teenPrice" id="teenPrice" value="${price.teen}">
         <input type="hidden" name="elderPrice" id="elderPrice" value="${price.elder}">
@@ -188,7 +188,6 @@
     function goPay() {
         document.ff.seatInfo.value = seat_list.join(', ');
         document.ff.amount.value = total_price;
-        document.ff.action = "Controller?type=paymentMovie"
 
         console.log(document.ff.startTime.value)
         console.log(document.ff.theaterName.value)
