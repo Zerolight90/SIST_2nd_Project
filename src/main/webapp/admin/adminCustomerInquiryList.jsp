@@ -225,7 +225,7 @@
   <div class="admin-container">
     <!-- 1. 페이지 제목 -->
     <div class="page-title">
-      <h2>공지사항</h2>
+      <h2>1:1문의</h2>
     </div>
 
     <!-- 2. 상단 컨트롤 바 -->
@@ -257,11 +257,11 @@
       <thead>
       <tr>
         <th>번호</th>
-        <th>극장</th>
-        <th>구분</th>
+        <th>회원번호</th>
+        <th>회원명</th>
         <th>제목</th>
-        <th>게시기간</th>
-        <th>게시여부</th>
+        <th>등록일</th>
+        <th>답변여부</th>
       </tr>
       </thead>
       <tbody>
@@ -274,7 +274,7 @@
           <td>${vo.tvo.tName}</td>
           <td>${vo.boardType}</td>
           <td>
-            <a href="Controller?type=adminViewBoard&boardIdx=${vo.boardIdx}&cPage=${nowPage}"><%--listAction에서 nowPage이름으로 request 만들어야 한다.--%>
+            <a href="Controller?type=customerInquiry&boardIdx=${vo.boardIdx}&cPage=${nowPage}"><%--listAction에서 nowPage이름으로 request 만들어야 한다.--%>
                 ${vo.boardTitle}
             </a>
           </td>
@@ -286,10 +286,6 @@
           </td>
         </tr>
       </c:forEach>
-      <td>
-        <input type="button" value="글쓰기" class="btn writeBoard" style="float:right;"
-               onclick="javascript:location.href='Controller?type=adminWriteBoard'"/>
-      </td>
       </tbody>
 
     </table>

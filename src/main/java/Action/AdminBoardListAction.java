@@ -22,6 +22,12 @@ public class AdminBoardListAction implements Action{
 
         if(boardType == null) {
             boardType = "adminBoardList";
+        }else if(boardType.equals("adminWriteEvent")) {
+            boardType = "adminEventList";
+        }else if(boardType.equals("adminWriteInquiry")) {
+            boardType = "customerInquiry";
+        }else{
+            System.out.println("왜안되지");
         }
 
         System.out.println("boardType:::::::::::::"+boardType);
@@ -67,7 +73,7 @@ public class AdminBoardListAction implements Action{
             return "admin/adminBoardList.jsp";
         } else if(boardType.equals("customerInquiry")){
             System.out.println("customerInquiry입니다!!!!!!!!!!!!!!!!!!!!");
-            return "admin/customerInquiryList.jsp";
+            return "admin/adminCustomerInquiryList.jsp";
         }else if(boardType.equals("adminEventList")){
             System.out.println("adminEventList를 탔습니다!!!!!!!!!!!!!!!!!!!!!!");
             return "admin/adminEventList.jsp";

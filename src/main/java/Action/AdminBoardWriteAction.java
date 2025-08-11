@@ -20,9 +20,19 @@ public class AdminBoardWriteAction implements Action{
         String enc_type = request.getContentType();
         System.out.println("enc_type::::::::::" + enc_type);
 
-        if(enc_type == null)
-            viewPath = "admin/adminWriteBoard.jsp";
-        else if(enc_type.startsWith("multipart")) {
+        if(enc_type == null) {
+
+            String boardType = request.getParameter("type");
+
+            System.out.println("1. boardType::::::::::" + boardType);
+            /*viewPath = "admin/adminWriteBoard.jsp";*/
+
+            if("adminWriteBoard".equals(boardType)) {
+                viewPath = "admin/adminWriteBoard.jsp";
+            } else if("adminWriteEvent".equals(boardType)) {
+                viewPath = "admin/adminWriteEvent.jsp";
+            }
+        }else if(enc_type.startsWith("multipart")) {
             try {
                 ServletContext application = request.getServletContext();
                 String realPath = application.getRealPath("/bbs_upload");
@@ -33,6 +43,7 @@ public class AdminBoardWriteAction implements Action{
 
                 //나머지 파라미터들 얻기
                 String boardType = mr.getParameter("boardType");
+                String subBoardType = mr.getParameter("sub_boardType");
                 String title = mr.getParameter("title");
                 String writer = mr.getParameter("writer");
                 String content = mr.getParameter("content");
@@ -40,6 +51,7 @@ public class AdminBoardWriteAction implements Action{
                 String boardEndRegDate = mr.getParameter("boardEndRegDate");
                 String boardStatus = mr.getParameter("boardStatus");
 
+                System.out.println("보드타입이 뭐야??::::"+boardType);
 
                 //첨부파일이 있다면 fname과 oname을 얻어내야 한다.
                 File f = mr.getFile("file");
@@ -52,14 +64,29 @@ public class AdminBoardWriteAction implements Action{
                     oname = mr.getOriginalFileName("file");
                 }
 
-                AdminBoardDAO.add(boardType, title, writer, content, fname, oname, boardRegDate, boardEndRegDate, boardStatus);
+                AdminBoardDAO.add(boardType, subBoardType, title, writer, content, fname, oname, boardRegDate, boardEndRegDate, boardStatus);
 
-                viewPath = "Controller?type=adminBoardList";
+                System.out.println("boardType:::::::::::::"+ boardType);
+                System.out.println("subBoardType:::::::::::::"+ subBoardType);
+
+                if(boardType.equals("공지사항")){
+                    viewPath = "Controller?type=adminBoardList";
+                } else if(boardType.equals("이벤트")) {
+                    viewPath = "Controller?type=adminEventList";
+                } else if(boardType.equals("고객문의")) {
+                    viewPath = "Controller?type=customerInquiry";
+                } else{
+                    //다이어로그 창 띄울 예정
+                    System.out.println("오류가 발생하였습니다.");
+                }
+
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+
+        System.out.println("viewPath는 무엇인가요:::::"+viewPath);
 
         return viewPath;
     }

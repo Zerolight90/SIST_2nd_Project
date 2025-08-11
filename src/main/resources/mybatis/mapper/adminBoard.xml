@@ -37,8 +37,8 @@
 
     <!--게시물 작성-->
     <insert id="add" parameterType="Map">
-        INSERT INTO board(adminIdx, tIdx, boardType, boardTitle, boardContent, file_name, ori_name, boardRegDate, boardEndRegDate,  boardStatus)
-        VALUES (1, 1, #{boardType}, #{title}, #{content}, #{fname}, #{oname}, #{boardRegDate}, #{boardEndRegDate}, 0)
+        INSERT INTO board(adminIdx, tIdx, boardType, sub_boardType, boardTitle, boardContent, file_name, ori_name, boardRegDate, boardEndRegDate,  boardStatus)
+        VALUES (1, 1, #{boardType}, #{subBoardType}, #{title}, #{content}, #{fname}, #{oname}, #{boardRegDate}, #{boardEndRegDate}, 0)
     </insert>
 
     <!--게시물 보기-->

@@ -2,7 +2,7 @@ package mybatis.vo;
 
 public class AdminBoardVO {
 
-    private String boardIdx, adminIdx, tIdx, boardType, boardTitle, boardContent, file_name, ori_name, boardRegDate, boardEndRegDate, boardStatus;
+    private String boardIdx, adminIdx, tIdx, boardType, sub_boardType, boardTitle, boardContent, file_name, ori_name, boardRegDate, boardEndRegDate, boardStatus;
     private TheaterVO tvo;
 
     public TheaterVO getTvo() {
@@ -43,6 +43,14 @@ public class AdminBoardVO {
 
     public void setBoardType(String boardType) {
         this.boardType = boardType;
+    }
+
+    public String getSub_boardType() {
+        return sub_boardType;
+    }
+
+    public void setSub_boardType(String sub_boardType) {
+        this.sub_boardType = sub_boardType;
     }
 
     public String getBoardTitle() {
@@ -108,6 +116,7 @@ public class AdminBoardVO {
                 ", adminIdx='" + adminIdx + '\'' +
                 ", tIdx='" + tIdx + '\'' +
                 ", boardType='" + boardType + '\'' +
+                ", sub_boardType='" + sub_boardType + '\'' +
                 ", boardTitle='" + boardTitle + '\'' +
                 ", boardContent='" + boardContent + '\'' +
                 ", file_name='" + file_name + '\'' +

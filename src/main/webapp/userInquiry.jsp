@@ -94,7 +94,7 @@
 
                 <div>
                     <table>
-                        <tr>
+                        <%--<tr>
                             <th class="row">문의선택 <em class="red">*</em></th>
                             <td colspan="3">
                                 <input type="radio" id="centerQ" name="centerQ" value="고객센터문의" checked="">
@@ -129,6 +129,24 @@
 
                                     <option value="">극장선택</option></select><button type="button" class="btn dropdown-toggle disabled bs-placeholder btn-default" data-toggle="dropdown" role="button" data-id="theater02" tabindex="-1" aria-disabled="true" title="극장선택"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">극장선택</div></div> </div><span class="bs-caret"><span class="caret"></span></span></button><div class="dropdown-menu open" role="combobox" style="max-height: 842.547px; overflow: hidden; min-height: 0px;"><div class="inner open" role="listbox" aria-expanded="false" tabindex="-1" style="max-height: 840.547px; overflow-y: auto; min-height: 0px;"><ul class="dropdown-menu inner "><li><a role="option" aria-disabled="false" tabindex="0" aria-selected="false"><span class="text">극장선택</span></a></li></ul></div></div></div>
                             </td>
+                        </tr>--%>
+
+                        <tr>
+                            <th>문의선택</th>
+                            <th>문의유형</th>
+                            <th>이름</th>
+                            <th>이메일</th>
+                            <th>휴대전화</th>
+                            <th>제목</th>
+                            <th>내용</th>
+                        </tr>
+                        <tr>
+                            <td>문의 내용</td>
+                            <td>
+                                <textarea rows="12" cols="50" id="boardContent" name="boardContent" placeholder="aa.">
+                                </textarea>
+                            </td>
+
                         </tr>
                     </table>
                 </div>

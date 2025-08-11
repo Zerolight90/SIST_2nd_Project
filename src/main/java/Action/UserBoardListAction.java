@@ -55,6 +55,20 @@ public class UserBoardListAction implements Action{
         request.setAttribute("totalCount", totalCount); //게시물 토탈 갯수
 
 
-        return "userBoardList.jsp";
+        //유저화면 게시판 타입에 따른 화면단 분기처리
+        if(boardType.equals("userBoardList")){
+            System.out.println("userBoardList!!!!!!!!!!!!!!!!!!!!");
+            return "userBoardList.jsp";
+        } else if(boardType.equals("userEventList")){
+            System.out.println("userEventList!!!!!!!!!!!!!!!!!");
+            return "userEventList.jsp";
+        } else if(boardType.equals("userCustomerInquiry")){
+            System.out.println("adminEventList!!!!!!!!!!!!!!!!!!");
+            return "userInquiry.jsp";
+        } else{
+            System.out.println("else!!!!!!!!!!!!!!");
+            return "userBoardList.jsp";
+        }
+
     }
 }
