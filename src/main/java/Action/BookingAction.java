@@ -25,26 +25,22 @@ public class BookingAction implements Action{
         LocalDate now = LocalDate.now();
         LocalDate f_date = now.plusDays(10);
 
-        LocalDateVO ldv = new LocalDateVO();
+
 
         List<LocalDateVO> ldv_list = new ArrayList<>();
 
-
-//        List<LocalDate> dateList = new ArrayList<>();
-
+        int i = 0;
         for(LocalDate date=now; !date.isAfter(f_date); date=date.plusDays(1)) {
+            LocalDateVO ldv = new LocalDateVO();
             DayOfWeek dow = date.getDayOfWeek();
-//            System.out.println(dow.getDisplayName(TextStyle.FULL, Locale.KOREA)); // 월
             System.out.println(date); // 값이 저장됐는지 확인
             ldv.setLocDate(date.toString());
             ldv.setDow(dow.getDisplayName(TextStyle.FULL, Locale.KOREA));
             ldv_list.add(ldv);
-//            ldv_list[i] = ldv;
-//            System.out.println(ldv_list[i].getLocDate());
+            System.out.println(ldv_list.get(i++).getLocDate());
         }
-//        LocalDate[] dateArr = new LocalDate[dateList.size()];
-//        dateList.toArray(dateArr);
-//        System.out.println(dateList.size());
+
+//
         request.setAttribute("dvo_list", ldv_list);
         //------------------------------------------------------------------------------
 

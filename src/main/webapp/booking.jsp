@@ -27,6 +27,8 @@
     </div>
     <form action="Controller" method="post">
       <div id="booking-wrap">
+        <c:set var="dvo1" value="${requestScope.dvo_list.get(0)}"/>
+        <div>${dvo1.locDate}</div>
         <!-- 상단 날짜영역 -->
         <div class="booking-date">
           <div class="date-container">
@@ -35,36 +37,16 @@
                 <c:set var="dayStr" value="${fn:substring(dvo.locDate, 8, 10)}" />
                 <c:choose>
                   <c:when test="${fn:startsWith(dayStr, '0')}"> <!-- 0으로 시작하면 마지막 글자만 보여주고 -->
-                    <button type="button" class="btn" onclick="inDate(this.nextElementSibling.value)">${fn:substring(dayStr, 1, 2)}</button>
-                    <span>${dvo.dow}</span>
+                    <button type="button" class="btn" onclick="inDate(this.nextElementSibling.value)">${fn:substring(dayStr, 1, 2)}&nbsp;${dvo.dow}</button>
                     <input type="hidden" value="${dvo.locDate}"/>
                   </c:when>
                   <c:otherwise>  <!-- 0으로 시작하지 않으면 모두 보여준다 -->
-                    <button type="button" class="btn" onclick="inDate(this.nextElementSibling.value)">${dvo.locDate}</button>
-                    <span>${dvo.dow}</span>
+                    <button type="button" class="btn" onclick="inDate(this.nextElementSibling.value)">${dayStr}&nbsp;${dvo.dow}</button>
                     <input type="hidden" value="${dvo.locDate}"/>
                   </c:otherwise>
                 </c:choose>
               </div>
             </c:forEach>
-<%--            <c:set var="dArr" value="${requestScope.dateArr}" scope="page"/>--%>
-<%--            <c:forEach var="date" items="${dArr}" varStatus="i">--%>
-<%--              <div class="date-item">--%>
-<%--                <c:set var="dayStr" value="${fn:substring(date, 8, 10)}" />--%>
-<%--                <c:choose>--%>
-<%--                  <c:when test="${fn:startsWith(dayStr, '0')}"> <!-- 0으로 시작하면 마지막 글자만 보여주고 -->--%>
-<%--                    <button type="button" class="btn" onclick="inDate(this.nextElementSibling.value)">${fn:substring(dayStr, 1, 2)}</button>--%>
-<%--&lt;%&ndash;                    <span>${i.index.kdate}</span>&ndash;%&gt;--%>
-<%--                    <input type="hidden" value="${date}"/>--%>
-<%--                  </c:when>--%>
-<%--                  <c:otherwise>  <!-- 0으로 시작하지 않으면 모두 보여준다 -->--%>
-<%--                    <button type="button" class="btn" onclick="inDate(this.nextElementSibling.value)">${dayStr}</button>--%>
-<%--&lt;%&ndash;                    <span>${i.index.kdate}</span>&ndash;%&gt;--%>
-<%--                    <input type="hidden" value="${date}"/>--%>
-<%--                  </c:otherwise>--%>
-<%--                </c:choose>--%>
-<%--              </div>--%>
-<%--            </c:forEach>--%>
           </div>
         </div>
 
