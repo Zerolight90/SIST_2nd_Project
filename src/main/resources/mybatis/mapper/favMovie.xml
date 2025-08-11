@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="favMovie">
+
+    <insert id="add" parameterType="java.util.Map">
+        INSERT INTO favorite_movie (userIdx, mIdx)
+        VALUES (#{userIdx}, #{mIdx})
+    </insert>
+
+    <select id="isExist" parameterType="java.util.Map" resultType="int">
+        SELECT count(*)
+        FROM favorite_movie
+        WHERE userIdx = #{userIdx} AND mIdx = #{mIdx}
+    </select>
+
+    <select id="getLikedMoviesByUser" parameterType="String" resultType="String">
+        SELECT mIdx
+        FROM favorite_movie
+        WHERE userIdx = #{userIdx}
+    </select>
+
+    <select id="getLikeCounts" parameterType="java.util.List" resultType="java.util.Map">
+        SELECT
+        mIdx, COUNT(*) as likeCount
+        FROM
+        favorite_movie
+        WHERE
+        mIdx IN
+        <foreach item="movie" collection="list" open="(" separator="," close=")">
+            #{movie.mIdx}
+        </foreach>
+        GROUP BY
+        mIdx
+    </select>
+
+</mapper>

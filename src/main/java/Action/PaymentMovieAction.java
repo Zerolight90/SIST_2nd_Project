@@ -28,13 +28,13 @@ public class PaymentMovieAction implements Action {
         String userIdx = (mvo == null) ? String.valueOf(1L) : mvo.getUserIdx();
 
         try {
-            String movieTitle = request.getParameter("movieTitle");
+            String movieTitle = request.getParameter("movieTitle"); // 필수
             String posterUrl = request.getParameter("posterUrl");
-            String theaterName = request.getParameter("theaterName");
+            String theaterName = request.getParameter("theaterName"); // 필수
             String screenName = request.getParameter("screenName");
             String startTime = request.getParameter("startTime");
             String seatInfo = request.getParameter("seatInfo");
-            String amountStr = request.getParameter("amount");
+            String amountStr = request.getParameter("amount"); // 필수
             // 필수 파라미터가 없는 경우 에러 처리
             if (movieTitle == null || theaterName == null || amountStr == null) {
                 request.setAttribute("errorMsg", "필수 예매 정보가 누락되었습니다.");

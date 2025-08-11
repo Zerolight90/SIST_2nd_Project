@@ -49,30 +49,5 @@
     </div>
   </div>
 </div>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const tabLinks = document.querySelectorAll('#movieStoryTabNav a');
-    const tabPanes = document.querySelectorAll('#movieStoryTabContent .tab-pane');
-
-    tabLinks.forEach(function(link) {
-      link.addEventListener('click', function(event) {
-        event.preventDefault();
-        const targetTab = this.getAttribute('data-tab');
-
-        tabLinks.forEach(innerLink => innerLink.classList.remove('active'));
-        this.classList.add('active');
-
-        tabPanes.forEach(pane => {
-          if (pane.getAttribute('data-tab-content') === targetTab) {
-            pane.classList.add('active');
-          } else {
-            pane.classList.remove('active');
-          }
-        });
-      });
-    });
-  });
-</script>
 </body>
 </html>

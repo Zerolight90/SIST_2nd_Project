@@ -111,6 +111,22 @@
       $('#mainContent').load(url);
     });
   });
+
+  $('#mainContent').on('click', '#movieStoryTabNav a', function(e) {
+    e.preventDefault(); // 링크의 기본 동작 방지
+
+    const tabLinks = $('#movieStoryTabNav a');
+    const tabPanes = $('#movieStoryTabContent .tab-pane');
+    const targetTab = $(this).data('tab');
+
+    // 모든 탭과 콘텐츠를 비활성화
+    tabLinks.removeClass('active');
+    tabPanes.removeClass('active');
+
+    // 클릭된 탭과 그에 맞는 콘텐츠만 활성화
+    $(this).addClass('active');
+    $('#movieStoryTabContent').find('[data-tab-content="' + targetTab + '"]').addClass('active');
+  });
 </script>
 
 </body>

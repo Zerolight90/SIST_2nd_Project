@@ -11,12 +11,6 @@
         WHERE id = #{m_id} AND pw = #{m_pw} AND status = 0
     </select>
 
-    <!--인자로 MemberVO를 받아서 memeber를 추가하는 insert -->
-    <insert id="add" parameterType="mybatis.vo.MemberVO">
-        INSERT INTO web_movie.user(id, pw, birth, name, gender, phone, email, totalPoints, status, joinPath)
-        VALUES(#{id}, #{pw}, #{birth}, #{name}, #{gender}, #{phone}, #{email}, 0, 0, #{joinPath})
-    </insert>
-
     <!-- sns 로그인 한 유저의 추가 개인정보 입력하는 쿼리-->
     <update id="sns_add" parameterType="mybatis.vo.MemberVO">
         UPDATE web_movie.user
@@ -24,13 +18,6 @@
             SET birth = #{phone}
             WHERE id = #{id}
     </update>
-
-    <!-- KakaoVO 전용 회원가입 쿼리 -->
-    <insert id="addKakaoUser" parameterType="mybatis.vo.KakaoVO">
-        INSERT INTO web_movie.user(id, pw, birth, name, gender, phone, email, totalPoints, status, joinPath)
-        VALUES(#{k_id},#{pw}, #{birth}, #{k_name}, #{gender}, #{phone}, #{k_email}, 0, 0, 'Kakao')
-    </insert>
-
 
     <!-- 아이디를 인자로 받아서 중복확인하는 select -->
     <select id="id_check" parameterType="String" resultType="mybatis.vo.MemberVO">
@@ -83,4 +70,17 @@
     <select id="findByIdx" parameterType="long" resultType="mybatis.vo.MemberVO">
         SELECT * FROM user WHERE userIdx = #{userIdx}
     </select>
+
+    <!--인자로 MemberVO를 받아서 memeber를 추가하는 insert -->
+    <insert id="add" parameterType="mybatis.vo.MemberVO">
+        INSERT INTO web_movie.user(id, pw, birth, name, gender, phone, email, totalPoints, status,joinDate, joinPath)
+        VALUES(#{id}, #{pw}, #{birth}, #{name}, #{gender}, #{phone}, #{email}, 0, 0, DATE(NOW()), #{joinPath})
+    </insert>
+
+    <!-- KakaoVO 전용 회원가입 쿼리 -->
+    <insert id="addKakaoUser" parameterType="mybatis.vo.KakaoVO">
+        INSERT INTO web_movie.user(id, pw, birth, name, gender, phone, email, totalPoints, status, joinDate, joinPath)
+        VALUES(#{k_id},#{pw}, #{birth}, #{k_name}, #{gender}, #{phone}, #{k_email}, 0, 0, DATE(NOW()), 'Kakao')
+    </insert>
+
 </mapper>
