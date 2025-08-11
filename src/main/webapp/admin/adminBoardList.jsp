@@ -133,21 +133,6 @@
       background-color: #f5f5f5;
     }
 
-    /* 상태 뱃지 스타일 */
-    .status-badge {
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 12px;
-      font-weight: bold;
-      color: #fff;
-    }
-    .status-active {
-      background-color: #4caf50; /* 활성 */
-    }
-    .status-dormant {
-      background-color: #f44336; /* 탈퇴 */
-    }
-
     /* 4. 페이징 */
     .pagination {
       display: flex;
@@ -206,8 +191,6 @@
     }
 
   </style>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 </head>
 <body style="margin: auto">
 <!-- 관리자 화면에 처음 들어오는 보이는 상단영역 -->
@@ -234,7 +217,8 @@
       <div class="total-count">
         전체 <strong>${totalCount}</strong>건
       </div>
-      <form class="search-form" action="#" method="get">
+      <form class="search-form" action="Controller" method="get">
+        <input type="hidden" name="type" value="adminBoardList">
         <select name="search_field">
           <option value="all">지역 선택</option>
           <option value="name">대상</option>
@@ -247,9 +231,10 @@
           <option value="id">로그 정보</option>
           <option value="email">관리자 ID</option>
         </select>
-        <input type="text" name="search_keyword" placeholder="검색어를 입력해주세요.">
-        <button type="submit" class="btn btn-search" onclick="searchTitle()">검색</button>
-        <button type="button" class="btn btn-reset">초기화</button>
+        <%--검색기능--%>
+          <input type="text" name="searchKeyword" id="searchKeyword" placeholder="검색어를 입력해주세요." value="${param.searchKeyword}">
+          <button type="button" class="btn btn-search" onclick="searchTitle()">검색</button>
+          <button type="button" class="btn btn-reset" onclick="resetSearch()">초기화</button>
       </form>
     </div>
 
@@ -291,6 +276,11 @@
 
     </table>
 
+    <!-- 검색 결과 없음 모달 -->
+    <div id="noResultDialog" title="알림" style="display: none;">
+      <p>검색된 결과가 없습니다.</p>
+    </div>
+
     <input type="button" value="글쓰기" class="btn writeBoard"
            onclick="javascript:location.href='Controller?type=adminWriteBoard'"/>
 
@@ -330,13 +320,47 @@
   </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 <script>
-  
+
+  //제목 서치
   function searchTitle() {
 
+    let keyword = $("#searchKeyword").val().trim();
 
-    
+    if (keyword < 1) {
+      alert("검색어를 입력해주세요.");
+      $("#searchKeyword").focus();
+      return;
+    }
+
+    //확인
+    console.log("보낼 keyword:", keyword);
+    document.forms[0].submit();
   }
+
+  //초기화 버튼 클릭 시
+  function resetSearch() {
+
+    $("#searchKeyword").val("");
+    $("#searchKeyword").focus();
+  }
+
+  $(function () {
+    $("#noResultDialog").dialog({
+      modal: true,
+      autoOpen: false,
+      resizable: false,
+    });
+
+    // 검색 결과 없을 때만 열기
+    let noResult = "${empty requestScope.ar}";
+    if (noResult === "true") {
+      $("#noResultDialog").dialog("open");
+    }
+  });
+
 
 </script>
 </body>

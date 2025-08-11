@@ -47,10 +47,6 @@
       border-bottom: 1px solid #ddd;
     }
 
-    #title{
-      width: 800px;
-    }
-
     .board-table td {
       padding: 12px 0px 10px 121px;
       border-bottom: 1px solid #eee;

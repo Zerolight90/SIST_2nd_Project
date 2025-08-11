@@ -17,7 +17,7 @@ public class AdminBoardDAO {
         
         SqlSession ss = FactoryService.getFactory().openSession();
         
-        int cnt = ss.selectOne("board.totalCount", bt);
+        int cnt = ss.selectOne("adminBoard.totalCount", bt);
         ss.close();
 
         return cnt;
@@ -25,8 +25,9 @@ public class AdminBoardDAO {
 
     //AdminBoardListAction에서 getList를 호출한다.
     //목록 반환
-    public static AdminBoardVO[] getList(String boardType, int begin, int end){
+    public static AdminBoardVO[] getList(String boardType, int begin, int end, String searchKeyword){
 
+        System.out.println("searchKeyword::::::::" + searchKeyword);
         String bt = bungiCata(boardType);
 
         AdminBoardVO[] ar = null;
@@ -36,12 +37,15 @@ public class AdminBoardDAO {
         map.put("boardType", bt); //xml에 지정한 이름대로
         map.put("begin", begin);
         map.put("end", end);
+        map.put("searchKeyword", searchKeyword);
 
-        //System.out.println("map:::::::" + map);
+        System.out.println("map:::::::" + map);
 
         SqlSession ss = FactoryService.getFactory().openSession();
         //AdminBoardVO가 여러개 넘어오도록 한다.
-        List<AdminBoardVO> list = ss.selectList("board.adminBoardList", map);
+        List<AdminBoardVO> list = ss.selectList("adminBoard.adminBoardList", map);
+        System.out.println("list.toString():::::::" + list.toString());
+        System.out.println("list:::::::" + list);
 
         //결과가 넘어오면 배열로 넘겨야 하기 때문에
         if(list != null && !list.isEmpty()){ //비어있는 상태가 아니면,
@@ -78,7 +82,7 @@ public class AdminBoardDAO {
 
 
         SqlSession ss= FactoryService.getFactory().openSession();
-        cnt = ss.insert("board.add", map);
+        cnt = ss.insert("adminBoard.add", map);
 
         if(cnt>0){
             ss.commit();
@@ -94,7 +98,7 @@ public class AdminBoardDAO {
     public static AdminBoardVO getBoard(String boardIdx){
 
         SqlSession ss = FactoryService.getFactory().openSession();
-        AdminBoardVO vo = ss.selectOne("board.getBoard", boardIdx);
+        AdminBoardVO vo = ss.selectOne("adminBoard.getBoard", boardIdx);
 
         ss.close();
 
@@ -105,7 +109,7 @@ public class AdminBoardDAO {
     public static int delBbs(String boardIdx){
 
         SqlSession ss = FactoryService.getFactory().openSession();
-        int cnt = ss.update("board.del", boardIdx);
+        int cnt = ss.update("adminBoard.del", boardIdx);
 
         if(cnt>0)
             ss.commit();
@@ -134,7 +138,7 @@ public class AdminBoardDAO {
         }
 
         SqlSession ss = FactoryService.getFactory().openSession();
-        int cnt = ss.update("board.edit", map);
+        int cnt = ss.update("adminBoard.edit", map);
 
         if(cnt>0)
             ss.commit();
@@ -159,6 +163,16 @@ public class AdminBoardDAO {
         }
 
         return boardType;
+    }
+
+    //검색 기능
+    public String search(String boardTitle){
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        ss.selectList("adminBoard.search", boardTitle);
+
+
+        return boardTitle;
     }
 
     

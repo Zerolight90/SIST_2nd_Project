@@ -1,0 +1,104 @@
+package mybatis.dao;
+
+import mybatis.Service.FactoryService;
+import mybatis.vo.AdminBoardVO;
+import org.apache.ibatis.session.SqlSession;
+
+import java.util.HashMap;
+import java.util.List;
+
+public class UserBoardDAO {
+
+    //총 게시물 수 반환
+    public static int getTotalCount(String boardType){
+
+        String bt = bungiCata(boardType);
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+
+        int cnt = ss.selectOne("userBoard.totalCount", bt);
+        ss.close();
+
+        return cnt;
+    }
+
+    //게시물 목록 반환
+    public static AdminBoardVO[] getList(String boardType, int begin, int end, String searchKeyword){
+        String bt = bungiCata(boardType);
+
+        AdminBoardVO[] ar = null;
+
+        //key값 String, value는 Object(int 두개를 모두 포함시켜야 하기 때문)
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("boardType", bt); //xml에 지정한 이름대로
+        map.put("begin", begin);
+        map.put("end", end);
+        map.put("searchKeyword", searchKeyword);
+
+        System.out.println("map:::::::" + map);
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        //AdminBoardVO가 여러개 넘어오도록 한다.
+        List<AdminBoardVO> list = ss.selectList("userBoard.userBoardList", map);
+        System.out.println("list.toString():::::::" + list.toString());
+        System.out.println("list:::::::" + list);
+
+        //결과가 넘어오면 배열로 넘겨야 하기 때문에
+        if(list != null && !list.isEmpty()){ //비어있는 상태가 아니면,
+            ar = new AdminBoardVO[list.size()]; //ar을 만든다.
+            list.toArray(ar); //list에 있는 모든 항목들을 배열 ar에 복사
+        }
+        ss.close();
+
+        return ar;
+    }
+
+
+    //게시글 보기
+    public static AdminBoardVO getBoard(String boardIdx){
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        AdminBoardVO vo = ss.selectOne("userBoard.getBoard", boardIdx);
+
+        ss.close();
+
+        return vo;
+    }
+
+
+    private static String bungiCata(String boardType){
+        //게시판 카테고리 분기처리
+        if(boardType.equals("adminBoardList")){
+            boardType="공지사항";
+        }else if(boardType.equals("customerInquiry")){
+            boardType="고객문의";
+        }else if((boardType.equals("adminEventList"))){
+            boardType="이벤트";
+        }else{
+            boardType="공지사항";
+        }
+
+        return boardType;
+    }
+
+    public static AdminBoardVO getPrevPost(String boardIdx) {
+        // MyBatis Mapper를 호출하여 이전 글 정보를 가져오는 로직
+        SqlSession ss = FactoryService.getFactory().openSession();
+        AdminBoardVO prevVO = ss.selectOne("userBoard.getPrevPost", boardIdx);
+
+        //System.out.println("preVO.toString():::::::" + prevVO.toString());
+        ss.close();
+        return prevVO;
+    }
+
+    public static AdminBoardVO getNextPost(String boardIdx) {
+        // MyBatis Mapper를 호출하여 다음 글 정보를 가져오는 로직
+        SqlSession ss = FactoryService.getFactory().openSession();
+        AdminBoardVO nextVO = ss.selectOne("userBoard.getNextPost", boardIdx);
+
+        //System.out.println("nextVO.toString():::::::" + nextVO.toString());
+        ss.close();
+
+        return nextVO;
+    }
+}

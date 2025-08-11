@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="userBoard">
+
+    <!--1:1은 association-->
+    <resultMap id="map1" type="mybatis.vo.AdminBoardVO">
+        <id property="boardIdx" column="boardIdx"/>
+        <association property="tvo" javaType="mybatis.vo.TheaterVO" select="theater.getTheater" column="tIdx"/>
+    </resultMap>
+
+    <!--공지사항에 대한 전체 목록 추출-->
+    <select id="userBoardList" resultMap="map1">
+        SELECT * FROM(
+            SELECT @RN:=@RN+1 AS rnum, a.* FROM(
+                SELECT * FROM board
+                WHERE boardStatus = 0
+                AND boardType = #{boardType}
+                <if test="searchKeyword != null and searchKeyword != ''">
+                    AND boardTitle LIKE CONCAT('%', #{searchKeyword}, '%')
+                </if>
+                ORDER BY boardIdx DESC
+            ) a, (SELECT @RN:=0) b
+        ) c WHERE c.rnum BETWEEN #{begin} AND #{end}
+    </select>
+
+    <!--총 게시물 수를 반환하는 기능-->
+    <!--총 페이지 수를 알아야 한다. 그래야 반복문을 돌리면서 제어를 할 수 있다. 총게시물 수가 있어야 총 페이지 수를 구할 수 있다.-->
+    <select id="totalCount" resultType="int" parameterType="String">
+        SELECT COUNT(*) FROM board
+        WHERE boardStatus = 0
+        AND boardType = #{boardType}
+    </select>
+
+    <!--게시물 보기-->
+    <select id="getBoard" parameterType="String" resultMap="map1">
+        SELECT * FROM board
+        WHERE boardIdx = #{boardIdx}
+    </select>
+
+    <!--공지사항 상세 이전글-->
+    <select id="getPrevPost" resultType="mybatis.vo.AdminBoardVO">
+        SELECT boardIdx, boardTitle
+        FROM board
+        WHERE boardIdx &lt; #{boardIdx}
+        AND boardStatus = 0
+        ORDER BY boardIdx DESC
+        LIMIT 1
+    </select>
+
+    <!--공지사항 상세 다음글-->
+    <select id="getNextPost" resultType="mybatis.vo.AdminBoardVO">
+        SELECT boardIdx, boardTitle
+        FROM board
+        WHERE boardIdx &gt; #{boardIdx}
+        AND boardStatus = 0
+        ORDER BY boardIdx ASC
+        LIMIT 1
+    </select>
+
+
+</mapper>

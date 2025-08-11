@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -11,6 +12,54 @@
     <link rel="icon" href="./images/favicon.png">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+
+    <style>
+        /* 4. 페이징 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 15px;
+            gap: 6px;
+        }
+
+        .pagination .nav-arrow a,
+        .pagination .nav-arrow strong,
+        .pagination .nav-arrow,
+        .pagination a,
+        .pagination strong {
+            display: inline-block;
+            width: 34px;
+            height: 34px;
+            line-height: 34px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .pagination .nav-arrow a:hover {
+            background-color: #f0f0f0;
+        }
+
+        .pagination .current-page {
+            background-color: #337ab7;
+            color: #fff;
+            border-color: #337ab7;
+            font-weight: bold;
+        }
+
+        .pagination .nav-arrow {
+            font-weight: bold;
+        }
+
+        .disable {
+            background-color: lightgray;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -27,7 +76,7 @@
                 &nbsp;>&nbsp;
                 <span>고객센터</span>
                 >
-                <a href="Controller?type=board">공지사항</a>
+                <a href="Controller?type=userBoardList">공지사항</a>
             </div>
         </div>
     </div>
@@ -56,7 +105,7 @@
                 <div id="tabCont1_1" class="tabCont" style="display:block; margin-bottom: 50px">
                     <%--필터영역--%>
                     <div class="board-list-util">
-                        <div class="result-count"><strong>전체 <em class="font-gblue">3,773</em>건</strong></div>
+                        <div class="result-count"><strong>전체 <em class="font-gblue">${totalCount}</em>건</strong></div>
 
                         <div class="dropdown">
                             <select id="dropdown-select" title="지역 선택" class="mr07" tabindex="-98">
@@ -87,8 +136,8 @@
                         </div>
 
                         <div class="board-search">
-                            <input type="text" id="searchTxt" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value="" maxlength="15">
-                            <button type="button" id="searchBtn" class="btn-search-input">검색</button>
+                            <input type="text" id="searchTxtAll" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value="" maxlength="15">
+                            <button type="button" id="searchBtnAll" class="btn-search-input">검색</button>
                         </div>
                     </div>
 
@@ -105,51 +154,70 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>메가박스</td>
-                                <td>공지</td>
-                                <td><a href="#">[메가박스] 전관 대관 행사 안내(7/26)</a></td>
-                                <td>2025.07.21</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>신촌</td>
-                                <td>공지</td>
-                                <td><a href="#">[신촌] 시스템 점검 안내</a></td>
-                                <td>2025.07.19</td>
-                            </tr>
+                            <%--DB에서 반복문으로 생성--%>
+                            <c:set var="p" value="${requestScope.page}" scope="page"/>
+                            <c:forEach items="${requestScope.ar}" var="vo" varStatus="vs1">
+                                <tr>
+                                    <c:set var="num" value="${p.totalCount - ((p.nowPage-1)*p.numPerPage+ vs1.index)}"/>
+                                    <td>${num}</td>
+                                    <td>${vo.tvo.tName}</td>
+                                    <td>${vo.boardType}</td>
+                                    <td>
+                                        <a href="Controller?type=userViewBoard&boardIdx=${vo.boardIdx}&cPage=${nowPage}">
+                                                ${vo.boardTitle}
+                                        </a>
+                                    </td>
+                                    <td>${vo.boardRegDate}</td>
+                                </tr>
+                            </c:forEach>
                             </tbody>
                         </table>
                     </div>
 
                     <!-- 페이지네이션 -->
-                    <nav class="pagination">
-                        <a title="처음 페이지 보기" href="javascript:void(0)" class="control first" pagenum="1">first</a>
-                        <a title="이전 10페이지 보기" href="javascript:void(0)" class="control prev" pagenum="351">prev</a>
-                        <strong class="active">361</strong>
-                        <a title="1페이지보기" href="javascript:void(0)" pagenum="362">362</a>
-                        <a title="2페이지보기" href="javascript:void(0)" pagenum="363">363</a>
-                        <a title="3페이지보기" href="javascript:void(0)" pagenum="364">364</a>
-                        <a title="4페이지보기" href="javascript:void(0)" pagenum="365">365</a>
-                        <a title="5페이지보기" href="javascript:void(0)" pagenum="366">366</a>
-                        <a title="6페이지보기" href="javascript:void(0)" pagenum="367">367</a>
-                        <a title="7페이지보기" href="javascript:void(0)" pagenum="368">368</a>
-                        <a title="8페이지보기" href="javascript:void(0)" pagenum="369">369</a>
-                        <a title="9페이지보기" href="javascript:void(0)" pagenum="370">370</a>
-                        <a title="이후 10페이지 보기" href="javascript:void(0)" class="control next" pagenum="371">next</a>
-                        <a title="마지막 페이지 보기" href="javascript:void(0)" class="control last" pagenum="378">last</a>
+                    <nav>
+                        <ol class="pagination">
+                            <c:set var="p" value="${requestScope.page}" scope="page"/>
+                            <c:if test="${p.startPage < p.pagePerBlock}">
+                                <li class = "nav-arrow disable">&lt;</li> <%--&lt; :: <<--%>
+                            </c:if>
+                            <c:if test="${p.startPage >= p.pagePerBlock}">
+                                <li class="nav-arrow"><a href="Controller?type=userBoardList&cPage=${p.nowPage-p.pagePerBlock}">&lt;</a></li>
+                            </c:if>
+
+                            <%--숫자를 찍음--%>
+                            <c:forEach begin="${p.startPage}" end="${p.endPage}" varStatus="vs">
+                                <c:if test="${p.nowPage == vs.index}">
+                                    <%--<li class="now">1</li>--%>
+                                    <%--now가 계속 찍히면 안된다. --%>
+                                    <%--<li <% if(p.getNowPage() == i){ %>class="now"<% }%>><%=i%></li>--%>
+                                    <li class="now"><strong class="current-page">${vs.index}</strong></li>
+                                </c:if>
+                                <%--현재 페이지 외의 버튼들--%>
+                                <c:if test="${p.nowPage != vs.index}">
+                                    <li><a href="Controller?type=userBoardList&cPage=${vs.index}">${vs.index}</a></li>
+                                </c:if>
+                            </c:forEach>
+
+
+                            <c:if test="${p.endPage < p.totalPage}">
+                                <li><a href="Controller?type=userBoardList&cPage=${p.nowPage+p.pagePerBlock}">&gt;</a></li> <%--&gt; :: >>--%>
+                            </c:if>
+                            <c:if test="${p.endPage >= p.totalPage}">
+                                <li class="nav-arrow disable">&gt;</li>
+                            </c:if>
+                        </ol>
                     </nav>
                 </div>
 
                 <div id="tabCont1_2" class="tabCont" style="display:none; margin-bottom: 50px">
                     <%--필터영역--%>
                     <div class="board-list-util">
-                        <div class="result-count"><strong>전체 <em class="font-gblue">3,773</em>건</strong></div>
+                        <div class="result-count"><strong>전체 <em class="font-gblue">${totalCount}</em>건</strong></div>
 
                         <div class="board-search"   style="margin-left: auto;" >
-                            <input type="text" id="searchTxt" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value="" maxlength="15">
-                            <button type="button" id="searchBtn" class="btn-search-input">검색</button>
+                            <input type="text" id="searchTxtMega" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value="" maxlength="15">
+                            <button type="button" id="searchBtnMega" class="btn-search-input">검색</button>
                         </div>
                     </div>
 
@@ -185,28 +253,45 @@
                     </div>
 
                     <!-- 페이지네이션 -->
-                    <nav class="pagination">
-                        <a title="처음 페이지 보기" href="javascript:void(0)" class="control first" pagenum="1">first</a>
-                        <a title="이전 10페이지 보기" href="javascript:void(0)" class="control prev" pagenum="351">prev</a>
-                        <strong class="active">361</strong>
-                        <a title="1페이지보기" href="javascript:void(0)" pagenum="362">362</a>
-                        <a title="2페이지보기" href="javascript:void(0)" pagenum="363">363</a>
-                        <a title="3페이지보기" href="javascript:void(0)" pagenum="364">364</a>
-                        <a title="4페이지보기" href="javascript:void(0)" pagenum="365">365</a>
-                        <a title="5페이지보기" href="javascript:void(0)" pagenum="366">366</a>
-                        <a title="6페이지보기" href="javascript:void(0)" pagenum="367">367</a>
-                        <a title="7페이지보기" href="javascript:void(0)" pagenum="368">368</a>
-                        <a title="8페이지보기" href="javascript:void(0)" pagenum="369">369</a>
-                        <a title="9페이지보기" href="javascript:void(0)" pagenum="370">370</a>
-                        <a title="이후 10페이지 보기" href="javascript:void(0)" class="control next" pagenum="371">next</a>
-                        <a title="마지막 페이지 보기" href="javascript:void(0)" class="control last" pagenum="378">last</a>
+                    <nav>
+                        <ol class="pagination">
+                            <c:set var="p" value="${requestScope.page}" scope="page"/>
+                            <c:if test="${p.startPage < p.pagePerBlock}">
+                                <li class = "nav-arrow disable">&lt;</li> <%--&lt; :: <<--%>
+                            </c:if>
+                            <c:if test="${p.startPage >= p.pagePerBlock}">
+                                <li class="nav-arrow"><a href="Controller?type=adminBoardList&cPage=${p.nowPage-p.pagePerBlock}">&lt;</a></li>
+                            </c:if>
+
+                            <%--숫자를 찍음--%>
+                            <c:forEach begin="${p.startPage}" end="${p.endPage}" varStatus="vs">
+                                <c:if test="${p.nowPage == vs.index}">
+                                    <%--<li class="now">1</li>--%>
+                                    <%--now가 계속 찍히면 안된다. --%>
+                                    <%--<li <% if(p.getNowPage() == i){ %>class="now"<% }%>><%=i%></li>--%>
+                                    <li class="now"><strong class="current-page">${vs.index}</strong></li>
+                                </c:if>
+                                <%--현재 페이지 외의 버튼들--%>
+                                <c:if test="${p.nowPage != vs.index}">
+                                    <li><a href="Controller?type=adminBoardList&cPage=${vs.index}">${vs.index}</a></li>
+                                </c:if>
+                            </c:forEach>
+
+
+                            <c:if test="${p.endPage < p.totalPage}">
+                                <li><a href="Controller?type=adminBoardList&cPage=${p.nowPage+p.pagePerBlock}">&gt;</a></li> <%--&gt; :: >>--%>
+                            </c:if>
+                            <c:if test="${p.endPage >= p.totalPage}">
+                                <li class="nav-arrow disable">&gt;</li>
+                            </c:if>
+                        </ol>
                     </nav>
                 </div>
 
                 <div id="tabCont1_3" class="tabCont" style="display:none; margin-bottom: 50px">
                     <%--필터영역--%>
                     <div class="board-list-util">
-                        <div class="result-count"><strong>전체 <em class="font-gblue">3,773</em>건</strong></div>
+                        <div class="result-count"><strong>전체 <em class="font-gblue">${totalCount}</em>건</strong></div>
 
                         <div class="dropdown">
                             <select id="dropdown-select" title="지역 선택" class="mr07" tabindex="-98">
@@ -237,8 +322,8 @@
                         </div>
 
                         <div class="board-search">
-                            <input type="text" id="searchTxt" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value="" maxlength="15">
-                            <button type="button" id="searchBtn" class="btn-search-input">검색</button>
+                            <input type="text" id="searchTxtBranch" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value="" maxlength="15">
+                            <button type="button" id="searchBtnBranch" class="btn-search-input">검색</button>
                         </div>
                     </div>
 
@@ -255,40 +340,59 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>메가박스</td>
-                                <td>공지</td>
-                                <td><a href="#">[메가박스] 전관 대관 행사 안내(7/26)</a></td>
-                                <td>2025.07.21</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>신촌</td>
-                                <td>공지</td>
-                                <td><a href="#">[신촌] 시스템 점검 안내</a></td>
-                                <td>2025.07.19</td>
-                            </tr>
+                            <%--DB에서 반복문으로 생성--%>
+                            <c:set var="p" value="${requestScope.page}" scope="page"/>
+                            <c:forEach items="${requestScope.ar}" var="vo" varStatus="vs1">
+                                <tr>
+                                    <c:set var="num" value="${p.totalCount - ((p.nowPage-1)*p.numPerPage+ vs1.index)}"/>
+                                    <td>${num}</td>
+                                    <td>${vo.tvo.tName}</td>
+                                    <td>${vo.boardType}</td>
+                                    <td>
+                                        <a href="Controller?type=userViewBoard&boardIdx=${vo.boardIdx}&cPage=${nowPage}">
+                                                ${vo.boardTitle}
+                                        </a>
+                                    </td>
+                                    <td>${vo.boardRegDate}</td>
+                                </tr>
+                            </c:forEach>
                             </tbody>
                         </table>
                     </div>
 
                     <!-- 페이지네이션 -->
-                    <nav class="pagination">
-                        <a title="처음 페이지 보기" href="javascript:void(0)" class="control first" pagenum="1">first</a>
-                        <a title="이전 10페이지 보기" href="javascript:void(0)" class="control prev" pagenum="351">prev</a>
-                        <strong class="active">361</strong>
-                        <a title="1페이지보기" href="javascript:void(0)" pagenum="362">362</a>
-                        <a title="2페이지보기" href="javascript:void(0)" pagenum="363">363</a>
-                        <a title="3페이지보기" href="javascript:void(0)" pagenum="364">364</a>
-                        <a title="4페이지보기" href="javascript:void(0)" pagenum="365">365</a>
-                        <a title="5페이지보기" href="javascript:void(0)" pagenum="366">366</a>
-                        <a title="6페이지보기" href="javascript:void(0)" pagenum="367">367</a>
-                        <a title="7페이지보기" href="javascript:void(0)" pagenum="368">368</a>
-                        <a title="8페이지보기" href="javascript:void(0)" pagenum="369">369</a>
-                        <a title="9페이지보기" href="javascript:void(0)" pagenum="370">370</a>
-                        <a title="이후 10페이지 보기" href="javascript:void(0)" class="control next" pagenum="371">next</a>
-                        <a title="마지막 페이지 보기" href="javascript:void(0)" class="control last" pagenum="378">last</a>
+                    <nav>
+                        <ol class="pagination">
+                            <c:set var="p" value="${requestScope.page}" scope="page"/>
+                            <c:if test="${p.startPage < p.pagePerBlock}">
+                                <li class = "nav-arrow disable">&lt;</li> <%--&lt; :: <<--%>
+                            </c:if>
+                            <c:if test="${p.startPage >= p.pagePerBlock}">
+                                <li class="nav-arrow"><a href="Controller?type=adminBoardList&cPage=${p.nowPage-p.pagePerBlock}">&lt;</a></li>
+                            </c:if>
+
+                            <%--숫자를 찍음--%>
+                            <c:forEach begin="${p.startPage}" end="${p.endPage}" varStatus="vs">
+                                <c:if test="${p.nowPage == vs.index}">
+                                    <%--<li class="now">1</li>--%>
+                                    <%--now가 계속 찍히면 안된다. --%>
+                                    <%--<li <% if(p.getNowPage() == i){ %>class="now"<% }%>><%=i%></li>--%>
+                                    <li class="now"><strong class="current-page">${vs.index}</strong></li>
+                                </c:if>
+                                <%--현재 페이지 외의 버튼들--%>
+                                <c:if test="${p.nowPage != vs.index}">
+                                    <li><a href="Controller?type=adminBoardList&cPage=${vs.index}">${vs.index}</a></li>
+                                </c:if>
+                            </c:forEach>
+
+
+                            <c:if test="${p.endPage < p.totalPage}">
+                                <li><a href="Controller?type=adminBoardList&cPage=${p.nowPage+p.pagePerBlock}">&gt;</a></li> <%--&gt; :: >>--%>
+                            </c:if>
+                            <c:if test="${p.endPage >= p.totalPage}">
+                                <li class="nav-arrow disable">&gt;</li>
+                            </c:if>
+                        </ol>
                     </nav>
                 </div>
 
@@ -330,5 +434,6 @@
         });
 
     </script>
+
 </body>
 </html>

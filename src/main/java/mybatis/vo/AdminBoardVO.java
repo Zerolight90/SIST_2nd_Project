@@ -100,4 +100,22 @@ public class AdminBoardVO {
     public void setOri_name(String ori_name) {
         this.ori_name = ori_name;
     }
+
+    @Override
+    public String toString() {
+        return "AdminBoardVO{" +
+                "boardIdx='" + boardIdx + '\'' +
+                ", adminIdx='" + adminIdx + '\'' +
+                ", tIdx='" + tIdx + '\'' +
+                ", boardType='" + boardType + '\'' +
+                ", boardTitle='" + boardTitle + '\'' +
+                ", boardContent='" + boardContent + '\'' +
+                ", file_name='" + file_name + '\'' +
+                ", ori_name='" + ori_name + '\'' +
+                ", boardRegDate='" + boardRegDate + '\'' +
+                ", boardEndRegDate='" + boardEndRegDate + '\'' +
+                ", boardStatus='" + boardStatus + '\'' +
+                ", tvo=" + tvo +
+                '}';
+    }
 }

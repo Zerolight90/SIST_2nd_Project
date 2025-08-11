@@ -4,7 +4,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="board">
+<mapper namespace="adminBoard">
 
     <!--1:1은 association-->
     <resultMap id="map1" type="mybatis.vo.AdminBoardVO">
@@ -19,6 +19,9 @@
                 SELECT * FROM board
                 WHERE boardStatus = 0
                 AND boardType = #{boardType}
+                <if test="searchKeyword != null and searchKeyword != ''">
+                    AND boardTitle LIKE CONCAT('%', #{searchKeyword}, '%')
+                </if>
                 ORDER BY boardIdx DESC
             ) a, (SELECT @RN:=0) b
         ) c WHERE c.rnum BETWEEN #{begin} AND #{end}
@@ -69,5 +72,6 @@
         </trim>
         WHERE boardIdx = #{boardIdx}
     </update>
+
 
 </mapper>
