@@ -152,6 +152,18 @@
     $('#pw-change-form').slideToggle();
   });
 
+  //input 필드에 데이값이 있으면 클릭 비활성화 스크립트
+  $(document).ready(function() {
+    // 모든 input에 대해 수행 (readonly, disabled이 아닐 때만 적용)
+    $("input").each(function() {
+      // 값이 있으면 클릭(포커스/입력 불가) 처리
+      if ($(this).val().trim() !== "") {
+        $(this).prop("disabled", true);
+      }
+    });
+  });
+
+
 
   $(document).ready(function() {
     if ($.datepicker) {

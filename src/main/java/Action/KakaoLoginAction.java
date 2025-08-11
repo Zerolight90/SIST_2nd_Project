@@ -99,10 +99,10 @@ public class KakaoLoginAction implements Action {
 
         if (hasPhone && hasBirth) {
             // 둘 다 있으면 index.jsp로 리다이렉트(포워드 아님, 주소 변경)
-            return "redirect:/index.jsp";
+            return "redirect:Controller?type=index";
         } else {
             // 하나라도 없으면 마이페이지로 리다이렉트
-            return "redirect:/mypage/myPage.jsp";
+            return "redirect:Controller?type=myPage";
         }
     }
 }
