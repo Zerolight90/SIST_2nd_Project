@@ -93,7 +93,7 @@ public class KakaoLoginAction implements Action {
             session.setAttribute("mvo", mvo); // 세션에 mvo 정보 저장
         }
 
-        // ★추가 부분: 휴대폰번호와 생년월일이 모두 들어 있으면 index.jsp로 리다이렉트
+        // *추가 부분: 휴대폰번호와 생년월일이 모두 들어 있으면 index.jsp로 리다이렉트
         boolean hasPhone = (mvo != null && mvo.getPhone() != null && !mvo.getPhone().trim().isEmpty());
         boolean hasBirth = (mvo != null && mvo.getBirth() != null && !mvo.getBirth().trim().isEmpty());
 
