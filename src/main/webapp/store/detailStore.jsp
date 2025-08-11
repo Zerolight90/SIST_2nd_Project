@@ -136,8 +136,8 @@
 
 <script>
   // 1. 모든 탭 버튼(li)과 내용 영역(div)을 가져옵니다.
-  const tabs = document.querySelectorAll('.menu li');
-  const tabContents = document.querySelectorAll('.tabCont');
+  let tabs = document.querySelectorAll('.menu li');
+  let tabContents = document.querySelectorAll('.tabCont');
 
   // 2. 각 탭 버튼에 클릭 이벤트 리스너를 추가합니다.
   tabs.forEach((tab, index) => {
@@ -201,6 +201,9 @@
       $('#cond2').toggle();
     });
 
+    // 수량의 + 버튼을 눌렀을 때 현재 수량값을 얻어내고 수량값이 문자열이므로
+    // 정수로 형변환 시킨 후 1을 더한 값을 변수로 선언해 그 값을 수량값에 넣어준다
+    // 그 후 수량에 따른 가격을 계산하는 함수를 호출한다
     $("#plus").on('click', function () {
       let num = $("#num").val();
       let int = parseInt(num);
@@ -210,6 +213,10 @@
       updatePrice();
     })
 
+    // 수량의 - 버튼을 눌렀을 때 현재 수량값을 얻어내고 수량값이 문자열이므로
+    // 정수로 형변환 시킨 후 1을 뺀 값을 변수로 선언해 그 값을 수량값에 넣어준다
+    // 이 때 수량값이 0 이하가 되지 않아야 하므로 수량값이 2 이상일 때만 이를 수행시킨다
+    // 그 후 수량에 따른 가격을 계산하는 함수를 호출한다
     $("#minus").on('click', function () {
 
       if ($("#num").val() >= 2) {
@@ -224,13 +231,14 @@
   });
 </script>
 <script>
+  // 수량값과 가격값을 얻어내 문자열이므로 먼저 정수로 형변환시킨 뒤
+  // 값을 서로 곱해서 총 가격값을 얻어내서 해당하는 칸에 대입시켜준다
   function updatePrice() {
     let num = $("#num").val();
     let price = $("#price").text();
     let inum = parseInt(num);
     let iprice = parseInt(price);
     let rnum = 14700 * inum;
-    console.log(rnum);
 
     $("#totalPrice").text(rnum.toLocaleString());
   }

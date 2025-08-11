@@ -186,12 +186,12 @@
     <jsp:include page="/admin/admin.jsp"/>
   </div>
   <div class="admin-container">
-    <!-- 1. 페이지 제목 -->
+    <!-- 페이지 타이틀 -->
     <div class="page-title">
       <h2>결제 내역 목록</h2>
     </div>
 
-    <!-- 2. 상단 컨트롤 바 -->
+    <!-- 테이블 상단 바 영역 -->
     <div class="control-bar">
       <div class="total-count">
         전체 <strong>130</strong>건
@@ -221,7 +221,7 @@
       </form>
     </div>
 
-    <!-- 3. 회원 목록 테이블 -->
+    <!-- 테이블 영역 -->
     <table class="member-table">
       <thead>
       <tr>
@@ -235,7 +235,7 @@
       </tr>
       </thead>
       <tbody>
-      <!-- 예시 데이터 행 (실제로는 DB에서 반복문으로 생성) -->
+
       <c:forEach var="vo" items="${requestScope.ar}" varStatus="status">
         <tr>
           <td>${vo.paymentIdx}</td>
@@ -264,7 +264,7 @@
       </tbody>
     </table>
 
-    <!-- 4. 페이징 -->
+    <!-- 페이징 영역 -->
     <nav class="pagination">
       <a href="#" class="nav-arrow">&lt;</a>
       <strong class="current-page">1</strong>
@@ -284,7 +284,7 @@
 
 <script>
   $( function() {
-    // Datepicker에 적용할 옵션 정의
+    // Datepicker에 적용할 옵션
     let option = {
       monthNames: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
       monthNamesShort: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],

@@ -91,39 +91,39 @@
   <div class="body">
     <div class="divs">
       <label for="userId">유저 고유번호:</label>
-      <input type="text" id="userId" class="input" value="" readonly>
+      <input type="text" id="userId" class="input" value="${requestScope.vo.userIdx}" readonly>
     </div>
     <div class="divs">
       <label for="userName">이름:</label>
-      <input type="text" id="userName" class="input editable" value="">
+      <input type="text" id="userName" class="input editable" value="${requestScope.vo.name}">
     </div>
     <div class="divs">
       <label for="userLoginId">ID:</label>
-      <input type="text" id="userLoginId" class="input" value="" readonly>
+      <input type="text" id="userLoginId" class="input" value="${requestScope.vo.id}" readonly>
     </div>
     <div class="divs">
       <label for="userEmail">이메일:</label>
-      <input type="email" id="userEmail" class="input editable" value="">
+      <input type="email" id="userEmail" class="input editable" value="${requestScope.vo.email}">
     </div>
     <div class="divs">
       <label for="userPhone">연락처:</label>
-      <input type="text" id="userPhone" class="input editable" value="">
+      <input type="text" id="userPhone" class="input editable" value="${requestScope.vo.phone}">
     </div>
     <div class="divs">
       <label for="userPoint">보유 포인트:</label>
-      <input type="text" id="userPoint" class="input editable" value="">
+      <input type="text" id="userPoint" class="input editable" value="${requestScope.vo.totalPoints}">
     </div>
-    <div class="divs">
+    <%--<div class="divs">
       <label for="userLevel">회원 등급:</label>
-      <input type="text" id="userLevel" class="input" value="" readonly>
-    </div>
+      <input type="text" id="userLevel" class="input" value="${requestScope.vo.userIdx}" readonly>
+    </div>--%>
     <div class="divs">
       <label for="userDate">가입일:</label>
-      <input type="text" id="userDate" class="input" value="" readonly>
+      <input type="text" id="userDate" class="input" value="${requestScope.vo.joinDate}" readonly>
     </div>
     <div class="divs">
       <label for="userStatus">회원 상태:</label>
-      <input type="text" id="userStatus" class="input" value="" readonly>
+      <input type="text" id="userStatus" class="input" value="${requestScope.vo.status}" readonly>
     </div>
   </div>
 
@@ -131,4 +131,13 @@
     <button type="button" class="btn btnMain">저장</button>
     <button type="button" class="btn btnSub">취소</button>
   </div>
+  
+  <script>
+    $(function () {
+      $(".btnSub").on('click', function () {
+        $(".userModal").dialog('close');
+      })
+    })
+  </script>
+  
 </div>

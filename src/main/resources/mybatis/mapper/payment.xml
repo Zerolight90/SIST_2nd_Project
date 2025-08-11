@@ -36,6 +36,7 @@
         ORDER BY paymentDate DESC
     </select>
 
+    <!-- 모든 결제 정보를 가져오는 쿼리 (종민) -->
     <select id="getAllPayment" resultType="mybatis.vo.PaymentVO">
         select * from payment
     </select>

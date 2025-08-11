@@ -187,12 +187,12 @@
     <jsp:include page="/admin/admin.jsp"/>
   </div>
   <div class="admin-container">
-    <!-- 1. 페이지 제목 -->
+    <!-- 페이지 타이틀 -->
     <div class="page-title">
       <h2>비회원 목록</h2>
     </div>
 
-    <!-- 2. 상단 컨트롤 바 -->
+    <!-- 테이블 상단 바 영역 -->
     <div class="control-bar">
       <div class="total-count">
         전체 <strong>${fn:length(requestScope.ar)}</strong>건
@@ -211,7 +211,7 @@
       </form>
     </div>
 
-    <!-- 3. 회원 목록 테이블 -->
+    <!-- 테이블 영역 -->
     <table class="member-table">
       <thead>
       <tr>
@@ -222,7 +222,7 @@
       </tr>
       </thead>
       <tbody>
-      <!-- 예시 데이터 행 (실제로는 DB에서 반복문으로 생성) -->
+
       <c:forEach var="vo" items="${requestScope.ar}" varStatus="status">
         <tr>
           <td>${vo.nIdx}</td>
@@ -234,7 +234,7 @@
       </tbody>
     </table>
 
-    <!-- 4. 페이징 -->
+    <!-- 페이징 영역 -->
     <nav class="pagination">
       <a href="#" class="nav-arrow">&lt;</a>
       <strong class="current-page">1</strong>
@@ -254,7 +254,7 @@
 
 <script>
   $( function() {
-    // Datepicker에 적용할 옵션 정의
+    // Datepicker에 적용할 옵션
     let option = {
       monthNames: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
       monthNamesShort: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
@@ -269,18 +269,18 @@
 
     $("#datepicker").datepicker(option);
 
-    // 검색 버튼 이벤트
+    // 검색 버튼을 눌렀을 때
     $('.btn-search').on('click', function () {
-      // form의 데이터를 쿼리 스트링으로 만듭니다. (예: user_status=0&search_field=name)
+      // form의 데이터를 쿼리 스트링으로 만드는 함수 (예: user_status=0&search_field=name)
       let formdata = $(".search-form").serialize();
 
       $.ajax({
-        url: "Controller?type=nmemSearch", // 검색을 처리할 Action
+        url: "Controller?type=nmemSearch",
         type: "GET",
         data: formdata,
         dataType: "html",
         success: function (response) {
-          // 성공 시, 기존 tbody의 내용을 서버에서 받은 새로운 내용으로 교체합니다.
+          // 오류가 없다면 tbody의 내용을 새로운 내용으로 교체
           $(".member-table tbody").html(response);
         },
         error: function() {
@@ -289,11 +289,11 @@
       });
     });
 
-    // 초기화 버튼 이벤트 (선택사항)
+    // 초기화 버튼을 눌렀을 때 select 태그 등 지정된 값 전부 초기화
     $('.btn-reset').on('click', function() {
-      // form의 내용을 초기화하고 다시 전체 목록을 불러올 수 있습니다.
+
       $('.search-form')[0].reset();
-      // location.reload(); 또는 전체 목록을 불러오는 AJAX 호출
+      // location.reload(); 또는 전체 목록 출력?
     });
   } );
 </script>

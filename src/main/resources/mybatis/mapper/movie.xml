@@ -72,10 +72,12 @@
         WHERE mIdx = #{mIdx}
     </select>
 
+    <!-- 모든 영화를 불러오는 쿼리 (종민) -->
     <select id="getMovieInfo" resultType="mybatis.vo.MovieVO">
         select * from movie
     </select>
 
+    <!-- 관리자가 특정 조건값으로 영화를 검색하는 쿼리 (종민) -->
     <select id="getMovieSearch" resultType="mybatis.vo.MovieVO" parameterType="Map">
         SELECT * FROM movie
         <where>

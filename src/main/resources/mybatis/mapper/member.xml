@@ -36,10 +36,12 @@
         WHERE id = #{k_id}
     </select>
 
+    <!-- 모든 영화를 불러오는 쿼리 (종민) -->
     <select id="getMemInfo" resultType="mybatis.vo.MemberVO">
         select * from web_movie.user
     </select>
 
+    <!-- 관리자가 특정한 조건값으로 유저를 검색하는 쿼리 (종민) -->
     <select id="getMemSearch" resultType="mybatis.vo.MemberVO" parameterType="Map">
         SELECT userIdx, name, id, email, phone, totalPoints, status, joinDate
         FROM user

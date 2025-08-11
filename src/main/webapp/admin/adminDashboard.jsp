@@ -93,7 +93,7 @@
         },
         // 데이터 레이블(백분율)에 대한 설정
         datalabels: {
-          // formatter 함수는 올바르게 작성하셨습니다.
+          // formatter 함수
           formatter: (value, ctx) => {
             let sum = 0;
             let dataArr = ctx.chart.data.datasets[0].data;
@@ -144,7 +144,7 @@
     salesData.push(${revenue.totalSales});       // 총 매출액을 배열에 추가
   </c:forEach>
 
-  // 2. 위에서 만든 JavaScript 배열을 차트 데이터로 사용합니다.
+  // 위에서 만든 JavaScript 배열을 차트 데이터로 사용합니다.
   const ptx = document.getElementById('payChart');
   new Chart(ptx, {
   type: 'bar',

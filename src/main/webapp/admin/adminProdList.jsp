@@ -222,7 +222,7 @@
     </div>
 </div>
 
-<!-- 상품 추가 모달 (HTML 구조는 유지) -->
+<!-- 상품 추가 모달 -->
 <div id="productAddModal">
     <div class="modalTitle"><h2>상품 추가</h2></div>
     <form action="Controller?type=productAdd" method="post" id="productAddForm">
@@ -259,7 +259,7 @@
     </form>
 </div>
 
-<!-- 상품 수정 모달 (HTML 구조는 유지) -->
+<!-- 상품 수정 모달 -->
 <div id="productCerModal">
     <c:set var="vo" value="${requestScope.ar}"/>
     <div class="modalTitle"><h2>상품 수정</h2></div>
@@ -303,18 +303,18 @@
     $(document).ready(function () {
         // 모달의 취소 버튼 클릭 시
         $(".btnSub").on("click", function () {
-            // 가장 가까운 모달 div를 찾아서 숨깁니다.
+            // 가장 가까운 모달 div를 찾아서 숨기기
             $(this).closest("#productAddModal, #productCerModal").hide();
         });
     });
 
-    // '새 상품 추가' 버튼 클릭 시
+    // 새 상품 추가 버튼 클릭 시
     function addModal() {
         $("#productAddModal").show();
     }
-    // '수정' 버튼 클릭 시
+    // 수정 버튼 클릭 시
     function cerModal() {
-        // 여기에 수정할 상품의 데이터를 가져와서 모달 폼에 채워넣는 로직이 필요합니다.
+        // 여기에 수정할 상품의 데이터를 가져와서 모달 폼에 채워넣는 로직이 필요 !
         $("#productCerModal").show();
     }
 </script>

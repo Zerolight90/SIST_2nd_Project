@@ -273,8 +273,8 @@
 
 <script>
   // 1. 모든 탭 버튼(li)과 내용 영역(div)을 가져옵니다.
-  const tabs = document.querySelectorAll('.menu li');
-  const tabContents = document.querySelectorAll('.tabCont');
+  let tabs = document.querySelectorAll('.menu li');
+  let tabContents = document.querySelectorAll('.tabCont');
 
   // 2. 각 탭 버튼에 클릭 이벤트 리스너를 추가합니다.
   tabs.forEach((tab, index) => {

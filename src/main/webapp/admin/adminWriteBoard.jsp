@@ -96,7 +96,7 @@
     <jsp:include page="./admin.jsp"/>
   </div>
   <div class="admin-container">
-    <!-- 1. 페이지 제목 -->
+    <!-- 페이지 타이틀 -->
     <div class="page-title">
       <h2>공지사항</h2>
     </div>

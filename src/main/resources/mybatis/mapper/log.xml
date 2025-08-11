@@ -4,6 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="log">
+    <!-- 모든 로그 기록을 얻어내는 쿼리 (종민) -->
     <select id="getAllLog" resultType="mybatis.vo.LogVO">
         select * from log
     </select>
