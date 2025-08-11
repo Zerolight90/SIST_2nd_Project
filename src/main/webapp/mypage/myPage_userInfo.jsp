@@ -92,7 +92,7 @@
     <div class="form-value">
       <c:choose>
         <c:when test="${not empty sessionScope.kvo}">
-          <input type="text" id="start_reg_date" value="${sessionScope.kvo.birth}"/> <%-- 카카오 유저일 경우 kvo.birth로 변경 --%>
+          <input type="text" id="start_reg_date" value="${sessionScope.mvo.birth}"/> <%-- 카카오 유저일 경우 kvo.birth로 변경 --%>
         </c:when>
 
         <c:otherwise>
@@ -126,32 +126,19 @@
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
 <script>
-  // jQuery UI datepicker 오류 방지를 위한 패치 추가 (선택 사항)
-  // 이 패치는 datepicker의 내부 객체 접근 오류를 완화할 수 있습니다.
+
   if ($.datepicker) {
-    // datepicker_handleMouseover 함수를 덮어씁니다.
-    // 원본 함수의 동작을 유지하면서, undefined 체크를 추가합니다.
-    // 이 코드는 jQuery UI 버전에 따라 다를 수 있으므로, 테스트 후 적용해야 합니다.
-    if (typeof $.datepicker._handleMouseover !== 'undefined') { // 1.13.2에서는 _handleMouseover로 변경되었을 수 있습니다.
+
+    if (typeof $.datepicker._handleMouseover !== 'undefined') {
       var originalHandleMouseover = $.datepicker._handleMouseover;
       $.datepicker._handleMouseover = function(event) {
         if (this.datepicker_instActive === undefined || this.datepicker_instActive === null) {
-          // 인스턴스가 없으면 아무것도 하지 않고 함수를 종료
+
           return;
         }
         // 원본 함수 호출
         originalHandleMouseover.apply(this, arguments);
       };
-    } else {
-      // jQuery UI 1.13.x에서는 `datepicker_handleMouseover`가 직접 노출되지 않고,
-      // `_updateDatepicker` 내부에서 `_attachHandlers`를 통해 이벤트가 바인딩됩니다.
-      // 따라서 마우스오버 핸들러 자체를 수정하는 것보다는 Datepicker 초기화 시점을 확인하는 것이 중요합니다.
-      // 오류 메시지가 `datepicker_handleMouseover`에서 직접 발생하므로,
-      // 이는 구버전 jQuery UI 스크립트가 로드되었거나 내부적으로 다른 방식으로 호출될 가능성을 시사합니다.
-      // 보다 일반적인 해결책은 `$.datepicker._isDisabledDatepicker`를 체크하는 것입니다.
-      // 출처: https://stackoverflow.com/questions/29342580/typeerror-datepicker-instactive-is-undefined-in-jquery-ui-datepicker
-      // 해당 해결책: function datepicker_handleMouseover() { if (!$.datepicker._isDisabledDatepicker( datepicker_instActive.inline? datepicke...
-      // 이 코드는 jQuery UI 1.11.2 버전에 대한 해결책이었습니다.
     }
   }
 
@@ -165,9 +152,7 @@
     $('#pw-change-form').slideToggle();
   });
 
-  // jQuery UI Datepicker 활성화 및 생년월일 입력 필드 제어
-  // $(function() { ... }); 대신 $(window).on('load', function() { ... }); 사용 고려
-  // 이는 DOMContentLoaded보다 모든 리소스가 로드된 후에 실행되므로 안정적일 수 있습니다.
+
   $(document).ready(function() {
     if ($.datepicker) {
       $("#start_reg_date").datepicker({
@@ -193,6 +178,7 @@
     // 생년월일 입력 필드가 활성화되어 있고, 값이 있는 경우에만 AJAX 요청 전송
     if (!birthdatePicker.prop('disabled') && birthdateValue) {
       isBirthdateUpdateHandled = true;
+
       $.ajax({
         url: '/Controller?type=userinfo',
         type: 'POST',
