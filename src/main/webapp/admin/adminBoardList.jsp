@@ -215,7 +215,7 @@
   <div style="display: inline-block; justify-content: space-between; align-items: center"><p style="margin-left: 10px">admin 관리자님</p></div>
   <div style="display: inline-block; float: right; padding-top: 13px; padding-right: 10px">
     <a href="">SIST</a>
-    <a href="">로그아웃</a>
+    <a href="Controller?type=index">로그아웃</a>
   </div>
 </div>
 

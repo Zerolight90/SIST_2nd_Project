@@ -30,8 +30,7 @@ public class apiAdder {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 
-            // [수정 1] INSERT SQL에서 audNum을 gen으로 변경
-            String sql = "INSERT INTO movie (mIdx, name, synop, poster, date, gen, actor, dir, age, runtime) " +
+            String sql = "INSERT IGNORE INTO movie (mIdx, name, synop, poster, date, gen, actor, dir, age, runtime) " +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             ps = conn.prepareStatement(sql);
 
@@ -50,7 +49,7 @@ public class apiAdder {
                     if (movieDetails == null) continue;
 
                     // 상세 정보 파싱
-                    String genres = parseGenres(movieDetails); // [수정 2] 장르 정보 파싱
+                    String genres = parseGenres(movieDetails); // 장르 정보 파싱
                     int runtime = movieDetails.has("runtime") && !movieDetails.get("runtime").isJsonNull() ? movieDetails.get("runtime").getAsInt() : 0;
                     String director = parseDirector(movieDetails);
                     String actors = parseActors(movieDetails);
@@ -62,7 +61,7 @@ public class apiAdder {
                     ps.setString(3, movieSummary.get("overview").isJsonNull() ? "" : movieSummary.get("overview").getAsString());
                     ps.setString(4, "https://image.tmdb.org/t/p/w500" + (movieSummary.get("poster_path").isJsonNull() ? "" : movieSummary.get("poster_path").getAsString()));
                     ps.setString(5, movieSummary.get("release_date").getAsString());
-                    ps.setString(6, genres);   // [수정 3] 6번째 파라미터를 장르(gen)로 설정
+                    ps.setString(6, genres);
                     ps.setString(7, actors);
                     ps.setString(8, director);
                     ps.setString(9, ageRating);
@@ -120,7 +119,7 @@ public class apiAdder {
         return null;
     }
 
-    // [수정 4] 장르 정보 파싱을 위한 헬퍼 메소드 추가
+    // 장르 정보 파싱을 위한 헬퍼 메소드 추가
     private static String parseGenres(JsonObject movieDetails) {
         if (movieDetails.has("genres")) {
             JsonArray genresArray = movieDetails.getAsJsonArray("genres");

@@ -50,6 +50,19 @@ public class MovieDAO {
         return ar;
     }
 
+    public static void editMovies(Map<String, String> map){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int update = ss.update("movie.editMovies", map);
+
+        if (update >= 1){
+            ss.commit();
+        } else {
+            ss.rollback();
+        }
+
+        ss.close();
+    }
+
     public static List<MovieVO> getBoxOfficeList() {
         List<MovieVO> list = null;
         SqlSession ss = FactoryService.getFactory().openSession();

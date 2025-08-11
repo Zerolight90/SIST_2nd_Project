@@ -9,6 +9,11 @@
         select * from admin
     </select>
 
+    <select id="adminCheck" resultType="mybatis.vo.AdminVO" parameterType="Map">
+        select * from admin
+        where adminId = #{id} and adminPassword = #{pw}
+    </select>
+
     <select id="salesByTheater" resultType="mybatis.vo.RevenueVO">
         SELECT
         t.tName AS theaterName,

@@ -178,7 +178,7 @@
   <div style="display: inline-block; justify-content: space-between; align-items: center"><p style="margin-left: 10px">admin 관리자님</p></div>
   <div style="display: inline-block; float: right; padding-top: 13px; padding-right: 10px">
     <a href="">SIST</a>
-    <a href="">로그아웃</a>
+    <a href="Controller?type=index">로그아웃</a>
   </div>
 </div>
 
@@ -240,7 +240,7 @@
       <tbody>
 
         <c:forEach var="vo" items="${requestScope.ar}" varStatus="status">
-          <tr>
+          <tr class="movieTr" data-idx="${vo.mIdx}">
             <td>${vo.mIdx}</td>
             <td>${vo.name}</td>
             <td>${vo.dir}</td>
@@ -283,6 +283,8 @@
   </div>
 </div>
 
+<div id="adminMoviesModal" style="display:none;"></div>
+
 <script>
   $( function() {
     // Datepicker에 적용할 옵션
@@ -299,6 +301,31 @@
     };
 
     $("#datepicker").datepicker(option);
+
+    // 영화정보 수정 다얄로그 창의 속성 지정
+    $("#adminMoviesModal").dialog({
+      autoOpen: false,
+      modal: true,
+      resizable: false,
+      width: 'auto',
+      dialogClass: 'no-titlebar',
+      close: function() {
+        $(this).empty(); // 다음 모달이 열릴 때 혹시 값이 남아있으면 안 되므로 모달이 닫히면 값 비우기
+      }
+    });
+
+    $('.member-table tbody').on('click', '.movieTr', function () {
+      let mIdx = $(this).data('idx');
+
+      let urlToLoad = "Controller?type=adminMoviesEdit&mIdx=" + mIdx;
+
+      $("#adminMoviesModal").load(urlToLoad, function(response, status, xhr) {
+        if (status == "error") {
+          $(this).html("영화 정보를 불러오는 데 실패했습니다.");
+        }
+        $("#adminMoviesModal").dialog('open');
+      });
+    });
 
     $('.btn-search').on('click', function () {
       // form의 데이터를 쿼리 스트링으로 만드는 함수 (예: user_status=0&search_field=name)

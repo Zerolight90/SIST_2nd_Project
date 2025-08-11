@@ -73,6 +73,14 @@
         </where>
         <!--ORDER BY userIdx DESC-->
     </select>
+    
+    <update id="editUsers" parameterType="Map">
+        UPDATE user SET name = #{name},
+        email = #{email},
+        phone = #{phone},
+        totalPoints = #{totalPoints}
+        WHERE userIdx = #{userIdx}
+    </update>
 
     <select id="findByIdx" parameterType="long" resultType="mybatis.vo.MemberVO">
         SELECT * FROM user WHERE userIdx = #{userIdx}

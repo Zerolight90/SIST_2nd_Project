@@ -16,7 +16,10 @@
 
         /* --- 전체 레이아웃 --- */
         .adminContent {
+            width: 1200px;
+            margin: 0 auto;
             padding: 20px 30px;
+            border: none;
         }
 
         /* --- 페이지 상단 (제목 + 버튼) --- */
@@ -24,13 +27,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
+            padding-bottom: 50px;
+            margin: 30px 0;
             border-bottom: 2px solid #333;
         }
         .product-header h2 {
             margin: 0;
-            font-size: 24px;
+            font-size: 34px;
         }
         .product-header .btn-add {
             background-color: #007bff;
@@ -142,7 +145,7 @@
     <div style="display: inline-block; justify-content: space-between; align-items: center"><p style="margin-left: 10px">admin 관리자님</p></div>
     <div style="display: inline-block; float: right; padding-top: 13px; padding-right: 10px">
         <a href="">SIST</a>
-        <a href="">로그아웃</a>
+        <a href="Controller?type=index">로그아웃</a>
     </div>
 </div>
 
@@ -153,7 +156,7 @@
     </div>
 
     <!-- 오른쪽 메인 콘텐츠 -->
-    <div class="adminContent">
+    <div class="admin-container">
         <div class="product-header">
             <h2>상품 목록</h2>
             <a href="#" class="btn-add" onclick="addModal()">새 상품 추가</a>

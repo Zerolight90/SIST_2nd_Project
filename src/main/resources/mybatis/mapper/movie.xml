@@ -117,4 +117,14 @@
         </where>
     </select>
 
+    <!-- 관리자가 영화 정보를 수정하는 쿼리 (종민) -->
+    <update id="editMovies" parameterType="Map">
+        UPDATE movie SET poster = #{poster},
+        gen = #{gen},
+        age = #{age},
+        date = #{date},
+        dir = #{dir}
+        WHERE name = #{name}
+    </update>
+
 </mapper>

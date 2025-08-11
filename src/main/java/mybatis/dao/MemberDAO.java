@@ -102,6 +102,17 @@ public class MemberDAO {
         return vo;
     }
 
+    public static void editUsers(Map<String, String> map){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int update = ss.update("member.editUsers", map);
 
+        if (update >= 1){
+            ss.commit();
+        } else {
+            ss.rollback();
+        }
+
+        ss.close();
+    }
 
 }

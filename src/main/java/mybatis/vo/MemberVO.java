@@ -1,7 +1,7 @@
 package mybatis.vo;
 
 public class MemberVO {
-    String userIdx, id, pw, birth, name, gender, phone, email, totalPoints, status, joinPath;
+    String userIdx, id, pw, birth, name, gender, phone, email, totalPoints, status, joinPath, joinDate;
 
     //기본 생성자
     public MemberVO(){}
@@ -17,6 +17,22 @@ public class MemberVO {
         this.email = email;
         this.status = status;
         this.joinPath= joinPath;
+    }
+
+    public String getJoinPath() {
+        return joinPath;
+    }
+
+    public void setJoinPath(String joinPath) {
+        this.joinPath = joinPath;
+    }
+
+    public String getJoinDate() {
+        return joinDate;
+    }
+
+    public void setJoinDate(String joinDate) {
+        this.joinDate = joinDate;
     }
 
     public String getUserIdx() {

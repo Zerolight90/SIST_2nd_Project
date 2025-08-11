@@ -6,6 +6,7 @@ import mybatis.vo.RevenueVO;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
+import java.util.Map;
 
 public class AdminDAO {
 
@@ -19,6 +20,16 @@ public class AdminDAO {
 
         ss.close();
         return ar;
+    }
+
+    public static AdminVO adminCheck(Map<String, String> map){
+        AdminVO vo = null;
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        vo = ss.selectOne("admin.adminCheck", map);
+
+        ss.close();
+        return vo;
     }
 
     // 극장별 총 매출을 조회하는 메소드
