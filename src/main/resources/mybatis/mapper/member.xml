@@ -13,8 +13,8 @@
 
     <!--인자로 MemberVO를 받아서 memeber를 추가하는 insert -->
     <insert id="add" parameterType="mybatis.vo.MemberVO">
-        INSERT INTO web_movie.user(id, pw, birth, name, gender, phone, email, totalPoints, status, joinPath)
-        VALUES(#{id}, #{pw}, #{birth}, #{name}, #{gender}, #{phone}, #{email}, 0, 0, #{joinPath})
+        INSERT INTO web_movie.user(id, pw, birth, name, gender, phone, email, totalPoints, status,joinDate, joinPath)
+        VALUES(#{id}, #{pw}, #{birth}, #{name}, #{gender}, #{phone}, #{email}, 0, 0, DATE(NOW()), #{joinPath})
     </insert>
 
     <!-- sns 로그인 한 유저의 추가 개인정보 입력하는 쿼리-->
@@ -27,8 +27,8 @@
 
     <!-- KakaoVO 전용 회원가입 쿼리 -->
     <insert id="addKakaoUser" parameterType="mybatis.vo.KakaoVO">
-        INSERT INTO web_movie.user(id, pw, birth, name, gender, phone, email, totalPoints, status, joinPath)
-        VALUES(#{k_id},#{pw}, #{birth}, #{k_name}, #{gender}, #{phone}, #{k_email}, 0, 0, 'Kakao')
+        INSERT INTO web_movie.user(id, pw, birth, name, gender, phone, email, totalPoints, status, joinDate, joinPath)
+        VALUES(#{k_id},#{pw}, #{birth}, #{k_name}, #{gender}, #{phone}, #{k_email}, 0, 0, DATE(NOW()), 'Kakao')
     </insert>
 
 
