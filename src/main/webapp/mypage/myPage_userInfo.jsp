@@ -86,7 +86,7 @@
     </div>
   </div>
 
-  <%--  생년월일 UI Datepicker 방식               --%>
+  <%--  생년월일 UI Datepicker 방식--%>
   <div class="form-group">
     <span class="form-label">생년월일</span>
     <div class="form-value">
@@ -138,6 +138,7 @@
     // jQuery의 slideToggle 효과로 변경
     $('#pw-change-form').toggle();
   });
+
 
   // jQuery UI Datepicker 활성화 코드
   $(function() {
