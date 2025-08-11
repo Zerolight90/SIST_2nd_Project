@@ -7,8 +7,16 @@
 <c:forEach var="tvo" items="${showTime}" varStatus="i">
     <c:if test="${tvo.m_list != null && fn:length(tvo.m_list) > 0}">
         <c:forEach var="movieVO" items="${tvo.m_list}" varStatus="i">
-            <div class="movie_all">
-                <input type="button" value="${movieVO.name}" onclick="goSeat(this.nextElementSibling.value)"/>
+            <div class="show_all">
+                <button type="button" onclick="goSeat(this.nextElementSibling.value)">${movieVO.name}</button>
+                <button>
+                    <span></span>
+                    <span></span>
+                    <div>
+                        <span></span>
+                        <span>매진</span>
+                    </div>
+                </button>
                 <input type="hidden" value="${tvo.tIdx}"/>
             </div>
             <hr/>

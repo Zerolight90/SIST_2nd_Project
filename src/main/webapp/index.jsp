@@ -56,7 +56,7 @@
 
                             <!--등급-->
                             <div class="movie-grade_box">
-                                <img src="images/12_56x56.png"  alt="12.jpg"/>
+                                <img src="images/12.png" alt="12.jpg"/>
                             </div>
 
                             <!-- 리뷰 -->
@@ -105,7 +105,7 @@
 
                             <!--등급-->
                             <div class="movie-grade_box">
-                                <img src="images/15_56x56.png"  alt="15.jpg"/>
+                                <img src="images/15.png" alt="15.jpg"/>
                             </div>
 
                             <!-- 리뷰 -->
@@ -152,7 +152,7 @@
 
                             <!--등급-->
                             <div class="movie-grade_box">
-                                <img src="images/12_56x56.png"  alt="12.jpg"/>
+                                <img src="images/12.png" alt="12.jpg"/>
                             </div>
 
                             <!-- 리뷰 -->
@@ -199,7 +199,7 @@
 
                             <!--등급-->
                             <div class="movie-grade_box">
-                                <img src="images/19_112x112.png"  alt="19.jpg"/>
+                                <img src="images/19.png" alt="19.jpg"/>
                             </div>
 
                             <!-- 리뷰 -->

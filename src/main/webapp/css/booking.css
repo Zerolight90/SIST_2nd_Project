@@ -24,17 +24,8 @@ body {
     gap: 10px;
 }
 
-.date-item {
-    text-align: center;
-    padding: 15px 20px;
-    background: blue;
-    border-radius: 8px;
-    transition: all 0.3s;
-    color: white;
-}
-
 .util-title {
-    text-align: center;
+    text-align: left;
     margin-bottom: 30px;
     padding: 20px 0;
     background: white;
@@ -90,7 +81,6 @@ body {
 
 .date-item {
     text-align: center;
-    padding: 15px 20px;
     background: rgba(255,255,255,0.1);
     border-radius: 8px;
     cursor: pointer;
@@ -104,16 +94,6 @@ body {
 
 .date-item.selected {
     background: rgba(255,255,255,0.3);
-    font-weight: bold;
-}
-
-.date-item .day {
-    font-size: 14px;
-    margin-bottom: 5px;
-}
-
-.date-item .date {
-    font-size: 18px;
     font-weight: bold;
 }
 
@@ -469,10 +449,6 @@ body {
     background: #402a7a;
 }
 
-.movie_all {
-
-}
-
 /* 반응형 */
 @media (max-width: 768px) {
     #book-wrap-body {
@@ -487,4 +463,57 @@ body {
     .date-wrap {
         flex-wrap: wrap;
     }
+}
+
+.date-container button {
+    all: unset;
+    padding: 15px 33px;
+}
+
+.movie_all {
+    display: flex;
+}
+
+.movie_all img{
+    width: 20px;
+    height: 20px;
+    margin: 3px;
+}
+
+.movie_all button{
+    all: unset;
+    text-align: left;
+    display: block;
+    width: 200px;
+    height: 25px;
+    line-height: 25px;
+    border: 1px solid #999;
+    border-radius: 5px;
+    margin-bottom: 1px;
+}
+
+.theater_all button{
+    all: unset;
+    display: block;
+    width: 100px;
+    height: 25px;
+    line-height: 25px;
+    border: 1px solid #999;
+    border-radius: 5px;
+    margin-bottom: 1px;
+}
+
+.show_all {
+
+}
+
+.show_all button{
+    all: unset;
+    display: block;
+    width: 100px;
+    height: 30px;
+    line-height: 25px;
+    border: 1px solid #999;
+    border-radius: 5px;
+    margin-bottom: 1px;
 }

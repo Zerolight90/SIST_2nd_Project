@@ -1,6 +1,8 @@
 package Action;
 
+import mybatis.dao.SeatStatusDAO;
 import mybatis.dao.TimeTableDAO;
+import mybatis.vo.SeatStatusVO;
 import mybatis.vo.TheaterVO;
 import mybatis.vo.TimeTableVO;
 
@@ -26,7 +28,7 @@ public class TheaterShowAction implements Action{
 //        System.out.println(mIdx);
 //        System.out.println(tIdx);
 
-        // 모든 테이블의 정보를 resultMap으로 가져온 정보를 갖는 showTime을 가짐
+
         showTime = TimeTableDAO.getTimeList(date, mIdx, tIdx);
 
         request.setAttribute("showTime", showTime);

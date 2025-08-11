@@ -1,5 +1,7 @@
 package mybatis.vo;
 
+import java.util.List;
+
 public class SeatStatusVO {
 
     private String seatStatusIdx, timeTableIdx, seatIdx, seatStatus, seatTime;

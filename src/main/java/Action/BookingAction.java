@@ -2,14 +2,19 @@ package Action;
 
 import mybatis.dao.TheatherDAO;
 import mybatis.dao.TimeTableDAO;
+import mybatis.vo.LocalDateVO;
 import mybatis.vo.TheaterVO;
 import mybatis.vo.TimeTableVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 
 public class BookingAction implements Action{
     @Override
@@ -20,16 +25,27 @@ public class BookingAction implements Action{
         LocalDate now = LocalDate.now();
         LocalDate f_date = now.plusDays(10);
 
-        List<LocalDate> dateList = new ArrayList<>();
+        LocalDateVO ldv = new LocalDateVO();
+
+        List<LocalDateVO> ldv_list = new ArrayList<>();
+
+
+//        List<LocalDate> dateList = new ArrayList<>();
 
         for(LocalDate date=now; !date.isAfter(f_date); date=date.plusDays(1)) {
-//            System.out.println(date); // 값이 저장됐는지 확인
-            dateList.add(date);
+            DayOfWeek dow = date.getDayOfWeek();
+//            System.out.println(dow.getDisplayName(TextStyle.FULL, Locale.KOREA)); // 월
+            System.out.println(date); // 값이 저장됐는지 확인
+            ldv.setLocDate(date.toString());
+            ldv.setDow(dow.getDisplayName(TextStyle.FULL, Locale.KOREA));
+            ldv_list.add(ldv);
+//            ldv_list[i] = ldv;
+//            System.out.println(ldv_list[i].getLocDate());
         }
-        LocalDate[] dateArr = new LocalDate[dateList.size()];
-        dateList.toArray(dateArr);
+//        LocalDate[] dateArr = new LocalDate[dateList.size()];
+//        dateList.toArray(dateArr);
 //        System.out.println(dateList.size());
-        request.setAttribute("dateArr", dateArr);
+        request.setAttribute("dvo_list", ldv_list);
         //------------------------------------------------------------------------------
 
         // 현재 상영중이거나 상영예정인 영화들을 보여주기 위한 값을 구하는 영역-----------------
