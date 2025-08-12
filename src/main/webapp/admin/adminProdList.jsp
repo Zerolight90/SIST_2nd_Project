@@ -216,7 +216,16 @@
                             </c:if>
                         </td>
                         <td>
-                            <button type="button" class="btn-edit" onclick="cerModal()">수정</button>
+                            <button type="button" class="btn-edit"
+                                    data-idx="${vo.prodIdx}"
+                                    data-category="${vo.prodCategory}"
+                                    data-name="${vo.prodName}"
+                                    data-info="${vo.prodInfo}"
+                                    data-img="${vo.prodImg}"
+                                    data-price="${vo.prodPrice}"
+                                    data-stock="${vo.prodStock}"
+                                    onclick="cerModal()">수정
+                            </button>
                         </td>
                     </tr>
                 </c:forEach>
@@ -232,7 +241,10 @@
         <div class="body">
             <div class="divs">
                 <label for="addCategory">카테고리:</label>
-                <select name="addCategory" id="addCategory" class="input"></select>
+                <select name="addCategory" id="addCategory" class="input">
+                    <option>1</option>
+                    <option>2</option>
+                </select>
             </div>
             <div class="divs">
                 <label for="addProductName">상품명:</label>
@@ -256,7 +268,7 @@
             </div>
         </div>
         <div class="footer">
-            <button type="submit" class="btn btnMain">추가</button>
+            <button type="button" class="btn btnMain">추가</button>
             <button type="button" class="btn btnSub">취소</button>
         </div>
     </form>
@@ -270,7 +282,10 @@
         <div class="body">
             <div class="divs">
                 <label for="addCategory">카테고리:</label>
-                <select name="addCategory" id="addCategory" class="input"></select>
+                <select name="addCategory" id="addCategory" class="input">
+                    <option>1</option>
+                    <option>2</option>
+                </select>
             </div>
             <div class="divs">
                 <label for="addProductName">상품명:</label>
@@ -294,7 +309,7 @@
             </div>
         </div>
         <div class="footer">
-            <button type="submit" class="btn btnMain">추가</button>
+            <button type="button" class="btn btnMain">수정</button>
             <button type="button" class="btn btnSub">취소</button>
         </div>
     </form>
@@ -317,9 +332,48 @@
     }
     // 수정 버튼 클릭 시
     function cerModal() {
-        // 여기에 수정할 상품의 데이터를 가져와서 모달 폼에 채워넣는 로직이 필요 !
+        let prodCategory = $(".btn-edit").data('category');
+        let prodName = $(".btn-edit").data('name');
+        let prodInfo = $(".btn-edit").data('info');
+        let prodImg = $(".btn-edit").data('img');
+        let prodPrice = $(".btn-edit").data('price');
+        let prodStock = $(".btn-edit").data('stock');
+
+        // 3. 가져온 값들을 수정 모달(#productCerModal) 안의 각 input에 채워 넣습니다.
+        $("#productCerModal").find("#addCategory").val(prodCategory);
+        $("#productCerModal").find("#addProductName").val(prodName);
+        $("#productCerModal").find("#addDescription").val(prodInfo);
+        $("#productCerModal").find("#addImg").val(prodImg);
+        $("#productCerModal").find("#addPrice").val(prodPrice);
+        $("#productCerModal").find("#addStock").val(prodStock);
+
+        // 4. 데이터가 채워진 모달 창을 보여줍니다.
         $("#productCerModal").show();
+
+        /*// 여기에 수정할 상품의 데이터를 가져와서 모달 폼에 채워넣는 로직이 필요 !
+        let prodIdx = $(button).data('idx');
+        let prodCategory = $(button).data('category');
+        let prodName = $(button).data('name');
+        let prodInfo = $(button).data('info');
+        let prodImg = $(button).data('img');
+        let prodPrice = $(button).data('price');
+        let prodStock = $(button).data('stock');
+
+        $("#addCategory").val(prodCategory);
+        $("#addProductName").val(prodName);
+        $("#addDescription").val(prodInfo);
+        $("#addImg").val(prodImg);
+        $("#addPrice").val(prodPrice);
+        $("#addStock").val(prodStock);
+
+        $("#productCerModal").show();*/
     }
+
+    $(function () {
+        $("#productAddModal .btnMain").on('click', function () {
+            $("#productAddForm").submit();
+        })
+    })
 </script>
 </body>
 </html>

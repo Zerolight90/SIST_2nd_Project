@@ -62,4 +62,16 @@ public class PaymentDAO {
         ss.close();
         return ar;
     }
+
+    public static PaymentVO[] adminSearchPayment(Map<String, String> map){
+        PaymentVO[] ar = null;
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<PaymentVO> list = ss.selectList("payment.adminSearchPayment", map);
+        ar = new PaymentVO[list.size()];
+        list.toArray(ar);
+
+        ss.close();
+        return ar;
+    }
 }

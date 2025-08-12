@@ -4,6 +4,7 @@ import mybatis.Service.FactoryService;
 import mybatis.vo.ProductVO;
 import org.apache.ibatis.session.SqlSession;
 import java.util.List;
+import java.util.Map;
 
 public class ProductDAO {
 
@@ -28,6 +29,54 @@ public class ProductDAO {
 
         ss.close();
         return ar;
+    }
+
+    public static ProductVO[] getSnackProd(){
+        ProductVO[] ar = null;
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<ProductVO> list = ss.selectList("product.getSnackProd");
+        ar = new ProductVO[list.size()];
+        list.toArray(ar);
+
+        ss.close();
+        return ar;
+    }
+
+    public static ProductVO[] getTicketProd(){
+        ProductVO[] ar = null;
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<ProductVO> list = ss.selectList("product.getTicketProd");
+        ar = new ProductVO[list.size()];
+        list.toArray(ar);
+
+        ss.close();
+        return ar;
+    }
+
+    public static ProductVO getSelectProd(String prodIdx){
+        ProductVO vo = null;
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        vo = ss.selectOne("product.getSelectProd", prodIdx);
+
+        ss.close();
+        return vo;
+    }
+
+    public static void productAdd(Map<String, String> map){
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int insert = ss.insert("product.productAdd", map);
+
+        if (insert >= 1){
+            ss.commit();
+        } else {
+            ss.rollback();
+        }
+
+        ss.close();
     }
 
     /**

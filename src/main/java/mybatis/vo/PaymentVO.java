@@ -6,6 +6,7 @@ public class PaymentVO {
 
     private long paymentIdx;
     private long userIdx;
+    private String name;
     private Long reservIdx; // 영화 예매 ID (FK)
     private Long prodIdx;   // 스토어 상품 ID (FK)
     private Long couponUserIdx; // 사용한 쿠폰 ID (FK)
@@ -22,6 +23,15 @@ public class PaymentVO {
     private Date paymentCancelDate;
 
     // Getters and Setters
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public long getPaymentIdx() { return paymentIdx; }
     public void setPaymentIdx(long paymentIdx) { this.paymentIdx = paymentIdx; }
     public long getUserIdx() { return userIdx; }

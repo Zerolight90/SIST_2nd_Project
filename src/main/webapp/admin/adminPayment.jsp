@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
   <title>Title</title>
@@ -194,29 +195,29 @@
     <!-- 테이블 상단 바 영역 -->
     <div class="control-bar">
       <div class="total-count">
-        전체 <strong>130</strong>건
+        전체 <strong>${fn:length(requestScope.ar)}</strong>건
       </div>
-      <form class="search-form" action="#" method="get">
-        <p>결제일 : </p>
-        <p><input type="text" id="datepicker"></p>
-        <select name="user_status">
+      <form class="search-form" id="frm" action="Controller?type=adminPaymentSearch" method="post">
+        <p class="total-count">결제일 : </p>
+        <p><input type="text" id="datepicker" name="datepicker"></p>
+        <select name="payment_status">
           <option value="">결제 상태 선택</option>
           <option value="active">완료</option>
           <option value="dormant">취소</option>
         </select>
-        <select name="user_level">
+        <select name="payment_type">
           <option value="">결제 종류 선택</option>
-          <option value="basic">영화 예매</option>
-          <option value="vip">상품 구매</option>
+          <option value="movie">영화 예매</option>
+          <option value="goods">상품 구매</option>
         </select>
-        <select name="search_field">
+        <select name="payment_field">
           <option value="all">검색 대상 선택</option>
-          <option value="name">결제 종류</option>
-          <option value="id">결제 방식</option>
-          <option value="email">결제 상태</option>
+          <option value="type">결제 종류</option>
+          <option value="method">결제 방식</option>
+          <option value="status">결제 상태</option>
         </select>
-        <input type="text" name="search_keyword" placeholder="검색어를 입력해주세요.">
-        <button type="submit" class="btn btn-search">검색</button>
+        <input type="text" name="payment_keyword" placeholder="검색어를 입력해주세요.">
+        <button type="button" class="btn btn-search">검색</button>
         <button type="button" class="btn btn-reset">초기화</button>
       </form>
     </div>
@@ -239,7 +240,7 @@
       <c:forEach var="vo" items="${requestScope.ar}" varStatus="status">
         <tr>
           <td>${vo.paymentIdx}</td>
-          <td>${vo.userIdx}</td>
+          <td>${vo.name}</td>
 
           <c:if test="${vo.paymentType == 0}">
             <td>영화</td>
@@ -298,6 +299,30 @@
     };
 
     $("#datepicker").datepicker(option);
+
+    $(".btn-search").on('click', function () {
+      let formdata = $(".search-form").serialize();
+
+      $.ajax({
+        url: "Controller?type=adminPaymentSearch",
+        type: "GET",
+        data: formdata,
+        dataType: "html",
+        success: function (response) {
+          $(".member-table tbody").html(response);
+        },
+        error: function () {
+          alert("검색에 실패했습니다");
+        }
+      })
+    })
+
+    // 초기화 버튼을 눌렀을 때 select 태그 등 지정된 값 전부 초기화
+    $('.btn-reset').on('click', function() {
+      $('.search-form')[0].reset();
+      // location.reload(); 또는 전체 목록 출력?
+    });
+
   } );
 </script>
 

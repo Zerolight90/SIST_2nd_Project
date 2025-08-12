@@ -112,7 +112,7 @@
                     <li><a href="#">당첨자 확인</a></li>
                 </ul>
             </li>
-            <li class="main-item store-menu"><a href="<c:url value="/store/store.jsp"/>">스토어</a></li>
+            <li class="main-item store-menu"><a href="<c:url value="/Controller?type=store"/>">스토어</a></li>
             <li class="main-item has-submenu">
                 <a href="#">혜택</a>
                 <ul class="submenu">

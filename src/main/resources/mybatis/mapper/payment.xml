@@ -38,7 +38,50 @@
 
     <!-- 모든 결제 정보를 가져오는 쿼리 (종민) -->
     <select id="getAllPayment" resultType="mybatis.vo.PaymentVO">
-        select * from payment
+        select p.paymentIdx, p.paymentType, p.paymentMethod, p.paymentFinal, p.paymentStatus, p.paymentDate, u.name
+        from payment p INNER JOIN user u ON p.userIdx = u.userIdx
+    </select>
+
+    <select id="adminSearchPayment" resultType="mybatis.vo.PaymentVO" parameterType="Map">
+        select p.paymentIdx, p.paymentType, p.paymentMethod, p.paymentFinal, p.paymentStatus, p.paymentDate, u.name
+        from payment p INNER JOIN user u ON p.userIdx = u.userIdx
+
+        <where>
+            <choose>
+                <when test="payment_status != null and payment_status != '' and payment_status == 'active'">
+                    AND p.paymentStatus = 0
+                </when>
+                <when test="payment_status != null and payment_status != '' and payment_status == 'dormant'">
+                    AND p.paymentStatus = 1
+                </when>
+            </choose>
+
+            <choose>
+                <when test="payment_type != null and payment_type != '' and payment_type == 'movie'">
+                    AND p.paymentType = 0
+                </when>
+                <when test="payment_type != null and payment_type != '' and payment_type == 'goods'">
+                    AND p.paymentType = 1
+                </when>
+            </choose>
+
+            <choose>
+                <when test="payment_field == type and payment_keyword == '영화'">
+                    AND p.paymentType = 0
+                </when>
+                <when test="payment_field == type and payment_keyword == '상품'">
+                    AND p.paymentType LIKE CONCAT ('%', 1, '%')
+                </when>
+
+                <when test="payment_field == method">
+                    AND p.paymentMethod LIKE CONCAT ('%', #{payment_keyword}, '%')
+                </when>
+                <when test="payment_field == status">
+                    AND p.paymentStatus LIKE CONCAT ('%', #{payment_keyword}, '%')
+                </when>
+            </choose>
+
+        </where>
     </select>
 
 </mapper>

@@ -197,10 +197,10 @@
         전체 <strong>130</strong>건
       </div>
       <form class="search-form" action="#" method="get">
-        <p>시작일 : </p>
-        <p><input type="text" id="datepicker"></p>
-        <p>종료일 : </p>
-        <p>jQueryUI DatePicker</p>
+        <p class="total-count">시작일 : </p>
+        <p><input type="text" id="datepicker" style="width: 150px"></p>
+        <p class="total-count">종료일 : </p>
+        <p><input type="text" id="datepicker" style="width: 150px"></p>
         <select name="search_field">
           <option value="all">검색 유형 선택</option>
           <option value="name">대상</option>

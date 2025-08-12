@@ -35,15 +35,15 @@
 
   <div id="contents" style="width: 1100px; margin: auto;">
     <div>
-      <h2 style="padding-top: 20px; font-size: 24px">일반 관람권</h2>
+      <h2 style="padding-top: 20px; font-size: 24px">${requestScope.vo.prodName}</h2>
     </div>
     <div>
-      <p style="padding-top: 5px; padding-left: 5px; font-size: 16px">일반 관람권</p>
+      <p style="padding-top: 5px; padding-left: 5px; font-size: 16px">${requestScope.vo.prodInfo}</p>
     </div>
     <div style="height: 315px; border-top: 1px solid #999999; border-bottom: 1px solid #999999; display: flex; margin-top: 10px">
       <div style="width: 440px; display: inline-block; border-right: 1px solid #999999">
         <p>
-          <img src="../images/normalTicket.png" alt="" style="margin-top: 17px; margin-left: 70px"/>
+          <img src="../images/${requestScope.vo.prodImg}" alt="" style="margin-top: 17px; margin-left: 70px"/>
         </p>
       </div>
 
@@ -83,7 +83,7 @@
             <button id="plus" type="button">+</button>
           </div>
           <div style="width: 70px; margin-left: 350px; display: flex; font-size: 25px">
-            <p id="totalPrice">14700</p>
+            <p id="totalPrice">${requestScope.vo.prodPrice}</p>
             <span>원</span>
           </div>
         </div>
@@ -238,7 +238,7 @@
     let price = $("#price").text();
     let inum = parseInt(num);
     let iprice = parseInt(price);
-    let rnum = 14700 * inum;
+    let rnum = ${requestScope.vo.prodPrice} * inum;
 
     $("#totalPrice").text(rnum.toLocaleString());
   }

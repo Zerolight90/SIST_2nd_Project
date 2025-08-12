@@ -226,17 +226,7 @@
             <td>${vo.tRegion}</td>
             <td>${vo.tName}</td>
             <td>${vo.sName}</td>
-
-            <c:if test="${vo.codeIdx == 1}">
-              <td>2D</td>
-            </c:if>
-            <c:if test="${vo.codeIdx == 2}">
-              <td>3D</td>
-            </c:if>
-            <c:if test="${vo.codeIdx == 3}">
-              <td>4D</td>
-            </c:if>
-
+            <td>${vo.screenCode}</td>
             <td>${vo.sSeatCount}</td>
 
             <c:if test="${vo.tStatus == 0}">
