@@ -173,3 +173,14 @@ article {
 .point-details table { width: 100%; }
 .point-details .value { text-align: right; font-weight: 500; }
 .point-details .total { font-size: 18px; color: #8e44ad; font-weight: bold; border-top: 1px solid #eee; padding-top: 10px; } /* 변경됨 */
+
+
+/* mypage.css에 추가하거나 이곳에 직접 추가하여 스타일을 조정합니다. */
+/* .form-group 내부 .form-value에 버튼이 같이 있을 때 정렬을 위한 스타일 */
+.form-group .form-value input[type="password"] {
+    margin-right: 10px; /* 버튼과의 간격 */
+}
+.form-group .form-value {
+    display: flex; /* 내부 요소들을 가로로 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+}

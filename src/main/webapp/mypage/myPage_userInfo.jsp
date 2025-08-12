@@ -15,18 +15,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <%-- jQuery UI 라이브러리 추가 --%>
   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-  <style>
-    /* mypage.css에 추가하거나 이곳에 직접 추가하여 스타일을 조정합니다. */
-    /* .form-group 내부 .form-value에 버튼이 같이 있을 때 정렬을 위한 스타일 */
-    .form-group .form-value input[type="password"] {
-      flex-grow: 1; /* 입력 필드가 가능한 공간을 채우도록 */
-      margin-right: 10px; /* 버튼과의 간격 */
-    }
-    .form-group .form-value {
-      display: flex; /* 내부 요소들을 가로로 정렬 */
-      align-items: center; /* 세로 중앙 정렬 */
-    }
-  </style>
+
 </head>
 <body>
 <h2 class="content-title">개인정보 수정</h2>
@@ -103,7 +92,9 @@
       <input type="tel" id="u_phone" name="u_phone" value="${sessionScope.mvo.phone}"
              <c:if test="${not empty sessionScope.mvo.phone}">disabled</c:if>
       />
-      <button class="mybtn mybtn-sm" id="changePhoneBtn" <c:if test="${empty sessionScope.mvo.phone}">style="display: none;"</c:if>>휴대폰번호 변경</button>
+      <button class="mybtn mybtn-sm" id="changePhoneBtn"
+              <c:if test="${empty sessionScope.mvo.phone}">style="display: none;"</c:if>>
+        휴대폰번호 변경</button>
     </div>
   </div>
 
