@@ -43,7 +43,6 @@ public class AllMovieDataAction implements Action {
         Map<String, Object> map = new HashMap<>();
         map.put("category", category);
 
-        // ▼▼▼ 수정된 부분: LIMIT 연산을 Java에서 미리 수행 ▼▼▼
         int offset = p.getBegin() - 1;
         map.put("offset", offset);
         map.put("numPerPage", p.getNumPerPage());
@@ -52,11 +51,16 @@ public class AllMovieDataAction implements Action {
 
         // 5. '좋아요' 관련 데이터 처리
         Map<String, Integer> likeCountMap = FavoriteMovieDAO.getLikeCountForMovies(list);
+        request.setAttribute("likeCountMap", likeCountMap); // ← 빠졌으면 추가
+
         HttpSession session = request.getSession();
         MemberVO mvo = (MemberVO) session.getAttribute("mvo");
+
         if (mvo != null) {
-            String userIdx = mvo.getUserIdx();
-            Set<String> likedMovieSet = FavoriteMovieDAO.getLikedMovieSet(userIdx);
+            // 👇 String → Long 변환
+            Long userIdx = Long.parseLong(String.valueOf(mvo.getUserIdx()));
+
+            Set<Long> likedMovieSet = FavoriteMovieDAO.getLikedMovieSet(userIdx);
             request.setAttribute("likedMovieSet", likedMovieSet);
         }
 

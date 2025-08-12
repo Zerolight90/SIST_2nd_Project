@@ -53,9 +53,9 @@ public class SearchMovieAction implements Action {
         // 로그인한 경우, 사용자가 좋아요 누른 영화 목록 조회
         HttpSession session = request.getSession();
         MemberVO mvo = (MemberVO) session.getAttribute("mvo");
-        Set<String> likedMovieSet = null;
+        Set<Long> likedMovieSet = null;
         if (mvo != null) {
-            likedMovieSet = FavoriteMovieDAO.getLikedMovieSet(mvo.getUserIdx());
+            likedMovieSet = FavoriteMovieDAO.getLikedMovieSet(Long.valueOf(mvo.getUserIdx()));
         }
 
         // 검색 결과를 JSON으로 변환

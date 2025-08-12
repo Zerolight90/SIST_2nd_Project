@@ -62,7 +62,7 @@ article {
 .side-nav li a.active,
 .side-nav li a:hover {
     background-color: #f8f8f8;
-    color: #8e44ad; /* 변경됨 */
+    color: #8e44ad;
     font-weight: 500;
 }
 
@@ -83,14 +83,14 @@ article {
 .data-table td { color: #555; }
 .data-table .item-title { text-align: left; }
 .data-table .status-used { color: #999; }
-.data-table .status-available { color: #8e44ad; font-weight: bold; } /* 변경됨 */
+.data-table .status-available { color: #8e44ad; font-weight: bold; }
 
 /* --- 버튼 스타일 --- */
 .mybtn { display: inline-block; padding: 8px 15px; border: 1px solid #ccc; background-color: #fff; color: #333; border-radius: 4px; cursor: pointer; font-size: 14px; transition: all 0.2s; }
 .mybtn .mybtn-exit{padding-right: 20px !important;}
 .mybtn:hover { background-color: #f0f0f0; }
-.mybtn-primary { background-color: #8e44ad; border-color: #8e44ad; color: #fff; } /* 변경됨 */
-.mybtn-primary:hover { background-color: #732d91; border-color: #732d91; } /* 변경됨 */
+.mybtn-primary { background-color: #8e44ad; border-color: #8e44ad; color: #fff; }
+.mybtn-primary:hover { background-color: #732d91; border-color: #732d91; }
 
 /* --- 필터/조회 영역 --- */
 .filter-area { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; }
@@ -102,7 +102,7 @@ article {
 .pagination { display: flex; justify-content: center; margin-top: 30px; }
 .pagination a, .pagination strong { margin: 0 5px; padding: 8px 12px; text-decoration: none; border: 1px solid #ddd; color: #333; border-radius: 4px; }
 .pagination a:hover { background-color: #f0f0f0; }
-.pagination strong { background-color: #8e44ad; color: white; border-color: #8e44ad; } /* 변경됨 */
+.pagination strong { background-color: #8e44ad; color: white; border-color: #8e44ad; }
 
 /* --- 예매내역 카드 --- */
 .reservation-card { display: flex; border: 1px solid #eee; border-radius: 8px; padding: 20px; margin-bottom: 20px; align-items: center; transition: box-shadow 0.3s; }
@@ -115,21 +115,41 @@ article {
 .reservation-card .info .details { font-size: 15px; color: #555; }
 .reservation-card .action { width: 100px; text-align: center; }
 
-/* --- 탭 스타일 --- */
-.tab-nav { display: flex; border-bottom: 1px solid #ddd; margin-bottom: 20px; }
+/* --- 탭 스타일 (ID 기반으로 수정) --- */
+.tab-nav { display: flex; justify-content: center; border-bottom: 1px solid #ddd; margin-bottom: 20px; }
 .tab-nav a { padding: 10px 20px; text-decoration: none; color: #888; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -1px; }
-.tab-nav a.active { color: #8e44ad; font-weight: 500; border-bottom-color: #8e44ad; } /* 변경됨 */
-.tab-pane { display: none; }
-.tab-pane.active { display: block; }
+.tab-nav a.active { color: #8e44ad; font-weight: 500; border-bottom-color: #8e44ad; }
+
+.tab-pane {
+    display: none;
+}
+
+/* active 클래스가 붙은 tab-pane은 보임 */
+.tab-pane.active {
+    display: block;
+}
 
 /* --- 무비스토리 --- */
 .review-item { display: flex; padding: 20px 0; border-bottom: 1px solid #f0f0f0; }
 .review-item img { width: 80px; margin-right: 20px; }
 .review-item .review-content { flex-grow: 1; }
 .review-item .review-actions a { color: #888; text-decoration: none; font-size: 14px; margin-left: 10px; }
-.movie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
-.movie-card { text-align: center; }
-.movie-card img { width: 100%; border-radius: 8px; margin-bottom: 10px; }
+
+/* 여기서부터 수정된 부분 */
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3개의 동일한 열 */
+    gap: 20px; /* 영화 카드 사이의 간격 */
+}
+
+.movie-card {
+    text-align: center;
+}
+.movie-card img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
 
 /* --- 회원정보 --- */
 .form-layout { max-width: 600px; margin: 0 auto; }
@@ -149,27 +169,67 @@ article {
 /* --- 포인트 (수정됨) --- */
 .point-summary-box {
     display: flex;
-    background-color: #fff; /* 흰색 배경으로 변경 */
-    color: #333; /* 텍스트 색상을 어둡게 변경 */
+    background-color: #fff;
+    color: #333;
     padding: 30px;
     border-radius: 8px;
     margin-bottom: 40px;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid #e0e0e0; /* 테두리 추가 */
+    border: 1px solid #e0e0e0;
 }
 .point-summary-box .available-points .points {
     font-size: 36px;
     font-weight: 700;
-    color: #8e44ad; /* 변경됨 */
+    color: #8e44ad;
 }
 .point-summary-box .point-details {
     flex-basis: 55%;
-    background-color: #f9f9f9; /* 내부 상세 정보는 연한 회색으로 변경 */
+    background-color: #f9f9f9;
     color: #333;
     padding: 20px;
     border-radius: 6px;
 }
 .point-details table { width: 100%; }
 .point-details .value { text-align: right; font-weight: 500; }
-.point-details .total { font-size: 18px; color: #8e44ad; font-weight: bold; border-top: 1px solid #eee; padding-top: 10px; } /* 변경됨 */
+.point-details .total { font-size: 18px; color: #8e44ad; font-weight: bold; border-top: 1px solid #eee; padding-top: 10px; }
+
+/* mypage.css에 추가할 페이지네이션 스타일 */
+
+/* 페이징 UI 컨테이너 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+/* 페이징 링크/버튼 기본 스타일 */
+.pagination a,
+.pagination strong {
+    display: inline-block;
+    min-width: 32px;
+    padding: 8px;
+    margin: 0 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    text-decoration: none;
+    box-sizing: border-box;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+/* 페이징 링크에 마우스를 올렸을 때 */
+.pagination a:hover {
+    background-color: #f0f0f0;
+    border-color: #ccc;
+}
+
+/* 현재 페이지 버튼 스타일 */
+.pagination strong {
+    background-color: #8e44ad;
+    border-color: #8e44ad;
+    color: #fff;
+    cursor: default;
+}

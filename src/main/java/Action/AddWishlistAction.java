@@ -13,13 +13,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AddWishlistAction implements Action {
-
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+
         HttpSession session = request.getSession();
         MemberVO mvo = (MemberVO) session.getAttribute("mvo");
-
         if (mvo == null) {
+            JSONObject json = new JSONObject();
+            json.put("status", "fail");
+            json.put("message", "로그인이 필요한 서비스입니다.");
+            response.setContentType("application/json; charset=UTF-8");
+            try (PrintWriter out = response.getWriter()) {
+                out.print(json.toJSONString());
+                out.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return null;
         }
 
@@ -31,32 +40,50 @@ public class AddWishlistAction implements Action {
         map.put("mIdx", mIdx);
 
         JSONObject json = new JSONObject();
+        boolean isSuccess = false;
 
         try {
             boolean isExist = FavoriteMovieDAO.isAlreadyWished(map);
 
             if (isExist) {
-                json.put("status", "alreadyExists");
+                int result = FavoriteMovieDAO.removeWishlist(map);
+                if (result > 0) {
+                    isSuccess = true;
+                    json.put("action", "removed");
+                }
             } else {
                 int result = FavoriteMovieDAO.addWishlist(map);
                 if (result > 0) {
-                    json.put("status", "success");
-                } else {
-                    json.put("status", "fail");
-                    json.put("message", "데이터베이스 저장에 실패했습니다.");
+                    isSuccess = true;
+                    json.put("action", "added");
                 }
             }
+
+            if (isSuccess) {
+                json.put("status", "success");
+            } else {
+                json.put("status", "fail");
+                json.put("message", "처리 실패: DB 변경 실패");
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             json.put("status", "fail");
-            json.put("message", "처리 중 예외가 발생했습니다.");
+            json.put("message", "처리 중 예외 발생: " + e.getMessage());
         }
 
-        // JSON 응답 보내기
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
+        // 좋아요 개수 조회 로직을 `try-catch` 바깥으로 이동
+        // 이렇게 하면 좋아요 추가/삭제 로직이 성공하면 좋아요 개수 조회 실패 여부와 상관없이 성공 응답을 보냅니다.
+        try {
+            int newLikeCount = FavoriteMovieDAO.getLikeCount(mIdx);
+            json.put("newLikeCount", newLikeCount);
+        } catch (Exception e) {
+            e.printStackTrace();
+            // 좋아요 개수 조회에 실패해도 메인 로직은 성공으로 간주
+            json.put("newLikeCount", -1); // 실패를 나타내는 값으로 설정
+        }
 
-// Use try-with-resources to automatically close the PrintWriter
+        response.setContentType("application/json; charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             out.print(json.toJSONString());
             out.flush();
@@ -64,8 +91,6 @@ public class AddWishlistAction implements Action {
             e.printStackTrace();
         }
 
-// Ajax 통신이므로 포워딩할 경로가 없어 null 반환
         return null;
-
     }
 }

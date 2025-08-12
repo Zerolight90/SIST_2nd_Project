@@ -97,7 +97,7 @@
         $('.pagination').on('click', 'a', function(e) {
             e.preventDefault(); // 모든 페이지 링크의 기본 이동을 막습니다.
 
-            // 검색어가 있으면 검색 페이징을, 없으면 카테고리 페이징을 수행
+            // 검색어가 있으면 검색 페이징을, 없으면 카테고리 페이징을 수행합니다.
             if (currentKeyword) {
                 performSearch($(this).data('page'));
             } else {
@@ -141,13 +141,15 @@
             const mIdx = likeBtn.data('midx');
 
             $.ajax({
-                url: "Controller?type=addWishlist",
+                url: "Controller?type=addWishlist", // 추가와 삭제를 모두 이 URL에서 처리
                 type: "POST", data: { "mIdx": mIdx }, dataType: "json",
                 success: function(res) {
-                    if (res.status === "success" || res.status === "alreadyExists") {
+                    if (res.status === "success") {
                         likeBtn.find('.like-count').text(res.newLikeCount);
-                        likeBtn.toggleClass('liked');
-                    } else { alert("오류: " + res.message); }
+                        likeBtn.toggleClass('liked'); // 'liked' 클래스를 추가하거나 제거
+                    } else {
+                        alert("오류: " + res.message);
+                    }
                 },
                 error: () => alert("서버와 통신 중 문제가 발생했습니다.")
             });
@@ -161,7 +163,7 @@
             movieListEl.empty();
             paginationEl.empty();
             $('.total-count strong').text(data.totalCount);
-            $('.tabs li').removeClass('active');
+            $('.tabs li').removeClass('active'); // 검색 시에는 탭 활성화 해제
 
             if (data.movieList && data.movieList.length > 0) {
                 const likedMovieSet = new Set(data.likedMovieSet || []);
@@ -200,6 +202,7 @@
                 if (i === p.nowPage) {
                     paginationEl.append(`<strong>\${i}</strong>`);
                 } else {
+                    // 검색 결과 페이징 링크에는 일반 href 대신 data-page 속성을 사용
                     paginationEl.append(`<a href="#" data-page="\${i}">\${i}</a>`);
                 }
             }

@@ -5,129 +5,113 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>마이페이지</title>
-  <!-- 기본 CSS와 jQuery UI -->
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="../css/reset.css">
-  <link rel="stylesheet" href="../css/sub/sub_page_style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
-  <link rel="stylesheet" href="../css/mypage.css">
-  <link rel="icon" href="../images/favicon.png">
+  <link rel="stylesheet" href="${cp}/css/reset.css">
+  <link rel="stylesheet" href="${cp}/css/sub/sub_page_style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="${cp}/css/mypage.css">
+  <link rel="icon" href="${cp}/images/favicon.png">
+
+  <style>
+    [data-tab-content="watched"] .movie-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    [data-tab-content="watched"] .movie-card { text-align: center; }
+    [data-tab-content="watched"] .movie-card img { width: 100%; border-radius: 8px; margin-bottom: 10px; }
+    [data-tab-content="wished"] .movie-grid { display: flex; flex-wrap: wrap; gap: 24px; row-gap: 20px; width: 522px; margin: 0 auto; }
+    .movie-item { width: 150px; text-align: center; }
+    .movie-poster { position: relative; width: 150px; height: 214px; overflow: hidden; border-radius: 5px; background-color: #eee; }
+    .movie-poster img { width: 100%; height: 100%; object-fit: cover; }
+    .wish-button { position: absolute; top: 8px; right: 8px; background: transparent; border: none; color: white; font-size: 24px; cursor: pointer; padding: 0; text-shadow: 0 0 3px rgba(0,0,0,0.7); }
+    .wish-button.wished .fa-heart-o { display: none; }
+    .wish-button.wished .fa-heart { display: inline-block; color: #E50914; }
+    .wish-button .fa-heart { display: none; }
+    .movie-item h4 { font-size: 14px; margin-top: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  </style>
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 </head>
 <body>
-
-<%-- 공통 헤더 (메뉴) --%>
-<header>
-  <jsp:include page="../common/sub_menu.jsp"/>
-</header>
-
-<%-- 마이페이지 컨텐츠 --%>
+<jsp:include page="../common/sub_menu.jsp"/>
 <article>
   <div class="container">
     <nav class="side-nav">
       <h2>마이페이지</h2>
       <ul>
-        <li><a href="${cp}/Controller?type=myReservation" class="nav-link active" data-type="myReservation">예매/구매내역</a></li>
-        <li><a href="${cp}/Controller?type=myCoupon" class="nav-link" data-type="myCoupon">제휴쿠폰</a></li>
-        <li><a href="${cp}/Controller?type=myPoint" class="nav-link" data-type="myPoint">멤버십 포인트</a></li>
-        <li><a href="${cp}/Controller?type=myMovieStory" class="nav-link" data-type="myMovieStory">나의 무비스토리</a></li>
-        <li><a href="${cp}/Controller?type=myUserInfo" class="nav-link" data-type="myUserInfo">회원정보</a></li>
+        <li><a href="${cp}/Controller?type=myReservation" class="nav-link active">예매/구매내역</a></li>
+        <li><a href="${cp}/Controller?type=myCoupon" class="nav-link">제휴쿠폰</a></li>
+        <li><a href="${cp}/Controller?type=myPoint" class="nav-link">멤버십 포인트</a></li>
+        <li><a href="${cp}/Controller?type=myMovieStory" class="nav-link">나의 무비스토리</a></li>
+        <li><a href="${cp}/Controller?type=myUserInfo" class="nav-link">회원정보</a></li>
       </ul>
     </nav>
-
-    <c:choose>
-      <c:when test="${not empty sessionScope.kvo && (empty sessionScope.mvo || empty sessionScope.mvo.birth || empty sessionScope.mvo.phone)}">
-        <%-- 추가 정보 입력 다이얼로그 --%>
-        <div id="dialog">
-          <p>
-            카카오 간편 가입 회원은<br>
-            전화번호·생년월일 등 추가 정보를 입력해야<br>
-            모든 마이페이지 기능을 사용하실 수 있습니다.
-          </p>
-        </div>
-
-        <main class="main-content" id="mainContent">
-            <%-- 기본은 회원정보 화면을 Ajax로 Load --%>
-        </main>
-      </c:when>
-      <c:otherwise>
-        <main class="main-content" id="mainContent">
-            <%-- 기본은 예매내역 화면을 Ajax로 Load --%>
-        </main>
-      </c:otherwise>
-    </c:choose>
+    <main class="main-content" id="mainContent">
+    </main>
   </div>
 </article>
-
-<%-- 공통 푸터 --%>
-<footer>
-  <jsp:include page="../common/Footer.jsp"/>
-</footer>
+<jsp:include page="../common/Footer.jsp"/>
 
 <script>
   $(function() {
-    // 다이얼로그 옵션
-    let option = {
-      modal: true, autoOpen: false,
-      title: '추가 정보 입력 안내',
-      width: 450, height: 250, resizable: false,
-      buttons: {
-        "확인": function() { $(this).dialog("close"); }
-      }
-    };
-    $("#dialog").dialog(option);
+    const mainContent = $('#mainContent');
+    const cp = "${pageContext.request.contextPath}";
 
-    // JSP 변수값에 따라 다이얼로그 열기
-    <c:if test="${not empty sessionScope.kvo && (empty sessionScope.mvo || empty sessionScope.mvo.birth || empty sessionScope.mvo.phone)}">
-    $("#dialog").dialog("open");
-    </c:if>
+    // --- 초기 화면 로딩 ---
+    mainContent.load(`${cp}/Controller?type=myReservation`);
 
-    // Ajax로 첫화면 로딩
-    let firstUrl;
-    <c:choose>
-    <c:when test="${not empty sessionScope.kvo && (empty sessionScope.mvo || empty sessionScope.mvo.birth || empty sessionScope.mvo.phone)}">
-    firstUrl = "${cp}/Controller?type=myUserInfo";
-    </c:when>
-
-    <c:otherwise>
-    firstUrl = "${cp}/Controller?type=myReservation";
-    </c:otherwise>
-    </c:choose>
-    $("#mainContent").load(firstUrl);
-
-    // 메뉴 클릭시 Ajax로 main-content 교체
+    // --- 사이드 메뉴 클릭 이벤트 ---
     $('.side-nav .nav-link').on('click', function(e) {
       e.preventDefault();
-      // 네비게이션 active 표시 처리
       $('.side-nav .nav-link').removeClass('active');
       $(this).addClass('active');
-      // Ajax로 main 영역 교체
-      const url = $(this).attr('href');
-      $('#mainContent').load(url);
+      mainContent.load($(this).attr('href'));
+    });
+
+    // --- 이벤트 위임: #mainContent 내부에서 발생하는 모든 이벤트를 여기서 처리 ---
+
+    // 1. '나의 무비스토리' 탭 클릭
+    mainContent.on('click', '#movieStoryTabNav a', function(e) {
+      e.preventDefault();
+      const tabName = $(this).data('tab');
+
+      // 탭 버튼 스타일 적용
+      $('#movieStoryTabNav a').removeClass('active');
+      $(this).addClass('active');
+
+      // 모든 탭 콘텐츠 숨기고, 선택한 탭 콘텐츠만 보여줌
+      mainContent.find('.tab-pane').removeClass('active');
+      mainContent.find(`[data-tab-content="${tabName}"]`).addClass('active');
+    });
+
+    // 2. '나의 무비스토리' 페이지네이션 클릭 시 mainContent 전체를 새로 로드
+    mainContent.on('click', '.pagination a', function(e) {
+      e.preventDefault();
+      const page = $(this).data('page');
+      // const tabName = $(this).closest('.tab-pane').data('tab-content');
+      const url = `${cp}/Controller?type=myMovieStory&cPage=${page}&currentTab=${tabName}`;
+      mainContent.load(url);
+    });
+
+    // 3. '나의 무비스토리' 위시리스트 하트 버튼 클릭 시 mainContent 전체를 새로 로드
+    mainContent.on('click', '.wish-button', function() {
+      const mIdx = $(this).data('midx');
+      $.ajax({
+        url: `${cp}/Controller?type=addWishlist`,
+        type: 'POST', data: { mIdx: mIdx }, dataType: 'json',
+        success: function(response) {
+          if (response.status === 'success' && response.action === 'removed') {
+            const currentPage = $('#wishedPagination strong').text() || 1;
+            const url = `${cp}/Controller?type=myMovieStory&cPage=${currentPage}&currentTab=wished`;
+            mainContent.load(url);
+          } else {
+            alert('작업 실패: ' + (response.message || '알 수 없는 오류'));
+          }
+        },
+        error: function() { alert('서버 오류로 위시리스트 변경에 실패했습니다.'); }
+      });
     });
   });
-
-  $('#mainContent').on('click', '#movieStoryTabNav a', function(e) {
-    e.preventDefault(); // 링크의 기본 동작 방지
-
-    const tabLinks = $('#movieStoryTabNav a');
-    const tabPanes = $('#movieStoryTabContent .tab-pane');
-    const targetTab = $(this).data('tab');
-
-    // 모든 탭과 콘텐츠를 비활성화
-    tabLinks.removeClass('active');
-    tabPanes.removeClass('active');
-
-    // 클릭된 탭과 그에 맞는 콘텐츠만 활성화
-    $(this).addClass('active');
-    $('#movieStoryTabContent').find('[data-tab-content="' + targetTab + '"]').addClass('active');
-  });
 </script>
-
 </body>
 </html>

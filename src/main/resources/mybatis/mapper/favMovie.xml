@@ -15,7 +15,23 @@
         WHERE userIdx = #{userIdx} AND mIdx = #{mIdx}
     </select>
 
-    <select id="getLikedMoviesByUser" parameterType="String" resultType="String">
+    <select id="getLikeCount" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM favorite_movie WHERE mIdx = #{mIdx}
+    </select>
+
+    <select id="getFavoriteCount" parameterType="Long" resultType="int">
+        SELECT COUNT(*) FROM favorite_movie WHERE userIdx = #{userIdx}
+    </select>
+
+    <select id="getFavoriteMovies" parameterType="Map" resultType="mybatis.vo.MovieStoryVO">
+        SELECT m.poster AS posterUrl, m.name AS title, fm.mIdx AS mIdx
+        FROM favorite_movie fm
+                 JOIN movie m ON fm.mIdx = m.mIdx
+        WHERE fm.userIdx = #{userIdx}
+            LIMIT #{offset}, #{numPerPage}
+    </select>
+
+    <select id="getLikedMoviesByUser" parameterType="Long" resultType="String">
         SELECT mIdx
         FROM favorite_movie
         WHERE userIdx = #{userIdx}
@@ -35,4 +51,8 @@
         mIdx
     </select>
 
+    <delete id="remove" parameterType="java.util.Map">
+        DELETE FROM favorite_movie
+        WHERE userIdx = #{userIdx} AND mIdx = #{mIdx}
+    </delete>
 </mapper>
