@@ -110,6 +110,29 @@ public class MemberDAO {
         return vo;
     }
 
+    // 전화번호 업데이트 메서드 추가
+
+    public static int updatePhone(String userId, String phone) {
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("id", userId); // 일반 회원과 카카오 회원 모두 'id'를 사용
+        paramMap.put("phone", phone);
+
+        int cnt = ss.update("member.updateUserPhone", paramMap); // 새로운 매퍼 ID 사용
+
+        if (cnt > 0) {
+            ss.commit();
+        } else {
+            ss.rollback();
+        }
+        ss.close();
+
+        return cnt;
+    }
+
+
     // 생년월일 업데이트 메서드 추가
     public static int updateBirthdate(String k_id, String birth) {
 

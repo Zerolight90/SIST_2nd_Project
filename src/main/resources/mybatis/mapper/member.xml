@@ -17,12 +17,17 @@
         VALUES(#{id}, #{pw}, #{birth}, #{name}, #{gender}, #{phone}, #{email}, 0, 0, DATE(NOW()), #{joinPath})
     </insert>
 
-    <!-- member.xml에 이미 존재하는 addKakaoUser 쿼리에서 birth 필드를 활용 -->
+
     <update id="updateKakaoUser" parameterType="map">
         UPDATE web_movie.user
-        SET
-        birth = #{birth}
+        SET birth = #{birth}
         WHERE id = #{k_id}
+    </update>
+
+    <update id="updateUserPhone" parameterType="map">
+        UPDATE web_movie.user
+        SET phone = #{phone}
+        WHERE id = #{id}
     </update>
 
 

@@ -30,47 +30,57 @@ public class UserInfoAction implements Action {
             out = response.getWriter();
 
             String actionType = request.getParameter("action");
-            // JSP에서 'birth'로 보낸 파라미터를 여기에서도 'birth'로 받습니다.
-            String birthdate = request.getParameter("birth"); // <-- 이 부분을 수정했습니다.
+            String birthdate = request.getParameter("birth");
+            String phone = request.getParameter("phone"); // 전화번호 파라미터 추가
 
-            if ("updateBirthdate".equals(actionType) && birthdate != null && !birthdate.trim().isEmpty()) {
-                HttpSession session = request.getSession();
-                String userId = null;
+            HttpSession session = request.getSession();
+            String userId = null;
+            Object userVO = null; // MemberVO 또는 KakaoVO를 저장할 변수
 
-                if (session.getAttribute("mvo") != null) {
-                    MemberVO mvo = (MemberVO) session.getAttribute("mvo");
-                    userId = mvo.getId();
-                } else if (session.getAttribute("kvo") != null) {
-                    KakaoVO kvo = (KakaoVO) session.getAttribute("kvo");
-                    userId = kvo.getK_id();
-                }
+            if (session.getAttribute("mvo") != null) {
+                MemberVO mvo = (MemberVO) session.getAttribute("mvo");
+                userId = mvo.getId();
+                userVO = mvo;
+            } else if (session.getAttribute("kvo") != null) {
+                KakaoVO kvo = (KakaoVO) session.getAttribute("kvo");
+                userId = kvo.getK_id();
+                userVO = kvo;
+            }
 
-                if (userId != null) {
+            if (userId != null) {
+                if ("updateBirthdate".equals(actionType) && birthdate != null && !birthdate.trim().isEmpty()) {
                     int result = MemberDAO.updateBirthdate(userId, birthdate);
                     if (result > 0) {
-                        // 업데이트 성공 시 세션 정보 갱신
-                        if (session.getAttribute("mvo") != null) {
-                            MemberVO currentMvo = (MemberVO) session.getAttribute("mvo");
-                            currentMvo.setBirth(birthdate);
-                            session.setAttribute("mvo", currentMvo);
-                        } else if (session.getAttribute("kvo") != null) {
-                            KakaoVO currentKvo = (KakaoVO) session.getAttribute("kvo");
-                            currentKvo.setBirth(birthdate);
-                            session.setAttribute("kvo", currentKvo);
+                        if (userVO instanceof MemberVO) {
+                            ((MemberVO) userVO).setBirth(birthdate);
+                        } else if (userVO instanceof KakaoVO) {
+                            ((KakaoVO) userVO).setBirth(birthdate);
                         }
+                        session.setAttribute(userVO instanceof MemberVO ? "mvo" : "kvo", userVO);
                         responseMap.put("success", true);
                         responseMap.put("message", "생년월일이 성공적으로 업데이트되었습니다.");
                     } else {
                         responseMap.put("message", "생년월일 업데이트에 실패했습니다.");
                     }
+                } else if ("updatePhone".equals(actionType) && phone != null && !phone.trim().isEmpty()) {
+                    int result = MemberDAO.updatePhone(userId, phone); // MemberDAO에 updatePhone 메서드 호출
+                    if (result > 0) {
+                        if (userVO instanceof MemberVO) {
+                            ((MemberVO) userVO).setPhone(phone);
+                        } else if (userVO instanceof KakaoVO) {
+                            ((KakaoVO) userVO).setPhone(phone);
+                        }
+                        session.setAttribute(userVO instanceof MemberVO ? "mvo" : "kvo", userVO);
+                        responseMap.put("success", true);
+                        responseMap.put("message", "휴대폰 번호가 성공적으로 업데이트되었습니다.");
+                    } else {
+                        responseMap.put("message", "휴대폰 번호 업데이트에 실패했습니다.");
+                    }
                 } else {
-                    responseMap.put("message", "로그인 정보가 유효하지 않습니다.");
+                    responseMap.put("message", "유효한 업데이트 요청이 아니거나 필요한 값이 누락되었습니다.");
                 }
             } else {
-                // 생년월일 업데이트 요청이 아니거나 유효하지 않은 경우
-                responseMap.put("message", "생년월일 업데이트 요청이 아니거나 유효한 생년월일 값이 아닙니다.");
-                // alert('다른 정보가 업데이트되었습니다.'); 메시지가 뜨지 않도록 처리
-                // 또는 다른 정보 업데이트 로직을 여기에 추가
+                responseMap.put("message", "로그인 정보가 유효하지 않습니다.");
             }
 
             out.print(mapper.writeValueAsString(responseMap));
