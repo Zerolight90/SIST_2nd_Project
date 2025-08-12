@@ -10,6 +10,8 @@
     <resultMap id="map1" type="mybatis.vo.AdminBoardVO">
         <id property="boardIdx" column="boardIdx"/>
         <association property="tvo" javaType="mybatis.vo.TheaterVO" select="theater.getTheater" column="tIdx"/>
+        <association property="mvo" javaType="mybatis.vo.MemberVO" select="member.getMemInfo" column="userIdx"/>
+        <association property="bvo" javaType="mybatis.vo.AdminBoardVO" select="getBoard2" column="boardIdx"/>
     </resultMap>
 
     <!--공지사항에 대한 전체 목록 추출-->
@@ -19,6 +21,7 @@
                 SELECT * FROM board
                 WHERE boardStatus = 0
                 AND boardType = #{boardType}
+                AND parent_boardIdx IS NULL
                 <if test="searchKeyword != null and searchKeyword != ''">
                     AND boardTitle LIKE CONCAT('%', #{searchKeyword}, '%')
                 </if>
@@ -33,6 +36,7 @@
         SELECT COUNT(*) FROM board
         WHERE boardStatus = 0
         AND boardType = #{boardType}
+        AND parent_boardIdx IS NULL
     </select>
 
     <!--게시물 보기-->
@@ -40,6 +44,18 @@
         SELECT * FROM board
         WHERE boardIdx = #{boardIdx}
     </select>
+
+    <select id="getBoard2" parameterType="String" resultType="mybatis.vo.AdminBoardVO">
+        SELECT * FROM board
+        WHERE parent_boardIdx = #{boardIdx}
+        LIMIT 1
+    </select>
+
+    <!--게시물 작성-->
+    <insert id="add" parameterType="Map">
+        INSERT INTO board(userIdx, tIdx, boardType, boardTitle, boardContent, file_name, ori_name, boardRegDate,  boardStatus)
+        VALUES (1, 1, #{boardType}, #{title}, #{content}, #{fname}, #{oname}, NOW(),  0)
+    </insert>
 
     <!--공지사항 상세 이전글-->
     <select id="getPrevPost" resultType="mybatis.vo.AdminBoardVO">

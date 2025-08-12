@@ -257,8 +257,7 @@
       <thead>
       <tr>
         <th>번호</th>
-        <th>회원번호</th>
-        <th>회원명</th>
+        <th>회원아이디</th>
         <th>제목</th>
         <th>등록일</th>
         <th>답변여부</th>
@@ -271,18 +270,17 @@
         <tr>
           <c:set var="num" value="${p.totalCount - ((p.nowPage-1)*p.numPerPage+ vs1.index)}"/>
           <td>${num}</td>
-          <td>${vo.tvo.tName}</td>
-          <td>${vo.boardType}</td>
+          <td>${vo.mvo.id}</td>
           <td>
-            <a href="Controller?type=customerInquiry&boardIdx=${vo.boardIdx}&cPage=${nowPage}"><%--listAction에서 nowPage이름으로 request 만들어야 한다.--%>
+            <a href="Controller?type=adminViewInquiry&boardIdx=${vo.boardIdx}&cPage=${nowPage}"><%--listAction에서 nowPage이름으로 request 만들어야 한다.--%>
                 ${vo.boardTitle}
             </a>
           </td>
-          <td>${vo.boardRegDate} ~ ${vo.boardEndRegDate}</td>
+          <td>${vo.boardRegDate}</td>
             <%--확인하기--%>
           <td>
-            <c:if test="${vo.boardStatus eq '0'}"> 게시중</c:if>
-            <c:if test="${vo.boardStatus eq '1'}"> 게시종료</c:if>
+            <c:if test="${vo.is_answered eq '0' or empty vo.is_answered}"> 미답변</c:if>
+            <c:if test="${vo.is_answered eq '1'}"> 답변완료</c:if>
           </td>
         </tr>
       </c:forEach>

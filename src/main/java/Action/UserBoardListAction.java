@@ -1,6 +1,5 @@
 package Action;
 
-import mybatis.dao.AdminBoardDAO;
 import mybatis.dao.UserBoardDAO;
 import mybatis.vo.AdminBoardVO;
 import util.Paging;
@@ -15,13 +14,13 @@ public class UserBoardListAction implements Action{
 
         String boardType = request.getParameter("type");
         String searchKeyword = request.getParameter("searchKeyword");
-        System.out.println("키워드::::::::::::::::::::"+searchKeyword);
+        //System.out.println("키워드::::::::::::::::::::"+searchKeyword);
 
         if(boardType == null) {
             boardType = "userBoardList";
         }
 
-        System.out.println("boardType:::::::::::::"+boardType);
+        //System.out.println("boardType:::::::::::::"+boardType);
 
         //총 게시물 수 구하기
         //처음부터 끝까지 전체의 데이터 갯수
@@ -57,16 +56,16 @@ public class UserBoardListAction implements Action{
 
         //유저화면 게시판 타입에 따른 화면단 분기처리
         if(boardType.equals("userBoardList")){
-            System.out.println("userBoardList!!!!!!!!!!!!!!!!!!!!");
+            //System.out.println("userBoardList!!!!!!!!!!!!!!!!!!!!");
             return "userBoardList.jsp";
         } else if(boardType.equals("userEventList")){
-            System.out.println("userEventList!!!!!!!!!!!!!!!!!");
+            //System.out.println("userEventList!!!!!!!!!!!!!!!!!");
             return "userEventList.jsp";
         } else if(boardType.equals("userCustomerInquiry")){
-            System.out.println("adminEventList!!!!!!!!!!!!!!!!!!");
+            //System.out.println("userCustomerInquiry!!!!!!!!!!!!!!!!!!");
             return "userInquiry.jsp";
         } else{
-            System.out.println("else!!!!!!!!!!!!!!");
+            //System.out.println("else!!!!!!!!!!!!!!");
             return "userBoardList.jsp";
         }
 

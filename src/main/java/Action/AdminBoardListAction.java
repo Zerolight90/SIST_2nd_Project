@@ -18,20 +18,12 @@ public class AdminBoardListAction implements Action{
         String boardType = request.getParameter("type");
         String searchKeyword = request.getParameter("searchKeyword");
 
-        System.out.println("키워드::::::::::::::::::::"+searchKeyword);
+        //System.out.println("키워드::::::::::::::::::::" + searchKeyword);
+        //System.out.println("boardType:::::::::::::::" + boardType);
 
         if(boardType == null) {
             boardType = "adminBoardList";
-        }else if(boardType.equals("adminWriteEvent")) {
-            boardType = "adminEventList";
-        }else if(boardType.equals("adminWriteInquiry")) {
-            boardType = "customerInquiry";
-        }else{
-            System.out.println("왜안되지");
         }
-
-        System.out.println("boardType:::::::::::::"+boardType);
-
 
         //총 게시물 수 구하기
         //처음부터 끝까지 전체의 데이터 갯수
@@ -69,16 +61,16 @@ public class AdminBoardListAction implements Action{
 
         //게시판 타입에 따른 화면단 분기처리
         if(boardType.equals("adminBoardList")){
-            System.out.println("adminBoardList입니다!!!!!!!!!!!!!!!!!!!!");
+            //System.out.println("adminBoardList!!!!!!!!!!!!!!!!!!!!");
             return "admin/adminBoardList.jsp";
-        } else if(boardType.equals("customerInquiry")){
-            System.out.println("customerInquiry입니다!!!!!!!!!!!!!!!!!!!!");
-            return "admin/adminCustomerInquiryList.jsp";
-        }else if(boardType.equals("adminEventList")){
-            System.out.println("adminEventList를 탔습니다!!!!!!!!!!!!!!!!!!!!!!");
+        } else if(boardType.equals("adminInquiryList")){
+            //System.out.println("adminInquiryList!!!!!!!!!!!!!!!!!!!!");
+            return "admin/adminInquiryList.jsp";
+        } else if(boardType.equals("adminEventList")){
+            //System.out.println("adminEventList!!!!!!!!!!!!!!!!!!!!!!");
             return "admin/adminEventList.jsp";
         }else{
-            System.out.println("else를 탔습니다!!!!!!!!!!!!!!!!!!!!!!");
+            //System.out.println("else!!!!!!!!!!!!!!!!!!!!!!");
             return "admin/adminBoardList.jsp";
         }
     }

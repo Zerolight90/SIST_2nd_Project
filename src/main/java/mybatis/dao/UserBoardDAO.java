@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserBoardDAO {
 
@@ -53,6 +54,35 @@ public class UserBoardDAO {
         return ar;
     }
 
+    //공지사항 작성
+    public static int add(String boardType, String boardTitle, String boardContent, String fname, String oname, String boardRegDate, String is_answered){
+
+        System.out.println("UserBoardDAO에서의 boardType::::::::::" + boardType);
+        //bungiCata함수 호출하여 boardType을 bt변수명에 저장
+        int cnt = 0;
+
+        Map<String, String> map = new HashMap<>();
+
+        map.put("boardType", boardType);
+        map.put("title", boardTitle);
+        map.put("content", boardContent);
+        map.put("fname", fname);
+        map.put("oname", oname);
+        map.put("boardRegDate", boardRegDate);
+        map.put("is_answered", is_answered);
+
+        SqlSession ss= FactoryService.getFactory().openSession();
+        cnt = ss.insert("userBoard.add", map);
+
+        if(cnt>0){
+            ss.commit();
+        }else{
+            ss.rollback();
+        }
+        ss.close();
+
+        return cnt;
+    }
 
     //게시글 보기
     public static AdminBoardVO getBoard(String boardIdx){
@@ -71,7 +101,7 @@ public class UserBoardDAO {
         if(boardType.equals("adminBoardList")){
             boardType="공지사항";
         }else if(boardType.equals("customerInquiry")){
-            boardType="고객문의";
+            boardType="QnA";
         }else if((boardType.equals("adminEventList"))){
             boardType="이벤트";
         }else{

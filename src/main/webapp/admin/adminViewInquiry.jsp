@@ -93,7 +93,7 @@
   <div class="admin-container">
     <!-- 1. 페이지 제목 -->
     <div class="page-title">
-      <h2>이벤트</h2>
+      <h2>1:1문의</h2>
     </div>
 
     <c:if test="${requestScope.vo ne null}">
@@ -101,7 +101,7 @@
       <form method="post">
         <!-- 3. 공지사항 테이블 -->
         <table class="board-table">
-          <caption>이벤트 상세보기</caption>
+          <caption>1:1문의 상세보기</caption>
           <tbody>
           <tr>
             <th class="w100"><label for="boardTitle">제목</label></th>
@@ -110,23 +110,30 @@
             </td>
           </tr>
           <tr>
-            <th class="w100">지점명</th>
+            <th class="w100">UserID</th>
             <td>
               <%--지점명 들어갈 자리--%>
-              <span>${vo.tvo.tName}</span>
+              <span>${vo.mvo.id}</span>
             </td>
           </tr>
           <tr>
-            <th class="w100"><label for="board_reg_date">게시기간</label></th>
+            <th class="w100">회원이름</th>
             <td>
-              ${vo.boardRegDate} <span> ~ <span> ${vo.boardEndRegDate}
+                <%--지점명 들어갈 자리--%>
+              <span>${vo.mvo.name}</span>
+            </td>
+          </tr>
+          <tr>
+            <th class="w100"><label for="board_reg_date">등록일</label></th>
+            <td>
+              ${vo.boardRegDate}
             </td>
           </tr>
           <tr>
             <th class="w100">구분</th>
             <%--공지/이벤트 구분--%>
             <td>
-              <span>${vo.boardType}_${vo.sub_boardType}</span>
+              <span>${vo.boardType}</span>
             </td>
           </tr>
           <tr>
@@ -150,8 +157,7 @@
         <tfoot>
         <tr>
           <td colspan="2">
-            <button type="button" onclick="goEdit()" value="수정">수정</button>
-            <button type="button" onclick="goDel()" value="삭제">삭제</button>
+            <button type="button" onclick="goAnswered()" value="답변">답변</button>
             <button type="button" onclick="goList()" value="목록">목록</button>
           </td>
         </tr>
@@ -206,16 +212,21 @@
     $("#del_dialog").dialog(option);
   });
 
+  //답변
+  function goAnswered(){
+
+  }
+
   //목록으로 이동
   function goList(){
-    location.href = "Controller?type=adminEventList&cPage=${param.cPage}";
+    location.href = "Controller?type=adminInquiryList&cPage=${param.cPage}";
   }
 
   //게시글 수정하기
   //현재 문서 안의 ff를 찾음
   function goEdit(){
     document.ff.action = "Controller";
-    document.ff.type.value = "adminEditEvent";
+    document.ff.type.value = "adminEditBoard";
     document.ff.submit();
   }
 

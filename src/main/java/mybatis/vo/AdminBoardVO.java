@@ -2,8 +2,12 @@ package mybatis.vo;
 
 public class AdminBoardVO {
 
-    private String boardIdx, adminIdx, tIdx, boardType, sub_boardType, boardTitle, boardContent, file_name, ori_name, boardRegDate, boardEndRegDate, boardStatus;
+    private String boardIdx, parent_boardIdx, adminIdx, tIdx, boardType, sub_boardType, boardTitle, boardContent, file_name, ori_name, boardRegDate, boardEndRegDate, boardStatus, is_answered;
     private TheaterVO tvo;
+
+    private MemberVO mvo; //회원정보
+    private NmemVO nmemvo; //비회원정보
+    private AdminBoardVO bvo;//답변글
 
     public TheaterVO getTvo() {
         return tvo;
@@ -13,12 +17,44 @@ public class AdminBoardVO {
         this.tvo = tvo;
     }
 
+    public MemberVO getMvo() {
+        return mvo;
+    }
+
+    public void setMvo(MemberVO mvo) {
+        this.mvo = mvo;
+    }
+
+    public NmemVO getNmemvo() {
+        return nmemvo;
+    }
+
+    public void setNmemvo(NmemVO nmemvo) {
+        this.nmemvo = nmemvo;
+    }
+
+    public AdminBoardVO getBvo() {
+        return bvo;
+    }
+
+    public void setBvo(AdminBoardVO bvo) {
+        this.bvo = bvo;
+    }
+
     public String getBoardIdx() {
         return boardIdx;
     }
 
     public void setBoardIdx(String boardIdx) {
         this.boardIdx = boardIdx;
+    }
+
+    public String getParent_boardIdx() {
+        return parent_boardIdx;
+    }
+
+    public void setParent_boardIdx(String parent_boardIdx) {
+        this.parent_boardIdx = parent_boardIdx;
     }
 
     public String getAdminIdx() {
@@ -109,10 +145,19 @@ public class AdminBoardVO {
         this.ori_name = ori_name;
     }
 
+    public String getIs_answered() {
+        return is_answered;
+    }
+
+    public void setIs_answered(String is_answered) {
+        this.is_answered = is_answered;
+    }
+
     @Override
     public String toString() {
         return "AdminBoardVO{" +
                 "boardIdx='" + boardIdx + '\'' +
+                ", parent_boardIdx='" + parent_boardIdx + '\'' +
                 ", adminIdx='" + adminIdx + '\'' +
                 ", tIdx='" + tIdx + '\'' +
                 ", boardType='" + boardType + '\'' +
@@ -124,7 +169,11 @@ public class AdminBoardVO {
                 ", boardRegDate='" + boardRegDate + '\'' +
                 ", boardEndRegDate='" + boardEndRegDate + '\'' +
                 ", boardStatus='" + boardStatus + '\'' +
+                ", is_answered='" + is_answered + '\'' +
                 ", tvo=" + tvo +
+                ", mvo=" + mvo +
+                ", nmemvo=" + nmemvo +
+                ", bvo=" + bvo +
                 '}';
     }
 }

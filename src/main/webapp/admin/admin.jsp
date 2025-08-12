@@ -30,7 +30,7 @@
     <div class="leftDiv">
       <p class="bold">게시판 관리</p>
       <div class="leftDivInner"><a href="Controller?type=adminBoardList">공지 관리</a></div>
-      <div class="leftDivInner"><a href="Controller?type=customerInquiry">1:1 문의</a></div>
+      <div class="leftDivInner"><a href="Controller?type=adminInquiryList">1:1 문의</a></div>
       <div class="leftDivInner"><a href="Controller?type=adminEventList">이벤트 관리</a></div>
     </div>
     <div class="leftDiv">

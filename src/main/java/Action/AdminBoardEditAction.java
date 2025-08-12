@@ -23,17 +23,26 @@ public class AdminBoardEditAction implements Action{
         System.out.println("enc_type:::::::" + enc_type);
 
         String viewPath = null;
+        String boardType = null;
 
         if(enc_type.startsWith("application")){
             //application이라면 adminViewBoard.jsp에서 넘어온 것
             //adminViewBoard.jsp에서 수정 버튼을 클릭 한 경우 수정화면으로 이동해야 한다.
             //수정하고자 하는 게시물을 얻어내야 한다.
             String boardIdx = request.getParameter("boardIdx");
+            boardType = request.getParameter("type");
             AdminBoardVO vo = AdminBoardDAO.getBoard(boardIdx);
 
             request.setAttribute("vo", vo);
-            viewPath = "admin/adminEditBoard.jsp"; // 여기서 forward되므로 이쪽으로 넘어오는
-            //파라미터들(boardIdx, cPage)은 그대로 유지되어 adminEditBoard.jsp로 간다.
+
+            System.out.println("boardType은:::???" + boardType);
+            if(boardType.equals("adminEditBoard")){
+                viewPath = "admin/adminEditBoard.jsp"; // 여기서 forward되므로 이쪽으로 넘어오는
+                //파라미터들(boardIdx, cPage)은 그대로 유지되어 adminEditBoard.jsp로 간다.
+            } else if(boardType.equals("adminEditEvent")){
+                viewPath = "admin/adminEditEvent.jsp";
+            }
+
             
         }else if(enc_type.startsWith("multipart")){
             //multipart/form-data라면 adminEditBoard.jsp에서 넘어온 것
@@ -49,6 +58,8 @@ public class AdminBoardEditAction implements Action{
 
                 //나머지 파라미터들 얻기(boardTitle, boardWriter, boardContent)
                 String boardTitle = mr.getParameter("boardTitle");
+                boardType = mr.getParameter("type");
+                String subBoardType = mr.getParameter("sub_boardType");
                 String boardContent = mr.getParameter("boardContent");
                 String boardRegDate = mr.getParameter("boardRegDate");
                 String boardEndRegDate = mr.getParameter("boardEndRegDate");
@@ -67,9 +78,17 @@ public class AdminBoardEditAction implements Action{
                     oname = mr.getOriginalFileName("file"); //기존 사용자가 저장한 파일명
                 }
 
-                AdminBoardDAO.edit(boardIdx, boardTitle, boardRegDate, boardEndRegDate, boardContent, fname, oname);
+                AdminBoardDAO.edit(boardIdx, boardTitle, subBoardType, boardRegDate, boardEndRegDate, boardContent, fname, oname);
 
-                viewPath = "Controller?type=adminViewBoard&boardIdx=" + boardIdx + "&cPage=" + cPage;
+                if(boardType.equals("adminEditBoard")){
+                    viewPath = "Controller?type=adminViewBoard&boardIdx=" + boardIdx + "&cPage=" + cPage;
+                } else if(boardType.equals("adminEditEvent")){
+                    viewPath = "Controller?type=adminViewEvent&boardIdx=" + boardIdx + "&cPage=" + cPage;
+                } else if(boardType.equals("adminEditInquiry")){
+                    viewPath = "Controller?type=adminViewInquiry&boardIdx=" + boardIdx + "&cPage=" + cPage;
+                }
+                System.out.println("보드타입::"+boardType);
+                //viewPath = "Controller?type=adminViewBoard&boardIdx=" + boardIdx + "&cPage=" + cPage;
 
             } catch (Exception e) {
                 e.printStackTrace();

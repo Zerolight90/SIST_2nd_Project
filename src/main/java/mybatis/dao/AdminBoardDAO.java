@@ -24,12 +24,12 @@ public class AdminBoardDAO {
     }
 
     //AdminBoardListAction에서 getList를 호출한다.
-    //목록 반환
+    //게시물 목록 반환
     public static AdminBoardVO[] getList(String boardType, int begin, int end, String searchKeyword){
 
-        System.out.println("searchKeyword::::::::" + searchKeyword);
+        //System.out.println("searchKeyword::::::::" + searchKeyword);
         String bt = bungiCata(boardType);
-        System.out.println("AdminBoardDAO에서의 bt의 값::" + bt);
+        //System.out.println("AdminBoardDAO.getList 에서의 bt의 값::" + bt);
 
         AdminBoardVO[] ar = null;
 
@@ -62,10 +62,11 @@ public class AdminBoardDAO {
     }
     
     
-    //공지사항 작성
+    //게시물 작성
     public static int add(String boardType, String sub_boardType, String boardTitle, String writer, String boardContent, String fname, String oname, String boardRegDate, String boardEndRegDate, String boardStatus){
 
-        System.out.println("AdminBoardDAO에서의 boardType::::::::::" + boardType);
+        //System.out.println("AdminBoardDAO에서의 boardType::::::::::" + boardType);
+
         //bungiCata함수 호출하여 boardType을 bt변수명에 저장
         int cnt = 0;
 
@@ -80,11 +81,9 @@ public class AdminBoardDAO {
         map.put("oname", oname);
         map.put("boardRegDate", boardRegDate);
         map.put("boardEndRegDate", boardEndRegDate);
-
-
         map.put("boardStatus", boardStatus);
 
-
+        
         SqlSession ss= FactoryService.getFactory().openSession();
         cnt = ss.insert("adminBoard.add", map);
 
@@ -126,11 +125,12 @@ public class AdminBoardDAO {
     }
 
     //게시글 수정
-    public static int edit(String boardIdx, String boardTitle, String boardRegDate, String boardEndRegDate, String boardContent, String fname, String oname){
+    public static int edit(String boardIdx, String boardTitle, String subBoardType, String boardRegDate, String boardEndRegDate, String boardContent, String fname, String oname){
 
         Map<String, String> map = new HashMap<>();
         map.put("boardIdx", boardIdx);
         map.put("boardTitle", boardTitle);
+        map.put("subBoardType", subBoardType);
         map.put("boardRegDate", boardRegDate);
         map.put("boardEndRegDate", boardEndRegDate);
         map.put("boardContent", boardContent);
@@ -156,18 +156,17 @@ public class AdminBoardDAO {
 
     private static String bungiCata(String boardType){
 
-        System.out.println("들어오???니???");
-        System.out.println("boardType:::::::::::::::"+boardType);
+        //System.out.println("bungiCata..boardType:::::::::::::::"+boardType);
         //게시판 카테고리 분기처리
         if(boardType.equals("adminBoardList")){
             boardType="공지사항";
-            System.out.println("boardType은 공지사항입니까?" + boardType);
-        }else if(boardType.equals("customerInquiry")){
-            boardType="고객문의";
-            System.out.println("boardType은 고객문의입니까?" + boardType);
+            //System.out.println("boardType은 공지사항입니까?" + boardType);
+        }else if(boardType.equals("adminInquiryList")){
+            boardType="QnA";
+            //System.out.println("boardType은 고객문의입니까?" + boardType);
         }else if((boardType.equals("adminEventList"))){
             boardType="이벤트";
-            System.out.println("boardType은 이벤트입니까?" + boardType);
+            //System.out.println("boardType은 이벤트입니까?" + boardType);
         }else{
             boardType="공지사항";
         }

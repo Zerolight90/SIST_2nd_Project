@@ -18,7 +18,8 @@ public class AdminBoardViewAction implements Action{
         //다 본 후 목록으로 돌아가게되면 원래 있던 페이지로 이동해야 한다.
         //String cPage = request.getParameter("cPage");
 
-        System.out.println("boardType::::::은 action에서"+boardType);
+        //System.out.println("boardType::::::"+boardType);
+
         AdminBoardVO vo = AdminBoardDAO.getBoard(boardIdx);
 
         request.setAttribute("vo", vo);
@@ -27,6 +28,8 @@ public class AdminBoardViewAction implements Action{
             return "admin/adminViewBoard.jsp";
         }else if(boardType.equals("adminViewEvent")){
             return "admin/adminViewEvent.jsp";
+        }else if(boardType.equals("adminViewInquiry")){
+            return "admin/adminViewInquiry.jsp";
         }
 
         return "admin/adminViewBoard.jsp";
