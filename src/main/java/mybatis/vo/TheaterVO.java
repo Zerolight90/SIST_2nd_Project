@@ -2,6 +2,15 @@ package mybatis.vo;
 
 public class TheaterVO {
     private String tIdx, tName, tRegion, tAddress, tInfo, tScreenCount, tRegDate, tStatus;
+    private String screenCode;
+
+    public String getScreenCode() {
+        return screenCode;
+    }
+
+    public void setScreenCode(String screenCode) {
+        this.screenCode = screenCode;
+    }
 
     private String codeIdx, sName, sSeatCount, sStatus;
 
