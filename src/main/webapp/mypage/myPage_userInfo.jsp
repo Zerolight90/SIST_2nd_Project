@@ -68,11 +68,15 @@
   <div id="pw-change-form" style="display: none;">
     <div class="form-group">
       <span class="form-label">현재 비밀번호</span>
-      <div class="form-value"> <input type="password" id="current_password_input" placeholder="현재 비밀번호를 입력하세요."/> </div>
+      <div class="form-value">
+        <input type="password" id="current_password_input" placeholder="현재 비밀번호를 입력하세요."/>
+        <span id="pw_confirm_check_msg" class="error-msg"></span>
+      </div>
     </div>
 
     <div class="form-group">
       <span class="form-label">새 비밀번호</span>
+      <span id="new_pw_confirm_check_msg" class="error-msg"></span>
       <div class="form-value"> <input type="password" id="new_password" placeholder="새 비밀번호"/> </div>
     </div>
 
@@ -80,8 +84,9 @@
       <span class="form-label">새 비밀번호 확인</span>
       <div class="form-value">
         <input type="password" id="new_password_chk" placeholder="새 비밀번호 확인"/>
-        <button class="mybtn mybtn-sm mybtn-primary" id="submitNewPasswordBtn">변경</button>
+        <span id="new_pw_confirm_check_msg" class="error-msg"></span>
       </div>
+      <button class="mybtn mybtn-sm mybtn-primary" id="submitNewPasswordBtn">변경</button>
     </div>
   </div>
 
@@ -189,60 +194,205 @@
       }
     });
 
-    // '새 비밀번호' 폼의 '변경' 버튼 클릭 시 (DB에 즉시 커밋)
-    $submitNewPasswordBtn.on('click', function() {
-      const currentPassword = $currentPasswordInput.val().trim(); // 현재 비밀번호 값
-      const newPassword = $newPasswordInput.val().trim(); // 새 비밀번호 값
-      const newPasswordChk = $newPasswordChkInput.val().trim(); // 새 비밀번호 확인 값
+    $(document).ready(function() {
+      const $changePwBtn = $('#changePwBtn');
+      const $pwChangeForm = $('#pw-change-form');
+      const $currentPasswordInput = $('#current_password_input');
+      const $newPasswordInput = $('#new_password');
+      const $newPasswordChkInput = $('#new_password_chk');
+      const $submitNewPasswordBtn = $('#submitNewPasswordBtn');
 
-      if (currentPassword === '') {
-        alert('현재 비밀번호를 입력해주세요.');
-        $currentPasswordInput.focus();
-        return;
-      }
-      if (newPassword === '') {
-        alert('새 비밀번호를 입력해주세요.');
-        $newPasswordInput.focus();
-        return;
-      }
-      if (newPassword.length < 6) { // 최소 비밀번호 길이 설정 (예시)
-        alert('새 비밀번호는 6자 이상이어야 합니다.');
-        $newPasswordInput.focus();
-        return;
-      }
-      if (newPassword !== newPasswordChk) {
-        alert('새 비밀번호와 비밀번호 확인이 일치하지 않습니다.');
-        $newPasswordChkInput.focus();
-        return;
+      // 기존 바인딩 제거(중복 바인딩 방지)
+      $changePwBtn.off('click');
+      $newPasswordInput.off('keyup');
+      $newPasswordChkInput.off('keyup');
+      $submitNewPasswordBtn.off('click');
+
+      // 입력 바로 아래에 span.error-msg가 있으면 사용, 없으면 생성/삽입
+      function getOrCreateMsgSpan($input) {
+        let $msg = $input.nextAll('span.error-msg').first();
+        if ($msg && $msg.length) return $msg;
+
+        $msg = $input.closest('.form-value').find('span.error-msg').first();
+        if ($msg && $msg.length) {
+          // input 바로 아래로 이동시키기
+          $msg.insertAfter($input);
+          return $msg;
+        }
+
+        // 없으면 생성
+        const id = 'err-' + Math.random().toString(36).substr(2, 9);
+        $msg = $('<span class="error-msg" role="alert" aria-live="polite"></span>');
+        $msg.attr('id', id).css({ 'display': 'block', 'margin-top': '6px' });
+        $msg.insertAfter($input);
+        // input에 aria-describedby 연결
+        $input.attr('aria-describedby', id);
+        return $msg;
       }
 
-      // 실제 비밀번호 업데이트 로직 (AJAX 호출)
-      $.ajax({
-        url: '/Controller?type=userinfo', // 적절한 컨트롤러 URL
-        type: 'POST',
-        data: {
-          action: 'updatePassword',
-          currentPassword: currentPassword, // 현재 비밀번호 추가
-          newPassword: newPassword // 새 비밀번호로 파라미터명 변경
-        },
-        dataType: 'json',
-        success: function(response) {
-          if (response.success) {
-            alert("비밀번호 변경 완료");
-            $currentPasswordInput.val(''); // 입력 필드 초기화
-            $newPasswordInput.val('');
-            $newPasswordChkInput.val('');
-            $pwChangeForm.slideUp(200); // 폼 숨기기
-          } else {
-            alert(response.message || '비밀번호 업데이트 중 오류가 발생했습니다.'); // 서버에서 보낸 메시지 활용
-          }
-        },
-        error: function(xhr, status, error) {
-          console.error("AJAX Error (Password Update):", status, error);
-          alert('비밀번호 업데이트 중 오류가 발생했습니다.');
+      function setMsg($input, text, color) {
+        const $span = getOrCreateMsgSpan($input);
+        $span.text(text || '');
+        if (text) $span.css('color', color || 'red');
+        else $span.css('color', '').text('');
+      }
+
+      // 토글 버튼: 비밀번호 변경 폼 열기/닫기
+      $changePwBtn.on('click', function() {
+        if ($pwChangeForm.is(':visible')) {
+          $pwChangeForm.slideUp(200);
+        } else {
+          $pwChangeForm.slideDown(200, function() {
+            $currentPasswordInput.focus();
+          });
         }
       });
+
+      // 비밀번호 유효성: 영문자, 숫자, 특수문자 포함 8~16자
+      const pwCheckRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/;
+
+      // 새 비밀번호 실시간 검사
+      $newPasswordInput.on('keyup', function() {
+        const val = $(this).val();
+        $(this).removeClass('error');
+
+        if (!val) {
+          setMsg($(this), '', '');
+          return;
+        }
+
+        if (!pwCheckRegex.test(val)) {
+          $(this).addClass('error');
+          setMsg($(this), '비밀번호는 영문, 숫자, 특수문자 조합 8~16자여야 합니다.', 'red');
+        } else {
+          setMsg($(this), '유효한 비밀번호입니다.', 'green');
+        }
+
+        checkNewPasswordMatch();
+      });
+
+      // 새 비밀번호 확인 실시간 검사
+      $newPasswordChkInput.on('keyup', function() {
+        checkNewPasswordMatch();
+      });
+
+      // 일치 검사 함수 (확인란 바로 아래에 메시지 표시)
+      function checkNewPasswordMatch() {
+        const newPw = $newPasswordInput.val();
+        const newPwChk = $newPasswordChkInput.val();
+
+        if (!newPwChk) {
+          setMsg($newPasswordChkInput, '', '');
+          return;
+        }
+
+        if (newPw !== newPwChk) {
+          $newPasswordChkInput.addClass('error');
+          setMsg($newPasswordChkInput, '비밀번호가 일치하지 않습니다.', 'red');
+        } else {
+          if (pwCheckRegex.test(newPw)) {
+            setMsg($newPasswordChkInput, '비밀번호가 일치합니다.', 'green');
+            $newPasswordChkInput.removeClass('error');
+          } else {
+            setMsg($newPasswordChkInput, '새 비밀번호 형식이 유효하지 않아 일치 여부를 확인할 수 없습니다.', 'red');
+            $newPasswordChkInput.addClass('error');
+          }
+        }
+      }
+
+      // 변경 버튼 클릭 (클라이언트 검증 후 AJAX 전송)
+      $submitNewPasswordBtn.on('click', function(e) {
+        e.preventDefault();
+
+        const currentPassword = $currentPasswordInput.val().trim();
+        const newPassword = $newPasswordInput.val().trim();
+        const newPasswordChk = $newPasswordChkInput.val().trim();
+
+        // 클라이언트 검증 및 에러 메시지 표시
+        if (currentPassword === '') {
+          setMsg($currentPasswordInput, '현재 비밀번호를 입력해주세요.', 'red');
+          $currentPasswordInput.focus();
+          return;
+        } else {
+          setMsg($currentPasswordInput, '', '');
+        }
+
+        if (newPassword === '') {
+          setMsg($newPasswordInput, '새 비밀번호를 입력해주세요.', 'red');
+          $newPasswordInput.focus();
+          return;
+        }
+
+        if (!pwCheckRegex.test(newPassword)) {
+          setMsg($newPasswordInput, '새 비밀번호는 영문, 숫자, 특수문자 조합 8~16자여야 합니다.', 'red');
+          $newPasswordInput.focus();
+          return;
+        }
+
+        if (newPassword !== newPasswordChk) {
+          setMsg($newPasswordChkInput, '새 비밀번호와 비밀번호 확인이 일치하지 않습니다.', 'red');
+          $newPasswordChkInput.focus();
+          return;
+        }
+        function getOrCreateMsgSpan($input) {
+          // 먼저 input 바로 다음 형제 요소 중에 .error-msg가 있는지 확인
+          let $msg = $input.next('.error-msg');
+          if ($msg.length) return $msg;
+
+          // 없으면 input 바로 뒤에 block span 생성
+          const id = 'err-' + Math.random().toString(36).substr(2, 9);
+          $msg = $('<span class="error-msg" role="alert" aria-live="polite"></span>')
+                  .attr('id', id)
+                  .css({ display: 'block', 'margin-top': '6px' });
+          $input.after($msg); // 입력 바로 뒤에 삽입 -> 항상 아래에 위치
+          $input.attr('aria-describedby', id);
+          return $msg;
+        }
+
+
+        // AJAX 호출
+        $.ajax({
+          url: '/Controller?type=userinfo',
+          type: 'POST',
+          data: {
+            action: 'updatePassword',
+            currentPassword: currentPassword,
+            newPassword: newPassword
+          },
+          dataType: 'json',
+          success: function(response) {
+            if (response.success) {
+              alert('비밀번호 변경 완료');
+              $currentPasswordInput.val('');
+              $newPasswordInput.val('');
+              $newPasswordChkInput.val('');
+              setMsg($currentPasswordInput, '', '');
+              setMsg($newPasswordInput, '', '');
+              setMsg($newPasswordChkInput, '', '');
+              $newPasswordInput.removeClass('error');
+              $newPasswordChkInput.removeClass('error');
+              $pwChangeForm.slideUp(200);
+            } else {
+              // 서버에서 온 메시지는 현재 비밀번호 오류 등 다양한 경우에 사용
+              const msg = response.message || '비밀번호 업데이트 중 오류가 발생했습니다.';
+              // 서버 메시지가 현재 비밀번호 문제라면 current 아래에, 아니면 상단에 표시
+              if (/현재|비밀번호/i.test(msg)) {
+                setMsg($currentPasswordInput, msg, 'red');
+              } else {
+                // 기본적으로 current 아래에 보여줌
+                setMsg($currentPasswordInput, msg, 'red');
+              }
+            }
+          },
+          error: function(xhr, status, error) {
+            console.error('AJAX Error (Password Update):', status, error);
+            alert('비밀번호 업데이트 중 오류가 발생했습니다.');
+          }
+        });
+      });
     });
+
+
 
     // 4. 휴대폰 번호 변경 폼 토글
     $changePhoneBtn.on('click', function() {
