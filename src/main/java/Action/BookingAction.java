@@ -23,25 +23,24 @@ public class BookingAction implements Action{
 
         // 상단의 날짜를 보여주기 위한 값을 구하는 영역-------------------------------------
         LocalDate now = LocalDate.now();
-        LocalDate f_date = now.plusDays(10);
+        LocalDate f_date = now.plusDays(12);
 
 
 
-        List<LocalDateVO> ldv_list = new ArrayList<>();
+        List<LocalDateVO> dvo_list = new ArrayList<>();
 
         int i = 0;
         for(LocalDate date=now; !date.isAfter(f_date); date=date.plusDays(1)) {
             LocalDateVO ldv = new LocalDateVO();
             DayOfWeek dow = date.getDayOfWeek();
-            System.out.println(date); // 값이 저장됐는지 확인
+//            System.out.println(date); // 값이 저장됐는지 확인
             ldv.setLocDate(date.toString());
             ldv.setDow(dow.getDisplayName(TextStyle.FULL, Locale.KOREA));
-            ldv_list.add(ldv);
-            System.out.println(ldv_list.get(i++).getLocDate());
+            dvo_list.add(ldv);
         }
 
 //
-        request.setAttribute("dvo_list", ldv_list);
+        request.setAttribute("dvo_list", dvo_list);
         //------------------------------------------------------------------------------
 
         // 현재 상영중이거나 상영예정인 영화들을 보여주기 위한 값을 구하는 영역-----------------

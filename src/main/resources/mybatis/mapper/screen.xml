@@ -3,8 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="screen">
+
     <select id="select" resultType="mybatis.vo.ScreenVO" parameterType="mybatis.vo.ScreenVO">
         SELECT * FROM screen <!-- 상영관을 보여줌 -->
         WHERE sIdx = #{sIdx}
+    </select>
+
+    <select id="list" resultType="mybatis.vo.ScreenVO" parameterType="String">
+        SELECT * FROM screen WHERE sIdx = #{sIdx}
     </select>
 </mapper>

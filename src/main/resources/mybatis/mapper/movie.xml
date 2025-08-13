@@ -4,6 +4,12 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="movie">
 
+    <select id="getName" resultType="mybatis.vo.MovieVO"
+            parameterType="String">
+        select name from movie
+        WHERE mIdx = #{mIdx}
+    </select>
+
     <!-- 전체영화 관련 xml 문 -->
     <select id="getTotalCount" parameterType="String" resultType="int">
         SELECT COUNT(*) FROM movie
@@ -65,7 +71,7 @@
         SELECT * FROM movie <!-- 모든 영화를 보여줌 -->
     </select>
 
-    <!-- 상영중인 영화들의 mIdx를 인자로 받아서 반환한다. . -->
+    <!-- 상영중인 영화들의 mIdx를 인자로 받아서 반환한다. 1개만 옴 -->
     <select id="list" resultType="mybatis.vo.MovieVO"
             parameterType="String">
         select * from movie

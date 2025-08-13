@@ -27,8 +27,6 @@
     </div>
     <form action="Controller" method="post">
       <div id="booking-wrap">
-        <c:set var="dvo1" value="${requestScope.dvo_list.get(0)}"/>
-        <div>${dvo1.locDate}</div>
         <!-- 상단 날짜영역 -->
         <div class="booking-date">
           <div class="date-container">
@@ -41,7 +39,7 @@
                     <input type="hidden" value="${dvo.locDate}"/>
                   </c:when>
                   <c:otherwise>  <!-- 0으로 시작하지 않으면 모두 보여준다 -->
-                    <button type="button" class="btn" onclick="inDate(this.nextElementSibling.value)">${dayStr}&nbsp;${dvo.dow}</button>
+                    <button type="button" class="btn" onclick="inDate(this.nextElementSibling.value)">${dayStr}&nbsp;${fn:substring(dvo.dow, 0, 1)}</button>
                     <input type="hidden" value="${dvo.locDate}"/>
                   </c:otherwise>
                 </c:choose>
@@ -113,6 +111,25 @@
           <!-- 시간 선택 -->
           <div id="date-box">
             <h3 class="date-box-tit">시간</h3>
+            <div class="select-time">
+              <button type="button" onclick="left_btn_click()">
+                <
+              </button>
+              <c:forEach var="date" begin="12" end="16" varStatus="i">
+                <button class="select-btn-style">
+                  <c:if test="${i.index < 10}">
+                    0${i.index}
+                  </c:if>
+                  <c:if test="${i.index >= 10}">
+                    ${i.index}
+                  </c:if>
+                </button>
+                <input type="hidden" value="${i.index}">
+              </c:forEach>
+              <button type="button" onclick="right_btn_click()">
+                >
+              </button>
+            </div>
             <div class="date-box-in">
               <!-- 비동기식 통신으로 res 가 들어갈 곳 -->
             </div>
@@ -122,7 +139,7 @@
 
         <!-- 광고영역 -->
         <div class="book-add">
-          <a href="#" onclick="goSeat()">좌석선택 하러가기</a>
+          <span>광고배너</span>
         </div>
     </form>
   </div>
@@ -176,7 +193,7 @@
         type: "post",
         data: {date: $("#form_date").val(), mIdx: $("#form_mIdx").val(), tIdx: $("#form_tIdx").val()}
       }).done(function (res) {
-        // console.log("응답 :"+res); <!-- res의 담긴 값을 보기 위한 console.log -->
+        console.log("응답 :"+res); <!-- res의 담긴 값을 보기 위한 console.log -->
         <!-- res에는 all.jsp에서 반복문이 구동되어 쌓인 결과가 저장되고 -->
         $("#date-box .date-box-in").html(res); <!-- res에 담긴 <tr>태그들을 "table.table>tbody"의 자리에 넣어준다 -->
       }).fail(function(xhr, status, error) {

@@ -78,6 +78,36 @@ public class TimeTableVO {
 
     private List<MovieVO> m_list;
 
+    private List<ScreenVO> s_list;
+
+    private List<TheaterVO> t_list;
+
+    private List<ReservationVO> r_list;
+
+    public List<TheaterVO> getT_list() {
+        return t_list;
+    }
+
+    public void setT_list(List<TheaterVO> t_list) {
+        this.t_list = t_list;
+    }
+
+    public List<ReservationVO> getR_list() {
+        return r_list;
+    }
+
+    public void setR_list(List<ReservationVO> r_list) {
+        this.r_list = r_list;
+    }
+
+    public List<ScreenVO> getS_list() {
+        return s_list;
+    }
+
+    public void setS_list(List<ScreenVO> s_list) {
+        this.s_list = s_list;
+    }
+
     public List<MovieVO> getM_list() {
         return m_list;
     }

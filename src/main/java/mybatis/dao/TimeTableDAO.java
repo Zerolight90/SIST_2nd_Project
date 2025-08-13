@@ -27,18 +27,20 @@ public class TimeTableDAO {
     }
 
     // 영화 시간표 반환
-    public static TimeTableVO[] getTimeList(String date, String tIdx, String mIdx){
+    public static TimeTableVO[] getTimeList(String date, String mIdx, String tIdx){
         List<TimeTableVO> list = null;
 
         Map<String, String> map = new HashMap<String, String>();
         map.put("date", date);
         map.put("mIdx", mIdx);
         map.put("tIdx", tIdx);
-
+        System.out.println(date + " " + mIdx + " " + tIdx);
         SqlSession ss = FactoryService.getFactory().openSession();
 
         // 요소 3개를 담은 map을 인자로 전달하여
         list = ss.selectList("timeTable.time", map);
+//        System.out.println(list.size());
+//        System.out.println(map);
 
         TimeTableVO[] ar = new TimeTableVO[list.size()];
         list.toArray(ar);

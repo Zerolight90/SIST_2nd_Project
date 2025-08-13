@@ -10,6 +10,12 @@
         <!-- timeTableVO에 있는 멤버변수들 중 List<Movie> m_list; -->
         <collection property="m_list" ofType="mybatis.vo.MovieVO"
                     select="movie.list" column="mIdx"/>
+        <collection property="s_list" ofType="mybatis.vo.ScreenVO"
+                    select="screen.list" column="sIdx"/>
+        <collection property="t_list" ofType="mybatis.vo.TheaterVO"
+                    select="theater.list" column="tIdx"/>
+        <collection property="r_list" ofType="mybatis.vo.ReservationVO"
+                    select="reservation.list" column="timeTableIdx"/>
         <!-- movie.list를 호출하면서 mIdx값을 인자로 보낸다. -->
     </resultMap>
 
