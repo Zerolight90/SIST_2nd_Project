@@ -15,7 +15,7 @@
         </environment>
     </environments>
     <mappers>
-        <mapper resource="mybatis/mapper/board.xml"/>
+        <mapper resource="mybatis/mapper/adminBoard.xml"/>
         <mapper resource="mybatis/mapper/coupon.xml"/>
         <mapper resource="mybatis/mapper/movie.xml"/>
         <mapper resource="mybatis/mapper/payment.xml"/>

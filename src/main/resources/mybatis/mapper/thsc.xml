@@ -5,7 +5,7 @@
 
 <mapper namespace="thsc">
     <select id="getThscInfo" resultType="mybatis.vo.TheaterVO">
-        select t.tRegion, t.tName, t.tStatus, s.sName, s.sIdx, s.sSeatCount, s.sStatus, s.screenCode from theater t
+        select t.tRegion, t.tName, t.tStatus, s.sName, s.sIdx, s.sCount, s.sStatus, s.screenCode from theater t
         inner join screen s ON t.tIdx = s.tIdx
     </select>
 </mapper>

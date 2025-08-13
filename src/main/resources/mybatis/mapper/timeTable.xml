@@ -60,7 +60,7 @@
     <!-- 남은 좌석 수가 DB 상에 직접적으로 존재하지 않으므로 서브쿼리를 이용해 시간표에서 예매가 완료된 갯수를 얻어내
          이것을 총 좌석 수에서 빼는 방식으로 이용해서 남은 좌석 수를 구할 수 있게 된다 -->
     <select id="getTimetableList" resultType="mybatis.vo.TimeTableVO">
-        select m.name, t.timeTableIdx, t.startTime, t.endTime, t.date, r.tName, s.sName, s.sSeatCount,
+        select m.name, t.timeTableIdx, t.startTime, t.endTime, t.date, r.tName, s.sName, s.sCount,
         (SELECT COUNT(*) FROM reservation res WHERE res.timeTableIdx = t.timeTableIdx) AS reservationCount
         from time_table t
         inner join movie m ON m.mIdx = t.mIdx
@@ -87,7 +87,7 @@
     </select>-->
 
     <select id="getTimetableSearch" resultType="mybatis.vo.TimeTableVO" parameterType="Map">
-        SELECT tt.timeTableIdx, t.tName, s.sName, m.name, tt.date, tt.startTime, tt.endTime, s.sSeatCount,
+        SELECT tt.timeTableIdx, t.tName, s.sName, m.name, tt.date, tt.startTime, tt.endTime, s.sCount,
         (SELECT COUNT(*) FROM reservation res WHERE res.timeTableIdx = tt.timeTableIdx) AS reservationCount
         FROM time_table tt INNER JOIN theater t ON tt.tIdx = t.tIdx
         INNER JOIN screen s ON tt.sIdx = s.sIdx

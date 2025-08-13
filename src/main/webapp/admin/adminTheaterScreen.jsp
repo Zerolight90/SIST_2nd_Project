@@ -227,7 +227,7 @@
             <td>${vo.tName}</td>
             <td>${vo.sName}</td>
             <td>${vo.screenCode}</td>
-            <td>${vo.sSeatCount}</td>
+            <td>${vo.sCount}</td>
 
             <c:if test="${vo.tStatus == 0}">
               <td>운영종료</td>

@@ -7,7 +7,7 @@ public class TimeTableVO {
 
     private String name;
     private String tName;
-    private String sName, sSeatCount;
+    private String sName, sCount;
     private String seatStatus, seatStatusIdx;
 
     private int reservationCount;
@@ -68,12 +68,12 @@ public class TimeTableVO {
         this.sName = sName;
     }
 
-    public String getsSeatCount() {
-        return sSeatCount;
+    public String getsCount() {
+        return sCount;
     }
 
-    public void setsSeatCount(String sSeatCount) {
-        this.sSeatCount = sSeatCount;
+    public void setsCount(String sCount) {
+        this.sCount = sCount;
     }
 
     private List<MovieVO> m_list;

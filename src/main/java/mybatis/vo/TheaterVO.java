@@ -12,14 +12,14 @@ public class TheaterVO {
         this.screenCode = screenCode;
     }
 
-    private String codeIdx, sName, sSeatCount, sStatus;
+    private String codeIdx, sName, sCount, sStatus;
 
-    public String getsSeatCount() {
-        return sSeatCount;
+    public String getsCount() {
+        return sCount;
     }
 
-    public void setsSeatCount(String sSeatCount) {
-        this.sSeatCount = sSeatCount;
+    public void setsCount(String sCount) {
+        this.sCount = sCount;
     }
 
     public String getsStatus() {
