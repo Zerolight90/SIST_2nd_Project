@@ -55,6 +55,7 @@
                         <input type="password" id="s_pw" name="u_pw"  placeholder="비밀번호"/>
                     </td>
                 </tr>
+
                 <!-- 아이디 찾기/ 비밀번호 찾기 -->
                 <div class="Search">
                     <a href="#">아이디 찾기</a>
@@ -83,7 +84,6 @@
                         <!--                    <a href="#" class="sns-btn google"><img src="../images/sns_google.png" alt="구글 로그인"></a>-->
                     </div>
 
-                    <a class="sns-login-title">-ID/PW 찾기-</a>
                 </div>
 
             </form>

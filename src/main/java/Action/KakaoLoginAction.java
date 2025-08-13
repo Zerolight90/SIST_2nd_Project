@@ -1,8 +1,9 @@
 package Action;
 
 import mybatis.dao.KakaoDAO;
-import mybatis.dao.MemberDAO; // MemberDAO 임포트
+import mybatis.dao.MemberDAO;
 import mybatis.vo.KakaoVO;
+import mybatis.vo.MemberVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -81,10 +82,27 @@ public class KakaoLoginAction implements Action {
             System.out.println("이미 존재하는 카카오 ID입니다. DB 삽입을 건너뜁니다.");
         }
 
+        // 세션 설정 등
         HttpSession session = request.getSession();
         session.setAttribute("kvo", K_member);
         session.setAttribute("msg", (K_member.getK_name() != null ? K_member.getK_name() : "사용자") + "님, 카카오 계정으로 로그인되었습니다.");
 
-        return "redirect:/mypage/myPage.jsp";
+        // Kakao ID로 DB에서 mvo 조회
+        MemberVO mvo = MemberDAO.findByKakaoId(K_member.getK_id());
+        if (mvo != null) {
+            session.setAttribute("mvo", mvo); // 세션에 mvo 정보 저장
+        }
+
+        // *추가 부분: 휴대폰번호와 생년월일이 모두 들어 있으면 index.jsp로 리다이렉트
+        boolean hasPhone = (mvo != null && mvo.getPhone() != null && !mvo.getPhone().trim().isEmpty());
+        boolean hasBirth = (mvo != null && mvo.getBirth() != null && !mvo.getBirth().trim().isEmpty());
+
+        if (hasPhone && hasBirth) {
+            // 둘 다 있으면 index.jsp로 리다이렉트(포워드 아님, 주소 변경)
+            return "redirect:Controller?type=index";
+        } else {
+            // 하나라도 없으면 마이페이지로 리다이렉트
+            return "redirect:Controller?type=myPage";
+        }
     }
 }

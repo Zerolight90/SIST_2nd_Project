@@ -39,7 +39,7 @@
         (SELECT @rownum := 0) r
         <choose>
             <when test="category == 'boxoffice'">
-                WHERE m.date &lt;= NOW() ORDER BY m.audNum DESC
+                WHERE m.date &lt;= NOW() ORDER BY m.audNum ASC
             </when>
             <when test="category == 'scheduled'">
                 WHERE m.date > NOW() ORDER BY m.date ASC

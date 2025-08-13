@@ -70,6 +70,14 @@ public class MemberDAO {
         return !kvo.isEmpty();
     }
 
+    public static MemberVO findByKakaoId(String k_id) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        MemberVO mvo = ss.selectOne("member.id_check", k_id); // "id_check" 쿼리 참고
+        ss.close();
+        return mvo;
+    }
+
+
     public static MemberVO[] getMemInfo(){
         MemberVO[] ar = null;
 
@@ -102,6 +110,62 @@ public class MemberDAO {
         return vo;
     }
 
+    // 전화번호 업데이트 메서드 추가
+
+    public static int updatePhone(String userId, String phone) {
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("id", userId); // 일반 회원과 카카오 회원 모두 'id'를 사용
+        paramMap.put("phone", phone);
+
+        int cnt = ss.update("member.updateUserPhone", paramMap); // 새로운 매퍼 ID 사용
+
+        if (cnt > 0) {
+            ss.commit();
+        } else {
+            ss.rollback();
+        }
+        ss.close();
+
+        return cnt;
+    }
+
+
+    // 생년월일 업데이트 메서드 추가
+    public static int updateBirthdate(String k_id, String birth) {
+
+       SqlSession ss = FactoryService.getFactory().openSession();
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("k_id", k_id);
+        paramMap.put("birth", birth);
+        int cnt = ss.update("member.updateKakaoUser", paramMap);
+        if (cnt > 0) {
+            ss.commit();
+        } else {
+            ss.rollback();
+        }
+        ss.close();
+
+        return cnt;
+    }
+
+
+    //아이디를 인자로 받아서 로그인한 유저의 아이디 비밀번호가 맞는지 확인하는 기능
+    public static boolean pwCheck(String m_id, String u_pw) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        try {
+            Map<String,String> pwMap = new HashMap<>();
+            pwMap.put("id", m_id);
+            pwMap.put("pw", u_pw);
+            Integer cnt = ss.selectOne("member.pw_check", pwMap); // mapper에서 COUNT(*) 반환
+            return (cnt != null && cnt > 0);
+        } finally {
+            ss.close();
+        }
+    }
+
     public static void editUsers(Map<String, String> map){
         SqlSession ss = FactoryService.getFactory().openSession();
         int update = ss.update("member.editUsers", map);
@@ -115,4 +179,10 @@ public class MemberDAO {
         ss.close();
     }
 
+
 }
+
+
+
+
+
