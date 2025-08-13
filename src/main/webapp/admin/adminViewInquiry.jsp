@@ -7,74 +7,7 @@
   <link rel="stylesheet" href="../css/admin.css">
   <link rel="stylesheet" href="../css/summernote-lite.css"/>
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
-  <style>
-    /* 기본 폰트 및 여백 초기화 */
-    body {
-      font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
-      color: #333;
-      margin: 20px;
-      background-color: #f9f9f9;
-    }
-
-    /* 전체 컨테이너 */
-    .admin-container {
-      width: 1200px;
-      margin: 0 auto;
-      background-color: #fff;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    }
-
-
-    /* 3. 회원 목록 테이블 */
-    .board-table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: center;
-      font-size: 14px;
-    }
-
-    .board-table th {
-      padding: 12px 10px;
-      border-bottom: 1px solid #eee;
-    }
-
-    .board-table thead {
-      background-color: #f8f9fa;
-      font-weight: bold;
-      border-top: 2px solid #ddd;
-      border-bottom: 1px solid #ddd;
-    }
-
-    .board-table td {
-      padding: 12px 0px 10px 121px;
-      border-bottom: 1px solid #eee;
-      text-align: left;
-    }
-
-    input[type="text"]{
-      height: 30px;
-    }
-
-    button[type="button"]{
-      width: 84px;
-      height: 30px;
-    }
-
-    .board-table tfoot>tr>td{
-      text-align: right;
-    }
-
-    .w100{
-      width:100px;
-    }
-
-    .board-table caption{
-      text-indent: -9999px;
-      height: 0;
-    }
-  </style>
+  <link rel="stylesheet" href="../css/board.css">
 </head>
 <body style="margin: auto">
 <!-- 관리자 화면에 처음 들어오는 보이는 상단영역 -->
@@ -157,15 +90,111 @@
         <tfoot>
         <tr>
           <td colspan="2">
-            <button type="button" onclick="goAnswered()" value="답변">답변</button>
-            <button type="button" onclick="goList()" value="목록">목록</button>
+
           </td>
         </tr>
         </tfoot>
       </table>
+       <%-- <button type="button" onclick="goList()" value="목록">목록</button>--%>
       </form>
 
-    <%--숨겨진 폼 만들기--%>
+    <form action="Controller?type=adminWriteBoard" method="post"
+          encType="multipart/form-data">
+      <input type="hidden" name="boardType" value="공지사항"/>
+      <!-- 3. 공지사항 테이블 -->
+      <table class="board-table">
+        <caption>공지사항 글쓰기</caption>
+        <tbody>
+        <!-- 예시 데이터 행 (실제로는 DB에서 반복문으로 생성) -->
+        <tr>
+          <th class="w100"><label for="boardTitle">제목</label></th>
+          <td>
+            <input type="text" id="boardTitle" name="title"/>
+          </td>
+        </tr>
+        <tr>
+          <th class="w100">지점명</th>
+          <td>
+              <%--지점명 들어갈 자리--%>
+            <span>강동점</span>
+          </td>
+        </tr>
+        <tr>
+          <th class="w100"><label for="board_reg_date">게시기간</label></th>
+          <td>
+              <%--에디터가 들어갈 자리--%>
+            <input type="text" id="start_reg_date" name="boardRegDate"/>
+            ~
+            <input type="text" id="end_reg_date" name="boardEndRegDate"/>
+          </td>
+        </tr>
+        <tr>
+          <th class="w100">구분</th>
+            <%--공지/이벤트 구분--%>
+          <td>
+            <span>공지</span>
+          </td>
+        </tr>
+        <tr>
+          <th class="w100"><label for="board_content">내용</label></th>
+          <td>
+              <%--에디터가 들어갈 자리--%>
+            <textarea rows="12" cols="50" id="board_content" name="content"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <th>첨부파일:</th>
+          <td>
+            <input type="file" id="file" name="file"/>
+          </td>
+            <%--보안상의 이유로 file에는 value를 넣어줄 수 없다. 바깥쪽에 스크립틀릿으로 if문으로 비교하자--%>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+          <td colspan="2">
+            <button type="button" id="save_btn" onclick="sendData()">등록</button>
+            <button type="button" id="cancel_btn" onclick="goList()">취소</button>
+          </td>
+        </tr>
+        </tfoot>
+      </table>
+    </form>
+
+      <div id="answerFormContainer" style="display: none;">
+        <form id="answered-form" class="board-table" encType="multipart/form-data">
+          <h2>답변 작성</h2>
+          <table>
+            <tr>
+              <th class="w100">제목</th>
+              <td><input type="text" id="answerTitle" name="answerTitle" value="[답변] ${vo.boardTitle}" style="width:100%;"></td>
+            </tr>
+            <tr>
+              <th class="w100">내용</th>
+              <td><textarea name="answerContent" rows="5" cols="50" placeholder="답변 내용을 입력하세요." style="width:100%;"></textarea></td>
+            </tr>
+            <tr>
+              <th class="w100">첨부파일:</th>
+              <td>
+                <input type="file" id="file" name="file"/>
+              </td>
+            </tr>
+          </table>
+          <input type="hidden" name="boardIdx" value="${vo.boardIdx}">
+          <input type="hidden" name="boardType" value="${vo.boardType}">
+          <input type="hidden" name="type"/>
+          <div style="text-align:right; margin-top:10px;">
+            <button type="button" id="submitAnswerBtn">답변 등록</button>
+            <button type="button" id="cancelBtn">취소</button>
+          </div>
+        </form>
+      </div>
+
+      <div id="result-area"></div>
+
+
+
+  <%--숨겨진 폼 만들기--%>
     <form name="ff" method="post">
       <input type="hidden" name="type"/>
       <input type="hidden" name="f_name"/>
@@ -186,22 +215,76 @@
       </form>
     </div>
 
+    <button id="showFormBtn">답변하기</button>
+    <div id="formContainer"> <div style="color:red; width:300px;"></div></div>
+
   </div>
 </div>
 </c:if>
-
-<%--<c:if test="${requestScope.vo eq null}">
-  <c:redirect url="Controller">
-    <c:param name="type" value="adminBoardList"/>
-    <c:param name="cPage" value="${param.cPage}"/>
-  </c:redirect>
-</c:if>--%>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 <script src="../js/summernote-lite.js"></script> <%--자바스크립트 파일 추가--%>
 <script src="../js/lang/summernote-ko-KR.js"></script> <%--언어추가(한글)--%>
 <script>
+
+
+  $(document).ready(function() {
+    // '답변하기' 버튼 클릭 이벤트
+    $('#showFormBtn').on('click', function() {
+      // 폼을 보이게 하고 '답변하기' 버튼은 숨깁니다.
+      $('#answerFormContainer').show();
+      $(this).hide();
+    });
+
+    // '취소' 버튼 클릭 이벤트
+    $('#cancelBtn').on('click', function() {
+      // 폼을 숨기고 '답변하기' 버튼을 다시 보이게 합니다.
+      $('#answerFormContainer').hide();
+      $('#showFormBtn').show();
+      // 폼 입력 필드 초기화
+      $('#answered-form')[0].reset();
+      // 결과 영역 비우기
+      $('#result-area').empty();
+    });
+
+    // '답변 등록' 버튼 클릭 이벤트
+    $('#submitAnswerBtn').on('click', function() {
+      let form = document.getElementById("answered-form");
+      let formData = new FormData(form);
+
+      $.ajax({
+        url: "Controller?type=adminWriteInquiry", // 답변을 처리할 서버 URL
+        data: formData,
+        type: "post",
+        contentType: false,
+        processData: false,
+        dataType: "json"
+      }).done(function(res) {
+        if (res.success) {
+          alert("답변이 성공적으로 등록되었습니다.");
+          // 성공 시 폼 숨기기
+          $('#answerFormContainer').hide();
+          $('#showFormBtn').show();
+
+          // 서버에서 받은 답변 내용을 화면에 뿌려주기
+          // 예를 들어, 서버에서 답변 내용을 JSON으로 보내줬다고 가정
+          if (res.answerContent) {
+            $('#result-area').html(`<p><strong>답변 내용:</strong> ${res.answerContent}</p>`);
+          }
+
+          // 폼 입력 필드 초기화
+          $('#answered-form')[0].reset();
+
+        } else {
+          alert("답변 등록 실패: " + res.message);
+        }
+      }).fail(function(xhr, status, error) {
+        console.error("AJAX 요청 실패:", status, error);
+        alert("답변 등록 중 오류가 발생했습니다.");
+      });
+    });
+  });
 
   $(function () {
     let option = {
@@ -213,9 +296,21 @@
   });
 
   //답변
-  function goAnswered(){
+  /*function goAnswered(){
+    let frm = document.getElementById("answer-form-container")
 
-  }
+    $.ajax({
+      url: "Controller?type=adminWriteInquiry",
+      data: frm,
+      type: "post",
+      contentType: false,
+      processData: false,
+      dataType: "json"
+
+    }).done(function (res) {
+
+    });
+  }*/
 
   //목록으로 이동
   function goList(){
