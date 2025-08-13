@@ -69,17 +69,36 @@
     </select>-->
 
     <select id="getTimetableSearch" resultType="mybatis.vo.TimeTableVO" parameterType="Map">
-        SELECT * FROM time_table
+        SELECT tt.timeTableIdx, t.tName, s.sName, m.name, tt.date, tt.startTime, tt.endTime, s.sSeatCount,
+        (SELECT COUNT(*) FROM reservation res WHERE res.timeTableIdx = tt.timeTableIdx) AS reservationCount
+        FROM time_table tt INNER JOIN theater t ON tt.tIdx = t.tIdx
+        INNER JOIN screen s ON tt.sIdx = s.sIdx
+        INNER JOIN movie m ON tt.mIdx = m.mIdx
         <where>
-            <if test="theater_status != null and theater_status != ''">
-                <choose>
-                    <when test="theater_status == '강남점'">
-                        AND tName = #{theater_status}
-                    </when>
-                </choose>
-                <choose>
-                    <when test="theater_status == '강북점'">
+            <if test="datepicker != null and datepicker != ''">
+                AND tt.date = #{datepicker}
+            </if>
 
+            <if test="theater_status != null and theater_status != '' and theater_status == 'theater'">
+                AND t.tName LIKE CONCAT ('%', #{search_keyword}, '%')
+            </if>
+
+            <if test="screen_level != null and screen_level != ''">
+                <choose>
+                    <when test="screen_level == 1">
+                        AND s.sName = "1관"
+                    </when>
+                    <when test="screen_level == 2">
+                        AND s.sName = "2관 (3D)"
+                    </when>
+                    <when test="screen_level == 3">
+                        AND s.sName = "3관 (4D)"
+                    </when>
+                    <when test="screen_level == 4">
+                        AND s.sName = "4관"
+                    </when>
+                    <when test="screen_level == 5">
+                        AND s.sName = "5관"
                     </when>
                 </choose>
             </if>

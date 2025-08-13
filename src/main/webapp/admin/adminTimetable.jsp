@@ -168,6 +168,21 @@
       font-weight: bold;
     }
 
+    .btn-add {
+      background-color: #007bff;
+      color: white;
+      padding: 8px 20px;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      border: none;
+    }
+    .btn-add:hover {
+      background-color: #0056b3;
+    }
+
   </style>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
@@ -188,8 +203,10 @@
   </div>
   <div class="admin-container">
     <!-- 페이지 타이틀 -->
-    <div class="page-title">
+    <div class="page-title" style="display: flex; justify-content: space-between">
       <h2>상영 시간표 목록</h2>
+      <%--<a href="#" class="btn-add" style="height: 20px; margin-top: 35px">상영 시간표 생성</a>--%>
+      <p class="btn-add" style="height: 20px; margin-top: 35px">상영 시간표 생성</p>
     </div>
 
     <!-- 테이블 상단 바 영역 -->
@@ -199,9 +216,9 @@
       </div>
       <form class="search-form" action="#" method="get">
         <p class="total-count">상영일 : </p>
-        <p><input type="text" id="datepicker" name="datepicker"></p>
+        <p><input type="text" id="datepicker" name="datepicker" style="width: 130px"></p>
         <select name="theater_status">
-          <option value="">극장 선택</option>
+          <option value="theater">극장 선택</option>
           <option value="gn">강남점</option>
           <option value="gb">강북점</option>
         </select>
@@ -268,6 +285,8 @@
   </div>
 </div>
 
+<div id="adminTimeModal" style="display:none;"></div>
+
 <script>
   $( function() {
     // Datepicker에 적용할 옵션
@@ -309,6 +328,29 @@
       // location.reload(); 또는 전체 목록 출력?
     });
   })
+
+  // 상영 시간표 생성 다얄로그 창의 속성 지정
+  $("#adminTimeModal").dialog({
+    autoOpen: false,
+    modal: true,
+    resizable: false,
+    width: 'auto',
+    dialogClass: 'no-titlebar',
+    close: function() {
+      $(this).empty(); // 다음 모달이 열릴 때 혹시 값이 남아있으면 안 되므로 모달이 닫히면 값 비우기
+    }
+  });
+
+  $(".btn-add").on('click', function () {
+    let urlToLoad = "Controller?type=timeTableInsert";
+
+    $("#adminTimeModal").load(urlToLoad, function(response, status, xhr) {
+      if (status == "error") {
+        $(this).html("상영 시간표 생성창을 불러오는 데 실패했습니다.");
+      }
+      $("#adminTimeModal").dialog('open');
+    });
+  });
 </script>
 
 </body>
