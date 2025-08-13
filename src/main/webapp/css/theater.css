@@ -1074,6 +1074,10 @@ li::marker {
     text-align: center;
 }
 
+.result-count .font-gblue{
+    color: #01738b !important;
+}
+
 /*//고객센터영역-공지사항 끝*/
 /*//고객센터영역 끝*/
 

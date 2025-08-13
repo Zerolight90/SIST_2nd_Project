@@ -74,15 +74,10 @@
       width:100px;
     }
 
-    .t_bold{
-      font-weight:bold; color: #007bff;
-    }
-
     .board-table caption{
       text-indent: -9999px;
       height: 0;
     }
-
   </style>
 
 </head>
@@ -100,69 +95,68 @@
   <div class="dashLeft">
     <jsp:include page="./admin.jsp"/>
   </div>
-
-  <c:set var ="vo" value="${requestScope.vo}" scope="page"/>
-  <c:if test="${vo!=null}">
   <div class="admin-container">
     <!-- 1. 페이지 제목 -->
     <div class="page-title">
-      <h2>공지사항</h2>
+      <h2>이벤트</h2>
     </div>
 
-    <form action="Controller?type=adminEditBoard" method="post"
+    <form action="Controller?type=adminWriteEvent" method="post"
           encType="multipart/form-data">
-      <input type="hidden" name="boardType" value="공지사항"/>
-      <input type="hidden" name="boardIdx" value="${param.boardIdx}"/>
-      <input type="hidden" name="cPage" value="${param.cPage}"/>
+      <input type="hidden" name="boardType" value="이벤트"/>
       <!-- 3. 공지사항 테이블 -->
       <table class="board-table">
-        <caption>공지사항 게시글 수정</caption>
+        <caption>이벤트 글쓰기</caption>
         <tbody>
         <!-- 예시 데이터 행 (실제로는 DB에서 반복문으로 생성) -->
         <tr>
           <th class="w100"><label for="boardTitle">제목</label></th>
           <td>
-            <input type="text" id="boardTitle" name="boardTitle" value="${vo.boardTitle}"/>
+            <input type="text" id="boardTitle" name="title"/>
           </td>
         </tr>
         <tr>
           <th class="w100">지점명</th>
           <td>
             <%--지점명 들어갈 자리--%>
-            <span>${vo.tvo.tName}</span>
+            <span>강동점</span>
           </td>
         </tr>
         <tr>
           <th class="w100"><label for="board_reg_date">게시기간</label></th>
           <td>
             <%--에디터가 들어갈 자리--%>
-              <input type="text" id="start_reg_date" name="boardRegDate" value="${vo.boardRegDate}"/>
+              <input type="text" id="start_reg_date" name="boardRegDate"/>
               ~
-              <input type="text" id="end_reg_date" name="boardEndRegDate" value="${vo.boardEndRegDate}"/>
+              <input type="text" id="end_reg_date" name="boardEndRegDate"/>
           </td>
         </tr>
         <tr>
           <th class="w100">구분</th>
           <%--공지/이벤트 구분--%>
           <td>
-            <span>${vo.boardType}</span>
+            <span>${boardType}</span>
+            <form class="subType-form" action="Controller" method="post">
+              <select name="sub_boardType">
+                <option value="null" selected>카테고리</option>
+                <option value="movie">영화</option>
+                <option value="theater">극장</option>
+                <option value="stageGreeting">시사회/무대인사</option>
+              </select>
+            </form>
           </td>
         </tr>
         <tr>
           <th class="w100"><label for="board_content">내용</label></th>
           <td>
             <%--에디터가 들어갈 자리--%>
-            <textarea rows="12" cols="50" id="board_content" name="boardContent">${vo.boardContent}</textarea>
+            <textarea rows="12" cols="50" id="board_content" name="content"></textarea>
           </td>
         </tr>
         <tr>
           <th>첨부파일:</th>
           <td>
-            <%--첨부파일이 있는 경우--%>
             <input type="file" id="file" name="file"/>
-            <c:if test="${vo.file_name != null}">
-              <p class="t_bold">(${vo.file_name})</p>
-            </c:if>
           </td>
           <%--보안상의 이유로 file에는 value를 넣어줄 수 없다. 바깥쪽에 스크립틀릿으로 if문으로 비교하자--%>
         </tr>
@@ -170,16 +164,14 @@
       <tfoot>
       <tr>
         <td colspan="2">
-          <button type="button" id="save_btn" value="저장" onclick="sendData()">저장</button>
-          <button type="button" id="cancel_btn" value="취소" onclick="goBack()">취소</button>
-          <button type="button" id="list_btn" value="목록" onclick="goList()">목록</button>
+          <button type="button" id="save_btn" onclick="sendData()">등록</button>
+          <button type="button" id="cancel_btn" onclick="goList()">취소</button>
         </td>
       </tr>
       </tfoot>
     </table>
     </form>
   </div>
-  </c:if>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -226,6 +218,7 @@
 
   //게시글 등록
   function sendData(){
+
     //유효성 검사
     //제목
     let title = $("#boardTitle").val();
@@ -279,16 +272,11 @@
     return text.trim().length === 0; //길이를 0으로 저장하라
   }
 
-  //수정버튼 누르기 전 보고있던 화면으로 이동
-  function goBack(){
-    //forward되어서 ${param.boardIdx}를 쓸 수 있음
-    location.href="Controller?type=adminViewBoard&boardIdx=${param.boardIdx}&cPage=${param.cPage}";
+  //취소 클릭 시 목록으로 이동
+  function goList(){
+    location.href="Controller?type=adminEventList";
   }
 
-  //목록으로 이동
-  function goList(){
-    location.href="Controller?type=adminBoardList&cPage=${param.cPage}";
-  }
 
   function sendImg(file, editor) {
     //서버로 비동기식 통신을 수행하기 위해 준비한다.
@@ -315,7 +303,7 @@
       //이미지의 경로를 보내도록 되어있다.
       //그것을 받아 editor에 img태그를 넣어주면 된다.
       $("#board_content").summernote("editor.insertImage", res.img_url);
-      console.log("img_url:::::::::::::::"+ res.img_url);
+      //console.log("img_url:::::::::::::::"+ res.img_url);
     });
 
   }

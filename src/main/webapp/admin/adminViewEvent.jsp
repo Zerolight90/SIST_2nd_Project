@@ -82,7 +82,7 @@
   <div style="display: inline-block; justify-content: space-between; align-items: center"><p style="margin-left: 10px">admin 관리자님</p></div>
   <div style="display: inline-block; float: right; padding-top: 13px; padding-right: 10px">
     <a href="">SIST</a>
-    <a href="Controller?type=index">로그아웃</a>
+    <a href="">로그아웃</a>
   </div>
 </div>
 
@@ -91,9 +91,9 @@
     <jsp:include page="./admin.jsp"/>
   </div>
   <div class="admin-container">
-    <!-- 페이지 타이틀 -->
+    <!-- 1. 페이지 제목 -->
     <div class="page-title">
-      <h2>공지사항</h2>
+      <h2>이벤트</h2>
     </div>
 
     <c:if test="${requestScope.vo ne null}">
@@ -101,7 +101,7 @@
       <form method="post">
         <!-- 3. 공지사항 테이블 -->
         <table class="board-table">
-          <caption>공지사항 상세보기</caption>
+          <caption>이벤트 상세보기</caption>
           <tbody>
           <tr>
             <th class="w100"><label for="boardTitle">제목</label></th>
@@ -113,7 +113,7 @@
             <th class="w100">지점명</th>
             <td>
               <%--지점명 들어갈 자리--%>
-              <span>강동점</span>
+              <span>${vo.tvo.tName}</span>
             </td>
           </tr>
           <tr>
@@ -126,7 +126,7 @@
             <th class="w100">구분</th>
             <%--공지/이벤트 구분--%>
             <td>
-              <span>공지</span>
+              <span>${vo.boardType}_${vo.sub_boardType}</span>
             </td>
           </tr>
           <tr>
@@ -208,14 +208,14 @@
 
   //목록으로 이동
   function goList(){
-    location.href = "Controller?type=adminBoardList&cPage=${param.cPage}";
+    location.href = "Controller?type=adminEventList&cPage=${param.cPage}";
   }
 
   //게시글 수정하기
   //현재 문서 안의 ff를 찾음
   function goEdit(){
     document.ff.action = "Controller";
-    document.ff.type.value = "adminEditBoard";
+    document.ff.type.value = "adminEditEvent";
     document.ff.submit();
   }
 

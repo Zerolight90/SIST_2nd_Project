@@ -4,12 +4,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="board">
+<mapper namespace="adminBoard">
 
     <!--1:1은 association-->
     <resultMap id="map1" type="mybatis.vo.AdminBoardVO">
         <id property="boardIdx" column="boardIdx"/>
         <association property="tvo" javaType="mybatis.vo.TheaterVO" select="theater.getTheater" column="tIdx"/>
+        <association property="mvo" javaType="mybatis.vo.MemberVO" select="member.findByIdx" column="userIdx"/>
+        <association property="bvo" javaType="mybatis.vo.AdminBoardVO" select="getBoard2" column="boardIdx"/>
     </resultMap>
 
     <!--공지사항에 대한 전체 목록 추출-->
@@ -19,6 +21,10 @@
                 SELECT * FROM board
                 WHERE boardStatus = 0
                 AND boardType = #{boardType}
+                AND parent_boardIdx IS NULL
+                <if test="searchKeyword != null and searchKeyword != ''">
+                    AND boardTitle LIKE CONCAT('%', #{searchKeyword}, '%')
+                </if>
                 ORDER BY boardIdx DESC
             ) a, (SELECT @RN:=0) b
         ) c WHERE c.rnum BETWEEN #{begin} AND #{end}
@@ -30,18 +36,25 @@
         SELECT COUNT(*) FROM board
         WHERE boardStatus = 0
         AND boardType = #{boardType}
+        AND parent_boardIdx IS NULL
     </select>
 
     <!--게시물 작성-->
     <insert id="add" parameterType="Map">
-        INSERT INTO board(adminIdx, tIdx, boardType, boardTitle, boardContent, file_name, ori_name, boardRegDate, boardEndRegDate,  boardStatus)
-        VALUES (1, 1, #{boardType}, #{title}, #{content}, #{fname}, #{oname}, #{boardRegDate}, #{boardEndRegDate}, 0)
+        INSERT INTO board(adminIdx, tIdx, boardType, sub_boardType, boardTitle, boardContent, file_name, ori_name, boardRegDate, boardEndRegDate, boardStatus, is_answered)
+        VALUES (1, 1, #{boardType}, #{subBoardType}, #{title}, #{content}, #{fname}, #{oname}, #{boardRegDate}, #{boardEndRegDate}, 0, NULL)
     </insert>
 
     <!--게시물 보기-->
     <select id="getBoard" parameterType="String" resultMap="map1">
         SELECT * FROM board
         WHERE boardIdx = #{boardIdx}
+    </select>
+
+    <select id="getBoard2" parameterType="String" resultType="mybatis.vo.AdminBoardVO">
+        SELECT * FROM board
+        WHERE parent_boardIdx = #{boardIdx}
+        LIMIT 1
     </select>
 
     <!--게시물 삭제-->
@@ -58,6 +71,7 @@
         UPDATE board
         <trim prefix="SET" suffixOverrides=",">
             <!--없으면 실행되지 않음-->
+            sub_boardType = #{subBoardType},
             boardTitle = #{boardTitle},
             boardContent = #{boardContent},
             boardRegDate = #{boardRegDate},
@@ -69,5 +83,6 @@
         </trim>
         WHERE boardIdx = #{boardIdx}
     </update>
+
 
 </mapper>

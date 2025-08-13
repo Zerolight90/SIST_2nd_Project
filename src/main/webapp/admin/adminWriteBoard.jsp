@@ -47,8 +47,8 @@
       border-bottom: 1px solid #ddd;
     }
 
-    #title{
-      width: 800px;
+    #boardTitle{
+      width: 360px;
     }
 
     .board-table td {

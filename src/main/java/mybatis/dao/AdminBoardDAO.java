@@ -17,17 +17,19 @@ public class AdminBoardDAO {
         
         SqlSession ss = FactoryService.getFactory().openSession();
         
-        int cnt = ss.selectOne("board.totalCount", bt);
+        int cnt = ss.selectOne("adminBoard.totalCount", bt);
         ss.close();
 
         return cnt;
     }
 
     //AdminBoardListAction에서 getList를 호출한다.
-    //목록 반환
-    public static AdminBoardVO[] getList(String boardType, int begin, int end){
+    //게시물 목록 반환
+    public static AdminBoardVO[] getList(String boardType, int begin, int end, String searchKeyword){
 
+        //System.out.println("searchKeyword::::::::" + searchKeyword);
         String bt = bungiCata(boardType);
+        //System.out.println("AdminBoardDAO.getList 에서의 bt의 값::" + bt);
 
         AdminBoardVO[] ar = null;
 
@@ -36,12 +38,18 @@ public class AdminBoardDAO {
         map.put("boardType", bt); //xml에 지정한 이름대로
         map.put("begin", begin);
         map.put("end", end);
+        map.put("searchKeyword", searchKeyword);
 
-        //System.out.println("map:::::::" + map);
+        System.out.println("map:::::::" + map);
 
         SqlSession ss = FactoryService.getFactory().openSession();
         //AdminBoardVO가 여러개 넘어오도록 한다.
-        List<AdminBoardVO> list = ss.selectList("board.adminBoardList", map);
+        //System.out.println("AdminBoardDAO에adminBoardList 타?");
+        List<AdminBoardVO> list = ss.selectList("adminBoard.adminBoardList", map);
+        //System.out.println("list.toString() 보여줘봐"+list.toString());
+
+        System.out.println("list의 값은" + list);
+
 
         //결과가 넘어오면 배열로 넘겨야 하기 때문에
         if(list != null && !list.isEmpty()){ //비어있는 상태가 아니면,
@@ -54,17 +62,18 @@ public class AdminBoardDAO {
     }
     
     
-    //공지사항 작성
-    public static int add(String boardType, String boardTitle, String writer, String boardContent, String fname, String oname, String boardRegDate, String boardEndRegDate, String boardStatus){
+    //게시물 작성
+    public static int add(String boardType, String sub_boardType, String boardTitle, String writer, String boardContent, String fname, String oname, String boardRegDate, String boardEndRegDate, String boardStatus){
+
+        //System.out.println("AdminBoardDAO에서의 boardType::::::::::" + boardType);
 
         //bungiCata함수 호출하여 boardType을 bt변수명에 저장
-        String bt = bungiCata(boardType);
-
         int cnt = 0;
 
         Map<String, String> map = new HashMap<>();
 
-        map.put("boardType", bt);
+        map.put("boardType", boardType);
+        map.put("subBoardType", sub_boardType);
         map.put("title", boardTitle);
         map.put("writer", writer);
         map.put("content", boardContent);
@@ -72,13 +81,11 @@ public class AdminBoardDAO {
         map.put("oname", oname);
         map.put("boardRegDate", boardRegDate);
         map.put("boardEndRegDate", boardEndRegDate);
-
-
         map.put("boardStatus", boardStatus);
 
-
+        
         SqlSession ss= FactoryService.getFactory().openSession();
-        cnt = ss.insert("board.add", map);
+        cnt = ss.insert("adminBoard.add", map);
 
         if(cnt>0){
             ss.commit();
@@ -94,7 +101,7 @@ public class AdminBoardDAO {
     public static AdminBoardVO getBoard(String boardIdx){
 
         SqlSession ss = FactoryService.getFactory().openSession();
-        AdminBoardVO vo = ss.selectOne("board.getBoard", boardIdx);
+        AdminBoardVO vo = ss.selectOne("adminBoard.getBoard", boardIdx);
 
         ss.close();
 
@@ -105,7 +112,7 @@ public class AdminBoardDAO {
     public static int delBbs(String boardIdx){
 
         SqlSession ss = FactoryService.getFactory().openSession();
-        int cnt = ss.update("board.del", boardIdx);
+        int cnt = ss.update("adminBoard.del", boardIdx);
 
         if(cnt>0)
             ss.commit();
@@ -118,11 +125,12 @@ public class AdminBoardDAO {
     }
 
     //게시글 수정
-    public static int edit(String boardIdx, String boardTitle, String boardRegDate, String boardEndRegDate, String boardContent, String fname, String oname){
+    public static int edit(String boardIdx, String boardTitle, String subBoardType, String boardRegDate, String boardEndRegDate, String boardContent, String fname, String oname){
 
         Map<String, String> map = new HashMap<>();
         map.put("boardIdx", boardIdx);
         map.put("boardTitle", boardTitle);
+        map.put("subBoardType", subBoardType);
         map.put("boardRegDate", boardRegDate);
         map.put("boardEndRegDate", boardEndRegDate);
         map.put("boardContent", boardContent);
@@ -134,7 +142,7 @@ public class AdminBoardDAO {
         }
 
         SqlSession ss = FactoryService.getFactory().openSession();
-        int cnt = ss.update("board.edit", map);
+        int cnt = ss.update("adminBoard.edit", map);
 
         if(cnt>0)
             ss.commit();
@@ -147,18 +155,33 @@ public class AdminBoardDAO {
     }
 
     private static String bungiCata(String boardType){
-    //게시판 카테고리 분기처리
+
+        //System.out.println("bungiCata..boardType:::::::::::::::"+boardType);
+        //게시판 카테고리 분기처리
         if(boardType.equals("adminBoardList")){
             boardType="공지사항";
-        }else if(boardType.equals("customerInquiry")){
-            boardType="고객문의";
+            //System.out.println("boardType은 공지사항입니까?" + boardType);
+        }else if(boardType.equals("adminInquiryList")){
+            boardType="QnA";
+            //System.out.println("boardType은 고객문의입니까?" + boardType);
         }else if((boardType.equals("adminEventList"))){
             boardType="이벤트";
+            //System.out.println("boardType은 이벤트입니까?" + boardType);
         }else{
             boardType="공지사항";
         }
 
         return boardType;
+    }
+
+    //검색 기능
+    public String search(String boardTitle){
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        ss.selectList("adminBoard.search", boardTitle);
+
+
+        return boardTitle;
     }
 
     

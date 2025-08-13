@@ -1,33 +1,30 @@
 package Action;
 
-import mybatis.dao.AdminBoardDAO;
-import mybatis.dao.BbsDAO;
+import mybatis.dao.UserBoardDAO;
 import mybatis.vo.AdminBoardVO;
 import util.Paging;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class AdminBoardListAction implements Action{
+public class UserBoardListAction implements Action{
 
-    //재정의-메소드구현
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        //jsp경로로 포워드 된다.
 
         String boardType = request.getParameter("type");
         String searchKeyword = request.getParameter("searchKeyword");
-
-        //System.out.println("키워드::::::::::::::::::::" + searchKeyword);
-        //System.out.println("boardType:::::::::::::::" + boardType);
+        //System.out.println("키워드::::::::::::::::::::"+searchKeyword);
 
         if(boardType == null) {
-            boardType = "adminBoardList";
+            boardType = "userBoardList";
         }
+
+        //System.out.println("boardType:::::::::::::"+boardType);
 
         //총 게시물 수 구하기
         //처음부터 끝까지 전체의 데이터 갯수
-        int totalCount = AdminBoardDAO.getTotalCount(boardType);
+        int totalCount = UserBoardDAO.getTotalCount(boardType);
         //System.out.println(" 총 게시물 수:::::::::"+totalCount);
 
         //페이징 처리를 위한 객체 생성
@@ -48,30 +45,29 @@ public class AdminBoardListAction implements Action{
             //jsp에서 표현할거라 Paging이라는 객체를 request에 저장해라
             //총 페이지 수도 필요하고, 현재 페이지도 필요하다.
         }
-        
-        //배열 준비하여 AdminBoardDAO에 getList호출
-        //유지보수 생각하면서 코드도 진행이 됨
-        AdminBoardVO[] ar = AdminBoardDAO.getList(boardType, page.getBegin(), page.getEnd(), searchKeyword);
 
-        //JSP에서 표현하기 위해 request에 저장
-        request.setAttribute("ar", ar); //ar의 값이 ar이라는 이름으로 list.jsp로 넘어가게 된다.
+        AdminBoardVO[] ar = UserBoardDAO.getList(boardType,  page.getBegin(), page.getEnd(), searchKeyword);
+
+        request.setAttribute("ar",ar);
         request.setAttribute("page", page); //page라는 이름으로 page를 저장해라. list.jsp로 넘어가게 된다.
         request.setAttribute("nowPage", page.getNowPage()); //의 값이 list.jsp로 넘어가게 된다.
         request.setAttribute("totalCount", totalCount); //게시물 토탈 갯수
 
-        //게시판 타입에 따른 화면단 분기처리
-        if(boardType.equals("adminBoardList")){
-            //System.out.println("adminBoardList!!!!!!!!!!!!!!!!!!!!");
-            return "admin/adminBoardList.jsp";
-        } else if(boardType.equals("adminInquiryList")){
-            //System.out.println("adminInquiryList!!!!!!!!!!!!!!!!!!!!");
-            return "admin/adminInquiryList.jsp";
-        } else if(boardType.equals("adminEventList")){
-            //System.out.println("adminEventList!!!!!!!!!!!!!!!!!!!!!!");
-            return "admin/adminEventList.jsp";
-        }else{
-            //System.out.println("else!!!!!!!!!!!!!!!!!!!!!!");
-            return "admin/adminBoardList.jsp";
+
+        //유저화면 게시판 타입에 따른 화면단 분기처리
+        if(boardType.equals("userBoardList")){
+            //System.out.println("userBoardList!!!!!!!!!!!!!!!!!!!!");
+            return "userBoardList.jsp";
+        } else if(boardType.equals("userEventList")){
+            //System.out.println("userEventList!!!!!!!!!!!!!!!!!");
+            return "userEventList.jsp";
+        } else if(boardType.equals("userCustomerInquiry")){
+            //System.out.println("userCustomerInquiry!!!!!!!!!!!!!!!!!!");
+            return "userInquiry.jsp";
+        } else{
+            //System.out.println("else!!!!!!!!!!!!!!");
+            return "userBoardList.jsp";
         }
+
     }
 }

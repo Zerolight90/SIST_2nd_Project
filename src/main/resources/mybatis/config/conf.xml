@@ -34,6 +34,7 @@
         <mapper resource="mybatis/mapper/movie_story.xml"/>
         <mapper resource="mybatis/mapper/price.xml"/>
         <mapper resource="mybatis/mapper/screenType.xml"/>
+        <mapper resource="mybatis/mapper/userBoard.xml"/>
         <mapper resource="mybatis/mapper/favMovie.xml"/>
         <mapper resource="mybatis/mapper/seatStatus.xml"/>
     </mappers>

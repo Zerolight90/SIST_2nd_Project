@@ -106,17 +106,17 @@
   <div class="admin-container">
     <!-- 1. 페이지 제목 -->
     <div class="page-title">
-      <h2>공지사항</h2>
+      <h2>이벤트</h2>
     </div>
 
-    <form action="Controller?type=adminEditBoard" method="post"
+    <form action="Controller?type=adminEditEvent" method="post"
           encType="multipart/form-data">
-      <input type="hidden" name="boardType" value="공지사항"/>
+      <input type="hidden" name="boardType" value="이벤트"/>
       <input type="hidden" name="boardIdx" value="${param.boardIdx}"/>
       <input type="hidden" name="cPage" value="${param.cPage}"/>
       <!-- 3. 공지사항 테이블 -->
       <table class="board-table">
-        <caption>공지사항 게시글 수정</caption>
+        <caption>이벤트 게시글 수정</caption>
         <tbody>
         <!-- 예시 데이터 행 (실제로는 DB에서 반복문으로 생성) -->
         <tr>
@@ -146,6 +146,20 @@
           <%--공지/이벤트 구분--%>
           <td>
             <span>${vo.boardType}</span>
+            <form class="subType-form" action="Controller" method="post">
+              <select name="sub_boardType">
+                <option value="" ${empty vo.sub_boardType ? 'selected' : ''}>카테고리</option>
+                <option value="movie" ${vo.sub_boardType == 'movie' ? 'selected' : ''}>영화</option>
+                <option value="theater" ${vo.sub_boardType == 'theater' ? 'selected' : ''}>극장</option>
+                <option value="stageGreeting" ${vo.sub_boardType == 'stageGreeting' ? 'selected' : ''}>시사회/무대인사</option>
+              </select>
+                <%--<select name="sub_boardType" id="subBoardType">
+                <option value="" selected>카테고리</option>
+                <option value="movie">영화</option>
+                <option value="theater">극장</option>
+                <option value="stageGreeting">시사회/무대인사</option>
+              </select>--%>
+            </form>
           </td>
         </tr>
         <tr>
@@ -282,12 +296,12 @@
   //수정버튼 누르기 전 보고있던 화면으로 이동
   function goBack(){
     //forward되어서 ${param.boardIdx}를 쓸 수 있음
-    location.href="Controller?type=adminViewBoard&boardIdx=${param.boardIdx}&cPage=${param.cPage}";
+    location.href="Controller?type=adminViewEvent&boardIdx=${param.boardIdx}&cPage=${param.cPage}";
   }
 
   //목록으로 이동
   function goList(){
-    location.href="Controller?type=adminBoardList&cPage=${param.cPage}";
+    location.href="Controller?type=adminEventList&cPage=${param.cPage}";
   }
 
   function sendImg(file, editor) {
