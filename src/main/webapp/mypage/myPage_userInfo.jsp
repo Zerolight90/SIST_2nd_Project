@@ -429,7 +429,6 @@
     });
 
 
-
     // 4. 휴대폰 번호 변경 폼 토글
     $changePhoneBtn.on('click', function() {
       $phoneChangeForm.slideToggle(200, function() { // 속도를 200ms로 조절

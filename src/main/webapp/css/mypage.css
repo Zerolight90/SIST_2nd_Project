@@ -255,9 +255,7 @@ article {
     color: red;
 }
 
-#submitNewPasswordBtn{
-    margin-right: 200px !important;
-}
+
 #changePhoneBtn, #submitNewPhoneBtn{
     margin-left: 10px !important;
 }
@@ -277,4 +275,16 @@ article {
 .ui-dialog .ui-dialog-titlebar-close {
     color: #ffffff !important;             /* 기본 아이콘 색 변경 (아이콘 폰트/이미지 방식에 따라 다름) */
     opacity: 0.9 !important;
+}
+
+#my_btn{
+    display: flex;
+    justify-content: right;
+    gap: 10px;
+    /*border: 1px skyblue solid;*/
+}
+
+#submitNewPasswordBtn{
+    width: 63.77px;
+    margin-right: 180px !important;
 }
