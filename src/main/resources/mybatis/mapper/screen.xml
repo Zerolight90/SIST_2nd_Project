@@ -10,6 +10,7 @@
     </select>
 
     <select id="list" resultType="mybatis.vo.ScreenVO" parameterType="String">
-        SELECT * FROM screen WHERE sIdx = #{sIdx}
+        SELECT * FROM screen
+        WHERE sIdx = #{sIdx}
     </select>
 </mapper>

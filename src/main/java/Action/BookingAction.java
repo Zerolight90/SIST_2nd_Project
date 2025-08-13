@@ -44,18 +44,13 @@ public class BookingAction implements Action{
         //------------------------------------------------------------------------------
 
         // 현재 상영중이거나 상영예정인 영화들을 보여주기 위한 값을 구하는 영역-----------------
-        List<TimeTableVO> list = TimeTableDAO.getList(now.toString());
-        TimeTableVO[] timeArr = new TimeTableVO[list.size()];
-//        System.out.println(timeArr.length);
-        list.toArray(timeArr);
-        // 2025-08-05
+        TimeTableVO[] timeArr = TimeTableDAO.getList();
         request.setAttribute("timeArr", timeArr);
         //------------------------------------------------------------------------------
 
         // 상영관들의 정보를 모두 보여주기 위한 값을 구하는 영역------------------------------
-        List<TheaterVO> theaterList = TheatherDAO.getList();
-        TheaterVO[] theaterArr = new TheaterVO[list.size()];
-        theaterList.toArray(theaterArr);
+        TheaterVO[] theaterArr = TheatherDAO.getList();
+
         request.setAttribute("theaterArr", theaterArr);
         //------------------------------------------------------------------------------
 

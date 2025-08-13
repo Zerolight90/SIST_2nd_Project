@@ -60,9 +60,8 @@
                     <li class="selected"><a href="#" onclick="switchTab(this, 'movie-all')">전체</a></li>
                     <li><a href="#" onclick="switchTab(this, 'movie-curation')">큐레이션</a></li>
                   </ul>
-                  <c:set var="tArr" value="${requestScope.timeArr}" scope="page"/>
-                  <c:set var="kList" value="${requestScope.kList}" scope="page"/>
-                    <c:forEach var="tvo" items="${tArr}" varStatus="i">
+                  <c:set var="timeVO" value="${requestScope.timeArr}" scope="page"/>
+                    <c:forEach var="tvo" items="${timeVO}" varStatus="i">
                       <c:if test="${tvo.m_list != null && fn:length(tvo.m_list) > 0}">
                         <div class="movie_all">
                         <c:forEach var="movieVO" items="${tvo.m_list}" varStatus="i">
@@ -115,7 +114,8 @@
               <button type="button" onclick="left_btn_click()">
                 <
               </button>
-              <c:forEach var="date" begin="12" end="16" varStatus="i">
+              <div id="time-container">
+              <c:forEach var="date" begin="0" end="24" varStatus="i">
                 <button class="select-btn-style">
                   <c:if test="${i.index < 10}">
                     0${i.index}
@@ -126,6 +126,7 @@
                 </button>
                 <input type="hidden" value="${i.index}">
               </c:forEach>
+              </div>
               <button type="button" onclick="right_btn_click()">
                 >
               </button>
@@ -160,6 +161,40 @@
 </div>
 
 <script>
+  let currentCenterIndex = new Date().getHours(); // 현재 시간
+  const range = 4; // 양쪽 범위
+  const buttons = document.querySelectorAll("#time-container button");
+
+  // 특정 index를 중심으로 보여주는 함수
+  function showRange(centerIndex) {
+    buttons.forEach(btn => btn.style.display = "none");
+
+    for (let i = centerIndex - range; i <= centerIndex + range; i++) {
+      if (i >= 0 && i < buttons.length) {
+        buttons[i].style.display = "inline-block";
+      }
+    }
+  }
+
+  function left_btn_click() {
+    if (currentCenterIndex > 0) {
+      currentCenterIndex--;
+      showRange(currentCenterIndex);
+    }
+  }
+
+  function right_btn_click() {
+    if (currentCenterIndex < buttons.length - 1) {
+      currentCenterIndex++;
+      showRange(currentCenterIndex);
+    }
+  }
+
+  // 초기 실행
+  document.addEventListener("DOMContentLoaded", () => {
+    showRange(currentCenterIndex);
+  });
+
   function goSeat(tvoIdx){ // 상영예정 idx가 옴
     console.log(tvoIdx)
     document.tvo_form.tvoIdx.value = tvoIdx;

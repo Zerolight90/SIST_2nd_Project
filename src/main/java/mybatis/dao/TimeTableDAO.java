@@ -15,15 +15,23 @@ import java.util.Map;
 
 public class TimeTableDAO {
     // 영화 목록 반환
-    public static List<TimeTableVO> getList(String now){
+    public static TimeTableVO[] getList(){
         List<TimeTableVO> list = null;
+        TimeTableVO[] ar = null;
         SqlSession ss = FactoryService.getFactory().openSession();
 
         // 우선 상영중, 예정인 모든 영화를 보여주는 구간
-        list = ss.selectList("timeTable.all", now);
+        list = ss.selectList("timeTable.nowMovie");
+        if(list.isEmpty()) {
+            System.out.println("현재 상영중인 영화가 없음");
+        }else {
+            System.out.println(list.size()+"개의 상영중인 영화");
+        }
+        ar = new TimeTableVO[list.size()];
+        list.toArray(ar);
 
         ss.close();
-        return list;
+        return ar;
     }
 
     // 영화 시간표 반환
