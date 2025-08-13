@@ -44,6 +44,15 @@
         WHERE id = #{m_id}
     </select>
 
+    <!-- 회원정보 수정에서 기존 비밀번호가 맞는지 체크하는 select -->
+    <select id="pw_check" parameterType="map" resultType="int">
+
+        SELECT COUNT(*) FROM web_movie.user
+        WHERE id = #{id} AND pw = #{pw}
+
+    </select>
+
+
     <!-- 카카오 ID로 사용자 존재 여부 확인 쿼리 추가 -->
     <select id="checkKakaoId" parameterType="String" resultType="mybatis.vo.KakaoVO">
         SELECT * FROM web_movie.user

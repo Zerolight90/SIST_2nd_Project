@@ -69,7 +69,7 @@
     <div class="form-group">
       <span class="form-label">현재 비밀번호</span>
       <div class="form-value">
-        <input type="password" id="current_password_input" placeholder="현재 비밀번호를 입력하세요."/>
+        <input type="password" id="current_password_input" name="u_pw" placeholder="현재 비밀번호를 입력하세요."/>
         <span id="pw_confirm_check_msg" class="error-msg"></span>
       </div>
     </div>
@@ -248,6 +248,41 @@
         }
       });
 
+      $("#current_password_input").on("keyup", function (){
+
+        let u_pw = $(this).val().trim();
+        const $pwConfirmCheckMsg = $("#pw_confirm_check_msg");
+        $pwConfirmCheckMsg.removeClass("error").text("").css("color", "red");
+
+        if (u_pw.length === 0) {
+          return;
+        }
+
+        $.ajax({
+          url: "/Controller?type=PWcheck", // PWcheckAction이 처리
+          type: "post",
+          data: { u_pw: u_pw }, // 입력된 비밀번호만 전송
+          dataType: 'json'
+
+        }).done(function (response){
+
+          console.log("PWcheck response:", response);
+
+          // 서버에서 "match"라는 키로 boolean 값을 반환한다고 가정
+
+          if (response.match) { // response.match가 true이면 일치
+            $pwConfirmCheckMsg.text("비밀번호가 일치합니다.").css("color", "green");
+          } else { // response.match가 false이면 불일치
+            $pwConfirmCheckMsg.text("현재 비밀번호가 틀립니다").css("color", "red");
+          }
+
+        }).fail(function(xhr, status, error){
+          console.error("AJAX Error (PWcheck):", status, error);
+          $pwConfirmCheckMsg.text("비밀번호 확인 중 오류가 발생했습니다.").css("color", "red");
+        });
+      });
+
+
       // 비밀번호 유효성: 영문자, 숫자, 특수문자 포함 8~16자
       const pwCheckRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/;
 
@@ -275,6 +310,7 @@
       $newPasswordChkInput.on('keyup', function() {
         checkNewPasswordMatch();
       });
+
 
       // 일치 검사 함수 (확인란 바로 아래에 메시지 표시)
       function checkNewPasswordMatch() {

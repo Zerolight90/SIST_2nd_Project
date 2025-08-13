@@ -151,4 +151,25 @@ public class MemberDAO {
         return cnt;
     }
 
+
+    //아이디를 인자로 받아서 로그인한 유저의 아이디 비밀번호가 맞는지 확인하는 기능
+    public static boolean pwCheck(String m_id, String u_pw) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        try {
+            Map<String,String> pwMap = new HashMap<>();
+            pwMap.put("id", m_id);
+            pwMap.put("pw", u_pw);
+            Integer cnt = ss.selectOne("member.pw_check", pwMap); // mapper에서 COUNT(*) 반환
+            return (cnt != null && cnt > 0);
+        } finally {
+            ss.close();
+        }
+    }
+
+
 }
+
+
+
+
+
