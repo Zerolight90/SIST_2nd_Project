@@ -140,7 +140,6 @@
     </div>
 </div>
 
-<!-- 단순히 최소한의 정보만 던져도 되지만 나중에 표현될 정보가 추가될 가능성이 있으니 객체를 던짐 -->
 <div style="display: none">
     <form action="Controller?type=paymentMovie" name="ff" method="post">
         <!-- 가격 정보 -->
@@ -189,14 +188,14 @@
         document.ff.seatInfo.value = seat_list.join(', ');
         document.ff.amount.value = total_price;
 
-        console.log(document.ff.startTime.value)
-        console.log(document.ff.theaterName.value)
-        console.log(document.ff.movieTitle.value)
-        console.log(document.ff.posterUrl.value)
-        console.log(document.ff.screenName.value)
-        console.log(document.ff.typePrice.value)
-        console.log(document.ff.seatInfo.value)
-        console.log(document.ff.amount.value)
+        // console.log(document.ff.startTime.value)
+        // console.log(document.ff.theaterName.value)
+        // console.log(document.ff.movieTitle.value)
+        // console.log(document.ff.posterUrl.value)
+        // console.log(document.ff.screenName.value)
+        // console.log(document.ff.typePrice.value)
+        // console.log(document.ff.seatInfo.value)
+        // console.log(document.ff.amount.value)
 
         document.ff.submit();
     }

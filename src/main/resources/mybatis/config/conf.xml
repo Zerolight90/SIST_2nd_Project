@@ -35,5 +35,6 @@
         <mapper resource="mybatis/mapper/price.xml"/>
         <mapper resource="mybatis/mapper/screenType.xml"/>
         <mapper resource="mybatis/mapper/favMovie.xml"/>
+        <mapper resource="mybatis/mapper/seatStatus.xml"/>
     </mappers>
 </configuration>

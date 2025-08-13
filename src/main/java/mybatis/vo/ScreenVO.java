@@ -2,7 +2,15 @@ package mybatis.vo;
 
 public class ScreenVO {
 
-    private String sIdx, tIdx, screenCode, sName, sSeatCount, sStatus, sRow, sColumn, sBlank;
+    private String sIdx, tIdx, screenCode, sName, sCount, sStatus, sRow, sColumn, sBlank;
+
+    public String getsCount() {
+        return sCount;
+    }
+
+    public void setsCount(String sCount) {
+        this.sCount = sCount;
+    }
 
     public String getsRow() {
         return sRow;
@@ -60,13 +68,7 @@ public class ScreenVO {
         this.sName = sName;
     }
 
-    public String getsSeatCount() {
-        return sSeatCount;
-    }
 
-    public void setsSeatCount(String sSeatCount) {
-        this.sSeatCount = sSeatCount;
-    }
 
     public String getsStatus() {
         return sStatus;

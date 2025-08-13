@@ -15,6 +15,7 @@ import java.util.List;
 public class PaymentMovieAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("PaymentMovieAction");
 
         // 인코딩 설정 (POST 방식 파라미터 한글 깨짐 방지)
         try {
@@ -28,13 +29,13 @@ public class PaymentMovieAction implements Action {
         String userIdx = (mvo == null) ? String.valueOf(1L) : mvo.getUserIdx();
 
         try {
-            String movieTitle = request.getParameter("movieTitle"); // 필수
+            String movieTitle = request.getParameter("movieTitle");
             String posterUrl = request.getParameter("posterUrl");
-            String theaterName = request.getParameter("theaterName"); // 필수
+            String theaterName = request.getParameter("theaterName");
             String screenName = request.getParameter("screenName");
             String startTime = request.getParameter("startTime");
             String seatInfo = request.getParameter("seatInfo");
-            String amountStr = request.getParameter("amount"); // 필수
+            String amountStr = request.getParameter("amount");
             // 필수 파라미터가 없는 경우 에러 처리
             if (movieTitle == null || theaterName == null || amountStr == null) {
                 request.setAttribute("errorMsg", "필수 예매 정보가 누락되었습니다.");
