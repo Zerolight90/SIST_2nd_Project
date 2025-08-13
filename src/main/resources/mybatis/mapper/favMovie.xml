@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="favMovie">
+
+    <insert id="add" parameterType="java.util.Map">
+        INSERT INTO favorite_movie (userIdx, mIdx)
+        VALUES (#{userIdx}, #{mIdx})
+    </insert>
+
+    <select id="isExist" parameterType="java.util.Map" resultType="int">
+        SELECT count(*)
+        FROM favorite_movie
+        WHERE userIdx = #{userIdx} AND mIdx = #{mIdx}
+    </select>
+
+    <select id="getLikeCount" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM favorite_movie WHERE mIdx = #{mIdx}
+    </select>
+
+    <select id="getFavoriteCount" parameterType="Long" resultType="int">
+        SELECT COUNT(*) FROM favorite_movie WHERE userIdx = #{userIdx}
+    </select>
+
+    <select id="getFavoriteMovies" parameterType="Map" resultType="mybatis.vo.MovieStoryVO">
+        SELECT m.poster AS posterUrl, m.name AS title, fm.mIdx AS mIdx
+        FROM favorite_movie fm
+                 JOIN movie m ON fm.mIdx = m.mIdx
+        WHERE fm.userIdx = #{userIdx}
+            LIMIT #{offset}, #{numPerPage}
+    </select>
+
+    <select id="getLikedMoviesByUser" parameterType="Long" resultType="String">
+        SELECT mIdx
+        FROM favorite_movie
+        WHERE userIdx = #{userIdx}
+    </select>
+
+    <select id="getLikeCounts" parameterType="java.util.List" resultType="java.util.Map">
+        SELECT
+        mIdx, COUNT(*) as likeCount
+        FROM
+        favorite_movie
+        WHERE
+        mIdx IN
+        <foreach item="movie" collection="list" open="(" separator="," close=")">
+            #{movie.mIdx}
+        </foreach>
+        GROUP BY
+        mIdx
+    </select>
+
+    <delete id="remove" parameterType="java.util.Map">
+        DELETE FROM favorite_movie
+        WHERE userIdx = #{userIdx} AND mIdx = #{mIdx}
+    </delete>
+</mapper>

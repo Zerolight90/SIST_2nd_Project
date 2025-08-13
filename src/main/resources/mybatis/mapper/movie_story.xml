@@ -4,25 +4,29 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="movieStory">
 
-    <select id="getReviews" parameterType="long" resultType="mybatis.vo.MovieStoryVO">
-        SELECT 'images/movie_poster_default.jpg' AS posterUrl, m.name AS title, r.reviewContent AS comment
+    <select id="getReviews" parameterType="Long" resultType="mybatis.vo.MovieStoryVO">
+        SELECT m.poster AS posterUrl,
+               m.name AS title,
+               r.reviewContent AS comment,
+               r.mIdx AS mIdx
         FROM review r
                  JOIN movie m ON r.mIdx = m.mIdx
-        WHERE r.userIdx = #{userIdx} AND r.reviewStatus = 0
+        WHERE r.userIdx = #{userIdx} AND r.reviewStatus = 1
     </select>
 
-    <select id="getWatchedMovies" parameterType="long" resultType="mybatis.vo.MovieStoryVO">
-        SELECT 'images/movie_poster_default.jpg' AS posterUrl, m.name AS title
+    <select id="getWatchedMovies" parameterType="java.util.Map" resultType="mybatis.vo.MovieStoryVO">
+        SELECT m.poster AS posterUrl, m.name AS title, wm.mIdx
         FROM watched_movie wm
                  JOIN movie m ON wm.mIdx = m.mIdx
         WHERE wm.userIdx = #{userIdx}
+        ORDER BY wm.watchedIdx DESC
+            LIMIT #{offset}, #{numPerPage}
     </select>
 
-    <select id="getFavoriteMovies" parameterType="long" resultType="mybatis.vo.MovieStoryVO">
-        SELECT 'images/movie_poster_default.jpg' AS posterUrl, m.name AS title
-        FROM favorite_movie fm
-                 JOIN movie m ON fm.mIdx = m.mIdx
-        WHERE fm.userIdx = #{userIdx}
+    <select id="getWatchedCount" parameterType="Long" resultType="int">
+        SELECT COUNT(*)
+        FROM watched_movie
+        WHERE userIdx = #{userIdx}
     </select>
 
 </mapper>
