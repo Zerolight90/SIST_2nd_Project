@@ -1,89 +1,141 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<c:set var="cp" value="${pageContext.request.contextPath}" />
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>나의 무비스토리</title>
+  <link rel="stylesheet" href="${cp}/css/mypage.css">
+</head>
+<body>
 <h2 class="content-title">나의 무비스토리</h2>
 
-<div class="tab-nav" id="movieStoryTabNav">
-  <a data-tab="review" class="${currentTab == 'review' ? 'active' : ''}" href="#">관람평</a>
-  <a data-tab="watched" class="${currentTab == 'watched' ? 'active' : ''}" href="#">본 영화</a>
-  <a data-tab="wished" class="${currentTab == 'wished' ? 'active' : ''}" href="#">위시리스트</a>
-</div>
+<%-- 탭 네비게이션: a 태그의 href를 직접 지정하여 페이지를 새로고침하는 방식으로 변경 --%>
+<nav class="tab-nav">
+  <a href="Controller?type=myMovieStory&tabName=review" class="${currentTab == 'review' ? 'active' : ''}">관람평</a>
+  <a href="Controller?type=myMovieStory&tabName=watched" class="${currentTab == 'watched' ? 'active' : ''}">본 영화</a>
+  <a href="Controller?type=myMovieStory&tabName=wished" class="${currentTab == 'wished' ? 'active' : ''}">위시리스트</a>
+</nav>
 
-<div id="movieStoryTabContent">
-  <div data-tab-content="review" class="tab-pane ${currentTab == 'review' ? 'active' : ''}">
-  <div class="movie-grid">
+<div class="tab-content">
+  <%-- 1. 관람평 탭 --%>
+  <c:if test="${currentTab == 'review'}">
+    <div class="tab-pane active">
       <c:choose>
-        <c:when test="${not empty reviewList}">
+        <c:when test="${!empty reviewList}">
           <c:forEach var="review" items="${reviewList}">
             <div class="review-item">
-              <img src="${review.posterUrl}" alt="${review.title}">
-              <div class="review-content"><h4>${review.title}</h4><p>${review.comment}</p></div>
+                <%-- 포스터 경로는 외부 URL과 내부 경로를 모두 고려해야 함 --%>
+              <c:set var="posterUrlResolved">
+                <c:choose>
+                  <c:when test="${review.posterUrl.startsWith('http')}">${review.posterUrl}</c:when>
+                  <c:otherwise>${cp}/images/posters/${review.posterUrl}</c:otherwise>
+                </c:choose>
+              </c:set>
+              <img src="${posterUrlResolved}" alt="${review.title}" style="width:80px; height:auto; object-fit:cover;"/>
+              <div class="review-content">
+                <h4>${review.title}</h4>
+                <p>${review.comment}</p>
+              </div>
               <div class="review-actions"><a href="#">수정</a><a href="#">삭제</a></div>
             </div>
           </c:forEach>
         </c:when>
-        <c:otherwise><p class="no-content">작성된 관람평이 없습니다.</p></c:otherwise>
+        <c:otherwise>
+          <div class="no-content" style="text-align: center; padding: 80px 20px; color: #888;">작성한 관람평이 없습니다.</div>
+        </c:otherwise>
       </c:choose>
     </div>
-  </div>
+  </c:if>
 
-  <div data-tab-content="watched" class="tab-pane ${currentTab == 'watched' ? 'active' : ''}">
-  <div class="movie-grid">
-      <c:choose>
-        <c:when test="${not empty watchedList}">
-          <c:forEach var="movie" items="${watchedList}">
-            <div class="movie-card">
-              <img src="${movie.posterUrl}" alt="${movie.title}">
-              <h4>${movie.title}</h4>
-              <button class="btn">관람평쓰기</button>
-            </div>
-          </c:forEach>
-        </c:when>
-        <c:otherwise><p class="no-content">시청한 영화가 없습니다.</p></c:otherwise>
-      </c:choose>
-    </div>
-    <div class="pagination" id="watchedPagination">
-      <c:if test="${watchedPaging.totalPage > 1}">
-        <c:if test="${watchedPaging.startPage > 1}"><a href="#" data-page="${watchedPaging.startPage - 1}">&lt;</a></c:if>
-        <c:forEach begin="${watchedPaging.startPage}" end="${watchedPaging.endPage}" var="p">
-          <c:choose>
-            <c:when test="${p == watchedPaging.nowPage}"><strong>${p}</strong></c:when>
-            <c:otherwise><a href="#" data-page="${p}">${p}</a></c:otherwise>
-          </c:choose>
-        </c:forEach>
-        <c:if test="${watchedPaging.endPage < watchedPaging.totalPage}"><a href="#" data-page="${watchedPaging.endPage + 1}">&gt;</a></c:if>
-      </c:if>
-    </div>
-  </div>
-
-  <div data-tab-content="wished" class="tab-pane ${currentTab == 'wished' ? 'active' : ''}">
-  <div class="movie-grid">
-      <c:choose>
-        <c:when test="${not empty wishList}">
-          <c:forEach var="movie" items="${wishList}">
-            <div class="movie-item">
-              <div class="movie-poster">
-                <img src="${movie.posterUrl}" alt="${movie.title}">
-                <button class="wish-button wished" data-midx="${movie.mIdx}"><i class="fa fa-heart-o"></i><i class="fa fa-heart"></i></button>
+  <%-- 2. 본 영화 탭 --%>
+  <c:if test="${currentTab == 'watched'}">
+    <div class="tab-pane active">
+      <div class="movie-grid">
+        <c:choose>
+          <c:when test="${!empty movieList}">
+            <c:forEach var="movie" items="${movieList}">
+              <div class="movie-card">
+                <a href="Controller?type=movieDetail&mIdx=${movie.mIdx}">
+                  <c:set var="posterUrlResolved">
+                    <c:choose>
+                      <c:when test="${movie.posterUrl.startsWith('http')}">${movie.posterUrl}</c:when>
+                      <c:otherwise>${cp}${movie.posterUrl}</c:otherwise> <%-- allmovie와 경로 통일 --%>
+                    </c:choose>
+                  </c:set>
+                  <img src="${posterUrlResolved}" alt="${movie.title}">
+                </a>
+                <h4>${movie.title}</h4>
+                <button class="mybtn">관람평쓰기</button>
               </div>
-              <h4>${movie.title}</h4>
-            </div>
+            </c:forEach>
+          </c:when>
+          <c:otherwise>
+            <p class="no-content" style="text-align: center; padding: 80px 20px; color: #888; grid-column: 1 / -1;">관람한 영화가 없습니다.</p>
+          </c:otherwise>
+        </c:choose>
+      </div>
+        <%-- 페이징 UI --%>
+      <div class="pagination">
+        <c:if test="${!empty paging && paging.startPage > 1}"><a href="Controller?type=myMovieStory&tabName=${currentTab}&cPage=${paging.startPage - 1}">&lt;</a></c:if>
+        <c:if test="${!empty paging}">
+          <c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="p">
+            <c:choose>
+              <c:when test="${p == paging.nowPage}"><strong>${p}</strong></c:when>
+              <c:otherwise><a href="Controller?type=myMovieStory&tabName=${currentTab}&cPage=${p}">${p}</a></c:otherwise>
+            </c:choose>
           </c:forEach>
-        </c:when>
-        <c:otherwise><p class="no-content">위시리스트에 담은 영화가 없습니다.</p></c:otherwise>
-      </c:choose>
+        </c:if>
+        <c:if test="${!empty paging && paging.endPage < paging.totalPage}"><a href="Controller?type=myMovieStory&tabName=${currentTab}&cPage=${paging.endPage + 1}">&gt;</a></c:if>
+      </div>
     </div>
-    <div class="pagination" id="wishedPagination">
-      <c:if test="${wishPaging.totalPage > 1}">
-        <c:if test="${wishPaging.startPage > 1}"><a href="#" data-page="${wishPaging.startPage - 1}">&lt;</a></c:if>
-        <c:forEach begin="${wishPaging.startPage}" end="${wishPaging.endPage}" var="p">
-          <c:choose>
-            <c:when test="${p == wishPaging.nowPage}"><strong>${p}</strong></c:when>
-            <c:otherwise><a href="#" data-page="${p}">${p}</a></c:otherwise>
-          </c:choose>
-        </c:forEach>
-        <c:if test="${wishPaging.endPage < wishPaging.totalPage}"><a href="#" data-page="${wishPaging.endPage + 1}">&gt;</a></c:if>
-      </c:if>
+  </c:if>
+
+  <%-- 3. 위시리스트 탭 --%>
+  <c:if test="${currentTab == 'wished'}">
+    <div class="tab-pane active">
+      <div class="movie-grid">
+        <c:choose>
+          <c:when test="${!empty movieList}">
+            <c:forEach var="movie" items="${movieList}">
+              <div class="movie-card">
+                <a href="Controller?type=movieDetail&mIdx=${movie.mIdx}">
+                  <c:set var="posterUrlResolved">
+                    <c:choose>
+                      <c:when test="${movie.posterUrl.startsWith('http')}">${movie.posterUrl}</c:when>
+                      <c:otherwise>${cp}${movie.posterUrl}</c:otherwise> <%-- allmovie와 경로 통일 --%>
+                    </c:choose>
+                  </c:set>
+                  <img src="${posterUrlResolved}" alt="${movie.title}">
+                </a>
+                <h4>${movie.title}</h4>
+                <a href="Controller?type=booking&mIdx=${movie.mIdx}" class="mybtn mybtn-primary">예매</a>
+              </div>
+            </c:forEach>
+          </c:when>
+          <c:otherwise>
+            <p class="no-content" style="text-align: center; padding: 80px 20px; color: #888; grid-column: 1 / -1;">찜한 영화가 없습니다.</p>
+          </c:otherwise>
+        </c:choose>
+      </div>
+        <%-- 페이징 UI --%>
+      <div class="pagination">
+        <c:if test="${!empty paging && paging.startPage > 1}"><a href="Controller?type=myMovieStory&tabName=${currentTab}&cPage=${paging.startPage - 1}">&lt;</a></c:if>
+        <c:if test="${!empty paging}">
+          <c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="p">
+            <c:choose>
+              <c:when test="${p == paging.nowPage}"><strong>${p}</strong></c:when>
+              <c:otherwise><a href="Controller?type=myMovieStory&tabName=${currentTab}&cPage=${p}">${p}</a></c:otherwise>
+            </c:choose>
+          </c:forEach>
+        </c:if>
+        <c:if test="${!empty paging && paging.endPage < paging.totalPage}"><a href="Controller?type=myMovieStory&tabName=${currentTab}&cPage=${paging.endPage + 1}">&gt;</a></c:if>
+      </div>
     </div>
-  </div>
+  </c:if>
 </div>
+
+
+</body>
+</html>

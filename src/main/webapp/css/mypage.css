@@ -3,14 +3,15 @@
 /* --- 기본 & 레이아웃 --- */
 body, html {
     font-family: 'Noto Sans KR', sans-serif;
-    background-color: white;
+    /* ▼▼▼ 배경색을 흰색으로 변경 ▼▼▼ */
+    background-color: #fff;
     color: #333;
     margin: 0;
     padding: 0;
 }
 
 article {
-    padding: 40px 0;
+    padding: 50px 0; /* 상하 여백 확대 */
 }
 
 .container {
@@ -18,13 +19,16 @@ article {
     width: 1200px;
     margin: 0 auto;
     background-color: #fff;
-    box-shadow: 0 0 15px rgba(0,0,0,0.05);
+    /* 그림자 효과를 더 자연스럽게 수정 */
+    box-shadow: 0 4px 25px rgba(0,0,0,0.07);
+    border-radius: 8px; /* 컨테이너에 둥근 모서리 추가 */
+    overflow: hidden; /* 둥근 모서리 적용을 위해 추가 */
     min-height: 80vh;
 }
 
 .side-nav {
     width: 220px;
-    padding: 40px 20px;
+    padding: 40px 0; /* 좌우 패딩 제거 */
     background-color: #fff;
     border-right: 1px solid #eee;
     flex-shrink: 0;
@@ -32,14 +36,15 @@ article {
 
 .main-content {
     flex-grow: 1;
-    padding: 40px;
+    padding: 40px 50px; /* 좌우 패딩 확대 */
 }
 
-/* --- 사이드 네비게이션 --- */
+/* --- 사이드 네비게이션 (개선) --- */
 .side-nav h2 {
     font-size: 24px;
     font-weight: 700;
     margin-bottom: 30px;
+    padding: 0 20px; /* h2에도 패딩 적용 */
 }
 
 .side-nav ul {
@@ -50,47 +55,51 @@ article {
 
 .side-nav li a {
     display: block;
-    padding: 15px 20px;
+    padding: 16px 20px; /* 패딩 미세 조정 */
     text-decoration: none;
     color: #555;
     font-size: 16px;
-    border-bottom: 1px solid #f0f0f0;
+    /* border-bottom 제거하여 더 깔끔하게 */
+    position: relative; /* 호버 효과 기준점 */
     transition: background-color 0.3s, color 0.3s;
     cursor: pointer;
+    border-left: 4px solid transparent; /* 왼쪽에 투명 보더 추가 */
 }
 
+/* 활성화 및 호버 시, 보라색 보더와 배경으로 강조 */
 .side-nav li a.active,
 .side-nav li a:hover {
-    background-color: #f8f8f8;
+    background-color: #f5effb; /* 연한 보라색 배경 */
     color: #8e44ad;
-    font-weight: 500;
+    font-weight: 700; /* 굵게 변경 */
+    border-left-color: #8e44ad; /* 왼쪽에 보라색 보더 표시 */
 }
 
-/* --- 공통 컨텐츠 스타일 --- */
+/* --- 공통 컨텐츠 스타일 (개선) --- */
 .content-title {
-    font-size: 22px;
+    font-size: 26px; /* 폰트 크기 확대 */
     font-weight: 700;
     padding-bottom: 15px;
-    border-bottom: 2px solid #333;
-    margin-bottom: 30px;
+    /* border를 더 얇고 부드럽게 변경 */
+    border-bottom: 1px solid #eee;
+    margin-bottom: 35px;
 }
-.content-section { margin-bottom: 40px; }
+.content-section { margin-bottom: 50px; }
 
-/* --- 테이블 스타일 --- */
+/* --- 테이블 스타일 (개선) --- */
 .data-table { width: 100%; border-collapse: collapse; text-align: center; font-size: 15px; }
-.data-table th, .data-table td { padding: 15px 10px; border-bottom: 1px solid #e0e0e0; }
-.data-table th { background-color: #f9f9f9; font-weight: 500; color: #333; }
+.data-table th, .data-table td { padding: 16px 10px; border-bottom: 1px solid #f0f0f0; } /* 패딩 조정, 색상 변경 */
+.data-table th { background-color: #fafafa; font-weight: 500; color: #333; }
 .data-table td { color: #555; }
 .data-table .item-title { text-align: left; }
 .data-table .status-used { color: #999; }
 .data-table .status-available { color: #8e44ad; font-weight: bold; }
 
-/* --- 버튼 스타일 --- */
-.mybtn { display: inline-block; padding: 8px 15px; border: 1px solid #ccc; background-color: #fff; color: #333; border-radius: 4px; cursor: pointer; font-size: 14px; transition: all 0.2s; }
-.mybtn .mybtn-exit{padding-right: 20px !important;}
-.mybtn:hover { background-color: #f0f0f0; }
+/* --- 버튼 스타일 (개선) --- */
+.mybtn { display: inline-block; padding: 10px 18px; border: 1px solid #ccc; background-color: #fff; color: #333; border-radius: 5px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s ease-in-out; }
+.mybtn:hover { transform: translateY(-2px); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
 .mybtn-primary { background-color: #8e44ad; border-color: #8e44ad; color: #fff; }
-.mybtn-primary:hover { background-color: #732d91; border-color: #732d91; }
+.mybtn-primary:hover { background-color: #732d91; border-color: #732d91; transform: translateY(-2px); box-shadow: 0 2px 8px rgba(142, 68, 173, 0.4); }
 
 /* --- 필터/조회 영역 --- */
 .filter-area { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; }
@@ -98,118 +107,19 @@ article {
 .filter-area .radio-group input { margin-right: 5px; }
 .filter-area .radio-group label { margin-right: 15px; }
 
-/* --- 페이징 스타일 --- */
-.pagination { display: flex; justify-content: center; margin-top: 30px; }
-.pagination a, .pagination strong { margin: 0 5px; padding: 8px 12px; text-decoration: none; border: 1px solid #ddd; color: #333; border-radius: 4px; }
-.pagination a:hover { background-color: #f0f0f0; }
-.pagination strong { background-color: #8e44ad; color: white; border-color: #8e44ad; }
-
-/* --- 예매내역 카드 --- */
-.reservation-card { display: flex; border: 1px solid #eee; border-radius: 8px; padding: 20px; margin-bottom: 20px; align-items: center; transition: box-shadow 0.3s; }
-.reservation-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-.reservation-card img { width: 80px; height: 120px; object-fit: cover; border-radius: 4px; margin-right: 20px; }
-.reservation-card .info { flex-grow: 1; }
-.reservation-card .info p { margin: 0 0 8px 0; }
-.reservation-card .info .date { font-size: 14px; color: #888; }
-.reservation-card .info .title { font-size: 18px; font-weight: bold; }
-.reservation-card .info .details { font-size: 15px; color: #555; }
-.reservation-card .action { width: 100px; text-align: center; }
-
-/* --- 탭 스타일 (ID 기반으로 수정) --- */
-.tab-nav { display: flex; justify-content: center; border-bottom: 1px solid #ddd; margin-bottom: 20px; }
-.tab-nav a { padding: 10px 20px; text-decoration: none; color: #888; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -1px; }
-.tab-nav a.active { color: #8e44ad; font-weight: 500; border-bottom-color: #8e44ad; }
-
-.tab-pane {
-    display: none;
-}
-
-/* active 클래스가 붙은 tab-pane은 보임 */
-.tab-pane.active {
-    display: block;
-}
-
-/* --- 무비스토리 --- */
-.review-item { display: flex; padding: 20px 0; border-bottom: 1px solid #f0f0f0; }
-.review-item img { width: 80px; margin-right: 20px; }
-.review-item .review-content { flex-grow: 1; }
-.review-item .review-actions a { color: #888; text-decoration: none; font-size: 14px; margin-left: 10px; }
-
-/* 여기서부터 수정된 부분 */
-.movie-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3개의 동일한 열 */
-    gap: 20px; /* 영화 카드 사이의 간격 */
-}
-
-.movie-card {
-    text-align: center;
-}
-.movie-card img {
-    width: 100%;
-    border-radius: 8px;
-    margin-bottom: 10px;
-}
-
-/* --- 회원정보 --- */
-.form-layout { max-width: 600px; margin: 0 auto; }
-.form-group { display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid #f0f0f0; }
-.form-group .form-label { width: 150px; font-weight: 500; }
-.form-group .form-value { flex-grow: 1; display: flex; align-items: center; gap: 10px; }
-
-#my_btn{
-    display: flex;
-    gap: 20px;
-    padding: 15px 0;
-    border-bottom: 1px solid #f0f0f0;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-}
-
-/* --- 포인트 (수정됨) --- */
-.point-summary-box {
-    display: flex;
-    background-color: #fff;
-    color: #333;
-    padding: 30px;
-    border-radius: 8px;
-    margin-bottom: 40px;
-    justify-content: space-between;
-    align-items: center;
-    border: 1px solid #e0e0e0;
-}
-.point-summary-box .available-points .points {
-    font-size: 36px;
-    font-weight: 700;
-    color: #8e44ad;
-}
-.point-summary-box .point-details {
-    flex-basis: 55%;
-    background-color: #f9f9f9;
-    color: #333;
-    padding: 20px;
-    border-radius: 6px;
-}
-.point-details table { width: 100%; }
-.point-details .value { text-align: right; font-weight: 500; }
-.point-details .total { font-size: 18px; color: #8e44ad; font-weight: bold; border-top: 1px solid #eee; padding-top: 10px; }
-
-/* mypage.css에 추가할 페이지네이션 스타일 */
-
-/* 페이징 UI 컨테이너 */
+/* --- 페이징 스타일 (allmovie.css 와 동일하게) --- */
 .pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
+    text-align: center;
+    margin-top: 40px;
+    padding-bottom: 40px;
 }
 
-/* 페이징 링크/버튼 기본 스타일 */
 .pagination a,
 .pagination strong {
     display: inline-block;
     min-width: 32px;
     padding: 8px;
-    margin: 0 5px;
+    margin: 0 4px;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 14px;
@@ -220,16 +130,108 @@ article {
     transition: background-color 0.2s, border-color 0.2s;
 }
 
-/* 페이징 링크에 마우스를 올렸을 때 */
 .pagination a:hover {
-    background-color: #f0f0f0;
+    background-color: #f5f5f5;
     border-color: #ccc;
 }
 
-/* 현재 페이지 버튼 스타일 */
 .pagination strong {
-    background-color: #8e44ad;
-    border-color: #8e44ad;
+    background-color: #503396; /* allmovie와 통일된 보라색 */
+    border-color: #503396;
     color: #fff;
     cursor: default;
 }
+
+/* --- 예매내역 카드 (개선) --- */
+.reservation-card { display: flex; border: 1px solid #eee; border-radius: 8px; padding: 20px; margin-bottom: 20px; align-items: center; transition: box-shadow 0.3s, transform 0.3s; }
+.reservation-card:hover { transform: translateY(-5px); box-shadow: 0 6px 18px rgba(0,0,0,0.08); }
+.reservation-card img { width: 90px; height: 130px; object-fit: cover; border-radius: 4px; margin-right: 25px; }
+.reservation-card .info { flex-grow: 1; }
+.reservation-card .info p { margin: 0 0 8px 0; }
+.reservation-card .info .date { font-size: 14px; color: #888; }
+.reservation-card .info .title { font-size: 19px; font-weight: bold; margin-bottom: 12px; }
+.reservation-card .info .details { font-size: 15px; color: #555; }
+.reservation-card .action { width: 100px; text-align: center; }
+
+/* --- 탭 스타일 --- */
+.tab-nav {
+    display: flex;
+    justify-content: center; /* 탭 메뉴들을 중앙으로 정렬 */
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 30px;
+}
+
+.tab-nav a {
+    flex-grow: 1; /* 각 탭이 동일한 비율로 너비를 차지하도록 설정 */
+    text-align: center; /* 탭 내부 텍스트 중앙 정렬 */
+    padding: 15px 20px; /* 상하 패딩을 늘려 더 시원하게 보이도록 수정 */
+    text-decoration: none;
+    color: #888;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.3s, border-color 0.3s;
+    font-size: 16px;
+}
+
+.tab-nav a.active, .tab-nav a:hover {
+    color: #8e44ad;
+    font-weight: 500;
+    border-bottom-color: #8e44ad;
+}
+
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+
+/* --- 무비스토리 (개선) --- */
+.review-item { display: flex; padding: 20px 0; border-bottom: 1px solid #f0f0f0; }
+.review-item img { width: 80px; margin-right: 20px; border-radius: 4px; }
+.review-item .review-content { flex-grow: 1; }
+.review-item .review-actions a { color: #888; text-decoration: none; font-size: 14px; margin-left: 10px; }
+
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 한 줄에 5개 아이템 표시 */
+    gap: 20px; /* 아이템 간격 조정 */
+}
+
+.movie-card { text-align: center; transition: transform 0.3s, box-shadow 0.3s; border-radius: 8px; overflow: hidden;}
+.movie-card:hover { transform: translateY(-5px); box-shadow: 0 6px 18px rgba(0,0,0,0.1); }
+.movie-card img { width: 100%; height: auto; object-fit: cover; margin-bottom: 10px; display: block; aspect-ratio: 2 / 3; /* 이미지 비율 유지 */}
+
+
+/* --- 회원정보 (개선) --- */
+.form-layout { max-width: 600px; margin: 40px auto; }
+.form-group { display: flex; align-items: center; padding: 20px 0; border-bottom: 1px solid #f0f0f0; }
+.form-group:last-child { border-bottom: none; }
+.form-group .form-label { width: 150px; font-weight: 500; color: #333; }
+.form-group .form-value { flex-grow: 1; display: flex; align-items: center; gap: 10px; color: #555; }
+
+/* --- 포인트 (개선) --- */
+.point-summary-box {
+    display: flex;
+    background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%); /* 그라데이션 배경 적용 */
+    color: #fff; /* 텍스트 흰색 */
+    padding: 40px;
+    border-radius: 12px; /* 둥근 모서리 확대 */
+    margin-bottom: 40px;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 8px 25px rgba(142, 68, 173, 0.3); /* 그림자 효과 추가 */
+}
+.point-summary-box .available-points h3 { font-size: 18px; font-weight: 400; margin-bottom: 10px; opacity: 0.9; }
+.point-summary-box .available-points .points {
+    font-size: 42px; /* 폰트 크기 확대 */
+    font-weight: 700;
+    color: #fff;
+}
+.point-summary-box .point-details {
+    flex-basis: 50%;
+    background-color: rgba(255,255,255,0.1); /* 반투명 배경 */
+    color: #fff;
+    padding: 25px;
+    border-radius: 8px;
+}
+.point-details table { width: 100%; }
+.point-details .value { text-align: right; font-weight: 500; }
+.point-details .total { font-size: 18px; color: #fff; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 15px; margin-top: 10px; }
