@@ -10,7 +10,7 @@
         WHERE mIdx = #{mIdx}
     </select>
 
-    <!-- 전체영화 관련 xml 문 -->
+    <!-- 전체영화 총 x개의 영화가 검색되었습니다 에서 x를 계산 -->
     <select id="getTotalCount" parameterType="String" resultType="int">
         SELECT COUNT(*) FROM movie
         <where>
@@ -34,6 +34,7 @@
         </where>
     </select>
 
+    <!-- 전체영화 카테고리별로 필터링해서 보여주는 기능 -->
     <select id="getMovieList" parameterType="java.util.Map" resultType="mybatis.vo.MovieVO">
         SELECT *
         FROM movie
@@ -62,7 +63,6 @@
             <when test="category == 'scheduled'"> ORDER BY date ASC </when>
             <otherwise> ORDER BY date DESC </otherwise>
         </choose>
-
         LIMIT #{offset}, #{numPerPage}
     </select>
 

@@ -52,4 +52,19 @@ public class PointDAO {
         ss.close();
         return list;
     }
+
+    public static void revertPointUsage(long userIdx, int pointsToRevert, long paymentIdx, SqlSession ss) {
+        // 1. 사용자 포인트 되돌리기
+        Map<String, Object> map = new HashMap<>();
+        map.put("userIdx", userIdx);
+        map.put("pointsToRevert", pointsToRevert);
+        ss.update("point.addUserPoints", map);
+
+        // 2. 포인트 환불 내역 기록
+        PointVO pvo = new PointVO();
+        pvo.setUserIdx(userIdx);
+        pvo.setAmount(pointsToRevert);
+        pvo.setRelatedPaymentIdx(paymentIdx); // 어떤 결제 건과 관련된 환불인지 기록
+        ss.insert("point.insertPointRefundHistory", pvo);
+    }
 }

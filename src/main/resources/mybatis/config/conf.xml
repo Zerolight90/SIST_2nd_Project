@@ -3,6 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING" />
+    </settings>
     <environments default="">
         <environment id="">
             <transactionManager type="JDBC"/>
@@ -37,5 +40,6 @@
         <mapper resource="mybatis/mapper/userBoard.xml"/>
         <mapper resource="mybatis/mapper/favMovie.xml"/>
         <mapper resource="mybatis/mapper/seatStatus.xml"/>
+        <mapper resource="mybatis/mapper/myPaymentHistory.xml"/>
     </mappers>
 </configuration>

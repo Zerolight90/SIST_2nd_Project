@@ -48,7 +48,17 @@
                         <div class="summary"><p>${movie.synop}</p></div>
                     </a>
                     <div class="movie-info">
-                        <h3><span class="age-rating age-${movie.age}">${movie.age}</span> ${movie.name}</h3>
+                        <h3>
+                            <c:choose>
+                                <c:when test="${movie.age == '정보 없음'}">
+                                    <span class="age-rating age-ALL">ALL</span>
+                                </c:when>
+                                <c:otherwise>
+                                    <span class="age-rating age-${movie.age}">${movie.age}</span>
+                                </c:otherwise>
+                            </c:choose>
+                                ${movie.name}
+                        </h3>
                         <div class="movie-stats"><span>개봉일 ${movie.date}</span></div>
                         <div class="movie-actions">
                             <button type="button" class="like-btn ${!empty likedMovieSet && likedMovieSet.contains(movie.mIdx) ? 'liked' : ''}" data-midx="${movie.mIdx}">

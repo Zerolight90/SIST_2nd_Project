@@ -92,4 +92,8 @@ public class CouponDAO {
         ss.close();
         return list;
     }
+
+    public static int revertCouponUsage(long couponUserIdx, SqlSession ss) {
+        return ss.update("coupon.revertCouponUsage", couponUserIdx);
+    }
 }

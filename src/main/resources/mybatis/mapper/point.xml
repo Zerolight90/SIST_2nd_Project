@@ -25,5 +25,18 @@
         UPDATE user
         SET totalPoints = totalPoints - #{pointsToUse}
         WHERE userIdx = #{userIdx}
-          AND totalPoints >= #{pointsToUse} </update>
+          AND totalPoints >= #{pointsToUse}
+    </update>
+
+    <update id="addUserPoints" parameterType="map">
+        UPDATE user
+        SET totalPoints = totalPoints + #{pointsToRevert}
+        WHERE userIdx = #{userIdx}
+    </update>
+
+    <insert id="insertPointRefundHistory" parameterType="mybatis.vo.PointVO">
+        INSERT INTO point (userIdx, transactionType, amount, description, transactionDate, relatedPaymentIdx)
+        VALUES (#{userIdx}, 2, #{amount}, '결제 취소에 따른 포인트 환불', NOW(), #{relatedPaymentIdx})
+        -- transactionType 2: 환불 적립
+    </insert>
 </mapper>

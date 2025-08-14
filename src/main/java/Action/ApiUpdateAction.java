@@ -38,7 +38,7 @@ public class ApiUpdateAction implements Action {
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             ps = conn.prepareStatement(sql);
 
-            for (int page = 1; page <= 4; page++) { // 페이지 수를 조절하여 가져올 데이터 양 결정
+            for (int page = 1; page <= 6; page++) { // 페이지 수를 조절하여 가져올 데이터 양 결정
                 String listApiUrl = "https://api.themoviedb.org/3/movie/now_playing?language=ko-KR&region=KR&page=" + page;
                 JsonArray movieList = getMovieListFromServer(listApiUrl);
                 if (movieList == null) continue;

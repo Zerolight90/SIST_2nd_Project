@@ -67,7 +67,7 @@
               <img src="${basePath}/${productInfo.prodImg}" alt="상품 이미지" class="poster">
               <div class="booking_card_details">
                 <p class="payment_movie_title">${productInfo.prodName}</p>
-                <p class="info_line">수량: 1개</p>
+                <p class="info_line">수량: <span id="displayQuantity">${param.quantity}</span>개</p>
                 <p class="info_line">
                   가격: <fmt:formatNumber value="${productInfo.prodPrice}" pattern="#,##0" />원
                 </p>
@@ -84,8 +84,8 @@
           <select name="coupon" id="couponSelector">
             <option value="0" data-discount="0">쿠폰 선택</option>
             <c:forEach var="coupon" items="${couponList}">
-              <option value="${coupon.couponUserIdx}" data-discount="${coupon.couponValue}">
-                  ${coupon.couponName} (-${coupon.couponValue}원)
+              <option value="${coupon.couponUserIdx}" data-discount="${coupon.discountValue}">
+                  ${coupon.couponName} (-${coupon.discountValue}원)
               </option>
             </c:forEach>
           </select>

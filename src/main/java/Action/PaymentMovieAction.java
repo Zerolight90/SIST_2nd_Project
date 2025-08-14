@@ -55,13 +55,6 @@ public class PaymentMovieAction implements Action {
             // 사용 가능한 쿠폰 목록 조회
             List<MyCouponVO> couponList = CouponDAO.getAvailableMovieCoupons(Long.parseLong(userIdx));
 
-            // '무료' 쿠폰 처리 로직
-            for (MyCouponVO coupon : couponList) {
-                if (coupon.getCouponName().contains("무료")) {
-                    coupon.setCouponValue(reservation.getFinalAmount());
-                }
-            }
-
             // 사용자의 포인트 정보를 포함한 전체 회원 정보 조회
             MemberVO memberInfo = MemberDAO.getMemberByIdx(Long.parseLong(userIdx));
 

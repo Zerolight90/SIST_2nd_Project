@@ -80,8 +80,22 @@
                     AND p.paymentStatus LIKE CONCAT ('%', #{payment_keyword}, '%')
                 </when>
             </choose>
-
         </where>
     </select>
+
+    <select id="getPaymentByPaymentKey" parameterType="string" resultType="mybatis.vo.PaymentVO">
+        SELECT *
+        FROM payment
+        WHERE paymentTransactionId = #{paymentKey}
+    </select>
+
+    <update id="updatePaymentToCancelled" parameterType="string">
+        UPDATE payment
+        SET
+        paymentStatus = 1, -- 1: 취소
+        paymentCancelDate = NOW()
+        WHERE
+        paymentTransactionId = #{paymentKey}
+    </update>
 
 </mapper>
