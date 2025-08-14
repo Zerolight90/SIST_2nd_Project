@@ -6,6 +6,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
   <title>마이페이지</title>
   <!-- 기본 CSS와 jQuery UI -->
@@ -72,50 +73,65 @@
 
 <script>
   $(function() {
-    let $dialog = $("#dialog"); // 다이얼로그 요소를 변수에 저장 ((399))
+    let $dialog = $("#dialog"); // 다이얼로그 요소
 
-    // 다이얼로그 옵션
+    // 다이얼로그 옵션 설정
     let option = {
       modal: true, autoOpen: false,
       title: '추가 정보 입력 안내',
       width: 450, height: 250, resizable: false,
-      buttons: {
-        "확인": function() {
-          $dialog.dialog("close"); // 저장된 변수를 사용하여 닫기 ((405))
-        }
-      }
+      buttons: { "확인": function() { $dialog.dialog("close"); } }
     };
-    $dialog.dialog(option); // 다이얼로그 초기화 ((400))
+    $dialog.dialog(option); // 다이얼로그 초기화
 
-    // JSP 변수값에 따라 다이얼로그 열기
+    // 카카오 간편가입 후 추가 정보 미입력 시 다이얼로그 열기
     <c:if test="${not empty sessionScope.kvo && (empty sessionScope.mvo || empty sessionScope.mvo.birth || empty sessionScope.mvo.phone)}">
-    $dialog.dialog("open"); // 저장된 변수를 사용하여 열기
+    $dialog.dialog("open");
     </c:if>
 
-    // Ajax로 첫화면 로딩
+    const mainContent = $("#mainContent"); // 메인 컨텐츠 영역을 변수로 지정
+
+    // --- 초기 화면 로드 ---
     let firstUrl;
     <c:choose>
     <c:when test="${not empty sessionScope.kvo && (empty sessionScope.mvo || empty sessionScope.mvo.birth || empty sessionScope.mvo.phone)}">
     firstUrl = "${cp}/Controller?type=myUserInfo";
+    // 회원정보 탭을 기본으로 활성화
+    $('.side-nav .nav-link[data-type="myUserInfo"]').addClass('active').siblings().removeClass('active');
     </c:when>
     <c:otherwise>
     firstUrl = "${cp}/Controller?type=myReservation";
+    // 예매내역 탭을 기본으로 활성화
+    $('.side-nav .nav-link[data-type="myReservation"]').addClass('active').siblings().removeClass('active');
     </c:otherwise>
     </c:choose>
-    $("#mainContent").load(firstUrl);
+    mainContent.load(firstUrl); // Ajax로 첫 화면 로드
 
-    // 메뉴 클릭시 Ajax로 main-content 교체
+    // --- 이벤트 핸들러 (이벤트 위임 사용) ---
+
+    // 1. 좌측 사이드 메뉴 클릭 처리
     $('.side-nav .nav-link').on('click', function(e) {
-      e.preventDefault();
-      // 네비게이션 active 표시 처리
-      $('.side-nav .nav-link').removeClass('active');
-      $(this).addClass('active');
-      // Ajax로 main 영역 교체
+      e.preventDefault(); // 기본 링크 동작 방지
+      $('.side-nav .nav-link').removeClass('active'); // 모든 메뉴에서 active 클래스 제거
+      $(this).addClass('active'); // 클릭한 메뉴에 active 클래스 추가
       const url = $(this).attr('href');
-      $('#mainContent').load(url);
+      mainContent.load(url); // Ajax로 메인 영역 교체
+    });
+
+    // 2. 동적으로 로드된 '나의 무비스토리' 탭 클릭 처리
+    mainContent.on('click', '.tab-nav a', function(e) {
+      e.preventDefault(); // 기본 링크 동작(페이지 전체 이동) 방지
+      const url = $(this).attr('href');
+      mainContent.load(url); // mainContent 영역만 Ajax로 새로고침
+    });
+
+    // 3. 동적으로 로드된 '페이징' 링크 클릭 처리
+    mainContent.on('click', '.pagination a', function(e) {
+      e.preventDefault(); // 기본 링크 동작(페이지 전체 이동) 방지
+      const url = $(this).attr('href');
+      mainContent.load(url); // mainContent 영역만 Ajax로 새로고침
     });
   });
-
 </script>
 
 </body>

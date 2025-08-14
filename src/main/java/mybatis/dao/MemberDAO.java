@@ -166,6 +166,25 @@ public class MemberDAO {
         }
     }
 
+    public static int updatePassword(String m_id, String password) {
+        SqlSession ss = FactoryService.getFactory().openSession(); // 또는 openSession(true)
+        try {
+            Map<String, String> paramMap = new HashMap<>();
+            paramMap.put("m_id", m_id);
+            paramMap.put("password", password);
+            int cnt = ss.update("member.updatePassword", paramMap);
+            if (cnt > 0) {
+                ss.commit();
+            } else {
+                ss.rollback();
+            }
+            return cnt;
+        } finally {
+            ss.close();
+        }
+    }
+
+
     public static void editUsers(Map<String, String> map){
         SqlSession ss = FactoryService.getFactory().openSession();
         int update = ss.update("member.editUsers", map);

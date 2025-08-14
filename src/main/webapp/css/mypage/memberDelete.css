@@ -1,0 +1,200 @@
+/* memberDelete.css - memberDeleteNotice.jsp 전용 스타일 */
+
+/* 전체 래퍼 */
+.member-delete-wrap {
+    max-width: 980px;
+    margin: 28px auto;
+    padding: 28px;
+    background: #ffffff;
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(20,20,20,0.04);
+    font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    color: #222;
+}
+
+/* 제목 */
+.member-delete-wrap h1 {
+    font-size: 1.5rem;
+    margin: 0 0 14px;
+    font-weight: 700;
+    color: #111;
+}
+
+/* 공지 영역 */
+.member-delete-wrap .notice {
+    background: #fffaf6;
+    border-left: 4px solid #ffb74d;
+    padding: 16px;
+    margin-bottom: 18px;
+    line-height: 1.65;
+    color: #333;
+    border-radius: 4px;
+}
+
+.member-delete-wrap .notice p strong {
+    color: #c63a2c;
+    font-weight: 700;
+}
+
+.member-delete-wrap .notice ol {
+    margin: 10px 0 0 20px;
+    padding: 0;
+}
+
+.member-delete-wrap .notice ul {
+    margin: 6px 0 0 18px;
+    padding: 0;
+    list-style-type: disc;
+}
+
+/* 폼 기본 */
+.member-delete-wrap form {
+    margin-top: 10px;
+}
+
+/* fieldset / legend */
+.member-delete-wrap fieldset {
+    border: 1px solid #eef0f2;
+    padding: 12px 14px;
+    border-radius: 6px;
+    margin-bottom: 14px;
+    background: #fbfbfb;
+}
+
+.member-delete-wrap legend {
+    font-weight: 600;
+    padding: 0 6px;
+    color: #333;
+}
+
+/* 라디오 버튼 그룹 */
+.member-delete-wrap fieldset label {
+    display: block;
+    margin: 8px 0;
+    font-size: 0.95rem;
+    color: #444;
+    cursor: pointer;
+}
+
+.member-delete-wrap input {
+    margin-right: 8px;
+    transform: translateY(1px);
+}
+
+/* 비밀번호 확인 영역 */
+.member-delete-wrap .pw-check {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 12px 0 18px;
+}
+
+.member-delete-wrap .pw-check label {
+    min-width: 140px;
+    font-weight: 600;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.member-delete-wrap .pw-check input {
+    flex: 1 1 auto;
+    padding: 10px 12px;
+    border: 1px solid #d7dbe0;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    background: #fff;
+}
+
+/* 액션 버튼 그룹 */
+.member-delete-wrap .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.member-delete-wrap .actions button {
+    min-width: 110px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.14s ease-in-out;
+}
+
+/* 취소 버튼 스타일 */
+.member-delete-wrap .actions #btnCancel {
+    background: #f5f6f7;
+    color: #333;
+    border: 1px solid #e3e5e8;
+}
+
+.member-delete-wrap .actions #btnCancel:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.04);
+}
+
+/* 탈퇴 버튼 (위험성 강조) */
+.member-delete-wrap .actions #btnDelete {
+    background: linear-gradient(180deg, #d64545, #b72f2f);
+    color: #fff;
+    box-shadow: 0 6px 14px rgba(215,45,45,0.12);
+}
+
+.member-delete-wrap .actions #btnDelete:hover {
+    transform: translateY(-1px);
+    filter: brightness(0.96);
+}
+
+/* 작은 화면(모바일) 대응 */
+@media (max-width: 640px) {
+    .member-delete-wrap {
+        margin: 16px;
+        padding: 18px;
+        border-radius: 6px;
+    }
+    .member-delete-wrap .pw-check {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .member-delete-wrap .pw-check label {
+        min-width: 0;
+        margin-bottom: 6px;
+    }
+    .member-delete-wrap .actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+    .member-delete-wrap .actions button {
+        width: 100%;
+    }
+}
+
+/* 보조 텍스트(오류/성공 메시지) */
+.member-delete-wrap .form-msg {
+    display: none;
+    margin-top: 8px;
+    font-size: 0.9rem;
+    color: #b00020;
+}
+
+.member-delete-wrap .form-msg.success {
+    color: #1b7a3a;
+    display: block;
+}
+
+.member-delete-wrap .form-msg.error {
+    color: #b00020;
+    display: block;
+}
+
+/* 접근성: 포커스 아웃라인 */
+.member-delete-wrap input:focus,
+.member-delete-wrap button:focus,
+.member-delete-wrap a:focus {
+    outline: 3px solid rgba(34, 150, 243, 0.18);
+    outline-offset: 2px;
+}

@@ -1,5 +1,3 @@
-// Action/UserInfoAction.java
-
 package Action;
 
 import mybatis.dao.MemberDAO;
@@ -31,11 +29,12 @@ public class UserInfoAction implements Action {
 
             String actionType = request.getParameter("action");
             String birthdate = request.getParameter("birth");
-            String phone = request.getParameter("phone"); // 전화번호 파라미터 추가
+            String phone = request.getParameter("phone");
+            String password = request.getParameter("password");
 
             HttpSession session = request.getSession();
             String userId = null;
-            Object userVO = null; // MemberVO 또는 KakaoVO를 저장할 변수
+            Object userVO = null;
 
             if (session.getAttribute("mvo") != null) {
                 MemberVO mvo = (MemberVO) session.getAttribute("mvo");
@@ -48,7 +47,39 @@ public class UserInfoAction implements Action {
             }
 
             if (userId != null) {
-                if ("updateBirthdate".equals(actionType) && birthdate != null && !birthdate.trim().isEmpty()) {
+                // 1) 세션에 비밀번호 임시 저장 (stage)
+                if ("stagePassword".equals(actionType) && password != null && !password.trim().isEmpty()) {
+                    session.setAttribute("stagedPw", password);
+                    // 화면 동기화를 위해 mvo 내부 pw도 갱신 (mvo가 있는 경우)
+                    if (userVO instanceof MemberVO) {
+                        ((MemberVO) userVO).setPw(password);
+                        session.setAttribute("mvo", userVO);
+                    }
+                    responseMap.put("success", true);
+                    responseMap.put("message", "비밀번호가 세션에 임시 저장되었습니다.");
+                }
+                // 2) 세션에 저장된 비밀번호를 DB에 커밋 (commit)
+                else if ("commitStagedPassword".equals(actionType)) {
+                    String staged = (String) session.getAttribute("stagedPw");
+                    if (staged != null && !staged.isEmpty()) {
+                        int result = MemberDAO.updatePassword(userId, staged);
+                        if (result > 0) {
+                            session.removeAttribute("stagedPw");
+                            if (userVO instanceof MemberVO) {
+                                ((MemberVO) userVO).setPw(staged);
+                                session.setAttribute("mvo", userVO);
+                            }
+                            responseMap.put("success", true);
+                            responseMap.put("message", "세션 비밀번호가 DB에 반영되었습니다.");
+                        } else {
+                            responseMap.put("message", "비밀번호 DB 반영 실패");
+                        }
+                    } else {
+                        responseMap.put("message", "세션에 저장된 비밀번호가 없습니다.");
+                    }
+                }
+                // 기존 birth 업데이트
+                else if ("updateBirthdate".equals(actionType) && birthdate != null && !birthdate.trim().isEmpty()) {
                     int result = MemberDAO.updateBirthdate(userId, birthdate);
                     if (result > 0) {
                         if (userVO instanceof MemberVO) {
@@ -62,8 +93,10 @@ public class UserInfoAction implements Action {
                     } else {
                         responseMap.put("message", "생년월일 업데이트에 실패했습니다.");
                     }
-                } else if ("updatePhone".equals(actionType) && phone != null && !phone.trim().isEmpty()) {
-                    int result = MemberDAO.updatePhone(userId, phone); // MemberDAO에 updatePhone 메서드 호출
+                }
+                // 기존 phone 업데이트
+                else if ("updatePhone".equals(actionType) && phone != null && !phone.trim().isEmpty()) {
+                    int result = MemberDAO.updatePhone(userId, phone);
                     if (result > 0) {
                         if (userVO instanceof MemberVO) {
                             ((MemberVO) userVO).setPhone(phone);

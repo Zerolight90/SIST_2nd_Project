@@ -11,26 +11,26 @@
 <body>
 <h2 class="content-title">나의 무비스토리</h2>
 
-<%-- 탭 네비게이션: a 태그의 href를 직접 지정하여 페이지를 새로고침하는 방식으로 변경 --%>
+<%-- 탭 네비게이션 --%>
 <nav class="tab-nav">
-  <a href="Controller?type=myMovieStory&tabName=review" class="${currentTab == 'review' ? 'active' : ''}">관람평</a>
-  <a href="Controller?type=myMovieStory&tabName=watched" class="${currentTab == 'watched' ? 'active' : ''}">본 영화</a>
-  <a href="Controller?type=myMovieStory&tabName=wished" class="${currentTab == 'wished' ? 'active' : ''}">위시리스트</a>
+  <a href="${cp}/Controller?type=myMovieStory&tabName=review" class="${currentTab == 'review' ? 'active' : ''}">관람평</a>
+  <a href="${cp}/Controller?type=myMovieStory&tabName=watched" class="${currentTab == 'watched' ? 'active' : ''}">본 영화</a>
+  <a href="${cp}/Controller?type=myMovieStory&tabName=wished" class="${currentTab == 'wished' ? 'active' : ''}">위시리스트</a>
 </nav>
 
 <div class="tab-content">
-  <%-- 1. 관람평 탭 --%>
+  <%-- ==================== 1. 관람평 탭 ==================== --%>
   <c:if test="${currentTab == 'review'}">
     <div class="tab-pane active">
       <c:choose>
         <c:when test="${!empty reviewList}">
           <c:forEach var="review" items="${reviewList}">
             <div class="review-item">
-                <%-- 포스터 경로는 외부 URL과 내부 경로를 모두 고려해야 함 --%>
+                <%-- 포스터 경로 처리 --%>
               <c:set var="posterUrlResolved">
                 <c:choose>
                   <c:when test="${review.posterUrl.startsWith('http')}">${review.posterUrl}</c:when>
-                  <c:otherwise>${cp}/images/posters/${review.posterUrl}</c:otherwise>
+                  <c:otherwise>${cp}${review.posterUrl}</c:otherwise>
                 </c:choose>
               </c:set>
               <img src="${posterUrlResolved}" alt="${review.title}" style="width:80px; height:auto; object-fit:cover;"/>
@@ -49,7 +49,7 @@
     </div>
   </c:if>
 
-  <%-- 2. 본 영화 탭 --%>
+  <%-- ==================== 2. 본 영화 탭 ==================== --%>
   <c:if test="${currentTab == 'watched'}">
     <div class="tab-pane active">
       <div class="movie-grid">
@@ -57,11 +57,12 @@
           <c:when test="${!empty movieList}">
             <c:forEach var="movie" items="${movieList}">
               <div class="movie-card">
-                <a href="Controller?type=movieDetail&mIdx=${movie.mIdx}">
+                <a href="${cp}/Controller?type=movieDetail&mIdx=${movie.mIdx}">
+                    <%-- 포스터 경로 처리 --%>
                   <c:set var="posterUrlResolved">
                     <c:choose>
                       <c:when test="${movie.posterUrl.startsWith('http')}">${movie.posterUrl}</c:when>
-                      <c:otherwise>${cp}${movie.posterUrl}</c:otherwise> <%-- allmovie와 경로 통일 --%>
+                      <c:otherwise>${cp}${movie.posterUrl}</c:otherwise>
                     </c:choose>
                   </c:set>
                   <img src="${posterUrlResolved}" alt="${movie.title}">
@@ -78,21 +79,21 @@
       </div>
         <%-- 페이징 UI --%>
       <div class="pagination">
-        <c:if test="${!empty paging && paging.startPage > 1}"><a href="Controller?type=myMovieStory&tabName=${currentTab}&cPage=${paging.startPage - 1}">&lt;</a></c:if>
+        <c:if test="${!empty paging && paging.startPage > 1}"><a href="${cp}/Controller?type=myMovieStory&tabName=${currentTab}&cPage=${paging.startPage - 1}">&lt;</a></c:if>
         <c:if test="${!empty paging}">
           <c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="p">
             <c:choose>
               <c:when test="${p == paging.nowPage}"><strong>${p}</strong></c:when>
-              <c:otherwise><a href="Controller?type=myMovieStory&tabName=${currentTab}&cPage=${p}">${p}</a></c:otherwise>
+              <c:otherwise><a href="${cp}/Controller?type=myMovieStory&tabName=${currentTab}&cPage=${p}">${p}</a></c:otherwise>
             </c:choose>
           </c:forEach>
         </c:if>
-        <c:if test="${!empty paging && paging.endPage < paging.totalPage}"><a href="Controller?type=myMovieStory&tabName=${currentTab}&cPage=${paging.endPage + 1}">&gt;</a></c:if>
+        <c:if test="${!empty paging && paging.endPage < paging.totalPage}"><a href="${cp}/Controller?type=myMovieStory&tabName=${currentTab}&cPage=${paging.endPage + 1}">&gt;</a></c:if>
       </div>
     </div>
   </c:if>
 
-  <%-- 3. 위시리스트 탭 --%>
+  <%-- ==================== 3. 위시리스트 탭 ==================== --%>
   <c:if test="${currentTab == 'wished'}">
     <div class="tab-pane active">
       <div class="movie-grid">
@@ -100,17 +101,18 @@
           <c:when test="${!empty movieList}">
             <c:forEach var="movie" items="${movieList}">
               <div class="movie-card">
-                <a href="Controller?type=movieDetail&mIdx=${movie.mIdx}">
+                <a href="${cp}/Controller?type=movieDetail&mIdx=${movie.mIdx}">
+                    <%-- 포스터 경로 처리 --%>
                   <c:set var="posterUrlResolved">
                     <c:choose>
                       <c:when test="${movie.posterUrl.startsWith('http')}">${movie.posterUrl}</c:when>
-                      <c:otherwise>${cp}${movie.posterUrl}</c:otherwise> <%-- allmovie와 경로 통일 --%>
+                      <c:otherwise>${cp}${movie.posterUrl}</c:otherwise>
                     </c:choose>
                   </c:set>
                   <img src="${posterUrlResolved}" alt="${movie.title}">
                 </a>
                 <h4>${movie.title}</h4>
-                <a href="Controller?type=booking&mIdx=${movie.mIdx}" class="mybtn mybtn-primary">예매</a>
+                <a href="${cp}/Controller?type=booking&mIdx=${movie.mIdx}" class="mybtn mybtn-primary">예매</a>
               </div>
             </c:forEach>
           </c:when>
@@ -121,21 +123,20 @@
       </div>
         <%-- 페이징 UI --%>
       <div class="pagination">
-        <c:if test="${!empty paging && paging.startPage > 1}"><a href="Controller?type=myMovieStory&tabName=${currentTab}&cPage=${paging.startPage - 1}">&lt;</a></c:if>
+        <c:if test="${!empty paging && paging.startPage > 1}"><a href="${cp}/Controller?type=myMovieStory&tabName=${currentTab}&cPage=${paging.startPage - 1}">&lt;</a></c:if>
         <c:if test="${!empty paging}">
           <c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="p">
             <c:choose>
               <c:when test="${p == paging.nowPage}"><strong>${p}</strong></c:when>
-              <c:otherwise><a href="Controller?type=myMovieStory&tabName=${currentTab}&cPage=${p}">${p}</a></c:otherwise>
+              <c:otherwise><a href="${cp}/Controller?type=myMovieStory&tabName=${currentTab}&cPage=${p}">${p}</a></c:otherwise>
             </c:choose>
           </c:forEach>
         </c:if>
-        <c:if test="${!empty paging && paging.endPage < paging.totalPage}"><a href="Controller?type=myMovieStory&tabName=${currentTab}&cPage=${paging.endPage + 1}">&gt;</a></c:if>
+        <c:if test="${!empty paging && paging.endPage < paging.totalPage}"><a href="${cp}/Controller?type=myMovieStory&tabName=${currentTab}&cPage=${paging.endPage + 1}">&gt;</a></c:if>
       </div>
     </div>
   </c:if>
 </div>
-
 
 </body>
 </html>
