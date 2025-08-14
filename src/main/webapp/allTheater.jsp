@@ -1,9 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
   <title>SIST BOX 쌍용박스</title>
+  <link rel="stylesheet" href="./css/booking.css">
   <link rel="stylesheet" href="./css/sub/sub_page_style.css">
   <link rel="stylesheet" href="./css/reset.css">
   <link rel="stylesheet" href="./css/tab.css">
@@ -168,8 +171,24 @@
             </div>
 
             <!--타임테이블-->
-            <div>
-
+            <div class="booking-date">
+              <div class="date-container">
+                <c:forEach var="dvo" items="${requestScope.dvo_list}" varStatus="i">
+                  <div class="date-item">
+                    <c:set var="dayStr" value="${fn:substring(dvo.locDate, 8, 10)}" />
+                    <c:choose>
+                      <c:when test="${fn:startsWith(dayStr, '0')}"> <!-- 0으로 시작하면 마지막 글자만 보여주고 -->
+                        <button type="button" class="btn" onclick="inDate(this.nextElementSibling.value)">${fn:substring(dayStr, 1, 2)}&nbsp;${fn:substring(dvo.dow, 0, 1)}</button>
+                        <input type="hidden" value="${dvo.locDate}"/>
+                      </c:when>
+                      <c:otherwise>  <!-- 0으로 시작하지 않으면 모두 보여준다 -->
+                        <button type="button" class="btn" onclick="inDate(this.nextElementSibling.value)">${dayStr}&nbsp;${fn:substring(dvo.dow, 0, 1)}</button>
+                        <input type="hidden" value="${dvo.locDate}"/>
+                      </c:otherwise>
+                    </c:choose>
+                  </div>
+                </c:forEach>
+              </div>
             </div>
 
 
@@ -177,11 +196,16 @@
 
             <!--영화정보, 관란등급안내-->
             <!--영화 정보-->
+            <c:set var="timeAr" value="${requestScope.mappingTime}"/>
+            <c:forEach var="timeVO" items="${timeAr}" varStatus="i">
+              <c:set var="screenVO" value="${timevo.s_list[0]}"/>
+              <c:set var="movieVO" value="${timevo.m_list[0]}"/>
+              <c:set var="theaterVO" value="${timevo.t_list[0]}"/>
             <div class="show-movie-list">
               <div class="show-movie">
                 <div class="title">
-                  <p class="movie-grade age-12">12</p>
-                  <span class="movie-title">판타스틱4:새로운 출발</span>
+                  <p class="movie-grade age-12">${movieVO.age}</p>
+                  <span class="movie-title">${movieVO.name}</span>
                   <p class="information">
                     <span class="show-status">상영중</span>
                     <span class="show-total-time">/상영시간 114분</span>
@@ -191,22 +215,23 @@
                 <div class="show-theater-info">
                   <div class="theater-info">
                     <div class="theater-type">
-                      <p class="theater-name">컴포트 101호 [Laser]</p>
-                      <p class="chair">총 154석</p>
+                      <p class="theater-name">${theaterVO.tName}</p>
+                      <p class="chair">총 ${screenVO.sCount}석</p>
                     </div>
                     <div class="theater-time">
-                      <div class="theater-type-area">2D</div>
-                      <div class="theater-time-box">
-                        <!-- div로 표현하는 방식 -->
-                        <div class="time-btn"><span>17:15</span><em>102석</em></div>
-                        <div class="time-btn"><span>19:40</span><em>68석</em></div>
-                        <div class="time-btn"><span>22:05</span><em>105석</em></div>
-                      </div>
+                      <div class="theater-type-area">${screenVO.screenCode}</div>
+<%--                      <div class="theater-time-box">--%>
+<%--                        <!-- div로 표현하는 방식 -->--%>
+<%--                        <div class="time-btn"><span>17:15</span><em>102석</em></div>--%>
+<%--                        <div class="time-btn"><span>19:40</span><em>68석</em></div>--%>
+<%--                        <div class="time-btn"><span>22:05</span><em>105석</em></div>--%>
+<%--                      </div>--%>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+            </c:forEach>
 
             <div class="box-info mtb70">
               <ul class="floor-info">

@@ -34,7 +34,7 @@ public class TimeTableDAO {
         return ar;
     }
 
-    // 영화 시간표 반환
+    // 사용자가 선택한 조건을 바탕으로 영화 시간표 반환
     public static TimeTableVO[] getTimeList(String date, String mIdx, String tIdx){
         List<TimeTableVO> list = null;
 
@@ -99,5 +99,15 @@ public class TimeTableDAO {
         TimeTableVO tvo = ss.selectOne("timeTable.select", tvoIdx);
         ss.close();
         return tvo;
+    }
+
+    public static TimeTableVO[] getTimeTableSearch(String tIdx){
+        TimeTableVO[] ar = null;
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<TimeTableVO> list = ss.selectList("timeTable.theaterTab", tIdx);
+        ar = new TimeTableVO[list.size()];
+        list.toArray(ar);
+        ss.close();
+        return ar;
     }
 }

@@ -36,6 +36,10 @@ public class SeatAction implements Action{
         ScreenTypeVO typeVO = null;
         typeVO = ScreenTypeDAO.getPrice(codeIdx);
 
+        // 예약이 된 좌석들은 화면에서 비활성화 해야한다.
+        SeatVO[] seatVO = null;
+        seatVO = SeatDAO.reserveSeat(sIdx);
+
         // 사용자가 선택한 영화를 저장
         request.setAttribute("time", time); // 상영시간 vo
         request.setAttribute("theater", theater); // theaterVO
@@ -43,6 +47,7 @@ public class SeatAction implements Action{
         request.setAttribute("price", price); // priceVO (가격정보)
         request.setAttribute("screen", screen); // screenVO
         request.setAttribute("typeVO", typeVO); // 현재 상영관의 type을 가져옴
+        request.setAttribute("seatVO", seatVO); // 현재 상영관의 예약된 좌석들을 보냄
 
         System.out.println("SeatAction 수행완료");
 

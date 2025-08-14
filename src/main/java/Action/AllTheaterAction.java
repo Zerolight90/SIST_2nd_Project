@@ -1,10 +1,7 @@
 package Action;
 
-import mybatis.dao.TheatherDAO;
-import mybatis.dao.TimeTableDAO;
-import mybatis.vo.LocalDateVO;
-import mybatis.vo.TheaterVO;
-import mybatis.vo.TimeTableVO;
+import mybatis.dao.*;
+import mybatis.vo.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,14 +11,12 @@ import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
-public class BookingAction implements Action{
+public class AllTheaterAction implements Action{
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        // booking.jsp로 이동하기 전 날짜를 구해 table에 뿌려주기 위해 수행하는 부분
-
-        // 상단의 날짜를 보여주기 위한 값을 구하는 영역-------------------------------------
+        // 메뉴바에서 [극장] 클릭 시 수행하는 Action
+        // ------상영시간표를 보여주기 위한 탭의 정보를 던지기 위한 영역 ------------------------
         LocalDate now = LocalDate.now();
         LocalDate f_date = now.plusDays(12);
 
@@ -40,18 +35,29 @@ public class BookingAction implements Action{
         }
 
         request.setAttribute("dvo_list", dvo_list);
-        //------------------------------------------------------------------------------
+        // --------------------------------------------------------------------------------
 
         // 현재 상영중이거나 상영예정인 영화들을 보여주기 위한 값을 구하는 영역-----------------
         TimeTableVO[] timeArr = TimeTableDAO.getList();
         request.setAttribute("timeArr", timeArr);
         //------------------------------------------------------------------------------
 
-        // 상영관들의 정보를 모두 보여주기 위한 값을 구하는 영역------------------------------
+        // 상영관들의 이름를 모두 보여주기 위한 값을 구하는 영역------------------------------
         TheaterVO[] theaterArr = TheatherDAO.getList();
         request.setAttribute("theaterArr", theaterArr);
         //------------------------------------------------------------------------------
+        
+        // 사용자가 선택한 영화관에서 상영중인 영화의 정보만 가져와야함
+//        String tIdx = request.getParameter("tIdx");
+        TimeTableVO[] mappingTime = null;
 
-        return "booking.jsp";
+        mappingTime = TimeTableDAO.getTimeTableSearch("1");
+
+        // 영화관에 따른 상영중인 영화들 전달
+        request.setAttribute("mappingTime", mappingTime);
+
+        System.out.println("AllTheaterAction 수행완료");
+
+        return "allTheater.jsp";
     }
 }

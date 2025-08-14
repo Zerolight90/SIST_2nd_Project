@@ -35,7 +35,7 @@
                 <c:set var="dayStr" value="${fn:substring(dvo.locDate, 8, 10)}" />
                 <c:choose>
                   <c:when test="${fn:startsWith(dayStr, '0')}"> <!-- 0으로 시작하면 마지막 글자만 보여주고 -->
-                    <button type="button" class="btn" onclick="inDate(this.nextElementSibling.value)">${fn:substring(dayStr, 1, 2)}&nbsp;${dvo.dow}</button>
+                    <button type="button" class="btn" onclick="inDate(this.nextElementSibling.value)">${fn:substring(dayStr, 1, 2)}&nbsp;${fn:substring(dvo.dow, 0, 1)}</button>
                     <input type="hidden" value="${dvo.locDate}"/>
                   </c:when>
                   <c:otherwise>  <!-- 0으로 시작하지 않으면 모두 보여준다 -->
