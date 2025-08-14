@@ -211,7 +211,7 @@
           <option value="goods">상품 구매</option>
         </select>
         <select name="payment_field">
-          <option value="all">검색 대상 선택</option>
+          <option value="">검색 대상 선택</option>
           <option value="type">결제 종류</option>
           <option value="method">결제 방식</option>
           <option value="status">결제 상태</option>

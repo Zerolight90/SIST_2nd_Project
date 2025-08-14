@@ -187,7 +187,7 @@
 
           <c:forEach var="vo" items="${requestScope.tar}" varStatus="status">
             <li style="width: 243px; height: 433px; margin-right: 25px; margin-left: 10px; border: 1px solid #ebebeb; border-radius: 10px">
-              <a href="">
+              <a href="Controller?type=detailStore&prodIdx=${vo.prodIdx}">
                 <div class="prodTop">
                   <img src="../images/${vo.prodImg}" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
                 </div>

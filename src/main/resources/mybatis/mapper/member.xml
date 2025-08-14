@@ -59,7 +59,7 @@
         WHERE id = #{k_id}
     </select>
 
-    <!-- 모든 영화를 불러오는 쿼리 (종민) -->
+    <!-- 모든 유저를 불러오는 쿼리 (종민) -->
     <select id="getMemInfo" resultType="mybatis.vo.MemberVO">
         select * from web_movie.user
     </select>

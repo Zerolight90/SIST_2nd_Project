@@ -14,6 +14,39 @@
         where adminId = #{id} and adminPassword = #{pw}
     </select>
 
+    <select id="adminListSearch" resultType="mybatis.vo.AdminVO" parameterType="Map">
+        select * from admin
+
+        <where>
+            <if test="admin_status != null and admin_status != ''">
+                <choose>
+                    <when test="admin_status == 'active'">
+                        AND adminstatus = 1
+                    </when>
+                    <when test="admin_status == 'dormant'">
+                        AND adminstatus = 0
+                    </when>
+                </choose>
+            </if>
+
+            <if test="admin_level != null and admin_level != ''">
+                <choose>
+                    <when test="admin_level == 'manager'">
+                        AND adminLevel = "Manager"
+                    </when>
+                    <when test="admin_level == 'staff'">
+                        AND adminLevel = "Staff"
+                    </when>
+                </choose>
+            </if>
+
+            <if test="search_keyword != null and search_keyword != '' and search_field == 'id'">
+                AND adminId LIKE CONCAT ('%', #{search_keyword}, '%')
+            </if>
+        </where>
+
+    </select>
+
     <select id="salesByTheater" resultType="mybatis.vo.RevenueVO">
         SELECT
         t.tName AS theaterName,

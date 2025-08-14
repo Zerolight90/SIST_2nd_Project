@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
   <title>Title</title>
@@ -193,16 +194,16 @@
     <!-- 테이블 상단 바 영역 -->
     <div class="control-bar">
       <div class="total-count">
-        전체 <strong>130</strong>건
+        전체 <strong>${fn:length(requestScope.ar)}</strong>건
       </div>
-      <form class="search-form" action="#" method="get">
-        <select name="user_level">
+      <form class="search-form" action="#" method="post">
+        <select name="thsc_level">
           <option value="">검색 유형 선택</option>
-          <option value="basic">극장 이름</option>
-          <option value="vip">스크린 유형</option>
+          <option value="theaterName">극장 이름</option>
+          <option value="screenType">스크린 유형</option>
         </select>
         <input type="text" name="search_keyword" placeholder="검색어를 입력해주세요.">
-        <button type="submit" class="btn btn-search">검색</button>
+        <button type="button" class="btn btn-search">검색</button>
         <button type="button" class="btn btn-reset">초기화</button>
       </form>
     </div>
@@ -264,5 +265,33 @@
     </nav>
   </div>
 </div>
+
+<script>
+  $(function () {
+    $(".btn-search").on('click', function () {
+      let formdata = $(".search-form").serialize();
+
+      $.ajax({
+        url: "Controller?type=thscSearch",
+        type: "GET",
+        data: formdata,
+        dataType: "html",
+        success: function (response) {
+          $(".member-table tbody").html(response);
+        },
+        error: function () {
+          alert("검색 중 오류가 발생했습니다")
+        }
+      })
+    })
+
+    // 초기화 버튼을 눌렀을 때 select 태그 등 지정된 값 전부 초기화
+    $('.btn-reset').on('click', function() {
+      $('.search-form')[0].reset();
+      // location.reload(); 또는 전체 목록 출력?
+    });
+  })
+</script>
+
 </body>
 </html>

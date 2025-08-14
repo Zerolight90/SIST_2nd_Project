@@ -5,6 +5,7 @@ import mybatis.vo.TheaterVO;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
+import java.util.Map;
 
 public class TheatherDAO {
     // 영화관 목록 반환
@@ -38,6 +39,18 @@ public class TheatherDAO {
 
         SqlSession ss = FactoryService.getFactory().openSession();
         List<TheaterVO> list = ss.selectList("thsc.getThscInfo");
+        ar = new TheaterVO[list.size()];
+        list.toArray(ar);
+
+        ss.close();
+        return ar;
+    }
+
+    public static TheaterVO[] getThscSearch(Map<String, String> map){
+        TheaterVO[] ar = null;
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<TheaterVO> list = ss.selectList("thsc.getThscSearch", map);
         ar = new TheaterVO[list.size()];
         list.toArray(ar);
 

@@ -3,6 +3,15 @@ package mybatis.vo;
 public class LogVO {
 
     private String logIdx, adminIdx, logType, logTarget, logInfo, logPerValue, logCurValue, logDate;
+    private String adminId;
+
+    public String getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(String adminId) {
+        this.adminId = adminId;
+    }
 
     public String getLogIdx() {
         return logIdx;

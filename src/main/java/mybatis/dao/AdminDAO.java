@@ -32,6 +32,18 @@ public class AdminDAO {
         return vo;
     }
 
+    public static AdminVO[] adminListSearch(Map<String, String> map){
+        AdminVO[] ar = null;
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<AdminVO> list = ss.selectList("admin.adminListSearch", map);
+        ar = new AdminVO[list.size()];
+        list.toArray(ar);
+
+        ss.close();
+        return ar;
+    }
+
     // 극장별 총 매출을 조회하는 메소드
     public static List<RevenueVO> getSalesByTheater() {
         SqlSession ss = FactoryService.getFactory().openSession();
