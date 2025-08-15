@@ -108,7 +108,8 @@
         SELECT * FROM user WHERE userIdx = #{userIdx}
     </select>
 
-    <!-- 비밀번호 변경 로직 -->
+
+
     <update id="updatePassword" parameterType="Map">
         UPDATE user set
         pw = #{password}
@@ -116,11 +117,13 @@
     </update>
 
     <!-- 회원탈퇴 로직 -->
-    <update id="goodbye" parameterType="int">
+    <update id="goodbye" parameterType="string">
         UPDATE user set
-        id = #{m_id}
-        WHERE status = 1
+        status = 1
+        WHERE id = #{id} AND status = 0
     </update>
+
+
 
 
 </mapper>

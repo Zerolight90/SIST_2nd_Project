@@ -87,7 +87,7 @@
         reason: $("input:checked").val() || ""
       };
       $.ajax({
-        url: "${cp}/memberRemoveAction.jsp",
+        url: "${cp}/Controller?type=goodbye", // 컨텍스트 경로를 포함한 절대 경로 사용
         type: "POST",
         data: data,
         success: function(res){
@@ -98,9 +98,9 @@
               alert("탈퇴가 완료되었습니다.");
               // 세션 만료 및 메인 리다이렉트 권장
               if(window.parent && window.parent.location){
-                window.parent.location.href = "${cp}/Controller?type=home";
+                window.parent.location.href = "${cp}/Controller?type=index";
               } else {
-                location.href = "${cp}/Controller?type=home";
+                location.href = "${cp}/Controller?type=index";
               }
             } else {
               alert(obj.msg || "탈퇴에 실패했습니다. 비밀번호를 확인해주세요.");

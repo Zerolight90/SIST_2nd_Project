@@ -5,6 +5,7 @@ import mybatis.vo.KakaoVO;
 import mybatis.vo.MemberVO;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -197,6 +198,21 @@ public class MemberDAO {
 
         ss.close();
     }
+
+    // 회원탈퇴
+    public static int goodbye(String m_id){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        try {
+            Map<String,String> map = new HashMap<>();
+            map.put("id", m_id); // SQL 매퍼의 #{id}와 일치하도록 키 설정
+            int cnt = ss.update("member.goodbye", map); // 파라미터 p를 전달
+            if (cnt > 0) ss.commit(); else ss.rollback();
+            return cnt;
+        } finally {
+            ss.close();
+        }
+    }
+
 
 
 }

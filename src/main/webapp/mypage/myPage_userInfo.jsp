@@ -566,10 +566,10 @@
       if (!confirm('정말로 회원 탈퇴하시겠습니까? 탈퇴 시 복구가 불가능합니다.')) return;
       // 부모 페이지(마이페이지)의 mainContent에 회원탈퇴 안내 페이지 로드
       if (window.parent && window.parent.$ && window.parent.$('#mainContent').length) {
-        window.parent.$('#mainContent').load('${cp}/mypage/memberDeleteNotice.jsp');
+        window.parent.$('#mainContent').load('${cp}/mypage/memberDelete.jsp');
       } else {
         // fallback: 현재 창에서 직접 로드
-        $('#mainContent').load('${cp}/mypage/memberDeleteNotice.jsp');
+        $('#mainContent').load('${cp}/mypage/memberDelete.jsp');
       }
     });
 
