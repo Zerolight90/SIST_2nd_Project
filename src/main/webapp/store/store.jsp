@@ -215,13 +215,13 @@
 
     <div id="tabCont1_3" class="tabCont" style="display:none; width: 1100px">
       <div>
-        <ul style="display: flex">
+        <ul style="display: flex; flex-wrap: wrap">
 
           <c:forEach var="vo" items="${requestScope.ar}" varStatus="status">
-          <li style="width: 243px; height: 433px; margin-right: 25px; margin-left: 10px; border: 1px solid #ebebeb; border-radius: 10px">
+          <li style="width: 240px; height: 433px; margin-right: 25px; margin-left: 10px; margin-bottom: 20px; border: 1px solid #ebebeb; border-radius: 10px">
             <a href="Controller?type=detailStore&prodIdx=${vo.prodIdx}">
               <div class="prodTop">
-                <img src="../images/${vo.prodImg}" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
+                <img src="../images/${vo.prodImg}" alt="" style="width: 240px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
               </div>
               <div class="prodBottom">
                 <div style="padding-top: 15px">

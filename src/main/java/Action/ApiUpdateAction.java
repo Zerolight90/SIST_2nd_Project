@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -26,6 +27,12 @@ public class ApiUpdateAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            request.setCharacterEncoding("UTF-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         Connection conn = null;
         PreparedStatement ps = null;
         int successCount = 0;
@@ -38,7 +45,7 @@ public class ApiUpdateAction implements Action {
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             ps = conn.prepareStatement(sql);
 
-            for (int page = 1; page <= 6; page++) { // 페이지 수를 조절하여 가져올 데이터 양 결정
+            for (int page = 1; page <= 4; page++) { // 페이지 수를 조절하여 가져올 데이터 양 결정
                 String listApiUrl = "https://api.themoviedb.org/3/movie/now_playing?language=ko-KR&region=KR&page=" + page;
                 JsonArray movieList = getMovieListFromServer(listApiUrl);
                 if (movieList == null) continue;
@@ -116,7 +123,7 @@ public class ApiUpdateAction implements Action {
         conn.connect();
 
         if (conn.getResponseCode() == 200) {
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
             String line;
             StringBuilder sb = new StringBuilder();
             while((line = br.readLine()) != null) {
