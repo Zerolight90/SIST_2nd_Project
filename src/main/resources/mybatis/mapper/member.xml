@@ -123,7 +123,35 @@
         WHERE id = #{id} AND status = 0
     </update>
 
+    <!-- 네이버 신규 회원 등록 -->
+     <insert id="addNaverUser" parameterType="mybatis.vo.NaverVO">
+        INSERT INTO web_movie.user
+        (id, pw, birth, name, gender, phone, email, totalPoints, status, joinDate, joinPath)
+        VALUES
+        (#{n_id}, #{pw}, #{n_birthday}, #{n_name}, #{n_gender}, #{n_Phone}, #{n_email}, 0, 0, DATE(NOW()), 'Naver')
+    </insert>
 
 
+    <!-- 네이버 ID 중복 확인 -->
+    <select id="checkNaverId" parameterType="String" resultType="mybatis.vo.NaverVO">
+        select * FROM web_movie.user
+        WHERE id = #{n_id}
+    </select>
+
+    <!-- 네이버 ID로 MemberVO 조회 -->
+    <select id="findByNaverId" parameterType="String" resultType="mybatis.vo.MemberVO">
+        select * FROM web_movie.user
+        WHERE id = #{n_id}
+    </select>
+
+    <!-- 네이버 사용자 정보 업데이트 (전화번호/생년 등) -->
+    <update id="updateNaverUser" parameterType="map">
+        UPDATE web_movie.user
+        SET
+        phone = #{phone},
+        birth = #{birth},
+        birthYear = #{birthYear}
+        WHERE id = #{n_id}
+    </update>
 
 </mapper>

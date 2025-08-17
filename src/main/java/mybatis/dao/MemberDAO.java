@@ -213,11 +213,57 @@ public class MemberDAO {
         }
     }
 
+    // 네이버 ID 중복 확인
+    public static boolean checkNaverId(String n_id) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        try {
+            List<?> list = ss.selectList("member.checkNaverId", n_id);
+            return !list.isEmpty();
+        } finally {
+            ss.close();
+        }
+    }
+
+    // 네이버 회원 등록
+    public static int naverRegistry(mybatis.vo.NaverVO nvo) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        try {
+            int cnt = ss.insert("member.addNaverUser", nvo);
+            if (cnt > 0) ss.commit(); else ss.rollback();
+            return cnt;
+        } finally {
+            ss.close();
+        }
+    }
+
+    // 네이버 ID로 MemberVO 조회 (서비스 회원 정보 확인용)
+    public static MemberVO findByNaverId(String n_id) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        try {
+            MemberVO mvo = ss.selectOne("member.findByNaverId", n_id);
+            return mvo;
+        } finally {
+            ss.close();
+        }
+    }
+
+    // (선택) 네이버 사용자 전화번호/생년 업데이트
+    public static int updateNaverUser(String n_id, String phone, String birth, String birthYear) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        try {
+            Map<String,String> params = new HashMap<>();
+            params.put("n_id", n_id);
+            params.put("phone", phone);
+            params.put("birth", birth);
+            params.put("birthYear", birthYear);
+            int cnt = ss.update("member.updateNaverUser", params);
+            if (cnt > 0) ss.commit(); else ss.rollback();
+            return cnt;
+        } finally {
+            ss.close();
+        }
+    }
+
 
 
 }
-
-
-
-
-
