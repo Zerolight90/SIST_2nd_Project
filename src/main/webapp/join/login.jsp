@@ -72,6 +72,11 @@
                         회원가입
                     </a>
                 </div>
+
+                <div class="non_member">
+                    <a href="#">비회원의로 로그인 하기</a>
+                </div>
+
                 <!-- SNS 로그인 섹션 -->
                 <div class="sns-login-section">
                     <p class="sns-login-title">- 또는 SNS 계정으로 로그인 -</p>
@@ -85,11 +90,11 @@
                             <img src="../images/sns/sns_naver_logo.png" alt="네이버 로그인"/>
                         </a>
 
-
-
                     </div>
 
                 </div>
+
+
 
             </form>
         </div>
