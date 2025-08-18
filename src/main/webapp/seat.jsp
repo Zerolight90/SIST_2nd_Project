@@ -226,7 +226,7 @@
         console.log(document.ff.seatInfo.value)
         console.log(document.ff.amount.value)
 
-        // document.ff.submit();
+        document.ff.submit();
     }
 
     // 인원 수 변경

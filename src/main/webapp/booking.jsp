@@ -10,11 +10,12 @@
   <link rel="stylesheet" href="./css/sub/sub_page_style.css">
   <link rel="stylesheet" href="./css/reset.css">
   <link rel="stylesheet" href="./css/booking.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
   <link rel="icon" href="./images/favicon.png">
 </head>
+
 <header>
   <jsp:include page="common/sub_menu.jsp"/>
 </header>
@@ -34,12 +35,12 @@
               <div class="date-item">
                 <c:set var="dayStr" value="${fn:substring(dvo.locDate, 8, 10)}" />
                 <c:choose>
-                  <c:when test="${fn:startsWith(dayStr, '0')}"> <!-- 0으로 시작하면 마지막 글자만 보여주고 -->
-                    <button type="button" class="btn" onclick="inDate(this.nextElementSibling.value)">${fn:substring(dayStr, 1, 2)}&nbsp;${fn:substring(dvo.dow, 0, 1)}</button>
+                  <c:when test="${fn:startsWith(dayStr, '0')}">
+                    <button type="button" class="btn date-btn" onclick="selectDate(this, '${dvo.locDate}')">${fn:substring(dayStr, 1, 2)}&nbsp;${fn:substring(dvo.dow, 0, 1)}</button>
                     <input type="hidden" value="${dvo.locDate}"/>
                   </c:when>
-                  <c:otherwise>  <!-- 0으로 시작하지 않으면 모두 보여준다 -->
-                    <button type="button" class="btn" onclick="inDate(this.nextElementSibling.value)">${dayStr}&nbsp;${fn:substring(dvo.dow, 0, 1)}</button>
+                  <c:otherwise>
+                    <button type="button" class="btn date-btn" onclick="selectDate(this, '${dvo.locDate}')">${dayStr}&nbsp;${fn:substring(dvo.dow, 0, 1)}</button>
                     <input type="hidden" value="${dvo.locDate}"/>
                   </c:otherwise>
                 </c:choose>
@@ -57,23 +58,21 @@
               <div class="main-in">
                 <div class="ec-base-tab typeLight eTab">
                   <ul class="menu">
-                    <li class="selected"><a href="#" onclick="switchTab(this, 'movie-all')">전체</a></li>
-                    <li><a href="#" onclick="switchTab(this, 'movie-curation')">큐레이션</a></li>
+                    <li class="selected"><a>영화목록</a></li>
                   </ul>
                   <c:set var="timeVO" value="${requestScope.timeArr}" scope="page"/>
-                    <c:forEach var="tvo" items="${timeVO}" varStatus="i">
-                      <c:if test="${tvo.m_list != null && fn:length(tvo.m_list) > 0}">
-                        <div class="movie_all">
-                        <c:forEach var="movieVO" items="${tvo.m_list}" varStatus="i">
-                            <img src="/images/${movieVO.age}.png"/>
-                            <button type="button" onclick="inMovie(this.nextElementSibling.value)">&nbsp;&nbsp;${movieVO.name}</button>
-                            <input type="hidden" value="${movieVO.mIdx}"/>
+                  <c:forEach var="tvo" items="${timeVO}" varStatus="i">
+                    <c:if test="${tvo.m_list != null && fn:length(tvo.m_list) > 0}">
+                      <div class="movie_all">
+                        <c:forEach var="movieVO" items="${tvo.m_list}" varStatus="j">
+                          <img src="/images/${movieVO.age}.png"/>
+                          <button type="button" class="movie-btn" onclick="selectMovie(this, '${movieVO.mIdx}')">&nbsp;&nbsp;${movieVO.name}</button>
+                          <input type="hidden" value="${movieVO.mIdx}"/>
                           <hr/>
                         </c:forEach>
-                        </div>
-                      </c:if>
-                    </c:forEach>
-
+                      </div>
+                    </c:if>
+                  </c:forEach>
                 </div>
               </div>
             </div>
@@ -87,18 +86,17 @@
               <div class="main-in">
                 <div class="ec-base-tab typeLight eTab">
                   <ul class="menu">
-                    <li class="selected"><a href="#" onclick="switchTab(this, 'theater-all')">전체</a></li>
-<%--                    <li><a href="#" onclick="switchTab(this, 'theater-special')">특별관</a></li>--%>
+                    <li class="selected"><a>지점</a></li>
                   </ul>
                   <c:set var="theaterArr" value="${requestScope.theaterArr}" scope="page"/>
 
                   <c:if test="${theaterArr != null && fn:length(theaterArr) > 0}">
-                  <div class="theater_all">
-                    <c:forEach var="theaterVO" items="${theaterArr}" varStatus="i">
-                      <button type="button" name="tIdx" id="tIdx${i.index}">&nbsp;&nbsp;${theaterVO.tName}</button>
-                      <input type="hidden" value="${theaterVO.tIdx}">
-                    </c:forEach>
-                  </div>
+                    <div class="theater_all">
+                      <c:forEach var="theaterVO" items="${theaterArr}" varStatus="i">
+                        <button type="button" name="tIdx" id="tIdx${i.index}" class="theater-btn" onclick="selectTheater(this, '${theaterVO.tIdx}')">&nbsp;&nbsp;${theaterVO.tName}</button>
+                        <input type="hidden" value="${theaterVO.tIdx}">
+                      </c:forEach>
+                    </div>
                   </c:if>
 
                 </div>
@@ -115,17 +113,17 @@
                 <
               </button>
               <div id="time-container">
-              <c:forEach var="date" begin="0" end="24" varStatus="i">
-                <button class="select-btn-style">
-                  <c:if test="${i.index < 10}">
-                    0${i.index}
-                  </c:if>
-                  <c:if test="${i.index >= 10}">
-                    ${i.index}
-                  </c:if>
-                </button>
-                <input type="hidden" value="${i.index}">
-              </c:forEach>
+                <c:forEach var="date" begin="0" end="24" varStatus="i">
+                  <button type="button" class="select-btn-style time-btn" onclick="selectTime(this, '${i.index}')">
+                    <c:if test="${i.index < 10}">
+                      0${i.index}
+                    </c:if>
+                    <c:if test="${i.index >= 10}">
+                      ${i.index}
+                    </c:if>
+                  </button>
+                  <input type="hidden" value="${i.index}">
+                </c:forEach>
               </div>
               <button type="button" onclick="right_btn_click()">
                 >
@@ -138,10 +136,10 @@
         </div>
       </div>
 
-        <!-- 광고영역 -->
-        <div class="book-add">
-          <span>광고배너</span>
-        </div>
+      <!-- 광고영역 -->
+      <div class="book-add">
+        <span>광고배너</span>
+      </div>
     </form>
   </div>
 </div>
@@ -155,7 +153,7 @@
 </div>
 
 <div class="booking-data" style="display: none">
-  <form action="Controller?type=seat" method="post" name="tvo_form">
+  <form action="Controller" method="post" name="tvo_form">
     <input type="hidden" name="tvoIdx" id="tvoIdx" value=""/>
   </form>
 </div>
@@ -195,50 +193,119 @@
     showRange(currentCenterIndex);
   });
 
+  // 사용자가 선택한 영화의 정보를 갖고 seat.jsp로 이동하는 함수
   function goSeat(tvoIdx){ // 상영예정 idx가 옴
     console.log(tvoIdx)
-    document.tvo_form.tvoIdx.value = tvoIdx;
+    <c:if test="${empty sessionScope.mvo && empty sessionScope.kvo}">
+    console.log("join")
+    document.tvo_form.type = "join";
     document.tvo_form.submit();
+    </c:if>
+    <c:if test="${not empty sessionScope.mvo}">
+    console.log("seat")
+    document.tvo_form.tvoIdx.value = tvoIdx;
+    document.tvo_form.type = "seat"; // 타입을 seat으로 지정
+    document.tvo_form.submit();
+    </c:if>
   }
 
-  function inDate(date) {
-    console.log(date);
-    document.ff.date.value = date;
-  }
+  // 날짜 선택 함수 (수정됨)
+  function selectDate(selectedBtn, date) {
+    console.log("선택된 날짜:", date);
 
-  function inMovie(movie) {
-    console.log(movie);
-    document.ff.mIdx.value = movie;
-  }
-
-  $(function (){
-    $("#theater-list .theater_all button").click(function (){
-      let v1 = $(this.nextElementSibling).val();
-      console.log(v1);
-      if(document.ff.date.value === ""){
-        alert("날짜를 선택하세요")
-        return;
-      }else if(document.ff.mIdx.value === ""){
-        alert("영화를 선택하세요")
-        return;
-      }
-      document.ff.tIdx.value = v1;
-      $.ajax({
-        url: "Controller?type=theaterShow",
-        type: "post",
-        data: {date: $("#form_date").val(), mIdx: $("#form_mIdx").val(), tIdx: $("#form_tIdx").val()}
-      }).done(function (res) {
-        console.log("응답 :"+res); <!-- res의 담긴 값을 보기 위한 console.log -->
-        <!-- res에는 all.jsp에서 반복문이 구동되어 쌓인 결과가 저장되고 -->
-        $("#date-box .date-box-in").html(res); <!-- res에 담긴 <tr>태그들을 "table.table>tbody"의 자리에 넣어준다 -->
-      }).fail(function(xhr, status, error) {
-        console.log("Ajax 실패!");
-        console.log("상태:", status);
-        console.log("에러:", error);
-        console.log("응답 텍스트:", xhr.responseText);
-      });
+    // 모든 날짜 버튼에서 selected-btn 클래스 제거
+    document.querySelectorAll('.date-btn').forEach(btn => {
+      btn.classList.remove('selected-btn');
     });
-  });
+
+    // 선택된 버튼에 selected-btn 클래스 추가
+    selectedBtn.classList.add('selected-btn');
+
+    // 폼에 값 설정
+    document.ff.date.value = date;
+
+    // 시간표 초기화 (날짜가 변경되면 기존 시간표를 지움)
+    document.querySelector("#date-box .date-box-in").innerHTML = "";
+  }
+
+  // 영화 선택 함수 (새로 추가됨)
+  function selectMovie(selectedBtn, movieIdx) {
+    console.log("선택된 영화:", movieIdx);
+
+    // 모든 영화 버튼에서 selected-btn 클래스 제거
+    document.querySelectorAll('.movie-btn').forEach(btn => {
+      btn.classList.remove('selected-btn');
+    });
+
+    // 선택된 버튼에 selected-btn 클래스 추가
+    selectedBtn.classList.add('selected-btn');
+
+    // 폼에 값 설정
+    document.ff.mIdx.value = movieIdx;
+
+    // 시간표 초기화 (영화가 변경되면 기존 시간표를 지움)
+    document.querySelector("#date-box .date-box-in").innerHTML = "";
+  }
+
+  // 극장 선택 함수 (수정됨)
+  function selectTheater(selectedBtn, theaterIdx) {
+    console.log("선택된 극장:", theaterIdx);
+
+    // 입력 검증
+    if(document.ff.date.value === ""){
+      alert("날짜를 선택하세요");
+      return;
+    }else if(document.ff.mIdx.value === ""){
+      alert("영화를 선택하세요");
+      return;
+    }
+
+    // 모든 극장 버튼에서 selected-btn 클래스 제거
+    document.querySelectorAll('.theater-btn').forEach(btn => {
+      btn.classList.remove('selected-btn');
+    });
+
+    // 선택된 버튼에 selected-btn 클래스 추가
+    selectedBtn.classList.add('selected-btn');
+
+    // 폼에 값 설정
+    document.ff.tIdx.value = theaterIdx;
+
+    // AJAX로 시간표 조회
+    $.ajax({
+      url: "Controller?type=theaterShow",
+      type: "post",
+      data: {
+        date: document.ff.date.value,
+        mIdx: document.ff.mIdx.value,
+        tIdx: document.ff.tIdx.value
+      }
+    }).done(function (res) {
+      console.log("응답:", res);
+      $("#date-box .date-box-in").html(res);
+    }).fail(function(xhr, status, error) {
+      console.log("Ajax 실패!");
+      console.log("상태:", status);
+      console.log("에러:", error);
+      console.log("응답 텍스트:", xhr.responseText);
+    });
+  }
+
+  // 시간 선택 함수 (새로 추가됨)
+  function selectTime(selectedBtn, timeValue) {
+    console.log("선택된 시간:", timeValue);
+
+    // 모든 시간 버튼에서 selected-btn 클래스 제거
+    document.querySelectorAll('.time-btn').forEach(btn => {
+      btn.classList.remove('selected-btn');
+    });
+
+    // 선택된 버튼에 selected-btn 클래스 추가
+    selectedBtn.classList.add('selected-btn');
+
+    // 보여지고 있는 버튼들 중에서 사용자가 선택한 시간에 상영중인 영화만 보여줘야함 <div> 숨김처리 하기
+
+  }
 </script>
 
 <jsp:include page="common/Footer.jsp"/>
