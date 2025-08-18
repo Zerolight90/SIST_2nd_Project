@@ -38,28 +38,12 @@ body {
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-/* 상단 날짜 영역 */
-.booking-date {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    font-size: 13px;
-}
-
 .date-wrap {
     display: flex;
     gap: 10px;
     align-items: center;
 }
 
-.date-item {
-    text-align: center;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s;
-    min-width: 80px;
-}
 
 
 
@@ -450,6 +434,15 @@ body {
     }
 }
 
+/* 상단 날짜 영역 */
+.booking-date {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-size: 13px;
+}
+
 .date-container {
     display: flex;
     justify-content: center;
@@ -467,6 +460,15 @@ body {
     background-color: #f7f8f9;
     border-bottom: 2px solid #503396;
 }
+
+.date-item {
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    min-width: 80px;
+}
+
 
 .movie_all {
     display: flex;

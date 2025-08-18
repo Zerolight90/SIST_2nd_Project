@@ -478,11 +478,11 @@ li::marker {
     white-space: nowrap; /* 텍스트 줄바꿈 방지 */
 }
 
-.show-movie-list .show-movie .title {
-    border: 1px solid gray;
+.show-movie-list .show-movie .show-movie-list-title {
+    border-bottom: 1px solid gray;
+    border-top: 1px solid gray;
     background-color: #F7F8F9;
-    padding: 10px;
-    border-radius: 6px;
+    padding: 5px;
 }
 
 .show-movie-list .show-movie .show-theater-info{
@@ -495,13 +495,10 @@ li::marker {
 /*지워야될수도 있음*/
 /* 상영시간표 전체 섹션 컨테이너 */
 .show-movie-list {
-    width: 1100px; /* 전체 컨테이너 너비 */
-    margin: 40px auto; /* 중앙 정렬 */
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 20px;
+    width: 100%;
+    margin: 20px auto;
+    border-bottom: 1px solid #e0e0e0;
     background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
 /* 각 영화의 상영 정보 박스 */
@@ -518,38 +515,23 @@ li::marker {
 }
 
 /* 영화 제목 및 정보 (그리드 이미지의 "좀비딸" 부분) */
-.show-movie .title {
+.show-movie .show-movie-list-title {
     display: flex;
     align-items: center;
     margin-bottom: 15px;
 }
 
-.show-movie .movie-grade {
-    display: inline-block;
-    width: 20px; /* 등급 아이콘 크기 */
-    height: 20px;
-    line-height: 20px;
-    text-align: center;
-    border-radius: 4px;
-    font-size: 12px;
-    color: #fff;
-    margin-right: 8px;
-    background-color: #777; /* 기본 등급 색상, 실제 등급에 따라 변경 필요 */
-}
-/* 예시: 12세 등급 */
-.show-movie .movie-grade.age-12 {
-    background-color: #3b99dc; /* 12세 관람가 파란색 */
-}
-/* 필요에 따라 다른 등급 (15, 18, 전체 등)에 대한 클래스 추가 */
-
-.show-movie .movie-title {
+.show-movie .title-movie-title {
+    width: 800px;
+    margin: 0 70px 0 10px;
     font-size: 15px;
     font-weight: bold;
     color: #333;
-    margin-right: 725px;
 }
 
 .show-movie .information {
+    margin: 0px 20px;
+    width: 140px;
     font-size: 14px;
     color: #666;
 }
@@ -562,7 +544,6 @@ li::marker {
 /* 각 상영관 정보 (1관, 4관 등) */
 .show-theater-info {
     border: 1px solid #eee;
-    border-radius: 6px;
     overflow: hidden; /* 내부 테두리 잘라내기 */
 }
 
@@ -585,6 +566,7 @@ li::marker {
     flex-direction: column;
     justify-content: center; /* 세로 중앙 정렬 */
     text-align: left;
+    margin-right: 20px;
 }
 
 .show-theater-info .theater-name {
@@ -623,7 +605,7 @@ li::marker {
     padding-left: 20px;
 }
 
-.show-theater-info .time-btn {
+.time-btn {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -637,18 +619,18 @@ li::marker {
     transition: all 0.2s ease;
 }
 
-.show-theater-info .time-btn:hover {
+.time-btn:hover {
     background-color: #e6e6e6;
     border-color: #ccc;
 }
 
-.show-theater-info .time-btn span {
+.time-btn span {
     font-size: 16px;
     font-weight: bold;
     color: #333;
 }
 
-.show-theater-info .time-btn em {
+.time-btn em {
     font-style: normal; /* 기본 기울임 제거 */
     font-size: 12px;
     color: #503396; /* 남은 좌석수 색상 */
@@ -1082,3 +1064,47 @@ li::marker {
 /*//고객센터영역 끝*/
 
 /*all_theater끝*/
+
+/* 날짜 선택영역 css */
+
+/* 상단 날짜 영역 */
+.booking-date {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.date-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.date-container button {
+    all: unset;
+    padding: 15px 29px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.date-container button:hover {
+    background-color: #f7f8f9;
+    border-bottom: 2px solid #503396;
+}
+
+.date-item {
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    min-width: 80px;
+}
+
+.show-movie img{
+    width: 20px;
+    height: 20px;
+    margin: 3px;
+}
