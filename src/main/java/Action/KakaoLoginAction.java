@@ -97,9 +97,22 @@ public class KakaoLoginAction implements Action {
         boolean hasPhone = (mvo != null && mvo.getPhone() != null && !mvo.getPhone().trim().isEmpty());
         boolean hasBirth = (mvo != null && mvo.getBirth() != null && !mvo.getBirth().trim().isEmpty());
 
+        String url = "";
+        String seaturl = request.getParameter("booking");
+        String borderurl = request.getParameter("border");
+
+        if (seaturl == null || borderurl ==null) {
+            url = "index";
+        } else if (seaturl != null) {
+            url = seaturl;
+
+        } else if (borderurl != null) {
+            url = borderurl;
+        }
+
         if (hasPhone && hasBirth) {
             // 둘 다 있으면 index.jsp로 리다이렉트(포워드 아님, 주소 변경)
-            return "redirect:Controller?type=index";
+            return "redirect:Controller?type="+url;
         } else {
             // 하나라도 없으면 마이페이지로 리다이렉트
             return "redirect:Controller?type=myPage";
