@@ -33,7 +33,7 @@
                     <p>티켓 예매번호</p>
                     <p class="ticket_number">${tossResponse.orderId}</p>
                   </div>
-                  <img src="${basePath}/${paidItem.posterUrl}" alt="영화 포스터" class="poster">
+                  <img src="${basePath}/${reservationInfo.posterUrl}" alt="포스터 이미지" class="poster">
                   <p class="poster_title">${paidItem.title}</p>
                 </div>
               </div>

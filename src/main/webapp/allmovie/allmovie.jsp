@@ -27,7 +27,6 @@
         <ul class="tabs">
             <li class="${currentCategory == 'boxoffice' ? 'active' : ''}"><a href="Controller?type=allMovie&category=boxoffice">박스오피스</a></li>
             <li class="${currentCategory == 'scheduled' ? 'active' : ''}"><a href="Controller?type=allMovie&category=scheduled">상영예정작</a></li>
-            <li class="${currentCategory == 'sistory' ? 'active' : ''}"><a href="Controller?type=allMovie&category=sistory">SIST ONLY</a></li>
             <li class="${currentCategory == 'filmsociety' ? 'active' : ''}"><a href="Controller?type=allMovie&category=filmsociety">필름소사이어티</a></li>
             <li class="${currentCategory == 'classicsociety' ? 'active' : ''}"><a href="Controller?type=allMovie&category=classicsociety">클래식소사이어티</a></li>
         </ul>

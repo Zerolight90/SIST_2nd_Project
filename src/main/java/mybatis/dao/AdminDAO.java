@@ -40,7 +40,6 @@ public class AdminDAO {
         return list;
     }
 
-    // 검색 조건에 맞는 극장별 매출 데이터를 조회하는 메서드
     public static List<RevenueVO> getSalesBySearch(Map<String, Object> searchParams) {
         SqlSession ss = FactoryService.getFactory().openSession();
         List<RevenueVO> revenueList = ss.selectList("admin.getSalesBySearch", searchParams);
@@ -48,11 +47,33 @@ public class AdminDAO {
         return revenueList;
     }
 
-    // 모든 극장명을 조회하는 메소드
+    public static List<RevenueVO> getSalesByMovie(Map<String, Object> searchParams) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<RevenueVO> revenueList = ss.selectList("admin.getSalesByMovie", searchParams);
+        ss.close();
+        return revenueList;
+    }
+
     public static List<String> getAllTheaters(){
         SqlSession ss = FactoryService.getFactory().openSession();
         List<String> theaterList = ss.selectList("admin.getAllTheaters");
         ss.close();
         return theaterList;
+    }
+
+    // 전체 극장의 매출 순위를 이름순으로 가져오는 메소드
+    public static List<String> getTheatersBySalesRank() {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<String> list = ss.selectList("admin.getTheatersBySalesRank");
+        ss.close();
+        return list;
+    }
+
+    // 모든 영화의 장르 문자열을 가져오는 메소드
+    public static List<String> getAllGenreStrings() {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<String> list = ss.selectList("admin.getAllGenreStrings");
+        ss.close();
+        return list;
     }
 }

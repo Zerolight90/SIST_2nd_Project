@@ -49,7 +49,7 @@
           <div class="info_group">
             <h2>예매정보</h2>
             <div class="booking_card">
-              <img src="${basePath}/${reservationInfo.posterUrl}" alt="포스터 이미지" class="poster">
+              <img src="${reservationInfo.posterUrl}" alt="포스터 이미지" class="poster">
               <div class="booking_card_details">
                 <p class="payment_movie_title">${reservationInfo.title}</p>
                 <p class="info_line">${reservationInfo.theaterName} / ${reservationInfo.screenName}</p>

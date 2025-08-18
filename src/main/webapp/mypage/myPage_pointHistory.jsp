@@ -31,11 +31,10 @@
   <c:if test="${empty pointHistory}">
     <tr><td colspan="4" class="no-content">포인트 이용 내역이 없습니다.</td></tr>
   </c:if>
-  <%-- [최종] request에 담긴 pointHistory 사용 --%>
   <c:forEach var="p" items="${pointHistory}">
     <tr>
       <td><fmt:formatDate value="${p.transactionDate}" pattern="yyyy-MM-dd"/></td>
-      <td>${p.transactionType == 0 ? '적립' : '사용'}</td>
+      <td>${p.amount > 0 ? '추가' : '사용'}</td>
       <td>${p.description}</td>
       <td style="${p.amount < 0 ? 'color: #c0392b;' : ''}">
         <c:if test="${p.amount > 0}">+</c:if>

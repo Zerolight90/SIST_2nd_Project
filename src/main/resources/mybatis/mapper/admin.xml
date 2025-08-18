@@ -14,39 +14,22 @@
         where adminId = #{id} and adminPassword = #{pw}
     </select>
 
-    <select id="salesByTheater" resultType="mybatis.vo.RevenueVO">
-        SELECT
-        t.tName AS theaterName,
-        SUM(p.paymentFinal) AS totalSales
-        FROM
-        payment p
-        JOIN
-        reservation r ON p.reservIdx = r.reservIdx
-        JOIN
-        theater t ON r.tIdx = t.tIdx
-        WHERE
-        p.paymentStatus = 0 -- 0:결제완료, 1:취소
-        GROUP BY
-        t.tName
-        ORDER BY
-        totalSales DESC
+    <select id="getTheatersBySalesRank" resultType="java.lang.String">
+        SELECT T.tName
+        FROM payment P
+        LEFT JOIN reservation R ON P.reservIdx = R.reservIdx
+        LEFT JOIN time_table TT ON R.timeTableIdx = TT.timeTableIdx
+        LEFT JOIN theater T ON TT.tIdx = T.tIdx
+        WHERE T.tName IS NOT NULL
+        GROUP BY T.tName
+        ORDER BY SUM(P.paymentFinal) DESC
     </select>
 
-    <resultMap id="revenueResultMap" type="mybatis.vo.RevenueVO">
-        <result property="theaterName" column="tName"/>
-        <result property="totalSales" column="totalSales"/>
-    </resultMap>
+    <select id="getAllGenreStrings" resultType="java.lang.String">
+        SELECT DISTINCT gen FROM movie WHERE gen IS NOT NULL AND gen != ''
+    </select>
 
-    <select id="getSalesBySearch" parameterType="map" resultMap="revenueResultMap">
-        SELECT
-        T.tName,
-        SUM(P.paymentFinal) as totalSales
-        FROM payment P
-        JOIN reservation R ON P.reservIdx = R.reservIdx
-        JOIN time_table TT ON R.timeTableIdx = TT.timeTableIdx
-        JOIN theater T ON TT.tIdx = T.tIdx
-        JOIN movie M ON TT.mIdx = M.mIdx
-        WHERE 1=1
+    <sql id="searchConditions">
         <if test="startDate != null and startDate != ''">
             AND DATE(P.paymentDate) <![CDATA[ >= ]]> #{startDate}
         </if>
@@ -67,34 +50,47 @@
         </if>
         <if test="timeOfDay != null and timeOfDay != ''">
             <choose>
-                <when test="timeOfDay == '06-11'">
-                    AND HOUR(TT.startTime) BETWEEN 6 AND 11
-                </when>
-                <when test="timeOfDay == '12-17'">
-                    AND HOUR(TT.startTime) BETWEEN 12 AND 17
-                </when>
-                <when test="timeOfDay == '18-24'">
-                    AND HOUR(TT.startTime) BETWEEN 18 AND 24
-                </when>
+                <when test="timeOfDay == '06-11'">AND HOUR(TT.startTime) BETWEEN 6 AND 11</when>
+                <when test="timeOfDay == '12-17'">AND HOUR(TT.startTime) BETWEEN 12 AND 17</when>
+                <when test="timeOfDay == '18-24'">AND HOUR(TT.startTime) BETWEEN 18 AND 24</when>
             </choose>
         </if>
         <if test="memberType != null and memberType != ''">
             <choose>
-                <when test="memberType == 'member'">
-                    AND R.userIdx IS NOT NULL
-                </when>
-                <when test="memberType == 'nmember'">
-                    AND R.nIdx2 IS NOT NULL
-                </when>
+                <when test="memberType == 'member'">AND R.userIdx IS NOT NULL</when>
+                <when test="memberType == 'nmember'">AND R.nIdx2 IS NOT NULL</when>
             </choose>
         </if>
+    </sql>
+
+    <select id="getSalesBySearch" parameterType="map" resultType="mybatis.vo.RevenueVO">
+        SELECT T.tName as theaterName, SUM(P.paymentFinal) as totalSales
+        FROM payment P
+        LEFT JOIN reservation R ON P.reservIdx = R.reservIdx
+        LEFT JOIN time_table TT ON R.timeTableIdx = TT.timeTableIdx
+        LEFT JOIN theater T ON TT.tIdx = T.tIdx
+        LEFT JOIN movie M ON TT.mIdx = M.mIdx
+        <where>
+            T.tName IS NOT NULL
+            <include refid="searchConditions"/>
+        </where>
         GROUP BY T.tName
+        ORDER BY totalSales DESC
     </select>
 
-    <select id="getAllTheaters" resultType="String">
-        SELECT tName
-        FROM theater
-        ORDER BY tName
+    <select id="getSalesByMovie" parameterType="map" resultType="mybatis.vo.RevenueVO">
+        SELECT M.name as theaterName, SUM(P.paymentFinal) as totalSales
+        FROM payment P
+        LEFT JOIN reservation R ON P.reservIdx = R.reservIdx
+        LEFT JOIN time_table TT ON R.timeTableIdx = TT.timeTableIdx
+        LEFT JOIN theater T ON TT.tIdx = T.tIdx
+        LEFT JOIN movie M ON TT.mIdx = M.mIdx
+        <where>
+            M.name IS NOT NULL
+            <include refid="searchConditions"/>
+        </where>
+        GROUP BY M.name
+        ORDER BY totalSales DESC
+        LIMIT 10
     </select>
-
 </mapper>

@@ -48,7 +48,18 @@
 
     <update id="updateReservationToCancelled" parameterType="long">
         UPDATE reservation
-        SET status = 1 -- 1: 취소
+        SET status = 0
         WHERE reservIdx = #{reservIdx}
     </update>
+
+    <select id="getScreeningTime" parameterType="long" resultType="mybatis.vo.TimeTableVO">
+        SELECT
+        tt.*
+        FROM
+        time_table tt
+        JOIN
+        reservation r ON tt.timeTableIdx = r.timeTableIdx
+        WHERE
+        r.reservIdx = #{reservIdx}
+    </select>
 </mapper>

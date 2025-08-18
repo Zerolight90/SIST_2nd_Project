@@ -1,5 +1,6 @@
 package Action;
 
+import mybatis.dao.CouponDAO;
 import mybatis.dao.MemberDAO;
 import mybatis.vo.MemberVO;
 
@@ -76,6 +77,24 @@ public class JoinAction implements Action {
         int result = MemberDAO.registry(mvo);
 
         if(result > 0) {
+
+            // ----- [추가된 로직] -----
+            // 회원가입 성공 시, 신규가입 쿠폰 지급
+            // DB에서 '신규 회원 5000원 할인' 쿠폰의 couponIdx가 6일 경우(임시)
+            try {
+                // 방금 가입한 회원의 정보를 다시 불러와 userIdx를 얻음
+                MemberVO newMember = MemberDAO.getMemberByIdx(Long.parseLong(id));
+                if (newMember != null) {
+                    long newUserIdx = Long.parseLong(newMember.getUserIdx());
+                    long welcomeCouponIdx = 6; // DB에 6으로 정한 신규회원 쿠폰 ID
+                    CouponDAO.issueCouponToUser(newUserIdx, welcomeCouponIdx);
+                    System.out.println(newMember.getName() + "님에게 신규가입 쿠폰이 발급되었습니다.");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                // 쿠폰 발급에 실패하더라도 회원가입 자체가 실패하는 것은 아니므로, 오류 로그만 남김
+                System.out.println("신규가입 쿠폰 발급 중 오류 발생");
+            }
             // 회원가입 성공 시, 가입 완료 메시지와 사용자 이름을 request 속성에 설정
             request.setAttribute("msg", "회원가입이 완료되었습니다");
             request.setAttribute("param_u_name", name); // 로그인 페이지로 전달할 사용자 이름

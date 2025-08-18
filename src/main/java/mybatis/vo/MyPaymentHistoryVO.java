@@ -14,7 +14,7 @@ public class MyPaymentHistoryVO {
     private String theaterInfo;
     private Date screenDate;
     private int prodPrice;
-    private int quantity = 1;
+    private int quantity;
 
     public int getPaymentType() {
         return paymentType;

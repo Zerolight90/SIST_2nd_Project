@@ -235,7 +235,7 @@ article {
 .point-details table { width: 100%; }
 .point-details .value { text-align: right; font-weight: 500; }
 .point-details .total { font-size: 18px; color: #fff; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 15px; margin-top: 10px; }
-.point-details .total { font-size: 18px; color: #8e44ad; font-weight: bold; border-top: 1px solid #eee; padding-top: 10px; } /* 변경됨 */
+.point-details .total { font-size: 18px; color: #fff; font-weight: bold; border-top: 1px solid #eee; padding-top: 10px; } /* 변경됨 */
 
 
 /* mypage.css에 추가하거나 이곳에 직접 추가하여 스타일을 조정합니다. */
@@ -343,4 +343,97 @@ article {
     text-align: center;
     padding: 50px 0;
     color: #888;
+}
+
+/* --- 예매/구매내역 카드 UI 개선 --- */
+.history-card {
+    display: flex;
+    align-items: stretch; /* 세로 길이를 맞춤 */
+    background-color: #fdfdfd; /* 배경색을 약간 회색으로 */
+    border: 1px solid #eee;
+    padding: 25px;
+    gap: 25px; /* 자식 요소간 간격 */
+}
+
+.history-card .poster-wrapper {
+    flex-shrink: 0;
+}
+
+.history-card .poster {
+    width: 100px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #eee;
+}
+
+.history-card .details-wrapper {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.history-card .title {
+    font-size: 1.25em; /* 20px */
+    font-weight: 700;
+    margin: 0 0 20px 0;
+}
+
+.history-card .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2열 그리드 */
+    gap: 12px; /* 그리드 아이템 간격 */
+    font-size: 0.95em; /* 15px */
+}
+
+.history-card .info-item .label {
+    display: inline-block;
+    width: 70px;
+    color: #888;
+}
+
+.history-card .info-item .value {
+    color: #333;
+    font-weight: 500;
+}
+
+.history-card .status-action-wrapper {
+    flex-shrink: 0;
+    width: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.history-card .status-box {
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-size: 0.9em;
+}
+
+.history-card .status-box.status-paid {
+    color: #8e44ad; /* 보라색 */
+    background-color: #f5effb;
+}
+
+.history-card .status-box.status-cancelled {
+    color: #777;
+    background-color: #f0f0f0;
+}
+
+.history-card .action-area {
+    width: 100%;
+    text-align: right;
+}
+
+.history-card .mybtn-outline {
+    width: 100%;
+    padding: 10px 0;
+}
+
+/* 기존 status-label 숨김 처리 */
+.history-card .status-label {
+    display: none;
 }

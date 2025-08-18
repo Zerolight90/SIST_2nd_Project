@@ -5,6 +5,19 @@
 
 <mapper namespace="myPaymentHistory">
 
+    <resultMap id="paymentHistoryResultMap" type="mybatis.vo.MyPaymentHistoryVO">
+        <result property="paymentType" column="paymentType"/>
+        <result property="paymentDate" column="paymentDate"/>
+        <result property="orderId" column="orderId"/>
+        <result property="paymentKey" column="paymentKey"/>
+        <result property="paymentStatus" column="paymentStatus"/>
+        <result property="itemTitle" column="itemTitle"/>
+        <result property="itemPosterUrl" column="itemPosterUrl"/>
+        <result property="theaterInfo" column="theaterInfo"/>
+        <result property="screenDate" column="screenDate"/>
+        <result property="prodPrice" column="prodPrice"/>
+    </resultMap>
+
     <select id="getTotalHistoryCount" parameterType="map" resultType="int">
         SELECT COUNT(*)
         FROM payment p
@@ -22,7 +35,7 @@
         </where>
     </select>
 
-    <select id="getHistoryList" parameterType="map" resultType="mybatis.vo.MyPaymentHistoryVO">
+    <select id="getHistoryList" parameterType="map" resultMap="paymentHistoryResultMap">
         SELECT
         p.paymentType,
         p.paymentDate,

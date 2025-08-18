@@ -112,6 +112,7 @@
                         </tbody>
                     </table>
 
+                    <p style="color: red; font-size: 12px;">[디버그] paymentType: ${item.paymentType}</p>
                     <div class="action-area">
                         <c:if test="${item.paymentStatus == 0}">
                             <button class="mybtn mybtn-outline" data-payment-key="${item.paymentKey}">
@@ -195,12 +196,10 @@
                         }
                     } catch (e) {
                         // JSON 파싱 실패 시, 받은 응답을 그대로 출력해 디버깅
-                        console.error("JSON 파싱 오류:", response);
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     // AJAX 통신 자체가 실패했을 때만 실행됨
-                    console.error("AJAX Error:", textStatus, errorThrown);
                 }
             });
         }

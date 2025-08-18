@@ -3,6 +3,7 @@ package mybatis.dao;
 import mybatis.Service.FactoryService;
 import mybatis.vo.MyReservationVO;
 import mybatis.vo.ReservationVO;
+import mybatis.vo.TimeTableVO;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.HashMap;
@@ -68,5 +69,9 @@ public class ReservationDAO {
     // 결제 취소(환불)
     public static int updateReservationToCancelled(long reservIdx, SqlSession ss) {
         return ss.update("reservation.updateReservationToCancelled", reservIdx);
+    }
+
+    public static TimeTableVO getScreeningTimeByReservIdx(Long reservIdx, SqlSession ss) {
+        return ss.selectOne("reservation.getScreeningTime", reservIdx);
     }
 }
