@@ -2,11 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
 <!DOCTYPE html>
 <html>
 <head>
   <title>SIST BOX - 결제 결과</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <c:set var="basePath" value="${pageContext.request.contextPath}"/>
   <link rel="stylesheet" href="${basePath}/css/reset.css">
   <link rel="stylesheet" href="${basePath}/css/sub/sub_page_style.css">
@@ -33,7 +33,7 @@
                     <p>티켓 예매번호</p>
                     <p class="ticket_number">${tossResponse.orderId}</p>
                   </div>
-                  <img src="${reservationInfo.posterUrl}" alt="포스터 이미지" class="poster">
+                  <img src="${paidItem.posterUrl}" alt="포스터 이미지" class="poster">
                   <p class="poster_title">${paidItem.title}</p>
                 </div>
               </div>
@@ -62,7 +62,7 @@
             <h1>구매 완료</h1>
             <div class="confirmation_box store">
               <div class="store_card">
-                <img src="${basePath}/${paidItem.prodImg}" alt="상품 이미지" class="poster">
+                <img src="${paidItem.posterUrl}" alt="상품 이미지" class="poster">
                 <div class="store_details">
                   <p class="title">${paidItem.prodName}</p>
                   <p class="store_black">수량: 1개</p>

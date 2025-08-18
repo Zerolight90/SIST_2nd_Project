@@ -104,10 +104,7 @@
                             <%-- 공통 정보: 상태 --%>
                         <tr>
                             <td class="label">상태</td>
-                            <td>
-                                <c:if test="${item.paymentStatus == 0}">결제완료</c:if>
-                                <c:if test="${item.paymentStatus == 1}">취소완료</c:if>
-                            </td>
+                            <td class="status-text"> <br/> <c:if test="${item.paymentStatus == 0}">결제완료</c:if><br/> <c:if test="${item.paymentStatus == 1}">취소완료</c:if><br/></td>
                         </tr>
                         </tbody>
                     </table>
@@ -169,11 +166,6 @@
             }
         });
 
-        /**
-         * 서버에 환불을 요청하는 함수
-         * @param {string} paymentKey - 환불할 결제의 키 값
-         * @param {HTMLElement} btn - 클릭된 버튼 요소
-         */
         /**
          * 서버에 환불을 요청하는 함수
          * @param {string} paymentKey - 환불할 결제의 키 값

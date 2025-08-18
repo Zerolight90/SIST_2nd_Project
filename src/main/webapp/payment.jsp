@@ -3,22 +3,30 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
-  // reservationInfo.title에서 '를 \'로 치환해 JavaScript safe 문자열로 변환
-  String jsSafeTitle = "";
-  if (request.getAttribute("reservationInfo") != null) {
-    Object reservationInfoObj = request.getAttribute("reservationInfo");
-    try {
-      Class<?> cls = reservationInfoObj.getClass();
-      java.lang.reflect.Method getTitleMethod = cls.getMethod("getTitle");
-      String originalTitle = (String) getTitleMethod.invoke(reservationInfoObj);
-      if (originalTitle != null) {
-        jsSafeTitle = originalTitle.replace("'", "\\'");
+  // paymentType에 따라 JavaScript에서 사용할 안전한 상품(영화)명을 생성
+  String jsSafeName = "상품명 없음";
+  String paymentType = (String) request.getAttribute("paymentType");
+
+  try {
+    if ("paymentMovie".equals(paymentType)) {
+      Object item = request.getAttribute("reservationInfo");
+      java.lang.reflect.Method getTitleMethod = item.getClass().getMethod("getTitle");
+      String title = (String) getTitleMethod.invoke(item);
+      if (title != null) {
+        jsSafeName = title.replace("'", "\\'");
       }
-    } catch (Exception e) {
-      jsSafeTitle = "제목없음";
+    } else if ("paymentStore".equals(paymentType)) {
+      Object item = request.getAttribute("productInfo");
+      java.lang.reflect.Method getNameMethod = item.getClass().getMethod("getProdName");
+      String name = (String) getNameMethod.invoke(item);
+      if (name != null) {
+        jsSafeName = name.replace("'", "\\'");
+      }
     }
+  } catch (Exception e) {
+    // 예외 발생 시 기본값 사용
   }
-  request.setAttribute("jsSafeTitle", jsSafeTitle);
+  request.setAttribute("jsSafeName", jsSafeName);
 %>
 <!DOCTYPE html>
 <html>
@@ -238,12 +246,7 @@
 
       const orderId = "SIST_" + (paymentType === 'paymentMovie' ? "MOVIE_" : "STORE_") + new Date().getTime();
 
-      let orderName = "";
-      if (paymentType === 'paymentMovie') {
-        orderName = '<c:out value="${jsSafeTitle}"/>_<c:out value="${reservationInfo.reservIdx}"/>';
-      } else { // 스토어용 orderName 설정
-        orderName = '<c:out value="${jsSafeProdName}"/>_<c:out value="${productInfo.prodIdx}"/>';
-      }
+      const orderName = '<c:out value="${jsSafeName}"/>';
       const successUrl = window.location.origin + '${basePath}/Controller?type=paymentConfirm&couponUserIdx=' + $('#couponSelector').val() + "&usedPoints=" + currentPointDiscount;
       const failUrl = window.location.origin + '${basePath}/paymentFail.jsp';
 
