@@ -14,60 +14,93 @@
 
     <select id="getAvailableMovieCoupons" parameterType="long" resultType="mybatis.vo.MyCouponVO">
         SELECT
-            cum.couponUserIdx,
-            c.couponName
-        FROM coupon_user_mapping cum
-                 JOIN coupon c ON cum.couponIdx = c.couponIdx
+        cum.couponUserIdx,
+        c.couponName,
+        c.discountValue AS discountValue
+        FROM
+        coupon_user_mapping cum
+        JOIN coupon c ON cum.couponIdx = c.couponIdx
         WHERE
-            cum.userIdx = #{userIdx}
-          AND c.couponStatus = 0
-          AND c.couponExpDate > NOW()
-          AND c.couponCategory = '영화' -- '영화' 쿠폰만 조회
+        cum.userIdx = #{userIdx}
+        AND c.couponStatus = 0
+        AND c.couponExpDate > NOW()
+        AND c.couponCategory = '영화'
     </select>
 
     <select id="getAvailableStoreCoupons" parameterType="long" resultType="mybatis.vo.MyCouponVO">
         SELECT
-            cum.couponUserIdx,
-            c.couponName
-        FROM coupon_user_mapping cum
-                 JOIN coupon c ON cum.couponIdx = c.couponIdx
+        cum.couponUserIdx,
+        c.couponName,
+        c.discountValue AS discountValue
+        FROM
+        coupon_user_mapping cum
+        JOIN coupon c ON cum.couponIdx = c.couponIdx
         WHERE
-            cum.userIdx = #{userIdx}
-          AND c.couponStatus = 0
-          AND c.couponExpDate > NOW()
-          AND c.couponCategory = '매점' -- '매점' 쿠폰만 조회
+        cum.userIdx = #{userIdx}
+        AND c.couponStatus = 0
+        AND c.couponExpDate > NOW()
+        AND c.couponCategory = '매점'
     </select>
 
     <update id="useCoupon" parameterType="long">
         UPDATE coupon c
-            JOIN coupon_user_mapping cum ON c.couponIdx = cum.couponIdx
-            SET
-                c.couponStatus = 1,
-                c.couponUseDate = NOW()
+        JOIN coupon_user_mapping cum ON c.couponIdx = cum.couponIdx
+        SET
+        c.couponStatus = 1,
+        c.couponUseDate = NOW()
         WHERE
-            cum.couponUserIdx = #{couponUserIdx}
+        cum.couponUserIdx = #{couponUserIdx}
     </update>
 
     <select id="getCouponByCouponUserIdx" parameterType="long" resultType="mybatis.vo.MyCouponVO">
         SELECT
-            cum.couponUserIdx,
-            c.couponName,
-            c.couponValue
-        FROM coupon_user_mapping cum
-                 JOIN coupon c ON cum.couponIdx = c.couponIdx
-        WHERE cum.couponUserIdx = #{couponUserIdx}
+        cum.couponUserIdx,
+        c.couponName,
+        c.discountValue AS discountValue
+        FROM
+        coupon_user_mapping cum
+        JOIN coupon c ON cum.couponIdx = c.couponIdx
+        WHERE
+        cum.couponUserIdx = #{couponUserIdx}
     </select>
 
     <select id="getHistory" parameterType="long" resultType="mybatis.vo.MyCouponVO">
         SELECT
-            c.couponCategory,
-            c.couponName,
-            c.couponExpDate,
-            c.couponStatus
-        FROM coupon_user_mapping cum
-                 JOIN coupon c ON cum.couponIdx = c.couponIdx
-        WHERE cum.userIdx = #{userIdx}
-        ORDER BY c.couponExpDate DESC
+        c.couponCategory,
+        c.couponName,
+        c.couponExpDate,
+        c.couponStatus,
+        c.discountValue
+        FROM
+        coupon_user_mapping cum
+        JOIN coupon c ON cum.couponIdx = c.couponIdx
+        WHERE
+        cum.userIdx = #{userIdx}
+        ORDER BY
+        c.couponExpDate DESC
     </select>
 
+    <update id="revertCouponUsage" parameterType="long">
+        UPDATE coupon c
+        JOIN coupon_user_mapping cum ON c.couponIdx = cum.couponIdx
+        SET
+        c.couponStatus = 0, -- 0: 미사용
+        c.couponUseDate = NULL
+        WHERE
+        cum.couponUserIdx = #{couponUserIdx}
+    </update>
+
+    <insert id="issueCoupon" parameterType="map">
+        INSERT INTO coupon_user_mapping (userIdx, couponIdx)
+        VALUES (#{userIdx}, #{couponIdx})
+    </insert>
+
+    <select id="checkBirthdayCouponIssued" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM coupon_user_mapping cum
+        JOIN coupon c ON cum.couponIdx = c.couponIdx
+        WHERE cum.userIdx = #{userIdx}
+        AND cum.couponIdx = #{couponIdx}
+        AND YEAR(c.couponRegDate) = YEAR(CURDATE())
+    </select>
 </mapper>

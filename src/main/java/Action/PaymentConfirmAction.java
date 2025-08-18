@@ -81,6 +81,8 @@ public class PaymentConfirmAction implements Action {
 
             PaymentVO pvo = createPaymentVO(tossResponse, userIdx, orderId, couponUserIdx, usedPoints, couponDiscount);
 
+            pvo.setPaymentType("paymentMovie".equals(paymentType) ? 0 : 1);
+
             if ("paymentMovie".equals(paymentType)) {
                 ReservationVO reservation = (ReservationVO) paidItem;
                 reservation.setUserIdx(Long.parseLong(userIdx));

@@ -27,23 +27,34 @@ public class AllMovieDataAction implements Action {
         }
 
         // 1. Paging 객체 생성
-        Paging p = new Paging(8, 5);
+        Paging p = new Paging(8, 5); // 한 페이지에 8개씩, 페이징 블록은 5개
 
         // 2. 총 게시물 수 설정
         p.setTotalCount(MovieDAO.getTotalCount(category));
 
-        // 3. 현재 페이지 설정
+        // 3. 현재 페이지 설정 (음수 및 비정상 파라미터 방어 로직 추가)
+        int nowPage = 1; // 기본 페이지는 1로 초기화
         if (cPage != null && !cPage.isEmpty()) {
-            p.setNowPage(Integer.parseInt(cPage));
-        } else {
-            p.setNowPage(1);
+            try {
+                nowPage = Integer.parseInt(cPage);
+                // 페이지 번호가 0 또는 음수일 경우 1로 강제 설정
+                if (nowPage <= 0) {
+                    nowPage = 1;
+                }
+            } catch (NumberFormatException e) {
+                // cPage 파라미터가 숫자가 아닌 경우, 기본 페이지 1로 설정
+                nowPage = 1;
+            }
         }
+        p.setNowPage(nowPage);
 
         // 4. DB에서 목록 가져오기 위한 Map 준비
         Map<String, Object> map = new HashMap<>();
         map.put("category", category);
 
+        // offset 계산 (이제 음수가 될 수 없음)
         int offset = p.getBegin() - 1;
+        if (offset < 0) offset = 0;
         map.put("offset", offset);
         map.put("numPerPage", p.getNumPerPage());
 
@@ -51,13 +62,13 @@ public class AllMovieDataAction implements Action {
 
         // 5. '좋아요' 관련 데이터 처리
         Map<String, Integer> likeCountMap = FavoriteMovieDAO.getLikeCountForMovies(list);
-        request.setAttribute("likeCountMap", likeCountMap); // ← 빠졌으면 추가
+        request.setAttribute("likeCountMap", likeCountMap);
 
         HttpSession session = request.getSession();
         MemberVO mvo = (MemberVO) session.getAttribute("mvo");
 
         if (mvo != null) {
-            // 👇 String → Long 변환
+            // String → Long 변환
             Long userIdx = Long.parseLong(String.valueOf(mvo.getUserIdx()));
 
             Set<Long> likedMovieSet = FavoriteMovieDAO.getLikedMovieSet(userIdx);
@@ -67,7 +78,6 @@ public class AllMovieDataAction implements Action {
         // 6. JSP로 데이터 전달
         request.setAttribute("movieList", list);
         request.setAttribute("paging", p);
-        request.setAttribute("likeCountMap", likeCountMap);
         request.setAttribute("totalCount", p.getTotalCount());
         request.setAttribute("currentCategory", category);
         request.setAttribute("nowPage", p.getNowPage());

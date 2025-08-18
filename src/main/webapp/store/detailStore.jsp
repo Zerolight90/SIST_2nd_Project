@@ -89,7 +89,15 @@
         </div>
         <div class="dsp" id="payment" style="margin-top: 10px; display: flex; justify-content: space-evenly;">
           <a href="" style="border-radius: 5px; text-align: center; line-height: 40px; display: inline-block; width: 230px; height: 40px; border: 1px solid #3d008c">선물</a>
-          <a href="" style="border-radius: 5px; color: #ebebeb; text-align: center; line-height: 40px; display: inline-block; width: 230px; height: 40px; background-color: #3d008c; border: 1px solid #3d008c">구매</a>
+          <form action="Controller?type=paymentStore" name="buyForm" method="post" style="display:inline-block">
+            <input type="hidden" name="prodIdx" value="${requestScope.vo.prodIdx}">
+            <input type="hidden" name="prodName" value="${requestScope.vo.prodName}">
+            <input type="hidden" name="prodImg" value="${requestScope.vo.prodImg}">
+            <input type="hidden" name="amount" id="formAmount" value="${requestScope.vo.prodPrice}">
+            <input type="hidden" name="quantity" id="formQuantity" value="1">
+
+            <button type="submit" id="buyBtn" style="border-radius: 5px; color: #ebebeb; text-align: center; line-height: 40px; display: inline-block; width: 230px; height: 40px; background-color: #3d008c; border: 1px solid #3d008c; cursor:pointer;">구매</button>
+          </form>
         </div>
       </div>
 
@@ -131,8 +139,6 @@
   </div>
 
 </article>
-
-
 
 <script>
   // 1. 모든 탭 버튼(li)과 내용 영역(div)을 가져옵니다.
@@ -229,18 +235,17 @@
       }
     })
   });
-</script>
-<script>
   // 수량값과 가격값을 얻어내 문자열이므로 먼저 정수로 형변환시킨 뒤
   // 값을 서로 곱해서 총 가격값을 얻어내서 해당하는 칸에 대입시켜준다
   function updatePrice() {
-    let num = $("#num").val();
-    let price = $("#price").text();
-    let inum = parseInt(num);
-    let iprice = parseInt(price);
-    let rnum = ${requestScope.vo.prodPrice} * inum;
+    let num = parseInt($("#num").val());
+    let price = ${requestScope.vo.prodPrice};
+    let rnum = price * num;
 
+    // 폼에 있는 hidden input 값 업데이트
     $("#totalPrice").text(rnum.toLocaleString());
+    $("#formAmount").val(rnum);
+    $("#formQuantity").val(num);
   }
 </script>
 

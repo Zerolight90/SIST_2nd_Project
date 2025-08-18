@@ -64,4 +64,84 @@
         ORDER BY
         totalSales DESC
     </select>
+
+    <select id="getTheatersBySalesRank" resultType="java.lang.String">
+        SELECT T.tName
+        FROM payment P
+        LEFT JOIN reservation R ON P.reservIdx = R.reservIdx
+        LEFT JOIN time_table TT ON R.timeTableIdx = TT.timeTableIdx
+        LEFT JOIN theater T ON TT.tIdx = T.tIdx
+        WHERE T.tName IS NOT NULL
+        GROUP BY T.tName
+        ORDER BY SUM(P.paymentFinal) DESC
+    </select>
+
+    <select id="getAllGenreStrings" resultType="java.lang.String">
+        SELECT DISTINCT gen FROM movie WHERE gen IS NOT NULL AND gen != ''
+    </select>
+
+    <sql id="searchConditions">
+        <if test="startDate != null and startDate != ''">
+            AND DATE(P.paymentDate) <![CDATA[ >= ]]> #{startDate}
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND DATE(P.paymentDate) <![CDATA[ <= ]]> #{endDate}
+        </if>
+        <if test="theaterNames != null and theaterNames.size > 0">
+            AND T.tName IN
+            <foreach collection="theaterNames" item="name" open="(" separator="," close=")">
+                #{name}
+            </foreach>
+        </if>
+        <if test="movieGenre != null and movieGenre != ''">
+            AND M.gen LIKE CONCAT('%', #{movieGenre}, '%')
+        </if>
+        <if test="paymentType != null and paymentType != ''">
+            AND P.paymentType = #{paymentType}
+        </if>
+        <if test="timeOfDay != null and timeOfDay != ''">
+            <choose>
+                <when test="timeOfDay == '06-11'">AND HOUR(TT.startTime) BETWEEN 6 AND 11</when>
+                <when test="timeOfDay == '12-17'">AND HOUR(TT.startTime) BETWEEN 12 AND 17</when>
+                <when test="timeOfDay == '18-24'">AND HOUR(TT.startTime) BETWEEN 18 AND 24</when>
+            </choose>
+        </if>
+        <if test="memberType != null and memberType != ''">
+            <choose>
+                <when test="memberType == 'member'">AND R.userIdx IS NOT NULL</when>
+                <when test="memberType == 'nmember'">AND R.nIdx2 IS NOT NULL</when>
+            </choose>
+        </if>
+    </sql>
+
+    <select id="getSalesBySearch" parameterType="map" resultType="mybatis.vo.RevenueVO">
+        SELECT T.tName as theaterName, SUM(P.paymentFinal) as totalSales
+        FROM payment P
+        LEFT JOIN reservation R ON P.reservIdx = R.reservIdx
+        LEFT JOIN time_table TT ON R.timeTableIdx = TT.timeTableIdx
+        LEFT JOIN theater T ON TT.tIdx = T.tIdx
+        LEFT JOIN movie M ON TT.mIdx = M.mIdx
+        <where>
+            T.tName IS NOT NULL
+            <include refid="searchConditions"/>
+        </where>
+        GROUP BY T.tName
+        ORDER BY totalSales DESC
+    </select>
+
+    <select id="getSalesByMovie" parameterType="map" resultType="mybatis.vo.RevenueVO">
+        SELECT M.name as theaterName, SUM(P.paymentFinal) as totalSales
+        FROM payment P
+        LEFT JOIN reservation R ON P.reservIdx = R.reservIdx
+        LEFT JOIN time_table TT ON R.timeTableIdx = TT.timeTableIdx
+        LEFT JOIN theater T ON TT.tIdx = T.tIdx
+        LEFT JOIN movie M ON TT.mIdx = M.mIdx
+        <where>
+            M.name IS NOT NULL
+            <include refid="searchConditions"/>
+        </where>
+        GROUP BY M.name
+        ORDER BY totalSales DESC
+        LIMIT 10
+    </select>
 </mapper>

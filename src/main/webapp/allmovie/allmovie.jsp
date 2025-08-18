@@ -27,7 +27,6 @@
         <ul class="tabs">
             <li class="${currentCategory == 'boxoffice' ? 'active' : ''}"><a href="Controller?type=allMovie&category=boxoffice">박스오피스</a></li>
             <li class="${currentCategory == 'scheduled' ? 'active' : ''}"><a href="Controller?type=allMovie&category=scheduled">상영예정작</a></li>
-            <li class="${currentCategory == 'sistory' ? 'active' : ''}"><a href="Controller?type=allMovie&category=sistory">SIST ONLY</a></li>
             <li class="${currentCategory == 'filmsociety' ? 'active' : ''}"><a href="Controller?type=allMovie&category=filmsociety">필름소사이어티</a></li>
             <li class="${currentCategory == 'classicsociety' ? 'active' : ''}"><a href="Controller?type=allMovie&category=classicsociety">클래식소사이어티</a></li>
         </ul>
@@ -48,7 +47,17 @@
                         <div class="summary"><p>${movie.synop}</p></div>
                     </a>
                     <div class="movie-info">
-                        <h3><span class="age-rating age-${movie.age}">${movie.age}</span> ${movie.name}</h3>
+                        <h3>
+                            <c:choose>
+                                <c:when test="${movie.age == '정보 없음'}">
+                                    <span class="age-rating age-ALL">ALL</span>
+                                </c:when>
+                                <c:otherwise>
+                                    <span class="age-rating age-${movie.age}">${movie.age}</span>
+                                </c:otherwise>
+                            </c:choose>
+                                ${movie.name}
+                        </h3>
                         <div class="movie-stats"><span>개봉일 ${movie.date}</span></div>
                         <div class="movie-actions">
                             <button type="button" class="like-btn ${!empty likedMovieSet && likedMovieSet.contains(movie.mIdx) ? 'liked' : ''}" data-midx="${movie.mIdx}">

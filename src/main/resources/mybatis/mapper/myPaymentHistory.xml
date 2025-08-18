@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="myPaymentHistory">
+
+    <resultMap id="paymentHistoryResultMap" type="mybatis.vo.MyPaymentHistoryVO">
+        <result property="paymentType" column="paymentType"/>
+        <result property="paymentDate" column="paymentDate"/>
+        <result property="orderId" column="orderId"/>
+        <result property="paymentKey" column="paymentKey"/>
+        <result property="paymentStatus" column="paymentStatus"/>
+        <result property="itemTitle" column="itemTitle"/>
+        <result property="itemPosterUrl" column="itemPosterUrl"/>
+        <result property="theaterInfo" column="theaterInfo"/>
+        <result property="screenDate" column="screenDate"/>
+        <result property="prodPrice" column="prodPrice"/>
+    </resultMap>
+
+    <select id="getTotalHistoryCount" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM payment p
+        <where>
+            p.userIdx = #{userIdx}
+            <if test="statusFilter != null and statusFilter != ''">
+                AND p.paymentStatus = #{statusFilter}
+            </if>
+            <if test="yearFilter != null and yearFilter != ''">
+                AND YEAR(p.paymentDate) = #{yearFilter}
+            </if>
+            <if test="typeFilter != null and typeFilter != ''">
+                AND p.paymentType = #{typeFilter}
+            </if>
+        </where>
+    </select>
+
+    <select id="getHistoryList" parameterType="map" resultMap="paymentHistoryResultMap">
+        SELECT
+        p.paymentType,
+        p.paymentDate,
+        p.orderId,
+        p.paymentTransactionId AS paymentKey,
+        p.paymentStatus,
+        COALESCE(m.name, pr.prodName) AS itemTitle,
+        COALESCE(m.poster, pr.prodImg) AS itemPosterUrl,
+        t.tName AS theaterInfo,
+        tt.startTime AS screenDate,
+        pr.prodPrice
+        FROM
+        payment p
+        LEFT JOIN reservation r ON p.reservIdx = r.reservIdx
+        LEFT JOIN time_table tt ON r.timeTableIdx = tt.timeTableIdx
+        LEFT JOIN movie m ON tt.mIdx = m.mIdx
+        LEFT JOIN theater t ON r.tIdx = t.tIdx
+        LEFT JOIN product pr ON p.prodIdx = pr.prodIdx
+        <where>
+            p.userIdx = #{userIdx}
+            <if test="statusFilter != null and statusFilter != ''">
+                AND p.paymentStatus = #{statusFilter}
+            </if>
+            <if test="yearFilter != null and yearFilter != ''">
+                AND YEAR(p.paymentDate) = #{yearFilter}
+            </if>
+            <if test="typeFilter != null and typeFilter != ''">
+                AND p.paymentType = #{typeFilter}
+            </if>
+        </where>
+        ORDER BY p.paymentDate DESC
+        LIMIT #{begin}, #{end}
+    </select>
+
+</mapper>

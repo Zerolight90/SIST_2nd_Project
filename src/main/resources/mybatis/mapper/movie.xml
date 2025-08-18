@@ -10,59 +10,60 @@
         WHERE mIdx = #{mIdx}
     </select>
 
-    <!-- 전체영화 관련 xml 문 -->
+    <!-- 전체영화 총 x개의 영화가 검색되었습니다 에서 x를 계산 -->
     <select id="getTotalCount" parameterType="String" resultType="int">
         SELECT COUNT(*) FROM movie
         <where>
             <choose>
                 <when test="_parameter == 'boxoffice'">
-                    `date` &lt;= NOW()
+                    `date` &lt;= NOW() AND status != '상영종료'
                 </when>
                 <when test="_parameter == 'scheduled'">
                     `date` > NOW()
                 </when>
-                <when test="_parameter == 'sistory'">
-                    gen = '역사'
-                </when>
                 <when test="_parameter == 'filmsociety'">
-                    dir = '소마이 신지'
+                    gen = '다큐멘터리'
                 </when>
                 <when test="_parameter == 'classicsociety'">
-                    gen = '다큐멘터리'
+                    gen = '음악'
                 </when>
             </choose>
         </where>
     </select>
 
+    <!-- 전체영화 카테고리별로 필터링해서 보여주는 기능 -->
     <select id="getMovieList" parameterType="java.util.Map" resultType="mybatis.vo.MovieVO">
         SELECT *
-        FROM movie
+        FROM movie m
         <where>
             <choose>
                 <when test="category == 'boxoffice'">
-                    `date` &lt;= NOW()
+                    `date` &lt;= NOW() AND status != '상영종료'
                 </when>
                 <when test="category == 'scheduled'">
                     `date` > NOW()
                 </when>
-                <when test="category == 'sistory'">
-                    gen = '역사'
-                </when>
                 <when test="category == 'filmsociety'">
-                    dir = '소마이 신지'
+                    gen = '다큐멘터리'
                 </when>
                 <when test="category == 'classicsociety'">
-                    gen = '다큐멘터리'
+                    gen = '음악'
                 </when>
             </choose>
         </where>
 
         <choose>
-            <when test="category == 'boxoffice'"> ORDER BY audNum DESC </when>
+            <when test="category == 'boxoffice'">
+                ORDER BY (
+                SELECT COUNT(*)
+                FROM reservation r
+                JOIN time_table tt ON r.timeTableIdx = tt.timeTableIdx
+                WHERE tt.mIdx = m.mIdx
+                ) DESC
+            </when>
             <when test="category == 'scheduled'"> ORDER BY date ASC </when>
             <otherwise> ORDER BY date DESC </otherwise>
         </choose>
-
         LIMIT #{offset}, #{numPerPage}
     </select>
 
