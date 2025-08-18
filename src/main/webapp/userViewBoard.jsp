@@ -69,7 +69,7 @@
                     <tr>
                     <th class="w100"><label for="board_reg_date">게시일</label></th>
                     <td>
-                    ${vo.boardRegDate}
+                    ${vo.boardStartRegDate}
                     </td>
                     </tr>
                     <tr>
@@ -109,7 +109,7 @@
                                 <tr>
                                     <td>다음글</td>
                                     <td>
-                                        <a href="Controller?type=userViewBoard&boardIdx=${nextVo.boardIdx}&cPage=${param.cPage}">
+                                        <a href="Controller?type=userViewBoard&boardIdx=${nextVo.boardIdx}&cPage=${param.cPage}&boardType=${vo.boardType}">
                                                 ${nextVo.boardTitle}
                                         </a>
                                     </td>
@@ -128,7 +128,7 @@
                             <tr>
                                 <td>이전글</td>
                                 <td>
-                                    <a href="Controller?type=userViewBoard&boardIdx=${prevVo.boardIdx}&cPage=${param.cPage}">
+                                    <a href="Controller?type=userViewBoard&boardIdx=${prevVo.boardIdx}&cPage=${param.cPage}&boardType=${vo.boardType}">
                                             ${prevVo.boardTitle}
                                     </a>
                                 </td>

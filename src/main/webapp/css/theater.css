@@ -995,6 +995,11 @@ li::marker {
     margin-top: 50px;
 }
 
+.page-content-event {
+    float: right;
+    margin-top: 50px;
+}
+
 .tit{
     padding: 0 0 26px 0;
     font-size: 1.8666em;
@@ -1042,6 +1047,7 @@ li::marker {
     border: 1px solid #d8d9db;
     border-radius: 3px;
 }
+
 #searchBtn{
     height: 35px;
     text-align: center;

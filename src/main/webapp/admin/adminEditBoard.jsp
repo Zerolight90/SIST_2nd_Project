@@ -136,7 +136,7 @@
           <th class="w100"><label for="board_reg_date">게시기간</label></th>
           <td>
             <%--에디터가 들어갈 자리--%>
-              <input type="text" id="start_reg_date" name="boardRegDate" value="${vo.boardRegDate}"/>
+              <input type="text" id="start_reg_date" name="boardStartRegDate" value="${vo.boardStartRegDate}"/>
               ~
               <input type="text" id="end_reg_date" name="boardEndRegDate" value="${vo.boardEndRegDate}"/>
           </td>

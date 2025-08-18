@@ -20,7 +20,7 @@ public class UserBoardListAction implements Action{
             boardType = "userBoardList";
         }
 
-        //System.out.println("boardType:::::::::::::"+boardType);
+        System.out.println("boardType:::::::::::::"+boardType);
 
         //총 게시물 수 구하기
         //처음부터 끝까지 전체의 데이터 갯수
@@ -58,10 +58,10 @@ public class UserBoardListAction implements Action{
         if(boardType.equals("userBoardList")){
             //System.out.println("userBoardList!!!!!!!!!!!!!!!!!!!!");
             return "userBoardList.jsp";
-        } else if(boardType.equals("userEventList")){
+        } else if(boardType.equals("userEventBoardList")){
             //System.out.println("userEventList!!!!!!!!!!!!!!!!!");
-            return "userEventList.jsp";
-        } else if(boardType.equals("userCustomerInquiry")){
+            return "userEventBoardList.jsp";
+        } else if(boardType.equals("userInquiryList")){
             //System.out.println("userCustomerInquiry!!!!!!!!!!!!!!!!!!");
             return "userInquiry.jsp";
         } else{

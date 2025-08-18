@@ -264,7 +264,7 @@
                 ${vo.boardTitle}
             </a>
           </td>
-          <td>${vo.boardRegDate} ~ ${vo.boardEndRegDate}</td>
+          <td>${vo.boardStartRegDate} ~ ${vo.boardEndRegDate}</td>
             <%--삭제여부 확인하기용--%>
           <td>
             <c:if test="${vo.boardStatus eq '0'}"> 삭제안된 글</c:if>

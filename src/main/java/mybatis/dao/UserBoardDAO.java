@@ -54,8 +54,12 @@ public class UserBoardDAO {
         return ar;
     }
 
-    //공지사항 작성
-    public static int add(String boardType, String boardTitle, String boardContent, String fname, String oname, String boardRegDate, String is_answered){
+    //1:1문의 작성
+    public static int add(String boardType, String boardTitle, String boardContent, String fname, String oname, String boardStartRegDate, String is_answered){
+
+        if(boardType.equals("userInquiryWrite")){
+            boardType="QnA";
+        }
 
         System.out.println("UserBoardDAO에서의 boardType::::::::::" + boardType);
         //bungiCata함수 호출하여 boardType을 bt변수명에 저장
@@ -64,11 +68,11 @@ public class UserBoardDAO {
         Map<String, String> map = new HashMap<>();
 
         map.put("boardType", boardType);
-        map.put("title", boardTitle);
-        map.put("content", boardContent);
+        map.put("boardTitle", boardTitle);
+        map.put("boardContent", boardContent);
         map.put("fname", fname);
         map.put("oname", oname);
-        map.put("boardRegDate", boardRegDate);
+        map.put("boardStartRegDate", boardStartRegDate);
         map.put("is_answered", is_answered);
 
         SqlSession ss= FactoryService.getFactory().openSession();
@@ -102,7 +106,7 @@ public class UserBoardDAO {
             boardType="공지사항";
         }else if(boardType.equals("customerInquiry")){
             boardType="QnA";
-        }else if((boardType.equals("adminEventList"))){
+        }else if((boardType.equals("userEventBoardList"))){
             boardType="이벤트";
         }else{
             boardType="공지사항";
@@ -111,20 +115,30 @@ public class UserBoardDAO {
         return boardType;
     }
 
-    public static AdminBoardVO getPrevPost(String boardIdx) {
+    public static AdminBoardVO getPrevPost(String boardIdx, String boardType) {
         // MyBatis Mapper를 호출하여 이전 글 정보를 가져오는 로직
+
+        Map<String, String> map = new HashMap<>();
+        map.put("boardIdx", boardIdx);
+        map.put("boardType", boardType);
+
         SqlSession ss = FactoryService.getFactory().openSession();
-        AdminBoardVO prevVO = ss.selectOne("userBoard.getPrevPost", boardIdx);
+        AdminBoardVO prevVO = ss.selectOne("userBoard.getPrevPost", map);
 
         //System.out.println("preVO.toString():::::::" + prevVO.toString());
         ss.close();
         return prevVO;
     }
 
-    public static AdminBoardVO getNextPost(String boardIdx) {
+    public static AdminBoardVO getNextPost(String boardIdx, String boardType) {
+
+        Map<String, String> map = new HashMap<>();
+        map.put("boardIdx", boardIdx);
+        map.put("boardType", boardType);
+
         // MyBatis Mapper를 호출하여 다음 글 정보를 가져오는 로직
         SqlSession ss = FactoryService.getFactory().openSession();
-        AdminBoardVO nextVO = ss.selectOne("userBoard.getNextPost", boardIdx);
+        AdminBoardVO nextVO = ss.selectOne("userBoard.getNextPost", map);
 
         //System.out.println("nextVO.toString():::::::" + nextVO.toString());
         ss.close();

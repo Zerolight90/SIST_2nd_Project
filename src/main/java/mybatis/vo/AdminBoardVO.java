@@ -2,44 +2,12 @@ package mybatis.vo;
 
 public class AdminBoardVO {
 
-    private String boardIdx, parent_boardIdx, adminIdx, tIdx, boardType, sub_boardType, boardTitle, boardContent, file_name, ori_name, boardRegDate, boardEndRegDate, boardStatus, is_answered;
+    private String boardIdx, parent_boardIdx, adminIdx, tIdx, boardType, sub_boardType, boardTitle, boardContent, file_name, ori_name, thumbnail_url, boardStartRegDate, boardEndRegDate, boardStatus, is_answered, boardRegDate;
     private TheaterVO tvo;
 
     private MemberVO mvo; //회원정보
     private NmemVO nmemvo; //비회원정보
     private AdminBoardVO bvo;//답변글
-
-    public TheaterVO getTvo() {
-        return tvo;
-    }
-
-    public void setTvo(TheaterVO tvo) {
-        this.tvo = tvo;
-    }
-
-    public MemberVO getMvo() {
-        return mvo;
-    }
-
-    public void setMvo(MemberVO mvo) {
-        this.mvo = mvo;
-    }
-
-    public NmemVO getNmemvo() {
-        return nmemvo;
-    }
-
-    public void setNmemvo(NmemVO nmemvo) {
-        this.nmemvo = nmemvo;
-    }
-
-    public AdminBoardVO getBvo() {
-        return bvo;
-    }
-
-    public void setBvo(AdminBoardVO bvo) {
-        this.bvo = bvo;
-    }
 
     public String getBoardIdx() {
         return boardIdx;
@@ -105,12 +73,36 @@ public class AdminBoardVO {
         this.boardContent = boardContent;
     }
 
-    public String getBoardRegDate() {
-        return boardRegDate;
+    public String getFile_name() {
+        return file_name;
     }
 
-    public void setBoardRegDate(String boardRegDate) {
-        this.boardRegDate = boardRegDate;
+    public void setFile_name(String file_name) {
+        this.file_name = file_name;
+    }
+
+    public String getOri_name() {
+        return ori_name;
+    }
+
+    public void setOri_name(String ori_name) {
+        this.ori_name = ori_name;
+    }
+
+    public String getThumbnail_url() {
+        return thumbnail_url;
+    }
+
+    public void setThumbnail_url(String thumbnail_url) {
+        this.thumbnail_url = thumbnail_url;
+    }
+
+    public String getBoardStartRegDate() {
+        return boardStartRegDate;
+    }
+
+    public void setBoardStartRegDate(String boardStartRegDate) {
+        this.boardStartRegDate = boardStartRegDate;
     }
 
     public String getBoardEndRegDate() {
@@ -129,28 +121,52 @@ public class AdminBoardVO {
         this.boardStatus = boardStatus;
     }
 
-    public String getFile_name() {
-        return file_name;
-    }
-
-    public void setFile_name(String file_name) {
-        this.file_name = file_name;
-    }
-
-    public String getOri_name() {
-        return ori_name;
-    }
-
-    public void setOri_name(String ori_name) {
-        this.ori_name = ori_name;
-    }
-
     public String getIs_answered() {
         return is_answered;
     }
 
     public void setIs_answered(String is_answered) {
         this.is_answered = is_answered;
+    }
+
+    public TheaterVO getTvo() {
+        return tvo;
+    }
+
+    public void setTvo(TheaterVO tvo) {
+        this.tvo = tvo;
+    }
+
+    public MemberVO getMvo() {
+        return mvo;
+    }
+
+    public void setMvo(MemberVO mvo) {
+        this.mvo = mvo;
+    }
+
+    public NmemVO getNmemvo() {
+        return nmemvo;
+    }
+
+    public void setNmemvo(NmemVO nmemvo) {
+        this.nmemvo = nmemvo;
+    }
+
+    public AdminBoardVO getBvo() {
+        return bvo;
+    }
+
+    public void setBvo(AdminBoardVO bvo) {
+        this.bvo = bvo;
+    }
+
+    public String getBoardRegDate() {
+        return boardRegDate;
+    }
+
+    public void setBoardRegDate(String boardRegDate) {
+        this.boardRegDate = boardRegDate;
     }
 
     @Override
@@ -166,10 +182,12 @@ public class AdminBoardVO {
                 ", boardContent='" + boardContent + '\'' +
                 ", file_name='" + file_name + '\'' +
                 ", ori_name='" + ori_name + '\'' +
-                ", boardRegDate='" + boardRegDate + '\'' +
+                ", thumbnail_url='" + thumbnail_url + '\'' +
+                ", boardStartRegDate='" + boardStartRegDate + '\'' +
                 ", boardEndRegDate='" + boardEndRegDate + '\'' +
                 ", boardStatus='" + boardStatus + '\'' +
                 ", is_answered='" + is_answered + '\'' +
+                ", boardStartRegDate='" + boardStartRegDate + '\'' +
                 ", tvo=" + tvo +
                 ", mvo=" + mvo +
                 ", nmemvo=" + nmemvo +

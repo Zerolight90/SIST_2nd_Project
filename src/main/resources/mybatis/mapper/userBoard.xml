@@ -52,27 +52,29 @@
     </select>
 
     <!--게시물 작성-->
-    <insert id="add" parameterType="Map">
-        INSERT INTO board(userIdx, tIdx, boardType, boardTitle, boardContent, file_name, ori_name, boardRegDate,  boardStatus)
-        VALUES (1, 1, #{boardType}, #{title}, #{content}, #{fname}, #{oname}, NOW(),  0)
+    <insert id="add" parameterType="map">
+        INSERT INTO board(userIdx, tIdx, boardType, boardTitle, boardContent, file_name, ori_name, boardStatus, boardRegDate)
+        VALUES (1, 1, #{boardType}, #{boardTitle}, #{boardContent}, #{fname}, #{oname}, 0, NOW())
     </insert>
 
     <!--공지사항 상세 이전글-->
-    <select id="getPrevPost" resultType="mybatis.vo.AdminBoardVO">
+    <select id="getPrevPost" resultType="mybatis.vo.AdminBoardVO" parameterType="map">
         SELECT boardIdx, boardTitle
         FROM board
         WHERE boardIdx &lt; #{boardIdx}
         AND boardStatus = 0
+        AND boardType = #{boardType}
         ORDER BY boardIdx DESC
         LIMIT 1
     </select>
 
     <!--공지사항 상세 다음글-->
-    <select id="getNextPost" resultType="mybatis.vo.AdminBoardVO">
+    <select id="getNextPost" resultType="mybatis.vo.AdminBoardVO" parameterType="map">
         SELECT boardIdx, boardTitle
         FROM board
         WHERE boardIdx &gt; #{boardIdx}
         AND boardStatus = 0
+        AND boardType = #{boardType}
         ORDER BY boardIdx ASC
         LIMIT 1
     </select>

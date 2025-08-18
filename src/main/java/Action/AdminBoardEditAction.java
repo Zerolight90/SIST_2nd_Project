@@ -53,6 +53,10 @@ public class AdminBoardEditAction implements Action{
             try{
                 String realPath = application.getRealPath("/bbs_upload");
 
+                // 썸네일 저장 경로
+                String thumbPath = application.getRealPath("/event_thumbnails");
+
+
                 MultipartRequest mr = new MultipartRequest(request, realPath,1024*1025*5, 
                         "utf-8", new DefaultFileRenamePolicy()); //동일한 파일의 이름이 있다면, DefaultFileRenamePolicy()가 바꿔줌
 
@@ -61,7 +65,7 @@ public class AdminBoardEditAction implements Action{
                 boardType = mr.getParameter("type");
                 String subBoardType = mr.getParameter("sub_boardType");
                 String boardContent = mr.getParameter("boardContent");
-                String boardRegDate = mr.getParameter("boardRegDate");
+                String boardStartRegDate = mr.getParameter("boardStartRegDate");
                 String boardEndRegDate = mr.getParameter("boardEndRegDate");
                 String boardIdx = mr.getParameter("boardIdx");
                 String cPage = mr.getParameter("cPage");
@@ -78,7 +82,18 @@ public class AdminBoardEditAction implements Action{
                     oname = mr.getOriginalFileName("file"); //기존 사용자가 저장한 파일명
                 }
 
-                AdminBoardDAO.edit(boardIdx, boardTitle, subBoardType, boardRegDate, boardEndRegDate, boardContent, fname, oname);
+
+                //썸네일 이미지 파일 등록
+                File thumb_file = mr.getFile("thumb_file");
+                String thumbfilename = null;
+
+                if(thumb_file != null) {
+                    File newThumbFile = new File(thumbPath, thumb_file.getName());
+                    thumb_file.renameTo(newThumbFile);
+                    thumbfilename = thumb_file.getName();
+                }
+
+                AdminBoardDAO.edit(boardIdx, boardTitle, subBoardType, boardStartRegDate, boardEndRegDate, boardContent, fname, oname, thumbfilename);
 
                 if(boardType.equals("adminEditBoard")){
                     viewPath = "Controller?type=adminViewBoard&boardIdx=" + boardIdx + "&cPage=" + cPage;
