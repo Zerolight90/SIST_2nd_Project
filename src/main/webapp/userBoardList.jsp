@@ -163,7 +163,7 @@
                                     <td>${vo.tvo.tName}</td>
                                     <td>${vo.boardType}</td>
                                     <td>
-                                        <a href="Controller?type=userViewBoard&boardIdx=${vo.boardIdx}&cPage=${nowPage}">
+                                        <a href="Controller?type=userViewBoard&boardIdx=${vo.boardIdx}&cPage=${nowPage}&boardType=${vo.boardType}">
                                                 ${vo.boardTitle}
                                         </a>
                                     </td>
@@ -353,7 +353,7 @@
                                                 ${vo.boardTitle}
                                         </a>
                                     </td>
-                                    <td>${vo.boardRegDate}</td>
+                                    <td>${vo.boardStartRegDate}</td>
                                 </tr>
                             </c:forEach>
                             </tbody>

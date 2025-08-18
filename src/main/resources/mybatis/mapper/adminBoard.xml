@@ -41,8 +41,8 @@
 
     <!--게시물 작성-->
     <insert id="add" parameterType="Map">
-        INSERT INTO board(adminIdx, tIdx, boardType, sub_boardType, boardTitle, boardContent, file_name, ori_name, boardRegDate, boardEndRegDate, boardStatus, is_answered)
-        VALUES (1, 1, #{boardType}, #{subBoardType}, #{title}, #{content}, #{fname}, #{oname}, #{boardRegDate}, #{boardEndRegDate}, 0, NULL)
+        INSERT INTO board(adminIdx, parent_boardIdx, tIdx, boardType, sub_boardType, boardTitle, boardContent, file_name, ori_name, thumbnail_url, boardStartRegDate, boardEndRegDate, boardStatus, is_answered, boardRegDate)
+        VALUES (1, #{parent_boardIdx}, 1, #{boardType}, #{subBoardType}, #{title}, #{content}, #{fname}, #{oname}, #{thumbfilename}, #{boardStartRegDate}, #{boardEndRegDate}, 0, NULL, NOW())
     </insert>
 
     <!--게시물 보기-->
@@ -74,13 +74,23 @@
             sub_boardType = #{subBoardType},
             boardTitle = #{boardTitle},
             boardContent = #{boardContent},
-            boardRegDate = #{boardRegDate},
+            boardStartRegDate = #{boardStartRegDate},
             boardEndRegDate = #{boardEndRegDate},
             <if test="fname != null">
                 file_name = #{fname},
                 ori_name = #{oname}
             </if>
+            <if test="thumbfilename != null">
+                thumbnail_url = #{thumbfilename}
+            </if>
         </trim>
+        WHERE boardIdx = #{boardIdx}
+    </update>
+
+
+    <!--관리자가 답변을 달았을 때 답변상태 업데이트-->
+    <update id="update" parameterType="map">
+        UPDATE board set is_answered = #{is_answered}
         WHERE boardIdx = #{boardIdx}
     </update>
 

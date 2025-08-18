@@ -52,7 +52,7 @@
     }
 
     .board-table td {
-      padding: 12px 0px 10px 121px;
+      padding: 12px 0px 10px 40px;
       border-bottom: 1px solid #eee;
       text-align: left;
     }
@@ -136,7 +136,7 @@
           <th class="w100"><label for="board_reg_date">게시기간</label></th>
           <td>
             <%--에디터가 들어갈 자리--%>
-              <input type="text" id="start_reg_date" name="boardRegDate" value="${vo.boardRegDate}"/>
+              <input type="text" id="start_reg_date" name="boardStartRegDate" value="${vo.boardStartRegDate}"/>
               ~
               <input type="text" id="end_reg_date" name="boardEndRegDate" value="${vo.boardEndRegDate}"/>
           </td>
@@ -161,6 +161,17 @@
               </select>--%>
             </form>
           </td>
+        </tr>
+        <tr>
+          <th>썸네일 이미지:</th>
+          <td>
+              <%--첨부파일이 있는 경우--%>
+            <input type="file" id="thumb_file" name="thumb_file"/>
+            <c:if test="${vo.thumbnail_url != null}">
+              <p class="t_bold">(${vo.thumbnail_url})</p>
+            </c:if>
+          </td>
+            <%--보안상의 이유로 file에는 value를 넣어줄 수 없다. 바깥쪽에 스크립틀릿으로 if문으로 비교하자--%>
         </tr>
         <tr>
           <th class="w100"><label for="board_content">내용</label></th>

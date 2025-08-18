@@ -63,7 +63,7 @@ public class AdminBoardDAO {
     
     
     //게시물 작성
-    public static int add(String boardType, String sub_boardType, String boardTitle, String writer, String boardContent, String fname, String oname, String boardRegDate, String boardEndRegDate, String boardStatus){
+    public static int add(String boardType, String parent_boardIdx, String sub_boardType, String boardTitle, String writer, String boardContent, String fname, String oname, String thumbfilename, String boardStartRegDate, String boardEndRegDate, String boardStatus){
 
         //System.out.println("AdminBoardDAO에서의 boardType::::::::::" + boardType);
 
@@ -73,13 +73,15 @@ public class AdminBoardDAO {
         Map<String, String> map = new HashMap<>();
 
         map.put("boardType", boardType);
+        map.put("parent_boardIdx", parent_boardIdx);
         map.put("subBoardType", sub_boardType);
         map.put("title", boardTitle);
         map.put("writer", writer);
         map.put("content", boardContent);
         map.put("fname", fname);
         map.put("oname", oname);
-        map.put("boardRegDate", boardRegDate);
+        map.put("thumbfilename", thumbfilename);
+        map.put("boardStartRegDate", boardStartRegDate);
         map.put("boardEndRegDate", boardEndRegDate);
         map.put("boardStatus", boardStatus);
 
@@ -125,13 +127,13 @@ public class AdminBoardDAO {
     }
 
     //게시글 수정
-    public static int edit(String boardIdx, String boardTitle, String subBoardType, String boardRegDate, String boardEndRegDate, String boardContent, String fname, String oname){
+    public static int edit(String boardIdx, String boardTitle, String subBoardType, String boardStartRegDate, String boardEndRegDate, String boardContent, String fname, String oname, String thumbfilename){
 
         Map<String, String> map = new HashMap<>();
         map.put("boardIdx", boardIdx);
         map.put("boardTitle", boardTitle);
         map.put("subBoardType", subBoardType);
-        map.put("boardRegDate", boardRegDate);
+        map.put("boardStartRegDate", boardStartRegDate);
         map.put("boardEndRegDate", boardEndRegDate);
         map.put("boardContent", boardContent);
 
@@ -141,8 +143,34 @@ public class AdminBoardDAO {
             map.put("oname", oname);
         }
 
+        //썸네일 첨부가 되어있다면,
+        if(thumbfilename!=null){
+            map.put("thumbfilename", thumbfilename);
+        }
+
         SqlSession ss = FactoryService.getFactory().openSession();
         int cnt = ss.update("adminBoard.edit", map);
+
+        if(cnt>0)
+            ss.commit();
+        else
+            ss.rollback();
+
+        ss.close();
+
+        return cnt;
+    }
+
+
+    //답변상태값 업데이트
+    public static int update(String boardIdx, String is_answered){
+
+        Map<String, String> map = new HashMap<>();
+        map.put("boardIdx", boardIdx);
+        map.put("is_answered", is_answered);
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int cnt = ss.update("adminBoard.update", map);
 
         if(cnt>0)
             ss.commit();

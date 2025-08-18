@@ -52,7 +52,7 @@
     }
 
     .board-table td {
-      padding: 12px 0px 10px 121px;
+      padding: 12px 0px 10px 40px;
       border-bottom: 1px solid #eee;
       text-align: left;
     }
@@ -126,9 +126,15 @@
           <th class="w100"><label for="board_reg_date">게시기간</label></th>
           <td>
             <%--에디터가 들어갈 자리--%>
-              <input type="text" id="start_reg_date" name="boardRegDate"/>
+              <input type="text" id="start_reg_date" name="boardStartRegDate"/>
               ~
               <input type="text" id="end_reg_date" name="boardEndRegDate"/>
+          </td>
+        </tr>
+        <tr>
+          <th class="w100"><label for="board_thumbImg">썸네일 이미지</label></th>
+          <td>
+            <input type="file" id="thumb_file" name="thumb_file"/>
           </td>
         </tr>
         <tr>

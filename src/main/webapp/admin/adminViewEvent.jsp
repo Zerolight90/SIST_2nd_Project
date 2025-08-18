@@ -48,7 +48,7 @@
     }
 
     .board-table td {
-      padding: 12px 0px 10px 121px;
+      padding: 12px 0px 10px 40px;
       border-bottom: 1px solid #eee;
       text-align: left;
     }
@@ -119,7 +119,7 @@
           <tr>
             <th class="w100"><label for="board_reg_date">게시기간</label></th>
             <td>
-              ${vo.boardRegDate} <span> ~ <span> ${vo.boardEndRegDate}
+              ${vo.boardStartRegDate} <span> ~ <span> ${vo.boardEndRegDate}
             </td>
           </tr>
           <tr>
@@ -129,6 +129,14 @@
               <span>${vo.boardType}_${vo.sub_boardType}</span>
             </td>
           </tr>
+          <c:if test="${vo.thumbnail_url ne null and vo.thumbnail_url.length() > 4}">
+            <tr>
+              <th>썸네일이미지</th>
+              <td>
+                <img src="<c:url value='/event_thumbnails/${vo.thumbnail_url}'/>"/>
+              </td>
+            </tr>
+          </c:if>
           <tr>
             <th class="w100"><label for="board_content">내용</label></th>
             <td>
@@ -145,7 +153,6 @@
               </td>
             </tr>
           </c:if>
-
           </tbody>
         <tfoot>
         <tr>

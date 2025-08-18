@@ -48,7 +48,7 @@
     }
 
     .board-table td {
-      padding: 12px 0px 10px 121px;
+      padding: 12px 0px 10px 40px;
       border-bottom: 1px solid #eee;
       text-align: left;
     }
@@ -119,7 +119,7 @@
           <tr>
             <th class="w100"><label for="board_reg_date">게시기간</label></th>
             <td>
-              ${vo.boardRegDate} <span> ~ <span> ${vo.boardEndRegDate}
+              ${vo.boardStartRegDate} <span> ~ <span> ${vo.boardEndRegDate}
             </td>
           </tr>
           <tr>

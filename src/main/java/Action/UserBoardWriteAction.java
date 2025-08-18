@@ -31,8 +31,8 @@ public class UserBoardWriteAction implements Action{
 
                 MultipartRequest mr = new MultipartRequest(request, realPath, 1024 * 1025 * 5, "utf-8", new DefaultFileRenamePolicy());
 
-                String title = mr.getParameter("title");
-                String content = mr.getParameter("content");
+                String boardTitle = mr.getParameter("boardTitle");
+                String boardContent = mr.getParameter("boardContent");
                 String boardType = mr.getParameter("type");
                 String is_answered = mr.getParameter("is_answered");
 
@@ -47,7 +47,7 @@ public class UserBoardWriteAction implements Action{
 
                 //System.out.println(boardType +":::::::::::타입에 대한 설명입니다");
 
-                UserBoardDAO.add(boardType, title, content, fname, oname, boardType, is_answered);
+                UserBoardDAO.add(boardType, boardTitle, boardContent, fname, oname, boardType, is_answered);
 
                 viewPath = "/userInquiryWrite.jsp";
 
