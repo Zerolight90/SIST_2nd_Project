@@ -25,17 +25,15 @@ public class NaverAuthAction implements Action {
             // Redirect URI 인코딩
             String redirectURI = URLEncoder.encode(REDIRECT_URI, "UTF-8");
 
-            // 네이버 인증 요청 URL 완성
-            String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code"
+            // 네이버 인증 요청 URL 완성 (예: https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=... )
+            String apiURL = "https://nid.naver.com/oauth2.0/authorize"
+                    + "?response_type=code"
                     + "&client_id=" + CLIENT_ID
                     + "&redirect_uri=" + redirectURI
                     + "&state=" + state;
 
-            // 네이버 인증 페이지로 리다이렉트
-            response.sendRedirect(apiURL);
-
-            // 이미 리다이렉트 했으므로 null 반환
-            return null;
+            // Controller가 처리하도록 "redirect:" 접두어를 붙여 반환 (Controller에서 한 번만 sendRedirect 수행)
+            return "redirect:" + apiURL;
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", "네이버 인증 요청 중 오류가 발생했습니다.");

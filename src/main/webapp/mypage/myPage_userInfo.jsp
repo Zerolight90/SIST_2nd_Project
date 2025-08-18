@@ -31,19 +31,29 @@
         <strong><span>카카오 가입 유저</span></strong>
       </c:when>
 
-      <c:otherwise>
+      <c:when test="${not empty sessionScope.nvo}">
+        <strong><span>네이버 가입 유저</span></strong>
+      </c:when>
+
+      <c:when test="${not empty sessionScope.mvo}">
         <strong><span>${sessionScope.mvo.id}</span></strong>
+      </c:when>
+
+      <c:otherwise>
+        <strong><span>비회원</span></strong>
       </c:otherwise>
     </c:choose>
   </div>
 
+
   <div class="form-group">
     <span class="form-label">이름</span>
     <div class="form-value">
-      <%-- kvo 유저의 경우에도 mvo 데이터를 사용하도록 수정 --%>
+      <%-- kvo,nvo 유저의 경우에도 mvo 데이터를 사용하도록 수정 --%>
       <strong><span>${sessionScope.mvo.name}</span></strong>
     </div>
   </div>
+
 
   <div class="form-group">
     <span class="form-label">비밀번호</span>
@@ -51,19 +61,30 @@
       <c:when test="${not empty sessionScope.kvo}">
         <div class="form-value">
           <input type="password" id="pw_password" disabled/>
+        </div>
+      </c:when>
 
+      <c:when test="${not empty sessionScope.nvo}">
+        <div class="form-value">
+          <input type="password" id="pw_password" disabled/>
+        </div>
+      </c:when>
+
+      <c:when test="${not empty sessionScope.mvo}">
+        <div class="form-value">
+          <input type="password" id="pw_password" VALUE="${sessionScope.mvo.pw}" disabled/>
+          <button class="mybtn mybtn-sm" id="changePwBtn">비밀번호 변경</button>
         </div>
       </c:when>
 
       <c:otherwise>
         <div class="form-value">
-          <input type="password" id="pw_password" VALUE="${sessionScope.mvo.pw}" disabled/>
-          <button class="mybtn mybtn-sm" id="changePwBtn">비밀번호 변경</button>
-
+          <input type="password" id="pw_password" />
         </div>
       </c:otherwise>
     </c:choose>
   </div>
+
 
   <div id="pw-change-form" style="display: none;">
     <div class="form-group">

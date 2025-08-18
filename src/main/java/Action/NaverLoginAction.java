@@ -26,7 +26,7 @@ public class NaverLoginAction implements Action {
         }
 
         NaverDAO ndao = new NaverDAO();
-        String accessToken = null;
+        String accessToken;
         try {
             accessToken = ndao.getAccessToken(code, state);
         } catch (Exception e) {
@@ -38,7 +38,7 @@ public class NaverLoginAction implements Action {
             return "/join/login.jsp";
         }
 
-        Map<String, String> userInfo = null;
+        Map<String, String> userInfo;
         try {
             userInfo = ndao.getUserInfo(accessToken);
         } catch (Exception e) {
@@ -50,19 +50,11 @@ public class NaverLoginAction implements Action {
             return "/join/login.jsp";
         }
 
-        NaverVO nvo = new NaverVO();
-        nvo.setN_id(userInfo.get("id"));
-        nvo.setN_name(userInfo.get("name"));
-        nvo.setN_email(userInfo.get("email"));
-        nvo.setN_birthday(userInfo.get("birthday"));
-        nvo.setN_gender(userInfo.get("gender"));
-        nvo.setN_Phone(userInfo.get("phone"));
-        nvo.setBirthYear(userInfo.get("birthYear"));
+        NaverVO nvo = ndao.buildNaverVoFromMap(userInfo);
 
-        // DB 처리: MemberDAO에 checkNaverId, naverRegistry, findByNaverId 메서드가 있어야 합니다.
-        boolean exists = MemberDAO.checkNaverId(nvo.getN_id()); // 구현 필요
+        boolean exists = MemberDAO.checkNaverId(nvo.getN_id());
         if (!exists) {
-            int res = MemberDAO.naverRegistry(nvo); // 구현 필요
+            int res = MemberDAO.naverRegistry(nvo);
             if (res <= 0) {
                 request.setAttribute("loginError", true);
                 request.setAttribute("errorMessage", "DB 회원 등록 실패");
@@ -70,14 +62,19 @@ public class NaverLoginAction implements Action {
             }
         }
 
+        // 로그인 성공 처리 — 세션에 필요한 항목만 명확히 저장
         session.setAttribute("nvo", nvo);
         session.setAttribute("naver_access_token", accessToken);
         session.setAttribute("msg", (nvo.getN_name() != null ? nvo.getN_name() : "사용자") + "님, 네이버로 로그인되었습니다.");
 
-        MemberVO mvo = MemberDAO.findByNaverId(nvo.getN_id()); // 구현 필요
+        // 사용자가 DB에 존재하면 mvo도 세션에 넣음
+        MemberVO mvo = MemberDAO.findByNaverId(nvo.getN_id());
         if (mvo != null) {
             session.setAttribute("mvo", mvo);
         }
+
+        // 로그인 완료 후 더 이상 필요없는 oauth state는 제거
+        session.removeAttribute("naver_oauth_state");
 
         boolean hasPhone = (mvo != null && mvo.getPhone() != null && !mvo.getPhone().trim().isEmpty());
         boolean hasBirth = (mvo != null && mvo.getBirth() != null && !mvo.getBirth().trim().isEmpty());
