@@ -1,63 +1,72 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-    <title>SiST_아이디/비밀번호 찾기</title>
-    <link rel="stylesheet" href="../css/reset.css">
-    <link rel="stylesheet" href="../css/search_tab.css">
-    <link rel="stylesheet" href="../css/search.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
-    <link rel="icon" href="../images/favicon.png">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+    <meta charset="UTF-8">
+    <title>SIST CINEMA - 아이디 / 비밀번호 찾기</title>
+<%--    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/search_tab.css"/>--%>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/join.css"/>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/search.css"/>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"></script>
 </head>
 <body>
 
-<div id="content">
-    <img class="logo" src="../images/logo.png">
+<div class="container">
+    <h1>SIST CINEMA</h1>
+    <h2>아이디 / 비밀번호 찾기</h2>
 
-    <div class="page-content">
-        <!-- 상단 탭 -->
-        <div class="page-title">
-            <h2 class="tit">아이디 / 비밀번호 찾기</h2>
-        </div>
-
-        <div class="ec-base-tab typeLight notice-tab-wrap ">
-            <ul class="notice-tab menu">
-                <li class="tabBtn on selected"><a class="btn">아이디 찾기</a></li>
-                <jsp:include page="search_id.jsp"/>
-                <li class="tabBtn"><a class="btn">비밀번호 찾기</a></li>
-
-            </ul>
-        </div>
+    <div class="ec-base-tab grid2 typeLight">
+        <ul class="menu">
+            <li class="selected"><a href="#" data-url="<%=request.getContextPath()%>/join/search_id.jsp">아이디 찾기</a></li>
+            <li><a href="#" data-url="<%=request.getContextPath()%>/join/search_pw.jsp">비밀번호 찾기</a></li>
+        </ul>
     </div>
 
+    <div id="tabContent">
+        <!-- AJAX로 로드된 내용이 표시됩니다 -->
+    </div>
 </div>
 
-
 <script>
-        // 1. 모든 탭 버튼(li)과 내용 영역(div)을 가져옵니다.
-        const tabs = document.querySelectorAll('.menu li');
-        const tabContents = document.querySelectorAll('.tabCont');
+    $(function(){
+        var $menuItems = $('.ec-base-tab .menu li');
+        var $tabContent = $('#tabContent');
 
-        // 2. 각 탭 버튼에 클릭 이벤트 리스너를 추가합니다.
-        tabs.forEach((tab, index) => {
-        tab.addEventListener('click', (e) => {
-            // a 태그의 기본 동작(페이지 이동)을 막습니다.
+        function loadContent(url) {
+            $tabContent.html('<p class="loading">로딩 중...</p>');
+            $.ajax({
+                url: url,
+                method: 'GET',
+                dataType: 'html',
+                success: function(data){
+                    $tabContent.html(data);
+                },
+                error: function(){
+                    $tabContent.html('<p class="error">콘텐츠를 불러오는 중 오류가 발생했습니다.</p>');
+                }
+            });
+        }
+
+        // 초기 로드 (첫 번째 탭)
+        loadContent($menuItems.first().find('a').data('url'));
+
+        // 탭 클릭 이벤트
+        $menuItems.find('a').on('click', function(e){
             e.preventDefault();
+            var $parentLi = $(this).parent();
 
-            // 3. 모든 탭에서 'selected' 클래스를 제거합니다.
-            tabs.forEach(item => item.classList.remove('selected'));
+            if($parentLi.hasClass('selected')) return;
 
-            // 4. 방금 클릭한 탭에만 'selected' 클래스를 추가합니다.
-            tab.classList.add('selected');
+            $menuItems.removeClass('selected');
+            $parentLi.addClass('selected');
 
-            // 5. 모든 내용 영역을 숨깁니다.
-            tabContents.forEach(content => content.style.display = 'none');
-
-            // 6. 클릭한 탭과 순서가 맞는 내용 영역만 보여줍니다.
-            tabContents[index].style.display = 'block';
+            var url = $(this).data('url');
+            loadContent(url);
         });
     });
 </script>
+
 </body>
 </html>
