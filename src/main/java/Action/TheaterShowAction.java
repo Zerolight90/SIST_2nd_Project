@@ -19,7 +19,6 @@ public class TheaterShowAction implements Action{
         // m_id는 mIdx 와 비교하고
         // theater는 tIdx와 비교한다.
         TimeTableVO[] showTime = null;
-        List<ScreenVO> s_list = null;
 
         String date = request.getParameter("date");
         String mIdx = request.getParameter("mIdx");

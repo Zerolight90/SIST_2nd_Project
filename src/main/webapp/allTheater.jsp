@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -168,45 +170,77 @@
             </div>
 
             <!--타임테이블-->
-            <div>
-
+            <div class="booking-date">
+              <div class="date-container">
+                <c:forEach var="dvo" items="${requestScope.dvo_list}" varStatus="i">
+                  <div class="date-item">
+                    <c:set var="dayStr" value="${fn:substring(dvo.locDate, 8, 10)}" />
+                    <c:choose>
+                      <c:when test="${fn:startsWith(dayStr, '0')}"> <!-- 0으로 시작하면 마지막 글자만 보여주고 -->
+                        <button type="button" class="btn" onclick="inDate(this.nextElementSibling.value)">${fn:substring(dayStr, 1, 2)}&nbsp;${fn:substring(dvo.dow, 0, 1)}</button>
+                        <input type="hidden" value="${dvo.locDate}"/>
+                      </c:when>
+                      <c:otherwise>  <!-- 0으로 시작하지 않으면 모두 보여준다 -->
+                        <button type="button" class="btn" onclick="inDate(this.nextElementSibling.value)">${dayStr}&nbsp;${fn:substring(dvo.dow, 0, 1)}</button>
+                        <input type="hidden" value="${dvo.locDate}"/>
+                      </c:otherwise>
+                    </c:choose>
+                  </div>
+                </c:forEach>
+              </div>
             </div>
 
-
-            <br/><br/><br/><br/><br/>
-
             <!--영화정보, 관란등급안내-->
-            <!--영화 정보-->
-            <div class="show-movie-list">
-              <div class="show-movie">
-                <div class="title">
-                  <p class="movie-grade age-12">12</p>
-                  <span class="movie-title">판타스틱4:새로운 출발</span>
-                  <p class="information">
-                    <span class="show-status">상영중</span>
-                    <span class="show-total-time">/상영시간 114분</span>
-                  </p>
-                </div>
+            <c:set var="prevMovie" value=""/>
+            <c:set var="prevScreen" value=""/>
 
+            <c:forEach var="timeVO" items="${mappingTime}">
+              <c:set var="movieVO" value="${timeVO.m_list[0]}"/>
+              <c:set var="screenVO" value="${timeVO.s_list[0]}"/>
+              <c:set var="theaterVO" value="${timeVO.t_list[0]}"/>
+
+              <!-- 영화 정보 출력 (중복 제거) -->
+              <c:if test="${prevMovie != movieVO.name}">
+                <div class="show-movie-list">
+                  <div class="show-movie">
+                    <div class="show-movie-list-title">
+                      <img src="/images/${movieVO.age}.png"/>
+                      <span class="title-movie-title">${movieVO.name}</span>
+                      <p class="information">
+                        <span class="show-status">상영중</span>
+                        <span class="show-total-time">/상영시간 ${movieVO.runtime}분</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <!-- 영화 바뀌면 이전 상영관 초기화 -->
+                <c:set var="prevScreen" value=""/>
+              </c:if>
+
+              <!-- 상영관 정보 출력 (중복 제거) -->
+              <c:if test="${prevScreen != screenVO.sName}">
                 <div class="show-theater-info">
                   <div class="theater-info">
                     <div class="theater-type">
-                      <p class="theater-name">컴포트 101호 [Laser]</p>
-                      <p class="chair">총 154석</p>
+                      <p class="screen-name">${screenVO.sName}</p>
+                      <p class="chair">총 ${screenVO.sCount}석</p>
                     </div>
                     <div class="theater-time">
-                      <div class="theater-type-area">2D</div>
-                      <div class="theater-time-box">
-                        <!-- div로 표현하는 방식 -->
-                        <div class="time-btn"><span>17:15</span><em>102석</em></div>
-                        <div class="time-btn"><span>19:40</span><em>68석</em></div>
-                        <div class="time-btn"><span>22:05</span><em>105석</em></div>
+                      <!-- 반복문을 돌면서 같은 상영관에 상영하는 영화가 여러개라면 여러번 수행해야함 -->
+                      <div class="time-btn">
+                        <span>${fn:substring(timeVO.startTime, 10, 16)}</span>
+                        <em>${screenVO.sCount}석</em>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </c:if>
+
+
+              <!-- 현재 영화와 상영관을 prev 변수에 저장 -->
+              <c:set var="prevMovie" value="${movieVO.name}"/>
+              <c:set var="prevScreen" value="${screenVO.sName}"/>
+            </c:forEach>
 
             <div class="box-info mtb70">
               <ul class="floor-info">

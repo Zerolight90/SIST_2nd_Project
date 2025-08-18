@@ -38,5 +38,6 @@
         <mapper resource="mybatis/mapper/userBoard.xml"/>
         <mapper resource="mybatis/mapper/favMovie.xml"/>
         <mapper resource="mybatis/mapper/seatStatus.xml"/>
+        <mapper resource="mybatis/mapper/seat.xml"/>
     </mappers>
 </configuration>

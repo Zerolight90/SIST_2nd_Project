@@ -38,28 +38,12 @@ body {
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-/* 상단 날짜 영역 */
-.booking-date {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    font-size: 13px;
-}
-
 .date-wrap {
     display: flex;
     gap: 10px;
     align-items: center;
 }
 
-.date-item {
-    text-align: center;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s;
-    min-width: 80px;
-}
 
 
 
@@ -99,12 +83,17 @@ body {
     font-weight: 400 !important;
 }
 
+.select-time button:hover {
+    background: #f8f8ff;
+}
+
 .select-time {
+    height: 32px;
     display: flex;
     text-align: center;
     border-top: 1px solid #e0e0e0;
     border-bottom: 1px solid #e0e0e0;
-    padding: 7px 0;
+    justify-content: center;
 }
 
 .book-main, #date-list {
@@ -131,7 +120,7 @@ body {
 
 .ec-base-tab .menu li a {
     display: block;
-    padding: 15px;
+    padding: 7px;
     text-decoration: none;
     color: #666;
     border-bottom: 2px solid transparent;
@@ -449,6 +438,15 @@ body {
     }
 }
 
+/* 상단 날짜 영역 */
+.booking-date {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-size: 13px;
+}
+
 .date-container {
     display: flex;
     justify-content: center;
@@ -466,6 +464,15 @@ body {
     background-color: #f7f8f9;
     border-bottom: 2px solid #503396;
 }
+
+.date-item {
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    min-width: 80px;
+}
+
 
 .movie_all {
     display: flex;
@@ -550,4 +557,40 @@ body {
     width: 120px;
     height: 100%;
     text-align: right;
+}
+
+/* 사용자가 선택한 버튼의 색이 바뀌는 CSS */
+/* 선택된 버튼 스타일 */
+.selected-btn {
+    background: #f8f8ff !important;
+    border-bottom: solid 1px #6c5ce7;
+}
+
+.date-container .btn.selected-btn {
+    background: #f8f8ff !important;
+    color: #6c5ce7;
+}
+
+.movie_all button.selected-btn {
+    background: #f8f8ff !important;
+    color: #6c5ce7;
+}
+
+.theater_all button.selected-btn {
+    background: #f8f8ff !important;
+    color: #6c5ce7;
+}
+
+#time-container button.selected-btn {
+    background: #f8f8ff !important;
+    color: #6c5ce7;
+}
+
+/* 기본 버튼 hover 효과 */
+.date-container .btn:hover,
+.movie_all button:hover,
+.theater_all button:hover,
+#time-container button:hover {
+    background: #e8e8ff;
+    transition: background-color 0.2s ease;
 }

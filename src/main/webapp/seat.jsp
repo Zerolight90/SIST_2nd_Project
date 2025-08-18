@@ -80,17 +80,24 @@
             </div>
 
             <c:set var="alphabet" value="ZABCDEFGHIJKLMNOPQRSTUVWXY"/>
-
-            <c:forEach var="row" begin="1" end="${screen.sRow}" varStatus="i">
-                <c:forEach var="col" begin="1" end="${screen.sColumn}" varStatus="j">
-                    <button class="seat-item"
-                            data-seat="${fn:substring(alphabet, i.index, i.index+1)}${j.count}"
-                            onclick="selectSeat(this)">
-                            ${fn:substring(alphabet, i.index, i.index+1)}${j.count}
-                    </button>
-                </c:forEach>
-                <br/>
-            </c:forEach>
+            <div class="seat-area">
+                <div class="seat-map">
+                    <c:forEach var="rowNum" begin="1" end="${screen.sRow}" varStatus="i">
+                        <c:set var="rowChar" value="${fn:substring(alphabet, i.index, i.index+1)}"/>
+                        <c:forEach var="colNum" begin="1" end="${screen.sColumn}" varStatus="j">
+                            <c:set var="seatId" value="${rowChar}${j.count}"/>
+                            <button class="seat-item" onclick="selectSeat(this)"
+                                    data-seat="${seatId}">
+                                    ${seatId}
+                            </button>
+                            <c:if test="${j.count == 2 || j.count == 6}">
+                                <div class="blank"></div>
+                            </c:if>
+                        </c:forEach>
+                        <br/>
+                    </c:forEach>
+                </div>
+            </div>
 
             <div class="legend">
                 <div class="legend-item">
@@ -110,14 +117,14 @@
 
         <div class="info-panel">
             <div class="movie-poster">
-                <div class="poster-img">${movie.name}<br>${movie.age}</div>
+                <div class="poster-img"><img src="${movie.poster}" alt="스크린 이미지"></div>
             </div>
             <div class="movie-info">
                 <div class="movie-title">${movie.name}</div>
                 <div class="movie-details">
-                    상영관: ${screen.sName}${screen.screenCode}<br>
-                    ${time.startTime}<br>
-                    ${time.endTime}
+                    상영관: ${screen.sName}(${screen.screenCode})<br>
+                    ${fn:substring(time.startTime, 0, 10)}<br> <!-- 영화가 시작하는 날짜 -->
+                    ${fn:substring(time.startTime, 10, 16)}&nbsp;~${fn:substring(time.endTime, 10, 16)} <!-- 영화가 시작하는 시간 -->
                 </div>
 
                 <div class="selected-info">
@@ -155,13 +162,24 @@
         <input type="hidden" name="movieTitle" value="${movie.name}">
         <input type="hidden" name="posterUrl" value="${movie.poster}">
         <input type="hidden" name="screenName" value="${screen.sName}">
-        <input type="hidden" name="typePrice" value="${type.codeType}"> <!-- 코드타입의 가격 보냄 -->
+        <input type="hidden" name="typePrice" value="${screen.screenCode}"> <!-- 코드타입의 가격 보냄 -->
         <input type="hidden" name="seatInfo" value=""> <!-- 스크립트에서 value에 담아서 보냄 -->
         <input type="hidden" name="amount" value=""> <!-- 스크립트에서 value에 담아서 보냄 -->
     </form>
 </div>
 
 <script>
+    // DOM 로드 후, 이미 예매된 좌석들을 비활성화
+    document.addEventListener('DOMContentLoaded', function() {
+        <c:forEach var="bookedSeat" items="${requestScope.seatVO}">
+        var seatElement = document.querySelector('.seat-item[data-seat="${bookedSeat.seatNumber}"]');
+        if (seatElement) {
+            seatElement.classList.add('seat-item-deactivate');
+            seatElement.onclick = null;
+        }
+        </c:forEach>
+    });
+
     // 가격 설정
     let teenPrice = Number(document.getElementById('teenPrice').value);
     let specialPrice = Number(document.getElementById('elderPrice').value); // 노인과 취약계층 가격 동일
@@ -185,29 +203,52 @@
 
 
     function goPay() {
+        updateTotalPrice();
+
+        if (totalPersons === 0) {
+            alert("인원을 선택해주세요")
+            return;
+        }
+        if(seat_list.length === 0) {
+            alert("좌석을 선택해주세요")
+            return;
+        }
+
         document.ff.seatInfo.value = seat_list.join(', ');
         document.ff.amount.value = total_price;
 
-        // console.log(document.ff.startTime.value)
-        // console.log(document.ff.theaterName.value)
-        // console.log(document.ff.movieTitle.value)
-        // console.log(document.ff.posterUrl.value)
-        // console.log(document.ff.screenName.value)
-        // console.log(document.ff.typePrice.value)
-        // console.log(document.ff.seatInfo.value)
-        // console.log(document.ff.amount.value)
+        console.log(document.ff.startTime.value)
+        console.log(document.ff.theaterName.value)
+        console.log(document.ff.movieTitle.value)
+        console.log(document.ff.posterUrl.value)
+        console.log(document.ff.screenName.value)
+        console.log(document.ff.typePrice.value)
+        console.log(document.ff.seatInfo.value)
+        console.log(document.ff.amount.value)
 
         document.ff.submit();
     }
 
     // 인원 수 변경
     function changeCount(type, int) {
-        // console.log("normalPrice:", normalPrice);
-        // console.log("teenPrice:", teenPrice);
-        // console.log("specialPrice:", specialPrice);
         let element = document.getElementById(type);
         let currentCount = parseInt(element.innerText);
         let newCount = currentCount + int;
+
+        if(int === -1) {
+            if(totalPersons === 0) {
+                alert("인원수를 확인해주세요")
+                return;
+            }
+            if(seat_list.length === totalPersons){
+                alert("좌석을 선택 해제하고 다시 시도해주세요")
+                return;
+            }
+            newCount = currentCount - 1;
+        }
+        // console.log("normalPrice:", normalPrice);
+        // console.log("teenPrice:", teenPrice);
+        // console.log("specialPrice:", specialPrice);
 
         // 보이는 숫자가 0이면 연산해도 돌아감
         if(newCount < 0) newCount = 0;
@@ -256,11 +297,15 @@
 
         if (isAlreadySelected) {
             // 이미 선택된 좌석을 다시 클릭하면 선택 취소
-            seat.style.backgroundColor = '#ccc';
-            seat.style.borderColor = '#ddd';
+            seat.style.backgroundColor = 'white';
+            seat.style.borderColor = 'black';
         } else {
             // 새로운 좌석을 선택하려는 경우
             // 현재 선택된 좌석 수가 총 인원 수와 같거나 많은지 확인
+            if(totalPersons === 0) {
+                alert("인원을 확인을해주세요");
+                return;
+            }
             if (currentSelectedCount >= totalPersons) {
                 alert("총 인원(" + totalPersons + "명)보다 많은 좌석을 선택할 수 없습니다.");
                 return; // 함수 종료, 좌석 선택하지 않음
@@ -296,12 +341,6 @@
         }
     }
 
-    // 선택된 좌석이 총 인원보다 많으면 초과분 제거
-
-
-
-    // 선택된 좌석 표시 업데이트
-
     // 가격 업데이트
     function updateTotalPrice() {
         // seat_list를 돌면서 안에 있는 글자들의 첫번째 글자를 가져옴
@@ -310,14 +349,36 @@
             let seat_type = seat.charAt(0);
             // 만약 A 열이라면 총 가격에서 -1000
             if(seat_type === 'A') {
+                console.log("가격 -1000 함");
                 total_price = total_price - 1000;
             }
         }
     }
 
     // 전체 초기화
+    function resetAll() {
+        // 1) 인원 카운트 UI를 0으로 초기화
+        adult.innerText = '0';
+        teen.innerText = '0';
+        senior.innerText = '0';
+        special.innerText = '0';
+        totalPersons = 0;
 
-    // 페이지 로드 시 좌석 맵 생성
+        // 2) 좌석 선택 초기화 (인라인 스타일 제거 → 기본 CSS로 복귀)
+        document.querySelectorAll('.seat-item').forEach(seat => {
+            seat.removeAttribute('style');      // background/border 등 모두 제거
+            seat.classList.remove('selected');  // 혹시 쓴 적 있다면 대비
+        });
+
+        // 3) 내부 상태 초기화
+        seat_list = [];
+        total_price = 0;
+
+        // 4) 우측 패널 UI 초기화
+        document.getElementById('selected-seats-display').innerText = '-';
+        document.getElementById('total_person').innerText = '총 인원: 0';
+        document.getElementById('total-price').innerText = '0 원';
+    }
 </script>
 
 <jsp:include page="common/Footer.jsp"/>
