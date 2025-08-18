@@ -26,7 +26,7 @@ import java.util.Date;
 
 public class RefundAction implements Action {
 
-    private static final String TOSS_SECRET_KEY = "test_sk_d46qopOB89ZPBdzwDdQO3ZmM75y0";
+    private static final String TOSS_SECRET_KEY = "test_gsk_docs_OaPz8L5KdmQXkzRz3y47BMw6";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -39,8 +39,8 @@ public class RefundAction implements Action {
         try {
             ss = FactoryService.getFactory().openSession(false); // 트랜잭션 시작
 
-            MemberVO loginUser = (MemberVO) request.getSession().getAttribute("login_user");
-            if (loginUser == null) {
+            MemberVO mvo = (MemberVO)request.getSession().getAttribute("mvo");
+            if (mvo == null) {
                 throw new Exception("로그인이 필요한 서비스입니다.");
             }
 
@@ -50,7 +50,7 @@ public class RefundAction implements Action {
             }
 
             // MemberVO의 userIdx(String)를 long으로 변환하여 PaymentVO의 userIdx(long)와 비교
-            if (pvo.getUserIdx() != Long.parseLong(loginUser.getUserIdx())) {
+            if (pvo.getUserIdx() != Long.parseLong(mvo.getUserIdx())) {
                 throw new Exception("본인의 결제 내역만 취소할 수 있습니다.");
             }
 
@@ -64,9 +64,9 @@ public class RefundAction implements Action {
                     long cancellationDeadline = screeningTime - (30 * 60 * 1000); // 상영 30분 전
                     long now = System.currentTimeMillis();
 
-                    if (now > cancellationDeadline) {
-                        throw new Exception("상영 30분 전까지만 취소가 가능합니다.");
-                    }
+//                    if (now > cancellationDeadline) {
+//                        throw new Exception("상영 30분 전까지만 취소가 가능합니다.");
+//                    }
                 }
             }
 

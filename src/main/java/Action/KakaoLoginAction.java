@@ -1,5 +1,6 @@
 package Action;
 
+import mybatis.dao.CouponDAO;
 import mybatis.dao.KakaoDAO;
 import mybatis.dao.MemberDAO;
 import mybatis.vo.KakaoVO;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Map;
 
 public class KakaoLoginAction implements Action {
@@ -91,6 +93,33 @@ public class KakaoLoginAction implements Action {
         MemberVO mvo = MemberDAO.findByKakaoId(K_member.getK_id());
         if (mvo != null) {
             session.setAttribute("mvo", mvo); // 세션에 mvo 정보 저장
+
+            // ########### [추가된 로직] ########### !!!
+            // 로그인 성공 시 생일 쿠폰 지급 확인
+            try {
+                String birthDateStr = mvo.getBirth();
+                if (birthDateStr != null && !birthDateStr.isEmpty()) {
+                    LocalDate today = LocalDate.now();
+                    LocalDate birthday = LocalDate.parse(birthDateStr);
+
+                    // 오늘 날짜와 생일의 월, 일이 일치하는지 확인
+                    if (today.getMonthValue() == birthday.getMonthValue() && today.getDayOfMonth() == birthday.getDayOfMonth()) {
+                        long userIdx = Long.parseLong(mvo.getUserIdx());
+                        long birthdayCouponIdx = 6; // DB에 명시된 생일 쿠폰 ID
+
+                        // 올해 생일 쿠폰을 이미 받았는지 확인
+                        boolean alreadyReceived = CouponDAO.hasReceivedBirthdayCouponThisYear(userIdx, birthdayCouponIdx);
+                        if (!alreadyReceived) {
+                            CouponDAO.issueCouponToUser(userIdx, birthdayCouponIdx);
+                            System.out.println(mvo.getName() + "님에게 생일 축하 쿠폰이 발급되었습니다.");
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("생일 쿠폰 발급 중 오류 발생");
+            }
+            // ################################### !!!
         }
 
         // *추가 부분: 휴대폰번호와 생년월일이 모두 들어 있으면 index.jsp로 리다이렉트

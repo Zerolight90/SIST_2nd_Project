@@ -111,8 +111,6 @@
                         </tr>
                         </tbody>
                     </table>
-
-                    <p style="color: red; font-size: 12px;">[디버그] paymentType: ${item.paymentType}</p>
                     <div class="action-area">
                         <c:if test="${item.paymentStatus == 0}">
                             <button class="mybtn mybtn-outline" data-payment-key="${item.paymentKey}">
@@ -176,6 +174,11 @@
          * @param {string} paymentKey - 환불할 결제의 키 값
          * @param {HTMLElement} btn - 클릭된 버튼 요소
          */
+        /**
+         * 서버에 환불을 요청하는 함수
+         * @param {string} paymentKey - 환불할 결제의 키 값
+         * @param {HTMLElement} btn - 클릭된 버튼 요소
+         */
         function requestRefund(paymentKey, btn) {
             $.ajax({
                 url: cp + "/Controller?type=refund",
@@ -184,22 +187,34 @@
                     paymentKey: paymentKey,
                     cancelReason: "고객 변심"
                 },
-                // [수정] dataType: "json" 옵션 제거
+                dataType: "json", // 서버가 JSON을 반환하므로 dataType 명시
 
-                success: function(response) {
-                    // [수정] 응답을 수동으로 JSON 파싱
-                    try {
-                        const res = JSON.parse(response); // 문자열을 JSON 객체로 변환
-                        if (res.isSuccess) {
-                            $(btn).replaceWith('<span class="status-label">취소된 내역</span>');
-                        } else {
-                        }
-                    } catch (e) {
-                        // JSON 파싱 실패 시, 받은 응답을 그대로 출력해 디버깅
+                success: function(res) {
+                    if (res.isSuccess) {
+                        // ----- 자동 새로고침 로직
+
+                        // 1. 클릭된 버튼을 기준으로 부모인 '.history-card' 전체를 찾습니다.
+                        const $card = $(btn).closest('.history-card');
+
+                        // 2. 카드 내에서 상태를 표시하는 '.status-box'를 찾아 내용을 변경합니다.
+                        $card.find('.status-box')
+                            .text('취소완료') // 텍스트 변경
+                            .removeClass('status-paid') // 기존 클래스 제거
+                            .addClass('status-cancelled'); // 새 클래스 추가
+
+                        // 3. 버튼이 들어있는 '.action-area'를 찾아 내용을 비웁니다.
+                        $card.find('.action-area').empty();
+
+                        alert("정상적으로 취소되었습니다.");
+
+                    } else {
+                        // 서버에서 isSuccess:false 응답을 보냈을 때
+                        alert("환불 처리 중 오류가 발생했습니다: " + res.errorMessage);
                     }
                 },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    // AJAX 통신 자체가 실패했을 때만 실행됨
+                error: function() {
+                    // AJAX 통신 자체가 실패했을 때
+                    alert("서버와 통신하는 데 실패했습니다. 잠시 후 다시 시도해 주세요.");
                 }
             });
         }
