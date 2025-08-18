@@ -13,6 +13,7 @@
 <body>
 
 <div id="content">
+    <img class="logo" src="../images/logo.png">
 
     <div class="page-content">
         <!-- 상단 탭 -->
@@ -23,7 +24,7 @@
         <div class="ec-base-tab typeLight notice-tab-wrap ">
             <ul class="notice-tab menu">
                 <li class="tabBtn on selected"><a class="btn">아이디 찾기</a></li>
-                
+                <jsp:include page="search_id.jsp"/>
                 <li class="tabBtn"><a class="btn">비밀번호 찾기</a></li>
 
             </ul>

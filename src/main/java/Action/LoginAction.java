@@ -29,11 +29,26 @@ public class LoginAction implements Action {
             }
 
             MemberVO mvo = MemberDAO.login(u_id, u_pw);
+            String url = "";
+            String seaturl = request.getParameter("booking");
+            String borderurl = request.getParameter("border");
+
+            if (seaturl == null || borderurl ==null) {
+                url = "index";
+            } else if (seaturl != null) {
+                url = seaturl;
+
+            } else if (borderurl != null) {
+                url = borderurl;
+            }
+
 
             if (mvo != null) {
                 HttpSession session = request.getSession();
                 session.setAttribute("mvo", mvo);
-                return "./index.jsp";
+                return "Controller?type="+url;
+
+
             } else {
                 request.setAttribute("loginError", true);
                 request.setAttribute("errorMessage", "아이디 또는 비밀번호가 일치하지 않습니다.");

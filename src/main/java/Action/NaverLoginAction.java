@@ -79,8 +79,21 @@ public class NaverLoginAction implements Action {
         boolean hasPhone = (mvo != null && mvo.getPhone() != null && !mvo.getPhone().trim().isEmpty());
         boolean hasBirth = (mvo != null && mvo.getBirth() != null && !mvo.getBirth().trim().isEmpty());
 
+        String url = "";
+        String seaturl = request.getParameter("booking");
+        String borderurl = request.getParameter("border");
+
+        if (seaturl == null || borderurl ==null) {
+            url = "index";
+        } else if (seaturl != null) {
+            url = seaturl;
+
+        } else if (borderurl != null) {
+            url = borderurl;
+        }
+
         if (hasPhone && hasBirth) {
-            return "redirect:Controller?type=index";
+            return "redirect:Controller?type="+url;
         } else {
             return "redirect:Controller?type=myPage";
         }

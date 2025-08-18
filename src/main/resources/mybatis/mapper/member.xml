@@ -154,4 +154,14 @@
         WHERE id = #{n_id}
     </update>
 
+
+    <!--아이디찾기 -->
+    <select id="serchID" parameterType="Map" resultType="mybatis.vo.MemberVO">
+        SELECT * FROM web_movie.user
+        WHERE name = #{m_name}
+            AND phone = #{m_phone}
+            AND birth = #{m_birth}
+            AND email = #{m_email}
+            AND status = 0
+        </select>
 </mapper>
