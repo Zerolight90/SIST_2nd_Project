@@ -5,6 +5,7 @@ import mybatis.vo.KakaoVO;
 import mybatis.vo.MemberVO;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -166,6 +167,25 @@ public class MemberDAO {
         }
     }
 
+    public static int updatePassword(String m_id, String password) {
+        SqlSession ss = FactoryService.getFactory().openSession(); // 또는 openSession(true)
+        try {
+            Map<String, String> paramMap = new HashMap<>();
+            paramMap.put("m_id", m_id);
+            paramMap.put("password", password);
+            int cnt = ss.update("member.updatePassword", paramMap);
+            if (cnt > 0) {
+                ss.commit();
+            } else {
+                ss.rollback();
+            }
+            return cnt;
+        } finally {
+            ss.close();
+        }
+    }
+
+
     public static void editUsers(Map<String, String> map){
         SqlSession ss = FactoryService.getFactory().openSession();
         int update = ss.update("member.editUsers", map);
@@ -179,10 +199,71 @@ public class MemberDAO {
         ss.close();
     }
 
+    // 회원탈퇴
+    public static int goodbye(String m_id){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        try {
+            Map<String,String> map = new HashMap<>();
+            map.put("id", m_id); // SQL 매퍼의 #{id}와 일치하도록 키 설정
+            int cnt = ss.update("member.goodbye", map); // 파라미터 p를 전달
+            if (cnt > 0) ss.commit(); else ss.rollback();
+            return cnt;
+        } finally {
+            ss.close();
+        }
+    }
+
+    // 네이버 ID 중복 확인
+    public static boolean checkNaverId(String n_id) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        try {
+            List<?> list = ss.selectList("member.checkNaverId", n_id);
+            return !list.isEmpty();
+        } finally {
+            ss.close();
+        }
+    }
+
+    // 네이버 회원 등록
+    public static int naverRegistry(mybatis.vo.NaverVO nvo) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        try {
+            int cnt = ss.insert("member.addNaverUser", nvo);
+            if (cnt > 0) ss.commit(); else ss.rollback();
+            return cnt;
+        } finally {
+            ss.close();
+        }
+    }
+
+    // 네이버 ID로 MemberVO 조회 (서비스 회원 정보 확인용)
+    public static MemberVO findByNaverId(String n_id) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        try {
+            MemberVO mvo = ss.selectOne("member.findByNaverId", n_id);
+            return mvo;
+        } finally {
+            ss.close();
+        }
+    }
+
+    // (선택) 네이버 사용자 전화번호/생년 업데이트
+    public static int updateNaverUser(String n_id, String phone, String birth, String birthYear) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        try {
+            Map<String,String> params = new HashMap<>();
+            params.put("n_id", n_id);
+            params.put("phone", phone);
+            params.put("birth", birth);
+            params.put("birthYear", birthYear);
+            int cnt = ss.update("member.updateNaverUser", params);
+            if (cnt > 0) ss.commit(); else ss.rollback();
+            return cnt;
+        } finally {
+            ss.close();
+        }
+    }
+
+
 
 }
-
-
-
-
-

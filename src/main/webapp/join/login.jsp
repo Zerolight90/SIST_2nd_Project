@@ -80,8 +80,13 @@
                             <img src="../images/sns/sns_kakao_logo.png" alt="카카오 로그인">
                         </a>
 
-                        <a href="#" class="sns-btn naver"><img src="../images/sns/sns_naver_logo.png" alt="네이버 로그인"></a>
-                        <!--                    <a href="#" class="sns-btn google"><img src="../images/sns_google.png" alt="구글 로그인"></a>-->
+                        <!-- 네이버 로그인 버튼 (수정) -->
+                        <a href="<c:url value='Controller?type=naverAuth'/>" class="sns-btn naver">
+                            <img src="../images/sns/sns_naver_logo.png" alt="네이버 로그인"/>
+                        </a>
+
+
+
                     </div>
 
                 </div>

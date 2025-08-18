@@ -31,19 +31,29 @@
         <strong><span>카카오 가입 유저</span></strong>
       </c:when>
 
-      <c:otherwise>
+      <c:when test="${not empty sessionScope.nvo}">
+        <strong><span>네이버 가입 유저</span></strong>
+      </c:when>
+
+      <c:when test="${not empty sessionScope.mvo}">
         <strong><span>${sessionScope.mvo.id}</span></strong>
+      </c:when>
+
+      <c:otherwise>
+        <strong><span>비회원</span></strong>
       </c:otherwise>
     </c:choose>
   </div>
 
+
   <div class="form-group">
     <span class="form-label">이름</span>
     <div class="form-value">
-      <%-- kvo 유저의 경우에도 mvo 데이터를 사용하도록 수정 --%>
+      <%-- kvo,nvo 유저의 경우에도 mvo 데이터를 사용하도록 수정 --%>
       <strong><span>${sessionScope.mvo.name}</span></strong>
     </div>
   </div>
+
 
   <div class="form-group">
     <span class="form-label">비밀번호</span>
@@ -51,25 +61,36 @@
       <c:when test="${not empty sessionScope.kvo}">
         <div class="form-value">
           <input type="password" id="pw_password" disabled/>
+        </div>
+      </c:when>
 
+      <c:when test="${not empty sessionScope.nvo}">
+        <div class="form-value">
+          <input type="password" id="pw_password" disabled/>
+        </div>
+      </c:when>
+
+      <c:when test="${not empty sessionScope.mvo}">
+        <div class="form-value">
+          <input type="password" id="pw_password" VALUE="${sessionScope.mvo.pw}" disabled/>
+          <button class="mybtn mybtn-sm" id="changePwBtn">비밀번호 변경</button>
         </div>
       </c:when>
 
       <c:otherwise>
         <div class="form-value">
-          <input type="password" id="pw_password" VALUE="${sessionScope.mvo.pw}" disabled/>
-          <button class="mybtn mybtn-sm" id="changePwBtn">비밀번호 변경</button>
-
+          <input type="password" id="pw_password" />
         </div>
       </c:otherwise>
     </c:choose>
   </div>
 
+
   <div id="pw-change-form" style="display: none;">
     <div class="form-group">
       <span class="form-label">현재 비밀번호</span>
       <div class="form-value">
-        <input type="password" id="current_password_input" name="u_pw" placeholder="현재 비밀번호를 입력하세요."/>
+        <input type="password" id="current_password_input" name="u_pw" placeholder="현재 비밀번호를 입력하세요." />
         <span id="pw_confirm_check_msg" class="error-msg"></span>
       </div>
     </div>
@@ -248,39 +269,68 @@
         }
       });
 
-      $("#current_password_input").on("keyup", function (){
+      // 변수 선언 (스코프는 문서 준비 내부)
+      let pwCheckTimer = null;
+      let pwCheckXhr = null;
+      const PW_DEBOUNCE_MS = 400;   // 디바운스 시간(밀리초)
+      const PW_MIN_LEN = 2;         // 최소 체크 길이(필요에 따라 조정)
 
-        let u_pw = $(this).val().trim();
+// input 이벤트 사용 (keyup 대신 input 권장)
+      $('#current_password_input').on('input', function() {
+        const $this = $(this);
+        const u_pw = $this.val().trim();
         const $pwConfirmCheckMsg = $("#pw_confirm_check_msg");
-        $pwConfirmCheckMsg.removeClass("error").text("").css("color", "red");
 
+        // 빈값이면 메시지 초기화 후 타이머/요청 취소
         if (u_pw.length === 0) {
+          clearTimeout(pwCheckTimer);
+          if (pwCheckXhr) { pwCheckXhr.abort(); pwCheckXhr = null; }
+          $pwConfirmCheckMsg.text('').css('color', '');
           return;
         }
 
-        $.ajax({
-          url: "/Controller?type=PWcheck", // PWcheckAction이 처리
-          type: "post",
-          data: { u_pw: u_pw }, // 입력된 비밀번호만 전송
-          dataType: 'json'
+        // 너무 짧으면(예: 2자 미만) 바로 체크하지 않음
+        if (u_pw.length < PW_MIN_LEN) {
+          $pwConfirmCheckMsg.text('').css('color', '');
+          return;
+        }
 
-        }).done(function (response){
-
-          console.log("PWcheck response:", response);
-
-          // 서버에서 "match"라는 키로 boolean 값을 반환한다고 가정
-
-          if (response.match) { // response.match가 true이면 일치
-            $pwConfirmCheckMsg.text("비밀번호가 일치합니다.").css("color", "green");
-          } else { // response.match가 false이면 불일치
-            $pwConfirmCheckMsg.text("현재 비밀번호가 틀립니다").css("color", "red");
+        // 기존 타이머 초기화 후 새 타이머 설정(디바운스)
+        clearTimeout(pwCheckTimer);
+        pwCheckTimer = setTimeout(function() {
+          // 이전에 실행 중인 AJAX가 있으면 취소
+          if (pwCheckXhr) {
+            try { pwCheckXhr.abort(); } catch (e) { /* ignore */ }
+            pwCheckXhr = null;
           }
 
-        }).fail(function(xhr, status, error){
-          console.error("AJAX Error (PWcheck):", status, error);
-          $pwConfirmCheckMsg.text("비밀번호 확인 중 오류가 발생했습니다.").css("color", "red");
-        });
+          // (선택) 로딩 표시
+          // $pwConfirmCheckMsg.text('확인 중...').css('color', '#666');
+
+          // 새로운 AJAX 요청 저장
+          pwCheckXhr = $.ajax({
+            url: "/Controller?type=PWcheck",
+            type: "post",
+            data: { u_pw: u_pw },
+            dataType: 'json',
+            timeout: 8000
+          }).done(function(response) {
+            if (response && response.match) {
+              $pwConfirmCheckMsg.text("비밀번호가 일치합니다.").css("color", "green");
+            } else {
+              $pwConfirmCheckMsg.text("현재 비밀번호가 틀립니다.").css("color", "red");
+            }
+          }).fail(function(jqXHR, status, error) {
+            // abort로 중단된 경우는 에러 메시지 표시는 하지 않음
+            if (status === 'abort') return;
+            console.error("AJAX Error (PWcheck):", status, error);
+            $pwConfirmCheckMsg.text("비밀번호 확인 중 오류가 발생했습니다.").css("color", "red");
+          }).always(function() {
+            pwCheckXhr = null;
+          });
+        }, PW_DEBOUNCE_MS);
       });
+
 
 
       // 비밀번호 유효성: 영문자, 숫자, 특수문자 포함 8~16자
@@ -388,45 +438,25 @@
 
         // AJAX 호출
         $.ajax({
+
           url: '/Controller?type=userinfo',
           type: 'POST',
-          data: {
-            action: 'updatePassword',
-            currentPassword: currentPassword,
-            newPassword: newPassword
-          },
-          dataType: 'json',
-          success: function(response) {
-            if (response.success) {
-              alert('비밀번호 변경 완료');
-              $currentPasswordInput.val('');
-              $newPasswordInput.val('');
-              $newPasswordChkInput.val('');
-              setMsg($currentPasswordInput, '', '');
-              setMsg($newPasswordInput, '', '');
-              setMsg($newPasswordChkInput, '', '');
-              $newPasswordInput.removeClass('error');
-              $newPasswordChkInput.removeClass('error');
-              $pwChangeForm.slideUp(200);
-            } else {
-              // 서버에서 온 메시지는 현재 비밀번호 오류 등 다양한 경우에 사용
-              const msg = response.message || '비밀번호 업데이트 중 오류가 발생했습니다.';
-              // 서버 메시지가 현재 비밀번호 문제라면 current 아래에, 아니면 상단에 표시
-              if (/현재|비밀번호/i.test(msg)) {
-                setMsg($currentPasswordInput, msg, 'red');
-              } else {
-                // 기본적으로 current 아래에 보여줌
-                setMsg($currentPasswordInput, msg, 'red');
-              }
-            }
-          },
-          error: function(xhr, status, error) {
-            console.error('AJAX Error (Password Update):', status, error);
-            alert('비밀번호 업데이트 중 오류가 발생했습니다.');
+          data: { action: 'stagePassword', password: newPassword },
+          dataType: 'json'
+        }).done(function(res) {
+
+          if (res.success) {
+            alert('비밀번호가 반영되었습니다. "정보수정" 버튼을 눌러 저장하세요.');
+
+            // flag를 세워 나중에 정보수정 시 커밋하도록 함
+            window.__stagedPwFlag = true;
+          } else {
+            alert(res.message || '임시 저장 실패');
           }
+        }).fail(function() {
+          alert('서버 오류: 세션 저장 실패');
         });
       });
-    });
 
 
 
@@ -460,7 +490,7 @@
     });
 
     // 6. "정보수정" 버튼 클릭 시 (생년월일 및 휴대폰 번호 최종 DB 업데이트)
-    $('#my_btn .mybtn-change').on('click', function() {
+      $('#my_btn .mybtn-change').off('click').on('click', function() {
       let updatePromises = [];
 
       // 생년월일 업데이트 로직
@@ -517,22 +547,53 @@
         }
       }
 
-      if (updatePromises.length === 0) {
-        alert('수정할 정보가 없습니다.');
-        return;
-      }
+        if (window.__stagedPwFlag) {
 
-      $.when.apply($, updatePromises).done(function() {
-        alert("회원정보 수정 완료");
+          const commitPwPromise = $.ajax({
+
+            url: '/Controller?type=userinfo',
+            type: 'POST',
+            data: { action: 'commitStagedPassword' },
+            dataType: 'json'
+
+          }).done(function(resp) {
+            if (!resp.success) alert('비밀번호 DB 반영 실패: ' + resp.message);
+            else {
+              // 반영 성공이면 staged flag 제거
+              window.__stagedPwFlag = false;
+            }
+
+          }).fail(function() {
+            alert('비밀번호 DB 반영 중 서버 오류');
+          });
+
+          updatePromises.push(commitPwPromise);
+        }
+
+        if (updatePromises.length === 0) {
+          alert('수정할 정보가 없습니다.');
+          return;
+        }
+
+        $.when.apply($, updatePromises).done(function() {
+          alert('회원정보 수정 완료');
+          location.reload(); // 필요 시 세션의 변경값을 반영하기 위해 새로고침
+        });
       });
     });
 
-    // 7. 회원 탈퇴 버튼 클릭 시 경고 메시지
-    $('#withdrawBtn').on('click', function() {
-      if (confirm('정말로 회원 탈퇴하시겠습니까? 탈퇴하시면 모든 정보가 삭제되며 되돌릴 수 없습니다.')) {
-        $('#withdrawForm').submit();
+    $('#withdrawBtn').off('click').on('click', function(e){
+      e.preventDefault();
+      if (!confirm('정말로 회원 탈퇴하시겠습니까? 탈퇴 시 복구가 불가능합니다.')) return;
+      // 부모 페이지(마이페이지)의 mainContent에 회원탈퇴 안내 페이지 로드
+      if (window.parent && window.parent.$ && window.parent.$('#mainContent').length) {
+        window.parent.$('#mainContent').load('${cp}/mypage/memberDelete.jsp');
+      } else {
+        // fallback: 현재 창에서 직접 로드
+        $('#mainContent').load('${cp}/mypage/memberDelete.jsp');
       }
     });
+
 
   });
 </script>
