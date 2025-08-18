@@ -142,7 +142,8 @@
         gen = #{gen},
         age = #{age},
         date = #{date},
-        dir = #{dir}
+        dir = #{dir},
+        status = #{status}
         WHERE name = #{name}
     </update>
 

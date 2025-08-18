@@ -35,7 +35,7 @@
     </div>
     <div class="leftDiv">
       <p class="bold">쿠폰 관리</p>
-      <div class="leftDivInner"><a href="">쿠폰 정보 관리</a></div>
+      <div class="leftDivInner"><a href="Controller?type=adminCouponInfo">쿠폰 정보 관리</a></div>
     </div>
     <div class="leftDiv">
       <p class="bold">시스템 관리</p>

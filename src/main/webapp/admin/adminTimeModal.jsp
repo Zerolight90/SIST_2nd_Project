@@ -148,7 +148,7 @@
       })
       
       $(".btnMain").on('click', function () {
-
+        let long = $("#userId").val();
       })
 
       $(".btnSub").on('click', function () {

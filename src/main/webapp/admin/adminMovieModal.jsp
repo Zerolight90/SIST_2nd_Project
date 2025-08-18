@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <style>
   .userModal {
@@ -70,7 +71,7 @@
 
   .divs2 .input {
     width: 100px;
-    height: 36px;
+    height: 24px;
     padding: 0 10px;
     border: 1px solid #ddd;
     background-color: #f5f5f5;
@@ -132,10 +133,20 @@
       <div style="display: block; margin-left: 55px; width: 505px">
         <div style="display: flex">
           <div class="divs2">
-            <label for="userId">예매 순위:</label>
-            <input type="text" id="userId" class="input" value="" style="margin-left: 14px" readonly>
+            <label for="userId" style="position: relative; bottom: 7px">상영 상태:</label>
+            
+            <c:if test="${requestScope.vo.status == '상영중'}">
+              <input type="checkbox" id="userId" class="input editable status" value="${requestScope.vo.status}" checked style="margin-left: 14px">
+            </c:if>
+            <c:if test="${requestScope.vo.status != '상영중'}">
+              <input type="checkbox" id="userId" class="input editable status" value="${requestScope.vo.status}" style="margin-left: 14px">
+            </c:if>
+
+            <input type="hidden" class="statusCheck" name="statusCheck" value="">
+
+            <%--<input type="checkbox" id="userId" class="input editable" value="${requestScope.vo.status}" style="margin-left: 14px">--%>
           </div>
-          <div class="divs2" style="margin-left: 86px">
+          <div class="divs2" style="margin-left: 83px">
             <label for="userId">  예매율:</label>
             <input type="text" id="userId" class="input" value="" readonly>
           </div>
@@ -190,12 +201,20 @@
   <script>
     $(function () {
       $(".btnMain").on('click', function () {
+        if ($(".status").is(":checked")){
+          $(".statusCheck").val("상영중");
+        } else {
+          $(".statusCheck").val("상영종료");
+        }
+        console.log("최종 status 값:", $(".statusCheck").val());
         $("#frm").submit();
       })
 
       $(".btnSub").on('click', function () {
         $("#adminMoviesModal").dialog('close');
       })
+
+
     });
   </script>
 

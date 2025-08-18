@@ -5,6 +5,7 @@ import mybatis.vo.AdminVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +22,8 @@ public class AdminCheckAction implements Action{
         AdminVO vo = AdminDAO.adminCheck(map);
 
         if (vo != null){
-            request.setAttribute("vo", vo);
+            HttpSession ss = request.getSession();
+            ss.setAttribute("vo", vo);
 
             return "Controller?type=admin";
         } else {

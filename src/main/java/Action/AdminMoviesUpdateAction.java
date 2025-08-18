@@ -18,6 +18,7 @@ public class AdminMoviesUpdateAction implements Action{
         map.put("age", request.getParameter("age"));
         map.put("date", request.getParameter("date"));
         map.put("dir", request.getParameter("dir"));
+        map.put("status", request.getParameter("statusCheck"));
 
         MovieDAO.editMovies(map);
 

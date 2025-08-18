@@ -1,6 +1,7 @@
 package mybatis.dao;
 
 import mybatis.Service.FactoryService;
+import mybatis.vo.CouponVO;
 import mybatis.vo.MyCouponVO;
 import org.apache.ibatis.session.SqlSession;
 
@@ -9,6 +10,30 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CouponDAO {
+
+    public static CouponVO[] getAllCoupon(){
+        CouponVO[] ar = null;
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<CouponVO> list = ss.selectList("coupon.getAllCoupon");
+        ar = new CouponVO[list.size()];
+        list.toArray(ar);
+
+        ss.close();
+        return ar;
+    }
+    public static void delCoupon(String cIdx){
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int del = ss.delete("coupon.delSelectedCoupon", cIdx);
+        if (del >= 1){
+            ss.commit();
+        } else {
+            ss.rollback();
+        }
+
+        ss.close();
+    }
 
     // 트랜잭션 관리를 위해 SqlSession을 파라미터로 받는 메소드
     public static int useCoupon(long couponUserIdx, SqlSession ss) {

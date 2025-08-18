@@ -123,4 +123,8 @@
         </where>
     </select>
 
+    <!--<insert id="createTimetable" parameterType="">
+
+    </insert>-->
+
 </mapper>

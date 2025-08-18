@@ -1,7 +1,15 @@
 package mybatis.vo;
 
 public class MovieVO {
-    private String mIdx, name, dir, gen, age, date, actor, synop, audNum, runtime, poster;
+    private String mIdx, name, dir, gen, age, date, actor, synop, audNum, runtime, poster, status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     private double bookingRate;
 

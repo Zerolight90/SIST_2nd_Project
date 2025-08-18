@@ -41,8 +41,8 @@ public class ApiUpdateAction implements Action {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 
-            String sql = "INSERT IGNORE INTO movie (mIdx, name, synop, poster, date, gen, actor, dir, age, runtime) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT IGNORE INTO movie (mIdx, name, synop, poster, date, gen, actor, dir, age, runtime, status) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '상영중')";
             ps = conn.prepareStatement(sql);
 
             for (int page = 1; page <= 4; page++) { // 페이지 수를 조절하여 가져올 데이터 양 결정
