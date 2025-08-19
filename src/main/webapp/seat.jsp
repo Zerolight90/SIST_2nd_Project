@@ -172,7 +172,7 @@
     </div>
 </div>
 
-<<div style="display: none">
+<div style="display: none">
     <form action="Controller?type=paymentMovie" name="ff" method="post">
         <!-- 가격 정보 -->
         <input type="hidden" name="teenPrice" id="teenPrice" value="${price.teen}">

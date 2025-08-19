@@ -16,6 +16,8 @@ public class NaverLoginAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        // Action 수행 확인용 sysout
+        System.out.println("NaverLoginAction");
         String code = request.getParameter("code");
         String state = request.getParameter("state");
 
@@ -114,10 +116,13 @@ public class NaverLoginAction implements Action {
 
         if (seaturl == null || borderurl ==null) {
             url = "index";
-        } else if (seaturl != null) {
+        }
+        if (seaturl != null) {
+            System.out.println("seaturl is not null");
             url = seaturl;
-
-        } else if (borderurl != null) {
+        }
+        if (borderurl != null) {
+            System.out.println("borderurl is not null");
             url = borderurl;
         }
 
