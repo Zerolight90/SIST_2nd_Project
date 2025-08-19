@@ -31,4 +31,11 @@
             </if>
         </where>
     </select>
+
+    <!-- 비회원 추가 테이블(영환)-->
+    <insert id="add" parameterType="mybatis.vo.NmemVO">
+        INSERT INTO nmember (name, phone, password, birth, email, joinDate)
+        VALUES (#{name}, #{phone}, #{password}, #{birth}, #{email}, NOW())
+    </insert>
+
 </mapper>

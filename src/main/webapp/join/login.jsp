@@ -73,8 +73,8 @@
                 </div>
 
                 <div class="non_member">
-                    <a href="#">비회원의로 로그인 하기</a>
-                </div>
+                    <a href="/join/nonmenber.jsp" id="openModalBtn">비회원의로 예매 하기</a>
+                 </div>
 
                 <!-- SNS 로그인 섹션 -->
                 <div class="sns-login-section">
@@ -128,6 +128,7 @@
         document.forms[0].submit();//서버로 보내기
 
     }
+
     // exe() 함수 아래에 추가
     $(function(){
                    // 아이디/비밀번호 입력창에서 Enter 눌렀을 때 exe() 호출

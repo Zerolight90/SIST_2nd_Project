@@ -62,6 +62,15 @@
                 <li><a href="#" class="quick-booking">빠른예매</a></li>
             </ul>
         </c:if>
+
+        <c:if test="${not empty sessionScope.nmemvo}">
+            <ul class="nav-r_top" id="log_suc">
+                <li><a href="<c:url value="/Controller?type=myPage"/>">(${sessionScope.nmemvo.nIdx})님 환영합니다</a></li>
+                <li><a href="<c:url value="/Controller?type=nonmemberLogout"/>" class="btn">로그아웃</a></li>
+                <li><a href="#" class="quick-booking">빠른예매</a></li>
+            </ul>
+        </c:if>
+
     </div>
 
 
