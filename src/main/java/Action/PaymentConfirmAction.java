@@ -85,26 +85,26 @@ public class PaymentConfirmAction implements Action {
                 Map<String, String> nmemInfo = (Map<String, String>) session.getAttribute("nmemInfoForPayment");
 
                 // 1. 비회원 정보 DB에 저장
-                NmemVO nvo = new NmemVO();
-                nvo.setName(nmemInfo.get("name"));
-                nvo.setPhone(nmemInfo.get("phone"));
-                nvo.setPassword(nmemInfo.get("password"));
-                NmemDAO.insertNmember(nvo, ss);
-                long newNIdx = nvo.getnIdx();
+//                NmemVO nvo = new NmemVO();
+//                nvo.setName(nmemInfo.get("name"));
+//                nvo.setPhone(nmemInfo.get("phone"));
+//                nvo.setPassword(nmemInfo.get("password"));
+//                NmemDAO.insertNmember(nvo, ss);
+//                String newNIdx = nvo.getnIdx();
 
                 // 2. 결제 정보 생성 (할인 없음)
-                pvo = createPaymentVO(tossResponse, null, orderId, 0, 0, 0);
-                pvo.setPaymentType(0); // 영화 예매
-                pvo.setnIdx(newNIdx); // nIdx 설정
+//                pvo = createPaymentVO(tossResponse, null, orderId, 0, 0, 0);
+//                pvo.setPaymentType(0); // 영화 예매
+//                pvo.setnIdx(newNIdx); // nIdx 설정
 
                 // 3. 예매 정보 생성 및 nIdx 연결
-                ReservationVO reservation = (ReservationVO) paidItem;
-                reservation.setnIdx2(newNIdx);
-                long newReservIdx = ReservationDAO.insertReservation(reservation, ss);
-                pvo.setReservIdx(newReservIdx);
+//                ReservationVO reservation = (ReservationVO) paidItem;
+//                reservation.setnIdx2(newNIdx);
+//                String newReservIdx = ReservationDAO.insertReservation(reservation, ss);
+//                pvo.setReservIdx(newReservIdx);
 
                 // 4. 최종 결제 정보 저장
-                PaymentDAO.addPayment(pvo, ss);
+//                PaymentDAO.addPayment(pvo, ss);
             }
 
             ss.commit();

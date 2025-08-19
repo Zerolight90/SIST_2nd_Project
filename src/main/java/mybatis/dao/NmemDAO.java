@@ -51,14 +51,14 @@ public class NmemDAO {
         return cnt;
     }
 
-    // 비회원 로그인을 위한 로직
-    public static NmemVO getByEmail(String email){
-
-        SqlSession ss = FactoryService.getFactory().openSession();
-        NmemVO vo = ss.selectOne("nmem.getByEmail", email);
-        ss.close();
-
-        return vo;
-    }
+//    // 비회원 로그인을 위한 로직
+//    public static NmemVO getByEmail(String email){
+//
+//        SqlSession ss = FactoryService.getFactory().openSession();
+//        NmemVO vo = ss.selectOne("nmem.getByEmail", email);
+//        ss.close();
+//
+//        return vo;
+//    }
 
 }

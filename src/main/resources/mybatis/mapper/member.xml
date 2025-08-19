@@ -109,7 +109,6 @@
     </select>
 
 
-
     <update id="updatePassword" parameterType="Map">
         UPDATE user set
         pw = #{password}

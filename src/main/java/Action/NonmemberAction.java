@@ -30,9 +30,9 @@ public class NonmemberAction implements Action {
 
         if (cnt > 0) {
             // 저장 성공 시 DB에서 방금 저장된 레코드를 조회(이메일 기준)하여 세션에 저장
-            NmemVO inserted = NmemDAO.getByEmail(email);
+//            NmemVO inserted = NmemDAO.getByEmail(email);
             HttpSession session = request.getSession();
-            session.setAttribute("nmemvo", inserted);
+//            session.setAttribute("nmemvo", inserted);
             return "redirect:/index.jsp";
         } else {
             // 실패 시 원래대로 nonmember 페이지로 이동 (필요시 에러 처리 추가)

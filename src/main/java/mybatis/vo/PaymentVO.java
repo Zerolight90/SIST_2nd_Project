@@ -57,9 +57,9 @@ public class PaymentVO {
         return nIdx;
     }
 
-    public void setnIdx(long nIdx) {
-        this.nIdx = nIdx;
-    }
+//    public void setnIdx(String nIdx) {
+//        this.nIdx = nIdx;
+//    }
 
     public String getName() {
         return name;
