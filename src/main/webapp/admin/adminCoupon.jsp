@@ -191,7 +191,7 @@
             <td>
               <button type="button" class="btn-edit"
                       value="${vo.couponIdx}"
-                      onclick="delCoupon()">삭제
+                      onclick="delCoupon(this)">삭제
               </button>
             </td>
           </tr>
@@ -214,11 +214,11 @@
         </select>
       </div>
       <div class="divs">
-        <label for="addProductName">상품명:</label>
+        <label for="addProductName">쿠폰명:</label>
         <input type="text" name="addProductName" id="addProductName" class="input editable" required>
       </div>
       <div class="divs">
-        <label for="addDescription">상품설명:</label>
+        <label for="addDescription">쿠폰설명:</label>
         <input type="text" name="addDescription" id="addDescription" class="input editable" required>
       </div>
       <div class="divs">
@@ -260,8 +260,8 @@
 
   }
   // 삭제 버튼 클릭 시
-  function delCoupon() {
-    let cIdx = $(".btn-edit").val();
+  function delCoupon(str) {
+    let cIdx = $(str).val();
 
     location.href = "Controller?type=delCoupon&cIdx=" + cIdx;
   }
