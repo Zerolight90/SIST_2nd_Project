@@ -1,0 +1,108 @@
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f5f6f7;
+    color: #2c2c2c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+#non_field {
+    background: #ffffff;
+    padding: 40px 50px 50px 50px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(75, 63, 114, 0.2);
+    width: 400px;
+    text-align: center;
+}
+
+.logo {
+    width: 140px;
+    margin-bottom: 30px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.field {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+label {
+    font-weight: 500;
+    font-size: 14px;
+    color: #111111;
+    display: block;
+    margin-bottom: 6px;
+}
+
+small {
+    font-weight: normal;
+    color: #444444;
+    margin-left: 6px;
+    font-size: 12px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 14px;
+    border: 1px solid #000000;
+    border-radius: 6px;
+    transition: border-color 0.3s ease;
+    color: #6C757D;
+}
+
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="password"]::placeholder {
+    color: #999999;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #6c54b8;
+    outline: none;
+}
+
+.btn-submit {
+    margin-top: 15px;
+    background-color: #6c54b8;
+    color: white;
+    font-weight: 700;
+    padding: 14px 0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover:not(:disabled) {
+    background-color: #4b3f72;
+}
+
+.btn-submit:disabled {
+    background-color: #c1b9e3;
+    cursor: not-allowed;
+}
+
+/* 하단 안내 문구 스타일 */
+#non_field form::after {
+    content: "* 비회원 정보 오 입력 시 예매 내역 확인/취소 및 티켓 발권이 어려울 수 있으니 다시 한 번 확인해 주시기 바랍니다.";
+    display: block;
+    font-size: 12px;
+    color: #7a6fb3;
+    margin-top: 10px;
+    text-align: left;
+    line-height: 1.3;
+}

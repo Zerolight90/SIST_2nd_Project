@@ -58,9 +58,8 @@
 
                 <!-- 아이디 찾기/ 비밀번호 찾기 -->
                 <div class="Search">
-                    <a href="#">아이디 찾기</a>
-                    <span> / </span>
-                    <a href="#">비밀번호 찾기</a>
+                    <a href="/join/search.jsp">아이디 찾기 / 비밀번호 찾기</a>
+
                 </div>
 
                 <!-- 로그인/회원가입 버튼 그룹 -->
@@ -72,6 +71,11 @@
                         회원가입
                     </a>
                 </div>
+
+                <div class="non_member">
+                    <a href="/join/nonmenber.jsp" id="openModalBtn">비회원의로 예매 하기</a>
+                 </div>
+
                 <!-- SNS 로그인 섹션 -->
                 <div class="sns-login-section">
                     <p class="sns-login-title">- 또는 SNS 계정으로 로그인 -</p>
@@ -85,11 +89,11 @@
                             <img src="../images/sns/sns_naver_logo.png" alt="네이버 로그인"/>
                         </a>
 
-
-
                     </div>
 
                 </div>
+
+
 
             </form>
         </div>
@@ -124,6 +128,7 @@
         document.forms[0].submit();//서버로 보내기
 
     }
+
     // exe() 함수 아래에 추가
     $(function(){
                    // 아이디/비밀번호 입력창에서 Enter 눌렀을 때 exe() 호출

@@ -168,7 +168,7 @@ public class MemberDAO {
     }
 
     public static int updatePassword(String m_id, String password) {
-        SqlSession ss = FactoryService.getFactory().openSession(); // 또는 openSession(true)
+        SqlSession ss = FactoryService.getFactory().openSession();
         try {
             Map<String, String> paramMap = new HashMap<>();
             paramMap.put("m_id", m_id);
