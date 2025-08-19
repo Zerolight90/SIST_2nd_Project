@@ -58,9 +58,8 @@
 
                 <!-- 아이디 찾기/ 비밀번호 찾기 -->
                 <div class="Search">
-                    <a href="#">아이디 찾기</a>
-                    <span> / </span>
-                    <a href="#">비밀번호 찾기</a>
+                    <a href="/join/search.jsp">아이디 찾기 / 비밀번호 찾기</a>
+
                 </div>
 
                 <!-- 로그인/회원가입 버튼 그룹 -->
