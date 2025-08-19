@@ -24,7 +24,7 @@
             <li><a href="#" class="customer-center">고객센터</a></li>
         </ul>
 
-        <c:if test="${empty sessionScope.mvo && empty sessionScope.kvo}">
+        <c:if test="${empty sessionScope.mvo && empty sessionScope.kvo && empty sessionScope.nvo && empty sessionScope.nmemvo}">
         <ul class="nav-r_top">
             <li><a href="<c:url value="/Controller?type=login"/>" class="login">로그인</a></li>
             <li><a href="<c:url value="/Controller?type=join"/>" class="signup">회원가입</a></li>
@@ -66,7 +66,7 @@
         <c:if test="${not empty sessionScope.nmemvo}">
             <ul class="nav-r_top" id="log_suc">
                 <li><a href="<c:url value="/Controller?type=myPage"/>">(${sessionScope.nmemvo.nIdx})님 환영합니다</a></li>
-                <li><a href="<c:url value="/Controller?type=nonmemberLogout"/>" class="btn">로그아웃</a></li>
+                <li><a href="<c:url value="/join/logout.jsp"/>" class="btn">로그아웃</a></li>
                 <li><a href="#" class="quick-booking">빠른예매</a></li>
             </ul>
         </c:if>

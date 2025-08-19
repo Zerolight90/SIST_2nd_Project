@@ -19,7 +19,7 @@ public class LoginAction implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         // Action 수행 확인용 sysout
-        System.out.println("LoginAction");
+//        System.out.println("LoginAction");
         try {
             request.setCharacterEncoding("UTF-8");
             String u_id = request.getParameter("u_id");
@@ -33,16 +33,16 @@ public class LoginAction implements Action {
 
             // 만약 booking에서 Parameter를 받으면 Session에 저장함 (Request가 아닌!)
             String seaturl = request.getParameter("booking");
-            System.out.println("seaturl parameter: " + seaturl);
+//            System.out.println("seaturl parameter: " + seaturl);
             if (seaturl != null) {
                 request.getSession().setAttribute("seaturl", seaturl); // Session에 저장!
-                System.out.println("Saved seaturl to session: " + seaturl);
+//                System.out.println("Saved seaturl to session: " + seaturl);
             }
 
             String borderurl = request.getParameter("border");
             if (borderurl != null) {
                 request.getSession().setAttribute("borderurl", borderurl); // border도 Session에 저장
-                System.out.println("Saved borderurl to session: " + borderurl);
+//                System.out.println("Saved borderurl to session: " + borderurl);
             }
 
             // 로그인 시도 여부 체크
@@ -56,7 +56,7 @@ public class LoginAction implements Action {
 
             if (mvo != null) {
                 // 로그인 성공!
-                System.out.println("Login successful for user: " + mvo.getName());
+//                System.out.println("Login successful for user: " + mvo.getName());
 
                 // 세션에서 저장된 리다이렉트 URL들을 확인
                 Object seaturlObj = request.getSession().getAttribute("seaturl");
@@ -67,27 +67,27 @@ public class LoginAction implements Action {
 
                 if (seaturlObj != null) {
                     seaturl2 = seaturlObj.toString();
-                    System.out.println("Found seaturl2 in session: " + seaturl2);
+//                    System.out.println("Found seaturl2 in session: " + seaturl2);
                 }
 
                 if (borderurlObj != null) {
                     borderurl2 = borderurlObj.toString();
-                    System.out.println("Found borderurl2 in session: " + borderurl2);
+//                    System.out.println("Found borderurl2 in session: " + borderurl2);
                 }
 
                 // URL 결정 로직
                 if (seaturl2 != null && !seaturl2.trim().isEmpty()) {
-                    System.out.println("Redirecting to booking page: " + seaturl2);
+//                    System.out.println("Redirecting to booking page: " + seaturl2);
                     url = seaturl2;
                     // 사용 후 세션에서 제거
                     request.getSession().removeAttribute("seaturl");
                 } else if (borderurl2 != null && !borderurl2.trim().isEmpty()) {
-                    System.out.println("Redirecting to border page: " + borderurl2);
+//                    System.out.println("Redirecting to border page: " + borderurl2);
                     url = borderurl2;
                     // 사용 후 세션에서 제거
                     request.getSession().removeAttribute("borderurl");
                 } else {
-                    System.out.println("No redirect URL found, going to index");
+//                    System.out.println("No redirect URL found, going to index");
                     url = "index";
                 }
 
@@ -107,24 +107,24 @@ public class LoginAction implements Action {
                             boolean alreadyReceived = CouponDAO.hasReceivedBirthdayCouponThisYear(userIdx, birthdayCouponIdx);
                             if (!alreadyReceived) {
                                 CouponDAO.issueCouponToUser(userIdx, birthdayCouponIdx);
-                                System.out.println(mvo.getName() + "님에게 생일 축하 쿠폰이 발급되었습니다.");
+//                                System.out.println(mvo.getName() + "님에게 생일 축하 쿠폰이 발급되었습니다.");
                             }
                         }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    System.out.println("생일 쿠폰 발급 중 오류 발생");
+//                    System.out.println("생일 쿠폰 발급 중 오류 발생");
                 }
 
                 // 리다이렉트
                 HttpSession session = request.getSession();
                 session.setAttribute("mvo", mvo);
-                System.out.println("Final redirect URL: " + url);
+//                System.out.println("Final redirect URL: " + url);
                 return "Controller?type=" + url;
 
             } else {
                 // 로그인 실패
-                System.out.println("Login failed for user: " + u_id);
+//                System.out.println("Login failed for user: " + u_id);
                 request.setAttribute("loginError", true);
                 request.setAttribute("errorMessage", "아이디 또는 비밀번호가 일치하지 않습니다.");
                 return "/join/login.jsp";
@@ -132,7 +132,7 @@ public class LoginAction implements Action {
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("LoginAction 실행 중 오류 발생: " + e.getMessage());
+//            System.out.println("LoginAction 실행 중 오류 발생: " + e.getMessage());
         }
         return "/join/login.jsp";
     }

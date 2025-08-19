@@ -49,6 +49,35 @@
 
 </div>
 
+<script>
+    $(document).ready(function() {
+        $('#nonForm').on('submit', function(e) {
+            e.preventDefault(); // 기본 폼 제출 방지
+
+            var formData = $(this).serialize(); // 폼 데이터 직렬화
+
+            $.ajax({
+                type: "POST",
+                url: $(this).attr('action'), // 폼의 action 속성 사용
+                data: formData,
+                success: function(response) {
+                    // 서버에서 비회원 정보가 성공적으로 세션에 저장되었다고 가정
+                    // 부모 창 새로고침 또는 지정된 페이지로 리디렉션 ((16))
+                    if (window.opener) { // 부모 창이 존재하는지 확인 ((23))
+                        // 부모 창을 /Controller?type=index로 리디렉션
+                        window.opener.location.href = '/Controller?type=index';
+                    }
+                    window.close(); // 현재 팝업 창 닫기 ((21))
+                },
+                error: function(xhr, status, error) {
+                    // 오류 처리
+                    alert('비회원 예매 중 오류가 발생했습니다. 다시 시도해주세요.');
+                    console.error('AJAX Error:', status, error);
+                }
+            });
+        });
+    });
+</script>
 
 </body>
 </html>

@@ -44,4 +44,21 @@
         INSERT INTO nmember (name, phone, password, joinDate)
         VALUES (#{name}, #{phone}, #{password}, NOW())
     </insert>
+
+    <select id="getByEmail" parameterType="string" resultType="mybatis.vo.NmemVO">
+        SELECT  nIdx, name, phone, password, birth, email, joinDate
+        FROM nmember
+        WHERE email = #{email}
+        ORDER BY joinDate DESC
+        LIMIT 1
+    </select>
+
+    <select id="bookchk" parameterType="Map"
+            resultType="mybatis.vo.NmemVO">
+        SELECT * FROM web_movie.user
+        WHERE name = #{u_name} AND password = #{u_pw} AND birth = #{birth}
+    </select>
+
+
+
 </mapper>
