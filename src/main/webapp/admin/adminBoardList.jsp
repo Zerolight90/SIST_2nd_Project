@@ -198,7 +198,7 @@
   <div style="display: inline-block; justify-content: space-between; align-items: center"><p style="margin-left: 10px">admin 관리자님</p></div>
   <div style="display: inline-block; float: right; padding-top: 13px; padding-right: 10px">
     <a href="">SIST</a>
-    <a href="">로그아웃</a>
+    <a href="Controller?type=index">로그아웃</a>
   </div>
 </div>
 
@@ -207,12 +207,12 @@
     <jsp:include page="./admin.jsp"/>
   </div>
   <div class="admin-container">
-    <!-- 1. 페이지 제목 -->
+    <!-- 페이지 타이틀 -->
     <div class="page-title">
       <h2>공지사항</h2>
     </div>
 
-    <!-- 2. 상단 컨트롤 바 -->
+    <!-- 테이블 상단 바 영역 -->
     <div class="control-bar">
       <div class="total-count">
         전체 <strong>${totalCount}</strong>건

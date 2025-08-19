@@ -33,4 +33,32 @@ public class NmemDAO {
         return ar;
     }
 
+    public static void insertNmember(NmemVO vo, SqlSession ss) {
+        // insert를 수행하고, 생성된 PK(nIdx)를 파라미터로 받은 vo객체에 다시 설정해준다.
+        ss.insert("nmem.insertNmember", vo);
+    }
+
+    // 비회원 추가를 위한 로직
+    public static int registry(NmemVO nmemvo){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int cnt = ss.insert("nmem.add", nmemvo);
+        if(cnt > 0)
+            ss.commit();
+        else
+            ss.rollback();
+        ss.close();
+
+        return cnt;
+    }
+
+//    // 비회원 로그인을 위한 로직
+//    public static NmemVO getByEmail(String email){
+//
+//        SqlSession ss = FactoryService.getFactory().openSession();
+//        NmemVO vo = ss.selectOne("nmem.getByEmail", email);
+//        ss.close();
+//
+//        return vo;
+//    }
+
 }

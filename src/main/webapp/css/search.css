@@ -1,0 +1,125 @@
+/* 전체 컨테이너 */
+.container {
+    max-width: 480px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #f9faff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(75, 46, 131, 0.15);
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #333;
+}
+
+/* 제목 스타일 */
+.container h1, .container h2 {
+    margin: 0 0 12px;
+    font-weight: 900;
+    color: #4b2e83; /* 보라색 계열 */
+    text-align: center;
+}
+
+.container h2 {
+    font-weight: 700;
+    font-size: 18px;
+    color: #222;
+    margin-bottom: 24px;
+}
+
+/* 탭 메뉴 */
+.tab-menu {
+    display: flex;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 20px;
+    padding-left: 0;
+    list-style: none;
+    user-select: none;
+}
+
+.tab-menu li {
+    flex: 1;
+    text-align: center;
+    padding: 12px 0;
+    cursor: pointer;
+    font-weight: 600;
+    color: #666;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+    background: transparent;
+    border-radius: 8px 8px 0 0;
+}
+
+.tab-menu li.selected {
+    color: #4b2e83;
+    border-bottom-color: #4b2e83;
+    font-weight: 700;
+    background: #fff;
+    box-shadow: 0 -3px 6px rgba(75, 46, 131, 0.2);
+}
+
+.tab-menu li:not(.selected):hover {
+    color: #4b2e83;
+    background: #f0eaff;
+}
+
+/* 탭 콘텐츠 영역 */
+.tab-content {
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px 25px;
+    box-shadow: 0 4px 12px rgba(75, 46, 131, 0.1);
+    min-height: 180px;
+    font-size: 15px;
+    color: #333;
+    line-height: 1.5;
+}
+
+/* 오류 메시지 스타일 */
+.tab-content .error-message {
+    color: #d93025;
+    font-weight: 600;
+    margin: 0;
+    font-size: 14px;
+}
+
+.ec-base-tab .menu {
+    display: flex;
+    border-bottom: 2px solid #ddd;
+    padding-left: 0;
+    list-style: none;
+    max-width: 480px;
+    margin: 0 auto 20px;
+    user-select: none;
+}
+
+.ec-base-tab .menu li {
+    flex: 1;
+    text-align: center;
+    padding: 12px 0;
+    cursor: pointer;
+    font-weight: 600;
+    color: #666;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+    background: transparent;
+    border-radius: 8px 8px 0 0;
+    box-sizing: border-box;
+}
+
+.ec-base-tab .menu li.selected {
+    color: #4b2e83;
+    border-bottom-color: #4b2e83;
+    font-weight: 700;
+    background: #fff;
+    box-shadow: 0 -3px 6px rgba(75, 46, 131, 0.2);
+}
+
+.ec-base-tab .menu li:not(.selected):hover {
+    color: #4b2e83;
+    background: #f0eaff;
+}
+
+.ec-base-tab .menu li a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}

@@ -1,12 +1,13 @@
 package mybatis.vo;
 
 public class MemberVO {
-    String userIdx, id, pw, birth, name, gender, phone, email, totalPoints, status, joinPath;
+    String userIdx, id, pw, birth, name, gender, phone, email, totalPoints, status,joinDate,joinPath;
+
 
     //기본 생성자
     public MemberVO(){}
 
-    public MemberVO(String userIdx, String id, String pw, String birth, String name, String gender, String phone, String email, String status, String joinPath) {
+    public MemberVO(String userIdx, String id, String pw, String birth, String name, String gender, String phone, String email, String status, String joinDate, String joinPath) {
         this.userIdx = userIdx;
         this.id = id;
         this.pw = pw;
@@ -16,6 +17,7 @@ public class MemberVO {
         this.phone = phone;
         this.email = email;
         this.status = status;
+        this.joinDate = joinDate;
         this.joinPath= joinPath;
     }
 
@@ -105,6 +107,14 @@ public class MemberVO {
 
     public void setjoinPath(String joinPath) {
         this.joinPath = joinPath;
+    }
+
+    public String getJoinDate() {
+        return joinDate;
+    }
+
+    public void setJoinDate(String joinDate) {
+        this.joinDate = joinDate;
     }
 
 

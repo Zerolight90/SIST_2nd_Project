@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
   <title>Title</title>
@@ -173,10 +174,10 @@
 <body style="margin: auto">
 <!-- 관리자 화면에 처음 들어오는 보이는 상단영역 -->
 <div class="dashHead bold">
-  <div style="display: inline-block; justify-content: space-between; align-items: center"><p style="margin-left: 10px">admin 관리자님</p></div>
+  <div style="display: inline-block; justify-content: space-between; align-items: center"><p style="margin-left: 10px">${sessionScope.vo.adminId} 관리자님</p></div>
   <div style="display: inline-block; float: right; padding-top: 13px; padding-right: 10px">
     <a href="">SIST</a>
-    <a href="">로그아웃</a>
+    <a href="Controller?type=index">로그아웃</a>
   </div>
 </div>
 
@@ -185,40 +186,40 @@
     <jsp:include page="/admin/admin.jsp"/>
   </div>
   <div class="admin-container">
-    <!-- 1. 페이지 제목 -->
+    <!-- 페이지 타이틀 -->
     <div class="page-title">
       <h2>관리자 목록</h2>
     </div>
 
-    <!-- 2. 상단 컨트롤 바 -->
+    <!-- 테이블 상단 바 영역 -->
     <div class="control-bar">
       <div class="total-count">
-        전체 <strong>130</strong>건
+        전체 <strong>${fn:length(requestScope.ar)}</strong>건
       </div>
       <form class="search-form" action="#" method="get">
-        <select name="user_status">
+        <select name="admin_status">
           <option value="">관리자 상태 선택</option>
           <option value="active">활성</option>
           <option value="dormant">정지</option>
         </select>
-        <select name="user_level">
+        <select name="admin_level">
           <option value="">관리자 등급 선택</option>
-          <option value="basic">SUPER</option>
-          <option value="vip">MANAGER</option>
+          <option value="manager">Manager</option>
+          <option value="staff">Staff</option>
         </select>
         <select name="search_field">
-          <option value="all">검색 대상 선택</option>
-          <option value="name">아이디</option>
-          <option value="id">등급</option>
-          <option value="email">상태</option>
+          <option value="">검색 대상 선택</option>
+          <option value="id">아이디</option>
+          <%--<option value="level">등급</option>
+          <option value="status">상태</option>--%>
         </select>
         <input type="text" name="search_keyword" placeholder="검색어를 입력해주세요.">
-        <button type="submit" class="btn btn-search">검색</button>
+        <button type="button" class="btn btn-search">검색</button>
         <button type="button" class="btn btn-reset">초기화</button>
       </form>
     </div>
 
-    <!-- 3. 회원 목록 테이블 -->
+    <!-- 테이블 영역 -->
     <table class="member-table">
       <thead>
       <tr>
@@ -236,10 +237,10 @@
             <td>${vo.adminLevel}</td>
 
             <c:if test="${vo.adminstatus == 0}">
-              <td>정지</td>
+              <td><span class="status-badge status-dormant">정지</span></td>
             </c:if>
             <c:if test="${vo.adminstatus == 1}">
-              <td>활동</td>
+              <td><span class="status-badge status-dormant">활성</span></td>
             </c:if>
           </tr>
         </c:forEach>
@@ -252,7 +253,7 @@
       </tbody>
     </table>
 
-    <!-- 4. 페이징 -->
+    <!-- 페이징 영역 -->
     <nav class="pagination">
       <a href="#" class="nav-arrow">&lt;</a>
       <strong class="current-page">1</strong>
@@ -269,5 +270,31 @@
     </nav>
   </div>
 </div>
+
+<script>
+  $(".btn-search").on('click', function () {
+    let formdata = $(".search-form").serialize();
+
+    $.ajax({
+      url: "Controller?type=adminListSearch",
+      type: "GET",
+      data: formdata,
+      dataType: "html",
+      success: function (response) {
+        $(".member-table tbody").html(response);
+      },
+      error: function () {
+        alert("검색하는 중 오류가 발생했습니다")
+      }
+    })
+  })
+
+  // 초기화 버튼을 눌렀을 때 select 태그 등 지정된 값 전부 초기화
+  $('.btn-reset').on('click', function() {
+    $('.search-form')[0].reset();
+    // location.reload(); 또는 전체 목록 출력?
+  });
+</script>
+
 </body>
 </html>

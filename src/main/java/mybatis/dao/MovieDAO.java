@@ -50,6 +50,19 @@ public class MovieDAO {
         return ar;
     }
 
+    public static void editMovies(Map<String, String> map){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int update = ss.update("movie.editMovies", map);
+
+        if (update >= 1){
+            ss.commit();
+        } else {
+            ss.rollback();
+        }
+
+        ss.close();
+    }
+
     public static List<MovieVO> getBoxOfficeList() {
         List<MovieVO> list = null;
         SqlSession ss = FactoryService.getFactory().openSession();
@@ -57,7 +70,7 @@ public class MovieDAO {
         ss.close();
         return list;
     }
-    // [추가] 카테고리별 총 게시물 수 반환
+    // 카테고리별 총 게시물 수 반환
     public static int getTotalCount(String category) {
         SqlSession ss = FactoryService.getFactory().openSession();
         int count = ss.selectOne("movie.getTotalCount", category);
@@ -65,10 +78,26 @@ public class MovieDAO {
         return count;
     }
 
-    // [추가] 페이징 처리를 위해 Map을 인자로 받는 목록 조회
+    // 카테고리별 영화 목록을 페이징하여 반환하는 메소드
     public static List<MovieVO> getMovieList(Map<String, Object> map) {
         SqlSession ss = FactoryService.getFactory().openSession();
-        List<MovieVO> list = ss.selectList("movie.getPagedList", map);
+        List<MovieVO> list = ss.selectList("movie.getMovieList", map);
+        ss.close();
+        return list;
+    }
+
+    // 검색 결과의 총 개수를 반환하는 메소드
+    public static int getTotalSearchCount(String keyword) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int count = ss.selectOne("movie.searchTotalCount", keyword);
+        ss.close();
+        return count;
+    }
+
+    // 검색 결과를 페이징하여 반환하는 메소드
+    public static List<MovieVO> getSearchMovieList(Map<String, Object> map) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<MovieVO> list = ss.selectList("movie.search", map);
         ss.close();
         return list;
     }

@@ -56,17 +56,13 @@
 
                             <!--등급-->
                             <div class="movie-grade_box">
-                                <img src="images/12_56x56.png"  alt="12.jpg"/>
+                                <img src="images/12.png" alt="12.jpg"/>
                             </div>
 
                             <!-- 리뷰 -->
                             <div class="summary">
                                 <p class="review">
-                                    제레미는 과거 자신이 일했던 빵집 사장의 장례식을 위해 고향 마을로 돌아온다.
-                                    미망인 마르틴의 부탁으로 그 집에 며칠 더 머무르기로 하지만
-                                    아들 뱅상은 이를 못마땅하게 여기고 어릴 적 친구 왈테르도 그를 경계한다.
-                                    마을 성당의 노신부도 감시하는듯 그의 주변을 맴도는데&hellip;
-                                    주인공을 둘러싼 사람들의 기이한 태도 속에 뜻밖의 실종 사건이 발생한다.
+                                    ${movie.synop}
                                 </p>
 
                                 <div class="rating">
@@ -105,7 +101,7 @@
 
                             <!--등급-->
                             <div class="movie-grade_box">
-                                <img src="images/15_56x56.png"  alt="15.jpg"/>
+                                <img src="images/15.png" alt="15.jpg"/>
                             </div>
 
                             <!-- 리뷰 -->
@@ -152,7 +148,7 @@
 
                             <!--등급-->
                             <div class="movie-grade_box">
-                                <img src="images/12_56x56.png"  alt="12.jpg"/>
+                                <img src="images/12.png" alt="12.jpg"/>
                             </div>
 
                             <!-- 리뷰 -->
@@ -199,7 +195,7 @@
 
                             <!--등급-->
                             <div class="movie-grade_box">
-                                <img src="images/19_112x112.png"  alt="19.jpg"/>
+                                <img src="images/19.png" alt="19.jpg"/>
                             </div>
 
                             <!-- 리뷰 -->

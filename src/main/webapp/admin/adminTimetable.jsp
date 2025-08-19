@@ -168,6 +168,21 @@
       font-weight: bold;
     }
 
+    .btn-add {
+      background-color: #007bff;
+      color: white;
+      padding: 8px 20px;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      border: none;
+    }
+    .btn-add:hover {
+      background-color: #0056b3;
+    }
+
   </style>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
@@ -175,10 +190,10 @@
 <body style="margin: auto">
 <!-- 관리자 화면에 처음 들어오는 보이는 상단영역 -->
 <div class="dashHead bold">
-  <div style="display: inline-block; justify-content: space-between; align-items: center"><p style="margin-left: 10px">admin 관리자님</p></div>
+  <div style="display: inline-block; justify-content: space-between; align-items: center"><p style="margin-left: 10px">${sessionScope.vo.adminId} 관리자님</p></div>
   <div style="display: inline-block; float: right; padding-top: 13px; padding-right: 10px">
     <a href="">SIST</a>
-    <a href="">로그아웃</a>
+    <a href="Controller?type=index">로그아웃</a>
   </div>
 </div>
 
@@ -187,21 +202,23 @@
     <jsp:include page="/admin/admin.jsp"/>
   </div>
   <div class="admin-container">
-    <!-- 1. 페이지 제목 -->
-    <div class="page-title">
+    <!-- 페이지 타이틀 -->
+    <div class="page-title" style="display: flex; justify-content: space-between">
       <h2>상영 시간표 목록</h2>
+      <%--<a href="#" class="btn-add" style="height: 20px; margin-top: 35px">상영 시간표 생성</a>--%>
+      <p class="btn-add" style="height: 20px; margin-top: 35px">상영 시간표 생성</p>
     </div>
 
-    <!-- 2. 상단 컨트롤 바 -->
+    <!-- 테이블 상단 바 영역 -->
     <div class="control-bar">
       <div class="total-count">
         전체 <strong>${fn:length(requestScope.ar)}</strong>건
       </div>
       <form class="search-form" action="#" method="get">
         <p class="total-count">상영일 : </p>
-        <p><input type="text" id="datepicker" name="datepicker"></p>
+        <p><input type="text" id="datepicker" name="datepicker" style="width: 130px"></p>
         <select name="theater_status">
-          <option value="">극장 선택</option>
+          <option value="theater">극장 선택</option>
           <option value="gn">강남점</option>
           <option value="gb">강북점</option>
         </select>
@@ -219,7 +236,7 @@
       </form>
     </div>
 
-    <!-- 3. 회원 목록 테이블 -->
+    <!-- 테이블 영역 -->
     <table class="member-table">
       <thead>
       <tr>
@@ -244,13 +261,13 @@
           <td>${vo.date}</td>
           <td>${vo.startTime}</td>
           <td>${vo.endTime}</td>
-          <td>${vo.sSeatCount - vo.reservationCount} / ${vo.sSeatCount}</td>
+          <td>${vo.sCount - vo.reservationCount} / ${vo.sCount}</td>
         </tr>
       </c:forEach>
       </tbody>
     </table>
 
-    <!-- 4. 페이징 -->
+    <!-- 페이징 영역 -->
     <nav class="pagination">
       <a href="#" class="nav-arrow">&lt;</a>
       <strong class="current-page">1</strong>
@@ -268,9 +285,11 @@
   </div>
 </div>
 
+<div id="adminTimeModal" style="display:none;"></div>
+
 <script>
   $( function() {
-    // Datepicker에 적용할 옵션 정의
+    // Datepicker에 적용할 옵션
     let option = {
       monthNames: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
       monthNamesShort: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
@@ -295,7 +314,7 @@
       data: formdata,
       dataType: "html",
       success: function (response) {
-        // 성공 시, 기존 tbody의 내용을 서버에서 받은 새로운 내용으로 교체합니다.
+        // 오류가 없다면 tbody의 내용을 새로운 내용으로 교체
         $(".member-table tbody").html(response);
       },
       error: function() {
@@ -304,11 +323,34 @@
     });
 
     $('.btn-reset').on('click', function() {
-      // form의 내용을 초기화하고 다시 전체 목록을 불러올 수 있습니다.
+
       $('.search-form')[0].reset();
-      // location.reload(); 또는 전체 목록을 불러오는 AJAX 호출
+      // location.reload(); 또는 전체 목록 출력?
     });
   })
+
+  // 상영 시간표 생성 다얄로그 창의 속성 지정
+  $("#adminTimeModal").dialog({
+    autoOpen: false,
+    modal: true,
+    resizable: false,
+    width: 'auto',
+    dialogClass: 'no-titlebar',
+    close: function() {
+      $(this).empty(); // 다음 모달이 열릴 때 혹시 값이 남아있으면 안 되므로 모달이 닫히면 값 비우기
+    }
+  });
+
+  $(".btn-add").on('click', function () {
+    let urlToLoad = "Controller?type=timeTableInsert";
+
+    $("#adminTimeModal").load(urlToLoad, function(response, status, xhr) {
+      if (status == "error") {
+        $(this).html("상영 시간표 생성창을 불러오는 데 실패했습니다.");
+      }
+      $("#adminTimeModal").dialog('open');
+    });
+  });
 </script>
 
 </body>

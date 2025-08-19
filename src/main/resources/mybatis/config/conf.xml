@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+
     <environments default="">
         <environment id="">
             <transactionManager type="JDBC"/>
@@ -35,5 +36,9 @@
         <mapper resource="mybatis/mapper/price.xml"/>
         <mapper resource="mybatis/mapper/screenType.xml"/>
         <mapper resource="mybatis/mapper/userBoard.xml"/>
+        <mapper resource="mybatis/mapper/favMovie.xml"/>
+        <mapper resource="mybatis/mapper/seatStatus.xml"/>
+        <mapper resource="mybatis/mapper/seat.xml"/>
+        <mapper resource="mybatis/mapper/myPaymentHistory.xml"/>
     </mappers>
 </configuration>

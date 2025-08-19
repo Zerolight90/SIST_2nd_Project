@@ -2,15 +2,24 @@ package mybatis.vo;
 
 public class TheaterVO {
     private String tIdx, tName, tRegion, tAddress, tInfo, tScreenCount, tRegDate, tStatus;
+    private String screenCode;
 
-    private String codeIdx, sName, sSeatCount, sStatus;
-
-    public String getsSeatCount() {
-        return sSeatCount;
+    public String getScreenCode() {
+        return screenCode;
     }
 
-    public void setsSeatCount(String sSeatCount) {
-        this.sSeatCount = sSeatCount;
+    public void setScreenCode(String screenCode) {
+        this.screenCode = screenCode;
+    }
+
+    private String codeIdx, sName, sCount, sStatus;
+
+    public String getsCount() {
+        return sCount;
+    }
+
+    public void setsCount(String sCount) {
+        this.sCount = sCount;
     }
 
     public String getsStatus() {

@@ -6,6 +6,8 @@ public class PaymentVO {
 
     private long paymentIdx;
     private long userIdx;
+    private long nIdx;
+    private String name;
     private Long reservIdx; // 영화 예매 ID (FK)
     private Long prodIdx;   // 스토어 상품 ID (FK)
     private Long couponUserIdx; // 사용한 쿠폰 ID (FK)
@@ -21,7 +23,52 @@ public class PaymentVO {
     private Date paymentDate;
     private Date paymentCancelDate;
 
+    private String itemTitle;       // 영화 또는 상품명
+    private String theaterInfo;     // 극장 정보
+    private Date screenDate;        // 상영 일시
+
     // Getters and Setters
+
+    public String getItemTitle() {
+        return itemTitle;
+    }
+
+    public void setItemTitle(String itemTitle) {
+        this.itemTitle = itemTitle;
+    }
+
+    public String getTheaterInfo() {
+        return theaterInfo;
+    }
+
+    public void setTheaterInfo(String theaterInfo) {
+        this.theaterInfo = theaterInfo;
+    }
+
+    public Date getScreenDate() {
+        return screenDate;
+    }
+
+    public void setScreenDate(Date screenDate) {
+        this.screenDate = screenDate;
+    }
+
+    public long getnIdx() {
+        return nIdx;
+    }
+
+//    public void setnIdx(String nIdx) {
+//        this.nIdx = nIdx;
+//    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public long getPaymentIdx() { return paymentIdx; }
     public void setPaymentIdx(long paymentIdx) { this.paymentIdx = paymentIdx; }
     public long getUserIdx() { return userIdx; }

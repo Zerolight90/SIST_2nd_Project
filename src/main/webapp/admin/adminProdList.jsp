@@ -10,9 +10,16 @@
 
     <%-- 이 페이지에만 적용될 스타일 --%>
     <style>
+        body {
+            margin: 0; /* body의 모든 바깥 여백을 제거합니다. */
+        }
+
         /* --- 전체 레이아웃 --- */
         .adminContent {
+            width: 1200px;
+            margin: 0 auto;
             padding: 20px 30px;
+            border: none;
         }
 
         /* --- 페이지 상단 (제목 + 버튼) --- */
@@ -20,13 +27,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
+            padding-bottom: 50px;
+            margin: 30px 0;
             border-bottom: 2px solid #333;
         }
         .product-header h2 {
             margin: 0;
-            font-size: 24px;
+            font-size: 34px;
         }
         .product-header .btn-add {
             background-color: #007bff;
@@ -135,10 +142,10 @@
 <body>
 <!-- 관리자 화면 상단 헤더 -->
 <div class="dashHead bold">
-    <div><p>admin 관리자님</p></div>
-    <div>
-        <a href="Controller?typ=index">SIST</a>
-        <a href="">로그아웃</a>
+    <div style="display: inline-block; justify-content: space-between; align-items: center"><p style="margin-left: 10px">${sessionScope.vo.adminId} 관리자님</p></div>
+    <div style="display: inline-block; float: right; padding-top: 13px; padding-right: 10px">
+        <a href="">SIST</a>
+        <a href="Controller?type=index">로그아웃</a>
     </div>
 </div>
 
@@ -149,7 +156,7 @@
     </div>
 
     <!-- 오른쪽 메인 콘텐츠 -->
-    <div class="adminContent">
+    <div class="admin-container">
         <div class="product-header">
             <h2>상품 목록</h2>
             <a href="#" class="btn-add" onclick="addModal()">새 상품 추가</a>
@@ -209,7 +216,16 @@
                             </c:if>
                         </td>
                         <td>
-                            <button type="button" class="btn-edit" onclick="cerModal()">수정</button>
+                            <button type="button" class="btn-edit"
+                                    data-idx="${vo.prodIdx}"
+                                    data-category="${vo.prodCategory}"
+                                    data-name="${vo.prodName}"
+                                    data-info="${vo.prodInfo}"
+                                    data-img="${vo.prodImg}"
+                                    data-price="${vo.prodPrice}"
+                                    data-stock="${vo.prodStock}"
+                                    onclick="cerModal(this)">수정
+                            </button>
                         </td>
                     </tr>
                 </c:forEach>
@@ -218,14 +234,17 @@
     </div>
 </div>
 
-<!-- 상품 추가 모달 (HTML 구조는 유지) -->
+<!-- 상품 추가 모달 -->
 <div id="productAddModal">
     <div class="modalTitle"><h2>상품 추가</h2></div>
     <form action="Controller?type=productAdd" method="post" id="productAddForm">
         <div class="body">
             <div class="divs">
                 <label for="addCategory">카테고리:</label>
-                <select name="addCategory" id="addCategory" class="input"></select>
+                <select name="addCategory" id="addCategory" class="input">
+                    <option value="1">음식</option>
+                    <option value="2">관람권</option>
+                </select>
             </div>
             <div class="divs">
                 <label for="addProductName">상품명:</label>
@@ -249,45 +268,49 @@
             </div>
         </div>
         <div class="footer">
-            <button type="submit" class="btn btnMain">추가</button>
+            <button type="button" class="btn btnMain">추가</button>
             <button type="button" class="btn btnSub">취소</button>
         </div>
     </form>
 </div>
 
-<!-- 상품 수정 모달 (HTML 구조는 유지) -->
+<!-- 상품 수정 모달 -->
 <div id="productCerModal">
     <c:set var="vo" value="${requestScope.ar}"/>
     <div class="modalTitle"><h2>상품 수정</h2></div>
-    <form action="Controller?type=productAdd" method="post" id="productAddForm">
+    <form action="Controller?type=productCer" method="post" id="productCerForm">
         <div class="body">
             <div class="divs">
-                <label for="addCategory">카테고리:</label>
-                <select name="addCategory" id="addCategory" class="input"></select>
+                <label for="cerCategory">카테고리:</label>
+                <select name="cerCategory" id="cerCategory" class="input">
+                    <option value="1">음식</option>
+                    <option value="2">관람권</option>
+                </select>
             </div>
             <div class="divs">
-                <label for="addProductName">상품명:</label>
-                <input type="text" name="addProductName" id="addProductName" class="input editable" value="" required>
+                <label for="cerProductName">상품명:</label>
+                <input type="text" name="cerProductName" id="cerProductName" class="input editable" value="" required>
             </div>
             <div class="divs">
-                <label for="addDescription">상품설명:</label>
-                <input type="text" name="addDescription" id="addDescription" class="input editable" required>
+                <label for="cerDescription">상품설명:</label>
+                <input type="text" name="cerDescription" id="cerDescription" class="input editable" required>
             </div>
             <div class="divs">
-                <label for="addImg">이미지:</label>
-                <input type="text" name="addImg" id="addImg" class="input editable">
+                <label for="cerImg">이미지:</label>
+                <input type="text" name="cerImg" id="cerImg" class="input editable">
             </div>
             <div class="divs">
-                <label for="addPrice">가격:</label>
-                <input type="number" name="addPrice" id="addPrice" class="input editable" required>
+                <label for="cerPrice">가격:</label>
+                <input type="number" name="cerPrice" id="cerPrice" class="input editable" required>
             </div>
             <div class="divs">
-                <label for="addStock">재고:</label>
-                <input type="number" name="addStock" id="addStock" class="input editable" required>
+                <label for="cerStock">재고:</label>
+                <input type="number" name="cerStock" id="cerStock" class="input editable" required>
             </div>
+            <input type="hidden" id="pidx" name="pidx" value="">
         </div>
         <div class="footer">
-            <button type="submit" class="btn btnMain">추가</button>
+            <button type="button" id="edit" class="btn btnMain">수정</button>
             <button type="button" class="btn btnSub">취소</button>
         </div>
     </form>
@@ -299,20 +322,65 @@
     $(document).ready(function () {
         // 모달의 취소 버튼 클릭 시
         $(".btnSub").on("click", function () {
-            // 가장 가까운 모달 div를 찾아서 숨깁니다.
+            // 가장 가까운 모달 div를 찾아서 숨기기
             $(this).closest("#productAddModal, #productCerModal").hide();
         });
     });
 
-    // '새 상품 추가' 버튼 클릭 시
+    // 새 상품 추가 버튼 클릭 시
     function addModal() {
         $("#productAddModal").show();
     }
-    // '수정' 버튼 클릭 시
-    function cerModal() {
-        // 여기에 수정할 상품의 데이터를 가져와서 모달 폼에 채워넣는 로직이 필요합니다.
+    // 수정 버튼 클릭 시
+    function cerModal(str) {
+        let prodIdx = $(str).data('idx');
+        let prodCategory = $(str).data('category');
+        let prodName = $(str).data('name');
+        let prodInfo = $(str).data('info');
+        let prodImg = $(str).data('img');
+        let prodPrice = $(str).data('price');
+        let prodStock = $(str).data('stock');
+
+        // 3. 가져온 값들을 수정 모달(#productCerModal) 안의 각 input에 채워 넣습니다.
+        $("#pidx").val(prodIdx);
+        $("#productCerModal").find("#cerCategory").val(prodCategory);
+        $("#productCerModal").find("#cerProductName").val(prodName);
+        $("#productCerModal").find("#cerDescription").val(prodInfo);
+        $("#productCerModal").find("#cerImg").val(prodImg);
+        $("#productCerModal").find("#cerPrice").val(prodPrice);
+        $("#productCerModal").find("#cerStock").val(prodStock);
+
+        // 4. 데이터가 채워진 모달 창을 보여줍니다.
         $("#productCerModal").show();
+
+        /*// 여기에 수정할 상품의 데이터를 가져와서 모달 폼에 채워넣는 로직이 필요 !
+        let prodIdx = $(button).data('idx');
+        let prodCategory = $(button).data('category');
+        let prodName = $(button).data('name');
+        let prodInfo = $(button).data('info');
+        let prodImg = $(button).data('img');
+        let prodPrice = $(button).data('price');
+        let prodStock = $(button).data('stock');
+
+        $("#cerCategory").val(prodCategory);
+        $("#cerProductName").val(prodName);
+        $("#cerDescription").val(prodInfo);
+        $("#cerImg").val(prodImg);
+        $("#cerPrice").val(prodPrice);
+        $("#cerStock").val(prodStock);
+
+        $("#productCerModal").show();*/
     }
+
+    $(function () {
+        $("#productAddModal .btnMain").on('click', function () {
+            $("#productAddForm").submit();
+        })
+
+        $("#edit").on('click', function () {
+            $("#productCerForm").submit();
+        })
+    })
 </script>
 </body>
 </html>

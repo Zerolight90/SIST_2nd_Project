@@ -16,7 +16,7 @@ public class KakaoVO {
         this.pw = "";
         this.birth = "";
         this.gender = "";
-        this.phone = "000-0000-0000";
+        this.phone = "";
     }
 
     public String getK_id() {

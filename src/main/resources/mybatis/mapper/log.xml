@@ -4,7 +4,34 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="log">
+    <!-- 모든 로그 기록을 얻어내는 쿼리 (종민) -->
     <select id="getAllLog" resultType="mybatis.vo.LogVO">
-        select * from log
+        select * from log l
+        inner join admin a ON l.adminIdx = a.adminIdx
+    </select>
+
+    <select id="adminLogSearch" resultType="mybatis.vo.LogVO" parameterType="Map">
+        select * from log l
+        inner join admin a ON l.adminIdx = a.adminIdx
+
+        <where>
+            <if test="datepicker != null and datepicker != '' and datepicker2 != null and datepicker2 != ''">
+                AND logDate BETWEEN #{datepicker} AND #{datepicker2}
+            </if>
+
+            <if test="search_field != null and search_field != ''">
+                <choose>
+                    <when test="search_field == 'name'">
+                        AND l.logTarget LIKE CONCAT ('%', #{search_keyword}, '%')
+                    </when>
+                    <when test="search_field == 'info'">
+                        AND l.logInfo LIKE CONCAT ('%', #{search_keyword}, '%')
+                    </when>
+                    <when test="search_field == 'id'">
+                        AND a.adminId LIKE CONCAT ('%', #{search_keyword}, '%')
+                    </when>
+                </choose>
+            </if>
+        </where>
     </select>
 </mapper>

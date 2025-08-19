@@ -4,78 +4,86 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="movie">
 
-    <!-- 전체영화 관련 xml 문 -->
-    <select id="getTotalCount" parameterType="String" resultType="int">
-        SELECT COUNT(*) FROM movie
-        <choose>
-            <when test="_parameter == 'boxoffice'">
-                WHERE `date` &lt;= NOW()
-            </when>
-            <when test="_parameter == 'scheduled'">
-                WHERE `date` > NOW()
-            </when>
-            <when test="_parameter == 'sistory'">
-                WHERE gen = '역사'
-            </when>
-            <when test="_parameter == 'filmsociety'">
-                WHERE dir = '소마이 신지'
-            </when>
-            <when test="_parameter == 'classicsociety'">
-                WHERE gen = '다큐멘터리'
-            </when>
-            <otherwise>
-                WHERE 1=1
-            </otherwise>
-        </choose>
+    <select id="getName" resultType="mybatis.vo.MovieVO"
+            parameterType="String">
+        select name from movie
+        WHERE mIdx = #{mIdx}
     </select>
 
-    <select id="getPagedList" parameterType="map" resultType="mybatis.vo.MovieVO">
-        SELECT * FROM (
-        SELECT
-        m.*,
-        @rownum := @rownum + 1 AS rnum
-        FROM
-        movie m,
-        (SELECT @rownum := 0) r
+    <!-- 전체영화 총 x개의 영화가 검색되었습니다 에서 x를 계산 -->
+    <select id="getTotalCount" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM movie
+        <where>
+            <choose>
+                <when test="_parameter == 'boxoffice'">
+                    `date` &lt;= NOW() AND status != '상영종료'
+                </when>
+                <when test="_parameter == 'scheduled'">
+                    `date` > NOW()
+                </when>
+                <when test="_parameter == 'filmsociety'">
+                    gen = '다큐멘터리'
+                </when>
+                <when test="_parameter == 'classicsociety'">
+                    gen = '음악'
+                </when>
+            </choose>
+        </where>
+    </select>
+
+    <!-- 전체영화 카테고리별로 필터링해서 보여주는 기능 -->
+    <select id="getMovieList" parameterType="java.util.Map" resultType="mybatis.vo.MovieVO">
+        SELECT *
+        FROM movie m
+        <where>
+            <choose>
+                <when test="category == 'boxoffice'">
+                    `date` &lt;= NOW() AND status != '상영종료'
+                </when>
+                <when test="category == 'scheduled'">
+                    `date` > NOW()
+                </when>
+                <when test="category == 'filmsociety'">
+                    gen = '다큐멘터리'
+                </when>
+                <when test="category == 'classicsociety'">
+                    gen = '음악'
+                </when>
+            </choose>
+        </where>
+
         <choose>
             <when test="category == 'boxoffice'">
-                WHERE m.date &lt;= NOW() ORDER BY m.audNum DESC
+                ORDER BY (
+                SELECT COUNT(*)
+                FROM reservation r
+                JOIN time_table tt ON r.timeTableIdx = tt.timeTableIdx
+                WHERE tt.mIdx = m.mIdx
+                ) DESC
             </when>
-            <when test="category == 'scheduled'">
-                WHERE m.date > NOW() ORDER BY m.date ASC
-            </when>
-            <when test="category == 'sistory'">
-                WHERE m.gen = '역사' ORDER BY m.date DESC
-            </when>
-            <when test="category == 'filmsociety'">
-                WHERE m.dir = '소마이 신지' ORDER BY m.date DESC
-            </when>
-            <when test="category == 'classicsociety'">
-                WHERE m.gen = '다큐멘터리' ORDER BY m.date DESC
-            </when>
-            <otherwise>
-                ORDER BY m.mIdx DESC
-            </otherwise>
+            <when test="category == 'scheduled'"> ORDER BY date ASC </when>
+            <otherwise> ORDER BY date DESC </otherwise>
         </choose>
-        ) paged_movies
-        WHERE rnum BETWEEN #{begin} AND #{end}
+        LIMIT #{offset}, #{numPerPage}
     </select>
 
     <select id="all" resultType="mybatis.vo.MovieVO">
         SELECT * FROM movie <!-- 모든 영화를 보여줌 -->
     </select>
 
-    <!-- 상영중인 영화들의 mIdx를 인자로 받아서 반환한다. . -->
+    <!-- 상영중인 영화들의 mIdx를 인자로 받아서 반환한다. -->
     <select id="list" resultType="mybatis.vo.MovieVO"
             parameterType="String">
         select * from movie
         WHERE mIdx = #{mIdx}
     </select>
 
+    <!-- 모든 영화를 불러오는 쿼리 (종민) -->
     <select id="getMovieInfo" resultType="mybatis.vo.MovieVO">
         select * from movie
     </select>
 
+    <!-- 관리자가 특정 조건값으로 영화를 검색하는 쿼리 (종민) -->
     <select id="getMovieSearch" resultType="mybatis.vo.MovieVO" parameterType="Map">
         SELECT * FROM movie
         <where>
@@ -114,5 +122,30 @@
             </if>
         </where>
     </select>
+
+    <select id="searchTotalCount" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM movie
+        WHERE name LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+
+    <select id="search" parameterType="java.util.Map" resultType="mybatis.vo.MovieVO">
+        SELECT *
+        FROM movie
+        WHERE name LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY date DESC
+        LIMIT #{offset}, #{numPerPage}
+    </select>
+
+    <!-- 관리자가 영화 정보를 수정하는 쿼리 (종민) -->
+    <update id="editMovies" parameterType="Map">
+        UPDATE movie SET poster = #{poster},
+        gen = #{gen},
+        age = #{age},
+        date = #{date},
+        dir = #{dir},
+        status = #{status}
+        WHERE name = #{name}
+    </update>
 
 </mapper>

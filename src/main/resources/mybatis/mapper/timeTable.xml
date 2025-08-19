@@ -4,8 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="timeTable">
 
-
-    <resultMap id="map100" type="mybatis.vo.TimeTableVO">
+    <resultMap id="nowMovie" type="mybatis.vo.TimeTableVO">
         <id property="mIdx" column="mIdx"/>
 
         <!-- timeTableVO에 있는 멤버변수들 중 List<Movie> m_list; -->
@@ -14,13 +13,32 @@
         <!-- movie.list를 호출하면서 mIdx값을 인자로 보낸다. -->
     </resultMap>
 
-    <select id="all" resultMap="map100" parameterType="String"> <!-- 상영중이거나 상영예정인 영화들만 보여주는 쿼리 -->
+    <select id="nowMovie" resultMap="nowMovie"> <!-- 상영중이거나 상영예정인 영화들만 보여주는 쿼리 -->
         SELECT *
         FROM time_table t
-        INNER JOIN movie m
-        ON t.mIdx = m.mIdx
-        WHERE t.startTime &lt; #{now}
+        WHERE NOW()
+        BETWEEN t.startTime
+        AND t.endTime;
     </select>
+
+    <resultMap id="map100" type="mybatis.vo.TimeTableVO">
+        <id property="mIdx" column="mIdx"/>
+        <id property="sIdx" column="sIdx"/>
+        <id property="tIdx" column="tIdx"/>
+        <id property="timeTableIdx" column="timeTableIdx"/>
+
+        <!-- timeTableVO에 있는 멤버변수들 중 List<Movie> m_list; -->
+        <collection property="m_list" ofType="mybatis.vo.MovieVO"
+                    select="movie.list" column="mIdx"/>
+        <collection property="s_list" ofType="mybatis.vo.ScreenVO"
+                    select="screen.list" column="sIdx"/>
+        <collection property="t_list" ofType="mybatis.vo.TheaterVO"
+                    select="theater.list" column="tIdx"/>
+        <collection property="r_list" ofType="mybatis.vo.ReservationVO"
+                    select="reservation.list" column="timeTableIdx"/>
+        <!-- movie.list를 호출하면서 mIdx값을 인자로 보낸다. -->
+    </resultMap>
+
 
     <!-- 각 인자들을 갖고 비교한 쿼리문을 가져왔는데 화면에 mIdx를 보여주는게 아닌 이름을 보여줘야함 -->
     <select id="time" resultMap="map100" parameterType="Map"> <!-- 인자를 두개받아야해서 Map으로 받음 -->
@@ -38,8 +56,16 @@
         WHERE timeTableIdx = #{timeTableIdx}
     </select>
 
+    <select id="theaterTab" resultMap="map100" parameterType="String">
+        SELECT * FROM time_table
+        WHERE tIdx = #{tIdx}
+    </select>
+
+    <!-- 관리자 페이지에서 상영 시간표 정보를 띄울 때 필요한 정보들을 얻어내는 쿼리 (종민) -->
+    <!-- 남은 좌석 수가 DB 상에 직접적으로 존재하지 않으므로 서브쿼리를 이용해 시간표에서 예매가 완료된 갯수를 얻어내
+         이것을 총 좌석 수에서 빼는 방식으로 이용해서 남은 좌석 수를 구할 수 있게 된다 -->
     <select id="getTimetableList" resultType="mybatis.vo.TimeTableVO">
-        select m.name, t.timeTableIdx, t.startTime, t.endTime, t.date, r.tName, s.sName, s.sSeatCount,
+        select m.name, t.timeTableIdx, t.startTime, t.endTime, t.date, r.tName, s.sName, s.sCount,
         (SELECT COUNT(*) FROM reservation res WHERE res.timeTableIdx = t.timeTableIdx) AS reservationCount
         from time_table t
         inner join movie m ON m.mIdx = t.mIdx
@@ -50,8 +76,7 @@
         select * from reservation r
         inner join time_table t ON r.timeTableIdx = t.timeTableIdx
     </select>-->
-
-    <select id="getRemainSeat" resultType="mybatis.vo.TimeTableVO">
+    <!--<select id="getRemainSeat" resultType="mybatis.vo.TimeTableVO">
         SELECT
         tt.timeTableIdx,
         tt.startTime,
@@ -64,24 +89,48 @@
         tt.timeTableIdx, tt.startTime
         ORDER BY
         tt.startTime
-    </select>
+    </select>-->
 
     <select id="getTimetableSearch" resultType="mybatis.vo.TimeTableVO" parameterType="Map">
-        SELECT * FROM time_table
+        SELECT tt.timeTableIdx, t.tName, s.sName, m.name, tt.date, tt.startTime, tt.endTime, s.sCount,
+        (SELECT COUNT(*) FROM reservation res WHERE res.timeTableIdx = tt.timeTableIdx) AS reservationCount
+        FROM time_table tt INNER JOIN theater t ON tt.tIdx = t.tIdx
+        INNER JOIN screen s ON tt.sIdx = s.sIdx
+        INNER JOIN movie m ON tt.mIdx = m.mIdx
         <where>
-            <if test="theater_status != null and theater_status != ''">
-                <choose>
-                    <when test="theater_status == '강남점'">
-                        AND tName = #{theater_status}
-                    </when>
-                </choose>
-                <choose>
-                    <when test="theater_status == '강북점'">
+            <if test="datepicker != null and datepicker != ''">
+                AND tt.date = #{datepicker}
+            </if>
 
+            <if test="theater_status != null and theater_status != '' and theater_status == 'theater'">
+                AND t.tName LIKE CONCAT ('%', #{search_keyword}, '%')
+            </if>
+
+            <if test="screen_level != null and screen_level != ''">
+                <choose>
+                    <when test="screen_level == 1">
+                        AND s.sName = "1관"
+                    </when>
+                    <when test="screen_level == 2">
+                        AND s.sName = "2관 (3D)"
+                    </when>
+                    <when test="screen_level == 3">
+                        AND s.sName = "3관 (4D)"
+                    </when>
+                    <when test="screen_level == 4">
+                        AND s.sName = "4관"
+                    </when>
+                    <when test="screen_level == 5">
+                        AND s.sName = "5관"
                     </when>
                 </choose>
             </if>
         </where>
     </select>
+
+    <!--<insert id="createTimetable" parameterType="Map">
+        INSERT INTO time_table
+        VALUE(
+    </insert>-->
 
 </mapper>

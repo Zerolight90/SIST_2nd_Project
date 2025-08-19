@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
   <title>Title</title>
@@ -174,10 +175,10 @@
 <body style="margin: auto">
 <!-- 관리자 화면에 처음 들어오는 보이는 상단영역 -->
 <div class="dashHead bold">
-  <div style="display: inline-block; justify-content: space-between; align-items: center"><p style="margin-left: 10px">admin 관리자님</p></div>
+  <div style="display: inline-block; justify-content: space-between; align-items: center"><p style="margin-left: 10px">${sessionScope.vo.adminId} 관리자님</p></div>
   <div style="display: inline-block; float: right; padding-top: 13px; padding-right: 10px">
     <a href="">SIST</a>
-    <a href="">로그아웃</a>
+    <a href="Controller?type=index">로그아웃</a>
   </div>
 </div>
 
@@ -186,34 +187,34 @@
     <jsp:include page="/admin/admin.jsp"/>
   </div>
   <div class="admin-container">
-    <!-- 1. 페이지 제목 -->
+    <!-- 페이지 타이틀 -->
     <div class="page-title">
       <h2>로그 목록</h2>
     </div>
 
-    <!-- 2. 상단 컨트롤 바 -->
+    <!-- 테이블 상단 바 영역 -->
     <div class="control-bar">
       <div class="total-count">
-        전체 <strong>130</strong>건
+        전체 <strong>${fn:length(requestScope.ar)}</strong>건
       </div>
       <form class="search-form" action="#" method="get">
-        <p>시작일 : </p>
-        <p><input type="text" id="datepicker"></p>
-        <p>종료일 : </p>
-        <p>jQueryUI DatePicker</p>
+        <p class="total-count">시작일 : </p>
+        <p><input type="text" id="datepicker" name="datepicker" value="" style="width: 150px"></p>
+        <p class="total-count">종료일 : </p>
+        <p><input type="text" id="datepicker2" name="datepicker2" value="" style="width: 150px"></p>
         <select name="search_field">
-          <option value="all">검색 유형 선택</option>
+          <option value="">검색 유형 선택</option>
           <option value="name">대상</option>
-          <option value="id">로그 정보</option>
-          <option value="email">관리자 ID</option>
+          <option value="info">로그 정보</option>
+          <option value="id">관리자 ID</option>
         </select>
         <input type="text" name="search_keyword" placeholder="검색어를 입력해주세요.">
-        <button type="submit" class="btn btn-search">검색</button>
+        <button type="button" class="btn btn-search">검색</button>
         <button type="button" class="btn btn-reset">초기화</button>
       </form>
     </div>
 
-    <!-- 3. 회원 목록 테이블 -->
+    <!-- 테이블 영역 -->
     <table class="member-table">
       <thead>
       <tr>
@@ -228,12 +229,12 @@
       </tr>
       </thead>
       <tbody>
-      <!-- 예시 데이터 행 (실제로는 DB에서 반복문으로 생성) -->
+
       <c:forEach var="vo" items="${requestScope.ar}" varStatus="status">
         <tr>
           <td>${vo.logIdx}</td>
           <td>${vo.logType}</td>
-          <td>${vo.adminIdx}</td>
+          <td>${vo.adminId}</td>
           <td>${vo.logTarget}</td>
           <td>${vo.logInfo}</td>
           <td>${vo.logPerValue}</td>
@@ -244,7 +245,7 @@
       </tbody>
     </table>
 
-    <!-- 4. 페이징 -->
+    <!-- 페이징 영역 -->
     <nav class="pagination">
       <a href="#" class="nav-arrow">&lt;</a>
       <strong class="current-page">1</strong>
@@ -266,7 +267,7 @@
 <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 <script>
   $( function() {
-    // Datepicker에 적용할 옵션 정의
+    // Datepicker에 적용할 옵션
     let option = {
       monthNames: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
       monthNamesShort: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
@@ -280,6 +281,30 @@
     };
 
     $("#datepicker").datepicker(option);
+    $("#datepicker2").datepicker(option);
+
+    $(".btn-search").on('click', function () {
+      let formdata = $(".search-form").serialize();
+
+      $.ajax({
+        url: "Controller?type=adminLogSearch",
+        type: "GET",
+        data: formdata,
+        dataType: "html",
+        success: function (response) {
+          $(".member-table tbody").html(response);
+        },
+        error: function () {
+          alert("검색 도중에 오류가 발생했습니다")
+        }
+      })
+    })
+
+    // 초기화 버튼을 눌렀을 때 select 태그 등 지정된 값 전부 초기화
+    $('.btn-reset').on('click', function() {
+      $('.search-form')[0].reset();
+      // location.reload(); 또는 전체 목록 출력?
+    });
   } );
 </script>
 

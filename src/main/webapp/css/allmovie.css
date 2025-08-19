@@ -46,7 +46,7 @@
     justify-content: space-between;
     align-items: center;
     margin: 0 auto 20px auto; /* 좌우 auto 마진으로 가운데 정렬 */
-    max-width: 1080px; /* 너비를 줄여 검색창을 왼쪽으로 이동시키는 효과 */
+    max-width: 1115px; /* 영화 목록 너비에 맞춤 */
 }
 
 .movie-options .total-count {
@@ -135,6 +135,9 @@
     gap: 10px;
 }
 
+/* allmovie.css 파일에 추가 또는 수정할 내용 */
+
+/* '좋아요' 버튼 기본 스타일 */
 .movie-actions .like-btn {
     display: flex;
     align-items: center;
@@ -146,16 +149,55 @@
     background-color: #fff;
     font-size: 14px;
     color: #666;
+
+    /* 부드러운 전환 효과를 위한 transition 추가 */
+    transition: all 0.2s ease-in-out;
 }
+
+/* 버튼에 마우스를 올렸을 때 (Hover) */
+.movie-actions .like-btn:hover {
+    /* 살짝 커지는 효과 */
+    transform: scale(1.05);
+    border-color: #999;
+    background-color: #f8f8f8;
+}
+
+/* 버튼을 클릭하고 있는 동안 (Active) */
+.movie-actions .like-btn:active {
+    /* 살짝 작아지는 '눌리는' 효과 */
+    transform: scale(0.98);
+}
+
+/* 하트 아이콘 기본 스타일 (빈 하트) */
 .movie-actions .like-btn .heart-icon {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'%3E%3C/path%3E%3C/svg%3E");
     transition: all 0.2s;
 }
 
+/* '좋아요'를 누른 상태 (.liked 클래스 추가 시) */
+.movie-actions .like-btn.liked {
+    border-color: #e44d67; /* 테두리 색 변경 */
+    color: #e44d67; /* 숫자 색 변경 */
+    font-weight: bold;
+}
+
+/* '좋아요' 누른 상태의 하트 아이콘 (채워진 하트) */
 .movie-actions .like-btn.liked .heart-icon {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23e40000' stroke='%23e40000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'%3E%3C/path%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23e44d67' stroke='%23e44d67' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'%3E%3C/path%3E%3C/svg%3E");
+
+    /* 심장이 뛰는 듯한 애니메이션 적용 */
+    animation: heartBeat 0.8s ease-in-out;
+}
+
+/* 심장박동 애니메이션 정의 */
+@keyframes heartBeat {
+    0% { transform: scale(1); }
+    15% { transform: scale(1.2); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.2); }
+    100% { transform: scale(1); }
 }
 
 .movie-actions .reserve-btn {
@@ -171,71 +213,6 @@
 }
 .movie-actions .reserve-btn:hover {
     background-color: #3d277a;
-}
-
-/* 초기에 숨길 영화 아이템 */
-.movie-item.hidden {
-    display: none;
-}
-
-/* 더보기 버튼 */
-.more-btn-wrap {
-    text-align: center;
-    margin: 40px 0;
-}
-
-.more-btn {
-    padding: 12px 50px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.more-btn:hover {
-    background-color: #f1f1f1;
-}
-
-.more-btn i {
-    margin-left: 5px;
-}
-
-/* TOP 버튼 */
-.top-btn {
-    display: none; /* 스크롤 시 보이도록 JS로 제어 */
-    position: fixed;
-    bottom: 40px;
-    right: 40px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: rgba(0, 0, 0, 0.6);
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    z-index: 1000;
-    font-size: 14px;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2px;
-    transition: background-color 0.3s, opacity 0.3s;
-    opacity: 0;
-}
-
-.top-btn.visible {
-    display: flex;
-    opacity: 1;
-}
-
-.top-btn:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-}
-
-.top-btn i {
-    font-size: 16px;
 }
 
 /* 뱃지 기본 스타일 */
@@ -266,4 +243,85 @@
 }
 .age-rating.age-19 {
     background-color: #d8232a; /* 19세: 빨간색 */
+}
+
+/* 페이징 UI 스타일 (우선순위 높임) */
+#container .pagination {
+    text-align: center;
+    margin-top: 40px;
+    padding-bottom: 40px;
+}
+
+#container .pagination a,
+#container .pagination strong {
+    display: inline-block;
+    min-width: 32px;
+    padding: 8px;
+    margin: 0 4px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    text-decoration: none;
+    box-sizing: border-box;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+#container .pagination a:hover {
+    background-color: #f5f5f5;
+    border-color: #ccc;
+}
+
+#container .pagination strong {
+    background-color: #503396;
+    border-color: #503396;
+    color: #fff;
+    cursor: default;
+}
+
+/* 상세 정보 레이어(.summary) 기본 스타일 */
+.movie-item .summary {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+
+    background: rgba(0, 0, 0, 0.85); /* 반투명 검은색 배경 */
+    color: #fff;
+
+    opacity: 0; /* 평소에는 투명하게 숨김 */
+    transition: opacity 0.3s ease-in-out; /* 부드러운 효과를 위한 transition */
+
+    overflow: hidden; /* 내용이 넘칠 경우 숨김 */
+    pointer-events: none; /* 마우스 이벤트가 통과되도록 설정 */
+}
+
+/* 포스터 링크(.poster-link)에 마우스를 올렸을 때 .summary를 보여줌 */
+.movie-item .poster-link:hover .summary {
+    opacity: 1; /* 불투명하게 만들어 보이게 함 */
+}
+
+/* 상세 정보 텍스트 스타일 */
+.movie-item .summary p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.6;
+    text-align: left;
+
+    /* 여러 줄 말줄임 처리 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 10; /* 최대 10줄까지 표시 */
+    -webkit-box-orient: vertical;
+}
+
+/* 포스터 링크(.poster-link)에 position: relative 추가 */
+.movie-item .poster-link {
+    position: relative; /* 자식 요소인 .summary의 기준점이 됨 */
+    display: block;
 }

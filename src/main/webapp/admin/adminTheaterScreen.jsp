@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
   <title>Title</title>
@@ -173,10 +174,10 @@
 <body style="margin: auto">
 <!-- 관리자 화면에 처음 들어오는 보이는 상단영역 -->
 <div class="dashHead bold">
-  <div style="display: inline-block; justify-content: space-between; align-items: center"><p style="margin-left: 10px">admin 관리자님</p></div>
+  <div style="display: inline-block; justify-content: space-between; align-items: center"><p style="margin-left: 10px">${sessionScope.vo.adminId} 관리자님</p></div>
   <div style="display: inline-block; float: right; padding-top: 13px; padding-right: 10px">
     <a href="">SIST</a>
-    <a href="">로그아웃</a>
+    <a href="Controller?type=index">로그아웃</a>
   </div>
 </div>
 
@@ -185,29 +186,29 @@
     <jsp:include page="/admin/admin.jsp"/>
   </div>
   <div class="admin-container">
-    <!-- 1. 페이지 제목 -->
+    <!-- 페이지 타이틀 -->
     <div class="page-title">
       <h2>극장 / 상영관 목록</h2>
     </div>
 
-    <!-- 2. 상단 컨트롤 바 -->
+    <!-- 테이블 상단 바 영역 -->
     <div class="control-bar">
       <div class="total-count">
-        전체 <strong>130</strong>건
+        전체 <strong>${fn:length(requestScope.ar)}</strong>건
       </div>
-      <form class="search-form" action="#" method="get">
-        <select name="user_level">
+      <form class="search-form" action="#" method="post">
+        <select name="thsc_level">
           <option value="">검색 유형 선택</option>
-          <option value="basic">극장 이름</option>
-          <option value="vip">스크린 유형</option>
+          <option value="theaterName">극장 이름</option>
+          <option value="screenType">스크린 유형</option>
         </select>
         <input type="text" name="search_keyword" placeholder="검색어를 입력해주세요.">
-        <button type="submit" class="btn btn-search">검색</button>
+        <button type="button" class="btn btn-search">검색</button>
         <button type="button" class="btn btn-reset">초기화</button>
       </form>
     </div>
 
-    <!-- 3. 회원 목록 테이블 -->
+    <!-- 테이블 영역 -->
     <table class="member-table">
       <thead>
       <tr>
@@ -226,18 +227,8 @@
             <td>${vo.tRegion}</td>
             <td>${vo.tName}</td>
             <td>${vo.sName}</td>
-
-            <c:if test="${vo.codeIdx == 1}">
-              <td>2D</td>
-            </c:if>
-            <c:if test="${vo.codeIdx == 2}">
-              <td>3D</td>
-            </c:if>
-            <c:if test="${vo.codeIdx == 3}">
-              <td>4D</td>
-            </c:if>
-
-            <td>${vo.sSeatCount}</td>
+            <td>${vo.screenCode}</td>
+            <td>${vo.sCount}</td>
 
             <c:if test="${vo.tStatus == 0}">
               <td>운영종료</td>
@@ -257,7 +248,7 @@
       </tbody>
     </table>
 
-    <!-- 4. 페이징 -->
+    <!-- 페이징 영역 -->
     <nav class="pagination">
       <a href="#" class="nav-arrow">&lt;</a>
       <strong class="current-page">1</strong>
@@ -274,5 +265,33 @@
     </nav>
   </div>
 </div>
+
+<script>
+  $(function () {
+    $(".btn-search").on('click', function () {
+      let formdata = $(".search-form").serialize();
+
+      $.ajax({
+        url: "Controller?type=thscSearch",
+        type: "GET",
+        data: formdata,
+        dataType: "html",
+        success: function (response) {
+          $(".member-table tbody").html(response);
+        },
+        error: function () {
+          alert("검색 중 오류가 발생했습니다")
+        }
+      })
+    })
+
+    // 초기화 버튼을 눌렀을 때 select 태그 등 지정된 값 전부 초기화
+    $('.btn-reset').on('click', function() {
+      $('.search-form')[0].reset();
+      // location.reload(); 또는 전체 목록 출력?
+    });
+  })
+</script>
+
 </body>
 </html>

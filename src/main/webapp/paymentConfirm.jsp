@@ -2,11 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
 <!DOCTYPE html>
 <html>
 <head>
   <title>SIST BOX - 결제 결과</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <c:set var="basePath" value="${pageContext.request.contextPath}"/>
   <link rel="stylesheet" href="${basePath}/css/reset.css">
   <link rel="stylesheet" href="${basePath}/css/sub/sub_page_style.css">
@@ -33,7 +33,7 @@
                     <p>티켓 예매번호</p>
                     <p class="ticket_number">${tossResponse.orderId}</p>
                   </div>
-                  <img src="${basePath}/${paidItem.posterUrl}" alt="영화 포스터" class="poster">
+                  <img src="${paidItem.posterUrl}" alt="포스터 이미지" class="poster">
                   <p class="poster_title">${paidItem.title}</p>
                 </div>
               </div>
@@ -42,18 +42,26 @@
                 <table class="details_table">
                   <tr><td class="label">예매영화</td><td class="value">${paidItem.title}</td></tr>
                   <tr><td class="label">관람극장/상영관</td><td class="value">${paidItem.theaterName} / ${paidItem.screenName}</td></tr>
-                  <tr><td class="label">관람일시</td><td class="value">${paidItem.startTime}</td></tr>
+                  <tr><td class="label">관람일시</td><td class="value">${fn:substring(paidItem.startTime, 0, 16)}</td></tr>
                   <tr><td class="label">좌석번호</td><td class="value">${paidItem.seatInfo}</td></tr>
-                  <tr class="divider"><td colspan="2"></td></tr>
                   <tr><td class="label">상품금액</td><td class="value"><fmt:formatNumber value="${tossResponse.totalAmount + couponDiscount + pointDiscount}" pattern="#,##0" /> 원</td></tr>
-                  <tr><td class="label">쿠폰 할인</td><td class="value">- <fmt:formatNumber value="${couponDiscount}" pattern="#,##0" /> 원</td></tr>
-                  <tr><td class="label">포인트 사용</td><td class="value">- <fmt:formatNumber value="${pointDiscount}" pattern="#,##0" /> 원</td></tr>
+                  <c:if test="${!isGuest}">
+                    <tr><td class="label">쿠폰 할인</td><td class="value">- <fmt:formatNumber value="${couponDiscount}" pattern="#,##0" /> 원</td></tr>
+                    <tr><td class="label">포인트 사용</td><td class="value">- <fmt:formatNumber value="${pointDiscount}" pattern="#,##0" /> 원</td></tr>
+                  </c:if>
                   <tr class="final_amount_row"><td class="label">최종결제금액</td><td class="value"><fmt:formatNumber value="${tossResponse.totalAmount}" pattern="#,##0" /> 원</td></tr>
                 </table>
               </div>
             </div>
             <div class="button_container">
-              <button class="btn_history" onclick="location.href='Controller?type=myPage'">예매내역 확인</button>
+              <c:choose>
+                <c:when test="${isGuest}">
+                  <button class="btn_history" onclick="location.href='${basePath}/nonmember/nmemReservation.jsp'">예매정보 다시 확인하기</button>
+                </c:when>
+                <c:otherwise>
+                  <button class="btn_history" onclick="location.href='${basePath}/Controller?type=myPage'">예매내역 확인</button>
+                </c:otherwise>
+              </c:choose>
             </div>
           </c:when>
 
@@ -62,7 +70,7 @@
             <h1>구매 완료</h1>
             <div class="confirmation_box store">
               <div class="store_card">
-                <img src="${basePath}/${paidItem.prodImg}" alt="상품 이미지" class="poster">
+                <img src="${paidItem.posterUrl}" alt="상품 이미지" class="poster">
                 <div class="store_details">
                   <p class="title">${paidItem.prodName}</p>
                   <p class="store_black">수량: 1개</p>
@@ -72,10 +80,11 @@
                 <h2>상품 구매가 완료되었습니다!</h2>
                 <table class="details_table">
                   <tr><td class="label">주문번호</td><td class="value">${tossResponse.orderId}</td></tr>
-                  <tr class="divider"><td colspan="2"></td></tr>
                   <tr><td class="label">상품금액</td><td class="value"><fmt:formatNumber value="${tossResponse.totalAmount + couponDiscount + pointDiscount}" pattern="#,##0" /> 원</td></tr>
-                  <tr><td class="label">쿠폰 할인</td><td class="value">- <fmt:formatNumber value="${couponDiscount}" pattern="#,##0" /> 원</td></tr>
-                  <tr><td class="label">포인트 사용</td><td class="value">- <fmt:formatNumber value="${pointDiscount}" pattern="#,##0" /> 원</td></tr>
+                  <c:if test="${!isGuest}">
+                    <tr><td class="label">쿠폰 할인</td><td class="value">- <fmt:formatNumber value="${couponDiscount}" pattern="#,##0" /> 원</td></tr>
+                    <tr><td class="label">포인트 사용</td><td class="value">- <fmt:formatNumber value="${pointDiscount}" pattern="#,##0" /> 원</td></tr>
+                  </c:if>
                   <tr class="final_amount_row"><td class="label">최종결제금액</td><td class="value"><fmt:formatNumber value="${tossResponse.totalAmount}" pattern="#,##0" /> 원</td></tr>
                 </table>
               </div>

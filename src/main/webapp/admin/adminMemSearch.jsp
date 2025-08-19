@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<%--관리자가 유저를 검색할 때 교체할 tr 태그 반복문--%>
+
 <c:forEach var="vo" items="${requestScope.ar}" varStatus="status">
   <tr id="userTr" data-user-idx="${vo.userIdx}"> <%-- id는 고유해야 하므로 class로 바꾸거나 data 속성 사용 권장 --%>
     <td>${vo.userIdx}</td>

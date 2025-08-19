@@ -3,10 +3,12 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="nmem">
+    <!-- 모든 비회원 정보를 가져오는 쿼리 (종민) -->
     <select id="getNmem" resultType="mybatis.vo.NmemVO">
         select * from nmember
     </select>
 
+    <!-- 관리자가 특정 조건값으로 비회원을 검색하는 쿼리 (종민) -->
     <select id="getNmemSearch" resultType="mybatis.vo.NmemVO" parameterType="Map">
         SELECT * from nmember
         <where>
@@ -29,4 +31,17 @@
             </if>
         </where>
     </select>
+
+    <!-- 비회원 추가 테이블(영환)-->
+    <insert id="add" parameterType="mybatis.vo.NmemVO">
+        INSERT INTO nmember (name, phone, password, birth, email, joinDate)
+        VALUES (#{name}, #{phone}, #{password}, #{birth}, #{email}, NOW())
+    </insert>
+
+
+    <insert id="insertNmember" parameterType="mybatis.vo.NmemVO"
+            useGeneratedKeys="true" keyProperty="nIdx">
+        INSERT INTO nmember (name, phone, password, joinDate)
+        VALUES (#{name}, #{phone}, #{password}, NOW())
+    </insert>
 </mapper>

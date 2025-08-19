@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="payment">
 
     <insert id="addPayment" parameterType="mybatis.vo.PaymentVO"
@@ -36,8 +36,100 @@
         ORDER BY paymentDate DESC
     </select>
 
+    <!-- 모든 결제 정보를 가져오는 쿼리 (종민) -->
     <select id="getAllPayment" resultType="mybatis.vo.PaymentVO">
-        select * from payment
+        select p.paymentIdx, p.paymentType, p.paymentMethod, p.paymentFinal, p.paymentStatus, p.paymentDate, u.name
+        from payment p INNER JOIN user u ON p.userIdx = u.userIdx
+    </select>
+
+    <select id="adminSearchPayment" resultType="mybatis.vo.PaymentVO" parameterType="Map">
+        select p.paymentIdx, p.paymentType, p.paymentMethod, p.paymentFinal, p.paymentStatus, p.paymentDate, u.name
+        from payment p INNER JOIN user u ON p.userIdx = u.userIdx
+
+        <where>
+            <if test="payment_status != null and payment_status != ''">
+                <choose>
+                    <when test="payment_status == 'active'">
+                        AND p.paymentStatus = 0
+                    </when>
+                    <when test="payment_status == 'dormant'">
+                        AND p.paymentStatus = 1
+                    </when>
+                </choose>
+            </if>
+
+            <if test="payment_type != null and payment_type != ''">
+                <choose>
+                    <when test="payment_type == 'movie'">
+                        AND p.paymentType = 0
+                    </when>
+                    <when test="payment_type == 'goods'">
+                        AND p.paymentType = 1
+                    </when>
+                </choose>
+            </if>
+
+            <if test="payment_keyword != null and payment_keyword != ''">
+                <choose>
+                    <when test="payment_field == 'type'">
+                        AND p.paymentType LIKE CONCAT ('%', #{payment_keyword}, '%')
+                    </when>
+
+                    <when test="payment_field == 'method'">
+                        AND p.paymentMethod LIKE CONCAT ('%', #{payment_keyword}, '%')
+                    </when>
+
+                    <when test="payment_field == 'status'">
+                        AND p.paymentStatus LIKE CONCAT ('%', #{payment_keyword}, '%')
+                    </when>
+                </choose>
+            </if>
+
+
+        </where>
+    </select>
+
+    <select id="getPaymentByPaymentKey" parameterType="string" resultType="mybatis.vo.PaymentVO">
+        SELECT *
+        FROM payment
+        WHERE paymentTransactionId = #{paymentKey}
+    </select>
+
+    <update id="updatePaymentToCancelled" parameterType="string">
+        UPDATE payment
+        SET
+        paymentStatus = 1, -- 1: 취소
+        paymentCancelDate = NOW()
+        WHERE
+        paymentTransactionId = #{paymentKey}
+    </update>
+
+    <select id="getNmemPaymentHistory" parameterType="map" resultType="mybatis.vo.PaymentVO">
+        SELECT
+        m.name              AS itemTitle,
+        t.tName             AS theaterInfo,
+        tt.startTime        AS screenDate,
+        p.orderId,
+        p.paymentDate,
+        p.paymentType,
+        p.paymentStatus,
+        p.paymentTransactionId  FROM
+        payment p
+        JOIN
+        reservation r ON p.reservIdx = r.reservIdx
+        JOIN
+        nmember n ON r.nIdx2 = n.nIdx
+        JOIN
+        time_table tt ON r.timeTableIdx = tt.timeTableIdx
+        JOIN
+        movie m ON tt.mIdx = m.mIdx
+        JOIN
+        theater t ON tt.tIdx = t.tIdx
+        WHERE
+        n.name = #{name}
+        AND n.phone = #{phone}
+        AND p.orderId = #{orderId}
+        AND n.password = #{password}
     </select>
 
 </mapper>

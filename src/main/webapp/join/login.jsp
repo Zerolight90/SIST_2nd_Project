@@ -45,7 +45,7 @@
                 <tr>
                     <td><label for="s_id"></label></td>
                     <td>
-                        <input type="text" id="s_id" name="u_id" placeholder="아이디"/>
+                        <input type="text" id="s_id" name="u_id" placeholder="아이디" autofocus />
                     </td>
                 </tr>
 
@@ -55,15 +55,15 @@
                         <input type="password" id="s_pw" name="u_pw"  placeholder="비밀번호"/>
                     </td>
                 </tr>
+
                 <!-- 아이디 찾기/ 비밀번호 찾기 -->
                 <div class="Search">
-                    <a href="#">아이디 찾기</a>
-                    <span> / </span>
-                    <a href="#">비밀번호 찾기</a>
+                    <a href="/join/search.jsp">아이디 찾기 / 비밀번호 찾기</a>
+
                 </div>
 
                 <!-- 로그인/회원가입 버튼 그룹 -->
-                <div class="button-group main-buttons">
+                <div id="login" class="button-group main-buttons">
                     <a href="javascript:exe()" class="btn login-btn">
                         로그인
                     </a>
@@ -71,6 +71,11 @@
                         회원가입
                     </a>
                 </div>
+
+                <div class="non_member">
+                    <a href="/join/nonmenber.jsp" id="openModalBtn">비회원의로 예매 하기</a>
+                 </div>
+
                 <!-- SNS 로그인 섹션 -->
                 <div class="sns-login-section">
                     <p class="sns-login-title">- 또는 SNS 계정으로 로그인 -</p>
@@ -79,12 +84,16 @@
                             <img src="../images/sns/sns_kakao_logo.png" alt="카카오 로그인">
                         </a>
 
-                        <a href="#" class="sns-btn naver"><img src="../images/sns/sns_naver_logo.png" alt="네이버 로그인"></a>
-                        <!--                    <a href="#" class="sns-btn google"><img src="../images/sns_google.png" alt="구글 로그인"></a>-->
+                        <!-- 네이버 로그인 버튼 (수정) -->
+                        <a href="<c:url value='Controller?type=naverAuth'/>" class="sns-btn naver">
+                            <img src="../images/sns/sns_naver_logo.png" alt="네이버 로그인"/>
+                        </a>
+
                     </div>
 
-                    <a class="sns-login-title">-ID/PW 찾기-</a>
                 </div>
+
+
 
             </form>
         </div>
@@ -99,8 +108,10 @@
 
 <script>
     function exe(){
+
         var id = $("#s_id");
         var pw = $("#s_pw");
+
 
         if(id.val().trim().length <= 0){
             alert("아이디를 입력하세요!");
@@ -115,7 +126,35 @@
         //요청할 서버경로를 변경한다.
         document.forms[0].action = "/Controller?type=login"
         document.forms[0].submit();//서버로 보내기
+
     }
+
+    // exe() 함수 아래에 추가
+    $(function(){
+                   // 아이디/비밀번호 입력창에서 Enter 눌렀을 때 exe() 호출
+        $('#s_id, #s_pw').on('keydown', function(e){
+            var id = $("#s_id");
+            var pw = $("#s_pw");
+
+            if (e.key === 'Enter' || e.which === 13) {
+
+                if(id.val().trim().length <= 0){
+                    alert("아이디를 입력하세요!");
+                    id.focus();
+                    return;
+                }
+                if(pw.val().trim().length <= 0){
+                    alert("비밀번호를 입력하세요!");
+                    pw.focus();
+                    return;
+                }
+                e.preventDefault(); // 기본 폼 제출(중복)을 막음
+                exe(); // 기존 로그인 처리 함수 호출
+            }
+        });
+    });
+
+
 </script>
 </body>
 </html>

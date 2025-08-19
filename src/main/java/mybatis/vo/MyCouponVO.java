@@ -13,6 +13,15 @@ public class MyCouponVO {
     private String couponCategory; // 구분
     private Date couponExpDate;    // 유효기간
     private int couponStatus;      // 사용상태 (0:사용가능, 1:사용완료)
+    private int discountValue;
+
+    public int getDiscountValue() {
+        return discountValue;
+    }
+
+    public void setDiscountValue(int discountValue) {
+        this.discountValue = discountValue;
+    }
 
     public int getCouponUserIdx() {
         return couponUserIdx;

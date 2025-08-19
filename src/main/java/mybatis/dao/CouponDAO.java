@@ -1,14 +1,41 @@
 package mybatis.dao;
 
 import mybatis.Service.FactoryService;
+import mybatis.vo.CouponVO;
 import mybatis.vo.MyCouponVO;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CouponDAO {
+
+    public static CouponVO[] getAllCoupon(){
+        CouponVO[] ar = null;
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<CouponVO> list = ss.selectList("coupon.getAllCoupon");
+        ar = new CouponVO[list.size()];
+        list.toArray(ar);
+
+        ss.close();
+        return ar;
+    }
+    public static void delCoupon(String cIdx){
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int del = ss.delete("coupon.delSelectedCoupon", cIdx);
+        if (del >= 1){
+            ss.commit();
+        } else {
+            ss.rollback();
+        }
+
+        ss.close();
+    }
 
     // 트랜잭션 관리를 위해 SqlSession을 파라미터로 받는 메소드
     public static int useCoupon(long couponUserIdx, SqlSession ss) {
@@ -91,5 +118,66 @@ public class CouponDAO {
         List<MyCouponVO> list = ss.selectList("coupon.getHistory", userIdx);
         ss.close();
         return list;
+    }
+
+    public static int revertCouponUsage(long couponUserIdx, SqlSession ss) {
+        return ss.update("coupon.revertCouponUsage", couponUserIdx);
+    }
+
+    /**
+     * 특정 사용자에게 쿠폰을 발급하는 메서드 (회원가입, 생일 등)
+     * @param userIdx 발급받을 사용자의 ID
+     * @param couponIdx 발급할 쿠폰의 ID
+     * @return 성공 시 1, 실패 시 0
+     */
+    public static int issueCouponToUser(long userIdx, long couponIdx) {
+        SqlSession ss = FactoryService.getFactory().openSession(false); // 수동 커밋
+        int result = 0;
+        try {
+            Map<String, Long> map = new HashMap<>();
+            map.put("userIdx", userIdx);
+            map.put("couponIdx", couponIdx);
+            result = ss.insert("coupon.issueCoupon", map);
+            if (result > 0) {
+                ss.commit();
+            } else {
+                ss.rollback();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            ss.rollback();
+        } finally {
+            if (ss != null) {
+                ss.close();
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 특정 사용자가 올해 생일 쿠폰을 받았는지 확인하는 메서드
+     * @param userIdx 확인할 사용자의 ID
+     * @param birthdayCouponIdx 생일 쿠폰의 ID
+     * @return 받았으면 true, 아니면 false
+     */
+    public static boolean hasReceivedBirthdayCouponThisYear(long userIdx, long birthdayCouponIdx) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        boolean received = false;
+        try {
+            Map<String, Long> map = new HashMap<>();
+            map.put("userIdx", userIdx);
+            map.put("couponIdx", birthdayCouponIdx);
+            int count = ss.selectOne("coupon.checkBirthdayCouponIssued", map);
+            if (count > 0) {
+                received = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ss != null) {
+                ss.close();
+            }
+        }
+        return received;
     }
 }

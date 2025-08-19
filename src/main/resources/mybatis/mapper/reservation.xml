@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="reservation">
+    <!-- map100에서 호출 -->
+    <select id="list" resultType="mybatis.vo.ReservationVO" parameterType="String">
+        SELECT * FROM reservation
+        WHERE timeTableIdx = #{timeTableIdx}
+    </select>
 
     <select id="getDetails" parameterType="long" resultType="mybatis.vo.ReservationVO">
         SELECT
@@ -41,25 +46,20 @@
         VALUES (#{userIdx}, 1, 1, 1, 1, NOW(), 1)
     </insert>
 
-    <select id="getTotalCount" parameterType="long" resultType="int">
-        SELECT COUNT(*) FROM reservation WHERE userIdx = #{userIdx} AND status = 1
-    </select>
+    <update id="updateReservationToCancelled" parameterType="long">
+        UPDATE reservation
+        SET status = 0
+        WHERE reservIdx = #{reservIdx}
+    </update>
 
-    <select id="getList" parameterType="map" resultType="mybatis.vo.MyReservationVO">
+    <select id="getScreeningTime" parameterType="long" resultType="mybatis.vo.TimeTableVO">
         SELECT
-            'images/movie_poster_default.jpg' AS posterUrl,
-            p.paymentDate,
-            m.name AS movieTitle,
-            t.tName AS theaterInfo,
-            tt.startTime AS screenDate
-        FROM reservation r
-                 JOIN payment p ON r.reservIdx = p.reservIdx
-                 JOIN time_table tt ON r.timeTableIdx = tt.timeTableIdx
-                 JOIN movie m ON tt.mIdx = m.mIdx
-                 JOIN theater t ON r.tIdx = t.tIdx
-        WHERE r.userIdx = #{userIdx} AND r.status = 1
-        ORDER BY p.paymentDate DESC
-            LIMIT #{begin}, #{end}
+        tt.*
+        FROM
+        time_table tt
+        JOIN
+        reservation r ON tt.timeTableIdx = r.timeTableIdx
+        WHERE
+        r.reservIdx = #{reservIdx}
     </select>
-
 </mapper>

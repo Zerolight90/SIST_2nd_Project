@@ -7,8 +7,9 @@ public class TimeTableVO {
 
     private String name;
     private String tName;
-    private String sName, sSeatCount;
+    private String sName, sCount;
     private String seatStatus, seatStatusIdx;
+
 
     private int reservationCount;
 
@@ -68,15 +69,45 @@ public class TimeTableVO {
         this.sName = sName;
     }
 
-    public String getsSeatCount() {
-        return sSeatCount;
+    public String getsCount() {
+        return sCount;
     }
 
-    public void setsSeatCount(String sSeatCount) {
-        this.sSeatCount = sSeatCount;
+    public void setsCount(String sCount) {
+        this.sCount = sCount;
     }
 
     private List<MovieVO> m_list;
+
+    private List<ScreenVO> s_list;
+
+    private List<TheaterVO> t_list;
+
+    private List<ReservationVO> r_list;
+
+    public List<TheaterVO> getT_list() {
+        return t_list;
+    }
+
+    public void setT_list(List<TheaterVO> t_list) {
+        this.t_list = t_list;
+    }
+
+    public List<ReservationVO> getR_list() {
+        return r_list;
+    }
+
+    public void setR_list(List<ReservationVO> r_list) {
+        this.r_list = r_list;
+    }
+
+    public List<ScreenVO> getS_list() {
+        return s_list;
+    }
+
+    public void setS_list(List<ScreenVO> s_list) {
+        this.s_list = s_list;
+    }
 
     public List<MovieVO> getM_list() {
         return m_list;

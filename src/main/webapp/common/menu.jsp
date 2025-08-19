@@ -36,7 +36,7 @@
             <%-- 로그인 상태일 때 표시될 메뉴 --%>
             <ul class="nav-r_top" id="log_suc">
                     <%-- 세션에 저장된 mvo 객체에서 사용자 이름을 가져와 출력합니다. --%>
-                <li><a href="<c:url value="/mypage/myPage_reservationHistory.jsp"/>">(${sessionScope.mvo.name})님 환영합니다</a></li>
+                <li><a href="<c:url value="/Controller?type=myPage"/>">(${sessionScope.mvo.name})님 환영합니다</a></li>
                 <li><a href="<c:url value="/join/logout.jsp"/>" class="btn">로그아웃</a></li>
                 <li><a href="#" class="quick-booking">빠른예매</a></li>
             </ul>
@@ -47,11 +47,30 @@
             <%-- 로그인 상태일 때 표시될 메뉴 --%>
             <ul class="nav-r_top" id="log_suc">
                     <%-- 세션에 저장된 mvo 객체에서 사용자 이름을 가져와 출력합니다. --%>
-                <li><a href="<c:url value="/mypage/myPage.jsp"/>">(${sessionScope.kvo.k_name})님 환영합니다</a></li>
+                <li><a href="<c:url value="/Controller?type=myPage"/>">(${sessionScope.kvo.k_name})님 환영합니다</a></li>
                 <li><a href="<c:url value="/Controller?type=kakaoLogout"/>" class="btn">로그아웃</a></li>
                 <li><a href="#" class="quick-booking">빠른예매</a></li>
             </ul>
         </c:if>
+
+        <c:if test="${not empty sessionScope.nvo}">
+            <%-- 로그인 상태일 때 표시될 메뉴 --%>
+            <ul class="nav-r_top" id="log_suc">
+                    <%-- 세션에 저장된 mvo 객체에서 사용자 이름을 가져와 출력합니다. --%>
+                <li><a href="<c:url value="/Controller?type=myPage"/>">(${sessionScope.nvo.n_name})님 환영합니다</a></li>
+                <li><a href="<c:url value="/Controller?type=naverLogout"/>" class="btn">로그아웃</a></li>
+                <li><a href="#" class="quick-booking">빠른예매</a></li>
+            </ul>
+        </c:if>
+
+        <c:if test="${not empty sessionScope.nmemvo}">
+            <ul class="nav-r_top" id="log_suc">
+                <li><a href="<c:url value="/Controller?type=myPage"/>">(${sessionScope.nmemvo.nIdx})님 환영합니다</a></li>
+                <li><a href="<c:url value="/Controller?type=nonmemberLogout"/>" class="btn">로그아웃</a></li>
+                <li><a href="#" class="quick-booking">빠른예매</a></li>
+            </ul>
+        </c:if>
+
     </div>
 
 
@@ -95,9 +114,9 @@
                 </ul>
             </li>
             <li class="main-item has-submenu">
-                <a href="<c:url value="/allTheater.jsp"/>">극장</a>
+                <a href="<c:url value="Controller?type=allTheater"/>">극장</a>
                 <ul class="submenu">
-                    <li><a href="<c:url value="/allTheater.jsp"/>">전체 극장</a></li>
+                    <li><a href="<c:url value="Controller?type=allTheater"/>">전체 극장</a></li>
                     <li><a href="#">특별관</a></li>
                 </ul>
             </li>
@@ -112,7 +131,7 @@
                     <li><a href="#">당첨자 확인</a></li>
                 </ul>
             </li>
-            <li class="main-item store-menu"><a href="<c:url value="/store/store.jsp"/>">스토어</a></li>
+            <li class="main-item store-menu"><a href="<c:url value="/Controller?type=store"/>">스토어</a></li>
             <li class="main-item has-submenu">
                 <a href="#">혜택</a>
                 <ul class="submenu">

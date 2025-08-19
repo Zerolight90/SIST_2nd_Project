@@ -5,7 +5,26 @@
 
 <mapper namespace="thsc">
     <select id="getThscInfo" resultType="mybatis.vo.TheaterVO">
-        select t.tRegion, t.tName, t.tStatus, s.sName, s.sIdx, s.sSeatCount, s.sStatus from theater t
+        select t.tRegion, t.tName, t.tStatus, s.sName, s.sIdx, s.sCount, s.sStatus, s.screenCode from theater t
         inner join screen s ON t.tIdx = s.tIdx
+    </select>
+
+    <select id="getThscSearch" resultType="mybatis.vo.TheaterVO" parameterType="Map">
+        select t.tRegion, t.tName, t.tStatus, s.sName, s.sIdx, s.sCount, s.sStatus, s.screenCode from theater t
+        inner join screen s ON t.tIdx = s.tIdx
+
+        <where>
+            <if test="thsc_level != null and thsc_level != ''">
+                <choose>
+                    <when test="thsc_level == 'theaterName'">
+                        AND t.tName LIKE CONCAT ('%', #{search_keyword}, '%')
+                    </when>
+                    <when test="thsc_level == 'screenType'">
+                        AND s.screenCode LIKE CONCAT ('%', #{search_keyword}, '%')
+                    </when>
+                </choose>
+            </if>
+        </where>
+
     </select>
 </mapper>

@@ -35,15 +35,15 @@
 
   <div id="contents" style="width: 1100px; margin: auto;">
     <div>
-      <h2 style="padding-top: 20px; font-size: 24px">일반 관람권</h2>
+      <h2 style="padding-top: 20px; font-size: 24px">${requestScope.vo.prodName}</h2>
     </div>
     <div>
-      <p style="padding-top: 5px; padding-left: 5px; font-size: 16px">일반 관람권</p>
+      <p style="padding-top: 5px; padding-left: 5px; font-size: 16px">${requestScope.vo.prodInfo}</p>
     </div>
     <div style="height: 315px; border-top: 1px solid #999999; border-bottom: 1px solid #999999; display: flex; margin-top: 10px">
       <div style="width: 440px; display: inline-block; border-right: 1px solid #999999">
         <p>
-          <img src="../images/normalTicket.png" alt="" style="margin-top: 17px; margin-left: 70px"/>
+          <img src="../images/${requestScope.vo.prodImg}" alt="" style="margin-top: 17px; margin-left: 70px"/>
         </p>
       </div>
 
@@ -83,13 +83,21 @@
             <button id="plus" type="button">+</button>
           </div>
           <div style="width: 70px; margin-left: 350px; display: flex; font-size: 25px">
-            <p id="totalPrice">14700</p>
+            <p id="totalPrice">${requestScope.vo.prodPrice}</p>
             <span>원</span>
           </div>
         </div>
         <div class="dsp" id="payment" style="margin-top: 10px; display: flex; justify-content: space-evenly;">
           <a href="" style="border-radius: 5px; text-align: center; line-height: 40px; display: inline-block; width: 230px; height: 40px; border: 1px solid #3d008c">선물</a>
-          <a href="" style="border-radius: 5px; color: #ebebeb; text-align: center; line-height: 40px; display: inline-block; width: 230px; height: 40px; background-color: #3d008c; border: 1px solid #3d008c">구매</a>
+          <form action="Controller?type=paymentStore" name="buyForm" method="post" style="display:inline-block">
+            <input type="hidden" name="prodIdx" value="${requestScope.vo.prodIdx}">
+            <input type="hidden" name="prodName" value="${requestScope.vo.prodName}">
+            <input type="hidden" name="prodImg" value="${requestScope.vo.prodImg}">
+            <input type="hidden" name="amount" id="formAmount" value="${requestScope.vo.prodPrice}">
+            <input type="hidden" name="quantity" id="formQuantity" value="1">
+
+            <button type="submit" id="buyBtn" style="border-radius: 5px; color: #ebebeb; text-align: center; line-height: 40px; display: inline-block; width: 230px; height: 40px; background-color: #3d008c; border: 1px solid #3d008c; cursor:pointer;">구매</button>
+          </form>
         </div>
       </div>
 
@@ -132,12 +140,10 @@
 
 </article>
 
-
-
 <script>
   // 1. 모든 탭 버튼(li)과 내용 영역(div)을 가져옵니다.
-  const tabs = document.querySelectorAll('.menu li');
-  const tabContents = document.querySelectorAll('.tabCont');
+  let tabs = document.querySelectorAll('.menu li');
+  let tabContents = document.querySelectorAll('.tabCont');
 
   // 2. 각 탭 버튼에 클릭 이벤트 리스너를 추가합니다.
   tabs.forEach((tab, index) => {
@@ -201,6 +207,9 @@
       $('#cond2').toggle();
     });
 
+    // 수량의 + 버튼을 눌렀을 때 현재 수량값을 얻어내고 수량값이 문자열이므로
+    // 정수로 형변환 시킨 후 1을 더한 값을 변수로 선언해 그 값을 수량값에 넣어준다
+    // 그 후 수량에 따른 가격을 계산하는 함수를 호출한다
     $("#plus").on('click', function () {
       let num = $("#num").val();
       let int = parseInt(num);
@@ -210,6 +219,10 @@
       updatePrice();
     })
 
+    // 수량의 - 버튼을 눌렀을 때 현재 수량값을 얻어내고 수량값이 문자열이므로
+    // 정수로 형변환 시킨 후 1을 뺀 값을 변수로 선언해 그 값을 수량값에 넣어준다
+    // 이 때 수량값이 0 이하가 되지 않아야 하므로 수량값이 2 이상일 때만 이를 수행시킨다
+    // 그 후 수량에 따른 가격을 계산하는 함수를 호출한다
     $("#minus").on('click', function () {
 
       if ($("#num").val() >= 2) {
@@ -222,17 +235,17 @@
       }
     })
   });
-</script>
-<script>
+  // 수량값과 가격값을 얻어내 문자열이므로 먼저 정수로 형변환시킨 뒤
+  // 값을 서로 곱해서 총 가격값을 얻어내서 해당하는 칸에 대입시켜준다
   function updatePrice() {
-    let num = $("#num").val();
-    let price = $("#price").text();
-    let inum = parseInt(num);
-    let iprice = parseInt(price);
-    let rnum = 14700 * inum;
-    console.log(rnum);
+    let num = parseInt($("#num").val());
+    let price = ${requestScope.vo.prodPrice};
+    let rnum = price * num;
 
+    // 폼에 있는 hidden input 값 업데이트
     $("#totalPrice").text(rnum.toLocaleString());
+    $("#formAmount").val(rnum);
+    $("#formQuantity").val(num);
   }
 </script>
 

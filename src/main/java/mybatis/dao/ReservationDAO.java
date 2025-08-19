@@ -3,6 +3,7 @@ package mybatis.dao;
 import mybatis.Service.FactoryService;
 import mybatis.vo.MyReservationVO;
 import mybatis.vo.ReservationVO;
+import mybatis.vo.TimeTableVO;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.HashMap;
@@ -49,23 +50,28 @@ public class ReservationDAO {
         return vo.getReservIdx(); // keyProperty에 의해 채워진 reservIdx 반환
     }
 
-    // 특정 사용자의 예매 내역 총 개수 조회 (페이징용)
-    public static int getTotalReservationCount(long userIdx) {
+    // 특정 사용자의 예매 내역 총 개수 조회
+    public static int getTotalReservationCount(Map<String, Object> params) {
         SqlSession ss = FactoryService.getFactory().openSession();
-        int count = ss.selectOne("reservation.getTotalCount", userIdx);
+        int count = ss.selectOne("reservation.getTotalReservationCount", params);
         ss.close();
         return count;
     }
 
-    // 특정 사용자의 예매 내역 목록 조회 (페이징 처리)
-    public static List<MyReservationVO> getReservationList(long userIdx, int begin, int end) {
+    // 특정 사용자의 예매 내역 목록 조회
+    public static List<MyReservationVO> getReservationList(Map<String, Object> params) {
         SqlSession ss = FactoryService.getFactory().openSession();
-        Map<String, Object> map = new HashMap<>();
-        map.put("userIdx", userIdx);
-        map.put("begin", begin);
-        map.put("end", end);
-        List<MyReservationVO> list = ss.selectList("reservation.getList", map);
+        List<MyReservationVO> list = ss.selectList("reservation.getReservationList", params);
         ss.close();
         return list;
+    }
+
+    // 결제 취소(환불)
+    public static int updateReservationToCancelled(long reservIdx, SqlSession ss) {
+        return ss.update("reservation.updateReservationToCancelled", reservIdx);
+    }
+
+    public static TimeTableVO getScreeningTimeByReservIdx(Long reservIdx, SqlSession ss) {
+        return ss.selectOne("reservation.getScreeningTime", reservIdx);
     }
 }

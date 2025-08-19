@@ -1,19 +1,24 @@
 package Action;
 
+import mybatis.dao.CouponDAO;
 import mybatis.dao.KakaoDAO;
-import mybatis.dao.MemberDAO; // MemberDAO 임포트
+import mybatis.dao.MemberDAO;
 import mybatis.vo.KakaoVO;
+import mybatis.vo.MemberVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Map;
 
 public class KakaoLoginAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        // Action 수행 확인용 sysout
+        System.out.println("KakaoLoginAction");
 
         String code = request.getParameter("code"); // 카카오로부터 인가 받은 코드
 
@@ -81,10 +86,71 @@ public class KakaoLoginAction implements Action {
             System.out.println("이미 존재하는 카카오 ID입니다. DB 삽입을 건너뜁니다.");
         }
 
+        // 세션 설정 등
         HttpSession session = request.getSession();
         session.setAttribute("kvo", K_member);
         session.setAttribute("msg", (K_member.getK_name() != null ? K_member.getK_name() : "사용자") + "님, 카카오 계정으로 로그인되었습니다.");
 
-        return "redirect:/mypage/myPage.jsp";
+        // Kakao ID로 DB에서 mvo 조회
+        MemberVO mvo = MemberDAO.findByKakaoId(K_member.getK_id());
+        if (mvo != null) {
+            session.setAttribute("mvo", mvo); // 세션에 mvo 정보 저장
+
+            // ########### [추가된 로직] ########### !!!
+            // 로그인 성공 시 생일 쿠폰 지급 확인
+            try {
+                String birthDateStr = mvo.getBirth();
+                if (birthDateStr != null && !birthDateStr.isEmpty()) {
+                    LocalDate today = LocalDate.now();
+                    LocalDate birthday = LocalDate.parse(birthDateStr);
+
+                    // 오늘 날짜와 생일의 월, 일이 일치하는지 확인
+                    if (today.getMonthValue() == birthday.getMonthValue() && today.getDayOfMonth() == birthday.getDayOfMonth()) {
+                        long userIdx = Long.parseLong(mvo.getUserIdx());
+                        long birthdayCouponIdx = 6; // DB에 명시된 생일 쿠폰 ID
+
+                        // 올해 생일 쿠폰을 이미 받았는지 확인
+                        boolean alreadyReceived = CouponDAO.hasReceivedBirthdayCouponThisYear(userIdx, birthdayCouponIdx);
+                        if (!alreadyReceived) {
+                            CouponDAO.issueCouponToUser(userIdx, birthdayCouponIdx);
+                            System.out.println(mvo.getName() + "님에게 생일 축하 쿠폰이 발급되었습니다.");
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("생일 쿠폰 발급 중 오류 발생");
+            }
+            // ################################### !!!
+        }
+
+        // *추가 부분: 휴대폰번호와 생년월일이 모두 들어 있으면 index.jsp로 리다이렉트
+        boolean hasPhone = (mvo != null && mvo.getPhone() != null && !mvo.getPhone().trim().isEmpty());
+        boolean hasBirth = (mvo != null && mvo.getBirth() != null && !mvo.getBirth().trim().isEmpty());
+
+        //카카오 로그인
+        String url = "";
+        String seaturl = request.getParameter("booking");
+        String borderurl = request.getParameter("border");
+
+        if (seaturl == null || borderurl == null) {
+            url = "index";
+        }
+        if (seaturl != null) {
+            System.out.println("seaturl is not null");
+            url = seaturl;
+        }
+        if (borderurl != null) {
+            System.out.println("borderurl is not null");
+            url = borderurl;
+        }
+
+        if (hasPhone && hasBirth) {
+            // 둘 다 있으면 index.jsp로 리다이렉트(포워드 아님, 주소 변경)
+            return "redirect:Controller?type="+url;
+        } else {
+            // 하나라도 없으면 마이페이지로 리다이렉트
+            return "redirect:Controller?type=myPage";
+        }
     }
 }

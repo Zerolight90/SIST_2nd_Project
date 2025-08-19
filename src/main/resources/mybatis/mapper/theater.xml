@@ -3,8 +3,19 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="theater">
+    <!-- map100에서 호출 -->
+    <select id="list" resultType="mybatis.vo.TheaterVO" parameterType="String">
+        SELECT * FROM theater
+        WHERE tIdx = #{tIdx}
+    </select>
+
     <select id="all" resultType="mybatis.vo.TheaterVO">
-        SELECT * FROM theater <!-- 모든 영화관을 보여줌 -->
+        SELECT * FROM theater
+    </select>
+
+    <select id="region" resultType="mybatis.vo.TheaterVO">
+        SELECT * FROM theater
+        WHERE
     </select>
 
     <!--파라미터를 기본키로 받아서 해당 극장정보를 반환한다.-->

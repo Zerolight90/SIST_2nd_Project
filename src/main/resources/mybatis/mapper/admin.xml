@@ -4,8 +4,47 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="admin">
+    <!--모든 관리자를 구하는 쿼리 (종민)-->
     <select id="getAllAdmin" resultType="mybatis.vo.AdminVO">
         select * from admin
+    </select>
+
+    <select id="adminCheck" resultType="mybatis.vo.AdminVO" parameterType="Map">
+        select * from admin
+        where adminId = #{id} and adminPassword = #{pw}
+    </select>
+
+    <select id="adminListSearch" resultType="mybatis.vo.AdminVO" parameterType="Map">
+        select * from admin
+
+        <where>
+            <if test="admin_status != null and admin_status != ''">
+                <choose>
+                    <when test="admin_status == 'active'">
+                        AND adminstatus = 1
+                    </when>
+                    <when test="admin_status == 'dormant'">
+                        AND adminstatus = 0
+                    </when>
+                </choose>
+            </if>
+
+            <if test="admin_level != null and admin_level != ''">
+                <choose>
+                    <when test="admin_level == 'manager'">
+                        AND adminLevel = "Manager"
+                    </when>
+                    <when test="admin_level == 'staff'">
+                        AND adminLevel = "Staff"
+                    </when>
+                </choose>
+            </if>
+
+            <if test="search_keyword != null and search_keyword != '' and search_field == 'id'">
+                AND adminId LIKE CONCAT ('%', #{search_keyword}, '%')
+            </if>
+        </where>
+
     </select>
 
     <select id="salesByTheater" resultType="mybatis.vo.RevenueVO">
@@ -24,5 +63,63 @@
         t.tName
         ORDER BY
         totalSales DESC
+    </select>
+
+    <select id="getTheatersBySalesRank" resultType="java.lang.String">
+        SELECT T.tName
+        FROM payment P
+        LEFT JOIN reservation R ON P.reservIdx = R.reservIdx
+        LEFT JOIN time_table TT ON R.timeTableIdx = TT.timeTableIdx
+        LEFT JOIN theater T ON TT.tIdx = T.tIdx
+        WHERE T.tName IS NOT NULL
+        GROUP BY T.tName
+        ORDER BY SUM(P.paymentFinal) DESC
+    </select>
+
+    <select id="getAllGenreStrings" resultType="java.lang.String">
+        SELECT DISTINCT gen FROM movie WHERE gen IS NOT NULL AND gen != ''
+    </select>
+
+    <select id="getSalesBySearch" parameterType="map" resultType="mybatis.vo.RevenueVO">
+    SELECT T.tName as theaterName, SUM(P.paymentFinal) as totalSales
+    FROM payment P
+    LEFT JOIN reservation R ON P.reservIdx = R.reservIdx
+    LEFT JOIN time_table TT ON R.timeTableIdx = TT.timeTableIdx
+    LEFT JOIN theater T ON TT.tIdx = T.tIdx
+    LEFT JOIN movie M ON TT.mIdx = M.mIdx
+    WHERE T.tName IS NOT NULL
+
+    ${whereClause}
+
+    <if test="theaterNames != null and theaterNames.size > 0">
+        <foreach collection="theaterNames" item="name" open="(" separator="," close=")">
+            #{name}
+        </foreach>
+    </if>
+
+    GROUP BY T.tName
+    ORDER BY totalSales DESC
+</select>
+
+    <select id="getSalesByMovie" parameterType="map" resultType="mybatis.vo.RevenueVO">
+        SELECT M.name as theaterName, SUM(P.paymentFinal) as totalSales
+        FROM payment P
+        LEFT JOIN reservation R ON P.reservIdx = R.reservIdx
+        LEFT JOIN time_table TT ON R.timeTableIdx = TT.timeTableIdx
+        LEFT JOIN theater T ON TT.tIdx = T.tIdx
+        LEFT JOIN movie M ON TT.mIdx = M.mIdx
+        WHERE M.name IS NOT NULL
+
+        ${whereClause}
+
+        <if test="theaterNames != null and theaterNames.size > 0">
+            <foreach collection="theaterNames" item="name" open="(" separator="," close=")">
+                #{name}
+            </foreach>
+        </if>
+
+        GROUP BY M.name
+        ORDER BY totalSales DESC
+        LIMIT 10
     </select>
 </mapper>
