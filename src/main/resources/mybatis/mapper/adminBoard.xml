@@ -51,7 +51,7 @@
         WHERE boardIdx = #{boardIdx}
     </select>
 
-    <select id="getBoard2" parameterType="String" resultType="mybatis.vo.AdminBoardVO">
+    <select id="getBoard2" parameterType="String" resultMap="map1">
         SELECT * FROM board
         WHERE parent_boardIdx = #{boardIdx}
         LIMIT 1
@@ -90,7 +90,7 @@
 
     <!--관리자가 답변을 달았을 때 답변상태 업데이트-->
     <update id="update" parameterType="map">
-        UPDATE board set is_answered = #{is_answered}
+        UPDATE board set is_answered = 1
         WHERE boardIdx = #{boardIdx}
     </update>
 

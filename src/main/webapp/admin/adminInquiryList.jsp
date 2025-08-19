@@ -279,7 +279,7 @@
           <td>${vo.boardRegDate}</td>
             <%--확인하기--%>
           <td>
-            <c:if test="${vo.is_answered eq '0' or empty vo.is_answered}"> 미답변</c:if>
+            <c:if test="${vo.is_answered eq '0'}"> 미답변</c:if>
             <c:if test="${vo.is_answered eq '1'}"> 답변완료</c:if>
           </td>
         </tr>

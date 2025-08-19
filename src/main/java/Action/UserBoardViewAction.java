@@ -31,9 +31,9 @@ public class UserBoardViewAction implements Action{
             return "userViewBoard.jsp";
         }else if(boardType.equals("userViewEventBoard")){
             return "userViewEventBoard.jsp";
-        }/*else if(boardType.equals("adminViewInquiry")){
-            return "admin/adminViewInquiry.jsp";
-        }*/
+        }else if(boardType.equals("userViewInquiry")){
+            return "/mypage/myPage_userViewInquiry.jsp";
+        }
 
         return "userViewBoard.jsp";
     }

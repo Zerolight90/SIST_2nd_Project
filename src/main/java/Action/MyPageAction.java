@@ -59,6 +59,9 @@ public class MyPageAction implements Action {
                 case "myCoupon":
                     viewPath = "./mypage/myPage_couponList.jsp";
                     break;
+                case "myPrivateinquiry":
+                    viewPath = "./mypage/myPage_privateinquiry.jsp";
+                    break;
                 case "myPoint":
                     viewPath = "./mypage/myPage_pointHistory.jsp";
                     break;

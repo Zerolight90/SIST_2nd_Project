@@ -25,6 +25,8 @@ public class UserBoardDAO {
 
     //게시물 목록 반환
     public static AdminBoardVO[] getList(String boardType, int begin, int end, String searchKeyword){
+
+        System.out.println("들어왔어?");
         String bt = bungiCata(boardType);
 
         AdminBoardVO[] ar = null;
@@ -41,6 +43,39 @@ public class UserBoardDAO {
         SqlSession ss = FactoryService.getFactory().openSession();
         //AdminBoardVO가 여러개 넘어오도록 한다.
         List<AdminBoardVO> list = ss.selectList("userBoard.userBoardList", map);
+        System.out.println("list.toString():::::::" + list.toString());
+        System.out.println("list:::::::" + list);
+
+        //결과가 넘어오면 배열로 넘겨야 하기 때문에
+        if(list != null && !list.isEmpty()){ //비어있는 상태가 아니면,
+            ar = new AdminBoardVO[list.size()]; //ar을 만든다.
+            list.toArray(ar); //list에 있는 모든 항목들을 배열 ar에 복사
+        }
+        ss.close();
+
+        return ar;
+    }
+
+    //게시물 목록 반환
+    public static AdminBoardVO[] getInquiryList(String boardType){
+
+        System.out.println("getInquiryList로 들어왔어?");
+        String bt = bungiCata(boardType);
+
+        AdminBoardVO[] ar = null;
+
+        //key값 String, value는 Object(int 두개를 모두 포함시켜야 하기 때문)
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("boardType", bt); //xml에 지정한 이름대로
+        //map.put("begin", begin);
+        //map.put("end", end);
+        //map.put("searchKeyword", searchKeyword);
+
+        System.out.println("map:::::::" + map);
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        //AdminBoardVO가 여러개 넘어오도록 한다.
+        List<AdminBoardVO> list = ss.selectList("userBoard.userInquiryBoardList", map);
         System.out.println("list.toString():::::::" + list.toString());
         System.out.println("list:::::::" + list);
 
@@ -104,7 +139,7 @@ public class UserBoardDAO {
         //게시판 카테고리 분기처리
         if(boardType.equals("adminBoardList")){
             boardType="공지사항";
-        }else if(boardType.equals("customerInquiry")){
+        }else if(boardType.equals("myPrivateinquiry")){
             boardType="QnA";
         }else if((boardType.equals("userEventBoardList"))){
             boardType="이벤트";
@@ -112,6 +147,7 @@ public class UserBoardDAO {
             boardType="공지사항";
         }
 
+        System.out.println(boardType+ ":::boardType이다");
         return boardType;
     }
 

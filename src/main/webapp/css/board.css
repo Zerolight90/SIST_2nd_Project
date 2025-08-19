@@ -72,7 +72,8 @@ button[type="button"]{
 }
 
 /* 답변 폼 컨테이너의 전체적인 스타일 */
-#answerFormContainer {
+#answerFormContainer,
+#showAnswerForm{
     /* 필요에 따라 컨테이너에 여백이나 테두리 추가 */
     padding: 20px;
     border: 1px solid #ddd;
@@ -81,7 +82,8 @@ button[type="button"]{
 }
 
 /* 제목과 내용을 포함하는 테이블 스타일 */
-#answered-form table {
+#answered-form table,
+#showAnswerForm table{
     width: 100%; /* 테이블 너비 100%로 설정 */
     border-collapse: collapse; /* 셀 경계선 병합 */
     margin-bottom: 15px; /* 테이블 아래 여백 추가 */
@@ -89,7 +91,9 @@ button[type="button"]{
 
 /* 테이블 헤더(<th>)와 데이터(<td>) 셀 스타일 */
 #answered-form th,
-#answered-form td {
+#answered-form td,
+#showAnswerForm th,
+#showAnswerForm td{
     padding: 10px;
     border: 1px solid #e0e0e0;
 }
@@ -128,7 +132,8 @@ button[type="button"]{
 }
 
 /* 버튼 스타일 */
-#answered-form button {
+#answered-form button,
+#showAnswerForm button{
     padding: 8px 16px;
     cursor: pointer;
     border: none;
@@ -136,7 +141,8 @@ button[type="button"]{
     margin-left: 5px;
 }
 
-#submitAnswerBtn {
+#submitAnswerBtn,
+#showEditFormBtn{
     background-color: #007bff; /* 파란색 배경 */
     color: white; /* 흰색 글자 */
 }
