@@ -33,4 +33,9 @@ public class NmemDAO {
         return ar;
     }
 
+    public static void insertNmember(NmemVO vo, SqlSession ss) {
+        // insert를 수행하고, 생성된 PK(nIdx)를 파라미터로 받은 vo객체에 다시 설정해준다.
+        ss.insert("nmem.insertNmember", vo);
+    }
+
 }

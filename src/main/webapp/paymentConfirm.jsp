@@ -42,18 +42,26 @@
                 <table class="details_table">
                   <tr><td class="label">예매영화</td><td class="value">${paidItem.title}</td></tr>
                   <tr><td class="label">관람극장/상영관</td><td class="value">${paidItem.theaterName} / ${paidItem.screenName}</td></tr>
-                  <tr><td class="label">관람일시</td><td class="value">${paidItem.startTime}</td></tr>
+                  <tr><td class="label">관람일시</td><td class="value">${fn:substring(paidItem.startTime, 0, 16)}</td></tr>
                   <tr><td class="label">좌석번호</td><td class="value">${paidItem.seatInfo}</td></tr>
-                  <tr class="divider"><td colspan="2"></td></tr>
                   <tr><td class="label">상품금액</td><td class="value"><fmt:formatNumber value="${tossResponse.totalAmount + couponDiscount + pointDiscount}" pattern="#,##0" /> 원</td></tr>
-                  <tr><td class="label">쿠폰 할인</td><td class="value">- <fmt:formatNumber value="${couponDiscount}" pattern="#,##0" /> 원</td></tr>
-                  <tr><td class="label">포인트 사용</td><td class="value">- <fmt:formatNumber value="${pointDiscount}" pattern="#,##0" /> 원</td></tr>
+                  <c:if test="${!isGuest}">
+                    <tr><td class="label">쿠폰 할인</td><td class="value">- <fmt:formatNumber value="${couponDiscount}" pattern="#,##0" /> 원</td></tr>
+                    <tr><td class="label">포인트 사용</td><td class="value">- <fmt:formatNumber value="${pointDiscount}" pattern="#,##0" /> 원</td></tr>
+                  </c:if>
                   <tr class="final_amount_row"><td class="label">최종결제금액</td><td class="value"><fmt:formatNumber value="${tossResponse.totalAmount}" pattern="#,##0" /> 원</td></tr>
                 </table>
               </div>
             </div>
             <div class="button_container">
-              <button class="btn_history" onclick="location.href='Controller?type=myPage'">예매내역 확인</button>
+              <c:choose>
+                <c:when test="${isGuest}">
+                  <button class="btn_history" onclick="location.href='${basePath}/nonmember/nmemReservation.jsp'">예매정보 다시 확인하기</button>
+                </c:when>
+                <c:otherwise>
+                  <button class="btn_history" onclick="location.href='${basePath}/Controller?type=myPage'">예매내역 확인</button>
+                </c:otherwise>
+              </c:choose>
             </div>
           </c:when>
 
@@ -72,10 +80,11 @@
                 <h2>상품 구매가 완료되었습니다!</h2>
                 <table class="details_table">
                   <tr><td class="label">주문번호</td><td class="value">${tossResponse.orderId}</td></tr>
-                  <tr class="divider"><td colspan="2"></td></tr>
                   <tr><td class="label">상품금액</td><td class="value"><fmt:formatNumber value="${tossResponse.totalAmount + couponDiscount + pointDiscount}" pattern="#,##0" /> 원</td></tr>
-                  <tr><td class="label">쿠폰 할인</td><td class="value">- <fmt:formatNumber value="${couponDiscount}" pattern="#,##0" /> 원</td></tr>
-                  <tr><td class="label">포인트 사용</td><td class="value">- <fmt:formatNumber value="${pointDiscount}" pattern="#,##0" /> 원</td></tr>
+                  <c:if test="${!isGuest}">
+                    <tr><td class="label">쿠폰 할인</td><td class="value">- <fmt:formatNumber value="${couponDiscount}" pattern="#,##0" /> 원</td></tr>
+                    <tr><td class="label">포인트 사용</td><td class="value">- <fmt:formatNumber value="${pointDiscount}" pattern="#,##0" /> 원</td></tr>
+                  </c:if>
                   <tr class="final_amount_row"><td class="label">최종결제금액</td><td class="value"><fmt:formatNumber value="${tossResponse.totalAmount}" pattern="#,##0" /> 원</td></tr>
                 </table>
               </div>

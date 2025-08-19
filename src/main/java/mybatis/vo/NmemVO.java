@@ -2,9 +2,19 @@ package mybatis.vo;
 
 public class NmemVO {
 
-    private String nIdx, name, email, regDate, phone;
+    private long nIdx; // DB의 BIGINT 타입에 맞춰 long으로 변경
+    private String name;
+    private String email;
+    private String regDate;
+    private String phone;
+    private String password; // 예매 시 사용할 비밀번호 필드 추가
 
-    public NmemVO(String nIdx, String name, String email, String regDate, String phone) {
+    /**
+     * MyBatis가 객체를 생성하기 위해 필요한 기본 생성자
+     */
+    public NmemVO() {}
+
+    public NmemVO(long nIdx, String name, String email, String regDate, String phone) {
         this.nIdx = nIdx;
         this.name = name;
         this.email = email;
@@ -12,11 +22,12 @@ public class NmemVO {
         this.phone = phone;
     }
 
-    public String getnIdx() {
+    // --- Getters and Setters ---
+    public long getnIdx() {
         return nIdx;
     }
 
-    public void setnIdx(String nIdx) {
+    public void setnIdx(long nIdx) {
         this.nIdx = nIdx;
     }
 
@@ -50,5 +61,13 @@ public class NmemVO {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

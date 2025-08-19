@@ -58,4 +58,10 @@ public class PaymentDAO {
     public static int updatePaymentToCancelled(String paymentKey, SqlSession ss) {
         return ss.update("payment.updatePaymentToCancelled", paymentKey);
     }
+
+    // ## 비회원 예매/구매 내역 조회를 위한 메소드 추가 ##
+    // Action에서 트랜잭션 관리를 위해 SqlSession을 파라미터로 받습니다.
+    public static PaymentVO getNmemPaymentHistory(Map<String, String> params, SqlSession ss) {
+        return ss.selectOne("payment.getNmemPaymentHistory", params);
+    }
 }

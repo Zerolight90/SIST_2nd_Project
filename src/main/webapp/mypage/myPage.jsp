@@ -16,9 +16,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
   <link rel="stylesheet" href="../css/mypage.css">
   <link rel="icon" href="../images/favicon.png">
-
-
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 </head>
 <body>
@@ -35,6 +32,7 @@
       <h2>마이페이지</h2>
       <ul>
         <li><a href="${cp}/Controller?type=myReservation" class="nav-link active" data-type="myReservation">예매/구매내역</a></li>
+        <li><a href="${cp}/Controller?type=myprivateinquiry" class="nav-link" data-type="myprivateinquiry">1:1문의내역</a></li>
         <li><a href="${cp}/Controller?type=myCoupon" class="nav-link" data-type="myCoupon">제휴쿠폰</a></li>
         <li><a href="${cp}/Controller?type=myPoint" class="nav-link" data-type="myPoint">멤버십 포인트</a></li>
         <li><a href="${cp}/Controller?type=myMovieStory" class="nav-link" data-type="myMovieStory">나의 무비스토리</a></li>
