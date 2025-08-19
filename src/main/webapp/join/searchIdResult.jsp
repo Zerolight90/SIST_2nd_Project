@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!doctype html>
 <html>
 <head>
@@ -7,6 +8,7 @@
     <title>아이디 찾기 결과</title>
     <link rel="stylesheet" href="<c:url value='/css/reset.css'/>" />
     <link rel="stylesheet" href="<c:url value='/css/join.css'/>" />
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
@@ -79,7 +81,7 @@
         // 닫기 버튼 동작: 모달 닫기 및 (선택) 검색 페이지로 이동
         $("#modalCloseBtn").on("click", function() {
             $("#modalBackground").hide();
-            // 필요하면 검색 폼 페이지로 리다이렉트: 예) window.location.href = '/searchForm.jsp';
+            window.location.href = '/join/search.jsp';
         });
     });
 </script>

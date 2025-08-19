@@ -128,8 +128,9 @@
         </where>
     </select>
 
-    <!--<insert id="createTimetable" parameterType="">
-
+    <!--<insert id="createTimetable" parameterType="Map">
+        INSERT INTO time_table
+        VALUE(
     </insert>-->
 
 </mapper>

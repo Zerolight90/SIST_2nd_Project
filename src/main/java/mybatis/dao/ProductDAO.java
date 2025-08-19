@@ -78,6 +78,18 @@ public class ProductDAO {
 
         ss.close();
     }
+    public static void productCer(Map<String, String> map){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int update = ss.update("product.productCer", map);
+
+        if (update >= 1){
+            ss.commit();
+        } else {
+            ss.rollback();
+        }
+
+        ss.close();
+    }
 
     /**
      * 상품 ID를 이용해 특정 상품의 상세 정보를 반환합니다. (결제 페이지 준비용)

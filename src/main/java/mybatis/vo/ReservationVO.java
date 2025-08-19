@@ -37,7 +37,7 @@ public class ReservationVO {
     public Long getUserIdx() { return userIdx; }
     public void setUserIdx(Long userIdx) { this.userIdx = userIdx; }
     public Long getnIdx2() { return nIdx2; }
-    public void setnIdx2(Long nIdx2) { this.nIdx2 = nIdx2; }
+//    public void setnIdx2(String nIdx2) { this.nIdx2 = nIdx2; }
     public long gettIdx() { return tIdx; }
     public void settIdx(long tIdx) { this.tIdx = tIdx; }
     public long getsIdx() { return sIdx; }

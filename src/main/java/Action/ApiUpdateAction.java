@@ -41,11 +41,11 @@ public class ApiUpdateAction implements Action {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 
-            String sql = "INSERT IGNORE INTO movie (mIdx, name, synop, poster, date, gen, actor, dir, age, runtime, status) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '상영중')";
+            String sql = "INSERT IGNORE INTO movie (mIdx, name, synop, poster, date, gen, actor, dir, age, runtime, status, trailer, background) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '상영종료', ?, ?)";
             ps = conn.prepareStatement(sql);
 
-            for (int page = 1; page <= 6; page++) { // 페이지 수를 조절하여 가져올 데이터 양 결정
+            for (int page = 1; page <= 3; page++) { // 페이지 수를 조절하여 가져올 데이터 양 결정
                 String listApiUrl = "https://api.themoviedb.org/3/movie/now_playing?language=ko-KR&region=KR&page=" + page;
                 JsonArray movieList = getMovieListFromServer(listApiUrl);
                 if (movieList == null) continue;
@@ -61,6 +61,7 @@ public class ApiUpdateAction implements Action {
                     String director = parseDirector(movieDetails);
                     String actors = parseActors(movieDetails);
                     String ageRating = parseKoreanAgeRating(movieDetails);
+                    String trailerUrl = parseYoutubeTrailer(movieDetails);
 
                     ps.setInt(1, movieSummary.get("id").getAsInt());
                     ps.setString(2, movieSummary.get("title").getAsString());
@@ -72,6 +73,9 @@ public class ApiUpdateAction implements Action {
                     ps.setString(8, director);
                     ps.setString(9, ageRating);
                     ps.setInt(10, runtime);
+                    ps.setString(11, trailerUrl);
+                    ps.setString(12, "https://image.tmdb.org/t/p/original" +
+                            (movieSummary.get("backdrop_path").isJsonNull() ? "" : movieSummary.get("backdrop_path").getAsString()));
 
                     int result = ps.executeUpdate();
                     if(result > 0) {
@@ -142,7 +146,7 @@ public class ApiUpdateAction implements Action {
         return null;
     }
     private JsonObject getMovieDetails(String movieId) throws Exception {
-        String detailApiUrl = "https://api.themoviedb.org/3/movie/" + movieId + "?language=ko-KR&append_to_response=credits,release_dates";
+        String detailApiUrl = "https://api.themoviedb.org/3/movie/" + movieId + "?language=ko-KR&append_to_response=credits,release_dates,videos";
         String jsonResponse = getResponseString(detailApiUrl);
         if (jsonResponse != null) {
             return JsonParser.parseString(jsonResponse).getAsJsonObject();
@@ -214,6 +218,39 @@ public class ApiUpdateAction implements Action {
             }
         }
         return "정보 없음";
+    }
+    private String parseYoutubeTrailer(JsonObject movieDetails) {
+        if (movieDetails.has("videos")) {
+            JsonObject videos = movieDetails.getAsJsonObject("videos");
+            JsonArray results = videos.getAsJsonArray("results");
+
+            String officialTrailerKey = null;
+
+            for (JsonElement result : results) {
+                JsonObject video = result.getAsJsonObject();
+                boolean isYoutube = video.get("site").getAsString().equalsIgnoreCase("YouTube");
+                boolean isTrailer = video.get("type").getAsString().equalsIgnoreCase("Trailer");
+                boolean isOfficial = video.get("official").getAsBoolean();
+                boolean isKorean = video.has("iso_639_1") && video.get("iso_639_1").getAsString().equalsIgnoreCase("ko");
+
+                if (isYoutube && isTrailer) {
+                    // 공식 한국 예고편이 있으면 최우선으로 선택
+                    if (isOfficial && isKorean) {
+                        return "https://www.youtube.com/watch?v=" + video.get("key").getAsString();
+                    }
+                    // 공식 예고편(언어 무관)을 일단 저장해둠
+                    if (isOfficial && officialTrailerKey == null) {
+                        officialTrailerKey = video.get("key").getAsString();
+                    }
+                }
+            }
+
+            // 공식 한국 예고편이 없었을 경우, 저장해뒀던 공식 예고편(언어 무관)이라도 반환
+            if (officialTrailerKey != null) {
+                return "https://www.youtube.com/watch?v=" + officialTrailerKey;
+            }
+        }
+        return "정보 없음"; // 예고편이 없는 경우
     }
     private void closeDbResources(PreparedStatement ps, Connection conn) {
         try {

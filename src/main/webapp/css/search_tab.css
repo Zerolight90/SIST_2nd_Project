@@ -27,11 +27,3 @@
 .ec-base-tab.grid6 .menu li { width:17%; }
 .ec-base-tab.grid7 .menu li { width:14.8%; width:15% \0/; }
 .ec-base-tab.grid7 .menu li:first-child { width:13% \0/; }
-
-.page-content{
-    width: 734px;
-    margin: 0 auto;
-}
-.page-content tabBtn{
-    width: 450px;
-}

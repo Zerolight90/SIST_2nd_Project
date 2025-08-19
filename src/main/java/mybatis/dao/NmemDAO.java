@@ -38,4 +38,27 @@ public class NmemDAO {
         ss.insert("nmem.insertNmember", vo);
     }
 
+    // 비회원 추가를 위한 로직
+    public static int registry(NmemVO nmemvo){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int cnt = ss.insert("nmem.add", nmemvo);
+        if(cnt > 0)
+            ss.commit();
+        else
+            ss.rollback();
+        ss.close();
+
+        return cnt;
+    }
+
+//    // 비회원 로그인을 위한 로직
+//    public static NmemVO getByEmail(String email){
+//
+//        SqlSession ss = FactoryService.getFactory().openSession();
+//        NmemVO vo = ss.selectOne("nmem.getByEmail", email);
+//        ss.close();
+//
+//        return vo;
+//    }
+
 }

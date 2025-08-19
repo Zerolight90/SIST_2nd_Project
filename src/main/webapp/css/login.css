@@ -95,6 +95,9 @@ article {
 .Search{
     padding-top: 10px;
 }
+.non_member{
+
+}
 
 /* 버튼 그룹 공통 스타일 */
 .button-group {
@@ -132,9 +135,9 @@ article {
 
 /* SNS 로그인 섹션 스타일 */
 .sns-login-section {
-    margin-top: 30px; /* 위 여백 */
-    border-top: 1px solid #eee; /* 구분선 */
-    padding-top: 30px; /* 구분선 위 여백 */
+    margin-top: 15px !important; /* 위 여백 */
+    border-top: 1px solid #eee !important;/* 구분선 */
+    padding-top: 15px !important; /* 구분선 위 여백 */
 }
 
 .sns-login-title {

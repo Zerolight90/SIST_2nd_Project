@@ -109,7 +109,6 @@
     </select>
 
 
-
     <update id="updatePassword" parameterType="Map">
         UPDATE user set
         pw = #{password}
@@ -156,7 +155,7 @@
 
 
     <!--아이디찾기 -->
-    <select id="serchID" parameterType="Map" resultType="mybatis.vo.MemberVO">
+    <select id="searchID" parameterType="map" resultType="mybatis.vo.MemberVO">
         SELECT * FROM web_movie.user
         WHERE name = #{m_name}
             AND phone = #{m_phone}

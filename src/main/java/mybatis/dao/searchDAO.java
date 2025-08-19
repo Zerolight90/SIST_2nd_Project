@@ -16,7 +16,7 @@ public class searchDAO {
             params.put("m_birth", birth);
             params.put("m_email", email);
             // mapper namespace가 'member'이고 id가 'serchID'이므로 아래와 같이 호출
-            MemberVO member = ss.selectOne("member.serchID", params);
+            MemberVO member = ss.selectOne("member.searchID", params);
             return member;
         } finally {
             ss.close();

@@ -66,7 +66,7 @@
                       <div class="movie_all">
                         <c:forEach var="movieVO" items="${tvo.m_list}" varStatus="j">
                           <img src="/images/${movieVO.age}.png"/>
-                          <button type="button" class="movie-btn" onclick="selectMovie(this, '${movieVO.mIdx}')">&nbsp;&nbsp;${movieVO.name}</button>
+                          <button type="button" class="movie-btn" onclick="selectMovie(this, '${movieVO.mIdx}', '${movieVO.age}')">&nbsp;&nbsp;${movieVO.name}</button>
                           <input type="hidden" value="${movieVO.mIdx}"/>
                           <hr/>
                         </c:forEach>
@@ -244,7 +244,7 @@
   }
 
   // 영화 선택 함수 (새로 추가됨)
-  function selectMovie(selectedBtn, movieIdx) {
+  function selectMovie(selectedBtn, movieIdx, age) {
     console.log("선택된 영화:", movieIdx);
 
     // 모든 영화 버튼에서 selected-btn 클래스 제거

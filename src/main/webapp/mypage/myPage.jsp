@@ -58,6 +58,7 @@
             <%-- 기본은 회원정보 화면을 Ajax로 Load --%>
         </main>
       </c:when>
+
       <c:otherwise>
         <main class="main-content" id="mainContent">
             <%-- 기본은 예매내역 화면을 Ajax로 Load --%>

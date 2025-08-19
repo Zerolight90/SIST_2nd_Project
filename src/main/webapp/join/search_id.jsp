@@ -17,7 +17,7 @@
 <div class="member">
 
 
-    <form id="SearchForm" action="/Controller?type=searchID" method="post">
+    <form id="SearchForm" action="/Controller?type=searchIdPw" method="post">
         <div class="field">
             <b>이름<small>(*필수사항) <span id="name_check_msg" class="error-msg"></span></small></b>
             <span class="placehold-text"> <input type="text" id="u_name" name="u_name" value="${param.u_name}"></span>
@@ -64,14 +64,10 @@
 
 
         <div class="field tel-number">
-            <b>휴대전화<small>(*필수사항)</small></b>
-            <select>
-                <option value="">대한민국 +82</option>
+            <select name="u_phone_country">
+                <option value="+82">대한민국 +82</option>
             </select>
-            <div>
-                <input type="tel" name="u_phone" placeholder="전화번호 입력"/>
-            </div>
-
+            <input type="tel" name="u_phone" placeholder="전화번호 입력" value="${param.u_phone}"/>
         </div>
 
         <input id="searchID_btn" type="submit" value="아이디 찾기" style="cursor: pointer"/>
@@ -181,11 +177,13 @@
                 return false;
             }
             return true;
-
-
-
         });
+
+
     });
+
+
+
 </script>
 
 </body>

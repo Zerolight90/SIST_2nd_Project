@@ -17,6 +17,8 @@ public class KakaoLoginAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        // Action 수행 확인용 sysout
+        System.out.println("KakaoLoginAction");
 
         String code = request.getParameter("code"); // 카카오로부터 인가 받은 코드
 
@@ -126,16 +128,20 @@ public class KakaoLoginAction implements Action {
         boolean hasPhone = (mvo != null && mvo.getPhone() != null && !mvo.getPhone().trim().isEmpty());
         boolean hasBirth = (mvo != null && mvo.getBirth() != null && !mvo.getBirth().trim().isEmpty());
 
+        //카카오 로그인
         String url = "";
         String seaturl = request.getParameter("booking");
         String borderurl = request.getParameter("border");
 
-        if (seaturl == null || borderurl ==null) {
+        if (seaturl == null || borderurl == null) {
             url = "index";
-        } else if (seaturl != null) {
+        }
+        if (seaturl != null) {
+            System.out.println("seaturl is not null");
             url = seaturl;
-
-        } else if (borderurl != null) {
+        }
+        if (borderurl != null) {
+            System.out.println("borderurl is not null");
             url = borderurl;
         }
 
