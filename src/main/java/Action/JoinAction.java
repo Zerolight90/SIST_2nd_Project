@@ -116,5 +116,6 @@ public class JoinAction implements Action {
 
             return "/join/join.jsp";
         }
+
     }
 }

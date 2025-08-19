@@ -33,8 +33,11 @@
 
     <!-- 변수 생성 -->
     <div class="booking-section">
+        <input type="hidden" name="age" id="age" value="${movie.age}">
+        <input type="hidden" name="thisTime" id="thisTime" value="${fn:substring(time.startTime, 10, 16)}"/>
         <div class="seat-area">
             <div class="controls">
+
                 <div class="control-group">
                     <label>성인</label>
                     <div class="counter">
@@ -44,14 +47,17 @@
                     </div>
                 </div>
 
-                <div class="control-group">
-                    <label>청소년</label>
-                    <div class="counter">
-                        <button onclick="changeCount('teen-count', -1)">-</button>
-                        <span id="teen-count">0</span>
-                        <button onclick="changeCount('teen-count', 1)">+</button>
+                <!-- 성인영화가 아닐때만 청소년 추가 버튼을 보여줌 -->
+                <c:if test="${movie.age != '19'}">
+                    <div class="control-group">
+                        <label>청소년</label>
+                        <div class="counter">
+                            <button onclick="changeCount('teen-count', -1)">-</button>
+                            <span id="teen-count">0</span>
+                            <button onclick="changeCount('teen-count', 1)">+</button>
+                        </div>
                     </div>
-                </div>
+                </c:if>
 
                 <div class="control-group">
                     <label>경로</label>
@@ -120,7 +126,10 @@
                 <div class="poster-img"><img src="${movie.poster}" alt="스크린 이미지"></div>
             </div>
             <div class="movie-info">
-                <div class="movie-title">${movie.name}</div>
+                <div class="flex">
+                    <div class="movie-title">${movie.name}</div>
+                    <img src="/images/${movie.age}.png"/>
+                </div>
                 <div class="movie-details">
                     상영관: ${screen.sName}(${screen.screenCode})<br>
                     ${fn:substring(time.startTime, 0, 10)}<br> <!-- 영화가 시작하는 날짜 -->
@@ -147,6 +156,22 @@
     </div>
 </div>
 
+<!-- 성인영화 선택 시 신분증 지참 알림 창 -->
+<div id="adult-alert" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <div class="modal-body">
+            <img src="/images/${movie.age}.png"/>
+            <h2>청소년관람불가</h2>
+            <p>
+                입장 시, 신분증을 반드시 지참해주세요!<br>
+                만 19세 미만의 고객님은 보호자를 동반하더라도 관람이 불가합니다.
+            </p>
+            <button class="confirm-btn" onclick="closeModal()">확인</button>
+        </div>
+    </div>
+</div>
+
 <div style="display: none">
     <form action="Controller?type=paymentMovie" name="ff" method="post">
         <!-- 가격 정보 -->
@@ -154,8 +179,9 @@
         <input type="hidden" name="elderPrice" id="elderPrice" value="${price.elder}">
         <input type="hidden" name="dayPrice" id="dayPrice" value="${price.day}">
         <input type="hidden" name="weekPrice" id="weekPrice" value="${price.week}">
-        <input type="hidden" name="morningPrice" id="morningPrice" value="${price.morning}">
+        <input type="hidden" name="morningPrice" id="morningPrice" value="${price.morning}"> <!-- 조조 할인 가격 -->
         <input type="hidden" name="normalPrice" id="normalPrice" value="${price.normal}">
+
 
         <input type="hidden" name="startTime" value="${time.startTime}">
         <input type="hidden" name="theaterName" value="${theater.tName}">
@@ -163,6 +189,13 @@
         <input type="hidden" name="posterUrl" value="${movie.poster}">
         <input type="hidden" name="screenName" value="${screen.sName}">
         <input type="hidden" name="typePrice" value="${screen.screenCode}"> <!-- 코드타입의 가격 보냄 -->
+
+        <input type="hidden" name="teen" value=""> <!-- 십대 수 -->
+        <input type="hidden" name="adult" value=""> <!-- 성인 수 -->
+        <input type="hidden" name="senior" value=""> <!-- 노인 수 -->
+        <input type="hidden" name="special" value=""> <!-- 우대 수 -->
+        <input type="hidden" name="Aseat" value="1000"> <!-- A열 할인 가격 -->
+
         <input type="hidden" name="seatInfo" value=""> <!-- 스크립트에서 value에 담아서 보냄 -->
         <input type="hidden" name="amount" value=""> <!-- 스크립트에서 value에 담아서 보냄 -->
     </form>
@@ -178,7 +211,23 @@
             seatElement.onclick = null;
         }
         </c:forEach>
+
+        // 19세 관람가 모달 체크
+        const ageValue = document.getElementById("age").value; // getAttribute 대신 value 사용
+        console.log("Age value:", ageValue); // 디버깅용
+        if (ageValue === "19") {
+            console.log("Opening modal for 19+ movie"); // 디버깅용
+            openModal();
+        }
     });
+
+    // 모달 함수
+    function openModal() {
+        document.getElementById("adult-alert").style.display = "block";
+    }
+    function closeModal() {
+        document.getElementById("adult-alert").style.display = "none";
+    }
 
     // 가격 설정
     let teenPrice = Number(document.getElementById('teenPrice').value);
@@ -196,44 +245,19 @@
 
     let seat_list = [];
     let total_price = 0;
-
     let totalPersons = 0;
-
-    // 사용자가 선택한 좌석들은 배열에 저장되어 있다
-
-
-    function goPay() {
-        updateTotalPrice();
-
-        if (totalPersons === 0) {
-            alert("인원을 선택해주세요")
-            return;
-        }
-        if(seat_list.length === 0) {
-            alert("좌석을 선택해주세요")
-            return;
-        }
-
-        document.ff.seatInfo.value = seat_list.join(', ');
-        document.ff.amount.value = total_price;
-
-        console.log(document.ff.startTime.value)
-        console.log(document.ff.theaterName.value)
-        console.log(document.ff.movieTitle.value)
-        console.log(document.ff.posterUrl.value)
-        console.log(document.ff.screenName.value)
-        console.log(document.ff.typePrice.value)
-        console.log(document.ff.seatInfo.value)
-        console.log(document.ff.amount.value)
-
-        document.ff.submit();
-    }
 
     // 인원 수 변경
     function changeCount(type, int) {
         let element = document.getElementById(type);
         let currentCount = parseInt(element.innerText);
         let newCount = currentCount + int;
+
+        // 요소가 존재하지 않으면 함수 종료 (19세 영화에서 teen-count 요소가 없을 때)
+        if (!element) {
+            console.log("Element not found:", type);
+            return;
+        }
 
         if(int === -1) {
             if(totalPersons === 0) {
@@ -246,11 +270,8 @@
             }
             newCount = currentCount - 1;
         }
-        // console.log("normalPrice:", normalPrice);
-        // console.log("teenPrice:", teenPrice);
-        // console.log("specialPrice:", specialPrice);
 
-        // 보이는 숫자가 0이면 연산해도 돌아감
+        // 0보다 작으면 0으로 설정
         if(newCount < 0) newCount = 0;
 
         element.innerText = newCount;
@@ -259,10 +280,11 @@
 
     // 총 인원 수 업데이트
     function updateTotalPersons() {
-        let adult_num = Number(adult.innerText);
-        let teen_num = Number(teen.innerText);
-        let senior_num = Number(senior.innerText);
-        let special_num = Number(special.innerText);
+        // 총 인원을 변수에 담는데 null이면 0 반환
+        let adult_num = adult ? Number(adult.innerText) : 0;
+        let teen_num = teen ? Number(teen.innerText) : 0;
+        let senior_num = senior ? Number(senior.innerText) : 0;
+        let special_num = special ? Number(special.innerText) : 0;
 
         totalPersons = adult_num + teen_num + senior_num + special_num;
         let tperson = document.getElementById('total_person');
@@ -281,6 +303,11 @@
         }
         if(special_num > 0) {
             total_price += special_num * specialPrice;
+        }
+
+        // 할인 적용 (좌석이 선택되어 있을 때만)
+        if (seat_list.length > 0) {
+            updateTotalPrice();
         }
 
         document.getElementById("total-price").innerText = total_price + " 원";
@@ -308,15 +335,12 @@
             }
             if (currentSelectedCount >= totalPersons) {
                 alert("총 인원(" + totalPersons + "명)보다 많은 좌석을 선택할 수 없습니다.");
-                return; // 함수 종료, 좌석 선택하지 않음
+                return;
             }
 
             // 좌석 선택 (색상 변경)
             seat.style.backgroundColor = '#007bff';
             seat.style.borderColor = '#0056b3';
-
-            // 좌석을 선택하면 총 금액도 변해야 함
-
         }
 
         // 선택된 좌석 표시 업데이트 (필요한 경우)
@@ -335,33 +359,98 @@
         let display = document.getElementById('selected-seats-display');
         if (seat_list.length > 0) {
             display.innerText = selectedSeats.length;
-            // console.log(seat_list);
         } else {
             display.innerText = '-';
         }
+
+        // 좌석이 변경될 때마다 가격 재계산
+        updateTotalPersons();
     }
 
-    // 가격 업데이트
+    // 테스트용 함수 (콘솔에서 확인용)
+    function testTimeDiscount() {
+        const testTimes = ["07:30", "08:59", "09:00", "09:01", "12:00", "22:30"];
+
+        testTimes.forEach(time => {
+            // 임시로 시간 변경
+            document.getElementById('thisTime').value = time;
+            const result = applyTimeDiscount();
+            console.log(`시간: ${time} -> 할인: ${result.discount}원 (${result.discountName || "할인없음"})`);
+        });
+    }
+
+    // 사용자가 선택한 영화가 조조인지 판단해서 값을 - 해주기 위해 시간을 알아야함
+    let thisTime = document.getElementById('thisTime').value; // 11:11
+
+    // 시간 문자열을 분으로 변환하는 함수
+    function timeToMinutes(timeStr) {
+        const [hours, minutes] = timeStr.split(':').map(Number);
+        return hours * 60 + minutes;
+    }
+
+    // 시간별 할인 적용 함수
+    function applyTimeDiscount() {
+        // thisTime input에서 시간 가져오기
+        const thisTimeElement = document.getElementById('thisTime');
+        if (!thisTimeElement) {
+            console.log("thisTime element not found");
+            return { discount: 0, discountName: "" };
+        }
+
+        let thisTime = thisTimeElement.value; // 예: "08:30"
+        const currentTime = timeToMinutes(thisTime);
+
+        let discount = 0;
+        let discountName = "";
+
+        // 조조할인: 09:00보다 일찍 시작하는 영화
+        if (currentTime < timeToMinutes("09:00")) {
+            discount = morningPrice;
+            discountName = "조조할인";
+            console.log(`조조할인 적용: ${thisTime} < 09:00, -${discount}원`);
+        }
+
+        return { discount, discountName };
+    }
+
+    // 수정된 updateTotalPrice 함수
     function updateTotalPrice() {
-        // seat_list를 돌면서 안에 있는 글자들의 첫번째 글자를 가져옴
+        // 기존 좌석별 할인 (A열)
+        let seatDiscount = 0;
         for (let i = 0; i < seat_list.length; i++) {
             let seat = seat_list[i];
             let seat_type = seat.charAt(0);
-            // 만약 A 열이라면 총 가격에서 -1000
             if(seat_type === 'A') {
-                console.log("가격 -1000 함");
-                total_price = total_price - 1000;
+                seatDiscount += 1000;
+                console.log(`A열 할인: ${seat} -1000원`);
             }
         }
+
+        // 시간별 할인 적용
+        const timeDiscountInfo = applyTimeDiscount();
+        let timeDiscount = 0;
+
+        if (timeDiscountInfo.discount > 0) {
+            // 선택한 좌석 수만큼 시간 할인 적용
+            timeDiscount = timeDiscountInfo.discount * seat_list.length;
+            console.log(`${timeDiscountInfo.discountName}: -${timeDiscount}원 (좌석 ${seat_list.length}개 × ${timeDiscountInfo.discount}원)`);
+        }
+
+        // 총 할인 금액 적용
+        const totalDiscount = seatDiscount + timeDiscount;
+        total_price = total_price - totalDiscount;
+
+        console.log(`총 할인: ${totalDiscount}원 (좌석할인: ${seatDiscount}원 + 시간할인: ${timeDiscount}원)`);
     }
 
     // 전체 초기화
     function resetAll() {
         // 1) 인원 카운트 UI를 0으로 초기화
-        adult.innerText = '0';
-        teen.innerText = '0';
-        senior.innerText = '0';
-        special.innerText = '0';
+        // 요소가 존재할 때만 초기화
+        if (adult) adult.innerText = '0';
+        if (teen) teen.innerText = '0';
+        if (senior) senior.innerText = '0';
+        if (special) special.innerText = '0';
         totalPersons = 0;
 
         // 2) 좌석 선택 초기화 (인라인 스타일 제거 → 기본 CSS로 복귀)
@@ -379,6 +468,44 @@
         document.getElementById('total_person').innerText = '총 인원: 0';
         document.getElementById('total-price').innerText = '0 원';
     }
+
+    function goPay() {
+        updateTotalPrice();
+
+        if (totalPersons === 0) {
+            alert("인원을 선택해주세요")
+            return;
+        }
+        if(seat_list.length === 0) {
+            alert("좌석을 선택해주세요")
+            return;
+        }
+
+        // 유효성 검사를 통과 후 사용자가 선택한 사람들의 인원 수를 얻어내고 그대로 form에 담아 전달
+        document.ff.teen.value = Number(teen.innerText);
+        document.ff.adult.value = Number(adult.innerText);
+        document.ff.senior.value = Number(senior.innerText);
+        document.ff.special.value = Number(special.innerText);
+
+        document.ff.seatInfo.value = seat_list.join(', ');
+        document.ff.amount.value = total_price;
+
+        console.log(document.ff.startTime.value)
+        console.log(document.ff.theaterName.value)
+        console.log(document.ff.movieTitle.value)
+        console.log(document.ff.posterUrl.value)
+        console.log(document.ff.screenName.value)
+        console.log(document.ff.typePrice.value)
+        console.log(document.ff.teen.value)
+        console.log(document.ff.adult.value)
+        console.log(document.ff.senior.value)
+        console.log(document.ff.special.value)
+        console.log(document.ff.seatInfo.value)
+        console.log(document.ff.amount.value)
+
+        document.ff.submit();
+    }
+
 </script>
 
 <jsp:include page="common/Footer.jsp"/>
