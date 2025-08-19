@@ -13,12 +13,12 @@
 <h2 class="content-title">1:1문의내역</h2>
 <table class="data-table">
     <thead>
-        <tr>
-            <th>구분</th>
-            <th>제목</th>
-            <th>답변상태</th>
-            <th>등록일</th>
-        </tr>
+    <tr>
+        <th>구분</th>
+        <th>제목</th>
+        <th>답변상태</th>
+        <th>등록일</th>
+    </tr>
     </thead>
     <tbody>
     <c:set var="p" value="${requestScope.page}" scope="page"/>
