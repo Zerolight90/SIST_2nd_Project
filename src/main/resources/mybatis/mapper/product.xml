@@ -30,4 +30,14 @@
         INSERT INTO product (prodCategory, prodName, prodInfo, prodPrice, prodStock, prodImg, prodRegDate, prodStatus)
         VALUES (#{prodCategory}, #{prodName}, #{prodInfo}, #{prodPrice}, #{prodStock}, #{prodImg}, #{prodRegDate}, #{prodStatus})
     </insert>
+
+    <update id="productCer" parameterType="Map">
+        UPDATE product SET
+        prodCategory = #{category},
+        prodName = #{productName}, prodInfo = #{description},
+        prodPrice = #{price}, prodStock = #{stock},
+        prodImg = #{img}, prodRegDate = #{prodRegDate},
+        prodStatus = #{status}
+        WHERE prodIdx = #{prodIdx}
+    </update>
 </mapper>

@@ -93,6 +93,13 @@ public class TimeTableDAO {
         return ar;
     }
 
+    public static void createTimeTable(Map<String, String> map){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int insert = ss.insert("timeTable.createTimeTable", map);
+
+        ss.close();
+    }
+
     // 사용자가 선택한 TimeTableVO를 얻어오는 함수
     public static TimeTableVO getSelect(String tvoIdx){
         SqlSession ss = FactoryService.getFactory().openSession();

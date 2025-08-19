@@ -224,7 +224,7 @@
                                     data-img="${vo.prodImg}"
                                     data-price="${vo.prodPrice}"
                                     data-stock="${vo.prodStock}"
-                                    onclick="cerModal()">수정
+                                    onclick="cerModal(this)">수정
                             </button>
                         </td>
                     </tr>
@@ -242,8 +242,8 @@
             <div class="divs">
                 <label for="addCategory">카테고리:</label>
                 <select name="addCategory" id="addCategory" class="input">
-                    <option>1</option>
-                    <option>2</option>
+                    <option value="1">음식</option>
+                    <option value="2">관람권</option>
                 </select>
             </div>
             <div class="divs">
@@ -278,38 +278,39 @@
 <div id="productCerModal">
     <c:set var="vo" value="${requestScope.ar}"/>
     <div class="modalTitle"><h2>상품 수정</h2></div>
-    <form action="Controller?type=productAdd" method="post" id="productAddForm">
+    <form action="Controller?type=productCer" method="post" id="productCerForm">
         <div class="body">
             <div class="divs">
-                <label for="addCategory">카테고리:</label>
-                <select name="addCategory" id="addCategory" class="input">
-                    <option>1</option>
-                    <option>2</option>
+                <label for="cerCategory">카테고리:</label>
+                <select name="cerCategory" id="cerCategory" class="input">
+                    <option value="1">음식</option>
+                    <option value="2">관람권</option>
                 </select>
             </div>
             <div class="divs">
-                <label for="addProductName">상품명:</label>
-                <input type="text" name="addProductName" id="addProductName" class="input editable" value="" required>
+                <label for="cerProductName">상품명:</label>
+                <input type="text" name="cerProductName" id="cerProductName" class="input editable" value="" required>
             </div>
             <div class="divs">
-                <label for="addDescription">상품설명:</label>
-                <input type="text" name="addDescription" id="addDescription" class="input editable" required>
+                <label for="cerDescription">상품설명:</label>
+                <input type="text" name="cerDescription" id="cerDescription" class="input editable" required>
             </div>
             <div class="divs">
-                <label for="addImg">이미지:</label>
-                <input type="text" name="addImg" id="addImg" class="input editable">
+                <label for="cerImg">이미지:</label>
+                <input type="text" name="cerImg" id="cerImg" class="input editable">
             </div>
             <div class="divs">
-                <label for="addPrice">가격:</label>
-                <input type="number" name="addPrice" id="addPrice" class="input editable" required>
+                <label for="cerPrice">가격:</label>
+                <input type="number" name="cerPrice" id="cerPrice" class="input editable" required>
             </div>
             <div class="divs">
-                <label for="addStock">재고:</label>
-                <input type="number" name="addStock" id="addStock" class="input editable" required>
+                <label for="cerStock">재고:</label>
+                <input type="number" name="cerStock" id="cerStock" class="input editable" required>
             </div>
+            <input type="hidden" id="pidx" name="pidx" value="">
         </div>
         <div class="footer">
-            <button type="button" class="btn btnMain">수정</button>
+            <button type="button" id="edit" class="btn btnMain">수정</button>
             <button type="button" class="btn btnSub">취소</button>
         </div>
     </form>
@@ -331,21 +332,23 @@
         $("#productAddModal").show();
     }
     // 수정 버튼 클릭 시
-    function cerModal() {
-        let prodCategory = $(".btn-edit").data('category');
-        let prodName = $(".btn-edit").data('name');
-        let prodInfo = $(".btn-edit").data('info');
-        let prodImg = $(".btn-edit").data('img');
-        let prodPrice = $(".btn-edit").data('price');
-        let prodStock = $(".btn-edit").data('stock');
+    function cerModal(str) {
+        let prodIdx = $(str).data('idx');
+        let prodCategory = $(str).data('category');
+        let prodName = $(str).data('name');
+        let prodInfo = $(str).data('info');
+        let prodImg = $(str).data('img');
+        let prodPrice = $(str).data('price');
+        let prodStock = $(str).data('stock');
 
         // 3. 가져온 값들을 수정 모달(#productCerModal) 안의 각 input에 채워 넣습니다.
-        $("#productCerModal").find("#addCategory").val(prodCategory);
-        $("#productCerModal").find("#addProductName").val(prodName);
-        $("#productCerModal").find("#addDescription").val(prodInfo);
-        $("#productCerModal").find("#addImg").val(prodImg);
-        $("#productCerModal").find("#addPrice").val(prodPrice);
-        $("#productCerModal").find("#addStock").val(prodStock);
+        $("#pidx").val(prodIdx);
+        $("#productCerModal").find("#cerCategory").val(prodCategory);
+        $("#productCerModal").find("#cerProductName").val(prodName);
+        $("#productCerModal").find("#cerDescription").val(prodInfo);
+        $("#productCerModal").find("#cerImg").val(prodImg);
+        $("#productCerModal").find("#cerPrice").val(prodPrice);
+        $("#productCerModal").find("#cerStock").val(prodStock);
 
         // 4. 데이터가 채워진 모달 창을 보여줍니다.
         $("#productCerModal").show();
@@ -359,12 +362,12 @@
         let prodPrice = $(button).data('price');
         let prodStock = $(button).data('stock');
 
-        $("#addCategory").val(prodCategory);
-        $("#addProductName").val(prodName);
-        $("#addDescription").val(prodInfo);
-        $("#addImg").val(prodImg);
-        $("#addPrice").val(prodPrice);
-        $("#addStock").val(prodStock);
+        $("#cerCategory").val(prodCategory);
+        $("#cerProductName").val(prodName);
+        $("#cerDescription").val(prodInfo);
+        $("#cerImg").val(prodImg);
+        $("#cerPrice").val(prodPrice);
+        $("#cerStock").val(prodStock);
 
         $("#productCerModal").show();*/
     }
@@ -372,6 +375,10 @@
     $(function () {
         $("#productAddModal .btnMain").on('click', function () {
             $("#productAddForm").submit();
+        })
+
+        $("#edit").on('click', function () {
+            $("#productCerForm").submit();
         })
     })
 </script>

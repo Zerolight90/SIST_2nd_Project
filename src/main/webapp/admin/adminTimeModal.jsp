@@ -31,11 +31,11 @@
   .divs {
     display: flex;
     align-items: center;
-    margin-bottom: 15px;
+    margin-left: 30px;
   }
 
   .divs label {
-    width: 120px;
+    width: 140px;
     font-weight: bold;
     padding-right: 15px;
     text-align: right;
@@ -95,13 +95,13 @@
 
   <div class="body">
     <div class="divs">
-      <label for="userId">몇 일 후:</label>
+      <label for="userId">몇 일 후 (금일 기준):</label>
       <input type="text" id="userId" class="input editable" value="">
     </div>
-    <div class="divs">
+    <%--<div class="divs">
       <label for="userName">생성 일수:</label>
       <input type="text" id="userName" class="input editable" value="">
-    </div>
+    </div>--%>
   </div>
 
   <div>
@@ -113,7 +113,7 @@
   </div>
 
   <div class="footer">
-    <button type="button" class="btn btnMain">생성</button>
+    <button type="button" class="btn btnMain" id="createTimeTable">생성</button>
     <button type="button" class="btn btnSub">취소</button>
   </div>
   
@@ -147,8 +147,10 @@
         });
       })
       
-      $(".btnMain").on('click', function () {
-        let long = $("#userId").val();
+      $("#createTimeTable").on('click', function () {
+        let day = $("#userId").val();
+        let tIdx = ${sessionScope.vo.tIdx};
+        location.href = "Controller?type=createTimeTable&day=" + day + "&tIdx=" + tIdx;
       })
 
       $(".btnSub").on('click', function () {

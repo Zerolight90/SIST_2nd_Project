@@ -121,6 +121,8 @@
         <img src="${requestScope.vo.poster}" style="width: 370px; margin-bottom: 15px">
         <label for="userId">포스터 이미지 URL:</label><br/>
         <input type="text" id="userId" name="poster" class="input" value="${requestScope.vo.poster}" style="margin-top: 10px">
+        <label for="userId" style="position: relative; top: 10px">상세 포스터 이미지 URL:</label><br/>
+        <input type="text" id="userId" name="poster" class="input" value="${requestScope.vo.background}" style="margin-top: 20px">
       </div>
       <div></div>
     </div>
@@ -189,6 +191,10 @@
       <div class="divs">
         <label for="userDate">시놉시스:</label>
         <input type="text" id="userDate" name="synop" class="input" style="height: 100px" value="${requestScope.vo.synop}">
+      </div>
+      <div class="divs">
+        <label for="trailer">영화 예고편 URL:</label>
+        <input type="text" id="trailer" name="trailer" class="input" style="height: 36px" value="${requestScope.vo.trailer}">
       </div>
     </div>
   </form>
