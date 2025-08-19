@@ -11,38 +11,37 @@
 </head>
 <body>
 <h2 class="content-title">1:1문의내역</h2>
-<table class="data-table">
-    <thead>
-        <tr>
-            <th>구분</th>
-            <th>극장</th>
-            <th>제목</th>
-            <th>답변상태</th>
-            <th>등록dd일</th>
-        </tr>
-    </thead>
-    <tbody>
-    <c:set var="p" value="${requestScope.page}" scope="page"/>
-    <c:forEach items="${requestScope.ar}" var="vo" varStatus="vs1">
-        <tr>
-            <c:set var="num" value="${p.totalCount - ((p.nowPage-1)*p.numPerPage+ vs1.index)}"/>
-            <td>${num}</td>
-            <td>${vo.mvo.tName}</td>
-            <a href="Controller?type=userViewInquiry&boardIdx=${vo.boardIdx}<%--&cPage=${nowPage}--%>">
-                <td>${vo.boardTitle}</td>
-            </a>
-            <c:choose>
-                <c:when test="${vo.boardStatus == 0}">
-                    <td class="status-available">미답변</td>
-                </c:when>
-                <c:when test="${vo.boardStatus == 1}">
-                    <td class="status-used">답변완료</td>
-                </c:when>
-            </c:choose>
-            <td>${vo.boardRegDate}</td>
-        </tr>
-    </c:forEach>
-    </tbody>
-</table>
+<p>고객센터를 통해 남기신 1:1 문의내역을 확인하실 수 있습니다.</p>
+
+<div class="inner-wrap">
+    <div class="container">
+
+        <div class="page-content-event">
+            <c:if test="${requestScope.vo ne null}">
+                <c:set var="vo" value="${requestScope.vo}"/>
+            </c:if>
+            <!-- 상단 탭 -->
+            <div class="page-title">
+                <h2 class="tit">${vo.boardTitle}</h2>
+                <div class="event-detail-date">
+                    <span>답변 상태</span>
+                    <c:choose>
+                        <c:when test="${vo.boardStatus == 0}">
+                            <div class="status-available">미답변</div>
+                        </c:when>
+                        <c:when test="${vo.boardStatus == 1}">
+                            <div class="status-used">답변완료</div>
+                        </c:when>
+                    </c:choose>
+                </div>
+
+                <div>
+                    ${vo.boardContent}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

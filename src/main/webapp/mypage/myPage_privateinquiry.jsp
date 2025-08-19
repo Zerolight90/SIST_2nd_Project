@@ -15,7 +15,6 @@
     <thead>
         <tr>
             <th>구분</th>
-            <th>극장</th>
             <th>제목</th>
             <th>답변상태</th>
             <th>등록일</th>
@@ -29,7 +28,7 @@
             <td>${num}</td>
             <td>${vo.mvo.tName}</td>
             <a href="Controller?type=userViewInquiry&boardIdx=${vo.boardIdx}">  <%--&cPage=${nowPage}--%>
-                <td>dd${vo.boardTitle}</td>
+                <td>${vo.boardTitle}</td>
             </a>
             <c:choose>
                 <c:when test="${vo.boardStatus == 0}">
