@@ -51,7 +51,7 @@
         WHERE boardIdx = #{boardIdx}
     </select>
 
-    <select id="getBoard2" parameterType="String" resultType="mybatis.vo.AdminBoardVO">
+    <select id="getBoard2" parameterType="String" resultMap="map1">
         SELECT * FROM board
         WHERE parent_boardIdx = #{boardIdx}
         LIMIT 1

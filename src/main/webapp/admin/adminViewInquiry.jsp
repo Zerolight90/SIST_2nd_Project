@@ -83,17 +83,19 @@
               </td>
             </tr>
           </c:if>
-
           </tbody>
-
       </table>
        <%-- <button type="button" onclick="goList()" value="목록">목록</button>--%>
       </form>
 
+      <%--답변이 없을 시--%>
+    <c:if test="${vo.bvo == null}">
+      <button id="showFormBtn">답변하기</button>
+
       <div id="answerFormContainer" class="m50" style="display: none;">
         <form id="answered-form" action="Controller?type=adminWriteInquiry&ajax=Y" method="post" enctype="multipart/form-data" class="board-table">
           <h2>답변 작성</h2>
-          <table>
+          <table class="answer-table">
             <tr>
               <th class="w100">제목</th>
               <td><input type="text" id="answerTitle" name="title" value="[답변] ${vo.boardTitle}" style="width:100%;"></td>
@@ -123,11 +125,42 @@
           </div>
         </form>
       </div>
+    </c:if>
 
-      <div id="result-area">
-
+      <%--답변이 달려 있다면--%>
+    <c:if test="${vo.bvo != null}">
+      <div class="page-title">
+        <h2>답변</h2>
+      </div>
+      <div id="showAnswerForm">
+        <table class="adSaveInquiry">
+          <tr>
+            <th class="w100">제목</th>
+            <td>[답변] ${vo.boardTitle}</td>
+          </tr>
+          <tr>
+            <th class="w100">지점명</th>
+            <td>${vo.tvo.tName}</td>
+          </tr>
+          <tr>
+            <th class="w100">내용</th>
+            <td>${vo.bvo.boardContent}</td>
+          </tr>
+          <c:if test="${vo.file_name ne null and vo.file_name.length() > 4}">
+          <tr>
+            <th class="w100">첨부파일:</th>
+            <td>
+              <input type="file" id="file" name="file"/>
+            </td>
+          </tr>
+          </c:if>
+        </table>
+        <div style="text-align:right; margin-top:10px;">
+          <button type="button" id="showEditFormBtn">수정하기</button>
+        </div>
       </div>
 
+    </c:if>
 
 
   <%--숨겨진 폼 만들기--%>
@@ -138,12 +171,12 @@
       <input type="hidden" name="cPage" value="${param.cPage}"/>
     </form>
 
-    <button id="showFormBtn">답변하기</button>
-    <button id="showEditFormBtn">수정하기</button>
 
+
+    </c:if>
   </div>
 </div>
-</c:if>
+
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
@@ -165,28 +198,40 @@
       $.ajax({
         url: "Controller?type=adminWriteInquiry",
         data: new FormData(document.getElementById("answered-form")), /*frm,*/
-        type: "post",
+        type: "POST",
         contentType: false,
         processData: false,
-        dataType: "json"
+        dataType: "html"
       }).done(function(res) {
-        alert(res.toString());
+        alert(res.answerContent);
         //성공했을 때
         if (res.success) {
           alert("답변이 성공적으로 등록되었습니다.");
           //폼 숨기기
           $('#answerFormContainer').hide();
+
+          // 답변 작성 폼이 있던 위치에 새로운 HTML을 추가합니다.
+          // 이 예제에서는 부모 컨테이너에 새로운 내용을 추가하는 방식입니다.
+          $('.answer-table').html(res);
+
+          // 3. 버튼 상태 변경
+          // '답변하기' 버튼을 숨깁니다.
+          $('#showFormBtn').hide();
+
+          // 동적으로 추가된 '수정하기' 버튼을 보이게 합니다.
+          // 이미 보여질 것이므로, show() 코드는 필요 없을 수도 있습니다.
+          // $('#showEditFormBtn').show();
+
+
+
+
+/*
+
+
           $('#showFormBtn').hide();
           $('#showEditFormBtn').show();
-
-          // 서버에서 받은 답변 내용을 화면에 뿌려주기
-
-          if (res.answerContent) {
-            $('#result-area').html(`<p><strong>답변 내용:</strong> ${res.answerContent}</p>`);
-          }
-
-          // 폼 입력 필드 초기화
-          $('#answered-form')[0].reset();
+          $('#showAnswerForm').show();
+*/
 
         } else {
           alert("답변 등록 실패: " + res.message);

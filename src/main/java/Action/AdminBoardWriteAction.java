@@ -111,10 +111,12 @@ public class AdminBoardWriteAction implements Action{
                     // 폼 파라미터로 받은 데이터
                     parent_boardIdx = mr.getParameter("parent_boardIdx");
                     content = mr.getParameter("content");
+                    title= mr.getParameter("title");
 
                     // JSP 페이지에 전달할 데이터를 request 속성으로 저장
                     request.setAttribute("parent_boardIdx", parent_boardIdx);
                     request.setAttribute("content", content);
+                    request.setAttribute("title", title);
                     request.setAttribute("success", true);
                     request.setAttribute("message", "등록 완료");
 

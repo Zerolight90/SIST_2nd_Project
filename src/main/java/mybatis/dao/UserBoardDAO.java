@@ -25,6 +25,8 @@ public class UserBoardDAO {
 
     //게시물 목록 반환
     public static AdminBoardVO[] getList(String boardType, int begin, int end, String searchKeyword){
+
+        System.out.println("들어왔어?");
         String bt = bungiCata(boardType);
 
         AdminBoardVO[] ar = null;
@@ -104,7 +106,7 @@ public class UserBoardDAO {
         //게시판 카테고리 분기처리
         if(boardType.equals("adminBoardList")){
             boardType="공지사항";
-        }else if(boardType.equals("customerInquiry")){
+        }else if(boardType.equals("myPrivateinquiry")){
             boardType="QnA";
         }else if((boardType.equals("userEventBoardList"))){
             boardType="이벤트";
@@ -112,6 +114,7 @@ public class UserBoardDAO {
             boardType="공지사항";
         }
 
+        System.out.println(boardType+ ":::boardType이다");
         return boardType;
     }
 

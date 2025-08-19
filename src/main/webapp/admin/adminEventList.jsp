@@ -292,7 +292,7 @@
           <li class = "nav-arrow disable">&lt;</li> <%--&lt; :: <<--%>
         </c:if>
         <c:if test="${p.startPage >= p.pagePerBlock}">
-          <li class="nav-arrow"><a href="Controller?type=adminBoardList&cPage=${p.nowPage-p.pagePerBlock}">&lt;</a></li>
+          <li class="nav-arrow"><a href="Controller?type=adminEventList&cPage=${p.nowPage-p.pagePerBlock}">&lt;</a></li>
         </c:if>
 
         <%--숫자를 찍음--%>
@@ -305,13 +305,13 @@
           </c:if>
           <%--현재 페이지 외의 버튼들--%>
           <c:if test="${p.nowPage != vs.index}">
-            <li><a href="Controller?type=adminBoardList&cPage=${vs.index}">${vs.index}</a></li>
+            <li><a href="Controller?type=adminEventList&cPage=${vs.index}">${vs.index}</a></li>
           </c:if>
         </c:forEach>
 
 
         <c:if test="${p.endPage < p.totalPage}">
-          <li><a href="Controller?type=adminBoardList&cPage=${p.nowPage+p.pagePerBlock}">&gt;</a></li> <%--&gt; :: >>--%>
+          <li><a href="Controller?type=adminEventList&cPage=${p.nowPage+p.pagePerBlock}">&gt;</a></li> <%--&gt; :: >>--%>
         </c:if>
         <c:if test="${p.endPage >= p.totalPage}">
           <li class="nav-arrow disable">&gt;</li>
