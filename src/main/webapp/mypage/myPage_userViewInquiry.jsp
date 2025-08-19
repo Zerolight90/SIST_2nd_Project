@@ -18,7 +18,7 @@
             <th>극장</th>
             <th>제목</th>
             <th>답변상태</th>
-            <th>등록일</th>
+            <th>등록dd일</th>
         </tr>
     </thead>
     <tbody>
@@ -28,8 +28,8 @@
             <c:set var="num" value="${p.totalCount - ((p.nowPage-1)*p.numPerPage+ vs1.index)}"/>
             <td>${num}</td>
             <td>${vo.mvo.tName}</td>
-            <a href="Controller?type=userViewInquiry&boardIdx=${vo.boardIdx}">  <%--&cPage=${nowPage}--%>
-                <td>dd${vo.boardTitle}</td>
+            <a href="Controller?type=userViewInquiry&boardIdx=${vo.boardIdx}<%--&cPage=${nowPage}--%>">
+                <td>${vo.boardTitle}</td>
             </a>
             <c:choose>
                 <c:when test="${vo.boardStatus == 0}">
