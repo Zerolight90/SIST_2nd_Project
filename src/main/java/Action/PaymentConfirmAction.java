@@ -1,15 +1,8 @@
 package Action;
 
 import mybatis.Service.FactoryService;
-import mybatis.dao.CouponDAO;
-import mybatis.dao.PaymentDAO;
-import mybatis.dao.PointDAO;
-import mybatis.dao.ReservationDAO;
-import mybatis.vo.MemberVO;
-import mybatis.vo.MyCouponVO;
-import mybatis.vo.PaymentVO;
-import mybatis.vo.ProductVO;
-import mybatis.vo.ReservationVO;
+import mybatis.dao.*;
+import mybatis.vo.*;
 import org.apache.ibatis.session.SqlSession;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -25,7 +18,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.Map;
 
+/**
+ * 토스페이먼츠 결제 승인을 처리하는 Action 클래스
+ * 회원과 비회원의 결제를 분기하여 처리합니다.
+ */
 public class PaymentConfirmAction implements Action {
 
     private static final String TOSS_SECRET_KEY = "test_gsk_docs_OaPz8L5KdmQXkzRz3y47BMw6";
@@ -35,31 +33,15 @@ public class PaymentConfirmAction implements Action {
         HttpSession session = request.getSession();
         SqlSession ss = null;
 
-        // --- 필수 정보 확인 및 파라미터 수신 ---
-        MemberVO mvo = (MemberVO) session.getAttribute("mvo");
-        if (mvo == null) {
-            return "error.jsp";
-        }
-        String userIdx = mvo.getUserIdx();
-
-        Object paidItem = session.getAttribute("reservationInfoForPayment");
-        String paymentType = "paymentMovie";
-        if (paidItem == null) {
-            paidItem = session.getAttribute("productInfoForPayment");
-            paymentType = "paymentStore";
-        }
-
-        if (paidItem == null) {
-            request.setAttribute("errorMessage", "결제 정보가 만료되었습니다. 다시 시도해 주세요.");
-            return "paymentConfirm.jsp";
-        }
-
         String paymentKey = request.getParameter("paymentKey");
         String orderId = request.getParameter("orderId");
         long amount = Long.parseLong(request.getParameter("amount"));
         long couponUserIdx = Long.parseLong(request.getParameter("couponUserIdx"));
         int usedPoints = Integer.parseInt(request.getParameter("usedPoints"));
 
+        MemberVO mvo = (MemberVO) session.getAttribute("mvo");
+        Object paidItem = session.getAttribute("reservationInfoForPayment");
+        String paymentType = (paidItem instanceof ReservationVO) ? "paymentMovie" : "paymentStore";
 
         try {
             // --- 토스페이먼츠 결제 최종 승인 API 호출 ---
@@ -73,39 +55,63 @@ public class PaymentConfirmAction implements Action {
             // --- 데이터베이스 처리 (트랜잭션 시작) ---
             ss = FactoryService.getFactory().openSession(false);
 
+            PaymentVO pvo;
             int couponDiscount = 0;
-            if (couponUserIdx > 0) {
-                MyCouponVO coupon = CouponDAO.getCouponByCouponUserIdx(couponUserIdx, ss);
-                if (coupon != null) couponDiscount = coupon.getCouponValue();
-            }
 
-            PaymentVO pvo = createPaymentVO(tossResponse, userIdx, orderId, couponUserIdx, usedPoints, couponDiscount);
+            // --- 회원/비회원 분기 처리 ---
+            if (mvo != null) {
+                // [회원]
+                String userIdx = mvo.getUserIdx();
+                if (couponUserIdx > 0) {
+                    MyCouponVO coupon = CouponDAO.getCouponByCouponUserIdx(couponUserIdx, ss);
+                    if (coupon != null) couponDiscount = coupon.getCouponValue();
+                }
 
-            pvo.setPaymentType("paymentMovie".equals(paymentType) ? 0 : 1);
+                pvo = createPaymentVO(tossResponse, userIdx, orderId, couponUserIdx, usedPoints, couponDiscount);
+                pvo.setPaymentType(0); // 영화 예매
 
-            if ("paymentMovie".equals(paymentType)) {
                 ReservationVO reservation = (ReservationVO) paidItem;
                 reservation.setUserIdx(Long.parseLong(userIdx));
                 long newReservIdx = ReservationDAO.insertReservation(reservation, ss);
                 pvo.setReservIdx(newReservIdx);
+
+                long paymentIdx = PaymentDAO.addPayment(pvo, ss);
+
+                if (couponUserIdx > 0) CouponDAO.useCoupon(couponUserIdx, ss);
+                if (usedPoints > 0) PointDAO.usePoints(Long.parseLong(userIdx), usedPoints, paymentIdx, ss);
+
             } else {
-                ProductVO product = (ProductVO) paidItem;
-                pvo.setProdIdx(product.getProdIdx());
-            }
+                // [비회원]
+                Map<String, String> nmemInfo = (Map<String, String>) session.getAttribute("nmemInfoForPayment");
 
-            long paymentIdx = PaymentDAO.addPayment(pvo, ss);
+                // 1. 비회원 정보 DB에 저장
+                NmemVO nvo = new NmemVO();
+                nvo.setName(nmemInfo.get("name"));
+                nvo.setPhone(nmemInfo.get("phone"));
+                nvo.setPassword(nmemInfo.get("password"));
+                NmemDAO.insertNmember(nvo, ss);
+                long newNIdx = nvo.getnIdx();
 
-            if (couponUserIdx > 0) {
-                CouponDAO.useCoupon(couponUserIdx, ss);
-            }
-            if (usedPoints > 0) {
-                PointDAO.usePoints(Long.parseLong(userIdx), usedPoints, paymentIdx, ss);
+                // 2. 결제 정보 생성 (할인 없음)
+                pvo = createPaymentVO(tossResponse, null, orderId, 0, 0, 0);
+                pvo.setPaymentType(0); // 영화 예매
+                pvo.setnIdx(newNIdx); // nIdx 설정
+
+                // 3. 예매 정보 생성 및 nIdx 연결
+                ReservationVO reservation = (ReservationVO) paidItem;
+                reservation.setnIdx2(newNIdx);
+                long newReservIdx = ReservationDAO.insertReservation(reservation, ss);
+                pvo.setReservIdx(newReservIdx);
+
+                // 4. 최종 결제 정보 저장
+                PaymentDAO.addPayment(pvo, ss);
             }
 
             ss.commit();
 
             // --- 최종 결과 페이지로 정보 전달 ---
             request.setAttribute("isSuccess", true);
+            request.setAttribute("isGuest", (mvo == null));
             request.setAttribute("paymentType", paymentType);
             request.setAttribute("tossResponse", tossResponse);
             request.setAttribute("paidItem", paidItem);
@@ -115,21 +121,18 @@ public class PaymentConfirmAction implements Action {
             // --- 사용 완료된 세션 정보 제거 ---
             session.removeAttribute("reservationInfoForPayment");
             session.removeAttribute("productInfoForPayment");
+            session.removeAttribute("nmemInfoForPayment");
 
             return "paymentConfirm.jsp";
 
         } catch (Exception e) {
             e.printStackTrace();
-            if (ss != null) {
-                ss.rollback();
-            }
+            if (ss != null) ss.rollback();
             request.setAttribute("isSuccess", false);
             request.setAttribute("errorMessage", "결제 처리 중 오류가 발생했습니다: " + e.getMessage());
             return "paymentConfirm.jsp";
         } finally {
-            if (ss != null) {
-                ss.close();
-            }
+            if (ss != null) ss.close();
         }
     }
 
@@ -161,14 +164,8 @@ public class PaymentConfirmAction implements Action {
 
         try (InputStream responseStream = isSuccess ? connection.getInputStream() : connection.getErrorStream();
              Reader reader = new InputStreamReader(responseStream, StandardCharsets.UTF_8)) {
-
             JSONParser parser = new JSONParser();
-            JSONObject tossResponse = (JSONObject) parser.parse(reader);
-
-            if (!isSuccess) {
-                throw new Exception((String) tossResponse.get("message"));
-            }
-            return tossResponse;
+            return (JSONObject) parser.parse(reader);
         }
     }
 
@@ -177,7 +174,9 @@ public class PaymentConfirmAction implements Action {
      */
     private PaymentVO createPaymentVO(JSONObject tossResponse, String userIdx, String orderId, long couponUserIdx, int usedPoints, int couponDiscount) {
         PaymentVO pvo = new PaymentVO();
-        pvo.setUserIdx(Long.parseLong(userIdx));
+        if (userIdx != null) {
+            pvo.setUserIdx(Long.parseLong(userIdx));
+        }
         pvo.setOrderId(orderId);
         pvo.setPaymentTransactionId((String) tossResponse.get("paymentKey"));
         pvo.setPaymentMethod((String) tossResponse.get("method"));

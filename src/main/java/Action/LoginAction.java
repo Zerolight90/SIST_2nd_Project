@@ -17,6 +17,8 @@ public class LoginAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        // Action 수행 확인용 sysout
+        System.out.println("LoginAction");
         try {
             request.setCharacterEncoding("UTF-8");
             String u_id = request.getParameter("u_id");
@@ -26,23 +28,30 @@ public class LoginAction implements Action {
             request.setAttribute("kakaoApiKey", ConfigUtil.getProperty("kakao.api.key"));
             request.setAttribute("kakaoRedirectUri", ConfigUtil.getProperty("kakao.redirect.uri"));
 
+            String url = "";
+            String seaturl = request.getParameter("booking");
+            System.out.println( "seaturl: " + seaturl);
+            String borderurl = request.getParameter("border");
+
             // 로그인 시도 여부 체크
             if (u_id == null || u_id.trim().isEmpty() || u_pw == null || u_pw.trim().isEmpty()) {
                 // 로그인 시도 전이므로 에러 메시지 없이 로그인 페이지로 이동
                 return "/join/login.jsp";
             }
 
+            // 로그인 시 리다이랙팅 하는 로직 (예매, 게시판)
             MemberVO mvo = MemberDAO.login(u_id, u_pw);
-            String url = "";
-            String seaturl = request.getParameter("booking");
-            String borderurl = request.getParameter("border");
 
-            if (seaturl == null || borderurl ==null) {
+
+            if (seaturl == null && borderurl ==null) {
                 url = "index";
-            } else if (seaturl != null) {
+            }
+            if (seaturl != null) {
+                System.out.println("seaturl is not null");
                 url = seaturl;
-
-            } else if (borderurl != null) {
+            }
+            if (borderurl != null) {
+                System.out.println("borderurl is not null");
                 url = borderurl;
             }
 
@@ -73,8 +82,10 @@ public class LoginAction implements Action {
                     System.out.println("생일 쿠폰 발급 중 오류 발생");
                 }
 
+                // 리다이랙트
                 HttpSession session = request.getSession();
                 session.setAttribute("mvo", mvo);
+                System.out.println("url:"+url);
                 return "Controller?type="+url;
 
 

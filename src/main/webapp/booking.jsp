@@ -144,6 +144,12 @@
   </div>
 </div>
 
+<div>
+  <table>
+
+  </table>
+</div>
+
 <div class="booking-data" style="display: none">
   <form action="Controller" method="post" name="ff">
     <input type="hidden" name="date" id="form_date" value=""/>
@@ -154,7 +160,15 @@
 
 <div class="booking-data" style="display: none">
   <form action="Controller" method="post" name="tvo_form">
+    <c:if test="${empty sessionScope.mvo && empty sessionScope.kvo}"> <!-- 사용자가 로그인을 하지 않은 부분 -->
+      <input type="hidden" value="chk" name="chk" id="chk"/>
+    </c:if>
+    <c:if test="${not empty sessionScope.mvo}">  <!-- 사용자가 로그인을 한 부분 -->
+      <input type="hidden" value="" name="chk" id="chk"/>
+    </c:if>
+    <input type="hidden" value="booking" name="booking"/>
     <input type="hidden" name="tvoIdx" id="tvoIdx" value=""/>
+    <input type="hidden" name="type" id="type" value=""/>
   </form>
 </div>
 
@@ -195,18 +209,19 @@
 
   // 사용자가 선택한 영화의 정보를 갖고 seat.jsp로 이동하는 함수
   function goSeat(tvoIdx){ // 상영예정 idx가 옴
-    console.log(tvoIdx)
-    <c:if test="${empty sessionScope.mvo && empty sessionScope.kvo}">
-    console.log("join")
-    document.tvo_form.type = "join";
-    document.tvo_form.submit();
-    </c:if>
-    <c:if test="${not empty sessionScope.mvo}">
-    console.log("seat")
-    document.tvo_form.tvoIdx.value = tvoIdx;
-    document.tvo_form.type = "seat"; // 타입을 seat으로 지정
-    document.tvo_form.submit();
-    </c:if>
+    if(document.tvo_form.chk.value === ""){
+      console.log("로그인되어있음")
+      alert("좌석선택화면으로 이동합니다");
+      document.tvo_form.tvoIdx.value = tvoIdx;
+      document.getElementById("type").value = "seat";  //  hidden input에 값 세팅
+      document.tvo_form.submit();
+    } else {
+      console.log("로그인안되어있음")
+      alert("로그인화면으로 이동합니다");
+      console.log(document.tvo_form.booking.value)
+      document.getElementById("type").value = "login"; //  hidden input에 값 세팅
+      document.tvo_form.submit();
+    }
   }
 
   // 날짜 선택 함수 (수정됨)

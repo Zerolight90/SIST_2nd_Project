@@ -31,4 +31,10 @@
             </if>
         </where>
     </select>
+
+    <insert id="insertNmember" parameterType="mybatis.vo.NmemVO"
+            useGeneratedKeys="true" keyProperty="nIdx">
+        INSERT INTO nmember (name, phone, password, joinDate)
+        VALUES (#{name}, #{phone}, #{password}, NOW())
+    </insert>
 </mapper>

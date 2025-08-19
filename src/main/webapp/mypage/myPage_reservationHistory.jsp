@@ -140,75 +140,87 @@
 
 <script>
     $(function() {
+        // 공통으로 사용할 변수 선언
         const mainContent = $("#mainContent");
         const cp = "${pageContext.request.contextPath}";
 
-        // 조회 버튼 클릭 이벤트
-        $("#searchBtn").on("click", function() {
+        /**
+         * 목록을 새로고침하는 함수
+         */
+        function reloadHistory() {
+            // 현재 설정된 필터 값들을 가져옵니다.
             const filterData = $("#historyFilter select").serialize();
-            mainContent.load(cp + "/Controller?type=myReservation&" + filterData);
-        });
+            // 현재 페이지 번호를 가져옵니다. 페이지 정보가 없으면 1페이지로 설정합니다.
+            const currentPage = $(".pagination strong").text() || "1";
 
-        // 페이징 링크 클릭 이벤트
-        mainContent.on("click", ".pagination a", function(e) {
-            e.preventDefault();
-            const targetUrl = $(this).attr("href");
-            const filterData = $("#historyFilter select").serialize();
-            mainContent.load(targetUrl + "&" + filterData);
-        });
-
-        // 예매/구매 취소 버튼 클릭 이벤트
-        mainContent.on('click', '.mybtn-outline', function() {
-            const paymentKey = $(this).data('payment-key');
-            const clickedButton = this;
-            if (confirm("정말로 이 내역을 취소하시겠습니까?")) {
-                requestRefund(paymentKey, clickedButton);
-            }
-        });
+            // 필터와 페이지 정보를 포함하여 mainContent 영역을 다시 로드합니다.
+            mainContent.load(cp + "/Controller?type=myReservation&cPage=" + currentPage + "&" + filterData);
+        }
 
         /**
          * 서버에 환불을 요청하는 함수
          * @param {string} paymentKey - 환불할 결제의 키 값
-         * @param {HTMLElement} btn - 클릭된 버튼 요소
          */
-        function requestRefund(paymentKey, btn) {
+        function requestRefund(paymentKey) {
             $.ajax({
                 url: cp + "/Controller?type=refund",
                 type: "POST",
                 data: {
                     paymentKey: paymentKey,
-                    cancelReason: "고객 변심"
+                    cancelReason: "고객 변심" // 취소 사유
                 },
-                dataType: "json", // 서버가 JSON을 반환하므로 dataType 명시
+                dataType: "json", // 서버로부터 JSON 응답을 기대한다고 명시
 
+                // 서버가 정상적으로 JSON을 반환할 경우 (현재 시나리오에서는 거의 호출되지 않음)
                 success: function(res) {
                     if (res.isSuccess) {
-                        // ----- 자동 새로고침 로직
-
-                        // 1. 클릭된 버튼을 기준으로 부모인 '.history-card' 전체를 찾습니다.
-                        const $card = $(btn).closest('.history-card');
-
-                        // 2. 카드 내에서 상태를 표시하는 '.status-box'를 찾아 내용을 변경합니다.
-                        $card.find('.status-box')
-                            .text('취소완료') // 텍스트 변경
-                            .removeClass('status-paid') // 기존 클래스 제거
-                            .addClass('status-cancelled'); // 새 클래스 추가
-
-                        // 3. 버튼이 들어있는 '.action-area'를 찾아 내용을 비웁니다.
-                        $card.find('.action-area').empty();
-
                         alert("정상적으로 취소되었습니다.");
-
+                        reloadHistory(); // 목록 새로고침
                     } else {
-                        // 서버에서 isSuccess:false 응답을 보냈을 때
+                        // 환불 처리 중 서버 내부에서 에러가 발생했을 때
                         alert("환불 처리 중 오류가 발생했습니다: " + res.errorMessage);
                     }
                 },
-                error: function() {
-                    // AJAX 통신 자체가 실패했을 때
-                    alert("서버와 통신하는 데 실패했습니다. 잠시 후 다시 시도해 주세요.");
+
+                // AJAX 통신이 실패했을 때 호출되는 부분
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // Controller가 원치 않는 페이지 이동을 시도해 'parsererror'가 발생
+                    // 이 경우, 실제 서버 작업(환불)은 성공
+                    if (textStatus === "parsererror") {
+                        // 성공으로 간주하고 처리
+                        alert("정상적으로 취소되었습니다.");
+                        reloadHistory(); // 성공했을 때와 동일하게 목록을 새로고침
+                    } else {
+                        // 'parsererror'가 아닌 다른 실제 통신 오류(네트워크 문제 등)일 경우
+                        alert("서버와 통신하는 데 실패했습니다. 잠시 후 다시 시도해 주세요.");
+                    }
                 }
             });
         }
+
+        // --- 이벤트 핸들러 설정 ---
+
+        // 1. 조회 버튼 클릭 이벤트
+        $("#searchBtn").on("click", function() {
+            const filterData = $("#historyFilter select").serialize();
+            mainContent.load(cp + "/Controller?type=myReservation&" + filterData);
+        });
+
+        // 2. 페이징 링크 클릭 이벤트 (이벤트 위임)
+        mainContent.on("click", ".pagination a", function(e) {
+            e.preventDefault(); // 기본 링크 동작(페이지 전체 이동) 방지
+            const targetUrl = $(this).attr("href");
+            const filterData = $("#historyFilter select").serialize();
+            // 필터값을 유지한 채로 페이지 이동
+            mainContent.load(targetUrl + "&" + filterData);
+        });
+
+        // 3. 예매/구매 취소 버튼 클릭 이벤트 (이벤트 위임)
+        mainContent.on('click', '.mybtn-outline', function() {
+            const paymentKey = $(this).data('payment-key');
+            if (confirm("정말로 이 내역을 취소하시겠습니까?")) {
+                requestRefund(paymentKey); // 환불 요청 함수 호출
+            }
+        });
     });
 </script>

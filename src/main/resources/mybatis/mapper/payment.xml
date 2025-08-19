@@ -104,4 +104,32 @@
         paymentTransactionId = #{paymentKey}
     </update>
 
+    <select id="getNmemPaymentHistory" parameterType="map" resultType="mybatis.vo.PaymentVO">
+        SELECT
+        m.name              AS itemTitle,
+        t.tName             AS theaterInfo,
+        tt.startTime        AS screenDate,
+        p.orderId,
+        p.paymentDate,
+        p.paymentType,
+        p.paymentStatus,
+        p.paymentTransactionId  FROM
+        payment p
+        JOIN
+        reservation r ON p.reservIdx = r.reservIdx
+        JOIN
+        nmember n ON r.nIdx2 = n.nIdx
+        JOIN
+        time_table tt ON r.timeTableIdx = tt.timeTableIdx
+        JOIN
+        movie m ON tt.mIdx = m.mIdx
+        JOIN
+        theater t ON tt.tIdx = t.tIdx
+        WHERE
+        n.name = #{name}
+        AND n.phone = #{phone}
+        AND p.orderId = #{orderId}
+        AND n.password = #{password}
+    </select>
+
 </mapper>
