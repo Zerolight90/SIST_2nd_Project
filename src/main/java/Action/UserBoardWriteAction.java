@@ -3,16 +3,27 @@ package Action;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import mybatis.dao.UserBoardDAO;
+import mybatis.vo.MemberVO;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 
 public class UserBoardWriteAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+
+        HttpSession session = request.getSession();
+        MemberVO mvo = (MemberVO) session.getAttribute("mvo");
+
+        /*if (mvo == null) {
+            return "/mypage/myPage_privateinquiry.jsp";
+        }*/
+
+        request.setAttribute("memberInfo", mvo);
 
         //반환값을 String으로 준비
         String viewPath = null;
@@ -47,7 +58,7 @@ public class UserBoardWriteAction implements Action{
 
                 //System.out.println(boardType +":::::::::::타입에 대한 설명입니다");
 
-                UserBoardDAO.add(boardType, boardTitle, boardContent, fname, oname, boardType, is_answered);
+                UserBoardDAO.add(boardType, boardTitle, boardContent, fname, oname, boardType, is_answered, mvo);
 
                 viewPath = "/userInquiryWrite.jsp";
 

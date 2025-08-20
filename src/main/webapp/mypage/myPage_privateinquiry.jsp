@@ -26,16 +26,16 @@
         <tr>
             <c:set var="num" value="${p.totalCount - ((p.nowPage-1)*p.numPerPage+ vs1.index)}"/>
             <td>${num}</td>
-            <td>${vo.mvo.tName}</td>
-            <a href="Controller?type=userViewInquiry&boardIdx=${vo.boardIdx}">  <%--&cPage=${nowPage}--%>
-                <td>${vo.boardTitle}</td>
-            </a>
+                <%--<td>${vo.mvo.tName}</td>--%>
+                <%--&cPage=${nowPage}--%>
+            <td><a href="Controller?type=userViewInquiry&boardIdx=${vo.boardIdx}" class="view-link">${vo.boardTitle}</a></td>
+
             <c:choose>
-                <c:when test="${vo.boardStatus == 0}">
-                    <td class="status-available">미답변</td>
+                <c:when test="${vo.is_answered == 0}">
+                    <td class="status-unanswered">미답변</td>
                 </c:when>
-                <c:when test="${vo.boardStatus == 1}">
-                    <td class="status-used">답변완료</td>
+                <c:when test="${vo.is_answered == 1}">
+                    <td class="status-available">답변완료</td>
                 </c:when>
             </c:choose>
             <td>${vo.boardRegDate}</td>

@@ -2,6 +2,7 @@ package mybatis.dao;
 
 import mybatis.Service.FactoryService;
 import mybatis.vo.AdminBoardVO;
+import mybatis.vo.MemberVO;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.HashMap;
@@ -24,9 +25,8 @@ public class UserBoardDAO {
     }
 
     //게시물 목록 반환
-    public static AdminBoardVO[] getList(String boardType, int begin, int end, String searchKeyword){
+    public static AdminBoardVO[] getList(String boardType, int begin, int end, String searchKeyword, MemberVO mvo){
 
-        System.out.println("들어왔어?");
         String bt = bungiCata(boardType);
 
         AdminBoardVO[] ar = null;
@@ -38,46 +38,15 @@ public class UserBoardDAO {
         map.put("end", end);
         map.put("searchKeyword", searchKeyword);
 
-        System.out.println("map:::::::" + map);
+        //QnA의 경우 로그인한 경우에만 사용 가능하므로 로그인 시 map으로 회원정보를 넘겨줌
+        if ("QnA".equals(bt) && mvo != null) {
+            map.put("userIdx", mvo.getUserIdx());
+        }
 
         SqlSession ss = FactoryService.getFactory().openSession();
         //AdminBoardVO가 여러개 넘어오도록 한다.
         List<AdminBoardVO> list = ss.selectList("userBoard.userBoardList", map);
         System.out.println("list.toString():::::::" + list.toString());
-        System.out.println("list:::::::" + list);
-
-        //결과가 넘어오면 배열로 넘겨야 하기 때문에
-        if(list != null && !list.isEmpty()){ //비어있는 상태가 아니면,
-            ar = new AdminBoardVO[list.size()]; //ar을 만든다.
-            list.toArray(ar); //list에 있는 모든 항목들을 배열 ar에 복사
-        }
-        ss.close();
-
-        return ar;
-    }
-
-    //게시물 목록 반환
-    public static AdminBoardVO[] getInquiryList(String boardType){
-
-        System.out.println("getInquiryList로 들어왔어?");
-        String bt = bungiCata(boardType);
-
-        AdminBoardVO[] ar = null;
-
-        //key값 String, value는 Object(int 두개를 모두 포함시켜야 하기 때문)
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("boardType", bt); //xml에 지정한 이름대로
-        //map.put("begin", begin);
-        //map.put("end", end);
-        //map.put("searchKeyword", searchKeyword);
-
-        System.out.println("map:::::::" + map);
-
-        SqlSession ss = FactoryService.getFactory().openSession();
-        //AdminBoardVO가 여러개 넘어오도록 한다.
-        List<AdminBoardVO> list = ss.selectList("userBoard.userInquiryBoardList", map);
-        System.out.println("list.toString():::::::" + list.toString());
-        System.out.println("list:::::::" + list);
 
         //결과가 넘어오면 배열로 넘겨야 하기 때문에
         if(list != null && !list.isEmpty()){ //비어있는 상태가 아니면,
@@ -90,13 +59,13 @@ public class UserBoardDAO {
     }
 
     //1:1문의 작성
-    public static int add(String boardType, String boardTitle, String boardContent, String fname, String oname, String boardStartRegDate, String is_answered){
+    public static int add(String boardType, String boardTitle, String boardContent, String fname, String oname, String boardStartRegDate, String is_answered, MemberVO mvo){
 
         if(boardType.equals("userInquiryWrite")){
             boardType="QnA";
         }
 
-        System.out.println("UserBoardDAO에서의 boardType::::::::::" + boardType);
+        //System.out.println("UserBoardDAO에서의 boardType::::::::::" + boardType);
         //bungiCata함수 호출하여 boardType을 bt변수명에 저장
         int cnt = 0;
 
@@ -109,6 +78,7 @@ public class UserBoardDAO {
         map.put("oname", oname);
         map.put("boardStartRegDate", boardStartRegDate);
         map.put("is_answered", is_answered);
+        map.put("userIdx", mvo.getUserIdx());
 
         SqlSession ss= FactoryService.getFactory().openSession();
         cnt = ss.insert("userBoard.add", map);
@@ -124,10 +94,20 @@ public class UserBoardDAO {
     }
 
     //게시글 보기
-    public static AdminBoardVO getBoard(String boardIdx){
+    public static AdminBoardVO getBoard(String boardType, String boardIdx, MemberVO mvo){
+
+        String bt = bungiCata(boardType);
+
+        Map<String, String> map = new HashMap<>();
+        map.put("boardIdx", boardIdx);
+
+        //QnA의 경우 로그인한 경우에만 사용 가능하므로 로그인 시 map으로 회원정보를 넘겨줌
+        if ("QnA".equals(bt) && mvo != null) {
+            map.put("userIdx", mvo.getUserIdx());
+        }
 
         SqlSession ss = FactoryService.getFactory().openSession();
-        AdminBoardVO vo = ss.selectOne("userBoard.getBoard", boardIdx);
+        AdminBoardVO vo = ss.selectOne("userBoard.getBoard", map);
 
         ss.close();
 
@@ -147,7 +127,7 @@ public class UserBoardDAO {
             boardType="공지사항";
         }
 
-        System.out.println(boardType+ ":::boardType이다");
+        //System.out.println(boardType+ ":::boardType이다");
         return boardType;
     }
 

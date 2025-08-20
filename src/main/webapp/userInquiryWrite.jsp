@@ -13,103 +13,7 @@
     <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 
     <style>
-        /*body {
-            font-family: '맑은 고딕', sans-serif;
-            font-size: 14px;
-            color: #333;
-        }*/
-        /*table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th {
-            text-align: left; !* 제목 왼쪽 정렬 *!
-            padding: 10px;
-            background: #f8f8f8;
-            border: 1px solid #ddd;
-            width: 140px;
-            vertical-align: top;
-        }
-        td {
-            text-align: left; !* 데이터 셀 왼쪽 정렬 *!
-            padding: 10px;
-            border: 1px solid #ddd;
-            vertical-align: top;
-        }
-        input[type="text"], input[type="email"], input[type="password"], select, textarea {
-            width: auto; !* 꽉 채우지 않음 *!
-            padding: 8px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-            text-align: left;
-        }
-        textarea {
-            height: 150px;
-            resize: none;
-        }
-        .note {
-            font-size: 12px;
-            color: #777;
-            margin-top: 5px;
-            line-height: 1.4;
-            text-align: left;
-        }
-        .file-btn {
-            margin-top: 5px;
-        }
-        .required {
-            color: red;
-        }
-        .btn {
-            background: #999;
-            color: white;
-            padding: 7px 12px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .bg-chk{
-            content: '';
-            display: block;
-            position: absolute;
-            left: 0;
-            top: 50%;
-            width: 28px;
-            height: 28px;
-            margin: -14px 0 0 0;
-            cursor: pointer;
-            background: url(https://img.megabox.co.kr/static/pc/images/common/bg/bg-checkbox.png) no-repeat 0 0;
-        }
-
-        .agree_info .agree-box dl dt {
-            position: relative;
-            padding: 0 30px;
-            border-bottom: 1px solid #d8d9db;
-            height: 50px;
-            line-height: 48px;
-        }
-
-        .agree-box dl dt strong {
-            font-size: 1.2em;
-        }
-
-        .mr10 {
-            margin-right: 10px !important;
-        }
-        .font-orange {
-            color: #e63e30 !important;
-        }
-        .bg-chk [type=checkbox] {
-            position: absolute;
-            left: -99999px;
-        }
-
-
-        select{
-            width:100px;
-        }*/
-
-            /* 전체적인 테이블 레이아웃 */
+        /* 전체적인 테이블 레이아웃 */
         /* 동의 체크박스 스타일 */
         .agree_info {
             margin-bottom: 30px;
@@ -130,7 +34,7 @@
             margin-top: 10px;
         }
 
-        .font-orange {
+        .required {
             color: #e63e30;
             font-weight: bold;
         }
@@ -186,6 +90,8 @@
         .direct_inquiry_info .button-container {
             text-align: right;
         }
+
+        /*나의 문의내역 버튼*/
         .direct_inquiry_info .button-container .my-inquiry-btn {
             background-color: #503396;
             color: #fff;
@@ -195,6 +101,46 @@
             cursor: pointer;
             border-radius: 4px;
             text-decoration: none;
+        }
+
+        /* 입력 필드 스타일 */
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select {
+            width: 100%; /* 부모 요소 너비에 맞게 100%로 설정 */
+            padding: 8px;
+            border: 1px solid #ccc;
+            box-sizing: border-box; /* 패딩과 보더가 너비에 포함되도록 설정 */
+        }
+
+        /*비활성화처리*/
+        input[type="text"][disabled],
+        input[type="email"][disabled],
+        input[type="tel"][disabled] {
+            background-color: #eee; /* 비활성화된 입력 필드 배경색 */
+        }
+
+        /*내용*/
+        textarea {
+            width: 100%; /* 너비를 100%로 설정하여 부모 요소에 맞춤 */
+            height: 224px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            resize: none;
+        }
+
+        /* 등록 버튼 */
+        #save_btn {
+            background-color: #503396; /* 보라색 배경 */
+            color: #fff;              /* 흰색 글씨 */
+            font-weight: bold;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            text-align: center;
         }
     </style>
 </head>
@@ -244,7 +190,7 @@
                         </li>
                     </ul>
                     <div class="button-container">
-                        <a href="Controller?type=myPrivateinquiry" class="my-inquiry-btn">나의 문의내역</a>
+                        <a href="Controller?type=myPage&tab=myPrivateinquiry" class="my-inquiry-btn">나의 문의내역</a>
                     </div>
                 </div>
 
@@ -258,7 +204,7 @@
 								<label for="chk"><strong>개인정보 수집에 대한 동의</strong></label>
 							</span>
 
-                                <span class="font-orange">[필수]</span>
+                                <span class="required">[필수]</span>
                             </dt>
                             <dd style="font-size:13px;">
                                 귀하께서 문의하신 다음의 내역은 법률에 의거 개인정보 수집·이용에 대한 본인동의가 필요한 항목입니다.<br><br>
@@ -297,13 +243,13 @@
                         <tr>
                             <th>이름 <span class="required">*</span></th>
                             <td>
-                                <input type="text" id="u_name" name="u_name" value="${vo.mvo.name}">
+                                <input type="text" id="u_name" name="u_name" value="${memberInfo.name}" disabled>
                             </td>
                         </tr>
                         <tr>
                             <th>휴대전화</th>
                             <td>
-                                <input type="tel" name="phone" id="phone" value="${vo.mvo.phone}">
+                                <input type="tel" name="phone" id="phone" value="${memberInfo.phone}" disabled>
                                 <%--<input type="tel" name="u_phone" id="u_phone" value="${}"> -
                                 <input type="tel" name="u_phone" id="u_phone" value="${}">--%>
                             </td>
@@ -311,7 +257,7 @@
                         <tr>
                             <th>이메일 <span class="required">*</span></th>
                             <td>
-                                <input type="email" name="email" id="email" value="${vo.mvo.email}">
+                                <input type="email" name="email" id="email" value="${memberInfo.email}" disabled>
                             </td>
                         </tr>
                         <tr>
@@ -323,17 +269,12 @@
                         <tr>
                             <th>내용<span class="required">*</span></th>
                             <td>
-                                <textarea id="boardContent" name="boardContent" placeholder="- 문의내용에 개인정보(이름, 연락처, 카드번호 등)가 포함되지 않도록 유의하시기 바랍니다.
-                                        - 회원 로그인 후 문의가 가능합니다.
-                                        - 회원로그인 후 문의작성시 나의 문의내역을 통해 답변을 확인하실 수 있습니다.
-                                        - 온라인으로 재고현황 확인이 가능한 영화 이벤트 특전(오리지널 티켓/슬라이드, 드로잉 카드, MX4D 및 특수 포스터 등)의 경우, 선착순으로 지급되고 있어 자세한 잔여수량 답변이 어렵습니다.">
-
-                                </textarea>
+                                <textarea id="boardContent" name="boardContent"></textarea>
                             </td>
                         </tr>
                         <tr>
                             <th>사진첨부</th>
-                            <td>
+                            <td style="text-align: left;">
                                 <input type="file" class="file-btn" multiple>
                                 <div class="note">
                                     * JPEG, PNG 형식의 5M 이하 파일만 첨부 가능합니다. (최대 5개)<br>
@@ -344,7 +285,9 @@
 
                     </table>
                 </div>
-                    <button type="button" id="save_btn" onclick="sendData()">등록</button>
+                    <div style="text-align: center">
+                        <button type="button" id="save_btn" onclick="sendData()">등록</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -357,50 +300,46 @@
 
 
 <script>
+
+    $(document).ready(function() {
+        let placeholderText =
+            "- 문의내용에 개인정보(이름, 연락처, 카드번호 등)가 포함되지 않도록 유의하시기 바랍니다.\n- 회원 로그인 후 문의가 가능합니다.\n- 회원로그인 후 문의작성시 나의 문의내역을 통해 답변을 확인하실 수 있습니다.\n- 온라인으로 재고현황 확인이 가능한 영화 이벤트 특전(오리지널 티켓/슬라이드, 드로잉 카드, MX4D 및 특수 포스터 등)의 경우, 선착순으로 지급되고 있어 자세한 잔여수량 답변이 어렵습니다.";
+
+        $("#boardContent").attr("placeholder", placeholderText);
+    });
+
     //게시글 등록
     function sendData(){
 
-        //유효성 검사
-        //제목
-        /*let title = $("#boardTitle").val();
-        if(title.trim().length < 1){
-            alert("제목을 입력하세요!");
-            $("#boardTitle").val("");
+        // 개인정보 수집 동의 체크 여부 확인
+        if(!$("#chk").is(":checked")) {
+            alert("개인정보 수집 및 이용에 동의해야 문의를 등록할 수 있습니다.");
+            $("#chk").focus();
+            return; // 제출 중단
+        }
+
+        // 필수 항목 간단 유효성 체크 (추가 가능)
+        if($("#u_name").val().trim() === ""){
+            alert("이름을 입력해주세요.");
+            $("#u_name").focus();
+            return;
+        }
+        if($("#email").val().trim() === ""){
+            alert("이메일을 입력해주세요.");
+            $("#email").focus();
+            return;
+        }
+        if($("#boardTitle").val().trim() === ""){
+            alert("제목을 입력해주세요.");
             $("#boardTitle").focus();
             return;
         }
-
-        //시작일
-        let startRegdate = $("#start_reg_date").val();
-        if(startRegdate.trim().length < 1){
-            alert("시작일을 입력하세요.");
-            $("#start_reg_date").val("");
-            $("#start_reg_date").focus();
-            return;
-        }
-
-        //종료일
-        let endRegdate = $("#end_reg_date").val();
-        if(endRegdate.trim().length < 1){
-            alert("종료일을 입력하세요.");
-            $("#end_reg_date").val("");
-            $("#end_reg_date").focus();
-            return;
-        }
-
-        //게시글 내용
-        //텍스트로 변환 후 길이 확인(에디터로 인해 html구조로 코드가 생성되어 비어보이지만 빈값으로 처리가 안됨)
-        let contentHtml = $('#board_content').summernote('code');  // Summernote HTML 코드 가져오기
-
-        if (isEmptySummernoteContent(contentHtml)) {
+        if($("#boardContent").val().trim() === ""){
             alert("내용을 입력해주세요.");
-            //기존 배운 방식은 textarea나 input요소에만 영향을 주므로,
-            //summernote editer를 쓰는 경우, 아래와 같이 summernote로 하면 된다.
-            $('#board_content').summernote('code', '');
-            $("#board_content").summernote('focus');
-
+            $("#boardContent").focus();
             return;
-        }*/
+        }
+
         document.forms[0].submit();
     }
 </script>

@@ -2,15 +2,20 @@ package Action;
 
 import mybatis.dao.UserBoardDAO;
 import mybatis.vo.AdminBoardVO;
+import mybatis.vo.MemberVO;
 import util.Paging;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class UserBoardListAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+
+        HttpSession session = request.getSession();
+        MemberVO mvo = (MemberVO) session.getAttribute("mvo");
 
         String boardType = request.getParameter("type");
         String searchKeyword = request.getParameter("searchKeyword");
@@ -19,8 +24,6 @@ public class UserBoardListAction implements Action{
         if(boardType == null) {
             boardType = "userBoardList";
         }
-
-        System.out.println("boardType:::::::::::::"+boardType);
 
         //총 게시물 수 구하기
         //처음부터 끝까지 전체의 데이터 갯수
@@ -46,7 +49,7 @@ public class UserBoardListAction implements Action{
             //총 페이지 수도 필요하고, 현재 페이지도 필요하다.
         }
 
-        AdminBoardVO[] ar = UserBoardDAO.getList(boardType,  page.getBegin(), page.getEnd(), searchKeyword);
+        AdminBoardVO[] ar = UserBoardDAO.getList(boardType,  page.getBegin(), page.getEnd(), searchKeyword, mvo);
 
         request.setAttribute("ar",ar);
         request.setAttribute("page", page); //page라는 이름으로 page를 저장해라. list.jsp로 넘어가게 된다.
@@ -56,18 +59,13 @@ public class UserBoardListAction implements Action{
 
         //유저화면 게시판 타입에 따른 화면단 분기처리
         if(boardType.equals("userBoardList")){
-            //System.out.println("userBoardList!!!!!!!!!!!!!!!!!!!!");
             return "userBoardList.jsp";
         } else if(boardType.equals("userEventBoardList")){
-            //System.out.println("userEventList!!!!!!!!!!!!!!!!!");
             return "userEventBoardList.jsp";
         } else if(boardType.equals("userInquiryList")){
-            //System.out.println("userCustomerInquiry!!!!!!!!!!!!!!!!!!");
             return "userInquiry.jsp";
         } else{
-            //System.out.println("else!!!!!!!!!!!!!!");
             return "userBoardList.jsp";
         }
-
     }
 }

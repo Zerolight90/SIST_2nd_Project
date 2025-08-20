@@ -1,43 +1,23 @@
 package Action;
 
 import mybatis.dao.AdminBoardDAO;
-import mybatis.dao.UserBoardDAO;
-import mybatis.vo.AdminBoardVO;
-import mybatis.vo.MemberVO;
+import mybatis.dao.TheatherDAO;
+import mybatis.vo.TheaterVO;
 import util.Paging;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession; // HttpSession 임포트
 
-public class MyPrivateInquiryAction implements Action {
+public class AdminTheaterListAction implements Action{
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
-        //System.out.println("MyPrivateInquiryAction 탄다.");
-
-        HttpSession session = request.getSession();
-        MemberVO mvo = (MemberVO) session.getAttribute("mvo");
-
-        if (mvo == null) {
-            return "/mypage/myPage_privateinquiry.jsp";
-        }
-
-        request.setAttribute("memberInfo", mvo);
-
-        String boardType = request.getParameter("type");
-        String searchKeyword = request.getParameter("searchKeyword");
-        //System.out.println("키워드::::::::::::::::::::"+searchKeyword);
-
-        /*if(boardType == null) {
-            boardType = "userBoardList";
-        }
-*/
-        //System.out.println("boardType:::::::::::::"+boardType);
+        String tName = request.getParameter("tName");
 
         //총 게시물 수 구하기
         //처음부터 끝까지 전체의 데이터 갯수
-        int totalCount = UserBoardDAO.getTotalCount(boardType);
+        int totalCount = TheatherDAO.getTotalCount(tName);
         //System.out.println(" 총 게시물 수:::::::::"+totalCount);
 
         //페이징 처리를 위한 객체 생성
@@ -59,16 +39,13 @@ public class MyPrivateInquiryAction implements Action {
             //총 페이지 수도 필요하고, 현재 페이지도 필요하다.
         }
 
-        AdminBoardVO[] ar = UserBoardDAO.getList(boardType,  page.getBegin(), page.getEnd(), searchKeyword, mvo);
-        //AdminBoardVO[] ar = UserBoardDAO.getInquiryList(boardType);
+        TheaterVO[] ar = TheatherDAO.getTheaterList(page.getBegin(), page.getEnd());
 
-        //System.out.println("ar.toString():::::::::" + ar.toString());
-        request.setAttribute("ar",ar);
+        request.setAttribute("ar", ar);
         request.setAttribute("page", page); //page라는 이름으로 page를 저장해라. list.jsp로 넘어가게 된다.
         request.setAttribute("nowPage", page.getNowPage()); //의 값이 list.jsp로 넘어가게 된다.
         request.setAttribute("totalCount", totalCount); //게시물 토탈 갯수
 
-
-        return "/mypage/myPage_privateinquiry.jsp";
+        return "admin/adminTheaterList.jsp";
     }
 }

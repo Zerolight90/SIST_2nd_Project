@@ -94,6 +94,7 @@ article {
 .data-table .item-title { text-align: left; }
 .data-table .status-used { color: #999; }
 .data-table .status-available { color: #8e44ad; font-weight: bold; }
+.data-table .status-unanswered { color: #555;}
 
 /* --- 버튼 스타일 (개선) --- */
 .mybtn { display: inline-block; padding: 10px 18px; border: 1px solid #ccc; background-color: #fff; color: #333; border-radius: 5px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s ease-in-out; }

@@ -24,18 +24,17 @@ public class AdminBoardWriteAction implements Action{
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
-        System.out.println("AdminBoardWriteAction!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         //반환값을 String으로 준비
         String viewPath=null;
 
         String enc_type = request.getContentType();
-        System.out.println("enc_type::::::::::" + enc_type);
+        //System.out.println("enc_type::::::::::" + enc_type);
 
         if(enc_type == null) {
 
             String boardType = request.getParameter("type");
 
-            System.out.println("AdminBoardWriteAction.boardType::::::::::" + boardType);
+            //System.out.println("AdminBoardWriteAction.boardType::::::::::" + boardType);
 
             if("adminWriteBoard".equals(boardType)) {
                 viewPath = "admin/adminWriteBoard.jsp";
@@ -45,7 +44,7 @@ public class AdminBoardWriteAction implements Action{
                 viewPath = "admin/adminWriteBoard.jsp";
             }
         }else if(enc_type.startsWith("multipart")) {
-            System.out.println("AdminBoardWriteAction!!!!!!!!!!!!!!!!!!!!!!!1111111!!!!!");
+
             try {
                 ServletContext application = request.getServletContext();
                 String realPath = application.getRealPath("/bbs_upload");
@@ -70,7 +69,7 @@ public class AdminBoardWriteAction implements Action{
                 String parent_boardIdx = mr.getParameter("boardIdx");
                 String is_answered = mr.getParameter("is_answered");
 
-                System.out.println("parent_boardIdx:::::::::::::" + parent_boardIdx);
+                //System.out.println("parent_boardIdx:::::::::::::" + parent_boardIdx);
 
 
                 //첨부파일이 있다면 fname과 oname을 얻어내야 한다.
@@ -99,7 +98,7 @@ public class AdminBoardWriteAction implements Action{
 
                 AdminBoardDAO.update(boardIdx, is_answered);
 
-                System.out.println("boardType은:::::::::::::" + boardType);
+                //System.out.println("boardType은:::::::::::::" + boardType);
                 //System.out.println("subBoardType:::::::::::::"+ subBoardType);
 
                 // boardType에 따라 viewPath 설정
@@ -120,7 +119,7 @@ public class AdminBoardWriteAction implements Action{
                     request.setAttribute("success", true);
                     request.setAttribute("message", "등록 완료");
 
-                    System.out.println(content + ":::::::::content");
+                    //System.out.println(content + ":::::::::content");
 
                     viewPath = "admin/adminSaveInquiry.jsp";
                 }else {

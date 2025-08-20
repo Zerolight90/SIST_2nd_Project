@@ -28,4 +28,27 @@
         SELECT * FROM theater
         WHERE tIdx = #{tIdx}
     </select>
+
+
+    <!--선영추가-->
+    <!--공지사항에 대한 전체 목록 추출-->
+    <select id="adminTheaterList" resultMap="map1">
+        SELECT * FROM(
+        SELECT @RN:=@RN+1 AS rnum, a.* FROM(
+        SELECT * FROM theater
+        ORDER BY tIdx DESC
+        ) a, (SELECT @RN:=0) b
+        ) c WHERE c.rnum BETWEEN #{begin} AND #{end}
+    </select>
+
+    <!--총 게시물 수를 반환하는 기능-->
+    <!--총 페이지 수를 알아야 한다. 그래야 반복문을 돌리면서 제어를 할 수 있다. 총게시물 수가 있어야 총 페이지 수를 구할 수 있다.-->
+    <select id="totalCount" resultType="int">
+        SELECT COUNT(*) FROM theater
+    </select>
+
+    <!--1:1은 association-->
+    <resultMap id="map1" type="mybatis.vo.TheaterVO">
+        <id property="tIdx" column="tIdx"/>
+    </resultMap>
 </mapper>

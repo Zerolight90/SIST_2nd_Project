@@ -19,6 +19,7 @@
     <div class="leftDiv">
       <p class="bold">극장 관리</p>
       <div class="leftDivInner"><a href="Controller?type=thscInfo">극장 / 상영관 관리</a></div>
+      <div class="leftDivInner"><a href="Controller?type=adminTheaterList">극장 정보</a></div>
     </div>
     <div class="leftDiv">
       <p class="bold">상품 관리</p>
