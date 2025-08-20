@@ -134,7 +134,7 @@ public class LoginAction implements Action {
             e.printStackTrace();
 //            System.out.println("LoginAction 실행 중 오류 발생: " + e.getMessage());
         }
-        return "/join/login.jsp";
+        return "/join/login_.jsp";
     }
 
 

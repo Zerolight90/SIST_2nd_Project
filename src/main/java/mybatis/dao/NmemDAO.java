@@ -63,10 +63,10 @@ public class NmemDAO {
 
     }
 
-    public static NmemVO chk(String u_name, String u_pw, String birth){
+    public static NmemVO chk(String u_name, String u_pw, String u_birth){
         HashMap<String, String> map = new HashMap<>();
         map.put("u_name",u_name);
-        map.put("birth",birth);
+        map.put("u_birth",u_birth);
         map.put("u_pw",u_pw);
 
 

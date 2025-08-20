@@ -11,7 +11,7 @@ import java.util.List;
 public class MyCouponAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        System.out.println( "MyCouponAction");
+//        System.out.println( "MyCouponAction");
         HttpSession session = request.getSession();
         MemberVO mvo = (MemberVO) session.getAttribute("mvo");
 

@@ -65,7 +65,7 @@
                     // 부모 창 새로고침 또는 지정된 페이지로 리디렉션 ((16))
                     if (window.opener) { // 부모 창이 존재하는지 확인 ((23))
                         // 부모 창을 /Controller?type=index로 리디렉션
-                        window.opener.location.href = '/Controller?type=index';
+                        window.opener.location.href = '/Controller?type=booking';
                     }
                     window.close(); // 현재 팝업 창 닫기 ((21))
                 },

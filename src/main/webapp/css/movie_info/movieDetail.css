@@ -32,42 +32,125 @@ body {
 }
 
 /* 영화 메인 */
+#movie_content{
+    background-color: #111111;
+}
 .movie-hero {
+    width: 1100px;
+    height: 520px;
+    margin: 0 auto;
+    position: relative;
     display: flex;
     justify-content: space-between;
-    align-items: center;
     padding: 40px;
-    background: #222;
+    /*border-radius: 15px;*/
+    overflow: hidden;
     color: #fff;
+    background: #222;
+}
+
+.movie-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    /*border-radius: 15px;*/
+    z-index: 0;
+}
+
+.movie_bg {
+    position: absolute;
+    top: 50%;
+    left: 150%;
+    width: 1800px;  /* 충분히 크게 */
+    height: 600px;
+    transform: translate(-50%, -50%);
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.2);
+    /*border-radius: 15px;*/
+    z-index: -1;
+    /*border: 1px solid red;*/
 }
 
 .movie-info {
-    max-width: 50%;
+    max-width: 60%;
+    position: relative;
+    z-index: 1;
+    text-align: left;
 }
 
 .movie-info h2 {
-    font-size: 32px;
-    margin-bottom: 10px;
+    font-size: 38px;
+    font-weight: 700;
+    margin-bottom: 15px;
 }
 
 .movie-info p {
-    margin: 5px 0;
+    font-size: 16px;
+    margin: 8px 0;
+}
+
+.movie-info .stats {
+    margin-top: 10px;
+    font-weight: 600;
 }
 
 .movie-info .btn {
-    margin-top: 15px;
-    padding: 10px 20px;
+    margin-top: 30px;
+    padding: 14px 40px;
     background: #0abde3;
     border: none;
     color: #fff;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: 700;
+    transition: background 0.3s ease;
+    width: fit-content;
+}
+
+.movie-info .btn:hover {
+    background: #098dbf;
+}
+
+.movie-poster {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    position: relative;
+    z-index: 1;
+    gap: 20px;
 }
 
 .movie-poster img {
-    width: 200px;
-    border-radius: 10px;
+    width: 280px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    object-fit: cover;
 }
+
+.movie-poster .btn {
+    width: 280px; /* 포스터 너비에 맞춤 */
+    padding: 14px 0;
+    background: #0abde3;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: 700;
+    transition: background 0.3s ease;
+    text-align: center;
+}
+
+.movie-poster .btn:hover {
+    background: #098dbf;
+}
+
+
+
 
 /* 탭 메뉴 */
 .tabs ul {
