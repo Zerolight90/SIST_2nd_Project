@@ -1,159 +1,282 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>SIST BOX 쌍용박스</title>
+  <title>영화 상세 정보</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sub/sub_page_style.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/reset.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/tab.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/movie_info/movie_info.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/movie_info/movieDetail.css">
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <link rel="icon" href="${pageContext.request.contextPath}/images/favicon.png">
 </head>
+<body>
 
 <header>
   <jsp:include page="/common/sub_menu.jsp"/>
 </header>
-<body>
 
-<div>
-  <div class="topBox">
-    <div class="theaterTopBox">
-      <div class="location">
-        <span>Home</span>
-        &nbsp;>&nbsp;
-        <span>영화</span>
-        >
-        <a href="Controller?type=allMovie">전체영화</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- 영화 메인 포스터 영역 -->
-  <div id="movie_content">
-    <div class="movie-hero">
-
-      <c:set var="basePath" value="${pageContext.request.contextPath}" />
-      <div class="movie-info">
-
-        <div class="movie_bg" style="background-image: url('${movie.background}');"></div>
-
-       <h2><c:out value="${movie.name}" /></h2>
-        <p><c:out value="${movie.gen}" /></p>
-        <p class="stats">예매율 <c:out value="${movie.bookingRate}" />% | 누적관객수 <c:out value="${movie.audNum}" />명</p>
-        <button class="btn">예매하기</button>
-      </div>
-      <div class="movie-poster">
-        <img src="${movie.poster}" alt="${movie.name} 배경 포스터">
-      </div>
-
-    </div>
-  </div>
-
-  <%--컨텐츠 시작--%>
-  <div class="inner-wrap">
-    <div class="ec-base-tab typeLight m50">
-      <ul class="menu" style="font-size: 16px;">
-        <li class="selected"><a href="#none">주요정보</a></li>
-        <li><a href="#none">실관람평</a></li>
-        <li><a href="#none">예고편</a></li>
-      </ul>
-    </div>
-    <!-- 비동기식 페이지 전환 : 라인형-->
-    <div class="ec-base-tab typeLight eTab">
-
-      <div id="tabCont1_1" class="tabCont" style="display:block; margin-bottom: 50px">
-        <h3>기본 정보</h3>
-        <p><strong>감독:</strong> <c:out value="${movie.dir}" /></p>
-        <p><strong>배우:</strong> <c:out value="${movie.actor}" /></p>
-        <p><strong>장르:</strong> <c:out value="${movie.gen}" /></p>
-        <p><strong>러닝타임:</strong> <c:out value="${movie.runtime}" />분</p>
-        <p><strong>개봉일:</strong> <c:out value="${movie.date}" /></p>
-        <p><strong>관람등급:</strong> <span class="age-rating age-${movie.age}"><c:out value="${movie.age}" /></span></p>
-
-        <h3>줄거리</h3>
-        <p><c:out value="${movie.synop}" /></p>
-      </div>
-
-      <%--2 상영시간표 탭--%>
-      <div id="tabCont1_2" class="tabCont" style="display:none; width: 1100px">
-        <!-- 실관람평 내용 -->
-        <p>실관람평 탭 내용입니다.</p>
-      </div>
-
-      <%--3 영화관람료 탭--%>
-      <div id="tabCont1_3" class="tabCont" style="display:none; width: 1100px">
-        <!-- 예고편 탭 내용 -->
-        <p>예고편 탭 내용입니다.</p>
-        <c:if test="${not empty movie.trailer}">
-          <iframe width="560" height="315" src="${movie.trailer}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </c:if>
-      </div>
+<div class="topBox">
+  <div class="theaterTopBox">
+    <div class="location">
+      <span>Home</span> &gt; <span>영화</span> &gt; <a href="Controller?type=allMovie">전체영화</a>
     </div>
   </div>
 </div>
 
-<script>
-  // 1. 모든 탭 버튼(li)과 내용 영역(div)을 가져옵니다.
-  const tabs = document.querySelectorAll('.menu li');
-  const tabContents = document.querySelectorAll('.tabCont');
+<div id="movie_content">
+  <div class="movie-hero">
+    <div class="movie-info">
+      <div class="movie_bg" style="background-image: url('${movie.background}');"></div>
+      <h2><c:out value="${movie.name}" /></h2>
+      <p><c:out value="${movie.gen}" /></p>
 
-  // 2. 각 탭 버튼에 클릭 이벤트 리스너를 추가합니다.
-  tabs.forEach((tab, index) => {
-    tab.addEventListener('click', (e) => {
-      // a 태그의 기본 동작(페이지 이동)을 막습니다.
-      e.preventDefault();
+      <div class="stats_txt">
+      <p class="stats">
+        <i class="fa-solid fa-ticket" aria-hidden="true"></i>
+        예매율
+        <c:out value="${movie.bookingRate}"/>%
+      </p>
 
-      // 3. 모든 탭에서 'selected' 클래스를 제거합니다.
-      tabs.forEach(item => item.classList.remove('selected'));
+      <p class="stats">
+        <i class="fa-solid fa-users" aria-hidden="true"></i>
+        누적관객수
+        <c:out value="${movie.audNum}"/>명
+      </p>
+      </div>
 
-      // 4. 방금 클릭한 탭에만 'selected' 클래스를 추가합니다.
-      tab.classList.add('selected');
 
-      // 5. 모든 내용 영역을 숨깁니다.
-      tabContents.forEach(content => content.style.display = 'none');
+    </div>
+    <div class="movie-poster">
+      <img src="${movie.poster}" alt="${movie.name} 포스터">
 
-      // 6. 클릭한 탭과 순서가 맞는 내용 영역만 보여줍니다.
-      tabContents.style.display = 'block';
-    });
-  });
+      <button class="btn">예매하기</button>
+    </div>
+  </div>
+</div>
 
-  $(function () {
-    $(".tabCont").click(function () {
-      var tab_id = $(this).attr("data-tab");
+<div class="inner-wrap">
+  <div class="ec-base-tab typeLight m50">
+    <ul class="menu" style="font-size: 16px;">
+      <li class="selected"><a href="#none">주요정보</a></li>
+      <li><a href="#none">실관람평</a></li>
+      <li><a href="#none">예고편</a></li>
+    </ul>
+  </div>
 
-      $(".tabCont").style.display = 'none';
-      $(".menu>li").removeClass("selected");
+  <div class="ec-base-tab typeLight eTab">
+    <div id="tabCont1_1" class="tabCont" style="display:block; margin-bottom: 50px;">
+      <h3>기본 정보</h3>
+      <p><strong>감독:</strong> <c:out value="${movie.dir}" /></p>
+      <p><strong>배우:</strong> <c:out value="${movie.actor}" /></p>
+      <p><strong>장르:</strong> <c:out value="${movie.gen}" /></p>
+      <p><strong>러닝타임:</strong> <c:out value="${movie.runtime}" />분</p>
+      <p><strong>개봉일:</strong> <c:out value="${movie.date}" /></p>
+      <p><strong>관람등급:</strong> <span class="age-rating age-${movie.age}"><c:out value="${movie.age}" /></span></p>
 
-      $(this).addClass("active");
-      $("#" + tab_id).addClass("active");
-    });
-  });
+      <h3>줄거리</h3>
+      <p><c:out value="${movie.synop}" /></p>
 
-  function collapse(element) {
-    var before = document.getElementsByClassName("active")               // 기존에 활성화된 버튼
-    if (before && document.getElementsByClassName("active") != element) {  // 자신 이외에 이미 활성화된 버튼이 있으면
-      before.nextElementSibling.style.maxHeight = null;   // 기존에 펼쳐진 내용 접고
-      before.classList.remove("active");                  // 버튼 비활성화
-    }
-    element.classList.toggle("active");         // 활성화 여부 toggle
+      <div class="rating-wrapper">
 
-    var content = element.nextElementSibling;
-    if (content.style.maxHeight != 0) {         // 버튼 다음 요소가 펼쳐져 있으면
-      content.style.maxHeight = null;         // 접기
-    } else {
-      content.style.maxHeight = content.scrollHeight + "px";  // 접혀있는 경우 펼치기
-    }
-  }
-</script>
+        <div class="rating-item">
+          <div class="label">실관람 평점</div>
+          <canvas id="ratingChart" width="120" height="120"></canvas>
+          <div class="sub-label">예매율 76.9%</div>
+        </div>
 
+        <div class="rating-item">
+          <div class="label">누적 관객수</div>
+          <div class="audience-number">23,632</div>
+          <canvas id="audienceChart" width="300" height="120"></canvas>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div id="tabCont1_2" class="tabCont" style="display:none; width: 1100px;">
+      <p>실관람평 탭 내용입니다.</p>
+    </div>
+
+
+    <div id="tabCont1_3" class="tabCont" style="display:none; width: 1100px;">
+       <c:if test="${not empty movie.trailer}">
+         <div id="playerWrapper">
+           <div id="player"></div>
+         </div>
+      </c:if>
+    </div>
+
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+      // 평점 도넛 차트
+
+      const ratingCtx = document.getElementById('ratingChart').getContext('2d');
+
+      // 임의 데이터 (DB 연동 전 테스트용)
+      const ratingValue = 4.8;       // 5점 만점 평점
+      const bookingRate = 76.9;      // 예매율 %
+      const audienceData = [0, 23632, 23500];  // 누적 관객수 데이터
+      const audienceLabels = ['08.11', '08.16', '08.17'];
+
+      // 도넛 차트 중앙 텍스트 플러그인
+      const centerTextPlugin = {
+        id: 'centerText',
+        afterDraw(chart) {
+          const {ctx, width, height} = chart;
+          ctx.save();
+
+          ctx.font = 'bold 36px Noto Sans KR';
+          ctx.fillStyle = '#4a3ea1';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(ratingValue.toFixed(1), width / 2, height / 2);  // 중앙 정렬
+
+          ctx.font = 'normal 16px Noto Sans KR';
+          ctx.fillStyle = '#999999';
+          <%--ctx.fillText(`예매율 ${bookingRate.toFixed(1)}%`, width / 2, height / 2 + 25);--%>
+
+          ctx.restore();
+        }
+      };
+
+
+      // 평점 도넛 차트 생성
+      new Chart(ratingCtx, {
+        type: 'doughnut',
+        data: {
+          datasets: [{
+            data: [ratingValue, 5 - ratingValue],
+            backgroundColor: ['#5a3ea1', '#e0e0e0'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          cutout: '80%',
+          plugins: {
+            tooltip: {enabled: false},
+            legend: {display: false}
+          }
+        },
+        plugins: [centerTextPlugin]
+      });
+
+      // 누적 관객수 라인 차트 생성
+      const audienceCtx = document.getElementById('audienceChart').getContext('2d');
+
+      new Chart(audienceCtx, {
+        type: 'line',
+        data: {
+          labels: audienceLabels,
+          datasets: [{
+            label: '누적관객수',
+            data: audienceData,
+            borderColor: '#5a3ea1',
+            fill: false,
+            tension: 0.3,
+            pointRadius: 4,
+            pointBackgroundColor: '#5a3ea1'
+          }]
+        },
+        options: {
+          scales: {
+            y: {beginAtZero: true, ticks: {stepSize: 5000}},
+            x: {grid: {display: false}}
+          },
+          plugins: {
+            legend: {display: false}
+          },
+          elements: {
+            line: {borderWidth: 2}
+          }
+        }
+      });
+
+
+      let player;
+
+      // TMDB에서 받은 전체 URL에서 유튜브 영상 ID만 추출하는 함수
+      function extractYouTubeVideoId(url) {
+        if (!url) return null;
+        const urlObj = new URL(url);
+        if (urlObj.hostname === 'youtu.be') {
+          return urlObj.pathname.slice(1);
+        }
+        if (urlObj.hostname === 'www.youtube.com' || urlObj.hostname === 'youtube.com') {
+          return urlObj.searchParams.get('v');
+        }
+        return null;
+      }
+
+      function onYouTubeIframeAPIReady() {
+        // JSP에서 movie.trailer 전체 URL을 받아옴
+        const trailerUrl = '<c:out value="${movie.trailer}" />';
+        const videoId = extractYouTubeVideoId(trailerUrl);
+
+        if (videoId) {
+          player = new YT.Player('player', {
+            width: '720',
+            height: '480',
+            videoId: videoId,
+            playerVars: {
+              autoplay: 0,
+              controls: 1,
+              rel: 0,
+              showinfo: 0
+            },
+            events: {
+              onReady: onPlayerReady,
+              onError: onPlayerError
+            }
+          });
+        } else {
+          // 영상 ID가 없으면 플레이어 생성 안 함
+          document.getElementById('player').innerHTML = '<p>예고편 영상을 불러올 수 없습니다.</p>';
+        }
+      }
+
+      function onPlayerReady(event) {
+        // 필요 시 플레이어 준비 후 동작 추가 가능
+      }
+
+      function onPlayerError(event) {
+        console.error('YouTube Player Error:', event.data);
+      }
+
+      // 탭 전환 스크립트 (탭과 컨텐츠 개수 맞춤)
+      document.addEventListener('DOMContentLoaded', function () {
+        const tabs = document.querySelectorAll('.menu li');
+        const tabContents = document.querySelectorAll('.tabCont');
+
+        if (tabs.length !== tabContents.length) {
+          console.warn('탭과 컨텐츠 개수가 일치하지 않습니다.');
+          return;
+        }
+
+        tabs.forEach((tab, index) => {
+          tab.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            tabs.forEach(t => t.classList.remove('selected'));
+            tab.classList.add('selected');
+
+            tabContents.forEach(c => c.style.display = 'none');
+            if (tabContents[index]) {
+              tabContents[index].style.display = 'block';
+            }
+          });
+        });
+      });
+    </script>
+
+
+  <jsp:include page="/common/Footer.jsp"/>
 </body>
-
-<jsp:include page="/common/Footer.jsp"/>
 </html>
