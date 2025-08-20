@@ -100,6 +100,13 @@
 
     <div id="tabCont1_2" class="tabCont" style="display:none; width: 1100px;">
       <p>실관람평 탭 내용입니다.</p>
+      <c:forEach var="cvo" items="${vo.c_list}">
+        <div>
+          이름:${cvo.writer}><br/> &nbsp;&nbsp;
+          날짜:${cvo.write_date}<br/>
+          내용:${cvo.content}
+        </div>
+      </c:forEach>
     </div>
 
 
