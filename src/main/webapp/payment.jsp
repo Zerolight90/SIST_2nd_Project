@@ -24,6 +24,7 @@
 <head>
   <title>SIST BOX - 결제하기</title>
   <c:set var="basePath" value="${pageContext.request.contextPath}" />
+  <c:set var="full_base_url" value="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}" />
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://js.tosspayments.com/v1/payment-widget"></script>
   <link rel="stylesheet" href="${basePath}/css/reset.css">
@@ -183,46 +184,41 @@
 </footer>
 
 <script>
-  const isGuest = ${isGuest};
-  const _basePath = "${basePath}";
+  const isGuest = ${!empty isGuest and isGuest};
+  const paymentType = "${paymentType}";
+  const full_base_url = "${full_base_url}";
 
   $(document).ready(function() {
-    // --- 초기 변수 설정 ---
+    // --- 1. 초기 변수 설정 ---
     const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
     const customerKey = isGuest ? "SIST_GUEST_" + new Date().getTime() : "SIST_USER_${memberInfo.userIdx}";
-
-    const originalAmount = parseInt('<c:out value="${reservationInfo.finalAmount}" default="0"/>', 10);
+    const originalAmount = parseInt('<c:out value="${paymentType == 'paymentMovie' ? reservationInfo.finalAmount : productInfo.prodPrice}" default="0"/>', 10);
     const availablePoints = isGuest ? 0 : parseInt('<c:out value="${memberInfo.totalPoints}" default="0"/>', 10);
-    let couponDiscount = 0;
-    let pointDiscount = 0;
 
+    // --- 2. 토스 결제 위젯 렌더링 ---
     const paymentWidget = PaymentWidget(clientKey, customerKey);
     const paymentMethods = paymentWidget.renderPaymentMethods("#payment-widget", { value: originalAmount });
 
-    // --- 함수 정의 ---
+    // --- 3. 할인 적용 시 요약 정보 실시간 업데이트 함수 ---
     function updatePaymentSummary() {
       let finalAmount = originalAmount;
-
       if (!isGuest) {
-        couponDiscount = parseInt($('#couponSelector').find('option:selected').data('discount'), 10) || 0;
-        pointDiscount = parseInt($('#pointInput').val()) || 0;
-
+        let couponDiscount = parseInt($('#couponSelector').find('option:selected').data('discount'), 10) || 0;
+        let pointDiscount = parseInt($('#pointInput').val()) || 0;
         let maxPoints = originalAmount - couponDiscount;
+        if(pointDiscount < 0) pointDiscount = 0;
         if(pointDiscount > maxPoints) pointDiscount = maxPoints;
         if(pointDiscount > availablePoints) pointDiscount = availablePoints;
         $('#pointInput').val(pointDiscount);
-
         finalAmount = originalAmount - couponDiscount - pointDiscount;
-
         $('#couponDiscountText').text("- " + couponDiscount.toLocaleString() + " 원");
         $('#pointDiscountText').text("- " + pointDiscount.toLocaleString() + " 원");
       }
-
       $('#finalAmountNumber').text(finalAmount.toLocaleString());
       paymentMethods.updateAmount(finalAmount);
     }
 
-    // --- 이벤트 리스너 (회원 전용) ---
+    // --- 4. 이벤트 핸들러 바인딩 ---
     if (!isGuest) {
       $('#couponSelector').on('change', updatePaymentSummary);
       $('#pointInput').on('input', function() {
@@ -232,18 +228,33 @@
       $('#applyPointBtn').on('click', updatePaymentSummary);
     }
 
-    // --- 최종 결제 요청 ---
+    // --- 5. 최종 '결제' 버튼 클릭 시 실행될 함수 ---
     window.requestPayment = function() {
       const finalAmountForPayment = parseInt($('#finalAmountNumber').text().replace(/,/g, ''));
-      const orderId = "SIST_MOVIE_" + new Date().getTime();
+      const orderId = "SIST_" + (paymentType === 'paymentMovie' ? "MOVIE_" : "STORE_") + new Date().getTime();
       const orderName = '<c:out value="${jsSafeName}"/>';
       const couponUserIdx = isGuest ? 0 : $('#couponSelector').val();
       const usedPoints = isGuest ? 0 : (parseInt($('#pointInput').val()) || 0);
+      const paymentTypeValue = (paymentType === 'paymentMovie' ? 0 : 1);
+      const successUrl = full_base_url + "/Controller?type=paymentConfirm&couponUserIdx=" + couponUserIdx + "&usedPoints=" + usedPoints + "&paymentType=" + paymentTypeValue;
+      const failUrl = full_base_url + "/paymentFail.jsp";
 
-      // _basePath 변수를 사용하여 올바른 URL 생성
-      const successUrl = `${window.location.origin}${_basePath}/Controller?type=paymentConfirm&couponUserIdx=${couponUserIdx}&usedPoints=${usedPoints}`;
-      const failUrl = `${window.location.origin}${_basePath}/paymentFail.jsp`;
+      // ==================== [디버깅 코드 수정] ====================
+      // alert 대신 console.log를 사용하여 브라우저 개발자 콘솔에 값을 출력합니다.
+      // F12를 눌러 콘솔 탭에서 확인하세요.
+      console.log("========== [결제 요청] 서버로 전송할 최종 데이터 ==========");
+      console.log({
+        finalAmountForPayment: finalAmountForPayment,
+        orderId: orderId,
+        couponUserIdx: couponUserIdx,
+        usedPoints: usedPoints,
+        paymentTypeValue: paymentTypeValue,
+        successUrl: successUrl
+      });
+      console.log("==========================================================");
+      // ==========================================================
 
+      // 토스 결제 요청
       paymentWidget.requestPayment({
         amount: finalAmountForPayment,
         orderId: orderId,

@@ -8,16 +8,16 @@
             useGeneratedKeys="true" keyProperty="paymentIdx">
         INSERT INTO payment
         (
-            userIdx, reservIdx, prodIdx, couponUserIdx, paymentType, orderId,
-            paymentTransactionId, paymentMethod, paymentTotal, couponDiscount,
-            pointDiscount, paymentFinal, paymentStatus, paymentDate
+        userIdx, reservIdx, prodIdx, couponIdx, paymentType, orderId,
+        paymentTransactionId, paymentMethod, paymentTotal, couponDiscount,
+        pointDiscount, paymentFinal, paymentStatus, paymentDate
         )
         VALUES
-            (
-                #{userIdx}, #{reservIdx}, #{prodIdx}, #{couponUserIdx}, #{paymentType}, #{orderId},
-                #{paymentTransactionId}, #{paymentMethod}, #{paymentTotal}, #{couponDiscount},
-                #{pointDiscount}, #{paymentFinal}, 0, NOW()
-            )
+        (
+        #{userIdx}, #{reservIdx}, #{prodIdx}, #{couponIdx}, #{paymentType}, #{orderId},
+        #{paymentTransactionId}, #{paymentMethod}, #{paymentTotal}, #{couponDiscount},
+        #{pointDiscount}, #{paymentFinal}, 0, NOW()
+        )
     </insert>
 
     <update id="updatePaymentStatusAndCancelDate" parameterType="map">

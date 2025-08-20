@@ -93,21 +93,34 @@
 
     const mainContent = $("#mainContent"); // 메인 컨텐츠 영역을 변수로 지정
 
-    // --- 초기 화면 로드 ---
+    const urlParams = new URLSearchParams(window.location.search);
+    const tabToLoad = urlParams.get('tab'); // URL에서 'tab' 파라미터 값 가져오기
+
     let firstUrl;
-    <c:choose>
-    <c:when test="${not empty sessionScope.kvo && (empty sessionScope.mvo || empty sessionScope.mvo.birth || empty sessionScope.mvo.phone)}">
-    firstUrl = "${cp}/Controller?type=myUserInfo";
-    // 회원정보 탭을 기본으로 활성화
-    $('.side-nav .nav-link[data-type="myUserInfo"]').addClass('active').siblings().removeClass('active');
-    </c:when>
-    <c:otherwise>
-    firstUrl = "${cp}/Controller?type=myReservation";
-    // 예매내역 탭을 기본으로 활성화
-    $('.side-nav .nav-link[data-type="myReservation"]').addClass('active').siblings().removeClass('active');
-    </c:otherwise>
-    </c:choose>
-    mainContent.load(firstUrl); // Ajax로 첫 화면 로드
+    let initialTabType;
+
+    if (tabToLoad) {
+      // 1. URL에 'tab' 파라미터가 있으면 해당 탭을 로드
+      initialTabType = tabToLoad;
+      firstUrl = "${cp}/Controller?type=" + initialTabType;
+    } else {
+      // 2. 'tab' 파라미터가 없으면 기존 로직대로 기본 탭 결정
+      <c:choose>
+      <c:when test="${not empty sessionScope.kvo && (empty sessionScope.mvo || empty sessionScope.mvo.birth || empty sessionScope.mvo.phone)}">
+      initialTabType = "myUserInfo";
+      firstUrl = "${cp}/Controller?type=myUserInfo";
+      </c:when>
+      <c:otherwise>
+      initialTabType = "myReservation";
+      firstUrl = "${cp}/Controller?type=myReservation";
+      </c:otherwise>
+      </c:choose>
+    }
+
+    // 결정된 탭을 활성화하고 Ajax로 첫 화면 로드
+    $('.side-nav .nav-link').removeClass('active');
+    $('.side-nav .nav-link[data-type="' + initialTabType + '"]').addClass('active');
+    mainContent.load(firstUrl);
 
     // --- 이벤트 핸들러 (이벤트 위임 사용) ---
 
@@ -133,7 +146,15 @@
       const url = $(this).attr('href');
       mainContent.load(url); // mainContent 영역만 Ajax로 새로고침
     });
+
+    // 4. 동적으로 로드된 '게시글 제목' 링크 클릭 처리
+    mainContent.on('click', '.view-link', function(e) {
+      e.preventDefault(); // 기본 링크 동작(페이지 전체 이동) 방지
+      const url = $(this).attr('href');
+      mainContent.load(url); // mainContent 영역만 Ajax로 새로고침
+    });
   });
+</script>
 </script>
 
 </body>

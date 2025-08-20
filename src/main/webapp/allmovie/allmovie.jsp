@@ -58,7 +58,14 @@
                             </c:choose>
                                 ${movie.name}
                         </h3>
-                        <div class="movie-stats"><span>개봉일 ${movie.date}</span></div>
+                        <div class="movie-stats">
+                                <%-- 예매율(bookingRate)이 0보다 클 경우에만 표시 --%>
+                            <c:if test="${movie.bookingRate > 0}">
+                                <span>예매율 <fmt:formatNumber value="${movie.bookingRate}" pattern="#,##0.0"/>%</span>
+                                <span style="color: #ddd; margin: 0 5px;">|</span>
+                            </c:if>
+                            <span>개봉일 ${movie.date}</span>
+                        </div>
                         <div class="movie-actions">
                             <button type="button" class="like-btn ${!empty likedMovieSet && likedMovieSet.contains(movie.mIdx) ? 'liked' : ''}" data-midx="${movie.mIdx}">
                                 <span class="heart-icon"></span>

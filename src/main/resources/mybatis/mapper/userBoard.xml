@@ -10,34 +10,29 @@
     <resultMap id="map1" type="mybatis.vo.AdminBoardVO">
         <id property="boardIdx" column="boardIdx"/>
         <association property="tvo" javaType="mybatis.vo.TheaterVO" select="theater.getTheater" column="tIdx"/>
-        <association property="mvo" javaType="mybatis.vo.MemberVO" select="member.getMemInfo" column="userIdx"/>
+        <!--<association property="mvo" javaType="mybatis.vo.MemberVO" select="member.getMemberByIdx" column="userIdx"/>-->
         <association property="bvo" javaType="mybatis.vo.AdminBoardVO" select="getBoard2" column="boardIdx"/>
     </resultMap>
 
     <!--공지사항에 대한 전체 목록 추출-->
     <select id="userBoardList" resultMap="map1">
         SELECT * FROM(
-            SELECT @RN:=@RN+1 AS rnum, a.* FROM(
-                SELECT * FROM board
-                WHERE boardStatus = 0
-                AND boardType = #{boardType}
-                AND parent_boardIdx IS NULL
-                <if test="searchKeyword != null and searchKeyword != ''">
-                    AND boardTitle LIKE CONCAT('%', #{searchKeyword}, '%')
-                </if>
-                ORDER BY boardIdx DESC
-            ) a, (SELECT @RN:=0) b
-        ) c WHERE c.rnum BETWEEN #{begin} AND #{end}
-    </select>
-
-    <select id="userInquiryBoardList" resultType="mybatis.vo.AdminBoardVO">
         SELECT @RN:=@RN+1 AS rnum, a.* FROM(
-            SELECT * FROM board
-            WHERE boardStatus = 0
-            AND boardType = #{boardType}
-            AND parent_boardIdx IS NULL
-            ORDER BY boardIdx DESC
+        SELECT * FROM board
+        WHERE boardStatus = 0
+        AND boardType = #{boardType}
+        AND parent_boardIdx IS NULL
+        <if test="boardType=='QnA'">
+            <if test="userIdx != null and userIdx != ''">
+                AND userIdx = #{userIdx}
+            </if>
+        </if>
+        <if test="searchKeyword != null and searchKeyword != ''">
+            AND boardTitle LIKE CONCAT('%', #{searchKeyword}, '%')
+        </if>
+        ORDER BY boardIdx DESC
         ) a, (SELECT @RN:=0) b
+        ) c WHERE c.rnum BETWEEN #{begin} AND #{end}
     </select>
 
     <!--총 게시물 수를 반환하는 기능-->
@@ -53,6 +48,11 @@
     <select id="getBoard" parameterType="String" resultMap="map1">
         SELECT * FROM board
         WHERE boardIdx = #{boardIdx}
+        <if test="boardType=='QnA'">
+            <if test="userIdx != null and userIdx != ''">
+                AND userIdx = #{userIdx}
+            </if>
+        </if>
     </select>
 
     <select id="getBoard2" parameterType="String" resultType="mybatis.vo.AdminBoardVO">
@@ -64,7 +64,7 @@
     <!--게시물 작성-->
     <insert id="add" parameterType="map">
         INSERT INTO board(userIdx, tIdx, boardType, boardTitle, boardContent, file_name, ori_name, boardStatus, is_answered, boardRegDate)
-        VALUES (1, 1, #{boardType}, #{boardTitle}, #{boardContent}, #{fname}, #{oname}, 0, 0, NOW())
+        VALUES (#{userIdx}, 1, #{boardType}, #{boardTitle}, #{boardContent}, #{fname}, #{oname}, 0, 0, NOW())
     </insert>
 
     <!--공지사항 상세 이전글-->

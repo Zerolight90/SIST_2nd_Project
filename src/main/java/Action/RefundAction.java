@@ -82,9 +82,19 @@ public class RefundAction implements Action {
             if (pvo.getReservIdx() != null) {
                 ReservationDAO.updateReservationToCancelled(pvo.getReservIdx(), ss);
             }
-            if (pvo.getCouponUserIdx() != null) {
-                CouponDAO.revertCouponUsage(pvo.getCouponUserIdx(), ss);
+
+            // [수정됨] pvo.getCouponUserIdx() -> pvo.getCouponIdx() 로 변경
+            // 쿠폰을 사용한 결제 건일 경우에만 쿠폰 상태를 되돌립니다.
+            if (pvo.getCouponIdx() != null && pvo.getCouponIdx() > 0) {
+                // payment 테이블의 userIdx와 couponIdx를 사용해 원래의 couponUserIdx를 찾아야 합니다.
+                // 이 로직은 CouponDAO에 추가되어야 합니다. (예: getCouponUserIdxByPaymentInfo)
+                // 여기서는 CouponDAO에 해당 기능이 있다고 가정하고 호출합니다.
+                Long couponUserIdx = CouponDAO.getCouponUserIdxByPaymentInfo(pvo.getUserIdx(), pvo.getPaymentIdx(), ss);
+                if(couponUserIdx != null) {
+                    CouponDAO.revertCouponUsage(couponUserIdx, ss);
+                }
             }
+
             if (pvo.getPointDiscount() > 0 && pvo.getUserIdx() > 0) {
                 PointDAO.revertPointUsage(pvo.getUserIdx(), pvo.getPointDiscount(), pvo.getPaymentIdx(), ss);
             }
@@ -97,6 +107,9 @@ public class RefundAction implements Action {
             }
             e.printStackTrace();
             // TODO: 에러 발생 시 사용자에게 에러 페이지를 보여주는 로직 추가 필요
+            // 예를 들어, request에 에러 메시지를 담아서 에러 페이지로 포워딩
+            request.setAttribute("errorMessage", "환불 처리 중 오류가 발생했습니다: " + e.getMessage());
+            return "error.jsp"; // 에러 페이지 경로
         } finally {
             if (ss != null) {
                 ss.close();
@@ -107,7 +120,7 @@ public class RefundAction implements Action {
         String viewPath;
         if ("true".equals(isNonMember)) {
             // 비회원인 경우, 비회원 예매 조회 페이지 초기화면으로 이동
-            viewPath = "redirect:nonmember/nmemReservation.jsp";
+            viewPath = "redirect:nmemInfo.do"; // 컨트롤러를 통해 이동하도록 수정
         } else {
             // 회원인 경우, 마이페이지의 예매 내역 페이지로 이동
             viewPath = "redirect:Controller?type=myReservation";

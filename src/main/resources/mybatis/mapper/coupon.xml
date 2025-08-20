@@ -55,6 +55,7 @@
     <select id="getCouponByCouponUserIdx" parameterType="long" resultType="mybatis.vo.MyCouponVO">
         SELECT
         cum.couponUserIdx,
+        c.couponIdx,
         c.couponName,
         c.discountValue AS discountValue
         FROM
@@ -102,5 +103,13 @@
         WHERE cum.userIdx = #{userIdx}
         AND cum.couponIdx = #{couponIdx}
         AND YEAR(c.couponRegDate) = YEAR(CURDATE())
+    </select>
+
+    <select id="getCouponUserIdxByPaymentInfo" parameterType="map" resultType="long">
+        SELECT cum.couponUserIdx
+        FROM coupon_user_mapping cum
+        JOIN payment p ON cum.userIdx = p.userIdx AND cum.couponIdx = p.couponIdx
+        WHERE p.paymentIdx = #{paymentIdx} AND cum.userIdx = #{userIdx}
+        LIMIT 1
     </select>
 </mapper>
