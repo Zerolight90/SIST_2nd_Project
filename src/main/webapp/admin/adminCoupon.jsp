@@ -201,16 +201,21 @@
   </div>
 </div>
 
-<!-- 쿠폰 추가 모달 -->
-<div id="productAddModal">
+<!-- 쿠폰 발급 모달 -->
+<div id="productGiveModal">
   <div class="modalTitle"><h2>쿠폰 추가</h2></div>
-  <form action="Controller?type=productAdd" method="post" id="productAddForm">
+  <form action="Controller?type=productGive" method="post" id="productGiveForm">
     <div class="body">
       <div class="divs">
         <label for="addCategory">카테고리:</label>
         <select name="addCategory" id="addCategory" class="input">
-          <option>1</option>
-          <option>2</option>
+          <option>영화</option>
+          <option>매점</option>
+          <option>기념일</option>
+          <option>회원</option>
+          <option>시간대</option>
+          <option>요일</option>
+          <option>이벤트</option>
         </select>
       </div>
       <div class="divs">
@@ -221,16 +226,69 @@
         <label for="addDescription">쿠폰설명:</label>
         <input type="text" name="addDescription" id="addDescription" class="input editable" required>
       </div>
-      <div class="divs">
-        <label for="addImg">이미지:</label>
+      <%--<div class="divs">
+        <label for="addImg">발급일:</label>
         <input type="text" name="addImg" id="addImg" class="input editable">
-      </div>
-      <div class="divs">
-        <label for="addPrice">가격:</label>
+      </div>--%>
+      <%--<div class="divs">
+        <label for="addPrice">만료일:</label>
         <input type="number" name="addPrice" id="addPrice" class="input editable" required>
+      </div>--%>
+      <%--<div class="divs">
+        <label for="addStock">상태:</label>
+        <input type="number" name="addStock" id="addStock" class="input editable" required>
+      </div>--%>
+      <div class="divs">
+        <label for="addStock">할인값:</label>
+        <input type="number" name="addStock" id="addStock" class="input editable" required>
+      </div>
+    </div>
+    <div class="footer">
+      <button type="button" class="btn btnMain">추가</button>
+      <button type="button" class="btn btnSub">취소</button>
+    </div>
+  </form>
+</div>
+
+<!-- 쿠폰 추가 모달 -->
+<div id="productAddModal">
+  <div class="modalTitle"><h2>쿠폰 추가</h2></div>
+  <form action="Controller?type=productAdd" method="post" id="productAddForm">
+    <div class="body">
+      <div class="divs">
+        <label for="addCategory">카테고리:</label>
+        <select name="addCategory" id="addCategory" class="input">
+          <option>영화</option>
+          <option>매점</option>
+          <option>기념일</option>
+          <option>회원</option>
+          <option>시간대</option>
+          <option>요일</option>
+          <option>이벤트</option>
+        </select>
       </div>
       <div class="divs">
-        <label for="addStock">재고:</label>
+        <label for="addProductName">쿠폰명:</label>
+        <input type="text" name="addProductName" id="addProductName" class="input editable" required>
+      </div>
+      <div class="divs">
+        <label for="addDescription">쿠폰설명:</label>
+        <input type="text" name="addDescription" id="addDescription" class="input editable" required>
+      </div>
+      <%--<div class="divs">
+        <label for="addImg">발급일:</label>
+        <input type="text" name="addImg" id="addImg" class="input editable">
+      </div>--%>
+      <%--<div class="divs">
+        <label for="addPrice">만료일:</label>
+        <input type="number" name="addPrice" id="addPrice" class="input editable" required>
+      </div>--%>
+      <%--<div class="divs">
+        <label for="addStock">상태:</label>
+        <input type="number" name="addStock" id="addStock" class="input editable" required>
+      </div>--%>
+      <div class="divs">
+        <label for="addStock">할인값:</label>
         <input type="number" name="addStock" id="addStock" class="input editable" required>
       </div>
     </div>
@@ -257,7 +315,7 @@
     $("#productAddModal").show();
   }
   function giveModal() {
-
+    $("#productGiveModal").show();
   }
   // 삭제 버튼 클릭 시
   function delCoupon(str) {
