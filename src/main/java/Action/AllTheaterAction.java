@@ -15,12 +15,13 @@ import java.util.Locale;
 public class AllTheaterAction implements Action{
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        // 메뉴바에서 [극장] 클릭 시 수행하는 Action
-        // ------상영시간표를 보여주기 위한 탭의 정보를 던지기 위한 영역 ------------------------
+        // ------극장 정보를 보여주기 위한 탭의 정보를 던지기 위한 영역-------------------------------------------------------
+        // 극장 정보는 theater 테이블의 정보를 가져와서 뿌려야 한다
+        // ------------------------------------------------------------------------------------------------------------
+
+        // ------상영시간표를 보여주기 위한 탭의 정보를 던지기 위한 영역 -----------------------------------------------------
         LocalDate now = LocalDate.now();
         LocalDate f_date = now.plusDays(11);
-
-
 
         List<LocalDateVO> dvo_list = new ArrayList<>();
 
@@ -50,9 +51,16 @@ public class AllTheaterAction implements Action{
         // 사용자가 선택한 영화관에서 상영중인 영화의 정보만 가져와야함
 //        String tIdx = request.getParameter("tIdx");
         TimeTableVO[] mappingTime = null;
+
         mappingTime = TimeTableDAO.getTimeTableSearch("1");
+
         // 영화관에 따른 상영중인 영화들 전달
         request.setAttribute("mappingTime", mappingTime);
+        // ------------------------------------------------------------------------------------------------------------
+
+        // ------극장 정보를 보여주기 위한 탭의 정보를 던지기 위한 영역-------------------------------------------------------
+
+        // ------------------------------------------------------------------------------------------------------------
 
         return "allTheater.jsp";
     }

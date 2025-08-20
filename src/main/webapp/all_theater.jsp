@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -40,61 +41,24 @@
                 <div class="ec-base-tab typeLight theater-wrapper m50 ">
                 <!-- 지역 탭 -->
                 <ul class="region-tabs menu">
-                    <li class="active on selected"><a class="area_mv">서울</a></li>
-                    <li><a class="area_mv">경기</a></li>
-                    <li><a class="area_mv">인천</a></li>
-                    <li><a class="area_mv">대전/충청/세종</a></li>
-                    <li><a class="area_mv">부산/대구/경상</a></li>
-                    <li><a class="area_mv">광주/전라</a></li>
-                    <li><a class="area_mv">강원</a></li>
-                    <li><a class="area_mv">제주</a></li>
+                    <c:set var="tvoArr" value="${requestScope.tvo}" />
+                    <c:forEach var="tvo" items="${tvoArr}" varStatus="i">
+                        <c:if test="${i.index == 0}">
+                            <li class="active on selected"><a class="area_mv">${tvo.tRegion}</a></li>
+                        </c:if>
+                        <c:if test="${i.index != 0}">
+                            <li><a class="area_mv">${tvo.tRegion}</a></li>
+                        </c:if>
+                    </c:forEach>
                 </ul>
 
-                <div id="tabCont1_1" class="tabCont" style="display:block; margin-bottom: 50px">
+                    <c:forEach var="tvo" items="${tvoArr}" varStatus="i">
+                <div id="tabCont1_${i.index+1}" class="tabCont" style="display:block; margin-bottom: 50px">
                     <!-- 서울 극장 리스트 -->
-                    <div class="theater-list">
-                        <div class="theater-column">
-                            <ul>
-                                <li><a href="#">강남</a></li>
-                                <li><a href="#">더부티크목동현대백화점</a></li>
-                                <li><a href="#">상봉</a></li>
-                                <li><a href="#">송파파크하비오</a></li>
-                                <li><a href="#">코엑스</a></li>
-                            </ul>
-                        </div>
-                        <div class="theater-column">
-                            <ul>
-                                <li>강동</li>
-                                <li>동대문</li>
-                                <li>상암월드컵경기장</li>
-                                <li>신촌</li>
-                                <li>홍대</li>
-                            </ul>
-                        </div>
-                        <div class="theater-column">
-                            <ul>
-                                <li>구의아트플</li>
-                                <li>마곡</li>
-                                <li>성수</li>
-                                <li>이수</li>
-                                <li>화곡 <sup>ⓡ</sup></li>
-                            </ul>
-                        </div>
-                        <div class="theater-column">
-                            <ul>
-                                <li>군자</li>
-                                <li>목동</li>
-                                <li>센트럴</li>
-                                <li>창동</li>
-                                <li>ARTNINE</li>
-                            </ul>
-                        </div>
-                    </div>
+                    <button type="button" class="theater-name-box">${tvo.tName}</button>
                     <%-- //서울 극장 리스트 끝--%>
                 </div>
-                <div id="tabCont1_2" class="tabCont" style="display:none; margin-bottom: 50px">
-                    안녕2
-                </div>
+                    </c:forEach>
 
 
 

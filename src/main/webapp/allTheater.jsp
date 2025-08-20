@@ -190,47 +190,84 @@
               </div>
             </div>
 
+            <%-- 영화별로 그룹화하여 표시 --%>
+            <c:set var="processedMovies" value=""/>
+
             <c:forEach var="timeVO" items="${mappingTime}">
-              <c:set var="movieVO" value="${timeVO.m_list[0]}"/>
-              <c:set var="screenVO" value="${timeVO.s_list[0]}"/>
-              <c:set var="theaterVO" value="${timeVO.t_list[0]}"/>
+              <c:if test="${timeVO.m_list != null and fn:length(timeVO.m_list) > 0}">
+                <c:set var="currentMovie" value="${timeVO.m_list[0].name}"/>
 
-              <!-- 영화 정보 출력 (중복 제거) -->
-              <c:if test="${prevMovie != movieVO.name}">
-                <div class="show-movie-list">
-                  <div class="show-movie">
-                    <div class="show-movie-list-title">
-                      <img src="/images/${movieVO.age}.png" alt="${movieVO.age}세"/>
-                      <span class="title-movie-title">${movieVO.name}</span>
-                      <p class="information">
-                        <span class="show-status">상영중</span>
-                        <span class="show-total-time">/상영시간 ${movieVO.runtime}분</span>
-                      </p>
+                <%-- 이미 처리된 영화인지 확인 --%>
+                <c:if test="${not fn:contains(processedMovies, currentMovie)}">
+
+                  <%-- 영화 제목 표시 --%>
+                  <div class="show-movie-list">
+                    <div class="show-movie">
+                      <div class="show-movie-list-title">
+                        <img src="/images/${timeVO.m_list[0].age}.png" alt="${timeVO.m_list[0].age}세"/>
+                        <span class="title-movie-title">${currentMovie}</span>
+                        <p class="information">
+                          <span class="show-status">상영중</span>
+                          <span class="show-total-time">/상영시간 ${timeVO.m_list[0].runtime}분</span>
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <!-- 영화 바뀌면 이전 상영관 초기화 -->
-                <c:set var="prevScreen" value=""/>
+
+                  <%-- 현재 영화의 모든 상영관과 시간 정보 수집 --%>
+                  <c:set var="processedScreens" value=""/>
+
+                  <c:forEach var="innerTimeVO" items="${mappingTime}">
+                    <c:if test="${innerTimeVO.m_list != null and fn:length(innerTimeVO.m_list) > 0 and
+                           innerTimeVO.s_list != null and fn:length(innerTimeVO.s_list) > 0}">
+
+                      <%-- 같은 영화인 경우만 처리 --%>
+                      <c:if test="${innerTimeVO.m_list[0].name eq currentMovie}">
+                        <c:set var="currentScreen" value="${innerTimeVO.s_list[0].sName}"/>
+
+                        <%-- 이미 처리된 상영관인지 확인 --%>
+                        <c:if test="${not fn:contains(processedScreens, currentScreen)}">
+
+                          <%-- 상영관 정보 표시 --%>
+                          <div class="show-theater-info">
+                            <div class="theater-info">
+                              <div class="theater-type">
+                                <p class="screen-name">${currentScreen}</p>
+                                <p class="chair">총 ${innerTimeVO.s_list[0].sCount}석</p>
+                              </div>
+                              <div class="theater-time">
+
+                                  <%-- 현재 영화, 현재 상영관의 모든 상영 시간 수집 --%>
+                                <c:forEach var="timeSlotVO" items="${mappingTime}">
+                                  <c:if test="${timeSlotVO.m_list != null and fn:length(timeSlotVO.m_list) > 0 and
+                                         timeSlotVO.s_list != null and fn:length(timeSlotVO.s_list) > 0}">
+
+                                    <%-- 같은 영화, 같은 상영관인 경우 시간 표시 --%>
+                                    <c:if test="${timeSlotVO.m_list[0].name eq currentMovie and
+                                           timeSlotVO.s_list[0].sName eq currentScreen}">
+                                      <div class="time-btn" onclick="selectShowTime('${timeSlotVO.startTime}', '${timeSlotVO.s_list[0].sIdx}')">
+                                        <span>${fn:substring(timeSlotVO.startTime, 11, 16)}</span>
+                                        <em>${timeSlotVO.s_list[0].sCount - fn:length(timeSlotVO.r_list)}석</em> <!-- 전체좌석수 - 결제된 좌석 수 (남은좌석) -->
+                                      </div>
+                                    </c:if>
+                                  </c:if>
+                                </c:forEach>
+
+                              </div>
+                            </div>
+                          </div>
+
+                          <%-- 처리된 상영관 목록에 추가 --%>
+                          <c:set var="processedScreens" value="${processedScreens},${currentScreen}"/>
+                        </c:if>
+                      </c:if>
+                    </c:if>
+                  </c:forEach>
+
+                  <%-- 처리된 영화 목록에 추가 --%>
+                  <c:set var="processedMovies" value="${processedMovies},${currentMovie}"/>
+                </c:if>
               </c:if>
-
-              <!-- 상영관 정보 출력 (중복 제거) -->
-              <div class="show-theater-info">
-                <div class="theater-info">
-
-                  <div class="theater-type">
-                    <p class="screen-name">${screenVO.sName}</p>
-                    <p class="chair">총 ${screenVO.sCount}석</p>
-                  </div>
-
-                  <div class="theater-time">
-                    <!-- 반복문을 돌면서 같은 상영관에 상영하는 영화가 여러개라면 여러번 수행해야함 -->
-                    <div class="time-btn">
-                      <span>${fn:substring(timeVO.startTime, 10, 16)}</span>
-                      <em>${screenVO.sCount}석</em>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </c:forEach>
 
             <div class="box-info mtb70">
@@ -465,6 +502,27 @@
     } else {
       content.style.maxHeight = content.scrollHeight + "px";  // 접혀있는 경우 펼치기
     }
+  }
+
+  // woojin 영화 목록
+  // 상영시간 선택 함수
+  function selectShowTime(showTime, screenIdx) {
+    // 예매 페이지로 이동하는 로직
+    console.log('선택된 상영시간:', showTime, '상영관:', screenIdx);
+    // 실제 예매 페이지로 이동
+    // location.href = 'Controller?type=booking&showTime=' + encodeURIComponent(showTime) + '&screenIdx=' + screenIdx;
+  }
+
+  // 날짜 선택 함수 (기존 inDate 함수 개선)
+  function inDate(selectedDate) {
+    // 선택된 날짜 버튼 스타일 변경
+    const dateButtons = document.querySelectorAll('.date-item .btn');
+    dateButtons.forEach(btn => btn.classList.remove('selected-date'));
+    event.target.classList.add('selected-date');
+
+    // 해당 날짜의 상영시간표를 다시 로드하려면 여기서 페이지 새로고침 또는 AJAX 호출
+    console.log('선택된 날짜:', selectedDate);
+    // 필요시 페이지 리로드: location.href = 'Controller?type=allTheater&date=' + selectedDate;
   }
 </script>
 

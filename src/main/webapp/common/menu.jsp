@@ -114,9 +114,9 @@
                 </ul>
             </li>
             <li class="main-item has-submenu">
-                <a href="<c:url value="Controller?type=allTheater"/>">극장</a>
+                <a href="<c:url value="Controller?type=all_theater"/>">극장</a>
                 <ul class="submenu">
-                    <li><a href="<c:url value="Controller?type=allTheater"/>">전체 극장</a></li>
+                    <li><a href="<c:url value="Controller?type=all_theater"/>">전체 극장</a></li>
                     <li><a href="#">특별관</a></li>
                 </ul>
             </li>

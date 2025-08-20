@@ -46,6 +46,17 @@
     background-color: #111;
 }
 
+.theater-name-box {
+    width: 30px;
+    height: 100px;
+    background-color: gray;
+    position: absolute;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 100px;
+}
 
 /*li태그 점*/
 
@@ -558,13 +569,13 @@ li::marker {
 }
 
 .show-theater-info .theater-type {
-    flex-basis: 180px; /* 상영관 이름, 총 좌석 수 영역 고정 너비 */
+    flex-basis: 100px;
     padding: 15px 20px;
     background-color: #f7f7f7;
     border-right: 1px solid #eee;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* 세로 중앙 정렬 */
+    justify-content: center;
     text-align: left;
     margin-right: 20px;
 }
@@ -1113,4 +1124,26 @@ li::marker {
     width: 20px;
     height: 20px;
     margin: 3px;
+}
+
+/* 선택된 날짜 버튼 스타일 */
+.date-item .btn.selected-date {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+/* 상영시간 버튼 호버 효과 */
+.time-btn:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+.time-btn {
+    transition: background-color 0.2s;
+    border-radius: 4px;
+    padding: 5px 10px;
+    margin: 2px;
+    display: inline-block;
+    border: 1px solid #ddd;
 }
