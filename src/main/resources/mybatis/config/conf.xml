@@ -40,5 +40,6 @@
         <mapper resource="mybatis/mapper/seatStatus.xml"/>
         <mapper resource="mybatis/mapper/seat.xml"/>
         <mapper resource="mybatis/mapper/myPaymentHistory.xml"/>
+        <mapper resource="mybatis/mapper/moviedetail.xml"/>
     </mappers>
 </configuration>
