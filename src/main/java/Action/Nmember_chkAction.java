@@ -35,16 +35,16 @@ public class Nmember_chkAction implements Action {
                 session.setAttribute("nonvo", nonvo);
 
 
-//                System.out.println("sessionId="+session.getId());
-//                System.out.println(nonvo.getName());
-//                System.out.println(nonvo.getPassword());
-//                System.out.println(nonvo.getBirth());
-//                System.out.println(nonvo.getPhone());
+                System.out.println("sessionId="+session.getId());
+                System.out.println(nonvo.getName());
+                System.out.println(nonvo.getPassword());
+                System.out.println(nonvo.getBirth());
+                System.out.println(nonvo.getPhone());
 
 
 
                 resp.put("success", true);
-                resp.put("redirect", request.getContextPath() + "/Controller?type=myPage");
+                resp.put("redirect", request.getContextPath() + "/Controller?type=myReservation");
                 out.print(mapper.writeValueAsString(resp));
                 out.flush();
                 return null; // AJAX 응답 직접 완료
