@@ -23,9 +23,6 @@ public class TheaterShowAction implements Action{
         String date = request.getParameter("date");
         String mIdx = request.getParameter("mIdx");
         String tIdx = request.getParameter("tIdx");
-        System.out.println("date:"+date);
-        System.out.println(mIdx);
-        System.out.println(tIdx);
 
         // 날짜, 영화, 영화관의 정보를 갖고있는 레이블을 가져옴
         showTime = TimeTableDAO.getTimeList(date, mIdx, tIdx);

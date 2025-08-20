@@ -20,9 +20,8 @@ body {
 
 .util-title {
     text-align: left;
-    margin-bottom: 30px;
-    padding: 20px 0;
-    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 10px 0;
 }
 
 .util-title h2 {
@@ -79,7 +78,6 @@ body {
     width: 35px;
     height: 30px;
     color: #444;
-    font-family: Roboto, Dotum, '돋움', sans-serif !important;
     font-weight: 400 !important;
 }
 
@@ -96,13 +94,14 @@ body {
     justify-content: center;
 }
 
-.book-main, #date-list {
+.book-main {
     flex: 1;
-    overflow-y: auto;
+    padding: 20px;
 }
 
-.main-in {
-    padding: 0 20px 20px 20px;
+.overflow-y {
+    max-height: 450px;
+    overflow-y: auto;
 }
 
 /* 탭 메뉴 */
@@ -224,6 +223,12 @@ body {
     flex: 1.4;
     display: flex;
     flex-direction: column;
+}
+
+.date-box-in {
+    max-height: 590px;
+    height: 590px;
+    overflow-y: auto;
 }
 
 .time-header {
@@ -530,7 +535,6 @@ body {
 
 .time_area {
     padding: 10px 0;
-    border: 1px solid red;
     width: 70px;
     height: 100%;
 }
@@ -542,18 +546,18 @@ body {
 
 .movie_area {
     padding: 10px 0;
-    border: 1px solid blue;
     width: 250px;
     height: 100%;
     text-align: left;
 }
 .movie_area strong {
     display: block;
+    font-weight: bold;
+    font-size: 18px;
 }
 
 .seat_area {
     padding: 10px 0;
-    border: 1px solid green;
     width: 120px;
     height: 100%;
     text-align: right;

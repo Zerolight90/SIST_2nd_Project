@@ -61,18 +61,20 @@
                     <li class="selected"><a>영화목록</a></li>
                   </ul>
                   <c:set var="timeVO" value="${requestScope.timeArr}" scope="page"/>
+                  <div class="overflow-y">
                   <c:forEach var="tvo" items="${timeVO}" varStatus="i">
                     <c:if test="${tvo.m_list != null && fn:length(tvo.m_list) > 0}">
                       <div class="movie_all">
                         <c:forEach var="movieVO" items="${tvo.m_list}" varStatus="j">
-                          <img src="/images/${movieVO.age}.png"/>
-                          <button type="button" class="movie-btn" onclick="selectMovie(this, '${movieVO.mIdx}', '${movieVO.age}')">&nbsp;&nbsp;${movieVO.name}</button>
+                          <img src="/images/${movieVO.age}.png" alt="${movieVO.age}세"/>
+                          <button type="button" class="movie-btn" onclick="selectMovie(this, '${movieVO.mIdx}')">&nbsp;&nbsp;${movieVO.name}</button>
                           <input type="hidden" value="${movieVO.mIdx}"/>
                           <hr/>
                         </c:forEach>
                       </div>
                     </c:if>
                   </c:forEach>
+                  </div>
                 </div>
               </div>
             </div>
@@ -89,7 +91,7 @@
                     <li class="selected"><a>지점</a></li>
                   </ul>
                   <c:set var="theaterArr" value="${requestScope.theaterArr}" scope="page"/>
-
+                  <div class="overflow-y">
                   <c:if test="${theaterArr != null && fn:length(theaterArr) > 0}">
                     <div class="theater_all">
                       <c:forEach var="theaterVO" items="${theaterArr}" varStatus="i">
@@ -98,7 +100,7 @@
                       </c:forEach>
                     </div>
                   </c:if>
-
+                  </div>
                 </div>
               </div>
             </div>
@@ -210,23 +212,24 @@
   // 사용자가 선택한 영화의 정보를 갖고 seat.jsp로 이동하는 함수
   function goSeat(tvoIdx){ // 상영예정 idx가 옴
     if(document.tvo_form.chk.value === ""){
-      console.log("로그인되어있음")
       alert("좌석선택화면으로 이동합니다");
       document.tvo_form.tvoIdx.value = tvoIdx;
       document.getElementById("type").value = "seat";  //  hidden input에 값 세팅
       document.tvo_form.submit();
     } else {
-      console.log("로그인안되어있음")
       alert("로그인화면으로 이동합니다");
-      console.log(document.tvo_form.booking.value)
       document.getElementById("type").value = "login"; //  hidden input에 값 세팅
       document.tvo_form.submit();
     }
   }
 
-  // 날짜 선택 함수 (수정됨)
+  // 직전 선택 값을 저장할 변수
+  let prevDate = "";
+  let prevMovie = "";
+  let prevTheater = "";
+
+  // 수정된 날짜 선택 함수
   function selectDate(selectedBtn, date) {
-    console.log("선택된 날짜:", date);
 
     // 모든 날짜 버튼에서 selected-btn 클래스 제거
     document.querySelectorAll('.date-btn').forEach(btn => {
@@ -241,11 +244,21 @@
 
     // 시간표 초기화 (날짜가 변경되면 기존 시간표를 지움)
     document.querySelector("#date-box .date-box-in").innerHTML = "";
+
+    // 시간 필터 초기화
+    resetTimeFilterOnly();
+
+    // 같은 날짜를 다시 선택한 경우에도 시간표를 다시 로드
+    if (prevDate !== date || document.ff.mIdx.value !== "" && document.ff.tIdx.value !== "") {
+      prevDate = date;
+      loadTimeTable();
+    } else {
+      prevDate = date;
+    }
   }
 
-  // 영화 선택 함수 (새로 추가됨)
-  function selectMovie(selectedBtn, movieIdx, age) {
-    console.log("선택된 영화:", movieIdx);
+  // 수정된 영화 선택 함수
+  function selectMovie(selectedBtn, movieIdx) {
 
     // 모든 영화 버튼에서 selected-btn 클래스 제거
     document.querySelectorAll('.movie-btn').forEach(btn => {
@@ -260,11 +273,21 @@
 
     // 시간표 초기화 (영화가 변경되면 기존 시간표를 지움)
     document.querySelector("#date-box .date-box-in").innerHTML = "";
+
+    // 시간 필터 초기화
+    resetTimeFilterOnly();
+
+    // 같은 영화를 다시 선택한 경우에도 시간표를 다시 로드
+    if (prevMovie !== movieIdx || document.ff.date.value !== "" && document.ff.tIdx.value !== "") {
+      prevMovie = movieIdx;
+      loadTimeTable();
+    } else {
+      prevMovie = movieIdx;
+    }
   }
 
-  // 극장 선택 함수 (수정됨)
+  // 수정된 극장 선택 함수
   function selectTheater(selectedBtn, theaterIdx) {
-    console.log("선택된 극장:", theaterIdx);
 
     // 입력 검증
     if(document.ff.date.value === ""){
@@ -286,7 +309,23 @@
     // 폼에 값 설정
     document.ff.tIdx.value = theaterIdx;
 
-    // AJAX로 시간표 조회
+    // 시간 필터 초기화
+    resetTimeFilterOnly();
+
+    // 같은 극장을 다시 선택한 경우에도 시간표를 다시 로드
+    if (prevTheater !== theaterIdx || document.ff.date.value !== "" && document.ff.mIdx.value !== "") {
+      prevTheater = theaterIdx;
+      loadTimeTable();
+    } else {
+      prevTheater = theaterIdx;
+    }
+  }
+
+  function loadTimeTable() {
+    if (document.ff.date.value === "" || document.ff.mIdx.value === "" || document.ff.tIdx.value === "") {
+      return; // 세 값이 다 선택된 경우에만 실행
+    }
+
     $.ajax({
       url: "Controller?type=theaterShow",
       type: "post",
@@ -296,30 +335,106 @@
         tIdx: document.ff.tIdx.value
       }
     }).done(function (res) {
-      console.log("응답:", res);
       $("#date-box .date-box-in").html(res);
-    }).fail(function(xhr, status, error) {
-      console.log("Ajax 실패!");
-      console.log("상태:", status);
-      console.log("에러:", error);
-      console.log("응답 텍스트:", xhr.responseText);
+
+      // 시간표 로드 후 기존에 선택된 시간 필터가 있다면 다시 적용
+      const selectedTimeBtn = document.querySelector('.time-btn.selected-btn');
+      if (selectedTimeBtn) {
+        const selectedTime = selectedTimeBtn.textContent.trim();
+        // 숫자만 추출 (0시부터 23시까지)
+        const timeNum = selectedTime.match(/\d+/);
+        if (timeNum) {
+          setTimeout(() => {
+            filterMoviesByTime(parseInt(timeNum[0]));
+          }, 100); // 약간의 지연을 두어 DOM이 완전히 업데이트된 후 필터 적용
+        }
+      }
     });
   }
 
-  // 시간 선택 함수 (새로 추가됨)
+  // 시간 선택 함수 (토글 기능 포함)
   function selectTime(selectedBtn, timeValue) {
-    console.log("선택된 시간:", timeValue);
 
-    // 모든 시간 버튼에서 selected-btn 클래스 제거
+    // 현재 선택된 버튼인지 확인
+    const isAlreadySelected = selectedBtn.classList.contains('selected-btn');
+
+    if (isAlreadySelected) { // 이미 선택한 시간 다시 선택한 경우
+      // 선택 상태 제거
+      selectedBtn.classList.remove('selected-btn');
+
+      // 모든 영화 다시 보이기 (필터 해제)
+      showAllMovies();
+
+      return; // 여기서 함수 종료
+    }
+
+    // 다른 버튼이 선택된 경우 - 기존 선택 해제하고 새로 선택
     document.querySelectorAll('.time-btn').forEach(btn => {
       btn.classList.remove('selected-btn');
     });
 
-    // 선택된 버튼에 selected-btn 클래스 추가
+    // 새로운 버튼 선택
     selectedBtn.classList.add('selected-btn');
 
-    // 보여지고 있는 버튼들 중에서 사용자가 선택한 시간에 상영중인 영화만 보여줘야함 <div> 숨김처리 하기
+    // 선택된 시간에 따라 필터링
+    filterMoviesByTime(timeValue);
+  }
 
+  // 모든 영화 보이기 함수
+  function showAllMovies() {
+    const timeTableContainer = document.querySelector("#date-box .date-box-in");
+    if (!timeTableContainer) return;
+
+    // 모든 요소의 display 스타일 제거하여 원래 상태로 복원
+    const allElements = timeTableContainer.querySelectorAll('*');
+    allElements.forEach(element => {
+      if (element.style.display) {
+        element.style.removeProperty('display');
+      }
+      element.classList.remove('time-filtered-hidden');
+    });
+  }
+
+  // 시간 필터링 함수
+  function filterMoviesByTime(selectedHour) {
+    const timeTableContainer = document.querySelector("#date-box .date-box-in");
+    if (!timeTableContainer || timeTableContainer.innerHTML.trim() === "") {
+      return;
+    }
+
+    const showTimeElements = timeTableContainer.querySelectorAll('[onclick*="goSeat"]');
+
+    showTimeElements.forEach(element => {
+      const timeText = element.textContent || element.innerText;
+      const timeMatch = timeText.match(/(\d{2}):\d{2}/);
+
+      if (timeMatch) {
+        const movieHour = parseInt(timeMatch[1]);
+        const selectedHourInt = parseInt(selectedHour);
+
+        if (movieHour === selectedHourInt) {
+          // 원래 상태로 복원
+          element.style.removeProperty('display');
+          if (element.parentElement) {
+            element.parentElement.style.removeProperty('display');
+          }
+        } else {
+          // 숨기기
+          element.style.display = 'none';
+        }
+      }
+    });
+  }
+
+  // 시간 필터만 초기화하는 함수 (상영 시간표는 유지)
+  function resetTimeFilterOnly() {
+    // 시간 버튼 선택 해제
+    document.querySelectorAll('.time-btn').forEach(btn => {
+      btn.classList.remove('selected-btn');
+    });
+
+    // 시간 필터링만 해제 (시간표는 그대로 유지)
+    showAllMovies();
   }
 </script>
 

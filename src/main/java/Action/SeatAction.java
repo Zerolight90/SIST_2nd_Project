@@ -49,8 +49,6 @@ public class SeatAction implements Action{
         request.setAttribute("typeVO", typeVO); // 현재 상영관의 type을 가져옴
         request.setAttribute("seatVO", seatVO); // 현재 상영관의 예약된 좌석들을 보냄
 
-        System.out.println("SeatAction 수행완료");
-
         return "seat.jsp";
     }
 }

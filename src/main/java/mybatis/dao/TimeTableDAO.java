@@ -22,14 +22,10 @@ public class TimeTableDAO {
 
         // 우선 상영중, 예정인 모든 영화를 보여주는 구간
         list = ss.selectList("timeTable.nowMovie");
-        if(list.isEmpty()) {
-            System.out.println("현재 상영중인 영화가 없음");
-        }else {
-            System.out.println(list.size()+"개의 상영중인 영화");
+        if(!list.isEmpty()) {
+            ar = new TimeTableVO[list.size()];
+            list.toArray(ar);
         }
-        ar = new TimeTableVO[list.size()];
-        list.toArray(ar);
-
         ss.close();
         return ar;
     }
@@ -42,13 +38,10 @@ public class TimeTableDAO {
         map.put("date", date);
         map.put("mIdx", mIdx);
         map.put("tIdx", tIdx);
-        System.out.println(date + " " + mIdx + " " + tIdx);
         SqlSession ss = FactoryService.getFactory().openSession();
 
         // 요소 3개를 담은 map을 인자로 전달하여
         list = ss.selectList("timeTable.time", map);
-//        System.out.println(list.size());
-//        System.out.println(map);
 
         TimeTableVO[] ar = new TimeTableVO[list.size()];
         list.toArray(ar);

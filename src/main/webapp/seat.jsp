@@ -214,9 +214,9 @@
 
         // 19세 관람가 모달 체크
         const ageValue = document.getElementById("age").value; // getAttribute 대신 value 사용
-        console.log("Age value:", ageValue); // 디버깅용
+        // console.log("Age value:", ageValue); // 디버깅용
         if (ageValue === "19") {
-            console.log("Opening modal for 19+ movie"); // 디버깅용
+            // console.log("Opening modal for 19+ movie"); // 디버깅용
             openModal();
         }
     });
@@ -255,7 +255,7 @@
 
         // 요소가 존재하지 않으면 함수 종료 (19세 영화에서 teen-count 요소가 없을 때)
         if (!element) {
-            console.log("Element not found:", type);
+            // console.log("Element not found:", type);
             return;
         }
 
@@ -375,7 +375,7 @@
             // 임시로 시간 변경
             document.getElementById('thisTime').value = time;
             const result = applyTimeDiscount();
-            console.log(`시간: ${time} -> 할인: ${result.discount}원 (${result.discountName || "할인없음"})`);
+            <%--console.log(`시간: ${time} -> 할인: ${result.discount}원 (${result.discountName || "할인없음"})`);--%>
         });
     }
 
@@ -393,7 +393,7 @@
         // thisTime input에서 시간 가져오기
         const thisTimeElement = document.getElementById('thisTime');
         if (!thisTimeElement) {
-            console.log("thisTime element not found");
+            // console.log("thisTime element not found");
             return { discount: 0, discountName: "" };
         }
 
@@ -407,7 +407,7 @@
         if (currentTime < timeToMinutes("09:00")) {
             discount = morningPrice;
             discountName = "조조할인";
-            console.log(`조조할인 적용: ${thisTime} < 09:00, -${discount}원`);
+            <%--console.log(`조조할인 적용: ${thisTime} < 09:00, -${discount}원`);--%>
         }
 
         return { discount, discountName };
@@ -422,7 +422,7 @@
             let seat_type = seat.charAt(0);
             if(seat_type === 'A') {
                 seatDiscount += 1000;
-                console.log(`A열 할인: ${seat} -1000원`);
+                <%--console.log(`A열 할인: ${seat} -1000원`);--%>
             }
         }
 
@@ -433,14 +433,14 @@
         if (timeDiscountInfo.discount > 0) {
             // 선택한 좌석 수만큼 시간 할인 적용
             timeDiscount = timeDiscountInfo.discount * seat_list.length;
-            console.log(`${timeDiscountInfo.discountName}: -${timeDiscount}원 (좌석 ${seat_list.length}개 × ${timeDiscountInfo.discount}원)`);
+            <%--console.log(`${timeDiscountInfo.discountName}: -${timeDiscount}원 (좌석 ${seat_list.length}개 × ${timeDiscountInfo.discount}원)`);--%>
         }
 
         // 총 할인 금액 적용
         const totalDiscount = seatDiscount + timeDiscount;
         total_price = total_price - totalDiscount;
 
-        console.log(`총 할인: ${totalDiscount}원 (좌석할인: ${seatDiscount}원 + 시간할인: ${timeDiscount}원)`);
+        <%--console.log(`총 할인: ${totalDiscount}원 (좌석할인: ${seatDiscount}원 + 시간할인: ${timeDiscount}원)`);--%>
     }
 
     // 전체 초기화
@@ -480,6 +480,10 @@
             alert("좌석을 선택해주세요")
             return;
         }
+        if(totalPersons !== seat_list.length) {
+            alert("좌석을 전부 선택해주세요")
+            return;
+        }
 
         // 유효성 검사를 통과 후 사용자가 선택한 사람들의 인원 수를 얻어내고 그대로 form에 담아 전달
         document.ff.teen.value = Number(teen.innerText);
@@ -489,19 +493,6 @@
 
         document.ff.seatInfo.value = seat_list.join(', ');
         document.ff.amount.value = total_price;
-
-        console.log(document.ff.startTime.value)
-        console.log(document.ff.theaterName.value)
-        console.log(document.ff.movieTitle.value)
-        console.log(document.ff.posterUrl.value)
-        console.log(document.ff.screenName.value)
-        console.log(document.ff.typePrice.value)
-        console.log(document.ff.teen.value)
-        console.log(document.ff.adult.value)
-        console.log(document.ff.senior.value)
-        console.log(document.ff.special.value)
-        console.log(document.ff.seatInfo.value)
-        console.log(document.ff.amount.value)
 
         document.ff.submit();
     }

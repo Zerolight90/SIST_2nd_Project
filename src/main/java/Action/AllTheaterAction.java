@@ -34,30 +34,24 @@ public class AllTheaterAction implements Action{
             dvo_list.add(ldv);
         }
 
-        System.out.println("dvo_list:"+dvo_list.size());
         request.setAttribute("dvo_list", dvo_list);
         // --------------------------------------------------------------------------------
 
         // 현재 상영중이거나 상영예정인 영화들을 보여주기 위한 값을 구하는 영역-----------------
         TimeTableVO[] timeArr = TimeTableDAO.getList();
-        System.out.println("timeArr:"+timeArr.length);
         request.setAttribute("timeArr", timeArr);
         //------------------------------------------------------------------------------
 
         // 상영관들의 이름를 모두 보여주기 위한 값을 구하는 영역------------------------------
         TheaterVO[] theaterArr = TheatherDAO.getList();
-        System.out.println("theaterArr:"+theaterArr.length);
         request.setAttribute("theaterArr", theaterArr);
         //------------------------------------------------------------------------------
         
         // 사용자가 선택한 영화관에서 상영중인 영화의 정보만 가져와야함
 //        String tIdx = request.getParameter("tIdx");
         TimeTableVO[] mappingTime = null;
-
         mappingTime = TimeTableDAO.getTimeTableSearch("1");
-
         // 영화관에 따른 상영중인 영화들 전달
-        System.out.println("mappingTime:"+mappingTime.length);
         request.setAttribute("mappingTime", mappingTime);
 
         return "allTheater.jsp";

@@ -190,10 +190,6 @@
               </div>
             </div>
 
-            <!--영화정보, 관란등급안내-->
-            <c:set var="prevMovie" value=""/>
-            <c:set var="prevScreen" value=""/>
-
             <c:forEach var="timeVO" items="${mappingTime}">
               <c:set var="movieVO" value="${timeVO.m_list[0]}"/>
               <c:set var="screenVO" value="${timeVO.s_list[0]}"/>
@@ -204,7 +200,7 @@
                 <div class="show-movie-list">
                   <div class="show-movie">
                     <div class="show-movie-list-title">
-                      <img src="/images/${movieVO.age}.png"/>
+                      <img src="/images/${movieVO.age}.png" alt="${movieVO.age}세"/>
                       <span class="title-movie-title">${movieVO.name}</span>
                       <p class="information">
                         <span class="show-status">상영중</span>
@@ -218,28 +214,23 @@
               </c:if>
 
               <!-- 상영관 정보 출력 (중복 제거) -->
-              <c:if test="${prevScreen != screenVO.sName}">
-                <div class="show-theater-info">
-                  <div class="theater-info">
-                    <div class="theater-type">
-                      <p class="screen-name">${screenVO.sName}</p>
-                      <p class="chair">총 ${screenVO.sCount}석</p>
-                    </div>
-                    <div class="theater-time">
-                      <!-- 반복문을 돌면서 같은 상영관에 상영하는 영화가 여러개라면 여러번 수행해야함 -->
-                      <div class="time-btn">
-                        <span>${fn:substring(timeVO.startTime, 10, 16)}</span>
-                        <em>${screenVO.sCount}석</em>
-                      </div>
+              <div class="show-theater-info">
+                <div class="theater-info">
+
+                  <div class="theater-type">
+                    <p class="screen-name">${screenVO.sName}</p>
+                    <p class="chair">총 ${screenVO.sCount}석</p>
+                  </div>
+
+                  <div class="theater-time">
+                    <!-- 반복문을 돌면서 같은 상영관에 상영하는 영화가 여러개라면 여러번 수행해야함 -->
+                    <div class="time-btn">
+                      <span>${fn:substring(timeVO.startTime, 10, 16)}</span>
+                      <em>${screenVO.sCount}석</em>
                     </div>
                   </div>
                 </div>
-              </c:if>
-
-
-              <!-- 현재 영화와 상영관을 prev 변수에 저장 -->
-              <c:set var="prevMovie" value="${movieVO.name}"/>
-              <c:set var="prevScreen" value="${screenVO.sName}"/>
+              </div>
             </c:forEach>
 
             <div class="box-info mtb70">
