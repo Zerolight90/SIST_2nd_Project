@@ -139,7 +139,7 @@
             }
         });
 
-        // 팝업(모달 느낌)으로 새 창 열기 ((5)) ((10))
+        // 팝업(모달 느낌)으로 새 창 열기
 
         $('.openModalBtn').on('click', function(e){
 
@@ -150,7 +150,7 @@
 
             // 팝업 크기/옵션: 필요에 따라 조정
             var features = 'width=820,height=800,top=100,left=100,toolbar=no,menubar=no,location=no,status=no,scrollbars=yes,resizable=yes';
-            var win = window.open(url, name, features); ((10))
+            var win = window.open(url, name, features);
 
             // 팝업 차단 확인
             if(!win || typeof win === 'undefined'){

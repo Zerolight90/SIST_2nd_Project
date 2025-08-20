@@ -1,6 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <html>
 <head>
     <meta charset="UTF-8" />
@@ -14,9 +13,9 @@
 </head>
 <body>
 <div id="non_field">
-    <img class="logo" src="../images/logo.png">
+    <img class="logo" src="../images/logo.png" alt="logo">
 
-    <form id="nonForm" action="/Controller?type=nmember_chk" method="post" novalidate>
+    <form id="nonForm" action="${pageContext.request.contextPath}/Controller?type=nmember_chk" method="post" novalidate>
         <div class="field">
             <label for="u_name">이름 <small>(*필수사항)</small></label>
             <input id="u_name" name="u_name" type="text" value="${param.u_name}" placeholder="이름을 입력하세요" required />
@@ -25,13 +24,13 @@
 
         <div class="field">
             <label for="u_birth">생일 <small>(*필수사항)</small></label>
-            <input id="u_birth" name="u_birth" type="text" value="${param.u_birth}" placeholder="생년월일 6자리 (YYMMDD)" required pattern="\\d{6}" />
+            <input id="u_birth" name="u_birth" type="text" value="${param.u_birth}" placeholder="생년월일 6자리 (YYMMDD)" required pattern="\d{6}" />
             <span class="error" aria-live="polite"></span>
         </div>
 
         <div class="field">
             <label for="u_pw">비밀번호 <small>(*필수사항)</small></label>
-            <input id="u_pw" name="u_pw" type="password" value="${param.u_pw}" placeholder="숫자 4자리" required pattern="\\d{4}" />
+            <input id="u_pw" name="u_pw" type="password" value="${param.u_pw}" placeholder="숫자 4자리" required pattern="\d{4}" />
             <span class="error" aria-live="polite"></span>
         </div>
 
@@ -54,7 +53,7 @@
         });
 
         $('#nonForm').on('submit', function(e){
-            e.preventDefault(); // 기본 제출 차단
+            e.preventDefault();
             clearErrors();
 
             var $form = $(this);
@@ -64,13 +63,11 @@
 
             var firstInvalid = null;
 
-            // 이름 검증
             if(name.length === 0){
                 showError($('#u_name'), '이름을 입력해주세요.');
                 if(!firstInvalid) firstInvalid = $('#u_name');
             }
 
-            // 생년월일 검증: 필수 및 6자리 숫자
             if(birth.length === 0){
                 showError($('#u_birth'), '생년월일 6자리를 입력해주세요 (YYMMDD).');
                 if(!firstInvalid) firstInvalid = $('#u_birth');
@@ -79,7 +76,6 @@
                 if(!firstInvalid) firstInvalid = $('#u_birth');
             }
 
-            // 비밀번호 검증: 필수 및 4자리 숫자
             if(pw.length === 0){
                 showError($('#u_pw'), '비밀번호를 입력해주세요 (숫자 4자리).');
                 if(!firstInvalid) firstInvalid = $('#u_pw');
@@ -90,24 +86,46 @@
 
             if(firstInvalid){
                 firstInvalid.focus();
-                return; // 유효성 실패 시 전송 중단
+                return;
             }
 
-            // 모든 검증 통과 시 기존 AJAX 전송 로직 실행
+
             $.ajax({
                 type: "POST",
                 url: $form.attr('action'),
                 data: $form.serialize(),
+                dataType: "json",
                 success: function(response){
-                    if(window.opener){
-                        // 서버가 세션에 저장 후 부모를 리디렉트하도록 기존 흐름 유지
-                        window.opener.location.href = '/Controller?type=myPage';
+
+                    if(response && response.success){
+                        if(window.opener){
+                            window.opener.location.href = response.redirect;
+                        }
+                        window.close();
+                    } else if(response && !response.success){
+
+                        if(response.field && response.field === 'global'){
+                            alert(response.message);
+                        } else if(response.field){
+
+                            showError($('#' + response.field), response.message);
+                            $('#' + response.field).focus();
+                        } else {
+                            alert(response.message || '예매 내역이 없습니다.');
+                        }
+                    } else {
+                        alert('서버 응답을 처리할 수 없습니다. 다시 시도해주세요.');
                     }
-                    window.close();
                 },
-                error: function(xhr, status, err){
-                    alert('서버 전송 중 오류가 발생했습니다. 다시 시도해주세요.');
-                    console.error('AJAX Error:', status, err);
+                error: function(xhr){
+
+                    try {
+                        var json = JSON.parse(xhr.responseText);
+                        alert(json.message || '서버 전송 중 오류가 발생했습니다. 다시 시도해주세요.');
+                    } catch(e){
+                        alert('서버 전송 중 오류가 발생했습니다. 다시 시도해주세요.');
+                    }
+                    console.error('AJAX Error:', xhr.status, xhr.responseText);
                 }
             });
         });
