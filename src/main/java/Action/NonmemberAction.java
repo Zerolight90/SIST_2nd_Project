@@ -23,7 +23,7 @@ public class NonmemberAction implements Action {
         String pw    = request.getParameter("u_pw");
 
         // 비회원 VO 생성 (nIdx는 DB에서 생성된 후 조회로 가져옵니다)
-        NmemVO n = new NmemVO(null, name, email, null, phone, pw, birth);
+        NmemVO n = new NmemVO(null, name, email, null, phone, pw);
 
         // DB에 저장
         int cnt = NmemDAO.registry(n);

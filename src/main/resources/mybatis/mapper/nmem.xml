@@ -13,7 +13,7 @@
         SELECT * from nmember
         <where>
             <if test="datepicker != null and datepicker != ''">
-                AND regDate = #{datepicker}
+                AND joinDate = #{datepicker}
             </if>
 
             <if test="search_keyword != null and search_keyword != ''">

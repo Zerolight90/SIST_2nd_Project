@@ -8,7 +8,7 @@
     </div>
     <div class="leftDiv">
       <p class="bold">사용자 관리</p>
-      <div class="leftDivInner"><a href="Controller?type=admin">회원 정보 관리</a></div>
+      <div class="leftDivInner"><a href="Controller?type=userSearch">회원 정보 관리</a></div>
       <div class="leftDivInner"><a href="Controller?type=nmemInfo">비회원 정보 관리</a></div>
     </div>
     <div class="leftDiv">

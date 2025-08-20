@@ -91,8 +91,10 @@ public class MemberDAO {
         return ar;
     }
 
-    public static MemberVO[] getMemSearch(Map<String, String> params){
+    public static MemberVO[] getMemSearch(int begin, int end, Map<String, String> params){
         MemberVO[] ar = null;
+        params.put("begin", String.valueOf(begin));
+        params.put("end", String.valueOf(end));
 
         SqlSession ss = FactoryService.getFactory().openSession();
         List<MemberVO> list = ss.selectList("member.getMemSearch", params);

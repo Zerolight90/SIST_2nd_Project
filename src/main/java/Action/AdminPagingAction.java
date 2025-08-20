@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserSearchAction implements Action{
+public class AdminPagingAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -54,6 +54,6 @@ public class UserSearchAction implements Action{
         request.setAttribute("nowPage", page.getNowPage()); //의 값이 list.jsp로 넘어가게 된다.
         request.setAttribute("userCount", userCount); //게시물 토탈 갯수
 
-        return "admin/adminBase.jsp";
+        return "admin/adminMemSearch.jsp";
     }
 }

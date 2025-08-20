@@ -97,6 +97,12 @@ public class TimeTableDAO {
         SqlSession ss = FactoryService.getFactory().openSession();
         int insert = ss.insert("timeTable.createTimeTable", map);
 
+        if (insert >= 1){
+            ss.commit();
+        } else {
+            ss.rollback();
+        }
+
         ss.close();
     }
 

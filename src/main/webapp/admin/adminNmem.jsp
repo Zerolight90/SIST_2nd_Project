@@ -228,7 +228,7 @@
           <td>${vo.nIdx}</td>
           <td>${vo.name}</td>
           <td>${vo.email}</td>
-          <td>${vo.regDate}</td>
+          <td>${vo.joinDate}</td>
         </tr>
       </c:forEach>
       </tbody>

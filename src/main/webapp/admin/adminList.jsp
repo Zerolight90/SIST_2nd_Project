@@ -240,7 +240,7 @@
               <td><span class="status-badge status-dormant">정지</span></td>
             </c:if>
             <c:if test="${vo.adminstatus == 1}">
-              <td><span class="status-badge status-dormant">활성</span></td>
+              <td><span class="status-badge status-active">활성</span></td>
             </c:if>
           </tr>
         </c:forEach>
