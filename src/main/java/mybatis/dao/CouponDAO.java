@@ -36,6 +36,17 @@ public class CouponDAO {
 
         ss.close();
     }
+    public static void addCoupon(Map<String, String> map){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int insert = ss.insert("coupon.addCoupon", map);
+        if (insert >= 1){
+            ss.commit();
+        } else {
+            ss.rollback();
+        }
+
+        ss.close();
+    }
 
     // 트랜잭션 관리를 위해 SqlSession을 파라미터로 받는 메소드
     public static int useCoupon(long couponUserIdx, SqlSession ss) {
