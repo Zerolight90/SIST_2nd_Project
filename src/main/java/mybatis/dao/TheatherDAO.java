@@ -71,14 +71,12 @@ public class TheatherDAO {
         map.put("begin", begin);
         map.put("end", end);
 
-        System.out.println("map::::::::::"+map);
+        //System.out.println("map::::::::::"+map);
 
         SqlSession ss = FactoryService.getFactory().openSession();
 
         // 목록 쿼리
         List<TheaterVO> list = ss.selectList("theater.adminTheaterList", map);
-
-        System.out.println("list::::::::" + list);
 
         //결과가 넘어오면 배열로 넘겨야 하기 때문에
         if(list != null && !list.isEmpty()){ //비어있는 상태가 아니면,

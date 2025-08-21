@@ -954,6 +954,10 @@ li::marker {
     margin-bottom: 10px;
 }
 
+.lnb ul li:hover {
+    background-color: #e6e6fa;
+}
+
 .lnb ul li a {
     display: block;
     padding: 10px 15px;
@@ -964,8 +968,7 @@ li::marker {
     transition: 0.2s;
 }
 
-.lnb ul li.on a,
-.lnb ul li a:hover {
+.lnb ul li.on a {
     background-color: #503396;
     color: #fff;
 }

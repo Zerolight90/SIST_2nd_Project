@@ -47,10 +47,6 @@
       border-bottom: 1px solid #ddd;
     }
 
-    #boardTitle{
-      width: 360px;
-    }
-
     .board-table td {
       padding: 12px 0px 10px 40px;
       border-bottom: 1px solid #eee;
@@ -78,6 +74,82 @@
       text-indent: -9999px;
       height: 0;
     }
+
+    /* board-table td 내의 입력 필드와 텍스트 영역에 대한 스타일 */
+    .board-table td input[type="text"] {
+      width: 500px; /* 입력 필드와 텍스트 영역의 너비를 500px로 설정 */
+      box-sizing: border-box; /* 패딩과 테두리를 너비에 포함시켜 레이아웃이 깨지지 않게 함 */
+    }
+
+    /* 모든 textarea에 스타일을 적용 */
+    textarea {
+      width: 909px;
+      height: 145px;
+      box-sizing: border-box; /* 패딩과 테두리를 너비와 높이에 포함 */
+    }
+
+    /*층별 안내*/
+    .floor-group textarea{
+      width: 909px;
+      height: 50px;
+      box-sizing: border-box; /* 패딩과 테두리를 너비와 높이에 포함 */
+    }
+
+    /* 제목 스타일 */
+    p {
+      font-size: 20px;
+      font-weight: bold;
+      color: #4a4a4a;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 8px;
+    }
+
+      /* 지역 셀렉트 박스 스타일 */
+    #region {
+           appearance: none;
+           background-color: #fff;
+           border: 1px solid #ccc;
+           border-radius: 4px;
+           padding: 8px 10px;
+           width: 300px;
+           height: 35px;
+           font-size: 14px;
+           color: #333;
+           cursor: pointer;
+
+           /* 드롭다운 화살표는 기본값 사용하거나, 필요 시 커스텀 */
+           background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="%23888" d="M8 10L4 6H12z"/></svg>');
+           background-repeat: no-repeat;
+           background-position: right 10px center;
+           background-size: 16px;
+         }
+
+
+    .facilities-list {
+      list-style: none; /* 리스트의 점 제거 */
+      padding: 0;
+      margin: 0;
+      display: flex; /* Flexbox를 사용하여 항목들을 가로로 나열 */
+      flex-wrap: wrap; /* 창 크기가 줄어들면 자동으로 다음 줄로 넘어감 */
+    }
+
+    .facilities-list li {
+      margin-right: 20px; /* 각 항목 사이의 간격 */
+      white-space: nowrap; /* 줄바꿈 방지 */
+    }
+
+    .facilities-list li input[type="checkbox"] {
+      /* 체크박스 스타일 (필요 시 커스터마이징) */
+      vertical-align: middle;
+    }
+
+    .facilities-list li label {
+      /* 라벨 스타일 */
+      vertical-align: middle;
+    }
+
   </style>
 
 </head>
@@ -96,98 +168,158 @@
     <jsp:include page="./admin.jsp"/>
   </div>
   <div class="admin-container">
-    <!-- 1. 페이지 제목 -->
     <div class="page-title">
       <h2>극장 등록</h2>
     </div>
 
-    <form action="Controller?type=adminTheaterRegistration" method="post"
-          encType="multipart/form-data">
+    <form action="Controller?type=adminTheaterRegistration" method="post" encType="multipart/form-data">
       <input type="hidden" name="boardType" value="이벤트"/>
-      <!-- 3. 공지사항 테이블 -->
+
+      <p>극장 기본 정보</p>
       <table class="board-table">
         <caption>극장 등록하기</caption>
-        <p>극장 기본 정보</p>
         <tbody>
-        <!-- 예시 데이터 행 (실제로는 DB에서 반복문으로 생성) -->
         <tr>
           <th class="w100"><label for="tName">지점명</label></th>
-          <td>
-            <input type="text" id="tName" name="tName"/>
-          </td>
+          <td><input type="text" id="tName" name="tName"/></td>
+        </tr>
+        <tr>
+          <th class="w100"><label for="tInfo">지점 설명</label></th>
+          <td><input type="text" id="tInfo" name="tInfo"/></td>
         </tr>
         <tr>
           <th class="w100">지역</th>
           <td>
-            <%--지점명 들어갈 자리--%>
-              <select name="region" id="region">
-                <option value="">지역을 선택하세요</option>
-                <option value="seoul">서울</option>
-                <option value="incheon">인천</option>
-                <option value="busan">부산</option>
-                <option value="daegu">대구</option>
-                <option value="daejeon">대전</option>
-                <option value="gwangju">광주</option>
-                <option value="ulsan">울산</option>
-                <option value="gyeonggi">경기</option>
-                <option value="gangwon">강원</option>
-                <option value="chungbuk">충북</option>
-                <option value="chungnam">충남</option>
-                <option value="jeonbuk">전북</option>
-                <option value="jeonnam">전남</option>
-                <option value="gyeongbuk">경북</option>
-                <option value="gyeongnam">경남</option>
-                <option value="jeju">제주</option>
-              </select>
+            <select name="region" id="region">
+              <option value="">지역을 선택하세요</option>
+              <option value="seoul">서울</option>
+              <option value="incheon">인천</option>
+              <option value="busan">부산</option>
+              <option value="daegu">대구</option>
+              <option value="daejeon">대전</option>
+              <option value="gwangju">광주</option>
+              <option value="ulsan">울산</option>
+              <option value="gyeonggi">경기</option>
+              <option value="gangwon">강원</option>
+              <option value="chungbuk">충북</option>
+              <option value="chungnam">충남</option>
+              <option value="jeonbuk">전북</option>
+              <option value="jeonnam">전남</option>
+              <option value="gyeongbuk">경북</option>
+              <option value="gyeongnam">경남</option>
+              <option value="jeju">제주</option>
+            </select>
           </td>
         </tr>
         <tr>
           <th class="w100"><label for="tAddress">주소</label></th>
           <td>
-            <%--주소 api 들어갈 자리--%>
-            <input type="text" id="start_reg_date" name="boardStartRegDate"/>
+            <input type="text" id="tAddress" name="tAddress" readonly/>
+            <button type="button" id="addressSearch" onclick="findAddr()">주소 찾기</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <p>극장 상세 정보 안내</p>
+      <table class="board-table">
+        <tbody>
+        <tr>
+          <th class="w100">보유시설</th>
+          <td>
+            <ul class="facilities-list">
+              <li>
+                <input type="checkbox" id="basicScreen" name="facilities" value="일반상영관"/>
+                <label for="basicScreen">일반상영관</label>
+              </li>
+              <li>
+                <input type="checkbox" id="disabledSeat" name="facilities" value="장애인석"/>
+                <label for="disabledSeat">장애인석</label>
+              </li>
+              <li>
+                <input type="checkbox" id="snackBar" name="facilities" value="스낵바"/>
+                <label for="snackBar">스낵바</label>
+              </li>
+              <li>
+                <input type="checkbox" id="sweetRoom" name="facilities" value="스위트룸"/>
+                <label for="sweetRoom">스위트룸</label>
+              </li>
+              <li>
+                <input type="checkbox" id="4dx" name="facilities" value="4DX"/>
+                <label for="4dx">4DX</label>
+              </li>
+            </ul>
           </td>
         </tr>
         <tr>
-          <th class="w100"><label for="board_thumbImg">썸네일 이미지</label></th>
+          <th class="w100">층별 안내</th>
           <td>
-            <input type="file" id="thumb_file" name="thumb_file"/>
+            <div class="floor-group">
+              <input type="checkbox" id="floor1Check" onclick="toggleTextarea('floor1')"/>
+              <label for="floor1Check">1층</label>
+              <textarea id="floor1Textarea" name="floor1_info" style="display: none;" rows="5" cols="50" placeholder="1층 시설 정보를 입력하세요."></textarea>
+            </div>
+
+            <div class="floor-group">
+              <input type="checkbox" id="floor2Check" onclick="toggleTextarea('floor2')"/>
+              <label for="floor2Check">2층</label>
+              <textarea id="floor2Textarea" name="floor2_info" style="display: none;" rows="5" cols="50" placeholder="2층 시설 정보를 입력하세요."></textarea>
+            </div>
+
+            <div class="floor-group">
+              <input type="checkbox" id="floor3Check" onclick="toggleTextarea('floor3')"/>
+              <label for="floor3Check">3층</label>
+              <textarea id="floor3Textarea" name="floor3_info" style="display: none;" rows="5" cols="50" placeholder="3층 시설 정보를 입력하세요."></textarea>
+            </div>
+
+            <div class="floor-group">
+              <input type="checkbox" id="floor4Check" onclick="toggleTextarea('floor4')"/>
+              <label for="floor4Check">4층</label>
+              <textarea id="floor4Textarea" name="floor4_info" style="display: none;" rows="5" cols="50" placeholder="4층 시설 정보를 입력하세요."></textarea>
+            </div>
+
+            <div class="floor-group">
+              <input type="checkbox" id="floor5Check" onclick="toggleTextarea('floor5')"/>
+              <label for="floor5Check">5층</label>
+              <textarea id="floor5Textarea" name="floor5_info" style="display: none;" rows="5" cols="50" placeholder="5층 시설 정보를 입력하세요."></textarea>
+            </div>
           </td>
         </tr>
         <tr>
-          <th class="w100">구분</th>
-          <%--공지/이벤트 구분--%>
+          <th>주차 안내</th>
           <td>
-            <span>${boardType}</span>
-            <form class="subType-form" action="Controller" method="post">
-              <select name="sub_boardType">
-                <option value="null" selected>카테고리</option>
-                <option value="movie">영화</option>
-                <option value="theater">극장</option>
-                <option value="stageGreeting">시사회/무대인사</option>
-              </select>
-            </form>
+            <textarea id="parkingInfo" name="parking_info" rows="3" cols="50" placeholder="예: 기계식 주차장 운영 중으로 혼잡한 경우 주차장 입차가 불가능하거나 입출차 시간이 30분 이상 소요될 수 있습니다."></textarea>
           </td>
         </tr>
         <tr>
-          <th class="w100"><label for="board_content">내용</label></th>
+          <th>주차 확인</th>
           <td>
-            <%--에디터가 들어갈 자리--%>
-            <textarea rows="12" cols="50" id="board_content" name="content"></textarea>
+            <textarea id="parkingValidation" name="parking_validation" rows="3" cols="50" placeholder="예: 티켓 하단의 주차확인 바코드로 무인 정산하세요.&#10;지하 2층, 3층 엘리베이터 홀 또는 출차게이트에서 무인 정산할 수 있습니다."></textarea>
           </td>
         </tr>
         <tr>
-          <th>첨부파일:</th>
+          <th>주차 요금</th>
           <td>
-            <input type="file" id="file" name="file"/>
+            <textarea id="parkingFee" name="parking_fee" rows="3" cols="50" placeholder="예: 당일 영화 관람 시 입차시간 기준으로 3시간 무료입니다."></textarea>
           </td>
-          <%--보안상의 이유로 file에는 value를 넣어줄 수 없다. 바깥쪽에 스크립틀릿으로 if문으로 비교하자--%>
+        </tr>
+        <tr>
+          <th>버스</th>
+          <td>
+            <textarea name="bus_info" rows="3" cols="50" placeholder="예: 간선버스: 721 (능동사거리역)"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <th>지하철</th>
+          <td>
+            <textarea name="subway_info" rows="3" cols="50" placeholder="예: 5호선, 7호선 군자역 7번 출구 이용"></textarea>
+          </td>
         </tr>
         </tbody>
         <tfoot>
         <tr>
           <td colspan="2">
-            <button type="button" id="save_btn" onclick="sendData()">등록</button>
+            <button type="submit" id="save_btn">등록</button>
             <button type="button" id="cancel_btn" onclick="goList()">취소</button>
           </td>
         </tr>
@@ -201,43 +333,11 @@
 <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 <script src="../js/summernote-lite.js"></script> <%--자바스크립트 파일 추가--%>
 <script src="../js/lang/summernote-ko-KR.js"></script> <%--언어추가(한글)--%>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+
+
 <script>
-
-  $(function () {
-    /*게시기간 달력*/
-    $( "#start_reg_date" ).datepicker({
-      //여러개의 속성을 넣어야 하기 때문에
-      dayNamesMin: [ "일", "월", "화", "수", "목", "금", "토" ], /*dayNamesMin 속성명(KEY), []:값(VALUE)문자들의 배열*/ /* key value 와 같은 형식 : json */
-      monthNames: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ], /*monthNames 월표기하는 속성명*/ /*문자표기시 "" '' 둘 다 상관없다*/
-      showMonthAfterYear: true,
-      yearSuffix: "년",
-      dateFormat: "yy-mm-dd"
-    });
-
-    $( "#end_reg_date" ).datepicker({
-      //여러개의 속성을 넣어야 하기 때문에
-      dayNamesMin: [ "일", "월", "화", "수", "목", "금", "토" ], /*dayNamesMin 속성명(KEY), []:값(VALUE)문자들의 배열*/ /* key value 와 같은 형식 : json */
-      monthNames: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ], /*monthNames 월표기하는 속성명*/ /*문자표기시 "" '' 둘 다 상관없다*/
-      showMonthAfterYear: true,
-      yearSuffix: "년",
-      dateFormat: "yy-mm-dd"
-    });
-
-    //게시글 작성
-    $("#board_content").summernote({
-      lang: "ko-KR",
-      height: 300,
-      callbacks: {
-        onImageUpload: function (files, editor) {
-          //에디터에 이미지를 추가될 때 수행하는 곳
-          //이미지를 여러 개 추가할 수 있으므로 files는 배열이다.
-          //console.log("테스트");
-          for(let i=0; i<files.length; i++)
-            sendImg(files[i], editor);
-        }
-      }
-    });
-  });
 
   //게시글 등록
   function sendData(){
@@ -252,84 +352,46 @@
       return;
     }
 
-    //시작일
-    let startRegdate = $("#start_reg_date").val();
-    if(startRegdate.trim().length < 1){
-      alert("시작일을 입력하세요.");
-      $("#start_reg_date").val("");
-      $("#start_reg_date").focus();
-      return;
-    }
-
-    //종료일
-    let endRegdate = $("#end_reg_date").val();
-    if(endRegdate.trim().length < 1){
-      alert("종료일을 입력하세요.");
-      $("#end_reg_date").val("");
-      $("#end_reg_date").focus();
-      return;
-    }
-
-    //게시글 내용
-    //텍스트로 변환 후 길이 확인(에디터로 인해 html구조로 코드가 생성되어 비어보이지만 빈값으로 처리가 안됨)
-    let contentHtml = $('#board_content').summernote('code');  // Summernote HTML 코드 가져오기
-
-    if (isEmptySummernoteContent(contentHtml)) {
-      alert("내용을 입력해주세요.");
-      //기존 배운 방식은 textarea나 input요소에만 영향을 주므로,
-      //summernote editer를 쓰는 경우, 아래와 같이 summernote로 하면 된다.
-      $('#board_content').summernote('code', '');
-      $("#board_content").summernote('focus');
-
-      return;
-    }
     document.forms[0].submit();
-  }
-
-  //Summernote html 비어있는지 확인
-  function isEmptySummernoteContent(html) {
-    let tempDiv = document.createElement("div");
-    tempDiv.innerHTML = html;
-    let text = tempDiv.innerText || tempDiv.textContent;
-
-    return text.trim().length === 0; //길이를 0으로 저장하라
   }
 
   //취소 클릭 시 목록으로 이동
   function goList(){
-    location.href="Controller?type=adminEventList";
+    location.href="Controller?type=adminTheaterList";
+  }
+
+  function toggleTextarea(floorId) {
+    let checkbox = document.getElementById(floorId + 'Check');
+    let textarea = document.getElementById(floorId + 'Textarea');
+
+    if (checkbox.checked) {
+      textarea.style.display = 'block';
+    } else {
+      textarea.style.display = 'none';
+      textarea.value = ''; // 체크 해제 시 입력 내용 삭제
+    }
+  }
+
+  //주소찾는 함수 정의
+  function findAddr(){
+    new daum.Postcode({
+      oncomplete: function(data) {
+        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+        // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+        var addr='';
+
+        if(data.userSelectedType==='R'){ //도로명 주소를 선택한 경우
+          addr = data.roadAddress;
+        }else { //지번 주소를 선택한 경우
+          addr = data.jibunAddress;
+        }
+        //주소를 넣는다.
+        $("#tAddress").val(addr);
+      }
+    }).open();
   }
 
 
-  function sendImg(file, editor) {
-    //서버로 비동기식 통신을 수행하기 위해 준비한다.
-    //이미지를 서버로 보내기 위해 폼객체를 생성하자
-    let frm = new FormData();
-
-    //서버로 보낼 이미지 파일을 폼객체에 파라미터로 지정
-    frm.append("upload", file);
-
-
-    //비동기식 통신
-    $.ajax({
-      url: "Controller?type=adminSaveImg",
-      data: frm,
-      type: "post",
-      contentType: false,
-      processData: false,
-      dataType: "json"
-
-    }).done(function (res) {
-      //요청에 성공했을 때 수행하는 곳
-      //분명 서버의 saveImg.jsp에서 응답하는 json이
-      //res로 들어온다. 그 json에 img_url이라는 이름으로
-      //이미지의 경로를 보내도록 되어있다.
-      //그것을 받아 editor에 img태그를 넣어주면 된다.
-      $("#board_content").summernote("editor.insertImage", res.img_url);
-      //console.log("img_url:::::::::::::::"+ res.img_url);
-    });
-
-  }
 </script>
 </body>
 </html>

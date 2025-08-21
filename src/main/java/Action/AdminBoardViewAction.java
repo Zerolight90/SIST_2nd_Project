@@ -18,7 +18,7 @@ public class AdminBoardViewAction implements Action{
         //다 본 후 목록으로 돌아가게되면 원래 있던 페이지로 이동해야 한다.
         //String cPage = request.getParameter("cPage");
 
-        System.out.println("boardType::::::"+boardType);
+       //System.out.println("boardType::::::"+boardType);
 
         AdminBoardVO vo = AdminBoardDAO.getBoard(boardIdx);
 

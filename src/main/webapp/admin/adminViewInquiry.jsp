@@ -89,89 +89,113 @@
       </form>
 
       <%--답변이 없을 시--%>
-    <c:if test="${vo.bvo == null}">
-      <button id="showFormBtn">답변하기</button>
+      <c:if test="${vo.bvo == null}">
+        <button id="showFormBtn">답변하기</button>
 
-      <div id="answerFormContainer" class="m50" style="display: none;">
-        <form id="answered-form" action="Controller?type=adminWriteInquiry&ajax=Y" method="post" enctype="multipart/form-data" class="board-table">
-          <h2>답변 작성</h2>
-          <table class="answer-table">
+        <div id="answerFormContainer" class="m50" style="display: none;">
+          <form id="answered-form" action="Controller?type=adminWriteInquiry&ajax=Y" method="post" enctype="multipart/form-data" class="board-table">
+            <h2>답변 작성</h2>
+            <table class="answer-table">
+              <tr>
+                <th class="w100">제목</th>
+                <td><input type="text" id="answerTitle" name="title" value="[답변] ${vo.boardTitle}" style="width:100%;"></td>
+              </tr>
+              <tr>
+                <th class="w100">지점명</th>
+                <td><input type="text" id="answerTitle" name="theater" value="${vo.tvo.tName}" style="width:100%;"></td>
+              </tr>
+              <tr>
+                <th class="w100">내용</th>
+                <td><textarea name="content" rows="5" cols="50" placeholder="답변 내용을 입력하세요." style="width:100%;"></textarea></td>
+              </tr>
+              <tr>
+                <th class="w100">첨부파일:</th>
+                <td>
+                  <input type="file" id="file" name="file"/>
+                </td>
+              </tr>
+            </table>
+            <input type="hidden" name="boardIdx" value="${vo.boardIdx}">
+            <input type="hidden" name="boardType" value="${vo.boardType}">
+            <input type="hidden" name="parent_boardIdx" value="${vo.boardIdx}">
+            <%--<input type="hidden" name="type" value="${vo.}"/>--%>
+            <div style="text-align:right; margin-top:10px;">
+              <button type="button" id="submitAnswerBtn">답변 등록</button>
+              <button type="button" id="cancelBtn">취소</button>
+            </div>
+          </form>
+        </div>
+      </c:if>
+
+      <%-- 답변이 달려 있다면 또는 AJAX 성공 시 --%>
+      <c:if test="${vo.bvo != null}">
+        <div class="page-title">
+          <h2>답변</h2>
+        </div>
+        <div id="answerDisplayArea">
+          <table class="adSaveInquiry">
             <tr>
               <th class="w100">제목</th>
-              <td><input type="text" id="answerTitle" name="title" value="[답변] ${vo.boardTitle}" style="width:100%;"></td>
+              <td>[답변] ${vo.boardTitle}</td>
             </tr>
             <tr>
               <th class="w100">지점명</th>
-              <td><input type="text" id="answerTitle" name="theater" value="${vo.tvo.tName}" style="width:100%;"></td>
+              <td>${vo.tvo.tName}</td>
             </tr>
             <tr>
               <th class="w100">내용</th>
-              <td><textarea name="content" rows="5" cols="50" placeholder="답변 내용을 입력하세요." style="width:100%;"></textarea></td>
+              <td>${vo.bvo.boardContent}</td>
             </tr>
+            <c:if test="${vo.file_name ne null and vo.file_name.length() > 4}">
+              <tr>
+                <th class="w100">첨부파일:</th>
+                <td>
+                  <input type="file" id="file" name="file"/>
+                </td>
+              </tr>
+            </c:if>
+          </table>
+          <div style="text-align:right; margin-top:10px;">
+            <button type="button" id="showEditFormBtn">수정하기</button>
+          </div>
+        </div>
+      </c:if>
+
+      <%--
+        &lt;%&ndash;답변이 달려 있다면&ndash;%&gt;
+      <c:if test="${vo.bvo != null}">
+        <div class="page-title">
+          <h2>답변</h2>
+        </div>
+        <div id="showAnswerForm">
+          <table class="adSaveInquiry">
+            <tr>
+              <th class="w100">제목</th>
+              <td>[답변] ${vo.boardTitle}</td>
+            </tr>
+            <tr>
+              <th class="w100">지점명</th>
+              <td>${vo.tvo.tName}</td>
+            </tr>
+            <tr>
+              <th class="w100">내용</th>
+              <td>${vo.bvo.boardContent}</td>
+            </tr>
+            <c:if test="${vo.file_name ne null and vo.file_name.length() > 4}">
             <tr>
               <th class="w100">첨부파일:</th>
               <td>
                 <input type="file" id="file" name="file"/>
               </td>
             </tr>
+            </c:if>
           </table>
-          <input type="hidden" name="boardIdx" value="${vo.boardIdx}">
-          <input type="hidden" name="boardType" value="${vo.boardType}">
-          <input type="hidden" name="parent_boardIdx" value="${vo.boardIdx}">
-          <%--<input type="hidden" name="type" value="${vo.}"/>--%>
           <div style="text-align:right; margin-top:10px;">
-            <button type="button" id="submitAnswerBtn">답변 등록</button>
-            <button type="button" id="cancelBtn">취소</button>
+            <button type="button" id="showEditFormBtn">수정하기</button>
           </div>
-        </form>
-      </div>
-    </c:if>
-
-      <%--답변이 달려 있다면--%>
-    <c:if test="${vo.bvo != null}">
-      <div class="page-title">
-        <h2>답변</h2>
-      </div>
-      <div id="showAnswerForm">
-        <table class="adSaveInquiry">
-          <tr>
-            <th class="w100">제목</th>
-            <td>[답변] ${vo.boardTitle}</td>
-          </tr>
-          <tr>
-            <th class="w100">지점명</th>
-            <td>${vo.tvo.tName}</td>
-          </tr>
-          <tr>
-            <th class="w100">내용</th>
-            <td>${vo.bvo.boardContent}</td>
-          </tr>
-          <c:if test="${vo.file_name ne null and vo.file_name.length() > 4}">
-          <tr>
-            <th class="w100">첨부파일:</th>
-            <td>
-              <input type="file" id="file" name="file"/>
-            </td>
-          </tr>
-          </c:if>
-        </table>
-        <div style="text-align:right; margin-top:10px;">
-          <button type="button" id="showEditFormBtn">수정하기</button>
         </div>
-      </div>
 
-    </c:if>
-
-
-  <%--숨겨진 폼 만들기--%>
-    <form name="ff" method="post">
-      <input type="hidden" name="type"/>
-      <input type="hidden" name="f_name"/>
-      <input type="hidden" name="boardIdx" value="${vo.boardIdx}"/>
-      <input type="hidden" name="cPage" value="${param.cPage}"/>
-    </form>
-
-
+      </c:if>--%>
 
     </c:if>
   </div>
@@ -182,7 +206,6 @@
 <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 <script>
 
-
   $(document).ready(function() {
     // '답변하기' 버튼 클릭 이벤트
     $('#showFormBtn').on('click', function() {
@@ -192,65 +215,44 @@
     });
 
     // '답변등록' 버튼 클릭 이벤트
-    $('#submitAnswerBtn').on('click', function() {
-      /*let frm = document.getElementById("answer-form-container")*/
+    $('#submitAnswerBtn').on('click', function(event) {
+      event.preventDefault(); // 기본 폼 제출 동작 방지
+
+      // 파일 첨부가 있는 폼 데이터를 FormData로 생성
+      const form = document.getElementById("answered-form");
+      const formData = new FormData(form);
 
       $.ajax({
-        url: "Controller?type=adminWriteInquiry",
-        data: new FormData(document.getElementById("answered-form")), /*frm,*/
+        url: form.action,
+        data: formData,
         type: "POST",
         contentType: false,
         processData: false,
-        dataType: "html"
+        dataType: "html" // 서버로부터 HTML 응답을 기대
       }).done(function(res) {
-        alert(res.answerContent);
-        //성공했을 때
-        if (res.success) {
-          alert("답변이 성공적으로 등록되었습니다.");
-          //폼 숨기기
-          $('#answerFormContainer').hide();
+        // 성공 시 서버로부터 받은 HTML을 특정 영역에 삽입
+        $('#answerDisplayArea').html(res);
 
-          // 답변 작성 폼이 있던 위치에 새로운 HTML을 추가합니다.
-          // 이 예제에서는 부모 컨테이너에 새로운 내용을 추가하는 방식입니다.
-          $('.answer-table').html(res);
+        // '답변하기' 폼과 버튼 숨기기
+        $('#answerFormContainer').hide();
+        $('#showFormBtn').hide();
 
-          // 3. 버튼 상태 변경
-          // '답변하기' 버튼을 숨깁니다.
-          $('#showFormBtn').hide();
+        // '수정하기' 버튼 보이게 하기 (필요 시)
+        $('#showEditFormBtn').show();
 
-          // 동적으로 추가된 '수정하기' 버튼을 보이게 합니다.
-          // 이미 보여질 것이므로, show() 코드는 필요 없을 수도 있습니다.
-          // $('#showEditFormBtn').show();
-
-
-
-
-/*
-
-
-          $('#showFormBtn').hide();
-          $('#showEditFormBtn').show();
-          $('#showAnswerForm').show();
-*/
-
-        } else {
-          alert("답변 등록 실패: " + res.message);
-        }
       }).fail(function(xhr, status, error) {
         console.error("AJAX 요청 실패:", status, error);
         alert("답변 등록 중 오류가 발생했습니다.");
       });
     });
+
+    // '취소' 버튼 클릭 시 폼 숨기기
+    $('#cancelBtn').on('click', function() {
+      $('#answerFormContainer').hide();
+      $('#showFormBtn').show();
+    });
   });
 
-  $(function () {
-    let option = {
-      modal: true,
-      autoOpen: false,
-      resizable: false,
-    };
-    $("#del_dialog").dialog(option);
-  });
 
   //목록으로 이동
   function goList(){
@@ -259,11 +261,11 @@
 
   //게시글 수정하기
   //현재 문서 안의 ff를 찾음
-  function goEdit(){
+  /*function goEdit(){
     document.ff.action = "Controller";
     document.ff.type.value = "adminEditBoard";
     document.ff.submit();
-  }
+  }*/
 
   //게시글 삭제하기(상태값 업데이트)
   //boardIdx값이 ff폼에 hidden으로 만들어야 한다.
@@ -282,12 +284,12 @@
   }
 
   //파일 다운로드
-  function down(fname) {
+  /*function down(fname) {
     document.ff.action = "admin/download.jsp";
     document.ff.f_name.value = fname;
     document.ff.submit();
   }
-
+*/
 </script>
 </body>
 </html>
