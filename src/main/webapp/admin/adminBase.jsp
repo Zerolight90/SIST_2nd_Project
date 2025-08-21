@@ -371,7 +371,7 @@
 
             // 비동기식 통신으로 화면 교체
             $.ajax({
-                url: "Controller?type=adminPaging",
+                url: "Controller?type=adminUserPaging",
                 type: "GET",
                 data: formdata,
                 dataType: "html",

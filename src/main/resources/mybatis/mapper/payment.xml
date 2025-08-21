@@ -43,10 +43,18 @@
     </select>
 
     <select id="adminSearchPayment" resultType="mybatis.vo.PaymentVO" parameterType="Map">
-        select p.paymentIdx, p.paymentType, p.paymentMethod, p.paymentFinal, p.paymentStatus, p.paymentDate, u.name
-        from payment p INNER JOIN user u ON p.userIdx = u.userIdx
+        <!--select p.paymentIdx, p.paymentType, p.paymentMethod, p.paymentFinal, p.paymentStatus, p.paymentDate, u.name
+        from payment p INNER JOIN user u ON p.userIdx = u.userIdx-->
 
+        SELECT * FROM(
+        SELECT @RN:=@RN+1 AS rnum, a.* FROM(
+        SELECT p.paymentIdx, p.paymentType, p.paymentMethod, p.paymentFinal, p.paymentStatus, p.paymentDate, u.name
+        FROM payment p INNER JOIN user u ON p.userIdx = u.userIdx
         <where>
+            <if test="datepicker != null and datepicker != ''">
+                AND p.paymentDate = #{datepicker}
+            </if>
+
             <if test="payment_status != null and payment_status != ''">
                 <choose>
                     <when test="payment_status == 'active'">
@@ -87,6 +95,9 @@
 
 
         </where>
+        ORDER BY paymentIdx DESC
+        ) a, (SELECT @RN:=0) b
+        ) c WHERE c.rnum BETWEEN #{begin} AND #{end}
     </select>
 
     <select id="getPaymentByPaymentKey" parameterType="string" resultType="mybatis.vo.PaymentVO">

@@ -21,8 +21,10 @@ public class NmemDAO {
         return ar;
     }
 
-    public static NmemVO[] getNmemSearch(Map<String, String> params){
+    public static NmemVO[] getNmemSearch(int begin, int end, Map<String, String> params){
         NmemVO[] ar = null;
+        params.put("begin", String.valueOf(begin));
+        params.put("end", String.valueOf(end));
 
         SqlSession ss = FactoryService.getFactory().openSession();
         List<NmemVO> list = ss.selectList("nmem.getNmemSearch", params);

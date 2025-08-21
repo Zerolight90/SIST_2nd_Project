@@ -92,6 +92,13 @@
     </select>-->
 
     <select id="getTimetableSearch" resultType="mybatis.vo.TimeTableVO" parameterType="Map">
+        <!--SELECT tt.timeTableIdx, t.tName, s.sName, m.name, tt.date, tt.startTime, tt.endTime, s.sCount,
+        (SELECT COUNT(*) FROM reservation res WHERE res.timeTableIdx = tt.timeTableIdx) AS reservationCount
+        FROM time_table tt INNER JOIN theater t ON tt.tIdx = t.tIdx
+        INNER JOIN screen s ON tt.sIdx = s.sIdx
+        INNER JOIN movie m ON tt.mIdx = m.mIdx-->
+        SELECT * FROM(
+        SELECT @RN:=@RN+1 AS rnum, a.* FROM(
         SELECT tt.timeTableIdx, t.tName, s.sName, m.name, tt.date, tt.startTime, tt.endTime, s.sCount,
         (SELECT COUNT(*) FROM reservation res WHERE res.timeTableIdx = tt.timeTableIdx) AS reservationCount
         FROM time_table tt INNER JOIN theater t ON tt.tIdx = t.tIdx
@@ -126,6 +133,9 @@
                 </choose>
             </if>
         </where>
+        ORDER BY timeTableIdx DESC
+        ) a, (SELECT @RN:=0) b
+        ) c WHERE c.rnum BETWEEN #{begin} AND #{end}
     </select>
 
     <!--<insert id="createTimetable" parameterType="Map">

@@ -1,6 +1,7 @@
 package Action;
 
 import mybatis.dao.AdminDAO;
+import mybatis.dao.MovieDAO;
 import mybatis.vo.RevenueVO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

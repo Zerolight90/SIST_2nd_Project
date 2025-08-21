@@ -182,16 +182,18 @@
                         <td>${vo.prodIdx}</td>
                         <td>
                             <c:if test="${vo.prodCategory == 1}">
-                                <select name="category">
+                                <%--<select name="category">
                                     <option value="goods" selected>음식</option>
                                     <option value="ticket">관람권</option>
-                                </select>
+                                </select>--%>
+                                음식
                             </c:if>
                             <c:if test="${vo.prodCategory == 2}">
-                                <select name="category">
+                                <%--<select name="category">
                                     <option value="goods">음식</option>
                                     <option value="ticket" selected>관람권</option>
-                                </select>
+                                </select>--%>
+                                관람권
                             </c:if>
                         </td>
                         <td class="align-left">${vo.prodName}</td>
@@ -203,16 +205,18 @@
                         <td>${vo.prodStock}</td>
                         <td>
                             <c:if test="${vo.prodStatus == 0}">
-                                <select name="status">
+                                <%--<select name="status">
                                     <option value="sale" selected>판매중</option>
                                     <option value="soldout">품절</option>
-                                </select>
+                                </select>--%>
+                                판매중
                             </c:if>
                             <c:if test="${vo.prodStatus == 1}">
-                                <select name="status">
+                                <%--<select name="status">
                                     <option value="sale">판매중</option>
                                     <option value="soldout" selected>품절</option>
-                                </select>
+                                </select>--%>
+                                품절
                             </c:if>
                         </td>
                         <td>
@@ -224,6 +228,7 @@
                                     data-img="${vo.prodImg}"
                                     data-price="${vo.prodPrice}"
                                     data-stock="${vo.prodStock}"
+                                    data-status="${vo.prodStatus}"
                                     onclick="cerModal(this)">수정
                             </button>
                         </td>
@@ -307,6 +312,16 @@
                 <label for="cerStock">재고:</label>
                 <input type="number" name="cerStock" id="cerStock" class="input editable" required>
             </div>
+            <div class="divs">
+                <%--<label for="cerStatus">상품 상태:</label>
+                <input type="number" name="cerStatus" id="cerStatus" class="input editable" required>--%>
+
+                <label for="cerStatus">상품 상태:</label>
+                <select name="cerStatus" id="cerStatus" class="input">
+                    <option value="0">판매중</option>
+                    <option value="1">품절</option>
+                </select>
+            </div>
             <input type="hidden" id="pidx" name="pidx" value="">
         </div>
         <div class="footer">
@@ -340,6 +355,7 @@
         let prodImg = $(str).data('img');
         let prodPrice = $(str).data('price');
         let prodStock = $(str).data('stock');
+        let prodStatus = $(str).data('status');
 
         // 3. 가져온 값들을 수정 모달(#productCerModal) 안의 각 input에 채워 넣습니다.
         $("#pidx").val(prodIdx);
@@ -349,6 +365,7 @@
         $("#productCerModal").find("#cerImg").val(prodImg);
         $("#productCerModal").find("#cerPrice").val(prodPrice);
         $("#productCerModal").find("#cerStock").val(prodStock);
+        $("#productCerModal").find("#cerStatus").val(prodStatus);
 
         // 4. 데이터가 채워진 모달 창을 보여줍니다.
         $("#productCerModal").show();

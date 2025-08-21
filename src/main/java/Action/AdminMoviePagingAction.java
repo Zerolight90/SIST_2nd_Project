@@ -1,7 +1,7 @@
 package Action;
 
-import mybatis.dao.MemberDAO;
-import mybatis.vo.MemberVO;
+import mybatis.dao.MovieDAO;
+import mybatis.vo.MovieVO;
 import util.Paging;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,30 +9,26 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AdminPagingAction implements Action{
+public class AdminMoviePagingAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         Map<String, String> params = new HashMap<>();
-        params.put("user_status", request.getParameter("user_status"));
         params.put("datepicker", request.getParameter("datepicker"));
+        params.put("movie_status", request.getParameter("movie_status"));
+        params.put("movie_level", request.getParameter("movie_level"));
         params.put("search_field", request.getParameter("search_field"));
         params.put("search_keyword", request.getParameter("search_keyword"));
-        String boardType = request.getParameter("type");
-
-        if(boardType == null) {
-            boardType = "admin";
-        }
 
         //총 게시물 수 구하기
         //처음부터 끝까지 전체의 데이터 갯수
-        int userCount = MemberDAO.getMemInfo().length;
+        int movieCount = MovieDAO.getAllMovie().length;
 
         //페이징 처리를 위한 객체 생성
         Paging page = new Paging(10, 5); //1페이지당 10개씩, 3페이지
 
         //총 페이지수를 저장
-        page.setTotalCount(userCount);
+        page.setTotalCount(movieCount);
 
         //현재 페이지 값을 받으면 된다.(어떤 페이지를 보겠다고 하는지)
         String cPage = request.getParameter("cPage");
@@ -47,13 +43,12 @@ public class AdminPagingAction implements Action{
             //총 페이지 수도 필요하고, 현재 페이지도 필요하다.
         }
 
-        MemberVO[] ar = MemberDAO.getMemSearch(page.getBegin(), page.getEnd(), params);
-
+        MovieVO[] ar = MovieDAO.getMovieSearch(page.getBegin(), page.getEnd(), params);
         request.setAttribute("ar", ar);
         request.setAttribute("page", page); //page라는 이름으로 page를 저장해라. list.jsp로 넘어가게 된다.
         request.setAttribute("nowPage", page.getNowPage()); //의 값이 list.jsp로 넘어가게 된다.
-        request.setAttribute("userCount", userCount); //게시물 토탈 갯수
+        request.setAttribute("movieCount", movieCount); //게시물 토탈 갯수
 
-        return "admin/adminMemSearch.jsp";
+        return "admin/adminMovie.jsp";
     }
 }

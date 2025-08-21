@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:forEach var="vo" items="${requestScope.ar}" varStatus="status">
   <tr>
@@ -23,6 +24,6 @@
       <td>취소</td>
     </c:if>
 
-    <td>${vo.paymentDate}</td>
+    <td><fmt:formatDate value="${vo.paymentDate}" pattern="yyyy-MM-dd"/></td>
   </tr>
 </c:forEach>

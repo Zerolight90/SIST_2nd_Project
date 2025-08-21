@@ -106,7 +106,7 @@
     }
 
     /* --- 모달 공통 스타일 --- */
-    #productAddModal{
+    /*#productAddModal{
       display: none;
       position: fixed;
       top: 50%;
@@ -119,7 +119,7 @@
       border-radius: 8px;
       overflow: hidden;
       width: 500px;
-    }
+    }*/
     .modalTitle {
       background-color: #20c997;
       color: white;
@@ -137,6 +137,10 @@
     .footer .btn { padding: 10px 30px; border: none; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer; margin: 0 5px; }
     .footer .btnMain { background-color: #007bff; color: white; }
     .footer .btnSub { background-color: #6c757d; color: white; }
+
+    .no-titlebar .ui-dialog-titlebar {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -203,7 +207,7 @@
 
 <!-- 쿠폰 발급 모달 -->
 <div id="productGiveModal">
-  <div class="modalTitle"><h2>쿠폰 추가</h2></div>
+  <div class="modalTitle"><h2>쿠폰 발급</h2></div>
   <form action="Controller?type=productGive" method="post" id="productGiveForm">
     <div class="body">
       <div class="divs">
@@ -253,11 +257,11 @@
 <!-- 쿠폰 추가 모달 -->
 <div id="productAddModal">
   <div class="modalTitle"><h2>쿠폰 추가</h2></div>
-  <form action="Controller?type=productAdd" method="post" id="productAddForm">
+  <form action="" method="post" id="productAddForm">
     <div class="body">
       <div class="divs">
-        <label for="addCategory">카테고리:</label>
-        <select name="addCategory" id="addCategory" class="input">
+        <label for="addCouponCategory">카테고리:</label>
+        <select name="addCouponCategory" id="addCouponCategory" class="input">
           <option>영화</option>
           <option>매점</option>
           <option>기념일</option>
@@ -268,12 +272,12 @@
         </select>
       </div>
       <div class="divs">
-        <label for="addProductName">쿠폰명:</label>
-        <input type="text" name="addProductName" id="addProductName" class="input editable" required>
+        <label for="addCouponName">쿠폰명:</label>
+        <input type="text" name="addCouponName" id="addCouponName" class="input editable" required>
       </div>
       <div class="divs">
-        <label for="addDescription">쿠폰설명:</label>
-        <input type="text" name="addDescription" id="addDescription" class="input editable" required>
+        <label for="addCouponDescription">쿠폰설명:</label>
+        <input type="text" name="addCouponDescription" id="addCouponDescription" class="input editable" required>
       </div>
       <%--<div class="divs">
         <label for="addImg">발급일:</label>
@@ -288,8 +292,8 @@
         <input type="number" name="addStock" id="addStock" class="input editable" required>
       </div>--%>
       <div class="divs">
-        <label for="addStock">할인값:</label>
-        <input type="number" name="addStock" id="addStock" class="input editable" required>
+        <label for="addDiscountValue">할인값:</label>
+        <input type="number" name="addDiscountValue" id="addDiscountValue" class="input editable" required>
       </div>
     </div>
     <div class="footer">
@@ -303,19 +307,33 @@
 <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 <script>
   $(document).ready(function () {
+    $("#productGiveModal").dialog({
+      autoOpen: false,
+      modal: true,
+      width: 550,
+      resizable: false
+    })
+
+    $("#productAddModal").dialog({
+      autoOpen: false,
+      modal: true,
+      width: 550,
+      resizable: false
+    });
+
     // 모달의 취소 버튼 클릭 시
     $(".btnSub").on("click", function () {
       // 가장 가까운 모달 div를 찾아서 숨기기
-      $(this).closest("#productAddModal, #productCerModal").hide();
+      $(this).closest("#productGiveModal, #productAddModal").dialog('close');
     });
   });
 
   // 새 상품 추가 버튼 클릭 시
   function addModal() {
-    $("#productAddModal").show();
+    $("#productAddModal").dialog('open');
   }
   function giveModal() {
-    $("#productGiveModal").show();
+    $("#productGiveModal").dialog('open');
   }
   // 삭제 버튼 클릭 시
   function delCoupon(str) {

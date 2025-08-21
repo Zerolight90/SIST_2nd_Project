@@ -32,8 +32,10 @@ public class AdminDAO {
         return vo;
     }
 
-    public static AdminVO[] adminListSearch(Map<String, String> map){
+    public static AdminVO[] adminListSearch(int begin, int end, Map<String, String> map){
         AdminVO[] ar = null;
+        map.put("begin", String.valueOf(begin));
+        map.put("end", String.valueOf(end));
 
         SqlSession ss = FactoryService.getFactory().openSession();
         List<AdminVO> list = ss.selectList("admin.adminListSearch", map);

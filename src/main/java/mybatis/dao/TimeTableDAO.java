@@ -81,8 +81,10 @@ public class TimeTableDAO {
         return ar2;
     }
 
-    public static TimeTableVO[] getTimetableSearch(Map<String, String> params){
+    public static TimeTableVO[] getTimetableSearch(int begin, int end, Map<String, String> params){
         TimeTableVO[] ar = null;
+        params.put("begin", String.valueOf(begin));
+        params.put("end", String.valueOf(end));
 
         SqlSession ss = FactoryService.getFactory().openSession();
         List<TimeTableVO> list = ss.selectList("timeTable.getTimetableSearch", params);
