@@ -46,10 +46,14 @@ public class LoginAction implements Action {
             }
 
             String reviewurl = request.getParameter("review");
-            if (reviewurl != null && !reviewurl.trim().isEmpty()) {
-                request.getSession().setAttribute("reviewurl", reviewurl);
-                System.out.println("Saved reviewurl to session: " + reviewurl);
+            // 간단 추가: review 파라 없고 mIdx가 있으면 movieDetail로 복귀 URL 저장
+            if (request.getSession().getAttribute("reviewurl") == null) {
+                String mIdx = request.getParameter("mIdx");
+                if (mIdx != null && !mIdx.trim().isEmpty()) {
+                    request.getSession().setAttribute("reviewurl", "Controller?type=movieDetail&mIdx=" + mIdx);
+                }
             }
+
 
 
             // 로그인 시도 여부 체크
