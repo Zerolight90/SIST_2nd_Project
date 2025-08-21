@@ -20,7 +20,7 @@ public class UserBoardListAction implements Action{
             boardType = "userBoardList";
         }
 
-        System.out.println("boardType:::::::::::::"+boardType);
+//        System.out.println("boardType:::::::::::::"+boardType);
 
         //총 게시물 수 구하기
         //처음부터 끝까지 전체의 데이터 갯수

@@ -14,7 +14,7 @@ public class MyPrivateInquiryAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
-        System.out.println("MyPrivateInquiryAction 탄다.");
+//        System.out.println("MyPrivateInquiryAction 탄다.");
 
         //HttpSession session = request.getSession();
         //MemberVO mvo = (MemberVO) session.getAttribute("mvo");

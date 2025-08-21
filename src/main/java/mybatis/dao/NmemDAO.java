@@ -1,9 +1,11 @@
 package mybatis.dao;
 
 import mybatis.Service.FactoryService;
+import mybatis.vo.MemberVO;
 import mybatis.vo.NmemVO;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -51,14 +53,30 @@ public class NmemDAO {
         return cnt;
     }
 
-//    // 비회원 로그인을 위한 로직
-//    public static NmemVO getByEmail(String email){
-//
-//        SqlSession ss = FactoryService.getFactory().openSession();
-//        NmemVO vo = ss.selectOne("nmem.getByEmail", email);
-//        ss.close();
-//
-//        return vo;
-//    }
+
+    public static NmemVO getByEmail(String email){
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        NmemVO result = ss.selectOne("nmem.getByEmail", email);
+        ss.close();
+        return result;
+
+    }
+
+    public static NmemVO chk(String u_name, String u_pw, String u_birth){
+        HashMap<String, String> map = new HashMap<>();
+        map.put("u_name",u_name);
+        map.put("u_birth",u_birth);
+        map.put("u_pw",u_pw);
+
+
+        //sql문을 호출하기 위해 필요한 객체 SqlSession얻기
+        SqlSession ss = FactoryService.getFactory().openSession();
+        NmemVO nonvo = ss.selectOne("nmem.bookchk", map);
+        ss.close();
+
+        return nonvo;
+    }
+
 
 }

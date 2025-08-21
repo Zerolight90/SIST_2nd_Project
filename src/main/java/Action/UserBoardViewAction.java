@@ -20,7 +20,7 @@ public class UserBoardViewAction implements Action{
         AdminBoardVO prevVo = UserBoardDAO.getPrevPost(boardIdx, boardType);
         AdminBoardVO nextVo = UserBoardDAO.getNextPost(boardIdx, boardType);
 
-        System.out.println("boardType은:::::"+boardType);
+//        System.out.println("boardType은:::::"+boardType);
 
         request.setAttribute("vo", vo);
         request.setAttribute("prevVo", prevVo);
