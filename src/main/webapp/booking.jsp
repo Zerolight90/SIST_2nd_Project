@@ -162,12 +162,16 @@
 
 <div class="booking-data" style="display: none">
   <form action="Controller" method="post" name="tvo_form">
-    <c:if test="${empty sessionScope.mvo && empty sessionScope.kvo}"> <!-- 사용자가 로그인을 하지 않은 부분 -->
-      <input type="hidden" value="chk" name="chk" id="chk"/>
-    </c:if>
-    <c:if test="${not empty sessionScope.mvo}">  <!-- 사용자가 로그인을 한 부분 -->
-      <input type="hidden" value="" name="chk" id="chk"/>
-    </c:if>
+    <c:choose>
+      <c:when test="${empty sessionScope.mvo && empty sessionScope.kvo && empty sessionScope.nmemvo}">
+        <!-- 로그인 안 한 경우 -->
+        <input type="hidden" value="chk" name="chk" id="chk"/>
+      </c:when>
+      <c:otherwise>
+        <!-- 로그인 한 경우 -->
+        <input type="hidden" value="" name="chk" id="chk"/>
+      </c:otherwise>
+    </c:choose>
     <input type="hidden" value="booking" name="booking"/>
     <input type="hidden" name="tvoIdx" id="tvoIdx" value=""/>
     <input type="hidden" name="type" id="type" value=""/>

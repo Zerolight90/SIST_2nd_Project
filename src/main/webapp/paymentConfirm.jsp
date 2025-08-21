@@ -62,7 +62,11 @@
             </div>
             <div class="button_container">
               <c:choose>
-                <c:when test="${isGuest}"><button class="btn_history" onclick="location.href='${basePath}/nonmember/nmemReservation.jsp'">예매정보 다시 확인하기</button></c:when>
+                <c:when test="${isGuest}">
+                  <div class="button_container">
+                  <a href="Controller?type=myPage&tab=myreservationHistory" class="btn_history">예매내역 확인</a>
+                </div>
+                </c:when>
                 <c:otherwise>
                   <div class="button_container">
                   <a href="Controller?type=myPage&tab=myreservationHistory" class="btn_history">나의 예매내역</a>

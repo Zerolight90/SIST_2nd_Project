@@ -7,9 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class PaymentMovieAction implements Action {
     @Override
@@ -125,6 +123,19 @@ public class PaymentMovieAction implements Action {
                 request.setAttribute("memberInfo", memberInfo);
                 request.setAttribute("isGuest", false);
             } else {
+                NmemVO nmemvo = (NmemVO) session.getAttribute("nmemvo");
+
+                if (nmemvo != null) {
+                    // nonvo 객체의 정보를 PaymentConfirmAction이 사용할 Map 형태로 변환합니다.
+                    Map<String, String> nmemInfo = new HashMap<>();
+                    nmemInfo.put("name", nmemvo.getName());
+                    nmemInfo.put("phone", nmemvo.getPhone());
+                    nmemInfo.put("password", nmemvo.getPassword()); // NmemVO의 비밀번호 필드 getter에 맞게 수정
+
+                    // PaymentConfirmAction을 위해 세션에 저장합니다.
+                    session.setAttribute("nmemInfoForPayment", nmemInfo);
+                }
+
                 request.setAttribute("isGuest", true);
             }
 
