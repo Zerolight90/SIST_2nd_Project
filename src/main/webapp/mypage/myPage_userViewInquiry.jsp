@@ -66,7 +66,7 @@
             padding-top: 40px !important;
         }
 
-        .inquiry-view .tit-area .title span{
+        .inquiry-view .tit-area .inquiry-title span{
             display: table-cell;
             margin: 0;
             padding: 0;
@@ -158,7 +158,7 @@
 
             <div class="inquiry-view">
                 <div class="tit-area">
-                    <div class="title">
+                    <div class="inquiry-title">
                         <span>${vo.boardTitle}</span>
                     </div>
                     <div class="info">
@@ -190,7 +190,7 @@
 
                     <c:if test="${vo.bvo != null && not empty vo.bvo}">
                         <div class="board-content review" id="inqReplyCn">
-                                ${vo.bvo.boardContent}
+                            ${vo.bvo.boardContent}
                         </div>
                     </c:if>
                 </div>
@@ -199,7 +199,6 @@
                     <button type="button" class="goListBtn" onclick="location.href='Controller?type=myPage&tab=myPrivateinquiry'">목록</button>
                 </div>
             </div>
-        </div>
     </div>
 </div>
 </body>

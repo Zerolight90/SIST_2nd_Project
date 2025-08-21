@@ -23,6 +23,10 @@
             margin: 0 auto;
         }
 
+        .event-list{
+            height: 365px;
+        }
+
         .event-list ul li {
             position: relative;
             float: left;
@@ -196,9 +200,9 @@
 
 
 
-                        <div class="swiper-wrap" style="outline: 1px solid red; height: 450px;">
+                        <div class="swiper-wrap" style="outline: 1px solid red; height: 375px;">
                             <p class="name" style="padding-top: 50px">추천 이벤트</p>
-                            <div class="swiper mySwiper">
+                            <div class="swiper mySwiper" style="height: 275px;">
                                 <div class="swiper-wrapper">
                                     <div class="swiper-slide">
                                         <div class="banner-group">
@@ -250,7 +254,7 @@
                         </div>
 
 
-                        <div class="event-list m15" style="outline: 1px solid red; height: 365px">
+                        <div class="event-list m15">
                             <ul>
                                 <%--반복문--%>
                                 <c:set var="movieCount" value="0"/>
@@ -279,7 +283,7 @@
                             <a onclick="showDetailTab(2); return false;" title="더보기">더보기></a>
                         </div>
 
-                        <div class="event-list m15" style="outline: 1px solid red; height: 365px">
+                        <div class="event-list m15">
                             <ul>
                                 <c:set var="theaterCount" value="0"/>
                                 <c:forEach items="${requestScope.ar}" var="vo" varStatus="vs1">
@@ -307,7 +311,7 @@
                             <a onclick="showDetailTab(3); return false;" title="더보기">더보기></a>
                         </div>
 
-                        <div class="event-list m15" style="outline: 1px solid red; height: 365px">
+                        <div class="event-list m15">
                             <ul>
                                 <c:set var="stageGrettingCount" value="0"/>
                                 <c:forEach items="${requestScope.ar}" var="vo" varStatus="vs1">
@@ -342,7 +346,7 @@
                         </div>
                     </div>
 
-                    <div class="event-list m15" style="outline: 1px solid red; height: 365px">
+                    <div class="event-list m15">
                         <ul class="clearfix">
                             <%--반복문--%>
                             <c:forEach items="${requestScope.ar}" var="vo" varStatus="vs1" >
@@ -375,7 +379,7 @@
                         </div>
                     </div>
 
-                    <div class="event-list m15" style="outline: 1px solid red;">
+                    <div class="event-list m15">
                         <ul class="clearfix">
                             <%--반복문--%>
                             <c:forEach items="${requestScope.ar}" var="vo" varStatus="vs1">
@@ -406,7 +410,7 @@
                         </div>
                     </div>
 
-                    <div class="event-list m15" style="outline: 1px solid red; height: 365px">
+                    <div class="event-list m15">
                         <ul class="clearfix">
                             <%--반복문--%>
                             <c:forEach items="${requestScope.ar}" var="vo" varStatus="vs1">

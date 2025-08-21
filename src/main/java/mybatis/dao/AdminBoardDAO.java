@@ -40,7 +40,7 @@ public class AdminBoardDAO {
         map.put("end", end);
         map.put("searchKeyword", searchKeyword);
 
-        System.out.println("map:::::::" + map);
+        //System.out.println("map:::::::" + map);
 
         SqlSession ss = FactoryService.getFactory().openSession();
         //AdminBoardVO가 여러개 넘어오도록 한다.

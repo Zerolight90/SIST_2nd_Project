@@ -17,21 +17,21 @@
     <!--공지사항에 대한 전체 목록 추출-->
     <select id="userBoardList" resultMap="map1">
         SELECT * FROM(
-        SELECT @RN:=@RN+1 AS rnum, a.* FROM(
-        SELECT * FROM board
-        WHERE boardStatus = 0
-        AND boardType = #{boardType}
-        AND parent_boardIdx IS NULL
-        <if test="boardType=='QnA'">
-            <if test="userIdx != null and userIdx != ''">
-                AND userIdx = #{userIdx}
-            </if>
-        </if>
-        <if test="searchKeyword != null and searchKeyword != ''">
-            AND boardTitle LIKE CONCAT('%', #{searchKeyword}, '%')
-        </if>
-        ORDER BY boardIdx DESC
-        ) a, (SELECT @RN:=0) b
+            SELECT @RN:=@RN+1 AS rnum, a.* FROM(
+                SELECT * FROM board
+                WHERE boardStatus = 0
+                AND boardType = #{boardType}
+                AND parent_boardIdx IS NULL
+                <if test="boardType=='QnA'">
+                    <if test="userIdx != null and userIdx != ''">
+                        AND userIdx = #{userIdx}
+                    </if>
+                </if>
+                <if test="searchKeyword != null and searchKeyword != ''">
+                    AND boardTitle LIKE CONCAT('%', #{searchKeyword}, '%')
+                </if>
+                ORDER BY boardIdx DESC
+            ) a, (SELECT @RN:=0) b
         ) c WHERE c.rnum BETWEEN #{begin} AND #{end}
     </select>
 
