@@ -44,7 +44,7 @@ public class Nmember_chkAction implements Action {
 
 
                 resp.put("success", true);
-                resp.put("redirect", request.getContextPath() + "/Controller?type=myReservation");
+                resp.put("redirect", request.getContextPath() + "/Controller?type=myPage");
                 out.print(mapper.writeValueAsString(resp));
                 out.flush();
                 return null; // AJAX 응답 직접 완료

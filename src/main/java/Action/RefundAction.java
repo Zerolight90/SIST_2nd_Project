@@ -84,11 +84,9 @@ public class RefundAction implements Action {
             }
 
             // [수정됨] pvo.getCouponUserIdx() -> pvo.getCouponIdx() 로 변경
-            // 쿠폰을 사용한 결제 건일 경우에만 쿠폰 상태를 되돌립니다.
+            // 쿠폰을 사용한 결제 건일 경우에만 쿠폰 상태를 되돌리기
             if (pvo.getCouponIdx() != null && pvo.getCouponIdx() > 0) {
-                // payment 테이블의 userIdx와 couponIdx를 사용해 원래의 couponUserIdx를 찾아야 합니다.
-                // 이 로직은 CouponDAO에 추가되어야 합니다. (예: getCouponUserIdxByPaymentInfo)
-                // 여기서는 CouponDAO에 해당 기능이 있다고 가정하고 호출합니다.
+                // payment 테이블의 userIdx와 couponIdx를 사용해 원래의 couponUserIdx를 찾음
                 Long couponUserIdx = CouponDAO.getCouponUserIdxByPaymentInfo(pvo.getUserIdx(), pvo.getPaymentIdx(), ss);
                 if(couponUserIdx != null) {
                     CouponDAO.revertCouponUsage(couponUserIdx, ss);
@@ -120,10 +118,10 @@ public class RefundAction implements Action {
         String viewPath;
         if ("true".equals(isNonMember)) {
             // 비회원인 경우, 비회원 예매 조회 페이지 초기화면으로 이동
-            viewPath = "redirect:nmemInfo.do"; // 컨트롤러를 통해 이동하도록 수정
+            viewPath = "redirect:Controller?type=myPage";
         } else {
             // 회원인 경우, 마이페이지의 예매 내역 페이지로 이동
-            viewPath = "redirect:Controller?type=myReservation";
+            viewPath = "redirect:Controller?type=myPage";
         }
 
         return viewPath;
