@@ -99,7 +99,7 @@
         NULL AS theaterInfo,
         NULL AS screenDate,
         pr.prodPrice,
-        -- 💡 수정 2: 총 결제금액 / 상품가격을 나눠서 수량을 실시간으로 계산
+        -- 수정 2: 총 결제금액 / 상품가격을 나눠서 수량을 실시간으로 계산
         CASE
         WHEN pr.prodPrice > 0 THEN (p.paymentTotal / pr.prodPrice)
         ELSE 1
