@@ -147,6 +147,7 @@ public class LoginAction implements Action {
                 HttpSession session = request.getSession();
                 session.setAttribute("mvo", mvo);
 //                System.out.println("Final redirect URL: " + url);
+
                 return "Controller?type=" + url;
 
             } else {
