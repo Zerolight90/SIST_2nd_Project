@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -9,6 +10,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/tab.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/movie_info/movie_info.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/movie_info/movieDetail.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/review/review.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <link rel="icon" href="${pageContext.request.contextPath}/images/favicon.png">
@@ -85,12 +87,13 @@
         <div class="rating-item">
           <div class="label">실관람 평점</div>
           <canvas id="ratingChart" width="120" height="120"></canvas>
-          <div class="sub-label">예매율 76.9%</div>
+          <div class="sub-label"> 예매율<fmt:formatNumber value="${movie.bookingRate}" pattern="#,##0.0"/>%</div>
+
         </div>
 
         <div class="rating-item">
           <div class="label">누적 관객수</div>
-          <div class="audience-number">23,632</div>
+          <div class="audience-number">${movie.audNum}</div>
           <canvas id="audienceChart" width="300" height="120"></canvas>
         </div>
 
@@ -99,14 +102,97 @@
     </div>
 
     <div id="tabCont1_2" class="tabCont" style="display:none; width: 1100px;">
-      <p>실관람평 탭 내용입니다.</p>
-      <c:forEach var="cvo" items="${vo.c_list}">
-        <div>
-          이름:${cvo.writer}><br/> &nbsp;&nbsp;
-          날짜:${cvo.write_date}<br/>
-          내용:${cvo.content}
+
+      <div class="review-write">
+        <h4>리뷰 작성하기</h4>
+        <form id="reviewForm">
+          <div class="form-group">
+            <label for="userId">닉네임</label>
+            <input type="text" id="userId" name="userId" maxlength="10" placeholder="닉네임을 입력하세요" required />
+          </div>
+
+          <div class="form-group rating-group">
+            <label>평점</label>
+            <select id="rating" name="rating" required>
+              <option value="">선택</option>
+
+              <option value="5">5점</option>
+              <option value="4">4점</option>
+              <option value="3">3점</option>
+              <option value="2">2점</option>
+              <option value="1">1점</option>
+
+            </select>
+
+          </div>
+
+          <div class="form-group">
+
+            <label for="extraScore">연출 외 점수</label>
+
+            <input type="number" id="extraScore" name="extraScore" min="0" max="10" placeholder="0" value="0" />
+
+          </div>
+
+          <div class="form-group">
+
+            <label for="reviewText">리뷰 내용</label>
+
+            <textarea id="reviewText" name="reviewText" rows="4" placeholder="리뷰를 작성해주세요" required></textarea>
+
+          </div>
+
+          <button type="submit" class="btn-submit">작성 완료</button>
+
+        </form>
+
+      </div>
+
+      <div class="review-container">
+        <div class="review-header">
+          <span>전체 <strong>412</strong>건</span>
+          <div class="review-sort">
+            <button type="button" class="sort-btn" data-sort="latest">최신순</button>
+            <button type="button" class="sort-btn" data-sort="likes">공감순</button>
+            <button type="button" class="sort-btn" data-sort="rating">평점순</button>
+          </div>
         </div>
-      </c:forEach>
+
+        <ul class="review-list">
+          <li class="review-item" data-likes="0" data-rating="10" data-time="2024-06-01T10:59:00">
+            <div class="user-icon">jb</div>
+            <div class="review-content">
+              <div class="review-score">
+                <span class="label">관람평</span>
+                <span class="score">10</span>
+                <span class="extra">연출 외 +4</span>
+              </div>
+
+              <p class="review-text">글글글 또보러가고싶습니다 ㅜㅜ</p>
+              <div class="review-footer">
+                <span class="likes"><i class="fa-regular fa-thumbs-up"></i> 0</span>
+                <span class="time">48분 전</span>
+              </div>
+            </div>
+          </li>
+
+          <li class="review-item" data-likes="0" data-rating="10" data-time="2024-06-01T10:58:00">
+            <div class="user-icon">hy</div>
+            <div class="review-content">
+              <div class="review-score">
+                <span class="label">관람평</span>
+                <span class="score">10</span>
+                <span class="extra">연출 외 +2</span>
+              </div>
+              <p class="review-text">무한열차가 더 재밌긴했지만 그래도 인생 애니</p>
+              <div class="review-footer">
+                <span class="likes"><i class="fa-regular fa-thumbs-up"></i> 0</span>
+                <span class="time">55분 전</span>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
 
 
@@ -281,6 +367,34 @@
           });
         });
       });
+
+      //댓글
+      $(function() {
+        $('.sort-btn').on('click', function() {
+          const sortType = $(this).data('sort');
+          const $list = $('.review-list');
+          const $items = $list.children('.review-item').toArray();
+
+          // 버튼 active 상태 토글
+          $('.sort-btn').removeClass('active');
+          $(this).addClass('active');
+
+          if (sortType === 'latest') {
+            $items.sort((a, b) => new Date($(b).data('time')) - new Date($(a).data('time')));
+          } else if (sortType === 'likes') {
+            $items.sort((a, b) => $(b).data('likes') - $(a).data('likes'));
+          } else if (sortType === 'rating') {
+            $items.sort((a, b) => $(b).data('rating') - $(a).data('rating'));
+          }
+
+          $list.empty();
+          $items.forEach(item => $list.append(item));
+        });
+
+        // 기본 정렬: 최신순 활성화
+        $('.sort-btn[data-sort="latest"]').addClass('active');
+      });
+
     </script>
 
 

@@ -161,7 +161,7 @@
         JOIN time_table tt ON r.timeTableIdx = tt.timeTableIdx
         JOIN movie m ON tt.mIdx = m.mIdx
         WHERE m.`date` &lt;= NOW()
-        AND r.status = 0 -- [추가] 취소되지 않은 정상 예매(status=0)만 카운트하도록 조건 추가
+        AND r.status = 0
     </select>
 
 </mapper>

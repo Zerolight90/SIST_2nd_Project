@@ -39,6 +39,9 @@ public class MovieDetailAction implements Action{
             request.setAttribute("errorMessage", "해당 영화를 찾을 수 없습니다.");
         }
 
+        //
+
+
         return "movieDetail.jsp";
     }
 }

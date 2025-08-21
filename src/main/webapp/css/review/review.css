@@ -1,0 +1,138 @@
+.review-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #333;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.review-header strong {
+    color: #222;
+}
+
+.review-sort button {
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 13px;
+    margin-left: 12px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.review-sort button:hover,
+.review-sort button.active {
+    color: #5a3ea1;
+    background-color: #f0eaff;
+}
+
+.review-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.review-item {
+    display: flex;
+    padding: 16px 20px;
+    border-top: 1px solid #eee;
+    align-items: flex-start;
+}
+
+.review-item:first-child {
+    border-top: none;
+}
+
+.user-icon {
+    width: 48px;
+    height: 48px;
+    background-color: #ccc;
+    border-radius: 50%;
+    color: #fff;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 48px;
+    text-align: center;
+    margin-right: 16px;
+    user-select: none;
+    background: #5a3ea1;
+}
+
+.review-content {
+    flex: 1;
+}
+
+.review-score {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #5a3ea1;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.review-score .label {
+    background: #f0eaff;
+    color: #5a3ea1;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-right: 12px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.review-score .score {
+    font-size: 20px;
+    margin-right: 8px;
+}
+
+.review-score .extra {
+    font-size: 12px;
+    color: #999;
+}
+
+.review-text {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.4;
+    margin-bottom: 10px;
+    white-space: pre-wrap;
+}
+
+.review-footer {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 12px;
+    color: #999;
+    gap: 16px;
+    align-items: center;
+}
+
+.review-footer .likes {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.review-footer .likes i {
+    font-size: 14px;
+}
+
+.review-footer .likes:hover {
+    color: #5a3ea1;
+}
+
+.review-footer .time {
+    white-space: nowrap;
+}
