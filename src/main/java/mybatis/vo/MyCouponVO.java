@@ -8,6 +8,7 @@ import java.util.Date;
 public class MyCouponVO {
 
     private int couponUserIdx; // 쿠폰-사용자 매핑 테이블의 고유 ID
+    private Long couponIdx; // 쿠폰 원본 테이블의 고유 ID (payment 테이블에 저장할 값)
     private String couponName;   // 화면에 표시할 쿠폰 이름
     private int couponValue;// 할인될 금액
     private String couponCategory; // 구분
@@ -29,6 +30,16 @@ public class MyCouponVO {
 
     public void setCouponUserIdx(int couponUserIdx) {
         this.couponUserIdx = couponUserIdx;
+    }
+
+    // [수정됨] couponIdx의 getter
+    public Long getCouponIdx() {
+        return couponIdx;
+    }
+
+    // [수정됨] couponIdx의 setter 추가
+    public void setCouponIdx(Long couponIdx) {
+        this.couponIdx = couponIdx;
     }
 
     public String getCouponName() {

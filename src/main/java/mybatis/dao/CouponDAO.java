@@ -180,4 +180,20 @@ public class CouponDAO {
         }
         return received;
     }
+
+    /**
+     * 환불 시, 결제 정보(userIdx, paymentIdx)를 기반으로
+     * 사용되었던 쿠폰의 고유 ID(couponUserIdx)를 찾는 메소드.
+     * RefundAction에서 사용됩니다.
+     * @param userIdx 회원 ID
+     * @param paymentIdx 결제 ID
+     * @param ss 트랜잭션을 위한 SqlSession
+     * @return 조회된 couponUserIdx (없으면 null)
+     */
+    public static Long getCouponUserIdxByPaymentInfo(long userIdx, long paymentIdx, SqlSession ss) {
+        Map<String, Long> map = new HashMap<>();
+        map.put("userIdx", userIdx);
+        map.put("paymentIdx", paymentIdx);
+        return ss.selectOne("coupon.getCouponUserIdxByPaymentInfo", map);
+    }
 }

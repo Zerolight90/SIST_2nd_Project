@@ -102,4 +102,29 @@ public class MovieDAO {
         return list;
     }
 
+    /**
+     * 특정 영화(mIdx)의 총 예매 수를 반환하는 메소드
+     * @param mIdx 영화 ID
+     * @return 해당 영화의 총 예매 수
+     */
+    public static int getReservationCountByMovie(String mIdx) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int count = ss.selectOne("movie.getReservationCountByMovie", mIdx);
+        ss.close();
+        return count;
+    }
+
+    /**
+     * 현재 상영중인 모든 영화의 총 예매 수를 반환하는 메소드
+     * (예매율 분모 계산용)
+     * @return 상영중인 영화들의 총 예매 수
+     */
+    public static int getTotalReservationsForShowingMovies() {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        // 분모가 0이 되는 것을 방지하기 위해 null 체크 후 0을 반환하도록 처리
+        Integer total = ss.selectOne("movie.getTotalReservationsForShowingMovies");
+        ss.close();
+        return (total == null) ? 0 : total;
+    }
+
 }

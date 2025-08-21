@@ -33,25 +33,12 @@ public class MyPageAction implements Action {
                         nowPage = Integer.parseInt(cPage);
                     }
                     Paging pvo = new Paging(5, 5); // 한 페이지에 5개, 블록당 5페이지
-                    pvo.setTotalCount(23); // TODO: DB에서 실제 데이터 총 개수로 변경해야 합니다.
+                    pvo.setTotalCount(30); // TODO: DB에서 실제 데이터 총 개수로 변경해야 합니다.
                     pvo.setNowPage(nowPage);
 
                     // JSP에서 페이징을 사용하기 위해 request에 저장
                     request.setAttribute("pvo", pvo);
                     // =================================================================
-
-                    // 샘플 데이터 생성
-                    List<Map<String, String>> sampleList = new ArrayList<>();
-                    for (int i = 0; i < 5; i++) {
-                        Map<String, String> map = new HashMap<>();
-                        map.put("posterPath", "/images/umbokdong.png");
-                        map.put("paymentDate", "2025-02-1" + i + " 14:30:00");
-                        map.put("movieTitle", "샘플 영화 " + (i + 1));
-                        map.put("theaterInfo", "강남 프리미엄관");
-                        map.put("screenDate", "2025-02-2" + i + " 19:00:00");
-                        sampleList.add(map);
-                    }
-                    request.setAttribute("reservationList", sampleList);
 
                     viewPath = "./mypage/myPage_reservationHistory.jsp";
                     break;

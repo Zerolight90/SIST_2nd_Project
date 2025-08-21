@@ -85,7 +85,7 @@
     grid-template-columns: repeat(4, 260px);
     justify-content: center;
     gap: 40px 25px;
-    /* 총 너비 = (260 * 4) + (25 * 3) = 1040 + 75 = 1115px */
+    min-height: 500px;
 }
 
 .movie-item {

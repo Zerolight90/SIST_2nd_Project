@@ -2,28 +2,31 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%
-  // Action에서 전달된 영화 제목을 JavaScript에서 안전하게 사용하도록 처리
-  String jsSafeName = "상품명 없음";
-  Object item = request.getAttribute("reservationInfo");
-  if (item != null) {
-    try {
-      java.lang.reflect.Method getTitleMethod = item.getClass().getMethod("getTitle");
-      String title = (String) getTitleMethod.invoke(item);
-      if (title != null) {
-        jsSafeName = title.replace("'", "\\'");
-      }
-    } catch (Exception e) {
-      // 예외 발생 시 기본값 사용
-    }
-  }
-  request.setAttribute("jsSafeName", jsSafeName);
-%>
+
+<%-- 상품 타입에 따라 공통으로 사용할 변수 설정 --%>
+<c:choose>
+  <c:when test="${paymentType == 'paymentMovie'}">
+    <c:set var="itemName" value="${reservationInfo.title}" />
+    <c:set var="itemPosterUrl" value="${reservationInfo.posterUrl}" />
+    <c:set var="itemFinalAmount" value="${reservationInfo.finalAmount}" />
+  </c:when>
+  <c:otherwise> <%-- paymentStore --%>
+    <c:set var="itemName" value="${productInfo.prodName}" />
+    <c:set var="itemPosterUrl" value="${pageContext.request.contextPath}/images/store/${productInfo.prodImg}" />
+    <c:set var="itemFinalAmount" value="${productInfo.prodPrice}" />
+  </c:otherwise>
+</c:choose>
+
+<%--
+  [수정] 문제가 되었던 스크립틀릿(<% ... %>) 블록 전체 삭제.
+--%>
+
 <!DOCTYPE html>
 <html>
 <head>
   <title>SIST BOX - 결제하기</title>
   <c:set var="basePath" value="${pageContext.request.contextPath}" />
+  <c:set var="full_base_url" value="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}" />
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://js.tosspayments.com/v1/payment-widget"></script>
   <link rel="stylesheet" href="${basePath}/css/reset.css">
@@ -41,19 +44,25 @@
     <div class="payment_info_section">
       <h1>결제하기</h1>
       <div class="info_group">
-        <h2>예매정보</h2>
+        <h2>${paymentType == 'paymentMovie' ? '예매정보' : '상품정보'}</h2>
         <div class="booking_card">
-          <img src="${reservationInfo.posterUrl}" alt="포스터 이미지" class="poster">
+          <img src="${itemPosterUrl}" alt="포스터/상품 이미지" class="poster">
           <div class="booking_card_details">
-            <p class="payment_movie_title">${reservationInfo.title}</p>
-            <p class="info_line">${reservationInfo.theaterName} / ${reservationInfo.screenName}</p>
-            <p class="info_line">일시: ${fn:substring(reservationInfo.startTime, 0, 16)}</p>
-            <p class="info_line">좌석: ${reservationInfo.seatInfo}</p>
+            <p class="payment_movie_title">${itemName}</p>
+            <c:choose>
+              <c:when test="${paymentType == 'paymentMovie'}">
+                <p class="info_line">${reservationInfo.theaterName} / ${reservationInfo.screenName}</p>
+                <p class="info_line">일시: ${fn:substring(reservationInfo.startTime, 0, 16)}</p>
+                <p class="info_line">좌석: ${reservationInfo.seatInfo}</p>
+              </c:when>
+              <c:otherwise>
+                <p class="info_line">수량: 1개</p>
+              </c:otherwise>
+            </c:choose>
           </div>
         </div>
       </div>
 
-      <%-- 회원 전용 할인/포인트 섹션 --%>
       <c:if test="${!isGuest}">
         <div class="info_group">
           <h2>할인 적용</h2>
@@ -74,8 +83,8 @@
           <div class="input_field">
             <input type="text" id="pointInput" placeholder="0">
             <span class="point_info">보유
-                            <span id="availablePoints"><fmt:formatNumber value="${memberInfo.totalPoints}" pattern="#,##0" /></span> P
-                        </span>
+              <span id="availablePoints"><fmt:formatNumber value="${memberInfo.totalPoints}" pattern="#,##0" /></span> P
+            </span>
             <button class="btn_apply" id="applyPointBtn">사용</button>
           </div>
           <p id="pointWarningMessage" class="warning_message" style="display: none;"></p>
@@ -87,142 +96,134 @@
         <div id="payment-widget"></div>
       </div>
     </div>
-      <%-- ## 결제금액 요약 창 ## --%>
-      <div class="payment_summary_section">
-        <h2>결제금액</h2>
 
-        <div class="summary_group">
-          <c:set var="preDiscountTotal" value="0" />
-          <c:if test="${reservationInfo.adultCount > 0}">
-            <c:set var="adultTotal" value="${reservationInfo.adultCount * (price.week - price.day)}" />
-            <div class="summary_item">
-              <span>성인 ${reservationInfo.adultCount}</span>
-              <span class="value"><fmt:formatNumber value="${adultTotal}" pattern="#,##0"/> 원</span>
-            </div>
-            <c:set var="preDiscountTotal" value="${preDiscountTotal + adultTotal}" />
-          </c:if>
-          <c:if test="${reservationInfo.teenCount > 0}">
-            <c:set var="teenTotal" value="${reservationInfo.teenCount * price.teen}" />
-            <div class="summary_item">
-              <span>청소년 ${reservationInfo.teenCount}</span>
-              <span class="value"><fmt:formatNumber value="${teenTotal}" pattern="#,##0"/> 원</span>
-            </div>
-            <c:set var="preDiscountTotal" value="${preDiscountTotal + teenTotal}" />
-          </c:if>
-          <c:if test="${reservationInfo.seniorCount > 0}">
-            <c:set var="seniorTotal" value="${reservationInfo.seniorCount * price.elder}" />
-            <div class="summary_item">
-              <span>경로 ${reservationInfo.seniorCount}</span>
-              <span class="value"><fmt:formatNumber value="${seniorTotal}" pattern="#,##0"/> 원</span>
-            </div>
-            <c:set var="preDiscountTotal" value="${preDiscountTotal + seniorTotal}" />
-          </c:if>
-          <c:if test="${reservationInfo.specialCount > 0}">
-            <c:set var="specialTotal" value="${reservationInfo.specialCount * price.elder}" />
-            <div class="summary_item">
-              <span>우대 ${reservationInfo.specialCount}</span>
-              <span class="value"><fmt:formatNumber value="${specialTotal}" pattern="#,##0"/> 원</span>
-            </div>
-            <c:set var="preDiscountTotal" value="${preDiscountTotal + specialTotal}" />
-          </c:if>
-        </div>
-
-        <c:if test="${reservationInfo.timeDiscountAmount > 0 || reservationInfo.seatDiscountAmount > 0}">
+    <div class="payment_summary_section">
+      <h2>결제금액</h2>
+      <c:choose>
+        <c:when test="${paymentType == 'paymentMovie'}">
           <div class="summary_group">
-            <c:if test="${reservationInfo.timeDiscountAmount > 0}">
-              <div class="summary_item discount_item_detail">
-                <span>${reservationInfo.timeDiscountName}</span>
-                <span class="value">- <fmt:formatNumber value="${reservationInfo.timeDiscountAmount}" pattern="#,##0"/> 원</span>
+            <c:if test="${reservationInfo.adultCount > 0}">
+              <div class="summary_item">
+                <span>성인 ${reservationInfo.adultCount}</span>
+                <span class="value"><fmt:formatNumber value="${reservationInfo.adultCount * (price.week - price.day)}" pattern="#,##0"/> 원</span>
               </div>
             </c:if>
-            <c:if test="${reservationInfo.seatDiscountAmount > 0}">
-              <div class="summary_item discount_item_detail">
-                <span>좌석 할인</span>
-                <span class="value">- <fmt:formatNumber value="${reservationInfo.seatDiscountAmount}" pattern="#,##0"/> 원</span>
+            <c:if test="${reservationInfo.teenCount > 0}">
+              <div class="summary_item">
+                <span>청소년 ${reservationInfo.teenCount}</span>
+                <span class="value"><fmt:formatNumber value="${reservationInfo.teenCount * price.teen}" pattern="#,##0"/> 원</span>
+              </div>
+            </c:if>
+            <c:if test="${reservationInfo.seniorCount > 0}">
+              <div class="summary_item">
+                <span>경로 ${reservationInfo.seniorCount}</span>
+                <span class="value"><fmt:formatNumber value="${reservationInfo.seniorCount * price.elder}" pattern="#,##0"/> 원</span>
+              </div>
+            </c:if>
+            <c:if test="${reservationInfo.specialCount > 0}">
+              <div class="summary_item">
+                <span>우대 ${reservationInfo.specialCount}</span>
+                <span class="value"><fmt:formatNumber value="${reservationInfo.specialCount * price.elder}" pattern="#,##0"/> 원</span>
               </div>
             </c:if>
           </div>
-        </c:if>
-
-        <div class="summary_group">
-          <div class="summary_item subtotal_item">
-            <span>상품 금액</span>
-            <span class="value"><fmt:formatNumber value="${reservationInfo.finalAmount}" pattern="#,##0"/> 원</span>
-          </div>
-        </div>
-
-        <c:if test="${!isGuest}">
+          <c:if test="${reservationInfo.timeDiscountAmount > 0 || reservationInfo.seatDiscountAmount > 0}">
+            <div class="summary_group">
+              <c:if test="${reservationInfo.timeDiscountAmount > 0}">
+                <div class="summary_item discount_item_detail">
+                  <span>${reservationInfo.timeDiscountName}</span>
+                  <span class="value">- <fmt:formatNumber value="${reservationInfo.timeDiscountAmount}" pattern="#,##0"/> 원</span>
+                </div>
+              </c:if>
+              <c:if test="${reservationInfo.seatDiscountAmount > 0}">
+                <div class="summary_item discount_item_detail">
+                  <span>좌석 할인</span>
+                  <span class="value">- <fmt:formatNumber value="${reservationInfo.seatDiscountAmount}" pattern="#,##0"/> 원</span>
+                </div>
+              </c:if>
+            </div>
+          </c:if>
+        </c:when>
+        <c:otherwise>
           <div class="summary_group">
-            <div class="summary_item discount_item">
-              <span>쿠폰 할인</span>
-              <span class="value" id="couponDiscountText">- 0 원</span>
-            </div>
-            <div class="summary_item discount_item">
-              <span>포인트 사용</span>
-              <span class="value" id="pointDiscountText">- 0 원</span>
+            <div class="summary_item">
+              <span>상품</span>
+              <span class="value"><fmt:formatNumber value="${productInfo.prodPrice}" pattern="#,##0"/> 원</span>
             </div>
           </div>
-        </c:if>
+        </c:otherwise>
+      </c:choose>
 
-        <div class="final_amount_display">
-          <span>총 결제 금액</span>
-          <div class="amount">
-            <span class="number" id="finalAmountNumber"><fmt:formatNumber value="${reservationInfo.finalAmount}" pattern="#,##0"/></span>
-            <span class="currency">원</span>
-          </div>
-        </div>
-        <div class="button_group">
-          <button class="pay_button btn_prev" onclick="history.back()">이전</button>
-          <button class="pay_button btn_pay" onclick="requestPayment()">결제</button>
+      <div class="summary_group">
+        <div class="summary_item subtotal_item">
+          <span>상품 금액</span>
+          <span class="value"><fmt:formatNumber value="${itemFinalAmount}" pattern="#,##0"/> 원</span>
         </div>
       </div>
+
+      <c:if test="${!isGuest}">
+        <div class="summary_group">
+          <div class="summary_item discount_item">
+            <span>쿠폰 할인</span>
+            <span class="value" id="couponDiscountText">- 0 원</span>
+          </div>
+          <div class="summary_item discount_item">
+            <span>포인트 사용</span>
+            <span class="value" id="pointDiscountText">- 0 원</span>
+          </div>
+        </div>
+      </c:if>
+
+      <div class="final_amount_display">
+        <span>총 결제 금액</span>
+        <div class="amount">
+          <span class="number" id="finalAmountNumber"><fmt:formatNumber value="${itemFinalAmount}" pattern="#,##0"/></span>
+          <span class="currency">원</span>
+        </div>
+      </div>
+      <div class="button_group">
+        <button class="pay_button btn_prev" onclick="history.back()">이전</button>
+        <button class="pay_button btn_pay" onclick="requestPayment()">결제</button>
+      </div>
     </div>
+  </div>
 </article>
 <footer>
   <jsp:include page="common/Footer.jsp"/>
 </footer>
 
 <script>
-  const isGuest = ${isGuest};
-  const _basePath = "${basePath}";
+  const isGuest = ${!empty isGuest and isGuest};
+  const paymentType = "${paymentType}";
+  const full_base_url = "${full_base_url}";
 
   $(document).ready(function() {
-    // --- 초기 변수 설정 ---
     const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
     const customerKey = isGuest ? "SIST_GUEST_" + new Date().getTime() : "SIST_USER_${memberInfo.userIdx}";
-
-    const originalAmount = parseInt('<c:out value="${reservationInfo.finalAmount}" default="0"/>', 10);
+    const originalAmount = parseInt('${itemFinalAmount}', 10);
     const availablePoints = isGuest ? 0 : parseInt('<c:out value="${memberInfo.totalPoints}" default="0"/>', 10);
-    let couponDiscount = 0;
-    let pointDiscount = 0;
 
     const paymentWidget = PaymentWidget(clientKey, customerKey);
     const paymentMethods = paymentWidget.renderPaymentMethods("#payment-widget", { value: originalAmount });
 
-    // --- 함수 정의 ---
     function updatePaymentSummary() {
       let finalAmount = originalAmount;
-
       if (!isGuest) {
-        couponDiscount = parseInt($('#couponSelector').find('option:selected').data('discount'), 10) || 0;
-        pointDiscount = parseInt($('#pointInput').val()) || 0;
-
+        let couponDiscount = parseInt($('#couponSelector').find('option:selected').data('discount'), 10) || 0;
+        let pointDiscount = parseInt($('#pointInput').val()) || 0;
         let maxPoints = originalAmount - couponDiscount;
+        if(pointDiscount < 0) pointDiscount = 0;
         if(pointDiscount > maxPoints) pointDiscount = maxPoints;
         if(pointDiscount > availablePoints) pointDiscount = availablePoints;
         $('#pointInput').val(pointDiscount);
-
         finalAmount = originalAmount - couponDiscount - pointDiscount;
-
         $('#couponDiscountText').text("- " + couponDiscount.toLocaleString() + " 원");
         $('#pointDiscountText').text("- " + pointDiscount.toLocaleString() + " 원");
       }
-
       $('#finalAmountNumber').text(finalAmount.toLocaleString());
       paymentMethods.updateAmount(finalAmount);
     }
 
-    // --- 이벤트 리스너 (회원 전용) ---
     if (!isGuest) {
       $('#couponSelector').on('change', updatePaymentSummary);
       $('#pointInput').on('input', function() {
@@ -232,17 +233,30 @@
       $('#applyPointBtn').on('click', updatePaymentSummary);
     }
 
-    // --- 최종 결제 요청 ---
     window.requestPayment = function() {
       const finalAmountForPayment = parseInt($('#finalAmountNumber').text().replace(/,/g, ''));
-      const orderId = "SIST_MOVIE_" + new Date().getTime();
-      const orderName = '<c:out value="${jsSafeName}"/>';
+      const orderId = "SIST_" + (paymentType === 'paymentMovie' ? "MOVIE_" : "STORE_") + new Date().getTime();
+
+      // [수정] 스크립틀릿 대신 JSTL/EL을 사용하여 JavaScript 변수 직접 생성
+      const orderName = "${fn:replace(itemName, '"', '\\"')}";
+
       const couponUserIdx = isGuest ? 0 : $('#couponSelector').val();
       const usedPoints = isGuest ? 0 : (parseInt($('#pointInput').val()) || 0);
+      const paymentTypeValue = (paymentType === 'paymentMovie' ? 0 : 1);
+      const successUrl = full_base_url + "/Controller?type=paymentConfirm&couponUserIdx=" + couponUserIdx + "&usedPoints=" + usedPoints + "&paymentType=" + paymentTypeValue;
+      const failUrl = full_base_url + "/paymentFail.jsp";
 
-      // _basePath 변수를 사용하여 올바른 URL 생성
-      const successUrl = `${window.location.origin}${_basePath}/Controller?type=paymentConfirm&couponUserIdx=${couponUserIdx}&usedPoints=${usedPoints}`;
-      const failUrl = `${window.location.origin}${_basePath}/paymentFail.jsp`;
+      console.log("========== [결제 요청] 서버로 전송할 최종 데이터 ==========");
+      console.log({
+        finalAmountForPayment: finalAmountForPayment,
+        orderId: orderId,
+        orderName: orderName,
+        couponUserIdx: couponUserIdx,
+        usedPoints: usedPoints,
+        paymentTypeValue: paymentTypeValue,
+        successUrl: successUrl
+      });
+      console.log("==========================================================");
 
       paymentWidget.requestPayment({
         amount: finalAmountForPayment,
@@ -254,7 +268,7 @@
         failUrl: failUrl,
       });
     }
-  });
+    });
 </script>
 </body>
 </html>

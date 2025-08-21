@@ -244,7 +244,7 @@
                         </li>
                     </ul>
                     <div class="button-container">
-                        <a href="Controller?type=myPrivateinquiry" class="my-inquiry-btn">나의 문의내역</a>
+                        <a href="Controller?type=myPage&tab=myPrivateinquiry" class="my-inquiry-btn">나의 문의내역</a>
                     </div>
                 </div>
 

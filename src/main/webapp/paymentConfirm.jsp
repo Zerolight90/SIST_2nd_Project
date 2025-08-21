@@ -6,7 +6,6 @@
 <html>
 <head>
   <title>SIST BOX - 결제 결과</title>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <c:set var="basePath" value="${pageContext.request.contextPath}"/>
   <link rel="stylesheet" href="${basePath}/css/reset.css">
   <link rel="stylesheet" href="${basePath}/css/sub/sub_page_style.css">
@@ -20,7 +19,6 @@
 <article>
   <div class="confirmation_container">
     <c:choose>
-      <%-- ==================== 결제 성공 ==================== --%>
       <c:when test="${isSuccess}">
         <c:choose>
           <%-- ==================== 영화 예매 성공 화면 ==================== --%>
@@ -44,53 +42,70 @@
                   <tr><td class="label">관람극장/상영관</td><td class="value">${paidItem.theaterName} / ${paidItem.screenName}</td></tr>
                   <tr><td class="label">관람일시</td><td class="value">${fn:substring(paidItem.startTime, 0, 16)}</td></tr>
                   <tr><td class="label">좌석번호</td><td class="value">${paidItem.seatInfo}</td></tr>
+                    <%-- (수정) 상품금액: 최종결제액 + 할인액 + 포인트사용액 으로 계산해서 표시 --%>
                   <tr><td class="label">상품금액</td><td class="value"><fmt:formatNumber value="${tossResponse.totalAmount + couponDiscount + pointDiscount}" pattern="#,##0" /> 원</td></tr>
-                  <c:if test="${!isGuest}">
-                    <tr><td class="label">쿠폰 할인</td><td class="value">- <fmt:formatNumber value="${couponDiscount}" pattern="#,##0" /> 원</td></tr>
-                    <tr><td class="label">포인트 사용</td><td class="value">- <fmt:formatNumber value="${pointDiscount}" pattern="#,##0" /> 원</td></tr>
+
+                    <%-- (수정) 회원이고, 할인 또는 포인트 사용 내역이 있을 때만 표시 --%>
+                  <c:if test="${!isGuest and (couponDiscount > 0 or pointDiscount > 0)}">
+                    <c:if test="${couponDiscount > 0}">
+                      <tr><td class="label">쿠폰 할인</td><td class="value">- <fmt:formatNumber value="${couponDiscount}" pattern="#,##0" /> 원</td></tr>
+                    </c:if>
+                    <c:if test="${pointDiscount > 0}">
+                      <tr><td class="label">포인트 사용</td><td class="value">- <fmt:formatNumber value="${pointDiscount}" pattern="#,##0" /> 원</td></tr>
+                    </c:if>
                   </c:if>
+
                   <tr class="final_amount_row"><td class="label">최종결제금액</td><td class="value"><fmt:formatNumber value="${tossResponse.totalAmount}" pattern="#,##0" /> 원</td></tr>
                 </table>
               </div>
             </div>
             <div class="button_container">
               <c:choose>
-                <c:when test="${isGuest}">
-                  <button class="btn_history" onclick="location.href='${basePath}/nonmember/nmemReservation.jsp'">예매정보 다시 확인하기</button>
-                </c:when>
+                <c:when test="${isGuest}"><button class="btn_history" onclick="location.href='${basePath}/nonmember/nmemReservation.jsp'">예매정보 다시 확인하기</button></c:when>
                 <c:otherwise>
-                  <button class="btn_history" onclick="location.href='${basePath}/Controller?type=myPage'">예매내역 확인</button>
+                  <div class="button_container">
+                  <a href="Controller?type=myPage&tab=myreservationHistory" class="btn_history">나의 예매내역</a>
+                </div>
                 </c:otherwise>
               </c:choose>
             </div>
           </c:when>
 
-          <%-- ==================== 스토어 구매 성공 화면==================== --%>
+          <%-- ==================== 스토어 구매 성공 화면 ==================== --%>
           <c:when test="${paymentType == 'paymentStore'}">
             <h1>구매 완료</h1>
             <div class="confirmation_box store">
               <div class="store_card">
-                <img src="${paidItem.posterUrl}" alt="상품 이미지" class="poster">
+                <img src="${basePath}/images/store/${paidItem.prodImg}" alt="상품 이미지" class="poster">
                 <div class="store_details">
                   <p class="title">${paidItem.prodName}</p>
-                  <p class="store_black">수량: 1개</p>
+                  <p class="store_black">수량: ${paidItem.quantity}개</p>
                 </div>
               </div>
               <div class="booking_details">
                 <h2>상품 구매가 완료되었습니다!</h2>
                 <table class="details_table">
                   <tr><td class="label">주문번호</td><td class="value">${tossResponse.orderId}</td></tr>
+
+                    <%-- (수정) 상품금액: 최종결제액 + 할인액 + 포인트사용액 으로 계산해서 표시 --%>
                   <tr><td class="label">상품금액</td><td class="value"><fmt:formatNumber value="${tossResponse.totalAmount + couponDiscount + pointDiscount}" pattern="#,##0" /> 원</td></tr>
-                  <c:if test="${!isGuest}">
-                    <tr><td class="label">쿠폰 할인</td><td class="value">- <fmt:formatNumber value="${couponDiscount}" pattern="#,##0" /> 원</td></tr>
-                    <tr><td class="label">포인트 사용</td><td class="value">- <fmt:formatNumber value="${pointDiscount}" pattern="#,##0" /> 원</td></tr>
+
+                    <%-- (수정) 회원이고, 할인 또는 포인트 사용 내역이 있을 때만 표시 --%>
+                  <c:if test="${!isGuest and (couponDiscount > 0 or pointDiscount > 0)}">
+                    <c:if test="${couponDiscount > 0}">
+                      <tr><td class="label">쿠폰 할인</td><td class="value">- <fmt:formatNumber value="${couponDiscount}" pattern="#,##0" /> 원</td></tr>
+                    </c:if>
+                    <c:if test="${pointDiscount > 0}">
+                      <tr><td class="label">포인트 사용</td><td class="value">- <fmt:formatNumber value="${pointDiscount}" pattern="#,##0" /> 원</td></tr>
+                    </c:if>
                   </c:if>
+
                   <tr class="final_amount_row"><td class="label">최종결제금액</td><td class="value"><fmt:formatNumber value="${tossResponse.totalAmount}" pattern="#,##0" /> 원</td></tr>
                 </table>
               </div>
             </div>
             <div class="button_container">
-              <button class="btn_history" onclick="location.href='Controller?type=myReservation'">나의 구매내역</button>
+              <a href="Controller?type=myPage&tab=myreservationHistory" class="btn_history">나의 예매내역</a>
             </div>
           </c:when>
         </c:choose>

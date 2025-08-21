@@ -22,7 +22,14 @@
         SELECT COUNT(*)
         FROM payment p
         <where>
-            p.userIdx = #{userIdx}
+            <choose>
+                <when test="userType == 'member'">
+                    AND p.userIdx = #{userKey}
+                </when>
+                <when test="userType == 'nonMember'">
+                    AND p.nIdx2 = #{userKey}
+                </when>
+            </choose>
             <if test="statusFilter != null and statusFilter != ''">
                 AND p.paymentStatus = #{statusFilter}
             </if>
@@ -44,7 +51,7 @@
         p.paymentStatus,
         COALESCE(m.name, pr.prodName) AS itemTitle,
         COALESCE(m.poster, pr.prodImg) AS itemPosterUrl,
-        t.tName AS theaterInfo,
+        CONCAT(t.tName, ' ', s.sName) AS theaterInfo,
         tt.startTime AS screenDate,
         pr.prodPrice
         FROM
@@ -52,10 +59,18 @@
         LEFT JOIN reservation r ON p.reservIdx = r.reservIdx
         LEFT JOIN time_table tt ON r.timeTableIdx = tt.timeTableIdx
         LEFT JOIN movie m ON tt.mIdx = m.mIdx
-        LEFT JOIN theater t ON r.tIdx = t.tIdx
+        LEFT JOIN theater t ON tt.tIdx = t.tIdx
+        LEFT JOIN screen s ON tt.sIdx = s.sIdx
         LEFT JOIN product pr ON p.prodIdx = pr.prodIdx
         <where>
-            p.userIdx = #{userIdx}
+            <choose>
+                <when test="userType == 'member'">
+                    AND p.userIdx = #{userKey}
+                </when>
+                <when test="userType == 'nonMember'">
+                    AND p.nIdx2 = #{userKey}
+                </when>
+            </choose>
             <if test="statusFilter != null and statusFilter != ''">
                 AND p.paymentStatus = #{statusFilter}
             </if>

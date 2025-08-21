@@ -10,6 +10,7 @@ public class PaymentVO {
     private String name;
     private Long reservIdx; // 영화 예매 ID (FK)
     private Long prodIdx;   // 스토어 상품 ID (FK)
+    private Long couponIdx; // 사용한 쿠폰 ID (FK)
     private Long couponUserIdx; // 사용한 쿠폰 ID (FK)
     private int paymentType; // 0: 영화, 1: 스토어
     private String orderId; // 토스 결제용 주문ID
@@ -57,9 +58,9 @@ public class PaymentVO {
         return nIdx;
     }
 
-//    public void setnIdx(String nIdx) {
-//        this.nIdx = nIdx;
-//    }
+    public void setnIdx(long nIdx) {
+        this.nIdx = nIdx;
+    }
 
     public String getName() {
         return name;
@@ -101,4 +102,15 @@ public class PaymentVO {
     public void setPaymentDate(Date paymentDate) { this.paymentDate = paymentDate; }
     public Date getPaymentCancelDate() { return paymentCancelDate; }
     public void setPaymentCancelDate(Date paymentCancelDate) { this.paymentCancelDate = paymentCancelDate; }
+
+    public void setCouponIdx(Object o) {
+    }
+
+    public Long getCouponIdx() {
+        return couponIdx;
+    }
+
+    public void setCouponIdx(Long couponIdx) {
+        this.couponIdx = couponIdx;
+    }
 }

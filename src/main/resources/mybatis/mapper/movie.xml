@@ -15,17 +15,17 @@
         SELECT COUNT(*) FROM movie
         <where>
             <choose>
-                <when test="_parameter == 'boxoffice'">
-                    `date` &lt;= NOW() AND status != '상영종료'
+                <when test="category == 'boxoffice'">
+                    `date` &lt;= NOW()
                 </when>
-                <when test="_parameter == 'scheduled'">
-                    `date` > NOW()
+                <when test="category == 'scheduled'">
+                    `date` > NOW() AND status = '상영종료'
                 </when>
-                <when test="_parameter == 'filmsociety'">
-                    gen = '다큐멘터리'
+                <when test="category == 'filmsociety'">
+                    gen LIKE '%다큐멘터리%' AND status = '상영중'
                 </when>
-                <when test="_parameter == 'classicsociety'">
-                    gen = '음악'
+                <when test="category == 'classicsociety'">
+                    gen LIKE '%음악%' AND status = '상영중'
                 </when>
             </choose>
         </where>
@@ -44,10 +44,10 @@
                     `date` > NOW() AND status = '상영종료'
                 </when>
                 <when test="category == 'filmsociety'">
-                    gen = '다큐멘터리' AND status = '상영중'
+                    gen LIKE '%다큐멘터리%' AND status = '상영중'
                 </when>
                 <when test="category == 'classicsociety'">
-                    gen = '음악' AND status = '상영중'
+                    gen LIKE '%음악%' AND status = '상영중'
                 </when>
             </choose>
         </where>
@@ -147,5 +147,21 @@
         status = #{status}
         WHERE name = #{name}
     </update>
+
+    <select id="getReservationCountByMovie" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM reservation r
+        JOIN time_table tt ON r.timeTableIdx = tt.timeTableIdx
+        WHERE tt.mIdx = #{mIdx}
+    </select>
+
+    <select id="getTotalReservationsForShowingMovies" resultType="int">
+        SELECT COUNT(*)
+        FROM reservation r
+        JOIN time_table tt ON r.timeTableIdx = tt.timeTableIdx
+        JOIN movie m ON tt.mIdx = m.mIdx
+        WHERE m.`date` &lt;= NOW()
+        AND r.status = 0 -- [추가] 취소되지 않은 정상 예매(status=0)만 카운트하도록 조건 추가
+    </select>
 
 </mapper>
