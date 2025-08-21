@@ -81,4 +81,5 @@ public class ReservationVO {
     public int getSeatDiscountAmount() { return seatDiscountAmount; }
     public void setSeatDiscountAmount(int seatDiscountAmount) { this.seatDiscountAmount = seatDiscountAmount; }
 
+
 }

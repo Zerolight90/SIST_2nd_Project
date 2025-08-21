@@ -64,4 +64,5 @@ public class PaymentDAO {
     public static PaymentVO getNmemPaymentHistory(Map<String, String> params, SqlSession ss) {
         return ss.selectOne("payment.getNmemPaymentHistory", params);
     }
+
 }

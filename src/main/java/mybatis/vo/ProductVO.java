@@ -15,6 +15,8 @@ public class ProductVO {
     private Date prodRegDate;
     private int prodStatus;
 
+    private int quantity; // DB 컬럼과 무관. 구매 수량을 임시로 담는 용도
+
     // Getters and Setters
     public long getProdIdx() {
         return prodIdx;
@@ -86,5 +88,13 @@ public class ProductVO {
 
     public void setProdStatus(int prodStatus) {
         this.prodStatus = prodStatus;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

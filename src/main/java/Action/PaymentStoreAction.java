@@ -32,6 +32,7 @@ public class PaymentStoreAction implements Action {
             String prodName = request.getParameter("prodName");
             String prodImg = request.getParameter("prodImg");
             String amountStr = request.getParameter("amount");
+            String quantityStr = request.getParameter("quantity"); // 💡 수량 파라미터 받기
 
             // 파라미터로 ProductVO 객체 생성
             ProductVO product = new ProductVO();
@@ -39,6 +40,7 @@ public class PaymentStoreAction implements Action {
             product.setProdName(prodName);
             product.setProdImg(prodImg);
             product.setProdPrice(Integer.parseInt(amountStr)); // 총액
+            product.setQuantity(Integer.parseInt(quantityStr)); // 💡 객체에 수량 설정
 
             List<MyCouponVO> couponList = CouponDAO.getAvailableStoreCoupons(Long.parseLong(userIdx));
             MemberVO memberInfo = MemberDAO.getMemberByIdx(Long.parseLong(userIdx));

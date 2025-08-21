@@ -43,26 +43,29 @@
     </select>
 
     <select id="getHistoryList" parameterType="map" resultMap="paymentHistoryResultMap">
+        -- 영화 예매 내역 (paymentType = 0)
         SELECT
         p.paymentType,
         p.paymentDate,
         p.orderId,
         p.paymentTransactionId AS paymentKey,
         p.paymentStatus,
-        COALESCE(m.name, pr.prodName) AS itemTitle,
-        COALESCE(m.poster, pr.prodImg) AS itemPosterUrl,
+        m.name AS itemTitle,
+        m.poster AS itemPosterUrl,
         CONCAT(t.tName, ' ', s.sName) AS theaterInfo,
         tt.startTime AS screenDate,
-        pr.prodPrice
+        NULL AS prodPrice,
+        NULL AS quantity
         FROM
         payment p
-        LEFT JOIN reservation r ON p.reservIdx = r.reservIdx
-        LEFT JOIN time_table tt ON r.timeTableIdx = tt.timeTableIdx
-        LEFT JOIN movie m ON tt.mIdx = m.mIdx
-        LEFT JOIN theater t ON tt.tIdx = t.tIdx
-        LEFT JOIN screen s ON tt.sIdx = s.sIdx
-        LEFT JOIN product pr ON p.prodIdx = pr.prodIdx
+        JOIN reservation r ON p.reservIdx = r.reservIdx
+        JOIN time_table tt ON r.timeTableIdx = tt.timeTableIdx
+        JOIN movie m ON tt.mIdx = m.mIdx
+        JOIN theater t ON tt.tIdx = t.tIdx
+        -- ★★★★★ 오타 수정: s.Idx -> s.sIdx ★★★★★
+        JOIN screen s ON tt.sIdx = s.sIdx
         <where>
+            p.paymentType = 0
             <choose>
                 <when test="userType == 'member'">
                     AND p.userIdx = #{userKey}
@@ -81,7 +84,47 @@
                 AND p.paymentType = #{typeFilter}
             </if>
         </where>
-        ORDER BY p.paymentDate DESC
+
+        UNION ALL
+
+        -- 스토어 구매 내역 (paymentType = 1)
+        SELECT
+        p.paymentType,
+        p.paymentDate,
+        p.orderId,
+        p.paymentTransactionId AS paymentKey,
+        p.paymentStatus,
+        pr.prodName AS itemTitle,
+        pr.prodImg AS itemPosterUrl,
+        NULL AS theaterInfo,
+        NULL AS screenDate,
+        pr.prodPrice,
+        1 AS quantity
+        FROM
+        payment p
+        JOIN product pr ON p.prodIdx = pr.prodIdx
+        <where>
+            p.paymentType = 1
+            <choose>
+                <when test="userType == 'member'">
+                    AND p.userIdx = #{userKey}
+                </when>
+                <when test="userType == 'nonMember'">
+                    AND p.nIdx2 = #{userKey}
+                </when>
+            </choose>
+            <if test="statusFilter != null and statusFilter != ''">
+                AND p.paymentStatus = #{statusFilter}
+            </if>
+            <if test="yearFilter != null and yearFilter != ''">
+                AND YEAR(p.paymentDate) = #{yearFilter}
+            </if>
+            <if test="typeFilter != null and typeFilter != ''">
+                AND p.paymentType = #{typeFilter}
+            </if>
+        </where>
+
+        ORDER BY paymentDate DESC
         LIMIT #{begin}, #{end}
     </select>
 

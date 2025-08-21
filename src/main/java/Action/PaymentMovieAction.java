@@ -36,6 +36,11 @@ public class PaymentMovieAction implements Action {
             String seniorCountStr = request.getParameter("senior");
             String specialCountStr = request.getParameter("special");
 
+            String timeTableIdxStr = request.getParameter("timeTableIdx");
+            String tIdxStr = request.getParameter("tIdx");
+            String sIdxStr = request.getParameter("sIdx");
+            String priceIdxStr = request.getParameter("priceIdx");
+
             int adultCount = (adultCountStr == null || adultCountStr.isEmpty()) ? 0 : Integer.parseInt(adultCountStr);
             int teenCount = (teenCountStr == null || teenCountStr.isEmpty()) ? 0 : Integer.parseInt(teenCountStr);
             int seniorCount = (seniorCountStr == null || seniorCountStr.isEmpty()) ? 0 : Integer.parseInt(seniorCountStr);
@@ -90,6 +95,12 @@ public class PaymentMovieAction implements Action {
 
             // --- 3. 결과를 ReservationVO에 담기 ---
             ReservationVO reservation = new ReservationVO();
+
+            if(timeTableIdxStr != null) reservation.setTimeTableIdx(Long.parseLong(timeTableIdxStr));
+            if(tIdxStr != null) reservation.settIdx(Long.parseLong(tIdxStr));
+            if(sIdxStr != null) reservation.setsIdx(Long.parseLong(sIdxStr));
+            if(priceIdxStr != null) reservation.setPriceIdx(Long.parseLong(priceIdxStr));
+
             reservation.setTitle(movieTitle);
             reservation.setPosterUrl(posterUrl);
             reservation.setTheaterName(theaterName);

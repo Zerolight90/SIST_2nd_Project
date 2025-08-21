@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -85,7 +86,7 @@
         <div class="rating-item">
           <div class="label">실관람 평점</div>
           <canvas id="ratingChart" width="120" height="120"></canvas>
-          <div class="sub-label">예매율 76.9%</div>
+          <span>예매율 <fmt:formatNumber value="${movie.bookingRate}" pattern="#,##0.0"/>%</span>
         </div>
 
         <div class="rating-item">
