@@ -2,8 +2,10 @@ package Action;
 
 import mybatis.dao.FavoriteMovieDAO;
 import mybatis.dao.MovieDAO;
+import mybatis.dao.ReviewDAO;
 import mybatis.vo.MemberVO;
 import mybatis.vo.MovieVO;
+import mybatis.vo.ReviewVO;
 import util.Paging;
 
 import javax.servlet.http.HttpServletRequest;
@@ -100,6 +102,7 @@ public class AllMovieDataAction implements Action {
         request.setAttribute("totalCount", p.getTotalCount());
         request.setAttribute("currentCategory", category);
         request.setAttribute("nowPage", p.getNowPage());
+
 
         return "/allmovie/allmovie.jsp";
     }

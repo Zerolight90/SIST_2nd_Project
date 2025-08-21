@@ -18,8 +18,8 @@ public class MyPaymentHistoryAction implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         MemberVO mvo = (MemberVO) session.getAttribute("mvo");
-        // [반영 1] 비회원 정보(nonvo)도 세션에서 가져옵니다.
-        NmemVO nvo = (NmemVO) session.getAttribute("nonvo");
+        // [반영 1] 비회원 정보(nmenvo)도 세션에서 가져옵니다.
+        NmemVO nvo = (NmemVO) session.getAttribute("nmenvo");
 
         String userKey = null;
         String userType = null;

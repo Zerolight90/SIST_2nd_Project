@@ -1,102 +1,188 @@
+/* 리뷰 작성 및 리스트 공통 스타일 */
 .review-container {
     max-width: 1100px;
-    margin: 0 auto;
+    margin: 0 auto 60px;
     font-family: 'Noto Sans KR', sans-serif;
     color: #333;
 }
 
-.review-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    font-size: 14px;
-    font-weight: 700;
+/* 리뷰 작성 영역 */
+.review-write {
+    max-width: 1100px;
+    margin: 30px auto 20px;
+    border-top: 1px solid #eee;
+    padding: 20px 24px 24px;
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #fafafa;
+    border-radius: 8px;
+    box-sizing: border-box;
 }
 
-.review-header strong {
+.review-write h4 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 18px;
+    color: #0052cc;
+}
+
+/* 폼 그룹 간격 및 정렬 */
+.form-group {
+    margin-bottom: 14px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-size: 15px;
     color: #222;
 }
 
-.review-sort button {
-    background: none;
-    border: none;
-    color: #666;
-    font-size: 13px;
-    margin-left: 12px;
+/* 닉네임 표시 영역 */
+.form-group .nickname-display {
+    font-weight: 700;
+    font-size: 16px;
+    color: #333;
+    padding: 8px 12px;
+    background: #e6e6e6;
+    border-radius: 6px;
+    user-select: none;
+    width: fit-content;
+}
+
+/* 별점 UI */
+.star-rating {
+    display: flex;
+    gap: 6px;
+    font-size: 28px;
     cursor: pointer;
-    padding: 4px 8px;
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
+    color: #ccc;
+    user-select: none;
 }
 
-.review-sort button:hover,
-.review-sort button.active {
-    color: #5a3ea1;
-    background-color: #f0eaff;
+.star-rating .star.selected,
+.star-rating .star.hover {
+    color: #f5a623;
 }
 
+/* 체크박스 그룹 */
+.checkbox-group {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.checkbox-group label {
+    font-weight: 500;
+    font-size: 14px;
+    color: #444;
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 6px;
+    cursor: pointer;
+}
+
+/* 텍스트 영역 */
+.form-group textarea {
+    min-height: 100px;
+    padding: 10px 14px;
+    font-size: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    resize: vertical;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: border-color 0.2s ease;
+}
+
+.form-group textarea:focus {
+    border-color: #007aff;
+    outline: none;
+}
+
+/* 버튼 그룹 */
+.btn-group {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-submit {
+    background-color: #0052cc;
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+    background-color: #003d99;
+}
+
+/* 리뷰 리스트 */
 .review-list {
+    max-width: 1100px;
+    margin: 0 auto 60px;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #333;
     list-style: none;
-    padding: 0;
-    margin: 0;
+    padding: 0 24px;
+    box-sizing: border-box;
 }
 
 .review-item {
+    border-bottom: 1px solid #e5e5e5;
+    padding: 14px 0;
     display: flex;
-    padding: 16px 20px;
-    border-top: 1px solid #eee;
+    gap: 14px;
     align-items: flex-start;
 }
 
-.review-item:first-child {
-    border-top: none;
+.review-item:last-child {
+    border-bottom: none;
 }
 
-.user-icon {
-    width: 48px;
-    height: 48px;
-    background-color: #ccc;
+.review-item .user {
+    width: 44px;
+    height: 44px;
+    background: #5a3ea1;
     border-radius: 50%;
-    color: #fff;
+    color: white;
     font-weight: 700;
     font-size: 18px;
-    line-height: 48px;
+    line-height: 44px;
     text-align: center;
-    margin-right: 16px;
     user-select: none;
-    background: #5a3ea1;
+    flex-shrink: 0;
 }
 
 .review-content {
     flex: 1;
 }
 
-.review-score {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-    color: #5a3ea1;
-    font-weight: 700;
+.review-header-info {
+    font-size: 13px;
+    color: #666;
     margin-bottom: 6px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
 
-.review-score .label {
-    background: #f0eaff;
-    color: #5a3ea1;
-    padding: 2px 6px;
-    border-radius: 4px;
-    margin-right: 12px;
-    font-size: 12px;
+.review-score {
     font-weight: 700;
+    color: #5a3ea1;
+    font-size: 14px;
+    margin-right: 10px;
 }
 
-.review-score .score {
-    font-size: 20px;
-    margin-right: 8px;
-}
-
-.review-score .extra {
+.review-extra {
     font-size: 12px;
     color: #999;
 }
@@ -104,17 +190,17 @@
 .review-text {
     font-size: 14px;
     color: #444;
-    line-height: 1.4;
-    margin-bottom: 10px;
     white-space: pre-wrap;
+    margin-bottom: 6px;
+    line-height: 1.5;
 }
 
 .review-footer {
-    display: flex;
-    justify-content: flex-end;
     font-size: 12px;
     color: #999;
-    gap: 16px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 14px;
     align-items: center;
 }
 
@@ -123,16 +209,56 @@
     display: flex;
     align-items: center;
     gap: 4px;
+    color: #999;
+    transition: color 0.2s ease;
 }
 
-.review-footer .likes i {
-    font-size: 14px;
+.review-footer .likes.liked {
+    color: #0052cc;
 }
 
 .review-footer .likes:hover {
-    color: #5a3ea1;
+    color: #0052cc;
 }
 
-.review-footer .time {
-    white-space: nowrap;
+/* 리뷰 정렬 버튼 */
+.review-sort {
+    max-width: 1100px;
+    margin: 20px auto 0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 0 24px;
+    box-sizing: border-box;
+}
+
+.review-sort button {
+    background: none;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 6px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    color: #666;
+    transition: all 0.2s ease;
+}
+
+.review-sort button.active,
+.review-sort button:hover {
+    background: #0052cc;
+    border-color: #0052cc;
+    color: white;
+}
+
+/* 반응형 */
+@media (max-width: 720px) {
+    .review-write, .review-list, .review-sort {
+        padding: 0 12px;
+    }
+    .form-group select {
+        width: 100%;
+    }
+    .checkbox-group {
+        gap: 10px;
+    }
 }

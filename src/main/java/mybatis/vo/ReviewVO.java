@@ -1,7 +1,7 @@
 package mybatis.vo;
 
 public class ReviewVO {
-    private String reviewIdx, userIdx, mIdx, reviewRating, reviewContent, reviewDate, reviewStatus, ip;
+    private String reviewIdx, mIdx, reviewRating, reviewContent, reviewDate, reviewStatus, ip;
 
     public String getReviewIdx() {
         return reviewIdx;
@@ -9,14 +9,6 @@ public class ReviewVO {
 
     public void setReviewIdx(String reviewIdx) {
         this.reviewIdx = reviewIdx;
-    }
-
-    public String getUserIdx() {
-        return userIdx;
-    }
-
-    public void setUserIdx(String userIdx) {
-        this.userIdx = userIdx;
     }
 
     public String getmIdx() {

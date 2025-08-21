@@ -72,10 +72,10 @@ public class NmemDAO {
 
         //sql문을 호출하기 위해 필요한 객체 SqlSession얻기
         SqlSession ss = FactoryService.getFactory().openSession();
-        NmemVO nonvo = ss.selectOne("nmem.bookchk", map);
+        NmemVO nmenvo = ss.selectOne("nmem.bookchk", map);
         ss.close();
 
-        return nonvo;
+        return nmenvo;
     }
 
 
