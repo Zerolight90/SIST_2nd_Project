@@ -43,7 +43,7 @@ public class MovieDetailAction implements Action{
             request.setAttribute("errorMessage", "해당 영화를 찾을 수 없습니다.");
         }
 
-        // 3. 조회된 영화 정보를 request 또는 session에 저장
+        // 3. 조회된 영화 정보를 request 또는 session에 저장(진환 예매율 계산 로직)
         if (movie != null) {
             // --- ▼▼▼ 예매율 계산 로직 추가 ▼▼▼ ---
             // 3-1) 예매율 계산을 위한 분모 (상영작 전체 예매 수) 구하기
@@ -64,11 +64,9 @@ public class MovieDetailAction implements Action{
         }
 
 
-        //
+        // 4. 리플 블러오기
             ReviewVO[] rvo = null;
-
-
-            // 파라미터가 null일 경우, request 속성의 "movie" 객체에서 mIdx를 추출 시도
+        // 파라미터가 null일 경우, request 속성의 "movie" 객체에서 mIdx를 추출 시도
             if (mIdxStr == null) {
                 Object movieAttr = request.getAttribute("movie");
                 // movieAttr이 MovieVO 타입인지 확인하여 안전하게 mIdx를 가져옴
@@ -76,15 +74,11 @@ public class MovieDetailAction implements Action{
                     mIdxStr = ((MovieVO) movieAttr).getmIdx();
                 }
             }
-
             rvo = ReviewDAO.getReviewsByMovieId(mIdxStr);
-
-
-
             // JSP에서 사용할 수 있도록 request에 바인딩
             request.setAttribute("rvo", rvo);
 
-        //
+
 
 
         return "movieDetail.jsp";

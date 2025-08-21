@@ -45,6 +45,13 @@ public class LoginAction implements Action {
 //                System.out.println("Saved borderurl to session: " + borderurl);
             }
 
+            String reviewurl = request.getParameter("review");
+            if (reviewurl != null && !reviewurl.trim().isEmpty()) {
+                request.getSession().setAttribute("reviewurl", reviewurl);
+                System.out.println("Saved reviewurl to session: " + reviewurl);
+            }
+
+
             // 로그인 시도 여부 체크
             if (u_id == null || u_id.trim().isEmpty() || u_pw == null || u_pw.trim().isEmpty()) {
                 // 로그인 시도 전이므로 에러 메시지 없이 로그인 페이지로 이동
@@ -61,9 +68,12 @@ public class LoginAction implements Action {
                 // 세션에서 저장된 리다이렉트 URL들을 확인
                 Object seaturlObj = request.getSession().getAttribute("seaturl");
                 Object borderurlObj = request.getSession().getAttribute("borderurl");
+                Object reviewurlobj = request.getSession().getAttribute("reviewurl");
+                System.out.println(reviewurlobj);
 
                 String seaturl2 = null;
                 String borderurl2 = null;
+                String reviewurl2 = null;
 
                 if (seaturlObj != null) {
                     seaturl2 = seaturlObj.toString();
@@ -73,6 +83,11 @@ public class LoginAction implements Action {
                 if (borderurlObj != null) {
                     borderurl2 = borderurlObj.toString();
 //                    System.out.println("Found borderurl2 in session: " + borderurl2);
+                }
+
+                if (reviewurlobj != null) {
+                    reviewurl2 = reviewurlobj.toString();
+//                    System.out.println("Found reviewurl2 in session: " + reviewurl2);
                 }
 
                 // URL 결정 로직
@@ -85,7 +100,12 @@ public class LoginAction implements Action {
 //                    System.out.println("Redirecting to border page: " + borderurl2);
                     url = borderurl2;
                     // 사용 후 세션에서 제거
-                    request.getSession().removeAttribute("borderurl");
+                    request.getSession().removeAttribute("reviewurl");
+                }else if (reviewurl2 != null && !reviewurl2.trim().isEmpty()) {
+//                    System.out.println("Redirecting to border page: " + borderurl2);
+                    url = reviewurl2;
+                    // 사용 후 세션에서 제거
+                    request.getSession().removeAttribute("reviewurl");
                 } else {
 //                    System.out.println("No redirect URL found, going to index");
                     url = "index";

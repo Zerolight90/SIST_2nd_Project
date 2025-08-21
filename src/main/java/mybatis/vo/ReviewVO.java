@@ -1,7 +1,8 @@
 package mybatis.vo;
 
 public class ReviewVO {
-    private String reviewIdx, mIdx, reviewRating, reviewContent, reviewDate, reviewStatus, ip;
+    private String reviewIdx, mIdx, reviewRating, reviewContent, reviewDate, reviewStatus, ip, userIdx; // userIdx 추가
+    private MemberVO member; // MemberVO 객체 추가
 
     public String getReviewIdx() {
         return reviewIdx;
@@ -57,5 +58,23 @@ public class ReviewVO {
 
     public void setIp(String ip) {
         this.ip = ip;
+    }
+
+    // userIdx Getter and Setter 추가
+    public String getUserIdx() {
+        return userIdx;
+    }
+
+    public void setUserIdx(String userIdx) {
+        this.userIdx = userIdx;
+    }
+
+    // MemberVO Getter and Setter 추가
+    public MemberVO getMember() {
+        return member;
+    }
+
+    public void setMember(MemberVO member) {
+        this.member = member;
     }
 }
