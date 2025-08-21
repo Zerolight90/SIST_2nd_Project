@@ -15,8 +15,16 @@ import java.util.Locale;
 public class AllTheaterAction implements Action{
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String tIdx = request.getParameter("tIdx");
+        TimeTableVO[] timeArr = null;
+        TimeTableVO[] mappingTime = null;
+        ScreenTypeVO[] screenTypeArr = null;
+        TheaterVO theater = null;
+        PriceVO pvo = null;
         // ------극장 정보를 보여주기 위한 탭의 정보를 던지기 위한 영역-------------------------------------------------------
         // 극장 정보는 theater 테이블의 정보를 가져와서 뿌려야 한다
+        theater = TheatherDAO.getTheaterInfo(tIdx);
+        request.setAttribute("theater", theater);
         // ------------------------------------------------------------------------------------------------------------
 
         // ------상영시간표를 보여주기 위한 탭의 정보를 던지기 위한 영역 -----------------------------------------------------
@@ -36,30 +44,27 @@ public class AllTheaterAction implements Action{
         }
 
         request.setAttribute("dvo_list", dvo_list);
-        // --------------------------------------------------------------------------------
+        // -----------------------------------------------------------------------------
 
         // 현재 상영중이거나 상영예정인 영화들을 보여주기 위한 값을 구하는 영역-----------------
-        TimeTableVO[] timeArr = TimeTableDAO.getList();
+        timeArr = TimeTableDAO.getList();
         request.setAttribute("timeArr", timeArr);
-        //------------------------------------------------------------------------------
-
-        // 상영관들의 이름를 모두 보여주기 위한 값을 구하는 영역------------------------------
-        TheaterVO[] theaterArr = TheatherDAO.getList();
-        request.setAttribute("theaterArr", theaterArr);
         //------------------------------------------------------------------------------
         
         // 사용자가 선택한 영화관에서 상영중인 영화의 정보만 가져와야함
-//        String tIdx = request.getParameter("tIdx");
-        TimeTableVO[] mappingTime = null;
-
-        mappingTime = TimeTableDAO.getTimeTableSearch("1");
+        mappingTime = TimeTableDAO.getTimeTableSearch(tIdx);
 
         // 영화관에 따른 상영중인 영화들 전달
         request.setAttribute("mappingTime", mappingTime);
         // ------------------------------------------------------------------------------------------------------------
 
-        // ------극장 정보를 보여주기 위한 탭의 정보를 던지기 위한 영역-------------------------------------------------------
-
+        // ------가격 정보를 보여주기 위한 탭의 정보를 던지기 위한 영역-------------------------------------------------------
+        // 연령, 장애 여부 별 가격정보
+        pvo = PriceDAO.getPrice();
+        request.setAttribute("pvo", pvo);
+        // 2D, 3D 에 대한 가격 정보
+        screenTypeArr = ScreenTypeDAO.getPrice();
+        request.setAttribute("screenTypeArr", screenTypeArr);
         // ------------------------------------------------------------------------------------------------------------
 
         return "allTheater.jsp";

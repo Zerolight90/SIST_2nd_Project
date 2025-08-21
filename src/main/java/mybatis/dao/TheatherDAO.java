@@ -1,7 +1,6 @@
 package mybatis.dao;
 
 import mybatis.Service.FactoryService;
-import mybatis.vo.AdminBoardVO;
 import mybatis.vo.TheaterVO;
 import org.apache.ibatis.session.SqlSession;
 
@@ -98,5 +97,27 @@ public class TheatherDAO {
         ss.close();
 
         return cnt;
+    }
+
+    // all_theater.jsp 에서 중복되지않는 영화관 지역 탭을 표현하기 위해 값 가져오기
+    public static TheaterVO[] getRegion() {
+        TheaterVO[] ar = null;
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<TheaterVO> list = ss.selectList("theater.getRegion");
+        ar = new TheaterVO[list.size()];
+        list.toArray(ar);
+        ss.close();
+        return ar;
+    }
+
+    public static TheaterVO getTheaterInfo(String tIdx) {
+        TheaterVO vo = null;
+        SqlSession ss = FactoryService.getFactory().openSession();
+        vo = ss.selectOne("theater.getTheaterInfo", tIdx);
+        if(vo == null) {
+            System.out.println("theaterInfo is null");
+        }
+        ss.close();
+        return vo;
     }
 }

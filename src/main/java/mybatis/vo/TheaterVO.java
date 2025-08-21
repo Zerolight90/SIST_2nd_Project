@@ -1,8 +1,30 @@
 package mybatis.vo;
 
+import java.util.List;
+
 public class TheaterVO {
     private String tIdx, tName, tRegion, tAddress, tInfo, tScreenCount, tRegDate, tStatus;
     private String screenCode;
+
+    TheaterInfoBoardVO tibvo;
+
+    List<AdminBoardVO> bvo_list;
+
+    public List<AdminBoardVO> getBvo_list() {
+        return bvo_list;
+    }
+
+    public void setBvo_list(List<AdminBoardVO> bvo_list) {
+        this.bvo_list = bvo_list;
+    }
+
+    public TheaterInfoBoardVO getTibvo() {
+        return tibvo;
+    }
+
+    public void setTibvo(TheaterInfoBoardVO tibvo) {
+        this.tibvo = tibvo;
+    }
 
     public String getScreenCode() {
         return screenCode;

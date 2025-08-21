@@ -157,7 +157,7 @@
 
         function requestRefund(paymentKey, orderId) {
             // 비회원인지 여부를 세션 정보로 판단
-            const isNonMember = ("${not empty sessionScope.nonvo}" === "true");
+            const isNonMember = ("${not empty sessionScope.nmemvo}" === "true");
 
             let refundData = {
                 paymentKey: paymentKey,
@@ -167,9 +167,9 @@
 
             // 비회원일 경우, 환불에 필요한 추가 인증 정보를 객체에 담음
             if (isNonMember) {
-                refundData.name = "${sessionScope.nonvo.name}";
-                refundData.phone = "${sessionScope.nonvo.phone}";
-                refundData.password = "${sessionScope.nonvo.password}";
+                refundData.name = "${sessionScope.nmemvo.name}";
+                refundData.phone = "${sessionScope.nmemvo.phone}";
+                refundData.password = "${sessionScope.nmemvo.password}";
                 refundData.orderId = orderId;
             }
 
