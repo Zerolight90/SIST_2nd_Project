@@ -91,7 +91,7 @@ public class LoginAction implements Action {
 
                 if (reviewurlobj != null) {
                     reviewurl2 = reviewurlobj.toString();
-//                    System.out.println("Found reviewurl2 in session: " + reviewurl2);
+                    System.out.println("Found reviewurl2 in session: " + reviewurl2);
                 }
 
                 // URL 결정 로직
@@ -110,6 +110,9 @@ public class LoginAction implements Action {
                     url = reviewurl2;
                     // 사용 후 세션에서 제거
                     request.getSession().removeAttribute("reviewurl");
+
+                    System.out.println(url);
+
                 } else {
 //                    System.out.println("No redirect URL found, going to index");
                     url = "index";

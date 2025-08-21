@@ -140,7 +140,7 @@
             </form>
           </c:when>
           <c:otherwise>
-            <p>리뷰를 작성하려면 <strong><a href="/Controller?type=login&movieDetail&mIdx=${review.mIdx}">로그인</a></strong>이 필요합니다.</p>
+            <p>리뷰를 작성하려면 <strong><a href="${pageContext.request.contextPath}/Controller?type=login&movieDetail&mIdx=${movie.mIdx}">로그인</a></strong>이 필요합니다.</p>
 
           </c:otherwise>
         </c:choose>
