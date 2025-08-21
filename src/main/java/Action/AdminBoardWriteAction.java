@@ -107,21 +107,17 @@ public class AdminBoardWriteAction implements Action{
                 } else if ("이벤트".equals(boardType)) {
                     viewPath = "Controller?type=adminEventList";
                 } else if("QnA".equals(boardType)) {
-                    // 폼 파라미터로 받은 데이터
-                    parent_boardIdx = mr.getParameter("parent_boardIdx");
-                    content = mr.getParameter("content");
-                    title= mr.getParameter("title");
 
-                    // JSP 페이지에 전달할 데이터를 request 속성으로 저장
-                    request.setAttribute("parent_boardIdx", parent_boardIdx);
-                    request.setAttribute("content", content);
-                    request.setAttribute("title", title);
-                    request.setAttribute("success", true);
-                    request.setAttribute("message", "등록 완료");
+                    // AJAX 요청인지 확인
+                    String ajax = mr.getParameter("ajax");
+                    if ("Y".equals(ajax)) {
+                        // AJAX 요청인 경우, HTML 조각을 반환하기 위해 JSP로 포워딩
+                        viewPath = "admin/adminSaveInquiry.jsp";
+                    } else {
+                        // 일반 요청인 경우 (추가적인 예외 처리), 리다이렉트
+                        viewPath = "Controller?type=adminViewInquiry&boardIdx=" + parent_boardIdx;
+                    }
 
-                    //System.out.println(content + ":::::::::content");
-
-                    viewPath = "admin/adminSaveInquiry.jsp";
                 }else {
                     viewPath = "Controller?type=adminBoardList";
                 }

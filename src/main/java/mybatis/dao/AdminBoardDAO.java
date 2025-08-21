@@ -27,9 +27,7 @@ public class AdminBoardDAO {
     //게시물 목록 반환
     public static AdminBoardVO[] getList(String boardType, int begin, int end, String searchKeyword){
 
-        //System.out.println("searchKeyword::::::::" + searchKeyword);
         String bt = bungiCata(boardType);
-        //System.out.println("AdminBoardDAO.getList 에서의 bt의 값::" + bt);
 
         AdminBoardVO[] ar = null;
 
@@ -40,15 +38,10 @@ public class AdminBoardDAO {
         map.put("end", end);
         map.put("searchKeyword", searchKeyword);
 
-        //System.out.println("map:::::::" + map);
 
         SqlSession ss = FactoryService.getFactory().openSession();
         //AdminBoardVO가 여러개 넘어오도록 한다.
-        //System.out.println("AdminBoardDAO에adminBoardList 타?");
         List<AdminBoardVO> list = ss.selectList("adminBoard.adminBoardList", map);
-        //System.out.println("list.toString() 보여줘봐"+list.toString());
-
-        System.out.println("list의 값은" + list);
 
 
         //결과가 넘어오면 배열로 넘겨야 하기 때문에
@@ -64,8 +57,6 @@ public class AdminBoardDAO {
     
     //게시물 작성
     public static int add(String boardType, String parent_boardIdx, String sub_boardType, String boardTitle, String writer, String boardContent, String fname, String oname, String thumbfilename, String boardStartRegDate, String boardEndRegDate, String boardStatus){
-
-        //System.out.println("AdminBoardDAO에서의 boardType::::::::::" + boardType);
 
         //bungiCata함수 호출하여 boardType을 bt변수명에 저장
         int cnt = 0;
@@ -211,8 +202,5 @@ public class AdminBoardDAO {
 
         return boardTitle;
     }
-
-    
-
 
 }

@@ -123,9 +123,9 @@
 
         <ul class="r_main">
             <li class="main-item has-submenu">
-                <a href="#">이벤트</a>
+                <a href="<c:url value="/Controller?type=userEventBoardList"/>">이벤트</a>
                 <ul class="submenu">
-                    <li><a href="#">진행중인 이벤트</a></li>
+                    <li><a href="<c:url value="/Controller?type=userEventBoardList"/>">진행중인 이벤트</a></li>
                     <li><a href="#">지난 이벤트</a></li>
                     <li><a href="#">당첨자 확인</a></li>
                 </ul>

@@ -46,7 +46,7 @@ public class UserBoardDAO {
         SqlSession ss = FactoryService.getFactory().openSession();
         //AdminBoardVO가 여러개 넘어오도록 한다.
         List<AdminBoardVO> list = ss.selectList("userBoard.userBoardList", map);
-        System.out.println("list.toString():::::::" + list.toString());
+        //System.out.println("list.toString():::::::" + list.toString());
 
         //결과가 넘어오면 배열로 넘겨야 하기 때문에
         if(list != null && !list.isEmpty()){ //비어있는 상태가 아니면,
