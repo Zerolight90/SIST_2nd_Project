@@ -16,6 +16,7 @@
         <result property="theaterInfo" column="theaterInfo"/>
         <result property="screenDate" column="screenDate"/>
         <result property="prodPrice" column="prodPrice"/>
+        <result property="quantity" column="quantity"/>
     </resultMap>
 
     <select id="getTotalHistoryCount" parameterType="map" resultType="int">
@@ -55,14 +56,13 @@
         CONCAT(t.tName, ' ', s.sName) AS theaterInfo,
         tt.startTime AS screenDate,
         NULL AS prodPrice,
-        NULL AS quantity
+        1 AS quantity -- 영화 예매는 수량을 1로 고정
         FROM
         payment p
         JOIN reservation r ON p.reservIdx = r.reservIdx
         JOIN time_table tt ON r.timeTableIdx = tt.timeTableIdx
         JOIN movie m ON tt.mIdx = m.mIdx
         JOIN theater t ON tt.tIdx = t.tIdx
-        -- ★★★★★ 오타 수정: s.Idx -> s.sIdx ★★★★★
         JOIN screen s ON tt.sIdx = s.sIdx
         <where>
             p.paymentType = 0
@@ -99,7 +99,11 @@
         NULL AS theaterInfo,
         NULL AS screenDate,
         pr.prodPrice,
-        1 AS quantity
+        -- 💡 수정 2: 총 결제금액 / 상품가격을 나눠서 수량을 실시간으로 계산
+        CASE
+        WHEN pr.prodPrice > 0 THEN (p.paymentTotal / pr.prodPrice)
+        ELSE 1
+        END AS quantity
         FROM
         payment p
         JOIN product pr ON p.prodIdx = pr.prodIdx

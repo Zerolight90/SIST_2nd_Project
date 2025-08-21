@@ -117,10 +117,8 @@ public class PaymentConfirmAction implements Action {
                 ProductVO product = (ProductVO) paidItem;
                 pvo.setProdIdx(product.getProdIdx());
 
-                // --- 💡 추가된 부분 시작 💡 ---
-
-                // (주석) 현재는 수량을 1로 가정. 추후 장바구니 등에서 실제 구매수량을 받아와야 합니다.
-                int quantity = 1;
+                // (주석) 세션에 저장된 ProductVO에서 실제 구매수량을 가져옵니다.
+                int quantity = product.getQuantity();
 
                 // (주석) 재고 차감을 위한 파라미터 준비
                 Map<String, Object> params = new HashMap<>();

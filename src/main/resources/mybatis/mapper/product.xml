@@ -42,12 +42,14 @@
     </update>
 
     <update id="updateStock" parameterType="java.util.Map">
+        <![CDATA[
         UPDATE product
         SET
-        prodStock = prodStock - #{quantity},
-        prodStatus = CASE WHEN (prodStock - #{quantity}) <= 0 THEN 1 ELSE 0 END
+            prodStock = prodStock - #{quantity},
+            prodStatus = CASE WHEN (prodStock - #{quantity}) > 0 THEN 0 ELSE 1 END
         WHERE
-        prodIdx = #{prodIdx}
-        AND prodStock >= #{quantity}
+            prodIdx = #{prodIdx}
+          AND prodStock >= #{quantity}
+    ]]>
     </update>
 </mapper>
