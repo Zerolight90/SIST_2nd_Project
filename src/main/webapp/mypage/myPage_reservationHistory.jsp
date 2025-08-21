@@ -155,7 +155,7 @@
         }
 
         function requestRefund(paymentKey, orderId) {
-            const isNonMember = ("${not empty sessionScope.nonvo}" === "true");
+            const isNonMember = ("${not empty sessionScope.nmemvo}" === "true");
             let refundData = {
                 paymentKey: paymentKey,
                 cancelReason: "고객 변심",
@@ -163,9 +163,9 @@
             };
 
             if (isNonMember) {
-                refundData.name = "${sessionScope.nonvo.name}";
-                refundData.phone = "${sessionScope.nonvo.phone}";
-                refundData.password = "${sessionScope.nonvo.password}";
+                refundData.name = "${sessionScope.nmemvo.name}";
+                refundData.phone = "${sessionScope.nmemvo.phone}";
+                refundData.password = "${sessionScope.nmemvo.password}";
                 refundData.orderId = orderId;
             }
 
