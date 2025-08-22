@@ -166,33 +166,6 @@ public class CouponDAO {
     }
 
     /**
-     * 특정 사용자가 올해 생일 쿠폰을 받았는지 확인하는 메서드
-     * @param userIdx 확인할 사용자의 ID
-     * @param birthdayCouponIdx 생일 쿠폰의 ID
-     * @return 받았으면 true, 아니면 false
-     */
-    public static boolean hasReceivedBirthdayCouponThisYear(long userIdx, long birthdayCouponIdx) {
-        SqlSession ss = FactoryService.getFactory().openSession();
-        boolean received = false;
-        try {
-            Map<String, Long> map = new HashMap<>();
-            map.put("userIdx", userIdx);
-            map.put("couponIdx", birthdayCouponIdx);
-            int count = ss.selectOne("coupon.checkBirthdayCouponIssued", map);
-            if (count > 0) {
-                received = true;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (ss != null) {
-                ss.close();
-            }
-        }
-        return received;
-    }
-
-    /**
      * 환불 시, 결제 정보(userIdx, paymentIdx)를 기반으로
      * 사용되었던 쿠폰의 고유 ID(couponUserIdx)를 찾는 메소드.
      * RefundAction에서 사용됩니다.
@@ -206,5 +179,51 @@ public class CouponDAO {
         map.put("userIdx", userIdx);
         map.put("paymentIdx", paymentIdx);
         return ss.selectOne("coupon.getCouponUserIdxByPaymentInfo", map);
+    }
+
+    /**
+     * 새로운 쿠폰을 DB에 생성하고 즉시 사용자에게 발급하는 메소드
+     */
+    public static CouponVO createAndIssueCoupon(long userIdx, CouponVO newCoupon) {
+        SqlSession ss = null;
+        try {
+            ss = FactoryService.getFactory().openSession(false); // 트랜잭션 시작
+
+            int res1 = ss.insert("coupon.createNewCoupon", newCoupon);
+            if (res1 > 0) {
+                Map<String, Long> params = new HashMap<>();
+                params.put("userIdx", userIdx);
+                params.put("couponIdx", Long.valueOf(newCoupon.getCouponIdx()));
+                int res2 = ss.insert("coupon.issueCouponToUser", params);
+                if (res2 > 0) {
+                    ss.commit();
+                    return newCoupon;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (ss != null) ss.rollback();
+        } finally {
+            if (ss != null) ss.close();
+        }
+        return null;
+    }
+
+    /**
+     * 특정 사용자가 올해 '생일' 카테고리의 쿠폰을 받았는지 확인하는 메서드
+     */
+    public static boolean hasReceivedBirthdayCouponThisYear(long userIdx) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        try {
+            int count = ss.selectOne("coupon.hasReceivedBirthdayCouponThisYear", userIdx);
+            return count > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            if (ss != null) {
+                ss.close();
+            }
+        }
     }
 }

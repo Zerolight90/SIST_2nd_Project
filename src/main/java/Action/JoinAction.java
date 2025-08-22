@@ -2,6 +2,7 @@ package Action;
 
 import mybatis.dao.CouponDAO;
 import mybatis.dao.MemberDAO;
+import mybatis.vo.CouponVO;
 import mybatis.vo.MemberVO;
 
 import javax.servlet.http.HttpServletRequest;
@@ -76,24 +77,22 @@ public class JoinAction implements Action {
         // 4. DAO 호출해서 회원가입 시도
         int result = MemberDAO.registry(mvo);
 
-        if(result > 0) {
+        if (result > 0) {
+            // ★★★★★ [수정] 신규 가입 쿠폰 생성 및 지급 ★★★★★
+            MemberVO newUser = MemberDAO.login(id, pw); // userIdx를 가져오기 위해 다시 조회
+            if (newUser != null) {
+                long newUserIdx = Long.parseLong(newUser.getUserIdx());
 
-            // ----- [추가된 로직] -----
-            // 회원가입 성공 시, 신규가입 쿠폰 지급
-            // DB에서 '신규 회원 5000원 할인' 쿠폰의 couponIdx가 6일 경우(임시)
-            try {
-                // 방금 가입한 회원의 정보를 다시 불러와 userIdx를 얻음
-                MemberVO newMember = MemberDAO.getMemberByIdx(Long.parseLong(id));
-                if (newMember != null) {
-                    long newUserIdx = Long.parseLong(newMember.getUserIdx());
-                    long welcomeCouponIdx = 6; // DB에 6으로 정한 신규회원 쿠폰 ID
-                    CouponDAO.issueCouponToUser(newUserIdx, welcomeCouponIdx);
-                    System.out.println(newMember.getName() + "님에게 신규가입 쿠폰이 발급되었습니다.");
+                CouponVO welcomeCoupon = new CouponVO();
+                welcomeCoupon.setCouponName("신규 가입 축하 2,000원 할인 쿠폰");
+                welcomeCoupon.setCouponCategory("신규가입");
+                welcomeCoupon.setCouponInfo("첫 방문을 환영합니다!");
+                welcomeCoupon.setDiscountValue(String.valueOf(2000));
+
+                CouponVO issuedCoupon = CouponDAO.createAndIssueCoupon(newUserIdx, welcomeCoupon);
+                if (issuedCoupon != null) {
+                    session.setAttribute("couponAlert", "'" + issuedCoupon.getCouponName() + "' 쿠폰이 발급되었습니다!");
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-                // 쿠폰 발급에 실패하더라도 회원가입 자체가 실패하는 것은 아니므로, 오류 로그만 남김
-                System.out.println("신규가입 쿠폰 발급 중 오류 발생");
             }
             // 회원가입 성공 시, 가입 완료 메시지와 사용자 이름을 request 속성에 설정
             request.setAttribute("msg", "회원가입이 완료되었습니다");
