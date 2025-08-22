@@ -1,8 +1,18 @@
 package Action;
 
 import mybatis.Service.FactoryService;
-import mybatis.dao.*;
-import mybatis.vo.*;
+import mybatis.dao.CouponDAO;
+import mybatis.dao.PaymentDAO;
+import mybatis.dao.PointDAO;
+import mybatis.dao.ProductDAO;
+import mybatis.dao.ReservationDAO;
+import mybatis.vo.MemberVO;
+import mybatis.vo.MyCouponVO;
+import mybatis.vo.NmemVO;
+import mybatis.vo.PaymentVO;
+import mybatis.vo.ProductVO;
+import mybatis.vo.ReservationVO;
+
 import org.apache.ibatis.session.SqlSession;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -10,12 +20,15 @@ import org.json.simple.parser.JSONParser;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.HashMap;
@@ -23,7 +36,7 @@ import java.util.Map;
 
 public class PaymentConfirmAction implements Action {
 
-    // (수정) TOSS_SECRET_KEY는 결제 취소 API 호출을 위해 유지
+    // Toss 비밀 키 (운영 시 반드시 환경변수 또는 외부 설정으로 관리)
     private static final String TOSS_SECRET_KEY = "test_gsk_docs_OaPz8L5KdmQXkzRz3y47BMw6";
 
     @Override
@@ -31,41 +44,91 @@ public class PaymentConfirmAction implements Action {
         HttpSession session = request.getSession();
         SqlSession ss = null;
 
-        String paymentKey = request.getParameter("paymentKey");
-        String orderId = request.getParameter("orderId");
-        long amount = Long.parseLong(request.getParameter("amount")); // Toss로부터 전달받은 최종 결제 금액
-        long couponUserIdx = Long.parseLong(request.getParameter("couponUserIdx"));
-        int usedPoints = Integer.parseInt(request.getParameter("usedPoints"));
-        int paymentType = Integer.parseInt(request.getParameter("paymentType"));
-
         try {
-            // [수정] orderId로 세션에서 결제 정보 가져오기
-            Map<String, Object> paymentContext = (Map<String, Object>) session.getAttribute(orderId);
-            if (paymentContext == null) {
+            String paymentKey = request.getParameter("paymentKey");
+            String orderId = request.getParameter("orderId");
+            long amount = parseLongSafe(request.getParameter("amount"), -1L);
+            long couponUserIdx = parseLongSafe(request.getParameter("couponUserIdx"), 0L);
+            int usedPoints = parseIntSafe(request.getParameter("usedPoints"), 0);
+            int paymentType = -1;
+
+            System.out.println("paymentKey = " + paymentKey);
+            System.out.println("orderId = " + orderId);
+            System.out.println("amount = " + amount);
+            System.out.println("couponUserIdx = " + couponUserIdx);
+            System.out.println("usedPoints = " + usedPoints);
+
+            if (orderId != null) {
+                if (orderId.contains("MOVIE_")) {
+                    paymentType = 0;
+                } else if (orderId.contains("STORE_")) {
+                    paymentType = 1;
+                }
+            }
+
+            if (paymentKey == null || paymentKey.isEmpty() ||
+                    orderId == null || orderId.isEmpty() ||
+                    amount < 0 || paymentType < 0) {
+                throw new IllegalArgumentException("필수 결제 파라미터가 누락되었거나 형식이 올바르지 않습니다.");
+            }
+
+            // Toss API로 결제 정보 확인
+            JSONObject tossPaymentInfo = verifyTossPayment(paymentKey);
+
+            String status = (String) tossPaymentInfo.get("status");
+            if (!"DONE".equals(status)) {
+                cancelTossPayment(paymentKey, "결제 상태 이상: " + status);
+                throw new Exception("결제 상태가 완료되지 않았습니다. 상태: " + status);
+            }
+
+            String tossOrderId = (String) tossPaymentInfo.get("orderId");
+            Number tossAmountNum = (Number) tossPaymentInfo.get("totalAmount");
+            long tossAmount = tossAmountNum != null ? tossAmountNum.longValue() : -1L;
+
+            if (tossOrderId == null || !tossOrderId.equals(orderId)) {
+                cancelTossPayment(paymentKey, "주문번호 불일치");
+                throw new Exception("주문번호가 불일치합니다. 요청 orderId: " + orderId + ", 토스 orderId: " + tossOrderId);
+            }
+
+            if (tossAmount != amount) {
+                cancelTossPayment(paymentKey, "결제 금액 불일치");
+                throw new Exception("결제 금액이 불일치합니다. 요청 금액: " + amount + ", 토스 금액: " + tossAmount);
+            }
+
+            // 세션에서 결제 컨텍스트 가져오기
+            Object sessionAttr = session.getAttribute(orderId);
+            if (!(sessionAttr instanceof Map)) {
                 throw new Exception("결제 정보가 세션에 존재하지 않거나 만료되었습니다. (orderId: " + orderId + ")");
             }
+            @SuppressWarnings("unchecked")
+            Map<String, Object> paymentContext = (Map<String, Object>) sessionAttr;
 
             Object paidItem = paymentContext.get("paidItem");
             MemberVO mvo = (MemberVO) paymentContext.get("mvo");
             NmemVO nmemvo = (NmemVO) paymentContext.get("nmemvo");
 
-            // [수정] 금액 위변조 검증 (Toss API 호출 대신 세션 정보와 비교)
-            long originalAmount = 0;
+            long originalAmount = 0L;
             if (paymentType == 0) { // 영화 예매
+                if (!(paidItem instanceof ReservationVO)) {
+                    throw new Exception("paidItem 타입이 ReservationVO가 아닙니다.");
+                }
                 originalAmount = ((ReservationVO) paidItem).getFinalAmount();
-            } else { // 스토어 구매
+            } else if (paymentType == 1) { // 스토어 구매
+                if (!(paidItem instanceof ProductVO)) {
+                    throw new Exception("paidItem 타입이 ProductVO가 아닙니다.");
+                }
                 originalAmount = ((ProductVO) paidItem).getProdPrice();
+            } else {
+                throw new Exception("알 수 없는 paymentType 값입니다: " + paymentType);
             }
 
             int couponDiscount = 0;
-            Long couponIdx = null; // coupon_idx를 저장하기 위해 변수 추가
+            Long couponIdx = null;
 
-            // DB 접근 전에 쿠폰 할인액을 먼저 계산
             if (mvo != null && couponUserIdx > 0) {
-                // SqlSession이 아직 없으므로, 새로운 세션을 열어 할인액만 가져옴
-                try(SqlSession tempSs = FactoryService.getFactory().openSession()) {
+                try (SqlSession tempSs = FactoryService.getFactory().openSession()) {
                     MyCouponVO coupon = CouponDAO.getCouponByCouponUserIdx(couponUserIdx, tempSs);
-                    if(coupon != null) {
+                    if (coupon != null) {
                         couponDiscount = coupon.getDiscountValue();
                         couponIdx = coupon.getCouponIdx();
                     }
@@ -73,37 +136,34 @@ public class PaymentConfirmAction implements Action {
             }
 
             long expectedAmount = originalAmount - couponDiscount - usedPoints;
-
             if (amount != expectedAmount) {
-                // 실제 결제된 금액과 서버에서 계산한 기대 금액이 다를 경우, 위변조로 간주하고 결제 취소
-                cancelTossPayment(paymentKey, "결제 금액 불일치");
+                cancelTossPayment(paymentKey, "결제 금액 위변조 의심");
                 throw new Exception("결제 금액이 위변조되었습니다. 기대값: " + expectedAmount + ", 실제값: " + amount);
             }
 
-            // [수정] Toss API 승인(confirm) 호출 로직 완전 삭제
-
             ss = FactoryService.getFactory().openSession(false);
 
-            String userIdx = (mvo != null) ? mvo.getUserIdx() : null;
+            String userIdxStr = (mvo != null) ? mvo.getUserIdx() : null;
 
-            // [수정] createPaymentVO 메서드 대신 직접 PaymentVO 객체 생성 및 값 설정
             PaymentVO pvo = new PaymentVO();
-            if (userIdx != null) pvo.setUserIdx(Long.parseLong(userIdx));
+            if (userIdxStr != null) {
+                pvo.setUserIdx(Long.parseLong(userIdxStr));
+            }
             pvo.setOrderId(orderId);
             pvo.setPaymentTransactionId(paymentKey);
-            pvo.setPaymentMethod("카드"); // V2 위젯에서는 successUrl에서 결제수단을 바로 알 수 없으므로, 필요 시 별도 API로 조회하거나 DB 컬럼을 nullable로 변경
+            pvo.setPaymentMethod("카드");
             pvo.setPaymentFinal((int) amount);
             pvo.setCouponDiscount(couponDiscount);
             pvo.setPointDiscount(usedPoints);
+            // 총 결제 금액 = 최종 결제 금액 + 할인금액 + 포인트(원래 결제해야할 금액)
             pvo.setPaymentTotal((int) (amount + couponDiscount + usedPoints));
-            pvo.setCouponIdx(couponIdx); // 사용한 쿠폰의 고유 ID 저장
+            pvo.setCouponIdx(couponIdx);
 
-            // --- 이하 DB 저장 로직은 기존과 거의 동일 ---
             if (paymentType == 0) { // 영화 예매
                 pvo.setPaymentType(0);
                 ReservationVO reservation = (ReservationVO) paidItem;
                 if (mvo != null) {
-                    reservation.setUserIdx(Long.parseLong(userIdx));
+                    reservation.setUserIdx(Long.parseLong(userIdxStr));
                 } else if (nmemvo != null) {
                     long nIdx = Long.parseLong(nmemvo.getnIdx());
                     reservation.setnIdx(nIdx);
@@ -116,7 +176,7 @@ public class PaymentConfirmAction implements Action {
                 ProductVO product = (ProductVO) paidItem;
                 pvo.setProdIdx(product.getProdIdx());
                 if (mvo != null) {
-                    pvo.setUserIdx(Long.parseLong(userIdx));
+                    pvo.setUserIdx(Long.parseLong(userIdxStr));
                 }
                 Map<String, Object> params = new HashMap<>();
                 params.put("prodIdx", product.getProdIdx());
@@ -128,14 +188,15 @@ public class PaymentConfirmAction implements Action {
             }
 
             PaymentDAO.addPayment(pvo, ss);
+
             if (mvo != null) {
                 if (couponUserIdx > 0) CouponDAO.useCoupon(couponUserIdx, ss);
-                if (usedPoints > 0) PointDAO.usePoints(Long.parseLong(userIdx), usedPoints, pvo.getPaymentIdx(), ss);
+                if (usedPoints > 0) PointDAO.usePoints(Long.parseLong(userIdxStr), usedPoints, pvo.getPaymentIdx(), ss);
             }
 
             ss.commit();
 
-            // [수정] JSP로 넘겨줄 정보 재구성 (tossResponse 객체 대신)
+            // 결과를 JSP에 전달
             request.setAttribute("isSuccess", true);
             request.setAttribute("isGuest", (mvo == null));
             request.setAttribute("paymentType", (paymentType == 0 ? "paymentMovie" : "paymentStore"));
@@ -153,24 +214,28 @@ public class PaymentConfirmAction implements Action {
             e.printStackTrace();
             if (ss != null) ss.rollback();
 
-            // 오류 발생 시 결제 자동 취소 로직은 유지
-            if (paymentKey != null) {
-                try {
+            try {
+                String paymentKey = request.getParameter("paymentKey");
+                if (paymentKey != null && !paymentKey.isEmpty()) {
                     cancelTossPayment(paymentKey, "서버 내부 오류로 인한 자동 취소");
-                } catch (Exception cancelEx) {
-                    e.addSuppressed(cancelEx);
                 }
+            } catch (Exception cancelEx) {
+                cancelEx.printStackTrace();
             }
 
+            String errMsg = e.getMessage();
+            if (errMsg == null || errMsg.trim().isEmpty()) {
+                errMsg = e.toString();
+            }
             request.setAttribute("isSuccess", false);
-            request.setAttribute("errorMessage", "결제 처리 중 오류가 발생했습니다: " + e.getMessage());
+            request.setAttribute("errorMessage", "결제 처리 중 오류가 발생했습니다: " + errMsg);
+
             return "paymentConfirm.jsp";
         } finally {
             if (ss != null) ss.close();
         }
     }
 
-    // (수정) 결제 취소 메서드는 필요하므로 유지
     private void cancelTossPayment(String paymentKey, String cancelReason) throws Exception {
         URL url = new URL("https://api.tosspayments.com/v2/payments/" + paymentKey + "/cancel");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -179,12 +244,16 @@ public class PaymentConfirmAction implements Action {
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setRequestMethod("POST");
         connection.setDoOutput(true);
+
         JSONObject requestData = new JSONObject();
         requestData.put("cancelReason", cancelReason);
+
         try (OutputStream os = connection.getOutputStream()) {
-            os.write(requestData.toString().getBytes("UTF-8"));
+            os.write(requestData.toString().getBytes(StandardCharsets.UTF_8));
         }
-        if (connection.getResponseCode() != 200) {
+
+        int responseCode = connection.getResponseCode();
+        if (responseCode != 200) {
             try (InputStream errorStream = connection.getErrorStream();
                  Reader reader = new InputStreamReader(errorStream, StandardCharsets.UTF_8)) {
                 JSONObject errorResponse = (JSONObject) new JSONParser().parse(reader);
@@ -193,4 +262,45 @@ public class PaymentConfirmAction implements Action {
         }
     }
 
+    private long parseLongSafe(String value, long defaultValue) {
+        if (value == null || value.isEmpty()) return defaultValue;
+        try {
+            return Long.parseLong(value);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
+    }
+
+    private int parseIntSafe(String value, int defaultValue) {
+        if (value == null || value.isEmpty()) return defaultValue;
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
+    }
+
+    private JSONObject verifyTossPayment(String paymentKey) throws Exception {
+        URL url = new URL("https://api.tosspayments.com/v2/payments/" + paymentKey);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        String encodedKey = Base64.getEncoder().encodeToString((TOSS_SECRET_KEY + ":").getBytes(StandardCharsets.UTF_8));
+
+        connection.setRequestProperty("Authorization", "Basic " + encodedKey);
+        connection.setRequestMethod("GET");
+        connection.setDoOutput(false);
+
+        int responseCode = connection.getResponseCode();
+        if (responseCode != 200) {
+            try (InputStream errorStream = connection.getErrorStream();
+                 Reader reader = new InputStreamReader(errorStream, StandardCharsets.UTF_8)) {
+                JSONObject errorResponse = (JSONObject) new JSONParser().parse(reader);
+                throw new Exception("Toss API Verify Error: " + errorResponse.get("message"));
+            }
+        }
+
+        try (InputStream inputStream = connection.getInputStream();
+             Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
+            return (JSONObject) new JSONParser().parse(reader);
+        }
+    }
 }
