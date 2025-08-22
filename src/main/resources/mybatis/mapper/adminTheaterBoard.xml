@@ -62,42 +62,46 @@
         WHERE tIdx = #{tIdx, jdbcType=BIGINT}
     </select>
 
+    <!--극장 수정-->
+    <update id="editTheater" parameterType="mybatis.vo.TheaterVO"  useGeneratedKeys="true" keyProperty="tIdx">
+        UPDATE theater
+        <trim prefix="SET" suffixOverrides=",">
+            <!--없으면 실행되지 않음-->
+            tName = #{tName},
+            tRegion = #{tRegion},
+            tAddress = #{tAddress},
+            tInfo = #{tInfo},
+            tScreenCount = #{tScreenCount},
+            tStatus = #{tStatus},
+        </trim>
+        WHERE tIdx = #{tIdx, jdbcType=BIGINT}
+    </update>
+
+    <!--극장 상세정보 수정-->
+    <update id="editTheaterInfo" parameterType="mybatis.vo.TheaterInfoBoardVO">
+        UPDATE theater_info_board
+        <trim prefix="SET" suffixOverrides=",">
+            <!--없으면 실행되지 않음-->
+            tFacilities = #{tFacilities},
+            tFloorInfo = #{tFloorInfo},
+            tParkingInfo = #{tParkingInfo},
+            tParkingChk = #{tParkingChk},
+            tParkingPrice = #{tParkingPrice},
+            tBusRouteToTheater = #{tBusRouteToTheater},
+            tSubwayRouteToTheater = #{tSubwayRouteToTheater},
+            )
+        </trim>
+        WHERE tIdx = #{tIdx, jdbcType=BIGINT}
+    </update>
+
+
     <!--게시물 삭제
     추후 로그인 한 경우에는 같은 아이디글만 삭제하도록 구현할 예정-->
-    <update id="del" parameterType="String">
+    <!--<update id="del" parameterType="String">
         UPDATE board
         SET boardStatus = 1
         WHERE boardIdx = #{boardIdx}
-    </update>
-
-
-    <!--게시물 수정-->
-    <update id="edit" parameterType="Map">
-        UPDATE board
-        <trim prefix="SET" suffixOverrides=",">
-            <!--없으면 실행되지 않음-->
-            sub_boardType = #{subBoardType},
-            boardTitle = #{boardTitle},
-            boardContent = #{boardContent},
-            boardStartRegDate = #{boardStartRegDate},
-            boardEndRegDate = #{boardEndRegDate},
-            <if test="fname != null">
-                file_name = #{fname},
-                ori_name = #{oname}
-            </if>
-            <if test="thumbfilename != null">
-                thumbnail_url = #{thumbfilename}
-            </if>
-        </trim>
-        WHERE boardIdx = #{boardIdx}
-    </update>
-
-
-    <!--관리자가 답변을 달았을 때 답변상태 업데이트-->
-    <update id="update" parameterType="map">
-        UPDATE board set is_answered = 1
-        WHERE boardIdx = #{boardIdx}
-    </update>
+    </update>-->
 
 
 </mapper>
