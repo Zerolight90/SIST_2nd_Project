@@ -340,6 +340,9 @@
 
             const rating = $ratingInput.val();
             const reviewText = $reviewText.val().trim();
+            const now = new Date().toISOString(); // 작성 시간
+            const loginUserNameRaw = '<c:out value="${sessionScope.mvo.name}" />';
+            const userIdMasked = maskUserName(loginUserNameRaw);
 
             if (!rating) { alert('평점을 선택해주세요.'); return; }
             if (!reviewText) { alert('리뷰 내용을 입력해주세요.'); return; }
@@ -347,25 +350,25 @@
             $.ajax({
               url: $reviewForm.attr('action'),
               type: "POST",
-              data: $reviewForm.serialize(), // mIdx, rating, reviewText 전달
+              data: $reviewForm.serialize(),
               success: function(res) {
-                const mIdx = $('input').val();
-                $.get('Controller?type=movieDetail&mIdx=' + encodeURIComponent(mIdx), function(htmlFragment) {
-                  $('.review-read').html(htmlFragment);
-                }).fail(function() {
-                  alert('리뷰 목록을 불러오는 데 실패했습니다.');
-                });
+                // 로그인한 사용자 이름 (JSP에서 세션 값 가져옴 → JS 변수에 담음)
+                const loginUserNameRaw = '<c:out value="${sessionScope.mvo.name}" />';
+                const userIdMasked = maskUserName(loginUserNameRaw);
+
                 const $newReview = $(`
-                  <div class="review-item" data-likes="0" data-rating="${rating}" data-time="${now}">
-                    <div class="user">${userIdMasked}</div>
-                    <div class="review-content">
-                      <div class="review-header-info">
-                        <span class="review-score">관람평 ${rating}</span>
-                        <span class="time">방금 전</span>
+                    <div class="review-item" data-likes="0" data-rating="${rating}" data-time="${now}">
+                      <div class="user">${userIdMasked}</div>
+                      <div class="review-content">
+                        <div class="review-header-info">
+                          <span class="review-score">평점 ${rating}</span>
+                          <span class="time">방금 전</span>
+                        </div>
+                        <p class="review-text"></p>
                       </div>
-                      <p class="review-text"></p>
                     </div>
-                  </div>`);
+                  `);
+
                 $newReview.find('.review-text').text(reviewText);
                 $('.reivew-read').prepend($newReview);
 
@@ -373,12 +376,11 @@
                 $reviewForm[0].reset();
                 $charCount.text('0');
                 updateStarColors(0);
-              },
-              error: function(xhr) {
-                alert("리뷰 저장 실패: " + xhr.status);
               }
+
             });
           });
+
 
 
         };

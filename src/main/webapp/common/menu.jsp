@@ -8,7 +8,7 @@
         <div class="inner">
             <!-- 로고 -->
             <h1 class="logo">
-                <a href="<c:url value="/index.jsp"/>" class="logo_link">
+                <a href="<c:url value="Controller"/>" class="logo_link">
                     <img src="<c:url value="/images/logo_W.png"/>" alt="sist" class="logo_img" />
                 </a>
                 <span class="title">S I S T M O V I E P L E X</span>
