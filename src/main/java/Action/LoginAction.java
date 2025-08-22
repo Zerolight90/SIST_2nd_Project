@@ -106,17 +106,19 @@ public class LoginAction implements Action {
                     // 사용 후 세션에서 제거
                     request.getSession().removeAttribute("reviewurl");
                 }else if (reviewurl2 != null && !reviewurl2.trim().isEmpty()) {
-//                    System.out.println("Redirecting to border page: " + borderurl2);
                     url = reviewurl2;
-                    // 사용 후 세션에서 제거
-                    int idx = url.indexOf('=');
-                    
+
+                    int idx = url.indexOf("type="); // "type=" 시작 위치 찾기
+                    if (idx != -1) {
+                        // "type=" 뒤부터 끝까지 잘라서 url에 다시 저장
+                        url = url.substring(idx + "type=".length());
+                    }
 
                     request.getSession().removeAttribute("reviewurl");
 
-                    System.out.println(url);
-
-                } else {
+                    System.out.println(url); // 👉 "movieDetail&mIdx=1131759"
+                }
+                else {
 //                    System.out.println("No redirect URL found, going to index");
                     url = "index";
                 }
