@@ -109,6 +109,9 @@ public class LoginAction implements Action {
 //                    System.out.println("Redirecting to border page: " + borderurl2);
                     url = reviewurl2;
                     // 사용 후 세션에서 제거
+                    int idx = url.indexOf('=');
+                    
+
                     request.getSession().removeAttribute("reviewurl");
 
                     System.out.println(url);
@@ -147,6 +150,7 @@ public class LoginAction implements Action {
                 HttpSession session = request.getSession();
                 session.setAttribute("mvo", mvo);
 //                System.out.println("Final redirect URL: " + url);
+
 
                 return "Controller?type=" + url;
 
