@@ -138,9 +138,9 @@
         ) c WHERE c.rnum BETWEEN #{begin} AND #{end}
     </select>
 
-    <!--<insert id="createTimetable" parameterType="Map">
-        INSERT INTO time_table
-        VALUE(
-    </insert>-->
+    <insert id="createTimeTable" parameterType="Map">
+        INSERT INTO time_table (tIdx, mIdx, sIdx, startTime, endTime, status, date)
+        VALUES(#{tIdx}, #{mIdx}, #{sIdx}, #{startTime}, #{endTime}, 1, #{date})
+    </insert>
 
 </mapper>
