@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/allmovie.css" />
 <html>
 <head>
   <meta charset="UTF-8">
@@ -105,6 +106,8 @@
 
             <form id="reviewForm" action="Controller?type=review" method="post">
               <input type="hidden" name="mIdx" value="${movie.mIdx}">
+              <input type="hidden" name="username" value="${sessionScope.mvo.name}" />
+
               <!-- 이름과 평점을 한 줄에 배치 -->
               <div class="form-row">
                 <div class="form-group name-group">
@@ -346,21 +349,23 @@
               type: "POST",
               data: $reviewForm.serialize(), // mIdx, rating, reviewText 전달
               success: function(res) {
-                // 서버에서 성공 응답 → UI 업데이트
-                const userIdMasked = maskUserName(loginUserNameRaw);
-                const now = new Date().toISOString();
-
+                const mIdx = $('input').val();
+                $.get('Controller?type=movieDetail&mIdx=' + encodeURIComponent(mIdx), function(htmlFragment) {
+                  $('.review-read').html(htmlFragment);
+                }).fail(function() {
+                  alert('리뷰 목록을 불러오는 데 실패했습니다.');
+                });
                 const $newReview = $(`
-        <div class="review-item" data-likes="0" data-rating="${rating}" data-time="${now}">
-          <div class="user">${userIdMasked}</div>
-          <div class="review-content">
-            <div class="review-header-info">
-              <span class="review-score">관람평 ${rating}</span>
-              <span class="time">방금 전</span>
-            </div>
-            <p class="review-text"></p>
-          </div>
-        </div>`);
+                  <div class="review-item" data-likes="0" data-rating="${rating}" data-time="${now}">
+                    <div class="user">${userIdMasked}</div>
+                    <div class="review-content">
+                      <div class="review-header-info">
+                        <span class="review-score">관람평 ${rating}</span>
+                        <span class="time">방금 전</span>
+                      </div>
+                      <p class="review-text"></p>
+                    </div>
+                  </div>`);
                 $newReview.find('.review-text').text(reviewText);
                 $('.reivew-read').prepend($newReview);
 

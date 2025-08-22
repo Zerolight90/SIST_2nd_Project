@@ -23,6 +23,7 @@ public class ReviewAction implements Action {
             String mIdx = request.getParameter("mIdx");
             String rating = request.getParameter("rating");
             String content = request.getParameter("reviewText");
+            String name = request.getParameter("name");
             String ip = request.getRemoteAddr();
 
             ReviewVO vo = new ReviewVO();
@@ -31,9 +32,10 @@ public class ReviewAction implements Action {
             vo.setReviewContent(content);
             vo.setIp(ip);
             vo.setUserIdx(mvo.getUserIdx());
-
-            System.out.println("로그인 유저 userIdx = " + mvo.getUserIdx());
-            System.out.println("리뷰 저장 데이터: mIdx=" + mIdx + ", rating=" + rating + ", content=" + content);
+//
+//
+//            System.out.println("로그인 유저 userIdx = " + mvo.getUserIdx());
+//            System.out.println("리뷰 저장 데이터: mIdx=" + mIdx + ", rating=" + rating + ", content=" + content +",name="+name);
 
 
 
