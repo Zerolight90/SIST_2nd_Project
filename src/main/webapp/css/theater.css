@@ -875,6 +875,7 @@ li::marker {
 }
 
 /* 로그인 버튼 */
+/* 선호 극장 */
 .login-btn,
 .favorite-theater {
     position: absolute;

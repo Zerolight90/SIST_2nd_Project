@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/allmovie.css" />
 <html>
 <head>
   <meta charset="UTF-8">
@@ -103,15 +104,18 @@
 
           <c:when test="${not empty sessionScope.mvo}">
 
-            <form id="reviewForm" action="#" method="post" onsubmit="return false;">
+            <form id="reviewForm" action="Controller?type=review" method="post">
+              <input type="hidden" name="mIdx" value="${movie.mIdx}">
+              <input type="hidden" name="username" value="${sessionScope.mvo.name}" />
+
               <!-- 이름과 평점을 한 줄에 배치 -->
               <div class="form-row">
                 <div class="form-group name-group">
-                  <label for="userId">이름</label>
+                  <label for="userIdx">이름</label>
                   <div class="nickname-display" id="nicknameDisplay">
                     <c:out value="${sessionScope.mvo.name.charAt(0)}"/>**
                   </div>
-                  <input type="hidden" id="userId" name="userId" value="<c:out value='${sessionScope.mvo.name}'/>">
+
                 </div>
 
                 <div class="form-group rating-group">
@@ -139,9 +143,9 @@
               </div>
             </form>
           </c:when>
+
           <c:otherwise>
             <p>리뷰를 작성하려면 <strong><a href="${pageContext.request.contextPath}/Controller?type=login&movieDetail&mIdx=${movie.mIdx}">로그인</a></strong>이 필요합니다.</p>
-
           </c:otherwise>
         </c:choose>
       </div>
@@ -162,7 +166,7 @@
             </div>
             <div class="review-content">
               <div class="review-header-info">
-                <span class="review-score">관람평 ${review.reviewRating}</span>
+                <span class="review-score">평점 ${review.reviewRating}</span>
                 <span class="time">${review.reviewDate}</span>
               </div>
               <p class="review-text">${fn:escapeXml(review.reviewContent)}</p>
@@ -333,21 +337,52 @@
 
           $reviewForm.on('submit', function(e) {
             e.preventDefault();
-            const userIdRaw = ($('#userId').val() || '').trim();
-            const userIdMasked = maskUserName(userIdRaw);
+
             const rating = $ratingInput.val();
             const reviewText = $reviewText.val().trim();
-            if (!userIdRaw) { alert('닉네임을 입력해주세요.'); $('#userId').focus(); return; }
-            if (!rating) { alert('평점을 선택해주세요.'); $ratingInput.focus(); return; }
-            if (!reviewText) { alert('리뷰 내용을 입력해주세요.'); $reviewText.focus(); return; }
-            const now = new Date().toISOString();
-            const $newReview = $(`<div class="review-item" data-likes="0" data-rating="${rating}" data-time="${now}"><div class="user">${userIdMasked}</div><div class="review-content"><div class="review-header-info"><span class="review-score">관람평 ${rating}</span><span class="time">방금 전</span></div><p class="review-text"></p><div class="review-footer"><span class="likes"><i class="fa-regular fa-thumbs-up"></i> 0</span></div></div></div>`);
-            $newReview.find('.review-text').text(reviewText);
-            $reviewList.prepend($newReview);
-            if ($reviewForm.length && $reviewForm[0].reset) $reviewForm[0].reset();
-            $charCount.text('0'); updateStarColors(0);
-            $('.sort-btn').removeClass('active'); $('.sort-btn[data-sort="latest"]').addClass('active').trigger('click');
+            const now = new Date().toISOString(); // 작성 시간
+            const loginUserNameRaw = '<c:out value="${sessionScope.mvo.name}" />';
+            const userIdMasked = maskUserName(loginUserNameRaw);
+
+            if (!rating) { alert('평점을 선택해주세요.'); return; }
+            if (!reviewText) { alert('리뷰 내용을 입력해주세요.'); return; }
+
+            $.ajax({
+              url: $reviewForm.attr('action'),
+              type: "POST",
+              data: $reviewForm.serialize(),
+              success: function(res) {
+                // 로그인한 사용자 이름 (JSP에서 세션 값 가져옴 → JS 변수에 담음)
+                const loginUserNameRaw = '<c:out value="${sessionScope.mvo.name}" />';
+                const userIdMasked = maskUserName(loginUserNameRaw);
+
+                const $newReview = $(`
+                    <div class="review-item" data-likes="0" data-rating="${rating}" data-time="${now}">
+                      <div class="user">${userIdMasked}</div>
+                      <div class="review-content">
+                        <div class="review-header-info">
+                          <span class="review-score">평점 ${rating}</span>
+                          <span class="time">방금 전</span>
+                        </div>
+                        <p class="review-text"></p>
+                      </div>
+                    </div>
+                  `);
+
+                $newReview.find('.review-text').text(reviewText);
+                $('.reivew-read').prepend($newReview);
+
+                // 폼 초기화
+                $reviewForm[0].reset();
+                $charCount.text('0');
+                updateStarColors(0);
+              }
+
+            });
           });
+
+
+
         };
 
         $(function() {

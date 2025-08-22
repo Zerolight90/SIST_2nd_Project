@@ -1,0 +1,247 @@
+@charset "UTF-8";
+
+/* 기본 폰트 및 여백 초기화 */
+body {
+    font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+    color: #333;
+    margin: 20px;
+    background-color: #f9f9f9;
+}
+
+/* 전체 컨테이너 */
+.admin-container {
+    width: 1200px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+
+/* 회원 목록 테이블 */
+.board-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 14px;
+}
+
+.board-table th {
+    padding: 12px 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.board-table thead {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    border-top: 2px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.board-table td {
+    padding: 12px 0px 10px 40px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+input[type="text"] {
+    height: 30px;
+}
+
+/*button[type="button"] {
+    width: 84px;
+    height: 30px;
+}*/
+
+.board-table tfoot > tr > td {
+    text-align: right;
+}
+
+.w100 {
+    width: 100px;
+}
+
+.board-table caption {
+    text-indent: -9999px;
+    height: 0;
+}
+
+/* board-table td 내의 입력 필드와 텍스트 영역에 대한 스타일 */
+.board-table td input[type="text"] {
+    width: 500px;
+    box-sizing: border-box;
+}
+
+/* 모든 textarea에 스타일을 적용 */
+textarea {
+    width: 909px;
+    height: 145px;
+    box-sizing: border-box;
+}
+
+/* 층별 안내 */
+.floor-group textarea {
+    width: 909px;
+    height: 50px;
+    box-sizing: border-box;
+}
+
+/* 제목 스타일 */
+p {
+    font-size: 20px;
+    font-weight: bold;
+    color: #4a4a4a;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 8px;
+}
+
+/* 지역 셀렉트 박스 스타일 */
+#region {
+    appearance: none;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px 10px;
+    width: 300px;
+    height: 35px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="%23888" d="M8 10L4 6H12z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+}
+
+/* 보유시설 리스트 스타일 */
+.facilities-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.facilities-list li {
+    margin-right: 20px;
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.facilities-list li input[type="checkbox"] {
+    vertical-align: middle;
+}
+
+.facilities-list li label {
+    vertical-align: middle;
+}
+
+/* 아이콘을 위한 스타일 */
+.icon {
+    width: 60px;
+    height: 100px;
+    margin-bottom: 10px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* 각 아이콘에 맞는 이미지 경로 지정 */
+.ico-theater {
+    background-image: url('../images/ico/ico-facility-theater.png');
+}
+
+.ico-disabled {
+    background-image: url('../images/ico/ico-facility-disabled.png');
+}
+
+.ico-mx4d {
+    background-image: url('../images/ico/ico-facility-mx4d.png');
+}
+
+.ico-sweet {
+    background-image: url('../images/ico/ico-facility-sweet.png');
+}
+
+.ico-comfort {
+    background-image: url('../images/ico/ico-facility-comfort.png');
+}
+
+.ico-special {
+    background-image: url('../images/ico/ico-facility-special.png');
+}
+
+.ico-couple {
+    background-image: url('../images/ico/ico-facility-couple.png');
+}
+
+/*관리자-보유시설 아이콘 정렬*/
+.facilities-list li label {
+    display: flex;
+    flex-direction: column; /* 아이콘과 텍스트를 세로로 정렬 */
+    align-items: center; /* 가로 중앙 정렬 */
+    text-align: center;
+}
+
+.facilities-list li label::before {
+    content: ''; /* 가상 요소에 아이콘 이미지를 넣는 방법 */
+    display: block;
+    width: 48px;
+    height: 88px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-bottom: 5px; /* 아이콘과 텍스트 사이 간격 */
+}
+
+/* 버튼 스타일 */
+#edit_btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#edit_btn:hover {
+    background-color: #0056b3;
+}
+
+#cancel_btn {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#cancel_btn:hover {
+    background-color: #5a6268;
+}
+
+.board-table tfoot > tr > td {
+    text-align: right;
+    padding-top: 20px;
+}
+
+#edit_btn + #cancel_btn {
+    margin-left: 10px;
+}
+
+.floor-info-text {
+    margin-top: 30px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #ddd;
+}

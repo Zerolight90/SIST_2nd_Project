@@ -135,4 +135,13 @@ public class MovieDAO {
     }
 
 
+    // TOP 4 영화 가져오기
+    public static List<MovieVO> getTopMovies(String category) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<MovieVO> list = ss.selectList("movie.getTopMovies", category);
+        ss.close();
+        return list;
+    }
+
+
 }

@@ -171,4 +171,14 @@
         AND r.status = 0
     </select>
 
+    <!-- 예매율 TOP 4 영화 조회 -->
+    <select id="getTopMovies" resultType="mybatis.vo.MovieVO">
+        SELECT *
+        FROM movies
+        WHERE category = #{category}
+        ORDER BY booking_rate DESC
+        LIMIT 4
+    </select>
+
+
 </mapper>

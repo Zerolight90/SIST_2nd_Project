@@ -30,4 +30,20 @@ public class ReviewDAO {
         return ar;
 
     }
-}
+
+        public static int insertReview(ReviewVO vo) {
+            SqlSession ss = FactoryService.getFactory().openSession();
+
+            int result = ss.insert("review.insert", vo);
+            if(result > 0){
+                ss.commit();
+            }else {
+                ss.rollback();
+            }
+            ss.close();
+
+            return result;
+        }
+    }
+
+

@@ -247,7 +247,7 @@
         <tr>
           <c:set var="num" value="${p.totalCount - ((p.nowPage-1)*p.numPerPage+ vs1.index)}"/>
           <td>${num}</td>
-          <td><a href="Controller?type=adminTheaterEdit&tIdx=${vo.tIdx}&cPage=${nowPage}">${vo.tName}</a></td>
+          <td><a href="Controller?type=adminTheaterView&tIdx=${vo.tIdx}&cPage=${nowPage}">${vo.tName}</a></td>
           <td>${vo.tRegion}</td>
           <c:if test="${vo.tStatus == 0}">
             <td>운영종료</td>

@@ -98,7 +98,7 @@
 
     <c:if test="${requestScope.vo ne null}">
       <c:set var="vo" value="${requestScope.vo}"/>
-      <form method="post">
+      <form>
         <!-- 3. 공지사항 테이블 -->
         <table class="board-table">
           <caption>이벤트 상세보기</caption>

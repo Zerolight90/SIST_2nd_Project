@@ -3,10 +3,10 @@
 <html>
 <head>
     <title>Title</title>
+    <link rel="stylesheet" href="./css/theater.css">
     <link rel="stylesheet" href="./css/sub/sub_page_style.css">
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./css/tab.css">
-    <link rel="stylesheet" href="./css/theater.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
@@ -72,18 +72,26 @@
                     </div>
 
                 <div class="user-theater">
-                                <%--로그인전--%>
-                                <div class="theater-footer" style="border:1px solid red; border-radius: 5px; height:46px;">
-                                    <div class="my-theater">나의 선호극장 정보</div>
-                                    <button class="login-btn">로그인하기</button>
-                                </div>
-
-
-                                <%--로그인 후--%>
-                                <div class="theater-footer" style="border:1px solid red; border-radius: 5px; height:46px;">
-                                    <div class="my-theater">***님의 선호극장</div>
-                                    <button class="favorite-theater">선호극장 관리</button>
-                                </div>
+                                    <c:choose>
+                                        <c:when test="${empty sessionScope.mvo && empty sessionScope.kvo && empty sessionScope.nmemvo}">
+                                            <%--로그인전--%>
+                                            <div class="theater-footer">
+                                                <div class="my-theater">나의 선호극장 정보</div>
+                                                <div class="btn_area">
+                                                    <button class="login-btn">로그인하기</button>
+                                                </div>
+                                            </div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <%--로그인 후--%>
+                                            <div class="theater-footer">
+                                                <div class="my-theater">***님의 선호극장</div>
+                                                <div class="btn_area">
+                                                    <button class="favorite-theater">선호극장 관리</button>
+                                                </div>
+                                            </div>
+                                        </c:otherwise>
+                                    </c:choose>
                             </div>
                         </div>
                     </div>
@@ -118,7 +126,7 @@
                     <!--극장 이벤트 영역 끝-->
 
                     <!--극장 공지사항-->
-                    <div class="event-box m70 m15">
+                    <div class="allTheater-notice-info event-box">
                         <h1 class="theater notice-title">극장 공지사항</h1>
                         <span class="more notice"><a href="#">더보기 ></a></span>
                     </div>

@@ -106,16 +106,20 @@ public class LoginAction implements Action {
 //                    System.out.println("Redirecting to border page: " + borderurl2);
                     url = borderurl2;
                     // 사용 후 세션에서 제거
-                    request.getSession().removeAttribute("borderurl"); // [버그 수정] reviewurl이 아니라 borderurl을 지워야 함
+                    request.getSession().removeAttribute("reviewurl");
                 }else if (reviewurl2 != null && !reviewurl2.trim().isEmpty()) {
-//                    System.out.println("Redirecting to border page: " + borderurl2);
                     url = reviewurl2;
-                    // 사용 후 세션에서 제거
+
+                    int idx = url.indexOf("type="); // "type=" 시작 위치 찾기
+                    if (idx != -1) {
+                        // "type=" 뒤부터 끝까지 잘라서 url에 다시 저장
+                        url = url.substring(idx + "type=".length());
+                    }
                     request.getSession().removeAttribute("reviewurl");
 
-                    System.out.println(url);
-
-                } else {
+//                    System.out.println(url); // "movieDetail&mIdx=1131759"
+                }
+                else {
 //                    System.out.println("No redirect URL found, going to index");
                     url = "index";
                 }
@@ -175,6 +179,6 @@ public class LoginAction implements Action {
             e.printStackTrace();
 //            System.out.println("LoginAction 실행 중 오류 발생: " + e.getMessage());
         }
-        return "/join/login.jsp"; // 최종적으로 갈 곳이 없으면 로그인 페이지로
+        return "/join/login_.jsp";
     }
 }
