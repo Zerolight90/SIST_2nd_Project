@@ -36,7 +36,7 @@ public class NonmemberAction implements Action {
                 // 저장 성공 시 DB에서 방금 저장된 레코드를 이메일로 조회하여 세션에 저장
                 NmemVO inserted = NmemDAO.getByEmail(email);
                 HttpSession session = request.getSession();
-                session.setAttribute("nmemvo", inserted);
+                session.setAttribute("nmemvo", inserted); // 예매 시 존재하는지 확인해야하는 녀석
 
 
                 out.print("success"); // nonmenber.jsp의 AJAX success 콜백에서 이 문자열을 받음

@@ -24,6 +24,27 @@
         WHERE tIdx = #{tIdx}
     </select>
 
+    <resultMap id="theaterInfo" type="mybatis.vo.TheaterVO">
+        <id property="tIdx" column="tIdx"/>
+
+        <!-- TheaterVO 있는 멤버변수들 중 TheaterInfoBoardVO tibvo; -->
+        <collection property="tibvo" ofType="mybatis.vo.TheaterInfoBoardVO"
+                    select="theater.mapInfoBoard" column="tIdx"/>
+        <collection property="bvo_list" ofType="mybatis.vo.AdminBoardVO"
+                    select="userBoard.getBoardToTheater" column="tIdx"/>
+        <!-- theater.mapInfoBoard 호출하면서 tIdx를 인자로 보낸다. -->
+    </resultMap>
+
+    <select id="getTheaterInfo" resultMap="theaterInfo" parameterType="String">
+        SELECT * FROM theater
+        WHERE tIdx = #{tIdx}
+    </select>
+
+    <select id="mapInfoBoard" resultType="mybatis.vo.TheaterInfoBoardVO" parameterType="String">
+        SELECT * FROM theater_info_board
+        WHERE tIdx = #{tIdx}
+    </select>
+
     <select id="select" resultType="mybatis.vo.TheaterVO" parameterType="mybatis.vo.TheaterVO">
         SELECT * FROM theater
         WHERE tIdx = #{tIdx}
@@ -51,4 +72,9 @@
     <resultMap id="map1" type="mybatis.vo.TheaterVO">
         <id property="tIdx" column="tIdx"/>
     </resultMap>
+
+    <!-- all_theater의 지역 탭 표현하기 위해 중복되지않는 지역 값 가져옴 -->
+    <select id="getRegion" resultType="mybatis.vo.TheaterVO">
+        SELECT DISTINCT tRegion FROM theater
+    </select>
 </mapper>

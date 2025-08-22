@@ -35,10 +35,11 @@
       </div>
     </div>
   </div>
+  <c:set var="theater" value="${requestScope.theater}"/>
   <%--상단 이미지 + 지점명--%>
   <div class="theater-detail-page">
     <div class="img">
-      <p>더부티크 목동 현대 백화점</p>
+      <p>${theater.tName}</p>
       <button type="button">선호극장</button>
     </div>
   </div>
@@ -62,7 +63,7 @@
             <div class="inner-wrap">
               <div class="theater-info-text m50">
                 <p class="big">
-                  강동구청역 도보 5분, 전 좌석 가죽시트로 쾌적하고 편안하게! 언제나 즐거운 우리동네 극장<br>
+                  ${theater.tInfo}<br>
                 </p>
                 <hr>
                 <p></p>
@@ -76,7 +77,7 @@
               <div class="theater-floor-info">
                 <h3 class="small-tit m15">보유시설</h3>
                 <div class="sisul-img-info">
-                  <p><i class="icon"></i>일반상영관</p>
+                  <p><i class="icon"></i>${theater.tibvo.tFacilities}</p>
                 </div>
               </div>
               <!--층별안내-->
@@ -85,10 +86,7 @@
 
                 <div class="sisul-floor-info">
                   <ul class="floor-info">
-                    <li>1층 : 매표소, 매점, 무인 발권기, 로비, 엘리베이터, 남·여 화장실, 남·여 장애인 화장실, 캡슐 토이, 투썸 플레이스</li>
-                    <li>2층 : 1관·2관, 로비, 엘리베이터, 음료 자판기, 남·여 화장실</li>
-                    <li>4층 : 3관·4관, 로비, 엘리베이터, 음료 자판기, 남·여 화장실</li>
-                    <li>6층 : 5관~10관, 로비, 엘리베이터, 음료 자판기, 남·여 화장실</li>
+                    <li>${theater.tibvo.tFloorInfo}</li>
                   </ul>
                 </div>
               </div>
@@ -101,7 +99,7 @@
                   <h2 class="theater traffic">교통안내</h2>
                 </div>
                 <h3 class="small-tit m30">지도</h3>
-                <p>도로명주소: 서울특별시 강동구 성내로 48 <button>주소 복사</button></p>
+                <p>${theater.tAddress}&nbsp;<button>주소 복사</button></p>
 
                 <%--카카오맵--%>
                 <div id="map" style="width:500px; height:400px; border:1px solid purple;">
@@ -109,28 +107,35 @@
                 </div>
                 <h3 class="small-tit m50">주차</h3>
                 <div class="parking-info" style="width:1100px; height: 400px; border:1px solid gray; border-radius: 10px;">
-
+                  ${theater.tibvo.tParkingInfo}
                 </div>
                 <h3 class="small-tit m50">대중교통</h3>
                 <div class="parking-info" style="width:1100px; height: 400px; border:1px solid gray; border-radius: 10px;">
-
+                  ${theater.tibvo.tBusRouteToTheater}
                 </div>
               </div>
 
               <!--이벤트-->
+
               <div class="theater-event-info">
                 <div class="event-box m70"></div>
                 <h2 class="theater event">이벤트</h2>
               </div>
               <div id="event_img" style="display:flex;">
                 <ul>
+
+                  <c:forEach var="theaterBoard" items="${theater.bvo_list}" varStatus="i">
+                    <c:if test="${fn:contains(theaterBoard.boardType, '이벤트') and theaterBoard.tIdx eq 1}">
                   <li>
                     <a href="#">
-                      <img src="https://img.megabox.co.kr/SharedImg/event/2025/03/06/PVMGaYqtdK3P4P21GOpErZRPDr7HXdFv.jpg" alt="강동점 굿즈">
+                      <img src="./event_thumbnails/${theaterBoard.thumbnail_url}" alt="강동점 굿즈">
                     </a>
                   </li>
+                    </c:if>
+                  </c:forEach>
                 </ul>
               </div>
+
 
 
               <!--공지사항-->
@@ -138,22 +143,18 @@
                 <h2 class="theater notice m70">공지사항</h2>
 
                 <div class="notice-tit">
+                  <c:forEach var="theaterBoard" items="${theater.bvo_list}" varStatus="i">
+                    <c:if test="${fn:contains(theaterBoard.boardType, '공지사항')}">
                   <button type="button" class="collapsible" onclick="collapse(this);">
-                    <div class="notice-tit-list">[강동] 전관 대관 행사 진행에 따른 고객 안내(7/26)</div>
-                    <p class="notice-area">강동</p>
-                    <p class="notice-date">2025.06.24</p>
+                    <div class="notice-tit-list">${theaterBoard.boardTitle}(${fn:substring(theaterBoard.boardEndRegDate, 5, 10)})</div>
+                    <p class="notice-area">${theater.tName}</p>
+                    <p class="notice-date">${fn:substring(theaterBoard.boardStartRegDate, 0, 10)}</p>
                   </button>
                   <div class="content">
-                    내용입니다~~~~~~~~
+                    ${theaterBoard.boardContent}
                   </div>
-                  <button type="button" class="collapsible" onclick="collapse(this);">
-                    <div class="notice-tit-list">[강동] 진행에 따른 고객 안내(7/26)</div>
-                    <p class="notice-area">강동</p>
-                    <p class="notice-date">2025.06.24</p>
-                  </button>
-                  <div class="content">
-                    내용입니다~~~~~~~~ 2번쨰 내용입니다.
-                  </div>
+                    </c:if>
+                  </c:forEach>
                 </div>
               </div>
             </div>
@@ -281,6 +282,10 @@
 
       </div>
 
+      <c:set var="pvo" value="${requestScope.pvo}"/>
+      <c:set var="twoD" value="${requestScope.screenTypeArr[0].codeType}"/>
+      <c:set var="threeD" value="${requestScope.screenTypeArr[1].codeType}"/>
+      <c:set var="fourD" value="${requestScope.screenTypeArr[2].codeType}"/>
       <%--3 영화관람료 탭--%>
       <div id="tabCont1_3" class="tabCont" style="display:none; width: 1100px">
         <div>
@@ -295,7 +300,7 @@
                 <!--관람료 표-->
                 <div class="table-container">
                   <div class="section">
-                    <h3 class="show-li">2D</h3>
+                    <h3 class="show-li">${requestScope.screenTypeArr[0].screenCode}</h3>
                     <table class="price-table">
                       <thead>
                       <tr>
@@ -308,32 +313,32 @@
                       <tbody>
                       <tr>
                         <td rowspan="2">월~목</td>
-                        <td>조조 (06:00~)</td>
-                        <td>9,000</td>
-                        <td>8,000</td>
+                        <td>조조 (06:00~10:59)</td>
+                        <td>${pvo.normal - pvo.morning + twoD}</td>
+                        <td>${pvo.teen - pvo.morning + twoD}</td>
                       </tr>
                       <tr>
-                        <td>일반 (11:01~)</td>
-                        <td>13,000</td>
-                        <td>10,000</td>
+                        <td>일반 (11:00~)</td>
+                        <td>${pvo.normal + twoD}</td>
+                        <td>${pvo.teen + twoD}</td>
                       </tr>
                       <tr>
                         <td rowspan="2">금~일<br>공휴일</td>
-                        <td>조조 (06:00~)</td>
-                        <td>9,000</td>
-                        <td>8,000</td>
+                        <td>조조 (06:00~10:59)</td>
+                        <td>${pvo.normal - pvo.morning + pvo.week + twoD}</td>
+                        <td>${pvo.teen - pvo.morning + pvo.week + twoD}</td>
                       </tr>
                       <tr>
-                        <td>일반 (11:01~)</td>
-                        <td>14,000</td>
-                        <td>11,000</td>
+                        <td>일반 (11:00~)</td>
+                        <td>${pvo.normal + pvo.week + twoD}</td>
+                        <td>${pvo.teen + pvo.week + twoD}</td>
                       </tr>
                       </tbody>
                     </table>
                   </div>
 
                   <div class="section">
-                    <h3 class="show-li">3D</h3>
+                    <h3 class="show-li">${requestScope.screenTypeArr[1].screenCode}</h3>
                     <table class="price-table">
                       <thead>
                       <tr>
@@ -346,25 +351,25 @@
                       <tbody>
                       <tr>
                         <td rowspan="2">월~목</td>
-                        <td>조조 (06:00~)</td>
-                        <td>11,000</td>
-                        <td>10,000</td>
+                        <td>조조 (06:00~10:59)</td>
+                        <td>${pvo.normal - pvo.morning + threeD}</td>
+                        <td>${pvo.teen - pvo.morning + threeD}</td>
                       </tr>
                       <tr>
-                        <td>일반 (11:01~)</td>
-                        <td>15,000</td>
-                        <td>12,000</td>
+                        <td>일반 (11:00~)</td>
+                        <td>${pvo.normal + threeD}</td>
+                        <td>${pvo.teen + threeD}</td>
                       </tr>
                       <tr>
                         <td rowspan="2">금~일<br>공휴일</td>
-                        <td>조조 (06:00~)</td>
-                        <td>11,000</td>
+                        <td>조조 (06:00~10:59)</td>
+                        <td>${pvo.normal + threeD}</td>
                         <td>10,000</td>
                       </tr>
                       <tr>
-                        <td>일반 (11:01~)</td>
-                        <td>16,000</td>
-                        <td>13,000</td>
+                        <td>일반 (11:00~)</td>
+                        <td>${pvo.normal - pvo.morning + pvo.week + threeD}</td>
+                        <td>${pvo.teen - pvo.morning + pvo.week + threeD}</td>
                       </tr>
                       </tbody>
                     </table>

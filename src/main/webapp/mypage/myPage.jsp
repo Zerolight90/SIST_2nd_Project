@@ -27,6 +27,8 @@
 
 <article>
   <c:choose>
+    <%-- 1. 회원(mvo), 카카오(kvo), 비회원(nmemvo) 중 하나라도 로그인된 상태인지 확인 --%>
+    <c:when test="${not empty sessionScope.mvo || not empty sessionScope.kvo || not empty sessionScope.nmemvo}">
     <%-- 1. 회원(mvo), 카카오(kvo), 비회원(nmenvo) 중 하나라도 로그인된 상태인지 확인 --%>
     <c:when test="${not empty sessionScope.mvo || not empty sessionScope.kvo || not empty sessionScope.nmenvo}">
       <div class="container">

@@ -89,5 +89,9 @@
         LIMIT 1
     </select>
 
+    <select id="getBoardToTheater" resultType="mybatis.vo.AdminBoardVO" parameterType="String">
+        SELECT * FROM board
+        WHERE tIdx = #{tIdx}
+    </select>
 
 </mapper>
