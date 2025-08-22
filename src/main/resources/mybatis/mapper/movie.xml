@@ -59,6 +59,7 @@
                 FROM reservation r
                 JOIN time_table tt ON r.timeTableIdx = tt.timeTableIdx
                 WHERE tt.mIdx = m.mIdx
+                AND r.status = 0
                 ) DESC
             </when>
             <when test="category == 'scheduled'"> ORDER BY date ASC </when>
@@ -153,6 +154,7 @@
         FROM reservation r
         JOIN time_table tt ON r.timeTableIdx = tt.timeTableIdx
         WHERE tt.mIdx = #{mIdx}
+        AND r.status = 0
     </select>
 
     <select id="getTotalReservationsForShowingMovies" resultType="int">
@@ -161,7 +163,7 @@
         JOIN time_table tt ON r.timeTableIdx = tt.timeTableIdx
         JOIN movie m ON tt.mIdx = m.mIdx
         WHERE m.`date` &lt;= NOW()
-        AND r.status = 0 -- [추가] 취소되지 않은 정상 예매(status=0)만 카운트하도록 조건 추가
+        AND r.status = 0 -- 취소되지 않은 정상 예매(status=0)만 카운트
     </select>
 
 </mapper>
