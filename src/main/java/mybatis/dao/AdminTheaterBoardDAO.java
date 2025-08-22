@@ -60,13 +60,13 @@ public class AdminTheaterBoardDAO {
 
     //극장 정보 수정
     //게시글 수정
-    /*public static int edit(TheaterVO tvo, TheaterInfoBoardVO infovo){
+    public static int edit(TheaterVO tvo, TheaterInfoBoardVO infovo){
 
         SqlSession ss = FactoryService.getFactory().openSession();
         int cnt = 0;
 
         try {
-            // theater 테이블 먼저 INSERT
+            // theater 테이블 먼저 UPDATE
             ss.update("adminTheaterBoard.editTheater", tvo);
 
             // INSERT 후 생성된 tIdx 값을 TheaterVO에서 가져와 TheaterInfoBoardVO에 설정
@@ -90,5 +90,5 @@ public class AdminTheaterBoardDAO {
         }
 
         return cnt;
-    }*/
+    }
 }

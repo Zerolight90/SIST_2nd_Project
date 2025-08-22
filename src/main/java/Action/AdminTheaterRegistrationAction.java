@@ -43,7 +43,7 @@ public class AdminTheaterRegistrationAction implements Action{
                 }
                 tFacilities = sb.toString();
             }
-            System.out.println(tFacilities + "::::::::::");
+            //System.out.println(tFacilities + "::::::::::");
 
             // 층별안내: 반복문으로 각 층의 텍스트를 가져와 \n으로 합침
             StringBuilder floorInfoBuilder = new StringBuilder();

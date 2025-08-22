@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <html>
 <head>
   <title>Title</title>
@@ -116,7 +117,10 @@
         <tr>
           <th>주차 안내</th>
           <td>
-            ${infovo.tParkingInfo}
+            <c:set var="parkingInfo" value="${infovo.tParkingInfo}" />
+            <c:if test="${not empty parkingInfo}">
+              <c:out value="${fn:replace(parkingInfo, 'LF', '<br/>')}" escapeXml="false" />
+            </c:if>
           </td>
         </tr>
         <tr>
@@ -147,12 +151,19 @@
         <tfoot>
         <tr>
           <td colspan="2">
-            <button type="submit" id="edit_btn" onclick="goEdit()">수정</button>
-            <button type="button" id="cancel_btn" onclick="goList()">목록</button>
+            <button type="button" id="edit_btn" onclick="goEditTheater()" value="수정">수정</button>
+            <button type="button" id="cancel_btn" onclick="goList()" value="목록">목록</button>
           </td>
         </tr>
         </tfoot>
       </table>
+    </form>
+
+    <%--숨겨진 폼 만들기--%>
+    <form name="ff" method="get">
+      <input type="hidden" name="type"/>
+      <input type="hidden" name="tIdx" value="${param.tIdx}"/>
+      <input type="hidden" name="cPage" value="${param.cPage}"/>
     </form>
   </div>
 </div>
@@ -162,14 +173,15 @@
 
 <script>
 
-  //수정 클릭 시 목록으로 이동
-  function goEdit(){
-    location.href="Controller?type=adminTheaterEdit";
+  function goEditTheater(){
+    document.ff.action = "Controller";
+    document.ff.type.value = "adminTheaterEdit";
+    document.ff.submit();
   }
 
   //목록 클릭 시 목록으로 이동
   function goList(){
-    location.href="Controller?type=adminTheaterList";
+    location.href="Controller?type=adminTheaterList&cPage=${param.cPage}";
   }
 
 </script>

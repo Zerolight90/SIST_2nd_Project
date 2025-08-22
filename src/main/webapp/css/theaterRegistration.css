@@ -143,8 +143,8 @@ p {
 
 /* 아이콘을 위한 스타일 */
 .icon {
-    width: 48px;
-    height: 48px;
+    width: 60px;
+    height: 100px;
     margin-bottom: 10px;
     background-size: contain;
     background-repeat: no-repeat;
@@ -178,6 +178,24 @@ p {
 
 .ico-couple {
     background-image: url('../images/ico/ico-facility-couple.png');
+}
+
+/*관리자-보유시설 아이콘 정렬*/
+.facilities-list li label {
+    display: flex;
+    flex-direction: column; /* 아이콘과 텍스트를 세로로 정렬 */
+    align-items: center; /* 가로 중앙 정렬 */
+    text-align: center;
+}
+
+.facilities-list li label::before {
+    content: ''; /* 가상 요소에 아이콘 이미지를 넣는 방법 */
+    display: block;
+    width: 48px;
+    height: 88px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-bottom: 5px; /* 아이콘과 텍스트 사이 간격 */
 }
 
 /* 버튼 스타일 */
