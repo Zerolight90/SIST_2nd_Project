@@ -81,6 +81,15 @@
     background-color: #6c757d;
     color: white;
   }
+
+  .input {
+    margin-bottom: 20px;
+  }
+
+  .lab {
+    position: relative;
+    bottom: 12px;
+  }
 </style>
 
 <div class="userModal">
@@ -93,22 +102,33 @@
     <div id="updateStatus" style="margin-top: 20px; font-weight: bold;"></div>
   </div>
 
-  <div class="body">
-    <div class="divs">
-      <label for="userId">몇 일 후 (금일 기준):</label>
-      <input type="text" id="userId" class="input editable" value="">
+  <form action="Controller?type=" method="post" id="insert">
+    <div class="body">
+      <input type="hidden" value="${sessionScope.vo.tIdx}">
+      <div class="divs">
+        <label for="movie" class="lab">영화 :</label>
+        <input type="text" id="movie" class="input editable" value="">
+      </div>
+      <div class="divs">
+        <label for="screen" class="lab">상영관 :</label>
+        <input type="text" id="screen" class="input editable" value="">
+      </div>
+      <div class="divs">
+        <label for="startTime" class="lab">상영 시작시간 :</label>
+        <input type="text" id="startTime" class="input editable" value="">
+      </div>
+      <div class="divs">
+        <label for="endTime" class="lab">상영일 :</label>
+        <input type="text" id="endTime" class="input editable" value="">
+      </div>
     </div>
-    <%--<div class="divs">
-      <label for="userName">생성 일수:</label>
-      <input type="text" id="userName" class="input editable" value="">
-    </div>--%>
-  </div>
+  </form>
 
   <div>
     <ul>
-      <li>상영 시간표는 현재 예매율 순위에 따라 자동 생성됩니다</li>
-      <li>상영 시간대는 9:00, 11:30, 14:00, 16:30, 19:00, 21:30분으로 고정됩니다</li>
-      <li>하루에 최대 90개의 영화가 상영됩니다</li>
+      <%--<li>상영 시간표는 현재 예매율 순위에 따라 자동 생성됩니다</li>--%>
+      <%--<li>상영 시간대는 9:00, 11:30, 14:00, 16:30, 19:00, 21:30분으로 고정됩니다</li>--%>
+      <%--<li>하루에 최대 90개의 영화가 상영됩니다</li>--%>
     </ul>
   </div>
 
@@ -148,9 +168,11 @@
       })
       
       $("#createTimeTable").on('click', function () {
-        let day = $("#userId").val();
-        let tIdx = ${sessionScope.vo.tIdx};
-        location.href = "Controller?type=createTimeTable&day=" + day + "&tIdx=" + tIdx;
+        /*let day = $("#userId").val();
+        <%--let tIdx = ${sessionScope.vo.tIdx};--%>
+        location.href = "Controller?type=createTimeTable&day=" + day + "&tIdx=" + tIdx;*/
+
+        $("#insert").submit();
       })
 
       $(".btnSub").on('click', function () {
