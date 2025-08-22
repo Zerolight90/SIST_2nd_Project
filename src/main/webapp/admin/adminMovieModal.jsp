@@ -70,7 +70,7 @@
   }
 
   .divs2 .input {
-    width: 100px;
+    width: 99px;
     height: 24px;
     padding: 0 10px;
     border: 1px solid #ddd;
@@ -104,9 +104,45 @@
     color: white;
   }
 
+  .btn {
+    padding: 10px 30px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 0 5px;
+  }
+
+  .btnMain {
+    background-color: #007bff;
+    color: white;
+  }
+
   .footer .btnSub {
     background-color: #6c757d;
     color: white;
+  }
+
+  .modalTitle {
+    background-color: #20c997;
+    color: white;
+    padding: 15px 20px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .modalTitle h2 { margin: 0; }
+  .body3 { padding: 25px 20px; }
+  .divs3 { display: flex; align-items: center; margin-bottom: 15px; }
+  .divs3 label { width: 140px; font-weight: bold; text-align: right; padding-right: 15px; flex-shrink: 0; }
+  .divs3 .input { width: 100%; height: 36px; padding: 0 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+  .divs3 .input.editable { background-color: #fff; }
+  .footer3 { padding: 20px; text-align: center; border-top: 1px solid #eee; background-color: #f8f9fa; }
+  .footer3 .btn { padding: 10px 30px; border: none; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer; margin: 0 5px; }
+  .footer3 .btnMain { background-color: #007bff; color: white; }
+  .footer3 .btnSub { background-color: #6c757d; color: white; }
+  .no-titlebar .ui-dialog-titlebar {
+    display: none;
   }
 </style>
 
@@ -196,8 +232,47 @@
         <label for="trailer">영화 예고편 URL:</label>
         <input type="text" id="trailer" name="trailer" class="input" style="height: 36px" value="${requestScope.vo.trailer}">
       </div>
+      <div>
+        <button type="button" class="btn btnMain" id="timeTable" style="margin-left: 347px;">상영 시간표 생성</button>
+      </div>
     </div>
   </form>
+
+  <div id="createTimetableModal" style="display: none">
+    <div class="modalTitle"><h2>상영 시간표 생성</h2></div>
+    <form action="Controller?type=createTimeTable" method="post" id="createTimetableForm">
+      <input type="hidden" name="mIdx" value="${requestScope.vo.mIdx}">
+      <div class="body3">
+        <div class="divs3">
+          <label for="tIdx">어드민 관리 영화관:</label>
+          <input type="text" id="tIdx" name="tIdx" class="input editable" value="${sessionScope.vo.tIdx}" readonly>
+        </div>
+        <div class="divs3">
+          <label for="sIdx">상영관:</label>
+          <input type="text" name="sIdx" id="sIdx" class="input editable" value="" required>
+        </div>
+        <div class="divs3">
+          <label for="startTime">상영 시작시간:</label>
+          <select id="startTime" name="startTime">
+            <option value="09:00:00">9:00</option>
+            <option value="11:30:00">11:30</option>
+            <option value="14:00:00">14:00</option>
+            <option value="16:30:00">16:30</option>
+            <option value="19:00:00">19:00</option>
+            <option value="21:30:00">21:30</option>
+          </select>
+        </div>
+        <div class="divs3">
+          <label for="inDatepicker">상영일:</label>
+          <input type="text" name="inDatepicker" id="inDatepicker" class="input editable" value="" required>
+        </div>
+      </div>
+      <div class="footer3">
+        <button type="button" class="btn btnMain create">생성</button>
+        <button type="button" class="btn btnSub cancel">취소</button>
+      </div>
+    </form>
+  </div>
 
   <div class="footer">
     <button type="button" class="btn btnMain">저장</button>
@@ -206,7 +281,31 @@
 
   <script>
     $(function () {
-      $(".btnMain").on('click', function () {
+      // Datepicker에 적용할 옵션
+      let option = {
+        monthNames: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+        monthNamesShort: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+        dayNamesMin: [ "일", "월", "화", "수", "목", "금", "토" ],
+        weekHeader: "주",
+        dateFormat: "yy-mm-dd",
+        showMonthAfterYear: true,
+        yearSuffix: "년",
+        showOtherMonths: true,
+        selectOtherMonths: true
+      };
+      $("#inDatepicker").datepicker(option);
+
+      $("#createTimetableModal").dialog({
+        autoOpen: false,
+        modal: true,
+        width: 550,
+        resizable: false,
+        open: function() {
+          $(this).find("#inDatepicker").datepicker(option);
+        }
+      })
+
+      $(".footer .btnMain").on('click', function () {
         if ($(".status").is(":checked")){
           $(".statusCheck").val("상영중");
         } else {
@@ -216,11 +315,20 @@
         $("#frm").submit();
       })
 
-      $(".btnSub").on('click', function () {
+      $(".footer .btnSub").on('click', function () {
         $("#adminMoviesModal").dialog('close');
       })
+      $(".cancel").on('click', function () {
+        $("#createTimetableModal").dialog('close');
+      })
 
-
+      $("#timeTable").on('click', function () {
+        $("#createTimetableModal").dialog('open');
+      })
+      
+      $(".create").on('click', function () {
+        $("#createTimetableForm").submit();
+      })
     });
   </script>
 
