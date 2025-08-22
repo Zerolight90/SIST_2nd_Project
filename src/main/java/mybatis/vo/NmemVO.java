@@ -2,15 +2,16 @@ package mybatis.vo;
 
 public class NmemVO {
 
-    private String nIdx, name, email, joinDate, phone, password;
+    private String nIdx, name, email, joinDate, phone, password, birth;
 
-    public NmemVO(String nIdx, String name, String email, String joinDate, String phone, String password) {
+    public NmemVO(String nIdx, String name, String email, String joinDate, String phone, String password, String birth) {
         this.nIdx = nIdx;
         this.name = name;
         this.email = email;
         this.joinDate = joinDate;
         this.phone = phone;
         this.password = password;
+        this.birth = birth;
     }
 
     public String getnIdx() {
@@ -59,5 +60,13 @@ public class NmemVO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getBirth() {
+        return birth;
+    }
+
+    public void setBirth(String birth) {
+        this.birth = birth;
     }
 }
