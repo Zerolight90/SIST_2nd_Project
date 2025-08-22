@@ -105,6 +105,7 @@ body article {
 .event-box h2.theater {
     color: #8B5A8C;
     border-bottom-color: #8B5A8C;
+    margin-top: 30px;
 }
 
 
@@ -112,14 +113,19 @@ body article {
 .small-tit {
     padding-left: 10px;
     border-left: 4px solid #8B5A8C;
+    margin: 10px 0;
 }
 
-.sisul-img-info,
-.sisul-floor-info {
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
+.sisul-img-info img {
+    margin-bottom: 10px;
+}
+
+.tFacilities_text {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
 }
 
 /* 지도 영역 */
@@ -700,6 +706,19 @@ body article {
     border-bottom-color: #8B5A8C;
 }
 
+.theater-floor-info ul {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.theater-floor-info ul li {
+    margin-right: 30px;
+    display: flex;
+    justify-content: flex-start;
+    font-size: 20px;
+    margin-top: 5px;
+}
+
 /* 애니메이션 효과 */
 @keyframes fadeInUp {
     from {
@@ -773,6 +792,7 @@ body article {
 .event-box:hover h2.theater {
     color: #D4A574;
     transition: color 0.3s ease;
+    margin-top: 30px;
 }
 
 /* 스크롤바 스타일 (웹킷 브라우저) */

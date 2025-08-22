@@ -73,25 +73,44 @@
                 <div class="event-box m70">
                   <h2 class="theater traffic">시설안내</h2>
                 </div>
+
                 <!--보유시설-->
                 <div class="theater-floor-info">
-                  <h3 class="small-tit m15">보유시설</h3>
-                  <div class="sisul-img-info">
-                    <p><i class="icon"></i>${theater.tibvo.tFacilities}</p>
-                  </div>
+                <h3 class="small-tit m15">보유시설</h3>
+                  <ul>
+                    <c:forEach var="facility" items="${requestScope.facilitiesArr}">
+                      <li>
+                        <div class="sisul-img-info">
+                          <div>
+                            <c:if test="${fn:contains(facility, '일반상영관')}">
+                              <img src="./images/ico-facility-theater.png" alt="일반상영관"/>
+                            </c:if>
+                            <c:if test="${fn:contains(facility, '장애인석')}">
+                              <img src="./images/ico-facility-theater-seat.png" alt="장애인석"/>
+                            </c:if>
+                            <c:if test="${fn:contains(facility, '커플석')}">
+                              <img src="./images/ico-facility-theater-couple.png" alt="커플석"/>
+                            </c:if>
+                            <c:if test="${fn:contains(facility, '3D관')}">
+                              <img src="./images/ico-facility-mx4d.png" alt="3D"/>
+                            </c:if>
+                          </div>
+                          <div class="tFacilities_text">${facility}</div>
+                        </div>
+                      </li>
+                    </c:forEach>
+                  </ul>
                 </div>
+
                 <!--층별안내-->
                 <div class="theater-floor-info">
                   <h3 class="small-tit m15">층별안내</h3>
-
-                  <div class="sisul-floor-info">
-                    <ul class="floor-info">
-                      <li>${theater.tibvo.tFloorInfo}</li>
-                    </ul>
-                  </div>
+                  <ul>
+                    <c:forEach var="floor" items="${requestScope.floorInfoArr}">
+                      <li>${floor}</li>
+                    </c:forEach>
+                  </ul>
                 </div>
-
-
 
                 <!--교통-->
                 <div class="theater-traffic-info">
