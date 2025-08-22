@@ -25,21 +25,21 @@ public class Nmember_chkAction implements Action {
             String u_birth = request.getParameter("u_birth");
 
             // DB에서 조회
-            NmemVO nmenvo = NmemDAO.chk(u_name, u_pw, u_birth);
+            NmemVO nmemvo = NmemDAO.chk(u_name, u_pw, u_birth);
 
             Map<String, Object> resp = new HashMap<>();
 
-            if (nmenvo != null) {
+            if (nmemvo != null) {
                 // 조회 성공: 세션에 저장
                 HttpSession session = request.getSession();
-                session.setAttribute("nmenvo", nmenvo);
+                session.setAttribute("nmemvo", nmemvo);
 
 
 //                System.out.println("sessionId="+session.getId());
-//                System.out.println(nmenvo.getName());
-//                System.out.println(nmenvo.getPassword());
-//                System.out.println(nmenvo.getBirth());
-//                System.out.println(nmenvo.getPhone());
+//                System.out.println(nmemvo.getName());
+//                System.out.println(nmemvo.getPassword());
+//                System.out.println(nmemvo.getBirth());
+//                System.out.println(nmemvo.getPhone());
 
 
 

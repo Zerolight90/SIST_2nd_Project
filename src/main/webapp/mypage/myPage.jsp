@@ -48,7 +48,7 @@
             </c:when>
 
             <%-- 1-2. 비회원일 경우 --%>
-            <c:when test="${not empty sessionScope.nmenvo}">
+            <c:when test="${not empty sessionScope.nmemvo}">
               <h2>비회원 예매조회</h2>
               <ul>
                 <li><a href="${cp}/Controller?type=myReservation" class="nav-link active" data-type="myReservation">예매/구매내역</a></li>
@@ -119,8 +119,8 @@
     let initialTabType;
 
     <c:choose>
-    <%-- Case 1: 비회원일 경우 (nmenvo 세션 존재) --%>
-    <c:when test="${not empty sessionScope.nmenvo}">
+    <%-- Case 1: 비회원일 경우 (nmemvo 세션 존재) --%>
+    <c:when test="${not empty sessionScope.nmemvo}">
     initialTabType = "myReservation";
     firstUrl = cp + "/Controller?type=myReservation";
     </c:when>

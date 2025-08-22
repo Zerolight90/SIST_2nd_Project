@@ -129,7 +129,7 @@
         JOIN
         reservation r ON p.reservIdx = r.reservIdx
         JOIN
-        nmember n ON r.nIdx2 = n.nIdx
+        nmember n ON r.nIdx = n.nIdx
         JOIN
         time_table tt ON r.timeTableIdx = tt.timeTableIdx
         JOIN

@@ -101,12 +101,18 @@ public class PaymentConfirmAction implements Action {
                     reservation.setUserIdx(Long.parseLong(userIdx));
                 } else {
                     // 비회원 정보만 추가로 설정
-                    Map<String, String> nmemInfo = (Map<String, String>) session.getAttribute("nmemInfoForPayment");
-                    NmemVO nvo = new NmemVO(null, nmemInfo.get("name"), null, null, nmemInfo.get("phone"), nmemInfo.get("password"), null);
-                    NmemDAO.insertNmember(nvo, ss);
-                    long newNIdx = Long.parseLong(nvo.getnIdx());
-                    reservation.setnIdx2(newNIdx);
-                    pvo.setnIdx(newNIdx);
+                    // [수정] '예매 확인' 때 세션에 저장했던 nmemvo 객체를 가져옵니다.
+                    NmemVO nmemvo = (NmemVO) session.getAttribute("nmemvo");
+
+                    // [수정] 새로운 비회원을 생성하는 대신, 기존 비회원의 nIdx를 사용합니다.
+                    if (nmemvo != null) {
+                        long nIdx = Long.parseLong(nmemvo.getnIdx()); // 세션에서 nIdx 가져오기
+                        reservation.setnIdx(nIdx); // 예매 정보에 nIdx 설정
+                        pvo.setnIdx(nIdx);         // 결제 정보에도 동일한 nIdx 설정
+                    } else {
+                        // 세션이 만료되었거나 비정상적인 접근일 경우를 대비한 예외 처리
+                        throw new Exception("비회원 정보가 세션에 없습니다. 다시 시도해주세요.");
+                    }
                 }
 
                 ReservationDAO.insertReservation(reservation, ss); // 모든 정보가 담긴 객체를 저장

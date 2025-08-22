@@ -28,7 +28,7 @@
                     AND p.userIdx = #{userKey}
                 </when>
                 <when test="userType == 'nonMember'">
-                    AND p.nIdx2 = #{userKey}
+                    AND p.nIdx = #{userKey}
                 </when>
             </choose>
             <if test="statusFilter != null and statusFilter != ''">
@@ -71,7 +71,7 @@
                     AND p.userIdx = #{userKey}
                 </when>
                 <when test="userType == 'nonMember'">
-                    AND p.nIdx2 = #{userKey}
+                    AND p.nIdx = #{userKey}
                 </when>
             </choose>
             <if test="statusFilter != null and statusFilter != ''">
@@ -114,7 +114,7 @@
                     AND p.userIdx = #{userKey}
                 </when>
                 <when test="userType == 'nonMember'">
-                    AND p.nIdx2 = #{userKey}
+                    AND p.nIdx = #{userKey}
                 </when>
             </choose>
             <if test="statusFilter != null and statusFilter != ''">
