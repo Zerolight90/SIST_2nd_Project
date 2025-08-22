@@ -57,4 +57,12 @@
         r.mIdx = #{mIdx}
     </select>
 
+    <insert id="insert" parameterType="mybatis.vo.ReviewVO">
+        INSERT INTO review
+        (userIdx, mIdx, reviewRating, reviewContent, reviewDate, ip, reviewStatus)
+        VALUES (#{userIdx}, #{mIdx}, #{reviewRating}, #{reviewContent}, NOW(), #{ip}, '0')
+    </insert>
+
+
+
 </mapper>

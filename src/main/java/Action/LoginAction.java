@@ -113,10 +113,9 @@ public class LoginAction implements Action {
                         // "type=" 뒤부터 끝까지 잘라서 url에 다시 저장
                         url = url.substring(idx + "type=".length());
                     }
-
                     request.getSession().removeAttribute("reviewurl");
 
-                    System.out.println(url); // 👉 "movieDetail&mIdx=1131759"
+//                    System.out.println(url); // "movieDetail&mIdx=1131759"
                 }
                 else {
 //                    System.out.println("No redirect URL found, going to index");
