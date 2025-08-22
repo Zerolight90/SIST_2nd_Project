@@ -223,7 +223,7 @@
       const formData = new FormData(form);
 
       $.ajax({
-        url: form.action,
+        url: "Controller?type=adminWriteInquiry&ajax=Y",
         data: formData,
         type: "POST",
         contentType: false,

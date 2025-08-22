@@ -20,7 +20,6 @@ public class AdminBoardEditAction implements Action{
         //post방식으로 넘어올 때 먼저 요청시 contentType 얻어낸다.
         //이쪽으로 두군데서 오게 되므로 구분을 해야한다.
         String enc_type = request.getContentType();
-        System.out.println("enc_type:::::::" + enc_type);
 
         String viewPath = null;
         String boardType = null;
@@ -35,7 +34,6 @@ public class AdminBoardEditAction implements Action{
 
             request.setAttribute("vo", vo);
 
-            System.out.println("boardType은:::???" + boardType);
             if(boardType.equals("adminEditBoard")){
                 viewPath = "admin/adminEditBoard.jsp"; // 여기서 forward되므로 이쪽으로 넘어오는
                 //파라미터들(boardIdx, cPage)은 그대로 유지되어 adminEditBoard.jsp로 간다.
@@ -102,8 +100,8 @@ public class AdminBoardEditAction implements Action{
                 } else if(boardType.equals("adminEditInquiry")){
                     viewPath = "Controller?type=adminViewInquiry&boardIdx=" + boardIdx + "&cPage=" + cPage;
                 }
-                System.out.println("보드타입::"+boardType);
-                //viewPath = "Controller?type=adminViewBoard&boardIdx=" + boardIdx + "&cPage=" + cPage;
+
+                viewPath = "Controller?type=adminViewBoard&boardIdx=" + boardIdx + "&cPage=" + cPage;
 
             } catch (Exception e) {
                 e.printStackTrace();

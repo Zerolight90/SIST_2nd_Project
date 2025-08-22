@@ -3,6 +3,8 @@ package mybatis.vo;
 public class TheaterInfoBoardVO {
     String tboardIdx, tIdx, tFacilities, tFloorInfo, tParkingInfo, tParkingChk, tParkingPrice, tBusRouteToTheater, tSubwayRouteToTheater;
 
+    private TheaterVO tvo;
+
     public String getTboardIdx() {
         return tboardIdx;
     }
@@ -73,5 +75,29 @@ public class TheaterInfoBoardVO {
 
     public void settSubwayRouteToTheater(String tSubwayRouteToTheater) {
         this.tSubwayRouteToTheater = tSubwayRouteToTheater;
+    }
+
+    public TheaterVO getTvo() {
+        return tvo;
+    }
+
+    public void setTvo(TheaterVO tvo) {
+        this.tvo = tvo;
+    }
+
+    @Override
+    public String toString() {
+        return "TheaterInfoBoardVO{" +
+                "tboardIdx='" + tboardIdx + '\'' +
+                ", tIdx='" + tIdx + '\'' +
+                ", tFacilities='" + tFacilities + '\'' +
+                ", tFloorInfo='" + tFloorInfo + '\'' +
+                ", tParkingInfo='" + tParkingInfo + '\'' +
+                ", tParkingChk='" + tParkingChk + '\'' +
+                ", tParkingPrice='" + tParkingPrice + '\'' +
+                ", tBusRouteToTheater='" + tBusRouteToTheater + '\'' +
+                ", tSubwayRouteToTheater='" + tSubwayRouteToTheater + '\'' +
+                ", tvo=" + tvo +
+                '}';
     }
 }

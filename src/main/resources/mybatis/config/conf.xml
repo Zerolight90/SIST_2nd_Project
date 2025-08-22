@@ -41,5 +41,6 @@
         <mapper resource="mybatis/mapper/myPaymentHistory.xml"/>
         <mapper resource="mybatis/mapper/moviedetail.xml"/>
         <mapper resource="mybatis/mapper/review.xml"/>
+        <mapper resource="mybatis/mapper/adminTheaterBoard.xml"/>
     </mappers>
 </configuration>
