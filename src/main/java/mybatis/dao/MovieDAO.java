@@ -17,6 +17,7 @@ public class MovieDAO {
         ss.close();
         return list;
     }
+
     public static MovieVO[] getAllMovie() {
         MovieVO[] ar = null;
 
@@ -31,6 +32,7 @@ public class MovieDAO {
 
         return ar;
     }
+
     public static MovieVO getById(String mIdx) {
         SqlSession ss = FactoryService.getFactory().openSession();
         MovieVO movie = ss.selectOne("movie.list", mIdx);
@@ -52,11 +54,11 @@ public class MovieDAO {
         return ar;
     }
 
-    public static void editMovies(Map<String, String> map){
+    public static void editMovies(Map<String, String> map) {
         SqlSession ss = FactoryService.getFactory().openSession();
         int update = ss.update("movie.editMovies", map);
 
-        if (update >= 1){
+        if (update >= 1) {
             ss.commit();
         } else {
             ss.rollback();
@@ -72,6 +74,7 @@ public class MovieDAO {
         ss.close();
         return list;
     }
+
     // 카테고리별 총 게시물 수 반환
     public static int getTotalCount(String category) {
         SqlSession ss = FactoryService.getFactory().openSession();
@@ -106,6 +109,7 @@ public class MovieDAO {
 
     /**
      * 특정 영화(mIdx)의 총 예매 수를 반환하는 메소드
+     *
      * @param mIdx 영화 ID
      * @return 해당 영화의 총 예매 수
      */
@@ -119,6 +123,7 @@ public class MovieDAO {
     /**
      * 현재 상영중인 모든 영화의 총 예매 수를 반환하는 메소드
      * (예매율 분모 계산용)
+     *
      * @return 상영중인 영화들의 총 예매 수
      */
     public static int getTotalReservationsForShowingMovies() {
@@ -128,5 +133,6 @@ public class MovieDAO {
         ss.close();
         return (total == null) ? 0 : total;
     }
+
 
 }

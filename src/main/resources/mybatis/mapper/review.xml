@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="review">
+
+    <!-- MemberVO를 위한 resultMap 정의 (선택 사항이지만 명확성을 위해) -->
+    <resultMap id="memberResultMap" type="mybatis.vo.MemberVO">
+        <result property="name" column="name"/>
+    </resultMap>
+
+    <!-- ReviewVO를 위한 resultMap 정의 -->
+    <resultMap id="reviewResultMap" type="mybatis.vo.ReviewVO">
+        <!-- ReviewVO의 기본 필드 매핑 -->
+        <id property="reviewIdx" column="reviewIdx"/>
+        <result property="userIdx" column="userIdx"/>
+        <result property="mIdx" column="mIdx"/>
+        <result property="reviewRating" column="reviewRating"/>
+        <result property="reviewContent" column="reviewContent"/>
+        <result property="reviewDate" column="reviewDate"/>
+        <result property="reviewStatus" column="reviewStatus"/>
+        <result property="ip" column="ip"/>
+
+        <!-- MemberVO 객체 매핑 -->
+        <!-- property: ReviewVO 내의 MemberVO 필드 이름 (여기서는 member) -->
+        <!-- javaType: 매핑될 객체의 실제 타입 (여기서는 mybatis.vo.MemberVO) -->
+        <!-- resultMap: 이 association이 참조할 resultMap ID (위에서 정의한 memberResultMap) -->
+        <!-- 또는 중첩된 resultMap 정의 (아래 주석 처리된 예시 참고) -->
+        <association property="member" javaType="mybatis.vo.MemberVO" resultMap="memberResultMap"/>
+        <!-- 또는 중첩된 resultMap 정의 (name 컬럼만 필요하다면 아래처럼 직접 정의할 수 있습니다) -->
+        <!--
+        <association property="member" javaType="mybatis.vo.MemberVO">
+            <result property="name" column="name"/>
+        </association>
+        -->
+    </resultMap>
+
+    <select id="getReview" resultMap="reviewResultMap" parameterType="string">
+        SELECT
+        r.reviewIdx,
+        r.userIdx,
+        r.mIdx,
+        r.reviewRating,
+        r.reviewContent,
+        r.reviewDate,
+        r.reviewStatus,
+        r.ip,
+        u.name  <!-- u.name 컬럼을 그대로 사용합니다. -->
+        FROM
+        review AS r
+        INNER JOIN
+        user AS u
+        ON
+        r.userIdx = u.userIdx
+        WHERE
+        r.mIdx = #{mIdx}
+    </select>
+
+</mapper>

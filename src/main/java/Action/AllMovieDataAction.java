@@ -2,8 +2,10 @@ package Action;
 
 import mybatis.dao.FavoriteMovieDAO;
 import mybatis.dao.MovieDAO;
+import mybatis.dao.ReviewDAO;
 import mybatis.vo.MemberVO;
 import mybatis.vo.MovieVO;
+import mybatis.vo.ReviewVO;
 import util.Paging;
 
 import javax.servlet.http.HttpServletRequest;
@@ -65,16 +67,18 @@ public class AllMovieDataAction implements Action {
 
         // 2) 각 영화별 예매율 계산하여 VO에 저장
         if (totalReservations > 0 && list != null) {
+            double rate = 0;
             for (MovieVO vo : list) {
                 // 2-1) 분자 (해당 영화 예매 수) 구하기
                 int movieReservations = MovieDAO.getReservationCountByMovie(vo.getmIdx());
 
                 // 2-2) 예매율 계산 (소수점 둘째 자리에서 반올림)
-                double rate = ((double) movieReservations / totalReservations) * 100;
+                rate = ((double) movieReservations / totalReservations) * 100;
 
                 // 2-3) 계산된 예매율을 MovieVO에 설정
                 vo.setBookingRate(rate);
             }
+
         }
 
         // 5. '좋아요' 관련 데이터 처리
@@ -98,6 +102,7 @@ public class AllMovieDataAction implements Action {
         request.setAttribute("totalCount", p.getTotalCount());
         request.setAttribute("currentCategory", category);
         request.setAttribute("nowPage", p.getNowPage());
+
 
         return "/allmovie/allmovie.jsp";
     }
