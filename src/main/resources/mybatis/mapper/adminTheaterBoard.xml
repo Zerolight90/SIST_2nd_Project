@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="adminTheaterBoard">
+
+    <!--1:1은 association-->
+    <resultMap id="map1" type="mybatis.vo.TheaterInfoBoardVO">
+        <id property="tboardIdx" column="tboardIdx"/>
+        <association property="tvo" javaType="mybatis.vo.TheaterVO" select="theater.getTheater" column="tIdx"/>
+    </resultMap>
+
+    <!--극장상세정보에 대한 전체 목록 추출-->
+    <!--<select id="adminTheaterBoardList" parameterType="String" resultMap="map1">
+                SELECT * FROM theater_info_board
+                WHERE tIdx = #{tIdx}
+    </select>-->
+
+    <!--총 게시물 수를 반환하는 기능-->
+    <!--총 페이지 수를 알아야 한다. 그래야 반복문을 돌리면서 제어를 할 수 있다. 총게시물 수가 있어야 총 페이지 수를 구할 수 있다.-->
+    <!--<select id="totalCount" resultType="int" parameterType="String">
+        SELECT COUNT(*) FROM board
+        WHERE boardStatus = 0
+        AND boardType = #{boardType}
+        AND parent_boardIdx IS NULL
+    </select>-->
+
+    <!--극장 등록-->
+    <insert id="addTheater" parameterType="mybatis.vo.TheaterVO" useGeneratedKeys="true" keyProperty="tIdx">
+        INSERT INTO theater (tName, tRegion, tAddress, tInfo, tScreenCount, tregDate, tStatus)
+        VALUES (#{tName}, #{tRegion}, #{tAddress}, #{tInfo}, #{tScreenCount}, NOW(), 0)
+    </insert>
+
+    <!--극장 상세정보 등록-->
+    <insert id="addTheaterInfo" parameterType="mybatis.vo.TheaterInfoBoardVO">
+        INSERT INTO theater_info_board (
+        tIdx,
+        tFacilities,
+        tFloorInfo,
+        tParkingInfo,
+        tParkingChk,
+        tParkingPrice,
+        tBusRouteToTheater,
+        tSubwayRouteToTheater
+        ) VALUES (
+        #{tIdx},
+        #{tFacilities},
+        #{tFloorInfo},
+        #{tParkingInfo},
+        #{tParkingChk},
+        #{tParkingPrice},
+        #{tBusRouteToTheater},
+        #{tSubwayRouteToTheater}
+        )
+    </insert>
+
+    <!--극장 수정-->
+    <update id="editTheater" parameterType="mybatis.vo.TheaterVO"  useGeneratedKeys="true" keyProperty="tIdx">
+        UPDATE theater
+        <trim prefix="SET" suffixOverrides=",">
+            <!--없으면 실행되지 않음-->
+            tName = #{tName},
+            tRegion = #{tRegion},
+            tAddress = #{tAddress},
+            tInfo = #{tInfo},
+            tScreenCount = #{tScreenCount},
+            tStatus = #{tStatus},
+        </trim>
+        WHERE tIdx = #{tIdx, jdbcType=BIGINT}
+    </update>
+
+    <!--극장 상세정보 수정-->
+    <update id="editTheaterInfo" parameterType="mybatis.vo.TheaterInfoBoardVO">
+        UPDATE theater_info_board
+        <trim prefix="SET" suffixOverrides=",">
+            <!--없으면 실행되지 않음-->
+            tFacilities = #{tFacilities},
+            tFloorInfo = #{tFloorInfo},
+            tParkingInfo = #{tParkingInfo},
+            tParkingChk = #{tParkingChk},
+            tParkingPrice = #{tParkingPrice},
+            tBusRouteToTheater = #{tBusRouteToTheater},
+            tSubwayRouteToTheater = #{tSubwayRouteToTheater},
+            )
+        </trim>
+        WHERE tIdx = #{tIdx, jdbcType=BIGINT}
+    </update>
+
+
+    <!--극장 게시물 삭제
+    추후 로그인 한 경우에는 같은 아이디글만 삭제하도록 구현할 예정-->
+    <!--<update id="del" parameterType="String">
+        UPDATE theater
+        SET boardStatus = 1
+        WHERE boardIdx = #{boardIdx}
+    </update>-->
+
+
+</mapper>

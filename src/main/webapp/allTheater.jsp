@@ -427,8 +427,46 @@
     });
   });
 
+
   // 카카오 지도
   // 지금 브렌치는 선영이 작성하고 있는 내용입니다.
+/*
+
+  var theaterAddress = "서울특별시 서초구 서초대로77길 3";
+
+  var container = document.getElementById('map');
+  var options = {
+    center: new kakao.maps.LatLng(37.5284455288195, 127.125357402766), //위도, 경도
+    level: 3
+  };
+
+  var map = new kakao.maps.Map(container, options);
+
+  // 주소-좌표 변환 객체를 생성합니다.
+  var geocoder = new kakao.maps.services.Geocoder();
+
+  // 주소로 좌표를 검색합니다.
+  geocoder.addressSearch(theaterAddress, function(result, status) {
+    // 정상적으로 검색이 완료되었을 경우
+    if (status === kakao.maps.services.Status.OK) {
+      var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+      // 결과값으로 받은 위치를 마커로 표시합니다.
+      var marker = new kakao.maps.Marker({
+        map: map,
+        position: coords
+      });
+
+      // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다.
+      map.setCenter(coords);
+    }
+  });
+
+*/
+
+  // 카카오 지도
+  // 지금 브렌치는 선영이 작성하고 있는 내용입니다.
+
   var container = document.getElementById('map');
   var options = {
     center: new kakao.maps.LatLng(37.5284455288195, 127.125357402766), //위도, 경도

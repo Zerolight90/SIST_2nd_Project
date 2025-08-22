@@ -21,14 +21,13 @@
     <!--파라미터를 기본키로 받아서 해당 극장정보를 반환한다.-->
     <select id="getTheater" resultType="mybatis.vo.TheaterVO" parameterType="String">
         SELECT * FROM theater
-        WHERE tIdx = #{tIdx}
+        WHERE tIdx = #{tIdx, jdbcType=BIGINT}
     </select>
 
     <select id="select" resultType="mybatis.vo.TheaterVO" parameterType="mybatis.vo.TheaterVO">
         SELECT * FROM theater
         WHERE tIdx = #{tIdx}
     </select>
-
 
     <!--선영추가-->
     <!--공지사항에 대한 전체 목록 추출-->
