@@ -7,9 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class PaymentMovieAction implements Action {
     @Override
@@ -35,6 +33,11 @@ public class PaymentMovieAction implements Action {
             String teenCountStr = request.getParameter("teen");
             String seniorCountStr = request.getParameter("senior");
             String specialCountStr = request.getParameter("special");
+
+            String timeTableIdxStr = request.getParameter("timeTableIdx");
+            String tIdxStr = request.getParameter("tIdx");
+            String sIdxStr = request.getParameter("sIdx");
+            String priceIdxStr = request.getParameter("priceIdx");
 
             int adultCount = (adultCountStr == null || adultCountStr.isEmpty()) ? 0 : Integer.parseInt(adultCountStr);
             int teenCount = (teenCountStr == null || teenCountStr.isEmpty()) ? 0 : Integer.parseInt(teenCountStr);
@@ -90,6 +93,12 @@ public class PaymentMovieAction implements Action {
 
             // --- 3. 결과를 ReservationVO에 담기 ---
             ReservationVO reservation = new ReservationVO();
+
+            if(timeTableIdxStr != null) reservation.setTimeTableIdx(Long.parseLong(timeTableIdxStr));
+            if(tIdxStr != null) reservation.settIdx(Long.parseLong(tIdxStr));
+            if(sIdxStr != null) reservation.setsIdx(Long.parseLong(sIdxStr));
+            if(priceIdxStr != null) reservation.setPriceIdx(Long.parseLong(priceIdxStr));
+
             reservation.setTitle(movieTitle);
             reservation.setPosterUrl(posterUrl);
             reservation.setTheaterName(theaterName);
@@ -114,6 +123,19 @@ public class PaymentMovieAction implements Action {
                 request.setAttribute("memberInfo", memberInfo);
                 request.setAttribute("isGuest", false);
             } else {
+                NmemVO nmemvo = (NmemVO) session.getAttribute("nmemvo");
+
+                if (nmemvo != null) {
+                    // nonvo 객체의 정보를 PaymentConfirmAction이 사용할 Map 형태로 변환합니다.
+                    Map<String, String> nmemInfo = new HashMap<>();
+                    nmemInfo.put("name", nmemvo.getName());
+                    nmemInfo.put("phone", nmemvo.getPhone());
+                    nmemInfo.put("password", nmemvo.getPassword()); // NmemVO의 비밀번호 필드 getter에 맞게 수정
+
+                    // PaymentConfirmAction을 위해 세션에 저장합니다.
+                    session.setAttribute("nmemInfoForPayment", nmemInfo);
+                }
+
                 request.setAttribute("isGuest", true);
             }
 

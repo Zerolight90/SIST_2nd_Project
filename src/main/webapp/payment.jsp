@@ -56,7 +56,7 @@
                 <p class="info_line">좌석: ${reservationInfo.seatInfo}</p>
               </c:when>
               <c:otherwise>
-                <p class="info_line">수량: 1개</p>
+                <p class="info_line">수량: ${productInfo.quantity}개</p>
               </c:otherwise>
             </c:choose>
           </div>

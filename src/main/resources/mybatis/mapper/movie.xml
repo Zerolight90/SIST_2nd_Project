@@ -59,6 +59,7 @@
                 FROM reservation r
                 JOIN time_table tt ON r.timeTableIdx = tt.timeTableIdx
                 WHERE tt.mIdx = m.mIdx
+                AND r.status = 0
                 ) DESC
             </when>
             <when test="category == 'scheduled'"> ORDER BY date ASC </when>
@@ -158,6 +159,7 @@
         FROM reservation r
         JOIN time_table tt ON r.timeTableIdx = tt.timeTableIdx
         WHERE tt.mIdx = #{mIdx}
+        AND r.status = 0
     </select>
 
     <select id="getTotalReservationsForShowingMovies" resultType="int">

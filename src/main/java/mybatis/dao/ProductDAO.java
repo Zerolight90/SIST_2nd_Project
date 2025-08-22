@@ -102,4 +102,14 @@ public class ProductDAO {
         ss.close();
         return vo;
     }
+
+    /**
+     * 상품 재고를 감소시키고, 재고가 0 이하가 되면 상태를 '품절'로 변경하는 메소드
+     * @param params prodIdx(상품ID), quantity(구매수량)가 담긴 Map
+     * @param ss 트랜잭션 관리를 위한 SqlSession
+     * @return 업데이트된 행의 수
+     */
+    public static int updateProductStock(Map<String, Object> params, SqlSession ss) {
+        return ss.update("product.updateStock", params);
+    }
 }

@@ -182,6 +182,10 @@
         <input type="hidden" name="morningPrice" id="morningPrice" value="${price.morning}"> <!-- 조조 할인 가격 -->
         <input type="hidden" name="normalPrice" id="normalPrice" value="${price.normal}">
 
+        <input type="hidden" name="timeTableIdx" value="${time.timeTableIdx}">
+        <input type="hidden" name="tIdx" value="${theater.tIdx}">
+        <input type="hidden" name="sIdx" value="${screen.sIdx}">
+        <input type="hidden" name="priceIdx" value="${price.priceIdx}">
 
         <input type="hidden" name="startTime" value="${time.startTime}">
         <input type="hidden" name="theaterName" value="${theater.tName}">

@@ -102,7 +102,7 @@
 
     GROUP BY T.tName
     ORDER BY totalSales DESC
-</select>
+    </select>
 
     <select id="getSalesByMovie" parameterType="map" resultType="mybatis.vo.RevenueVO">
         SELECT M.name as theaterName, SUM(P.paymentFinal) as totalSales

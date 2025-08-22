@@ -6,6 +6,7 @@
 <html>
 <head>
   <title>SIST BOX - 결제 결과</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <c:set var="basePath" value="${pageContext.request.contextPath}"/>
   <link rel="stylesheet" href="${basePath}/css/reset.css">
   <link rel="stylesheet" href="${basePath}/css/sub/sub_page_style.css">
@@ -61,7 +62,11 @@
             </div>
             <div class="button_container">
               <c:choose>
-                <c:when test="${isGuest}"><button class="btn_history" onclick="location.href='${basePath}/nonmember/nmemReservation.jsp'">예매정보 다시 확인하기</button></c:when>
+                <c:when test="${isGuest}">
+                  <div class="button_container">
+                  <a href="Controller?type=myPage&tab=myreservationHistory" class="btn_history">예매내역 확인</a>
+                </div>
+                </c:when>
                 <c:otherwise>
                   <div class="button_container">
                   <a href="Controller?type=myPage&tab=myreservationHistory" class="btn_history">나의 예매내역</a>
@@ -105,7 +110,7 @@
               </div>
             </div>
             <div class="button_container">
-              <a href="Controller?type=myPage&tab=myreservationHistory" class="btn_history">나의 예매내역</a>
+              <a href="Controller?type=myPage&tab=myreservationHistory" class="btn_history">나의 구매내역</a>
             </div>
           </c:when>
         </c:choose>
