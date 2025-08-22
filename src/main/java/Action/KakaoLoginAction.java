@@ -3,6 +3,7 @@ package Action;
 import mybatis.dao.CouponDAO;
 import mybatis.dao.KakaoDAO;
 import mybatis.dao.MemberDAO;
+import mybatis.vo.CouponVO;
 import mybatis.vo.KakaoVO;
 import mybatis.vo.MemberVO;
 
@@ -68,14 +69,31 @@ public class KakaoLoginAction implements Action {
         System.out.println("Kakao Name: " + K_member.getK_name());
         System.out.println("Kakao Email: " + K_member.getK_email());
 
+
+        HttpSession session = request.getSession();
         // 4. DB에 카카오 사용자 정보 저장 전, ID 중복 확인
         boolean checkKakaoId = MemberDAO.checkKakaoId(K_member.getK_id()); // 카카오 ID 중복 확인
 
         if (!checkKakaoId) { // 중복된 ID가 없을 경우에만 삽입 진행
             int result = MemberDAO.kakaoregistry(K_member);
-
             if (result > 0) {
-                System.out.println("카카오 사용자 정보 DB 저장 성공!");
+                // 신규 가입 쿠폰 생성 및 지급
+                MemberVO newUser = MemberDAO.findByKakaoId(K_member.getK_id());
+                if (newUser != null) {
+                    long newUserIdx = Long.parseLong(newUser.getUserIdx());
+
+                    CouponVO welcomeCoupon = new CouponVO();
+                    welcomeCoupon.setCouponName("신규 가입 축하 2,000원 할인 쿠폰");
+                    welcomeCoupon.setCouponCategory("신규가입");
+                    welcomeCoupon.setCouponInfo("첫 방문을 환영합니다!");
+                    welcomeCoupon.setDiscountValue(String.valueOf(2000));
+
+                    CouponVO issuedCoupon = CouponDAO.createAndIssueCoupon(newUserIdx, welcomeCoupon);
+
+                    if (issuedCoupon != null) {
+                        session.setAttribute("couponAlert", "'" + issuedCoupon.getCouponName() + "' 쿠폰이 발급되었습니다!");
+                    }
+                }
             } else {
                 System.out.println("카카오 사용자 정보 DB 저장 실패!");
                 request.setAttribute("loginError", true);
@@ -87,7 +105,6 @@ public class KakaoLoginAction implements Action {
         }
 
         // 세션 설정 등
-        HttpSession session = request.getSession();
         session.setAttribute("kvo", K_member);
         session.setAttribute("msg", (K_member.getK_name() != null ? K_member.getK_name() : "사용자") + "님, 카카오 계정으로 로그인되었습니다.");
 
@@ -96,24 +113,28 @@ public class KakaoLoginAction implements Action {
         if (mvo != null) {
             session.setAttribute("mvo", mvo); // 세션에 mvo 정보 저장
 
-            // ########### [추가된 로직] ########### !!!
-            // 로그인 성공 시 생일 쿠폰 지급 확인
+            // ★★★★★ [수정] 생일 쿠폰 생성 및 지급 로직 ★★★★★
             try {
                 String birthDateStr = mvo.getBirth();
                 if (birthDateStr != null && !birthDateStr.isEmpty()) {
                     LocalDate today = LocalDate.now();
                     LocalDate birthday = LocalDate.parse(birthDateStr);
 
-                    // 오늘 날짜와 생일의 월, 일이 일치하는지 확인
                     if (today.getMonthValue() == birthday.getMonthValue() && today.getDayOfMonth() == birthday.getDayOfMonth()) {
                         long userIdx = Long.parseLong(mvo.getUserIdx());
-                        long birthdayCouponIdx = 6; // DB에 명시된 생일 쿠폰 ID
 
-                        // 올해 생일 쿠폰을 이미 받았는지 확인
-                        boolean alreadyReceived = CouponDAO.hasReceivedBirthdayCouponThisYear(userIdx, birthdayCouponIdx);
+                        boolean alreadyReceived = CouponDAO.hasReceivedBirthdayCouponThisYear(userIdx);
                         if (!alreadyReceived) {
-                            CouponDAO.issueCouponToUser(userIdx, birthdayCouponIdx);
-                            System.out.println(mvo.getName() + "님에게 생일 축하 쿠폰이 발급되었습니다.");
+                            CouponVO birthdayCoupon = new CouponVO();
+                            birthdayCoupon.setCouponName(today.getYear() + "년 생일 축하 2000원 할인 쿠폰");
+                            birthdayCoupon.setCouponCategory("생일");
+                            birthdayCoupon.setCouponInfo("생일을 진심으로 축하합니다!");
+                            birthdayCoupon.setDiscountValue(String.valueOf(2000));
+
+                            CouponVO issuedCoupon = CouponDAO.createAndIssueCoupon(userIdx, birthdayCoupon);
+                            if (issuedCoupon != null) {
+                                session.setAttribute("couponAlert", "생일을 축하합니다! '" + issuedCoupon.getCouponName() + "'이 발급되었습니다.");
+                            }
                         }
                     }
                 }

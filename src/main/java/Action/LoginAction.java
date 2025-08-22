@@ -2,6 +2,7 @@ package Action;
 
 import mybatis.dao.CouponDAO;
 import mybatis.dao.MemberDAO;
+import mybatis.vo.CouponVO; // CouponVO import 추가
 import mybatis.vo.MemberVO;
 import util.ConfigUtil;
 
@@ -9,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
-import java.time.LocalDate;
+import java.time.LocalDate; // LocalDate import 추가
 import java.time.ZoneId;
 import java.util.Date;
 
@@ -64,6 +65,7 @@ public class LoginAction implements Action {
 
             // 로그인 시도
             MemberVO mvo = MemberDAO.login(u_id, u_pw);
+            HttpSession session = request.getSession();
 
             if (mvo != null) {
                 // 로그인 성공!
@@ -124,21 +126,33 @@ public class LoginAction implements Action {
 
                 // 로그인 성공 시 생일 쿠폰 지급 확인
                 try {
-                    String birthDate = mvo.getBirth();
-                    if (birthDate != null) {
+                    String birthDateStr = mvo.getBirth();
+                    if (birthDateStr != null && !birthDateStr.isEmpty()) {
                         LocalDate today = LocalDate.now();
-                        LocalDate birthday = LocalDate.parse(birthDate);
+                        LocalDate birthday = LocalDate.parse(birthDateStr);
 
                         // 오늘이 생일인지 확인
                         if (today.getMonthValue() == birthday.getMonthValue() && today.getDayOfMonth() == birthday.getDayOfMonth()) {
                             long userIdx = Long.parseLong(mvo.getUserIdx());
-                            long birthdayCouponIdx = 7; // DB에 명시된 생일 쿠폰 ID
 
                             // 올해 생일 쿠폰을 이미 받았는지 확인
-                            boolean alreadyReceived = CouponDAO.hasReceivedBirthdayCouponThisYear(userIdx, birthdayCouponIdx);
+                            boolean alreadyReceived = CouponDAO.hasReceivedBirthdayCouponThisYear(userIdx);
+
                             if (!alreadyReceived) {
-                                CouponDAO.issueCouponToUser(userIdx, birthdayCouponIdx);
-//                                System.out.println(mvo.getName() + "님에게 생일 축하 쿠폰이 발급되었습니다.");
+                                // 1. 지급할 쿠폰 정보 생성
+                                CouponVO birthdayCoupon = new CouponVO();
+                                birthdayCoupon.setCouponName(today.getYear() + "년 생일 축하 2000원 할인 쿠폰");
+                                birthdayCoupon.setCouponCategory("생일");
+                                birthdayCoupon.setCouponInfo("생일을 진심으로 축하합니다!");
+                                birthdayCoupon.setDiscountValue(String.valueOf(2000));
+
+                                // 2. 쿠폰 생성 및 지급
+                                CouponVO issuedCoupon = CouponDAO.createAndIssueCoupon(userIdx, birthdayCoupon);
+
+                                // 3. 성공 시 세션에 알림 메시지 저장
+                                if (issuedCoupon != null) {
+                                    session.setAttribute("couponAlert", "생일을 축하합니다! '" + issuedCoupon.getCouponName() + "'이 발급되었습니다.");
+                                }
                             }
                         }
                     }
@@ -148,12 +162,10 @@ public class LoginAction implements Action {
                 }
 
                 // 리다이렉트
-                HttpSession session = request.getSession();
                 session.setAttribute("mvo", mvo);
 //                System.out.println("Final redirect URL: " + url);
 
-
-                return "Controller?type=" + url;
+                return "redirect:Controller?type=" + url;
 
             } else {
                 // 로그인 실패
@@ -169,6 +181,4 @@ public class LoginAction implements Action {
         }
         return "/join/login_.jsp";
     }
-
-
 }

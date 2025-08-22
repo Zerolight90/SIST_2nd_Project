@@ -3,6 +3,7 @@ package Action;
 import mybatis.dao.CouponDAO;
 import mybatis.dao.NaverDAO;
 import mybatis.dao.MemberDAO;
+import mybatis.vo.CouponVO;
 import mybatis.vo.MemberVO;
 import mybatis.vo.NaverVO;
 
@@ -59,8 +60,24 @@ public class NaverLoginAction implements Action {
         boolean exists = MemberDAO.checkNaverId(nvo.getN_id());
         if (!exists) {
             int res = MemberDAO.naverRegistry(nvo);
-            if (res <= 0) {
-                request.setAttribute("loginError", true);
+            if (res > 0) {
+                // 신규 가입 쿠폰 생성 및 지급
+                MemberVO newUser = MemberDAO.findByNaverId(nvo.getN_id());
+                if (newUser != null) {
+                    long newUserIdx = Long.parseLong(newUser.getUserIdx());
+
+                    CouponVO welcomeCoupon = new CouponVO();
+                    welcomeCoupon.setCouponName("신규 가입 축하 2,000원 할인 쿠폰");
+                    welcomeCoupon.setCouponCategory("신규가입");
+                    welcomeCoupon.setCouponInfo("첫 방문을 환영합니다!");
+                    welcomeCoupon.setDiscountValue(String.valueOf(2000));
+
+                    CouponVO issuedCoupon = CouponDAO.createAndIssueCoupon(newUserIdx, welcomeCoupon);
+                    if (issuedCoupon != null) {
+                        session.setAttribute("couponAlert", "'" + issuedCoupon.getCouponName() + "' 쿠폰이 발급되었습니다!");
+                    }
+                }
+            } else {
                 request.setAttribute("errorMessage", "DB 회원 등록 실패");
                 return "/join/login.jsp";
             }
@@ -76,32 +93,34 @@ public class NaverLoginAction implements Action {
         if (mvo != null) {
             session.setAttribute("mvo", mvo);
 
-            // ########### [추가된 로직] ########### !!!
-            // 로그인 성공 시 생일 쿠폰 지급 확인
+            // 생일 쿠폰 생성 및 지급 로직
             try {
                 String birthDateStr = mvo.getBirth();
                 if (birthDateStr != null && !birthDateStr.isEmpty()) {
                     LocalDate today = LocalDate.now();
                     LocalDate birthday = LocalDate.parse(birthDateStr);
 
-                    // 오늘 날짜와 생일의 월, 일이 일치하는지 확인
                     if (today.getMonthValue() == birthday.getMonthValue() && today.getDayOfMonth() == birthday.getDayOfMonth()) {
                         long userIdx = Long.parseLong(mvo.getUserIdx());
-                        long birthdayCouponIdx = 6; // DB에 명시된 생일 쿠폰 ID
 
-                        // 올해 생일 쿠폰을 이미 받았는지 확인
-                        boolean alreadyReceived = CouponDAO.hasReceivedBirthdayCouponThisYear(userIdx, birthdayCouponIdx);
+                        boolean alreadyReceived = CouponDAO.hasReceivedBirthdayCouponThisYear(userIdx);
                         if (!alreadyReceived) {
-                            CouponDAO.issueCouponToUser(userIdx, birthdayCouponIdx);
-                            System.out.println(mvo.getName() + "님에게 생일 축하 쿠폰이 발급되었습니다.");
+                            CouponVO birthdayCoupon = new CouponVO();
+                            birthdayCoupon.setCouponName(today.getYear() + "년 생일 축하 2000원 할인 쿠폰");
+                            birthdayCoupon.setCouponCategory("생일");
+                            birthdayCoupon.setCouponInfo("생일을 진심으로 축하합니다!");
+                            birthdayCoupon.setDiscountValue(String.valueOf(2000));
+
+                            CouponVO issuedCoupon = CouponDAO.createAndIssueCoupon(userIdx, birthdayCoupon);
+                            if (issuedCoupon != null) {
+                                session.setAttribute("couponAlert", "생일을 축하합니다! '" + issuedCoupon.getCouponName() + "'이 발급되었습니다.");
+                            }
                         }
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println("생일 쿠폰 발급 중 오류 발생");
             }
-            // ################################### !!!
         }
 
         // 로그인 완료 후 더 이상 필요없는 oauth state는 제거

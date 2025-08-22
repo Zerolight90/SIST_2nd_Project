@@ -116,4 +116,27 @@
         WHERE p.paymentIdx = #{paymentIdx} AND cum.userIdx = #{userIdx}
         LIMIT 1
     </select>
+
+    <insert id="createNewCoupon" parameterType="mybatis.vo.CouponVO">
+        INSERT INTO coupon (couponCategory, couponName, couponInfo, couponRegDate, couponExpDate, couponStatus, discountValue)
+        VALUES (#{couponCategory}, #{couponName}, #{couponInfo}, NOW(), DATE_ADD(NOW(), INTERVAL 30 DAY), 0, #{discountValue});
+
+        <selectKey keyProperty="couponIdx" resultType="String" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <insert id="issueCouponToUser" parameterType="map">
+        INSERT INTO coupon_user_mapping (couponIdx, userIdx)
+        VALUES (#{couponIdx}, #{userIdx})
+    </insert>
+
+    <select id="hasReceivedBirthdayCouponThisYear" parameterType="long" resultType="int">
+        SELECT COUNT(*)
+        FROM coupon_user_mapping cum
+        JOIN coupon c ON cum.couponIdx = c.couponIdx
+        WHERE cum.userIdx = #{userIdx}
+        AND c.couponCategory = '생일'
+        AND YEAR(c.couponRegDate) = YEAR(CURDATE())
+    </select>
 </mapper>

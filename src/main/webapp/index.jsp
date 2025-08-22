@@ -601,6 +601,24 @@
 <jsp:include page="common/Footer.jsp"/>
 
 <script src="js/main/slider.js"></script>
+<%-- 쿠폰 발급 알림 스크립트 --%>
+<%
+    String couponAlertMessage = (String) session.getAttribute("couponAlert");
+    // 메시지가 null이 아니고, 빈 문자열("")도 아닐 경우에만 스크립트 실행
+    if (couponAlertMessage != null && !couponAlertMessage.trim().isEmpty()) {
+%>
+<script>
+    window.addEventListener('load', function() {
+        // 자바 변수를 JavaScript 변수로 가져와서 사용
+        var alertMsg = "<%= couponAlertMessage %>";
+        alert(alertMsg);
+    });
+</script>
+<%
+        // 메시지를 출력한 후 세션에서 제거
+        session.removeAttribute("couponAlert");
+    }
+%>
 </body>
 
 </html>
