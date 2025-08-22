@@ -18,6 +18,7 @@ public class PaymentMovieAction implements Action {
 
         HttpSession session = request.getSession();
         MemberVO mvo = (MemberVO) session.getAttribute("mvo");
+        NmemVO nmemvo = (NmemVO) session.getAttribute("nmemvo");
 
         try {
             // --- 1. seat.jsp에서 원재료 정보 수신 ---
@@ -28,7 +29,6 @@ public class PaymentMovieAction implements Action {
             String startTimeStr = request.getParameter("startTime");
             String seatInfo = request.getParameter("seatInfo");
 
-            // ## 수정된 부분: 파라미터 이름을 seat.jsp와 일치시킴 ##
             String adultCountStr = request.getParameter("adult");
             String teenCountStr = request.getParameter("teen");
             String seniorCountStr = request.getParameter("senior");
@@ -93,7 +93,6 @@ public class PaymentMovieAction implements Action {
 
             // --- 3. 결과를 ReservationVO에 담기 ---
             ReservationVO reservation = new ReservationVO();
-
             if(timeTableIdxStr != null) reservation.setTimeTableIdx(Long.parseLong(timeTableIdxStr));
             if(tIdxStr != null) reservation.settIdx(Long.parseLong(tIdxStr));
             if(sIdxStr != null) reservation.setsIdx(Long.parseLong(sIdxStr));
@@ -114,6 +113,23 @@ public class PaymentMovieAction implements Action {
             reservation.setTimeDiscountAmount(timeDiscountAmount);
             reservation.setSeatDiscountAmount(seatDiscountAmount);
 
+            // 1. 고유한 주문번호(orderId) 생성
+            String orderId = "SIST_MOVIE_" + System.currentTimeMillis();
+
+            // 2. 결제에 필요한 정보들을 Map에 한 번에 담기
+            Map<String, Object> paymentContext = new HashMap<>();
+            paymentContext.put("paidItem", reservation); // 결제할 항목
+            paymentContext.put("mvo", mvo);             // 회원 정보 (비회원인 경우 null)
+            paymentContext.put("nmemvo", nmemvo);         // 비회원 정보 (회원인 경우 null)
+
+            // 3. orderId를 key로 사용하여 세션에 저장
+            session.setAttribute(orderId, paymentContext);
+
+            // 4. JSP로 orderId 전달
+            request.setAttribute("orderId", orderId);
+            // ★★★★★★★★★★★★★★★★★★★★★
+
+
             // --- 4. 회원/비회원 처리 및 JSP로 정보 전달 ---
             if (mvo != null) {
                 String userIdx = mvo.getUserIdx();
@@ -123,26 +139,12 @@ public class PaymentMovieAction implements Action {
                 request.setAttribute("memberInfo", memberInfo);
                 request.setAttribute("isGuest", false);
             } else {
-                NmemVO nmemvo = (NmemVO) session.getAttribute("nmemvo");
-
-                if (nmemvo != null) {
-                    // nonvo 객체의 정보를 PaymentConfirmAction이 사용할 Map 형태로 변환합니다.
-                    Map<String, String> nmemInfo = new HashMap<>();
-                    nmemInfo.put("name", nmemvo.getName());
-                    nmemInfo.put("phone", nmemvo.getPhone());
-                    nmemInfo.put("password", nmemvo.getPassword()); // NmemVO의 비밀번호 필드 getter에 맞게 수정
-
-                    // PaymentConfirmAction을 위해 세션에 저장합니다.
-                    session.setAttribute("nmemInfoForPayment", nmemInfo);
-                }
-
                 request.setAttribute("isGuest", true);
             }
 
             request.setAttribute("price", price);
             request.setAttribute("reservationInfo", reservation);
             request.setAttribute("paymentType", "paymentMovie");
-            session.setAttribute("reservationInfoForPayment", reservation);
 
         } catch (Exception e) {
             e.printStackTrace();

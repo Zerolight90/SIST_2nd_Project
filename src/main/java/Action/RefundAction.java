@@ -131,7 +131,7 @@ public class RefundAction implements Action {
      * 토스페이먼츠 결제 취소 API를 호출하는 메소드
      */
     private void cancelTossPayment(String paymentKey, String cancelReason) throws Exception {
-        URL url = new URL("https://api.tosspayments.com/v1/payments/" + paymentKey + "/cancel");
+        URL url = new URL("https://api.tosspayments.com/v2/payments/" + paymentKey + "/cancel");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
         String encodedKey = Base64.getEncoder().encodeToString((TOSS_SECRET_KEY + ":").getBytes(StandardCharsets.UTF_8));
