@@ -156,7 +156,7 @@
         <div style="display: flex">
           <div class="divs2">
             <label for="userId">누적 관객수:</label>
-            <input type="text" id="userId" class="input" value="" readonly>
+            <input type="text" id="userId" class="input" value="${requestScope.vo.audNum}" readonly>
           </div>
           <div class="divs2" style="margin-left: 67px">
             <label for="userId">좋아요 수:</label>

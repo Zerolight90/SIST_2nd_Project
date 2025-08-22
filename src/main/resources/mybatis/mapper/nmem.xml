@@ -10,10 +10,12 @@
 
     <!-- 관리자가 특정 조건값으로 비회원을 검색하는 쿼리 (종민) -->
     <select id="getNmemSearch" resultType="mybatis.vo.NmemVO" parameterType="Map">
-        SELECT * from nmember
+        SELECT * FROM(
+        SELECT @RN:=@RN+1 AS rnum, a.* FROM(
+        SELECT * FROM nmember
         <where>
             <if test="datepicker != null and datepicker != ''">
-                AND regDate = #{datepicker}
+                AND joinDate = #{datepicker}
             </if>
 
             <if test="search_keyword != null and search_keyword != ''">
@@ -30,6 +32,9 @@
                 </choose>
             </if>
         </where>
+        ORDER BY nIdx DESC
+        ) a, (SELECT @RN:=0) b
+        ) c WHERE c.rnum BETWEEN #{begin} AND #{end}
     </select>
 
     <!-- 비회원 추가 테이블(영환)-->

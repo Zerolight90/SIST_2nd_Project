@@ -38,8 +38,10 @@ public class MovieDAO {
         return movie;
     }
 
-    public static MovieVO[] getMovieSearch(Map<String, String> params){
+    public static MovieVO[] getMovieSearch(int begin, int end, Map<String, String> params){
         MovieVO[] ar = null;
+        params.put("begin", String.valueOf(begin));
+        params.put("end", String.valueOf(end));
 
         SqlSession ss = FactoryService.getFactory().openSession();
         List<MovieVO> list = ss.selectList("movie.getMovieSearch", params);

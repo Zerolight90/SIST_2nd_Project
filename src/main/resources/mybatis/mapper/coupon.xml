@@ -11,6 +11,10 @@
         delete from coupon
         where couponIdx = #{cIdx}
     </delete>
+    <insert id="addCoupon" parameterType="Map">
+        INSERT INTO coupon (couponCategory, couponName, couponInfo, couponRegDate, couponExpDate, couponStatus, discountValue)
+        VALUES (#{category}, #{cName}, #{cInfo}, NOW(), DATE_ADD(NOW(), INTERVAL 2 YEAR), 0, #{disValue})
+    </insert>
 
     <select id="getAvailableMovieCoupons" parameterType="long" resultType="mybatis.vo.MyCouponVO">
         SELECT

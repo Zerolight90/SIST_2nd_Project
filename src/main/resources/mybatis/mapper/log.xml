@@ -11,9 +11,13 @@
     </select>
 
     <select id="adminLogSearch" resultType="mybatis.vo.LogVO" parameterType="Map">
-        select * from log l
-        inner join admin a ON l.adminIdx = a.adminIdx
+        <!--select * from log l
+        inner join admin a ON l.adminIdx = a.adminIdx-->
 
+        SELECT * FROM(
+        SELECT @RN:=@RN+1 AS rnum, a.* FROM(
+        SELECT l.logIdx, l.logType, d.adminId, l.logTarget, l.logInfo, l.logPerValue, l.logCurValue, l.logDate FROM log l
+        inner join admin d ON l.adminIdx = d.adminIdx
         <where>
             <if test="datepicker != null and datepicker != '' and datepicker2 != null and datepicker2 != ''">
                 AND logDate BETWEEN #{datepicker} AND #{datepicker2}
@@ -28,10 +32,13 @@
                         AND l.logInfo LIKE CONCAT ('%', #{search_keyword}, '%')
                     </when>
                     <when test="search_field == 'id'">
-                        AND a.adminId LIKE CONCAT ('%', #{search_keyword}, '%')
+                        AND d.adminId LIKE CONCAT ('%', #{search_keyword}, '%')
                     </when>
                 </choose>
             </if>
         </where>
+        ORDER BY l.logIdx DESC
+        ) a, (SELECT @RN:=0) b
+        ) c WHERE c.rnum BETWEEN #{begin} AND #{end}
     </select>
 </mapper>

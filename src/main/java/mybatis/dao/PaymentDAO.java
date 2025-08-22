@@ -38,8 +38,10 @@ public class PaymentDAO {
         return ar;
     }
 
-    public static PaymentVO[] adminSearchPayment(Map<String, String> map){
+    public static PaymentVO[] adminSearchPayment(int begin, int end, Map<String, String> map){
         PaymentVO[] ar = null;
+        map.put("begin", String.valueOf(begin));
+        map.put("end", String.valueOf(end));
 
         SqlSession ss = FactoryService.getFactory().openSession();
         List<PaymentVO> list = ss.selectList("payment.adminSearchPayment", map);

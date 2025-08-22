@@ -25,7 +25,7 @@ public class AdminCheckAction implements Action{
             HttpSession ss = request.getSession();
             ss.setAttribute("vo", vo);
 
-            return "Controller?type=admin";
+            return "Controller?type=userSearch";
         } else {
             return "index.jsp";
         }

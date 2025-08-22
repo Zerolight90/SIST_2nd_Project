@@ -48,8 +48,10 @@ public class TheatherDAO {
         return ar;
     }
 
-    public static TheaterVO[] getThscSearch(Map<String, String> map){
+    public static TheaterVO[] getThscSearch(int begin, int end, Map<String, String> map){
         TheaterVO[] ar = null;
+        map.put("begin", String.valueOf(begin));
+        map.put("end", String.valueOf(end));
 
         SqlSession ss = FactoryService.getFactory().openSession();
         List<TheaterVO> list = ss.selectList("thsc.getThscSearch", map);

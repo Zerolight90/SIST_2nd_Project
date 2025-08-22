@@ -136,11 +136,13 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-top: 30px;
+      margin-top: 15px;
       gap: 6px;
     }
 
-    .pagination a, .pagination strong {
+    .pagination .nav-arrow a,
+    .pagination .nav-arrow strong,
+    .pagination .nav-arrow {
       display: inline-block;
       width: 34px;
       height: 34px;
@@ -153,7 +155,7 @@
       font-size: 14px;
     }
 
-    .pagination a:hover {
+    .pagination .nav-arrow a:hover {
       background-color: #f0f0f0;
     }
 
@@ -166,6 +168,24 @@
 
     .pagination .nav-arrow {
       font-weight: bold;
+    }
+
+    .board-table caption{
+      text-indent: -9999px;
+      height: 0;
+    }
+
+    nav li {
+      list-style: none;
+    }
+
+    nav ul, nav ol {
+      list-style: none;
+      padding-left: 0; /* 들여쓰기까지 없애고 싶다면 */
+    }
+
+    .disable {
+      background-color:lightgray;
     }
 
   </style>
@@ -195,7 +215,7 @@
     <!-- 테이블 상단 바 영역 -->
     <div class="control-bar">
       <div class="total-count">
-        전체 <strong>${fn:length(requestScope.ar)}</strong>건
+        전체 <strong>${requestScope.logIdx}</strong>건
       </div>
       <form class="search-form" action="#" method="get">
         <p class="total-count">시작일 : </p>
@@ -246,19 +266,38 @@
     </table>
 
     <!-- 페이징 영역 -->
-    <nav class="pagination">
-      <a href="#" class="nav-arrow">&lt;</a>
-      <strong class="current-page">1</strong>
-      <a href="#">2</a>
-      <a href="#">3</a>
-      <a href="#">4</a>
-      <a href="#">5</a>
-      <a href="#">6</a>
-      <a href="#">7</a>
-      <a href="#">8</a>
-      <a href="#">9</a>
-      <a href="#">10</a>
-      <a href="#" class="nav-arrow">&gt;</a>
+    <nav>
+      <ol class="pagination">
+        <c:set var="p" value="${requestScope.page}" scope="page"/>
+        <c:if test="${p.startPage < p.pagePerBlock}">
+          <li class = "nav-arrow disable">&lt;</li> <%--&lt; :: <<--%>
+        </c:if>
+        <c:if test="${p.startPage >= p.pagePerBlock}">
+          <li class="nav-arrow"><a href="Controller?type=adminLog&cPage=${p.nowPage-p.pagePerBlock}">&lt;</a></li>
+        </c:if>
+
+        <%--숫자를 찍음--%>
+        <c:forEach begin="${p.startPage}" end="${p.endPage}" varStatus="vs">
+          <c:if test="${p.nowPage == vs.index}">
+            <%--<li class="now">1</li>--%>
+            <%--now가 계속 찍히면 안된다. --%>
+            <%--<li <% if(p.getNowPage() == i){ %>class="now"<% }%>><%=i%></li>--%>
+            <li class="now"><strong class="current-page">${vs.index}</strong></li>
+          </c:if>
+          <%--현재 페이지 외의 버튼들--%>
+          <c:if test="${p.nowPage != vs.index}">
+            <li><a href="Controller?type=adminLog&cPage=${vs.index}">${vs.index}</a></li>
+          </c:if>
+        </c:forEach>
+
+
+        <c:if test="${p.endPage < p.totalPage}">
+          <li><a href="Controller?type=adminLog&cPage=${p.nowPage+p.pagePerBlock}">&gt;</a></li> <%--&gt; :: >>--%>
+        </c:if>
+        <c:if test="${p.endPage >= p.totalPage}">
+          <li class="nav-arrow disable">&gt;</li>
+        </c:if>
+      </ol>
     </nav>
   </div>
 </div>

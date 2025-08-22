@@ -21,8 +21,10 @@ public class LogDAO {
         return ar;
     }
 
-    public static LogVO[] adminLogSearch(Map<String, String> map){
+    public static LogVO[] adminLogSearch(int begin, int end, Map<String, String> map){
         LogVO[] ar = null;
+        map.put("begin", String.valueOf(begin));
+        map.put("end", String.valueOf(end));
 
         SqlSession ss = FactoryService.getFactory().openSession();
         List<LogVO> list = ss.selectList("log.adminLogSearch", map);

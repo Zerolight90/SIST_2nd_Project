@@ -49,7 +49,7 @@
     </div>
   </div>
 
-    <div>
+    <%--<div>
       <div style="margin-top: 20px; width: 500px; border: 2px solid #ebebeb; border-radius: 10px">
         <div style="border-bottom: 2px solid #ebebeb">
           <p style="margin-left: 20px">극장별 총 매출</p>
@@ -58,7 +58,7 @@
           <canvas id="payChart" style="width: 500px; height: 500px"></canvas>
         </div>
       </div>
-    </div>
+    </div>--%>
 
   </div>
 </div>
@@ -73,6 +73,12 @@
 
   const ctx = document.getElementById('movieChart');
 
+  /*let labels : [];
+  let data : [];*/
+<%--  <c:forEach var="revenue" items="${revenueList}">--%>
+<%--  labels.push('${revenue.theaterName}'); // 관객 수 TOP 5 영화 이름을 배열에 추가해야함--%>
+<%--  data.push(${revenue.totalSales});       // 관객 수 TOP 5 영화 예매율을 배열에 추가해야함--%>
+<%--  </c:forEach>--%>
   new Chart(ctx, {
     type: 'pie',
     data: {

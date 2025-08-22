@@ -22,6 +22,6 @@ public class AdminMoviesUpdateAction implements Action{
 
         MovieDAO.editMovies(map);
 
-        return "Controller?type=movieInfo";
+        return "Controller?type=adminMoviePaging";
     }
 }

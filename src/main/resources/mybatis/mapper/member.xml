@@ -65,8 +65,9 @@
 
     <!-- 관리자가 특정한 조건값으로 유저를 검색하는 쿼리 (종민) -->
     <select id="getMemSearch" resultType="mybatis.vo.MemberVO" parameterType="Map">
-        SELECT userIdx, name, id, email, phone, totalPoints, status, joinDate
-        FROM user
+        SELECT * FROM(
+        SELECT @RN:=@RN+1 AS rnum, a.* FROM(
+        SELECT * FROM user
         <where>
             <if test="user_status != null and user_status != ''">
                 AND status = #{user_status}
@@ -93,6 +94,38 @@
                 </choose>
             </if>
         </where>
+        ORDER BY userIdx DESC
+        ) a, (SELECT @RN:=0) b
+        ) c WHERE c.rnum BETWEEN #{begin} AND #{end}
+
+        <!--SELECT userIdx, name, id, email, phone, totalPoints, status, joinDate
+        FROM user
+        <where>
+            <if test="user_status != null and user_status != ''">
+                AND status = #{user_status}
+            </if>
+
+            <if test="datepicker != null and datepicker != ''">
+                AND joinDate = #{datepicker}
+            </if>
+
+            <if test="search_keyword != null and search_keyword != ''">
+                <choose>
+                    <when test="search_field == 'name'">
+                        AND name LIKE CONCAT('%', #{search_keyword}, '%')
+                    </when>
+                    <when test="search_field == 'id'">
+                        AND id LIKE CONCAT('%', #{search_keyword}, '%')
+                    </when>
+                    <when test="search_field == 'email'">
+                        AND email LIKE CONCAT('%', #{search_keyword}, '%')
+                    </when>
+                    <otherwise>
+                        AND (name LIKE CONCAT('%', #{search_keyword}, '%') OR id LIKE CONCAT('%', #{search_keyword}, '%'))
+                    </otherwise>
+                </choose>
+            </if>
+        </where>-->
         <!--ORDER BY userIdx DESC-->
     </select>
     

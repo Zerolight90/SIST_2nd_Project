@@ -15,8 +15,9 @@
     </select>
 
     <select id="adminListSearch" resultType="mybatis.vo.AdminVO" parameterType="Map">
-        select * from admin
-
+        SELECT * FROM(
+        SELECT @RN:=@RN+1 AS rnum, a.* FROM(
+        SELECT * FROM admin
         <where>
             <if test="admin_status != null and admin_status != ''">
                 <choose>
@@ -44,7 +45,9 @@
                 AND adminId LIKE CONCAT ('%', #{search_keyword}, '%')
             </if>
         </where>
-
+        ORDER BY adminIdx DESC
+        ) a, (SELECT @RN:=0) b
+        ) c WHERE c.rnum BETWEEN #{begin} AND #{end}
     </select>
 
     <select id="salesByTheater" resultType="mybatis.vo.RevenueVO">
