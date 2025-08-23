@@ -227,6 +227,17 @@
     font-size: 12px;
 }
 
+.review-read {
+    max-width: var(--max-width);
+    margin: 20px auto 60px;
+    list-style: none;
+    padding: 0 24px;
+    box-sizing: border-box;
+    font-family: var(--font-family);
+    color: var(--text);
+}
+
+
 /* 반응형: 작은 화면에서는 이름과 평점 세로 스택 */
 @media (max-width: 720px) {
     .form-row {

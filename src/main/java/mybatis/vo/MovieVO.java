@@ -1,7 +1,11 @@
 package mybatis.vo;
 
+import java.util.List;
+
 public class MovieVO {
     private String mIdx, name, dir, gen, age, date, actor, synop, audNum, runtime, poster, status, trailer, background;
+
+    private List<ReviewVO> reviewList;
 
     public String getBackground() {
         return background;
@@ -123,5 +127,13 @@ public class MovieVO {
 
     public void setAudNum(String audNum) {
         this.audNum = audNum;
+    }
+
+    public List<ReviewVO> getReviewList() {
+        return reviewList;
+    }
+
+    public void setReviewList(List<ReviewVO> reviewList) {
+        this.reviewList = reviewList;
     }
 }

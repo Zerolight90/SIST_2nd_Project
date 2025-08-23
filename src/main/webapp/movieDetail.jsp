@@ -140,9 +140,9 @@
                 <div class="char-count"><span id="charCount">0</span>/100</div>
               </div>
 
-              <div class="form-group btn-group">
-                <button type="submit" class="btn-submit" id="submitReview">작성 완료</button>
-              </div>
+                <div class="form-group btn-group">
+                  <button type="submit" class="btn-submit" id="submitReview">작성 완료</button>
+                </div>
             </form>
           </c:when>
 
@@ -152,8 +152,9 @@
         </c:choose>
       </div>
 
-      <div class="reivew-read">
-        <c:forEach var="review" items="${requestScope.rvo}">
+      <div class="review-read">
+
+        <c:forEach var="review" items="${rvo}">
           <div class="review-item">
             <div class="user">
               <c:choose>
@@ -161,7 +162,6 @@
                   ${fn:substring(review.member.name, 0, 1)}**
                 </c:when>
                 <c:otherwise>
-                  <!-- 회원의 이름이 없는 경우 (예: 탈퇴 회원 또는 guest 리뷰) 처리 -->
                   익명 사용자
                 </c:otherwise>
               </c:choose>
@@ -171,10 +171,14 @@
                 <span class="review-score">평점 ${review.reviewRating}</span>
                 <span class="time">${review.reviewDate}</span>
               </div>
-              <p class="review-text">${fn:escapeXml(review.reviewContent)}</p>
+              <p class="review-text">${review.reviewContent}</p>
             </div>
           </div>
         </c:forEach>
+
+
+        <!-- 페이지 -->
+
       </div>
 
 
@@ -345,27 +349,31 @@
               url: $reviewForm.attr('action'),
               type: "POST",
               data: $reviewForm.serialize(),
-              success: function() {
+              dataType: "json",
+              success: function(data) {
+                console.log("응답:", data);
+
                 const $newReview = $(`
-              <div class="review-item" data-likes="0" data-rating="${rating}" data-time="${now}">
-                <div class="user">${userIdMasked}</div>
-                <div class="review-content">
-                  <div class="review-header-info">
-                    <span class="review-score">평점 ${rating}</span>
-                    <span class="time">방금 전</span>
-                  </div>
-                  <p class="review-text">${reviewText}</p>
-                </div>
-              </div>
-            `);
+    <div class="review-item">
+      <div class="user">${data.user}</div>
+      <div class="review-content">
+        <div class="review-header-info">
+          <span class="review-score">평점 ${data.rating}</span>
+          <span class="time">${data.time}</span>
+        </div>
+        <p class="review-text">${data.content}</p>
+      </div>
+    </div>
+  `);
 
-                $('.reivew-read').prepend($newReview);
+                $('.review-read').prepend($newReview);
 
-                // 폼 초기화
-                $reviewForm[0].reset();
-                $charCount.text('0');
+                $('#reviewForm')[0].reset();
+                $('#charCount').text('0');
+                $ratingInput.val(0);
                 updateStarColors(0);
               }
+
             });
           });
         };
@@ -378,6 +386,7 @@
         });
 
       })(jQuery);
+
     </script>
 
 

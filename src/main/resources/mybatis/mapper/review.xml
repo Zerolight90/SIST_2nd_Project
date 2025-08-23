@@ -55,6 +55,7 @@
         r.userIdx = u.userIdx
         WHERE
         r.mIdx = #{mIdx}
+        ORDER BY r.reviewDate DESC;
     </select>
 
     <insert id="insert" parameterType="mybatis.vo.ReviewVO">

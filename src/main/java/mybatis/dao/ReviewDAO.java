@@ -31,10 +31,10 @@ public class ReviewDAO {
 
     }
 
-        public static int insertReview(ReviewVO vo) {
+        public static int insertReview(ReviewVO rvo) {
             SqlSession ss = FactoryService.getFactory().openSession();
 
-            int result = ss.insert("review.insert", vo);
+            int result = ss.insert("review.insert", rvo);
             if(result > 0){
                 ss.commit();
             }else {
