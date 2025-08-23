@@ -153,9 +153,8 @@
       </div>
 
       <div class="review-read">
-
-        <c:forEach var="review" items="${rvo}">
-          <div class="review-item">
+        <c:forEach var="review" items="${rvo}" varStatus="status">
+          <div class="review-item ${status.index >= 3 ? 'hidden-review' : ''}">
             <div class="user">
               <c:choose>
                 <c:when test="${not empty review.member.name}">
@@ -175,13 +174,15 @@
             </div>
           </div>
         </c:forEach>
-
-
-        <!-- 페이지 -->
-
       </div>
 
+      <!-- 리뷰 개수가 3개 이상일 때만 버튼 노출 -->
+      <c:if test="${fn:length(rvo) > 3}">
+        <button id="loadMoreBtn" class="btn">더보기</button>
+      </c:if>
+    </div>
 
+  </div>
     </div>
 
     <!-- 예고편 탭 -->
@@ -309,11 +310,6 @@
           const $reviewText = $('#reviewText');
           const $charCount = $('#charCount');
 
-          // JSP에서 로그인한 사용자 이름을 JS 변수로 가져오기
-          const loginUserNameRaw = '${sessionScope.mvo != null ? sessionScope.mvo.name : ""}';
-
-          const maskUserName = (name) => name ? (name.charAt(0) + '**') : '익명';
-
           const updateStarColors = (value) => {
             $stars.each(function() {
               $(this).css('color', parseInt($(this).data('value')) <= value ? '#f5a623' : '#ccc');
@@ -339,8 +335,6 @@
 
             const rating = $ratingInput.val();
             const reviewText = $reviewText.val().trim();
-            const now = new Date().toISOString();
-            const userIdMasked = maskUserName(loginUserNameRaw);
 
             if (!rating) { alert('평점을 선택해주세요.'); return; }
             if (!reviewText) { alert('리뷰 내용을 입력해주세요.'); return; }
@@ -353,36 +347,62 @@
               success: function(data) {
                 console.log("응답:", data);
 
+                // 새 리뷰 DOM 만들기
                 const $newReview = $(`
-    <div class="review-item">
-      <div class="user">${data.user}</div>
-      <div class="review-content">
-        <div class="review-header-info">
-          <span class="review-score">평점 ${data.rating}</span>
-          <span class="time">${data.time}</span>
-        </div>
-        <p class="review-text">${data.content}</p>
-      </div>
-    </div>
-  `);
+          <div class="review-item">
+            <div class="user">${data.user || '익명'}</div>
+            <div class="review-content">
+              <div class="review-header-info">
+                <span class="review-score">평점 ${data.rating}</span>
+                <span class="time">${data.time}</span>
+              </div>
+              <p class="review-text">${data.content}</p>
+            </div>
+          </div>
+        `);
 
+                // 최신 리뷰 위에 붙이기
                 $('.review-read').prepend($newReview);
 
-                $('#reviewForm')[0].reset();
-                $('#charCount').text('0');
+                // 폼 초기화
+                $reviewForm[0].reset();
+                $charCount.text('0');
                 $ratingInput.val(0);
                 updateStarColors(0);
-              }
+
+                alert("리뷰가 등록되었습니다!");
+              },
 
             });
           });
         };
+
 
         // ---------------- 실행 ----------------
         $(function() {
           initCharts();
           initTabs();
           initReviews();
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+          const loadMoreBtn = document.getElementById("loadMoreBtn");
+          const hiddenReviews = document.querySelectorAll(".hidden-review");
+          let visibleCount = 0;
+          const step = 3; // 한 번에 보여줄 개수
+
+          loadMoreBtn.addEventListener("click", function () {
+            for (let i = visibleCount; i < visibleCount + step; i++) {
+              if (hiddenReviews[i]) {
+                hiddenReviews[i].style.display = "flex"; // flex로 보여줌
+              }
+            }
+            visibleCount += step;
+
+            if (visibleCount >= hiddenReviews.length) {
+              loadMoreBtn.style.display = "none"; // 다 보여주면 버튼 숨김
+            }
+          });
         });
 
       })(jQuery);

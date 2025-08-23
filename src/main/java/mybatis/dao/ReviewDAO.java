@@ -44,6 +44,15 @@ public class ReviewDAO {
 
             return result;
         }
-    }
+
+        public static List<ReviewVO> getReviewListByMovieId(String mIdx) {
+            SqlSession ss = FactoryService.getFactory().openSession();
+            List<ReviewVO> list = ss.selectList("review.getReview", mIdx);
+            ss.close();
+            return list;
+        }
+
+
+}
 
 

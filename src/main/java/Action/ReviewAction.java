@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
 import mybatis.dao.ReviewDAO;
 import mybatis.vo.MemberVO;
 import mybatis.vo.ReviewVO;
@@ -17,6 +18,7 @@ public class ReviewAction implements Action {
         MemberVO mvo = (MemberVO) request.getSession().getAttribute("mvo");
         if (mvo == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+
             return null;
         }
 
@@ -36,7 +38,12 @@ public class ReviewAction implements Action {
 
         try {
             response.setContentType("application/json; charset=UTF-8");
+            response.getWriter().write("{\"result\":\"success\"}");
             PrintWriter out = response.getWriter();
+            Gson gson = new Gson();
+            out.print(gson.toJson(rvo)); // rvo = 방금 저장한 ReviewVO
+            out.flush();
+
 
             // JSON 직접 출력
             out.print("{");
