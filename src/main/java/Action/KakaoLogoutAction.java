@@ -39,6 +39,6 @@ public class KakaoLogoutAction implements Action {
         }
 
         // 수정: 로그아웃 후 리다이렉트할 페이지
-        return "/index.jsp"; // 또는 로그인 페이지로 리다이렉트
+        return "Controller?type=index"; // 또는 로그인 페이지로 리다이렉트
     }
 }

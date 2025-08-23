@@ -373,7 +373,7 @@ header {
 }
 #content .cont-area .more-movie {
     position: absolute;
-    right: 5px;
+    right: -45px;
     top: 35px;
     color: #ccc;
     font-size: 15px;

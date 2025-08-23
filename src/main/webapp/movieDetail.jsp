@@ -51,7 +51,9 @@
     </div>
     <div class="movie-poster">
       <img src="${movie.poster}" alt="${movie.name} 포스터">
-      <button class="btn">예매하기</button>
+      <button class="btn">
+        <a href="Controller?type=booking&mIdx=${movie.mIdx}">예매하기</a>
+      </button>
     </div>
   </div>
 </div>
@@ -187,8 +189,8 @@
       </c:if>
     </div>
 
-<script src="https://www.youtube.com/iframe_api"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
       (function($){
@@ -197,12 +199,13 @@
         let player = null;
         window.getPlayer = () => player;
 
+        // ---------------- 차트 초기화 ----------------
         const initCharts = () => {
           try {
             const ratingCanvas = document.getElementById('ratingChart');
             if (ratingCanvas) {
               const ratingCtx = ratingCanvas.getContext('2d');
-              const ratingValue = 4.8;
+              const ratingValue = 4.8; // ★ 실제 평점 값으로 바꾸셔도 됩니다
               const centerTextPlugin = {
                 id: 'centerText',
                 afterDraw(chart) {
@@ -228,7 +231,7 @@
             if (audienceCanvas) {
               const audienceCtx = audienceCanvas.getContext('2d');
               const audienceData = [0, 23632, 23500];
-              const audienceLabels = ['08.11', '08.16', '08.17'];
+              const audienceLabels = ['08.11', '08.16', '08.17']; //개봉일~어제날짜까
               new Chart(audienceCtx, {
                 type: 'line',
                 data: { labels: audienceLabels, datasets: [{ label: '누적관객수', data: audienceData, borderColor: '#5a3ea1', fill: false, tension: 0.3, pointRadius: 4, pointBackgroundColor: '#5a3ea1' }] },
@@ -240,12 +243,13 @@
           }
         };
 
+        // ---------------- 유튜브 ----------------
         const extractYouTubeVideoId = (url) => {
           if (!url) return null;
           try {
             const urlObj = new URL(url);
             if (urlObj.hostname === 'youtu.be') return urlObj.pathname.slice(1);
-            if (urlObj.hostname === 'www.youtube.com' || urlObj.hostname === 'youtube.com') return urlObj.searchParams.get('v');
+            if (urlObj.hostname.includes('youtube.com')) return urlObj.searchParams.get('v');
           } catch (e) {
             return null;
           }
@@ -268,18 +272,15 @@
           }
         };
 
-        // 수정된 initTabs: DOMContentLoaded 내부 리스너 제거 — 호출 시 즉시 바인딩
+        // ---------------- 탭 ----------------
         const initTabs = () => {
           const tabs = document.querySelectorAll('.menu li');
           const tabContents = document.querySelectorAll('.tabCont');
 
-          if (!tabs.length || !tabContents.length) {
-            console.warn('탭 또는 컨텐츠 요소를 찾을 수 없습니다.');
-            return;
-          }
+          if (!tabs.length || !tabContents.length) return;
 
           const minLen = Math.min(tabs.length, tabContents.length);
-          // 초기 표시: 첫 번째 탭 활성화
+          // 초기화
           tabs.forEach(t => t.classList.remove('selected'));
           tabContents.forEach(c => c.style.display = 'none');
           tabs[0].classList.add('selected');
@@ -296,52 +297,45 @@
           }
         };
 
+        // ---------------- 리뷰 ----------------
         const initReviews = () => {
-          const $reviewList = $('.review-list').length ? $('.review-list') : $('#reviewList');
           const $reviewForm = $('#reviewForm');
           const $stars = $('#starRating .star');
           const $ratingInput = $('#rating');
           const $reviewText = $('#reviewText');
           const $charCount = $('#charCount');
 
-          const maskUserName = (name) => name ? (name.charAt(0) + '**') : '';
+          // JSP에서 로그인한 사용자 이름을 JS 변수로 가져오기
+          const loginUserNameRaw = '${sessionScope.mvo != null ? sessionScope.mvo.name : ""}';
 
-          const loginUserNameRaw = '<c:out value="${sessionScope.mvo.name}" />';
-          if (loginUserNameRaw) {
-            $('#userId').val(loginUserNameRaw);
-            const $nickDisplay = $('#nicknameDisplay');
-            if ($nickDisplay.length) $nickDisplay.text(maskUserName(loginUserNameRaw));
-          }
+          const maskUserName = (name) => name ? (name.charAt(0) + '**') : '익명';
 
           const updateStarColors = (value) => {
-            $stars.each(function() { $(this).css('color', parseInt($(this).data('value')) <= value ? '#f5a623' : '#ccc'); });
+            $stars.each(function() {
+              $(this).css('color', parseInt($(this).data('value')) <= value ? '#f5a623' : '#ccc');
+            });
           };
 
+          // 별점 이벤트
           $stars.on('mouseenter', function() { updateStarColors(parseInt($(this).data('value'))); });
           $stars.on('mouseleave', function() { updateStarColors(parseInt($ratingInput.val()) || 0); });
-          $stars.on('click', function() { const val = parseInt($(this).data('value')); $ratingInput.val(val); updateStarColors(val); });
+          $stars.on('click', function() {
+            const val = parseInt($(this).data('value'));
+            $ratingInput.val(val);
+            updateStarColors(val);
+          });
           $stars.css('color', '#ccc');
 
+          // 글자수 카운트
           $reviewText.on('input', function() { $charCount.text($(this).val().length); });
 
-          $('.sort-btn').on('click', function() {
-            const sortType = $(this).data('sort');
-            const $items = $reviewList.children('.review-item').toArray();
-            $('.sort-btn').removeClass('active'); $(this).addClass('active');
-            if (sortType === 'latest') $items.sort((a,b) => new Date($(b).data('time')) - new Date($(a).data('time')));
-            else if (sortType === 'likes') $items.sort((a,b) => $(b).data('likes') - $(a).data('likes'));
-            else if (sortType === 'rating') $items.sort((a,b) => $(b).data('rating') - $(a).data('rating'));
-            $reviewList.empty(); $items.forEach(it => $reviewList.append(it));
-          });
-          $('.sort-btn[data-sort="latest"]').addClass('active');
-
+          // 리뷰 폼 전송
           $reviewForm.on('submit', function(e) {
             e.preventDefault();
 
             const rating = $ratingInput.val();
             const reviewText = $reviewText.val().trim();
-            const now = new Date().toISOString(); // 작성 시간
-            const loginUserNameRaw = '<c:out value="${sessionScope.mvo.name}" />';
+            const now = new Date().toISOString();
             const userIdMasked = maskUserName(loginUserNameRaw);
 
             if (!rating) { alert('평점을 선택해주세요.'); return; }
@@ -351,25 +345,20 @@
               url: $reviewForm.attr('action'),
               type: "POST",
               data: $reviewForm.serialize(),
-              success: function(res) {
-                // 로그인한 사용자 이름 (JSP에서 세션 값 가져옴 → JS 변수에 담음)
-                const loginUserNameRaw = '<c:out value="${sessionScope.mvo.name}" />';
-                const userIdMasked = maskUserName(loginUserNameRaw);
-
+              success: function() {
                 const $newReview = $(`
-                    <div class="review-item" data-likes="0" data-rating="${rating}" data-time="${now}">
-                      <div class="user">${userIdMasked}</div>
-                      <div class="review-content">
-                        <div class="review-header-info">
-                          <span class="review-score">평점 ${rating}</span>
-                          <span class="time">방금 전</span>
-                        </div>
-                        <p class="review-text"></p>
-                      </div>
-                    </div>
-                  `);
+              <div class="review-item" data-likes="0" data-rating="${rating}" data-time="${now}">
+                <div class="user">${userIdMasked}</div>
+                <div class="review-content">
+                  <div class="review-header-info">
+                    <span class="review-score">평점 ${rating}</span>
+                    <span class="time">방금 전</span>
+                  </div>
+                  <p class="review-text">${reviewText}</p>
+                </div>
+              </div>
+            `);
 
-                $newReview.find('.review-text').text(reviewText);
                 $('.reivew-read').prepend($newReview);
 
                 // 폼 초기화
@@ -377,14 +366,11 @@
                 $charCount.text('0');
                 updateStarColors(0);
               }
-
             });
           });
-
-
-
         };
 
+        // ---------------- 실행 ----------------
         $(function() {
           initCharts();
           initTabs();
@@ -393,6 +379,7 @@
 
       })(jQuery);
     </script>
+
 
 
 <jsp:include page="/common/Footer.jsp"/>

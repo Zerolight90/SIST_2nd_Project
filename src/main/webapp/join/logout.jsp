@@ -7,4 +7,5 @@
 <c:remove var="kvo" scope="session"/>
 <c:remove var="nvo" scope="session"/>
 <c:remove var="nmemvo" scope="session"/>
+
 <c:redirect url="/Controller?type=index"/>

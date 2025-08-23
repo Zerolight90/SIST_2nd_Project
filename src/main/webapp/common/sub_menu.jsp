@@ -2,6 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+
 <div class="nav">
     <div class="menu1">
         <div class="inner">
@@ -20,7 +21,7 @@
         <ul class="nav-l_top">
             <li><a href="#" class="vip-lounge">VIP LOUNGE</a></li>
             <li><a href="#" class="membership">멤버십</a></li>
-            <li><a href="#" class="customer-center">고객센터</a></li>
+            <li><a href="<c:url value="/Controller?type=booking"/>" class="customer-center">고객센터</a></li>
         </ul>
 
         <c:if test="${empty sessionScope.mvo && empty sessionScope.kvo && empty sessionScope.nvo && empty sessionScope.nmemvo}">
@@ -37,7 +38,7 @@
                     <%-- 세션에 저장된 mvo 객체에서 사용자 이름을 가져와 출력합니다. --%>
                 <li><a href="<c:url value="/Controller?type=myPage"/>">(${sessionScope.mvo.name})님 환영합니다</a></li>
                 <li><a href="<c:url value="/join/logout.jsp"/>" class="btn">로그아웃</a></li>
-                <li><a href="#" class="quick-booking">빠른예매</a></li>
+                <li><a href="<c:url value="/Controller?type=booking"/>" class="quick-booking">빠른예매</a></li>
             </ul>
         </c:if>
 
@@ -48,7 +49,7 @@
                     <%-- 세션에 저장된 mvo 객체에서 사용자 이름을 가져와 출력합니다. --%>
                 <li><a href="<c:url value="/Controller?type=myPage"/>">(${sessionScope.kvo.k_name})님 환영합니다</a></li>
                 <li><a href="<c:url value="/Controller?type=kakaoLogout"/>" class="btn">로그아웃</a></li>
-                <li><a href="#" class="quick-booking">빠른예매</a></li>
+                <li><a href="<c:url value="/Controller?type=booking"/>" class="quick-booking">빠른예매</a></li>
             </ul>
         </c:if>
 
@@ -58,7 +59,7 @@
                     <%-- 세션에 저장된 mvo 객체에서 사용자 이름을 가져와 출력합니다. --%>
                 <li><a href="<c:url value="/Controller?type=myPage"/>">(${sessionScope.nvo.n_name})님 환영합니다</a></li>
                 <li><a href="<c:url value="/Controller?type=naverLogout"/>" class="btn">로그아웃</a></li>
-                <li><a href="#" class="quick-booking">빠른예매</a></li>
+                <li><a href="<c:url value="/Controller?type=booking"/>" class="quick-booking">빠른예매</a></li>
             </ul>
         </c:if>
 
@@ -66,7 +67,7 @@
             <ul class="nav-r_top" id="log_suc">
                 <li><a href="<c:url value="/Controller?type=myPage"/>">(${sessionScope.nmemvo.nIdx})님 환영합니다</a></li>
                 <li><a href="<c:url value="/join/logout.jsp"/>" class="btn">로그아웃</a></li>
-                <li><a href="#" class="quick-booking">빠른예매</a></li>
+                <li><a href="<c:url value="/Controller?type=booking"/>" class="quick-booking">빠른예매</a></li>
             </ul>
         </c:if>
 

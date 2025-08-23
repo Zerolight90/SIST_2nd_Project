@@ -66,6 +66,6 @@ public class NaverLogoutAction implements Action {
 
         }
 
-        return "redirect:/index.jsp";
+        return "Controller?type=index";
     }
 }
