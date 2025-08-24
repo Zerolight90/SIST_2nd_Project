@@ -15,10 +15,9 @@
 
     <select id="nowMovie" resultMap="nowMovie"> <!-- 상영중이거나 상영예정인 영화들만 보여주는 쿼리 -->
         SELECT *
-        FROM time_table t
-        WHERE NOW()
-        BETWEEN t.startTime
-        AND t.endTime;
+        FROM time_table
+        WHERE endTime > NOW()
+        AND status = 1
     </select>
 
     <resultMap id="map100" type="mybatis.vo.TimeTableVO">

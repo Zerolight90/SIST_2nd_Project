@@ -85,10 +85,11 @@
                 <div><img src="https://www.megabox.co.kr/static/pc/images/reserve/img-theater-screen.png" alt="스크린 이미지"></div>
             </div>
 
-            <c:set var="alphabet" value="ZABCDEFGHIJKLMNOPQRSTUVWXY"/>
+            <c:set var="alphabet" value="ABCDEFGHIJKLMNOPQRSTUVWXYZ"/>
             <div class="seat-area">
                 <div class="seat-map">
                     <c:forEach var="rowNum" begin="1" end="${screen.sRow}" varStatus="i">
+                        <!-- rowNum = 1 -> A, rowNum = 2 -> B ... -->
                         <c:set var="rowChar" value="${fn:substring(alphabet, i.index, i.index+1)}"/>
                         <c:forEach var="colNum" begin="1" end="${screen.sColumn}" varStatus="j">
                             <c:set var="seatId" value="${rowChar}${j.count}"/>
