@@ -2,11 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/allmovie.css" />
+
 <html>
 <head>
   <meta charset="UTF-8">
   <title>영화 상세 정보</title>
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/allmovie.css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sub/sub_page_style.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/reset.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/tab.css">
@@ -154,7 +155,7 @@
 
       <div class="review-read">
         <c:forEach var="review" items="${rvo}" varStatus="status">
-          <div class="review-item ${status.index >= 3 ? 'hidden-review' : ''}">
+          <div class="review-item ${status.index >= 5 ? 'hidden-review' : ''}">
             <div class="user">
               <c:choose>
                 <c:when test="${not empty review.member.name}">
@@ -177,7 +178,7 @@
       </div>
 
       <!-- 리뷰 개수가 3개 이상일 때만 버튼 노출 -->
-      <c:if test="${fn:length(rvo) > 3}">
+      <c:if test="${fn:length(rvo) > 5}">
         <button id="loadMoreBtn" class="btn">더보기</button>
       </c:if>
     </div>
@@ -186,7 +187,7 @@
     </div>
 
     <!-- 예고편 탭 -->
-    <div id="tabCont1_3" class="tabCont" style="display:none; width: 1100px;">
+    <div id="tabCont1_3" class="tabCont" style="display:none;">
       <c:if test="${not empty movie.trailer}">
         <div id="playerWrapper">
           <div id="player"></div>
@@ -205,16 +206,16 @@
         window.getPlayer = () => player;
 
         // ---------------- 차트 초기화 ----------------
-        const initCharts = () => {
+        let initCharts = () => {
           try {
-            const ratingCanvas = document.getElementById('ratingChart');
+            let ratingCanvas = document.getElementById('ratingChart');
             if (ratingCanvas) {
-              const ratingCtx = ratingCanvas.getContext('2d');
-              const ratingValue = 4.8; // ★ 실제 평점 값으로 바꾸셔도 됩니다
-              const centerTextPlugin = {
+              let ratingCtx = ratingCanvas.getContext('2d');
+              let ratingValue = 4.8; // ★ 실제 평점 값으로 바꾸셔도 됩니다
+              let centerTextPlugin = {
                 id: 'centerText',
                 afterDraw(chart) {
-                  const {ctx, width, height} = chart;
+                  let {ctx, width, height} = chart;
                   ctx.save();
                   ctx.font = 'bold 36px Noto Sans KR';
                   ctx.fillStyle = '#4a3ea1';
@@ -232,11 +233,11 @@
               });
             }
 
-            const audienceCanvas = document.getElementById('audienceChart');
+            let audienceCanvas = document.getElementById('audienceChart');
             if (audienceCanvas) {
-              const audienceCtx = audienceCanvas.getContext('2d');
-              const audienceData = [0, 23632, 23500];
-              const audienceLabels = ['08.11', '08.16', '08.17']; //개봉일~어제날짜까
+              let audienceCtx = audienceCanvas.getContext('2d');
+              let audienceData = [0, 23632, 23500];
+              let audienceLabels = ['08.11', '08.16', '08.17']; //개봉일~어제날짜까
               new Chart(audienceCtx, {
                 type: 'line',
                 data: { labels: audienceLabels, datasets: [{ label: '누적관객수', data: audienceData, borderColor: '#5a3ea1', fill: false, tension: 0.3, pointRadius: 4, pointBackgroundColor: '#5a3ea1' }] },
@@ -249,10 +250,10 @@
         };
 
         // ---------------- 유튜브 ----------------
-        const extractYouTubeVideoId = (url) => {
+        let extractYouTubeVideoId = (url) => {
           if (!url) return null;
           try {
-            const urlObj = new URL(url);
+            let urlObj = new URL(url);
             if (urlObj.hostname === 'youtu.be') return urlObj.pathname.slice(1);
             if (urlObj.hostname.includes('youtube.com')) return urlObj.searchParams.get('v');
           } catch (e) {
@@ -262,29 +263,30 @@
         };
 
         window.onYouTubeIframeAPIReady = function() {
-          const trailerUrl = '<c:out value="${movie.trailer}" />';
-          const videoId = extractYouTubeVideoId(trailerUrl);
-          const playerContainer = document.getElementById('player');
+          let trailerUrl = '<c:out value="${movie.trailer}" />';
+          let videoId = extractYouTubeVideoId(trailerUrl);
+          let playerContainer = document.getElementById('player');
           if (!playerContainer) return;
           if (videoId) {
             player = new YT.Player('player', {
-              width: '720', height: '480', videoId: videoId,
-              playerVars: { autoplay: 0, controls: 1, rel: 0, showinfo: 0 },
-              events: { onReady: () => {}, onError: (e) => console.error('YouTube Player Error:', e.data) }
+              width: '100%', height: '100%',
+              videoId: videoId,
+              playerVars: { autoplay: 0, controls: 1, rel: 0, showinfo: 0 }
             });
+
           } else {
             playerContainer.innerHTML = '<p>예고편 영상을 불러올 수 없습니다.</p>';
           }
         };
 
         // ---------------- 탭 ----------------
-        const initTabs = () => {
-          const tabs = document.querySelectorAll('.menu li');
-          const tabContents = document.querySelectorAll('.tabCont');
+        let initTabs = () => {
+          let tabs = document.querySelectorAll('.menu li');
+          let tabContents = document.querySelectorAll('.tabCont');
 
           if (!tabs.length || !tabContents.length) return;
 
-          const minLen = Math.min(tabs.length, tabContents.length);
+          let minLen = Math.min(tabs.length, tabContents.length);
           // 초기화
           tabs.forEach(t => t.classList.remove('selected'));
           tabContents.forEach(c => c.style.display = 'none');
@@ -302,15 +304,16 @@
           }
         };
 
+        
         // ---------------- 리뷰 ----------------
-        const initReviews = () => {
-          const $reviewForm = $('#reviewForm');
-          const $stars = $('#starRating .star');
-          const $ratingInput = $('#rating');
-          const $reviewText = $('#reviewText');
-          const $charCount = $('#charCount');
+        let initReviews = () => {
+          let $reviewForm = $('#reviewForm');
+          let $stars = $('#starRating .star');
+          let $ratingInput = $('#rating');
+          let $reviewText = $('#reviewText');
+          let $charCount = $('#charCount');
 
-          const updateStarColors = (value) => {
+          let updateStarColors = (value) => {
             $stars.each(function() {
               $(this).css('color', parseInt($(this).data('value')) <= value ? '#f5a623' : '#ccc');
             });
@@ -320,7 +323,7 @@
           $stars.on('mouseenter', function() { updateStarColors(parseInt($(this).data('value'))); });
           $stars.on('mouseleave', function() { updateStarColors(parseInt($ratingInput.val()) || 0); });
           $stars.on('click', function() {
-            const val = parseInt($(this).data('value'));
+            let val = parseInt($(this).data('value'));
             $ratingInput.val(val);
             updateStarColors(val);
           });
@@ -333,8 +336,8 @@
           $reviewForm.on('submit', function(e) {
             e.preventDefault();
 
-            const rating = $ratingInput.val();
-            const reviewText = $reviewText.val().trim();
+            let rating = $ratingInput.val();
+            let reviewText = $reviewText.val().trim();
 
             if (!rating) { alert('평점을 선택해주세요.'); return; }
             if (!reviewText) { alert('리뷰 내용을 입력해주세요.'); return; }
@@ -348,7 +351,7 @@
                 console.log("응답:", data);
 
                 // 새 리뷰 DOM 만들기
-                const $newReview = $(`
+                let $newReview = $(`
           <div class="review-item">
             <div class="user">${data.user || '익명'}</div>
             <div class="review-content">
@@ -386,10 +389,10 @@
         });
 
         document.addEventListener("DOMContentLoaded", function () {
-          const loadMoreBtn = document.getElementById("loadMoreBtn");
-          const hiddenReviews = document.querySelectorAll(".hidden-review");
+          let loadMoreBtn = document.getElementById("loadMoreBtn");
+          let hiddenReviews = document.querySelectorAll(".hidden-review");
           let visibleCount = 0;
-          const step = 3; // 한 번에 보여줄 개수
+          let step = 5; // 한 번에 보여줄 개수
 
           loadMoreBtn.addEventListener("click", function () {
             for (let i = visibleCount; i < visibleCount + step; i++) {
