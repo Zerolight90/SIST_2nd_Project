@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -81,33 +83,37 @@
         <h3 style="font-weight: bold; font-size: 24px; color: #3d008c">메가티켓</h3>
 
         <div>
-          <a href="" title="더보기">더보기 ></a>
+          <a href="" title="더보기" id="ticket">더보기 ></a>
         </div>
       </div>
 
       <div>
-        <ul>
-          <li style="width: 243px; height: 433px; border: 1px solid #ebebeb; border-radius: 10px">
-            <a href="">
-              <div class="prodTop">
-                <img src="../images/normalTicket.png" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
-              </div>
-              <div class="prodBottom">
-                <div style="padding-top: 15px">
-                  <p class="storeCardText" style="margin-left: 20px; margin-bottom: 10px; height: 39px; font-size: 16px; font-weight: bold">일반 관람권</p>
-                  <p class="storeCardText" style="margin-left: 20px;">일반 관람권</p>
-                  <p class="storeCardText" style="width: 200px; border-bottom: 2px solid #ebebeb; padding-top: 20px; margin-left: 20px"></p>
+        <ul style="display: flex">
+
+          <c:forEach var="vo" items="${requestScope.tar}" varStatus="status" begin="0" end="3">
+            <li style="width: 243px; height: 433px; margin-right: 25px; margin-left: 10px; border: 1px solid #ebebeb; border-radius: 10px">
+              <a href="Controller?type=detailStore&prodIdx=${vo.prodIdx}">
+                <div class="prodTop">
+                  <img src="../images/${vo.prodImg}" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
                 </div>
-                <div class="price" style="margin-left: 20px; margin-top: 6px; font-size: 20px">
-                  <p style="text-decoration: line-through">15,000원</p>
-                  <p style="font-weight: bold; color: #3d008c">
-                    <span>14,000</span>
-                    <span>원</span>
-                  </p>
+                <div class="prodBottom">
+                  <div style="padding-top: 15px">
+                    <p class="storeCardText" style="margin-left: 20px; margin-bottom: 10px; height: 39px; font-size: 16px; font-weight: bold">${vo.prodName}</p>
+                    <p class="storeCardText" style="margin-left: 20px;">${vo.prodInfo}</p>
+                    <p class="storeCardText" style="width: 200px; border-bottom: 2px solid #ebebeb; padding-top: 20px; margin-left: 20px"></p>
+                  </div>
+                  <div class="price" style="margin-left: 20px; margin-top: 6px; font-size: 20px">
+                      <%--<p style="text-decoration: line-through">${vo.prodPrice}원</p>--%>
+                    <p style="font-weight: bold; margin-top: 20px; color: #3d008c">
+                      <span><fmt:formatNumber value="${vo.prodPrice}" type="number" pattern="#,###"/></span>
+                      <span>원</span>
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </a>
-          </li>
+              </a>
+            </li>
+          </c:forEach>
+
         </ul>
       </div>
 
@@ -115,33 +121,36 @@
         <h3>팝콘 / 음료 / 굿즈</h3>
 
         <div>
-          <a href="" title="더보기">더보기 ></a>
+          <a href="" title="더보기" id="goods">더보기 ></a>
         </div>
       </div>
 
       <div>
-        <ul>
-          <li style="width: 243px; height: 433px; border: 1px solid #ebebeb; border-radius: 10px">
-            <a href="">
-              <div class="prodTop">
-                <img src="../images/normalTicket.png" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
-              </div>
-              <div class="prodBottom">
-                <div style="padding-top: 15px">
-                  <p class="storeCardText" style="margin-left: 20px; margin-bottom: 10px; height: 39px; font-size: 16px; font-weight: bold">일반 관람권</p>
-                  <p class="storeCardText" style="margin-left: 20px;">일반 관람권</p>
-                  <p class="storeCardText" style="width: 200px; border-bottom: 2px solid #ebebeb; padding-top: 20px; margin-left: 20px"></p>
+        <ul style="display: flex; width: 1100px; flex-wrap: wrap">
+
+          <c:forEach var="vo" items="${requestScope.ar}" varStatus="status" begin="0" end="3">
+            <li style="width: 240px; height: 433px; margin-right: 25px; margin-left: 10px; margin-bottom: 20px; border: 1px solid #ebebeb; border-radius: 10px">
+              <a href="Controller?type=detailStore&prodIdx=${vo.prodIdx}">
+                <div class="prodTop">
+                  <img src="../images/${vo.prodImg}" alt="" style="width: 240px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
                 </div>
-                <div class="price" style="margin-left: 20px; margin-top: 6px; font-size: 20px">
-                  <p style="text-decoration: line-through">15,000원</p>
-                  <p style="font-weight: bold; color: #3d008c">
-                    <span>14,000</span>
-                    <span>원</span>
-                  </p>
+                <div class="prodBottom">
+                  <div style="padding-top: 15px">
+                    <p class="storeCardText" style="margin-left: 20px; margin-bottom: 10px; height: 39px; font-size: 16px; font-weight: bold">${vo.prodName}</p>
+                    <p class="storeCardText" style="margin-left: 20px;">${vo.prodInfo}</p>
+                    <p class="storeCardText" style="width: 200px; border-bottom: 2px solid #ebebeb; padding-top: 20px; margin-left: 20px"></p>
+                  </div>
+                  <div class="price" style="margin-left: 20px; margin-top: 6px; font-size: 20px">
+                    <p style="font-weight: bold; margin-top: 20px; color: #3d008c">
+                      <span><fmt:formatNumber value="${vo.prodPrice}" type="number" pattern="#,###"/></span>
+                      <span>원</span>
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </a>
-          </li>
+              </a>
+            </li>
+          </c:forEach>
+
         </ul>
       </div>
 
@@ -200,7 +209,7 @@
                   <div class="price" style="margin-left: 20px; margin-top: 6px; font-size: 20px">
                       <%--<p style="text-decoration: line-through">${vo.prodPrice}원</p>--%>
                     <p style="font-weight: bold; margin-top: 20px; color: #3d008c">
-                      <span>${vo.prodPrice}</span>
+                      <span><fmt:formatNumber value="${vo.prodPrice}" type="number" pattern="#,###"/></span>
                       <span>원</span>
                     </p>
                   </div>
@@ -231,7 +240,7 @@
                 </div>
                 <div class="price" style="margin-left: 20px; margin-top: 6px; font-size: 20px">
                   <p style="font-weight: bold; margin-top: 20px; color: #3d008c">
-                    <span>${vo.prodPrice}</span>
+                    <span><fmt:formatNumber value="${vo.prodPrice}" type="number" pattern="#,###"/></span>
                     <span>원</span>
                   </p>
                 </div>
@@ -302,6 +311,17 @@
       // 6. 클릭한 탭과 순서가 맞는 내용 영역만 보여줍니다.
       tabContents[index].style.display = 'block';
     });
+  });
+
+  document.getElementById("ticket").addEventListener("click", function(e) {
+    e.preventDefault();
+  tabs[1].click();
+    window.scrollTo(0, 0);
+  });
+  document.getElementById("goods").addEventListener("click", function(e) {
+    e.preventDefault();
+    tabs[2].click();
+    window.scrollTo(0, 0);
   });
 </script>
 

@@ -41,6 +41,11 @@
         WHERE prodIdx = #{prodIdx}
     </update>
 
+    <delete id="productDel" parameterType="String">
+        DELETE FROM product
+        WHERE prodIdx = #{prodIdx}
+    </delete>
+
     <update id="updateStock" parameterType="java.util.Map">
         <![CDATA[
         UPDATE product

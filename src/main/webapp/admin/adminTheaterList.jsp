@@ -1,6 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+<%
+  response.setHeader("Cache-Control","no-cache, no-store, must-revalidate"); // HTTP 1.1
+  response.setHeader("Pragma","no-cache"); // HTTP 1.0
+  response.setDateHeader ("Expires", 0); // Proxies
+%>
+<c:if test="${empty sessionScope.vo}">
+  <c:redirect url="Controller?type=index"/>
+</c:if>
+
 <html>
 <head>
   <title>Title</title>
@@ -196,10 +206,10 @@
 <body style="margin: auto">
 <!-- 관리자 화면에 처음 들어오는 보이는 상단영역 -->
 <div class="dashHead bold">
-  <div style="display: inline-block; justify-content: space-between; align-items: center"><p style="margin-left: 10px">admin 관리자님</p></div>
+  <div style="display: inline-block; justify-content: space-between; align-items: center"><p style="margin-left: 10px">${sessionScope.vo.adminId} 관리자님</p></div>
   <div style="display: inline-block; float: right; padding-top: 13px; padding-right: 10px">
     <a href="">SIST</a>
-    <a href="">로그아웃</a>
+    <a href="Controller?type=adminLogOut">로그아웃</a>
   </div>
 </div>
 
