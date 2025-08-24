@@ -2,7 +2,6 @@ package Action;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import mybatis.dao.ReviewDAO;
@@ -18,7 +17,6 @@ public class ReviewAction implements Action {
         MemberVO mvo = (MemberVO) request.getSession().getAttribute("mvo");
         if (mvo == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-
             return null;
         }
 
@@ -38,33 +36,42 @@ public class ReviewAction implements Action {
 
         try {
             response.setContentType("application/json; charset=UTF-8");
-            response.getWriter().write("{\"result\":\"success\"}");
             PrintWriter out = response.getWriter();
+
+            // 새로 작성된 리뷰 정보를 JSON으로 구성
             Gson gson = new Gson();
-            out.print(gson.toJson(rvo)); // rvo = 방금 저장한 ReviewVO
-            out.flush();
 
+            // 사용자명은 첫 글자만 표시하고 나머지는 * 처리
+            String maskedUser = mvo.getName().substring(0,1) + "**";
 
-            // JSON 직접 출력
-            out.print("{");
-            out.printf("\"user\":\"%s**\",", mvo.getName().charAt(0));
-            out.printf("\"rating\":\"%s\",", rating);
-            out.printf("\"content\":\"%s\",", content.replace("\"","\\\""));
-            out.printf("\"time\":\"방금 전\"");
-            out.print("}");
-            out.flush();
+            // 응답 데이터 객체
+            ReviewResponse respData = new ReviewResponse(
+                    maskedUser, rating, content, "방금 전"
+            );
+
+            out.print(gson.toJson(respData));
             out.flush();
             out.close();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-
         return null;
-
     }
 
+    // 내부 클래스: 응답 JSON 포맷 전용
+    class ReviewResponse {
+        String user;
+        String rating;
+        String content;
+        String time;
 
+        ReviewResponse(String user, String rating, String content, String time) {
+            this.user = user;
+            this.rating = rating;
+            this.content = content;
+            this.time = time;
+        }
+    }
 }
-
-
