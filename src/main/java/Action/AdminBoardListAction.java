@@ -3,17 +3,27 @@ package Action;
 import mybatis.dao.AdminBoardDAO;
 import mybatis.dao.BbsDAO;
 import mybatis.vo.AdminBoardVO;
+import mybatis.vo.AdminVO;
+import mybatis.vo.MemberVO;
 import util.Paging;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.Arrays;
 
 public class AdminBoardListAction implements Action{
 
     //재정의-메소드구현
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        //jsp경로로 포워드 된다.
+
+        //로그인한 관리자 받아오기
+        HttpSession session = request.getSession();
+
+        AdminVO vo = (AdminVO) session.getAttribute("vo");
+        session.setAttribute("adminInfo", vo);
+
 
         String boardType = request.getParameter("type");
         String searchKeyword = request.getParameter("searchKeyword");
@@ -28,6 +38,7 @@ public class AdminBoardListAction implements Action{
         //총 게시물 수 구하기
         //처음부터 끝까지 전체의 데이터 갯수
         int totalCount = AdminBoardDAO.getTotalCount(boardType);
+        //int totalCount = AdminBoardDAO.getTotalCount(boardType, vo.gettIdx());
         //System.out.println(" 총 게시물 수:::::::::"+totalCount);
 
         //페이징 처리를 위한 객체 생성
@@ -53,6 +64,8 @@ public class AdminBoardListAction implements Action{
         //유지보수 생각하면서 코드도 진행이 됨
         AdminBoardVO[] ar = AdminBoardDAO.getList(boardType, page.getBegin(), page.getEnd(), searchKeyword);
 
+//      session.setAttribute("ar", ar); //ar의 값이 ar이라는 이름으로 list.jsp로 넘어가게 된다.
+
         //JSP에서 표현하기 위해 request에 저장
         request.setAttribute("ar", ar); //ar의 값이 ar이라는 이름으로 list.jsp로 넘어가게 된다.
         request.setAttribute("page", page); //page라는 이름으로 page를 저장해라. list.jsp로 넘어가게 된다.
@@ -61,16 +74,16 @@ public class AdminBoardListAction implements Action{
 
         //게시판 타입에 따른 화면단 분기처리
         if(boardType.equals("adminBoardList")){
-            //System.out.println("adminBoardList!!!!!!!!!!!!!!!!!!!!");
+
             return "admin/adminBoardList.jsp";
         } else if(boardType.equals("adminInquiryList")){
-            //System.out.println("adminInquiryList!!!!!!!!!!!!!!!!!!!!");
+
             return "admin/adminInquiryList.jsp";
         } else if(boardType.equals("adminEventList")){
-            //System.out.println("adminEventList!!!!!!!!!!!!!!!!!!!!!!");
+
             return "admin/adminEventList.jsp";
         }else{
-            //System.out.println("else!!!!!!!!!!!!!!!!!!!!!!");
+
             return "admin/adminBoardList.jsp";
         }
     }

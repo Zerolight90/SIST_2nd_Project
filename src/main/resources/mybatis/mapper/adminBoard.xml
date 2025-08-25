@@ -36,13 +36,14 @@
         SELECT COUNT(*) FROM board
         WHERE boardStatus = 0
         AND boardType = #{boardType}
+        <!--AND tIdx = #{tIdx}-->
         AND parent_boardIdx IS NULL
     </select>
 
     <!--게시물 작성-->
     <insert id="add" parameterType="Map">
         INSERT INTO board(adminIdx, parent_boardIdx, tIdx, boardType, sub_boardType, boardTitle, boardContent, file_name, ori_name, thumbnail_url, boardStartRegDate, boardEndRegDate, boardStatus, is_answered, boardRegDate)
-        VALUES (1, #{parent_boardIdx}, 1, #{boardType}, #{subBoardType}, #{title}, #{content}, #{fname}, #{oname}, #{thumbfilename}, #{boardStartRegDate}, #{boardEndRegDate}, 0, NULL, NOW())
+        VALUES (#{adminIdx}, #{parent_boardIdx}, #{writer}, #{boardType}, #{subBoardType}, #{title}, #{content}, #{fname}, #{oname}, #{thumbfilename}, #{boardStartRegDate}, #{boardEndRegDate}, 0, NULL, NOW())
     </insert>
 
     <!--게시물 보기-->
@@ -93,6 +94,18 @@
         UPDATE board set is_answered = 1
         WHERE boardIdx = #{boardIdx}
     </update>
+
+    <!--<resultMap id="map1" type="mybatis.vo.AdminVO">
+        <id property="adminIdx" column="adminIdx"/>
+        <association property="tvo" javaType="mybatis.vo.TheaterVO" select="getTName" column="tIdx"/>
+    </resultMap>-->
+
+    <!--극장 정보 가져오기-->
+    <select id="getTName" parameterType="String" resultType="String">
+        SELECT tName
+        FROM theater
+        WHERE tIdx = #{tIdx}
+    </select>
 
 
 </mapper>

@@ -198,7 +198,7 @@
         <tfoot>
         <tr>
           <td colspan="2">
-            <button type="submit" id="edit_btn" onclick="sendData()">저장</button>
+            <button type="button" id="edit_btn" onclick="sendData()">저장</button>
             <button type="button" id="cancel_btn" onclick="goBackView()">취소</button>
           </td>
         </tr>

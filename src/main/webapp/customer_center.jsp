@@ -9,3 +9,5 @@
     <li <c:if test="${param.type eq 'userInquiryWrite'}">class="on"</c:if>><a href="Controller?type=userInquiryWrite">1:1 문의</a></li>
   </ul>
 </nav>
+
+

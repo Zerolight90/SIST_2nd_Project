@@ -34,16 +34,16 @@ public class LoginAction implements Action {
 
             // 만약 booking에서 Parameter를 받으면 Session에 저장함 (Request가 아닌!)
             String seaturl = request.getParameter("booking");
-//            System.out.println("seaturl parameter: " + seaturl);
+            System.out.println("seaturl parameter: " + seaturl);
             if (seaturl != null) {
                 request.getSession().setAttribute("seaturl", seaturl); // Session에 저장!
-//                System.out.println("Saved seaturl to session: " + seaturl);
+                System.out.println("Saved seaturl to session: " + seaturl);
             }
 
             String borderurl = request.getParameter("border");
             if (borderurl != null) {
                 request.getSession().setAttribute("borderurl", borderurl); // border도 Session에 저장
-//                System.out.println("Saved borderurl to session: " + borderurl);
+                System.out.println("Saved borderurl to session: " + borderurl);
             }
 
             String reviewurl = request.getParameter("review");
@@ -53,6 +53,13 @@ public class LoginAction implements Action {
                 if (mIdx != null && !mIdx.trim().isEmpty()) {
                     request.getSession().setAttribute("reviewurl", "Controller?type=movieDetail&mIdx=" + mIdx);
                 }
+            }
+
+            //1:1문의
+            String inquiryurl = request.getParameter("userInquiryWrite");
+            if (inquiryurl != null) {
+                request.getSession().setAttribute("inquiryurl", inquiryurl); // inquiry도 Session에 저장
+                System.out.println("Saved inquiryurl to session: " + inquiryurl);
             }
 
 
@@ -75,11 +82,15 @@ public class LoginAction implements Action {
                 Object seaturlObj = request.getSession().getAttribute("seaturl");
                 Object borderurlObj = request.getSession().getAttribute("borderurl");
                 Object reviewurlobj = request.getSession().getAttribute("reviewurl");
+                Object inquiryurlobj = request.getSession().getAttribute("inquiryurl");
+                System.out.println(seaturlObj);
+                System.out.println(borderurlObj);
                 System.out.println(reviewurlobj);
 
                 String seaturl2 = null;
                 String borderurl2 = null;
                 String reviewurl2 = null;
+                String inquiryurl2 = null;
 
                 if (seaturlObj != null) {
                     seaturl2 = seaturlObj.toString();
@@ -94,6 +105,11 @@ public class LoginAction implements Action {
                 if (reviewurlobj != null) {
                     reviewurl2 = reviewurlobj.toString();
                     System.out.println("Found reviewurl2 in session: " + reviewurl2);
+                }
+
+                if (inquiryurlobj != null) {
+                    inquiryurl2 = reviewurlobj.toString();
+                    System.out.println("Found inquiryurl2 in session: " + inquiryurl2);
                 }
 
                 // URL 결정 로직
@@ -118,6 +134,11 @@ public class LoginAction implements Action {
                     request.getSession().removeAttribute("reviewurl");
 
 //                    System.out.println(url); // "movieDetail&mIdx=1131759"
+                }else if (inquiryurl2 != null && !inquiryurl2.trim().isEmpty()) {
+//                    System.out.println("Redirecting to border page: " + inquiryurl2);
+                    url = inquiryurl2;
+                    // 사용 후 세션에서 제거
+                    request.getSession().removeAttribute("inquiryurl");
                 }
                 else {
 //                    System.out.println("No redirect URL found, going to index");

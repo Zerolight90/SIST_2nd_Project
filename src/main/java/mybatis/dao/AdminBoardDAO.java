@@ -4,9 +4,7 @@ import mybatis.Service.FactoryService;
 import mybatis.vo.AdminBoardVO;
 import org.apache.ibatis.session.SqlSession;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class AdminBoardDAO {
 
@@ -14,6 +12,10 @@ public class AdminBoardDAO {
     public static int getTotalCount(String boardType){
 
         String bt = bungiCata(boardType);
+
+        /*Map<String, String> map = new HashMap<>();
+        map.put("boardType", bt);
+        map.put("tIdx", tIdx);*/
         
         SqlSession ss = FactoryService.getFactory().openSession();
         
@@ -42,7 +44,6 @@ public class AdminBoardDAO {
         SqlSession ss = FactoryService.getFactory().openSession();
         //AdminBoardVO가 여러개 넘어오도록 한다.
         List<AdminBoardVO> list = ss.selectList("adminBoard.adminBoardList", map);
-
 
         //결과가 넘어오면 배열로 넘겨야 하기 때문에
         if(list != null && !list.isEmpty()){ //비어있는 상태가 아니면,
@@ -75,7 +76,6 @@ public class AdminBoardDAO {
         map.put("boardStartRegDate", boardStartRegDate);
         map.put("boardEndRegDate", boardEndRegDate);
         map.put("boardStatus", boardStatus);
-
         
         SqlSession ss= FactoryService.getFactory().openSession();
         cnt = ss.insert("adminBoard.add", map);
@@ -173,6 +173,7 @@ public class AdminBoardDAO {
         return cnt;
     }
 
+    //게시글 분기처리
     private static String bungiCata(String boardType){
 
         //System.out.println("bungiCata..boardType:::::::::::::::"+boardType);
@@ -201,6 +202,17 @@ public class AdminBoardDAO {
 
 
         return boardTitle;
+    }
+
+    //극장정보가져오기
+    public static String getTName(String tIdx){
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        String tName = ss.selectOne("adminBoard.getTName", tIdx);
+
+        ss.close();
+
+        return tName;
     }
 
 }

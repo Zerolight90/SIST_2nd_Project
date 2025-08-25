@@ -231,6 +231,23 @@ p {
     background-color: #5a6268;
 }
 
+#save_btn{
+    background-color: #503396;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#save_btn:hover {
+    background-color: #3A245C;
+}
+
+
 .board-table tfoot > tr > td {
     text-align: right;
     padding-top: 20px;

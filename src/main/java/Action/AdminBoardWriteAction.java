@@ -4,10 +4,13 @@ import com.google.gson.Gson;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import mybatis.dao.AdminBoardDAO;
+import mybatis.vo.AdminBoardVO;
+import mybatis.vo.AdminVO;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,12 +20,23 @@ public class AdminBoardWriteAction implements Action{
     //ajax요청인 경우
     private void writeJson(HttpServletResponse response, Map<String, Object> data) throws Exception {
         response.setContentType("application/json; charset=UTF-8");
-        System.out.println("response.getWriter()" + data + "///////" + response.getWriter());
+        //System.out.println("response.getWriter()" + data + "///////" + response.getWriter());
         new Gson().toJson(data, response.getWriter());
     }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+
+        //로그인한 관리자 정보 받아오기
+        HttpSession session = request.getSession();
+
+        AdminVO vo = (AdminVO) session.getAttribute("vo");
+        session.setAttribute("adminInfo", vo);
+
+        String tName =  AdminBoardDAO.getTName(vo.gettIdx());
+
+        request.setAttribute("tName", tName);
+
 
         //반환값을 String으로 준비
         String viewPath=null;
@@ -94,7 +108,9 @@ public class AdminBoardWriteAction implements Action{
                     thumbfilename = thumb_file.getName();
                 }
 
-                AdminBoardDAO.add(boardType, parent_boardIdx, subBoardType, title, writer, content, fname, oname, thumbfilename, boardStartRegDate, boardEndRegDate, boardStatus);
+
+                AdminBoardDAO.add(boardType, parent_boardIdx, subBoardType, title, vo.gettIdx() , content, fname, oname, thumbfilename, boardStartRegDate, boardEndRegDate, boardStatus);
+
 
                 AdminBoardDAO.update(boardIdx, is_answered);
 

@@ -5,10 +5,12 @@ import mybatis.vo.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -25,6 +27,12 @@ public class AllTheaterAction implements Action{
         // 극장 정보는 theater 테이블의 정보를 가져와서 뿌려야 한다
         theater = TheatherDAO.getTheaterInfo(tIdx);
         request.setAttribute("theater", theater);
+
+        HttpSession session = request.getSession();
+        MemberVO mvo = (MemberVO) session.getAttribute("mvo");
+
+        List<AdminBoardVO> boardList = UserBoardDAO.getBoardInfo(tIdx);
+        request.setAttribute("boardList", boardList);
         // ------------------------------------------------------------------------------------------------------------
         // ---------- 영화관의 보유시설, 층별안내를 따로 표현하기위해 하나의 문자열로 온 정보를 구분지어서 배열에 담아 보내야한다.--
         // 현재 정보가 담겨있는 theater(VO)의 theater_info_board의 정보를 문자열을 일단 뽑음

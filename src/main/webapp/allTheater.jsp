@@ -10,10 +10,11 @@
   <link rel="stylesheet" href="./css/sub/sub_page_style.css">
   <link rel="stylesheet" href="./css/reset.css">
   <link rel="stylesheet" href="./css/tab.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
-  <link rel="icon" href="./images/favicon.png">
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+  <%--<link rel="stylesheet" href="./css/board.css">--%>
+  <%--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">--%> <!--폰트어썸 css 라이브러리-->
+  <%--<link rel="icon" href="./images/favicon.png">--%>
+  <%--<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>--%>
 
   <style>
     .parking-info .parking-section .icon-box .ico-parking {
@@ -113,6 +114,77 @@
 
 
 
+    /*추가*/
+
+    .event-list{
+      height: 365px;
+    }
+
+    .event-list ul li {
+      position: relative;
+      float: left;
+      width: 245px;
+      margin: 0 0 0 40px;
+      padding: 0;
+    }
+
+    /*1,5,9,, 번째 게시물 margin:0 주기*/
+    .event-list ul li:nth-child(4n + 1) {
+      margin:0;
+    }
+
+    /*5번째 게시물부터 위 간격주기*/
+    .event-list ul li:nth-child(n + 5) {
+      margin-top: 60px;
+    }
+
+    .event-list ul li a {
+      overflow: hidden;
+      display: block;
+      border: 1px solid #e4e4e4;
+      border-radius: 10px;
+      min-height: 364px;
+    }
+    .event-list ul li a .img {
+      width: 100%;
+      height: 244px;
+      font-size: 0;
+      line-height: 0;
+      border-bottom: 1px solid #e4e4e4;
+      background-color: #eee;
+    }
+
+    .event-list ul li a .img img {
+      width: 100% !important;
+      height: 243px !important;
+    }
+
+    .event-list ul li a .tit {
+      overflow: hidden;
+      height: 60px;
+      margin: 0 0 10px 0;
+      padding: 20px 17px 0 17px;
+      line-height: 1.3;
+      font-weight: 700;
+      color: #222;
+      display: block !important;
+    }
+
+    .event-list ul li a .date {
+      padding: 0 17px 20px 17px;
+      font-size: .8667em;
+      line-height: 1.1;
+      color: #666;
+    }
+
+    .event-list p {
+      display: block;
+      margin: 0;
+      padding: 0;
+    }
+
+
+
   </style>
 </head>
 
@@ -140,7 +212,7 @@
     <div class="theater-detail-page">
       <div class="img">
         <p>${theater.tName}</p>
-        <button type="button">선호극장</button>
+        <%--<button type="button">선호극장</button>--%>
       </div>
     </div>
 
@@ -227,7 +299,7 @@
                     <h2 class="theater traffic">교통안내</h2>
                   </div>
                   <h3 class="small-tit m30">주소</h3>
-                  <p>${theater.tAddress}&nbsp;<button>주소 복사</button></p>
+                  <p>${theater.tAddress}<%--&nbsp;<button>주소 복사</button>--%></p>
 
                   <%--카카오맵--%>
                   <h3 class="small-tit m30">지도</h3>
@@ -335,39 +407,58 @@
                   </div>
                 </div>
 
-                <!--이벤트-->
-                <div class="theater-event-info">
-                  <div class="event-box m70"></div>
-                  <h2 class="theater event">이벤트</h2>
-                </div>
-                <div class="theater_event_img" id="event_img" style="display:flex;">
-                  <ul>
+                <c:choose>
+                  <c:when test="${theater.bvo_list eq '' or theater.bvo_list eq null }">
+                  </c:when>
+                  <c:otherwise>  <!-- 0으로 시작하지 않으면 모두 보여준다 -->
 
-                    <c:forEach var="theaterBoard" items="${theater.bvo_list}" varStatus="i">
-                      <c:if test="${fn:contains(theaterBoard.boardType, '이벤트') and theaterBoard.tIdx eq 1}">
-                    <li>
-                      <a href="#">
-                        <img src="./event_thumbnails/${theaterBoard.thumbnail_url}" alt="강동점 굿즈">
-                      </a>
-                    </li>
-                      </c:if>
-                    </c:forEach>
-                  </ul>
-                </div>
+                    <!--이벤트-->
+                    <div class="theater-event-info">
+                      <div class="event-box m70"></div>
+                      <h2 class="theater event">이벤트</h2>
+                      <span class="more notice"><a href="Controller?type=userEventBoardList">더보기 ></a></span>
+                    </div>
+
+                  <div class="event-list m30">
+                    <ul>
+                     <c:set var="theaterCount" value="0"/>
+                      <c:forEach var="theaterBoard" items="${theater.bvo_list}" varStatus="i">
+
+                          <c:if test="${fn:contains(theaterBoard.boardType, '이벤트') and theaterCount < 4}">
+                            <li>
+                              <a href="Controller?type=userViewEventBoard&boardIdx=${theaterBoard.boardIdx}">
+                                <p class="img" style="background-image:none;">
+                                  <img src="<c:url value='/event_thumbnails/${theaterBoard.thumbnail_url}'/>" alt="${theaterBoard.boardTitle}"/>
+                                </p>
+                                <p class="tit" style="font-size: 1.2em;">${theaterBoard.boardTitle}</p>
+                                <p class="date">${theaterBoard.boardStartRegDate} ~ ${theaterBoard.boardEndRegDate}</p>
+                              </a>
+                            </li>
+                            <c:set var="theaterCount" value="${theaterCount + 1}"/> <%--게시물 하나 표시 후 카운트 증가 --%>
+                          </c:if>
+
+                      </c:forEach>
+                    </ul>
+                  </div>
+                  </c:otherwise>
+                </c:choose>
 
 
-
+                <c:choose>
+                <c:when test="${theater.bvo_list eq '' or theater.bvo_list eq null }">
+                </c:when>
+                <c:otherwise>  <!-- 0으로 시작하지 않으면 모두 보여준다 -->
                 <!--공지사항-->
                 <div class="theater-notice-info">
                   <div class="theater-notice-title event-box">
                     <h1 class="theater notice-title">극장 공지사항</h1>
-                    <span class="more notice"><a href="#">더보기 ></a></span>
+                    <span class="more notice"><a href="Controller?type=userBoardList">더보기 ></a></span>
                   </div>
                   <div class="notice-tit">
                     <c:forEach var="theaterBoard" items="${theater.bvo_list}" varStatus="i">
                       <c:if test="${fn:contains(theaterBoard.boardType, '공지사항')}">
                     <button type="button" class="collapsible" onclick="collapse(this);">
-                      <div class="notice-tit-list">${theaterBoard.boardTitle}(${fn:substring(theaterBoard.boardEndRegDate, 5, 10)})</div>
+                      <div class="notice-tit-list">${theaterBoard.boardTitle}<%--(${fn:substring(theaterBoard.boardEndRegDate, 5, 10)})--%></div>
                       <p class="notice-area">${theater.tName}</p>
                       <p class="notice-date">${fn:substring(theaterBoard.boardStartRegDate, 0, 10)}</p>
                     </button>
@@ -378,6 +469,9 @@
                     </c:forEach>
                   </div>
                 </div>
+
+                </c:otherwise>
+                </c:choose>
               </div>
             </div>
           </div>

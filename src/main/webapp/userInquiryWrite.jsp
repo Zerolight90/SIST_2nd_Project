@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -195,6 +196,7 @@
                 </div>
 
                 <form action="Controller?type=userInquiryWrite" method="post" enctype="multipart/form-data">
+                    <input type="hidden" value="booking" name="booking"/>
                 <div class="agree_info m30">
                     <div class="agree-box">
                         <dl>
@@ -230,16 +232,27 @@
                         <%--<tr>
                             <th>문의선택 <span class="required">*</span></th>
                             <td class="inquirType">
-                                <label><input type="radio" name="type" checked> 고객센터문의</label>
                                 <label><input type="radio" name="type"> 극장별문의</label>
-                                <select>
-                                    <option>지역선택</option>
-                                </select>
                                 <select>
                                     <option>극장선택</option>
                                 </select>
                             </td>
                         </tr>--%>
+
+                        <tr>
+                            <th>문의선택 <span class="required">*</span></th>
+                            <td class="inquirType">
+                               <%-- <label><input type="radio" name="type" value="theater"> 극장별문의</label>--%>
+
+                                <select name="tIdx">
+                                    <option value="">극장지점</option>
+                                    <c:forEach var="theater" items="${theaterList}">
+                                        <option value="${theater.tIdx}">${theater.tName}</option>
+                                    </c:forEach>
+                                </select>
+                            </td>
+                        </tr>
+
                         <tr>
                             <th>이름 <span class="required">*</span></th>
                             <td>
@@ -275,7 +288,7 @@
                         <tr>
                             <th>사진첨부</th>
                             <td style="text-align: left;">
-                                <input type="file" class="file-btn" multiple>
+                                <input type="file" id="file" name="file" class="file-btn"/>
                                 <div class="note">
                                     * JPEG, PNG 형식의 5M 이하 파일만 첨부 가능합니다. (최대 5개)<br>
                                     * 개인정보가 포함된 이미지는 등록을 자제하여 주시기 바랍니다.
@@ -299,13 +312,19 @@
     </footer>
 
 
-<script>
 
+<script>
     $(document).ready(function() {
+
         let placeholderText =
             "- 문의내용에 개인정보(이름, 연락처, 카드번호 등)가 포함되지 않도록 유의하시기 바랍니다.\n- 회원 로그인 후 문의가 가능합니다.\n- 회원로그인 후 문의작성시 나의 문의내역을 통해 답변을 확인하실 수 있습니다.\n- 온라인으로 재고현황 확인이 가능한 영화 이벤트 특전(오리지널 티켓/슬라이드, 드로잉 카드, MX4D 및 특수 포스터 등)의 경우, 선착순으로 지급되고 있어 자세한 잔여수량 답변이 어렵습니다.";
 
         $("#boardContent").attr("placeholder", placeholderText);
+
+       /* var memberInfo = "${memberInfo}";
+        if (memberInfo.length === 0) {
+            alert("로그인 정보가 없습니다.");
+        }*/
     });
 
     //게시글 등록
@@ -315,6 +334,14 @@
         if(!$("#chk").is(":checked")) {
             alert("개인정보 수집 및 이용에 동의해야 문의를 등록할 수 있습니다.");
             $("#chk").focus();
+            return; // 제출 중단
+        }
+
+        // 개인정보 수집 동의 체크 여부 확인
+        let selectedTheater = $("select[name='tIdx']").val();
+        if (selectedTheater === "") {
+            alert("극장을 선택해주세요.");
+            $("select[name='tIdx']").focus();
             return; // 제출 중단
         }
 

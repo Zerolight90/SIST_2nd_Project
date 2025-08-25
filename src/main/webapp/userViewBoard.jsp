@@ -73,7 +73,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th class="w100">구분</th>
+                                <th class="w100" style="width: 200px">구분</th>
                                     <%--공지/이벤트 구분--%>
                                 <td>
                                     <span>공지</span>
@@ -100,6 +100,13 @@
                         </table>
 
                     </form>
+                    <%--숨겨진 폼 만들기--%>
+                    <form name="ff" method="post">
+                        <input type="hidden" name="type"/>
+                        <input type="hidden" name="f_name"/>
+                        <input type="hidden" name="boardIdx" value="${vo.boardIdx}"/>
+                        <input type="hidden" name="cPage" value="${param.cPage}"/>
+                    </form>
                 </c:if>
                 <div>
                     <table>
@@ -107,7 +114,7 @@
                         <c:choose>
                             <c:when test="${not empty nextVo}">
                                 <tr>
-                                    <td>다음글</td>
+                                    <td style="width: 200px;">다음글</td>
                                     <td>
                                         <a href="Controller?type=userViewBoard&boardIdx=${nextVo.boardIdx}&cPage=${param.cPage}&boardType=${vo.boardType}">
                                                 ${nextVo.boardTitle}
@@ -118,7 +125,7 @@
 
                             <c:otherwise>
                                 <tr>
-                                    <td>다음글</td>
+                                    <td style="width: 200px;">다음글</td>
                                     <td>다음글이 없습니다.</td>
                                 </tr>
                             </c:otherwise>
@@ -126,7 +133,7 @@
                         <c:choose>
                             <c:when test="${not empty prevVo}">
                                 <tr>
-                                    <td>이전글</td>
+                                    <td style="width: 200px;">이전글</td>
                                     <td>
                                         <a href="Controller?type=userViewBoard&boardIdx=${prevVo.boardIdx}&cPage=${param.cPage}&boardType=${vo.boardType}">
                                                 ${prevVo.boardTitle}
@@ -137,7 +144,7 @@
 
                             <c:otherwise>
                                 <tr>
-                                    <td>이전글</td>
+                                    <td style="width: 200px;">이전글</td>
                                     <td>이전글이 없습니다.</td>
                                 </tr>
                             </c:otherwise>

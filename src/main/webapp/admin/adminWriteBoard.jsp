@@ -108,7 +108,6 @@
       <table class="board-table">
         <caption>공지사항 글쓰기</caption>
         <tbody>
-        <!-- 예시 데이터 행 (실제로는 DB에서 반복문으로 생성) -->
         <tr>
           <th class="w100"><label for="boardTitle">제목</label></th>
           <td>
@@ -119,7 +118,7 @@
           <th class="w100">지점명</th>
           <td>
             <%--지점명 들어갈 자리--%>
-            <span>강동점</span>
+            <span>${tName}</span>
           </td>
         </tr>
         <tr>

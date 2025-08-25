@@ -151,7 +151,9 @@
         <tfoot>
         <tr>
           <td colspan="2">
+            <c:if test="${infovo.tvo.tIdx eq adminInfo.tIdx}">
             <button type="button" id="edit_btn" onclick="goEditTheater()" value="수정">수정</button>
+            </c:if>
             <button type="button" id="cancel_btn" onclick="goList()" value="목록">목록</button>
           </td>
         </tr>

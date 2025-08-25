@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./css/tab.css">
     <link rel="stylesheet" href="./css/theater.css">
+    <link rel="stylesheet" href="./css/board.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
     <link rel="icon" href="./images/favicon.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -16,6 +17,7 @@
 
 
     <style>
+        /*
 
         .inner-wrap {
             position: relative;
@@ -35,12 +37,12 @@
             padding: 0;
         }
 
-        /*1,5,9,, 번째 게시물 margin:0 주기*/
+        !*1,5,9,, 번째 게시물 margin:0 주기*!
         .event-list ul li:nth-child(4n + 1) {
             margin:0;
         }
 
-        /*5번째 게시물부터 위 간격주기*/
+        !*5번째 게시물부터 위 간격주기*!
         .event-list ul li:nth-child(n + 5) {
             margin-top: 60px;
         }
@@ -116,43 +118,44 @@
             margin-top: 50px;
         }
 
-        /*슬라이드**********************************************/
+        !*슬라이드**********************************************!
         .swiper-wrap .count {
-            position: absolute; /* 슬라이더 위에 겹쳐서 표시 */
+            position: absolute; !* 슬라이더 위에 겹쳐서 표시 *!
             right: 0;
             top: 0;
-            z-index: 10; /* 다른 요소보다 위에 표시 */
-            color: #fff; /* 글자색 흰색 */
-            background-color: rgba(0, 0, 0, 0.5); /* 배경 반투명 검정 */
+            z-index: 10; !* 다른 요소보다 위에 표시 *!
+            color: #fff; !* 글자색 흰색 *!
+            background-color: rgba(0, 0, 0, 0.5); !* 배경 반투명 검정 *!
             padding: 5px 10px;
             border-radius: 20px;
             font-size: 14px;
         }
 
-        /* 여러 배너를 담는 컨테이너 */
+        !* 여러 배너를 담는 컨테이너 *!
         .banner-group {
-            display: flex; /* 자식 요소를 가로로 정렬 */
-            gap: 20px; /* 배너 사이 간격 */
+            display: flex; !* 자식 요소를 가로로 정렬 *!
+            gap: 20px; !* 배너 사이 간격 *!
         }
 
-        /* 개별 배너 아이템 */
+        !* 개별 배너 아이템 *!
         .banner-item {
-            flex-basis: 50%; /* 컨테이너 너비의 50%를 차지 */
+            flex-basis: 50%; !* 컨테이너 너비의 50%를 차지 *!
         }
 
-        /* 이미지에 맞게 크기 조절 */
+        !* 이미지에 맞게 크기 조절 *!
         .banner-item img {
             width: 100%;
             height: auto;
             display: block;
         }
 
-        /*게시물 정렬 맞추기*/
+        !*게시물 정렬 맞추기*!
         .clearfix::after {
             content: "";
             display: table;
             clear: both;
         }
+        */
 
     </style>
 </head>
