@@ -35,11 +35,11 @@ public class Nmember_chkAction implements Action {
                 session.setAttribute("nmemvo", nmemvo);
 
 
-//                System.out.println("sessionId="+session.getId());
-//                System.out.println(nmemvo.getName());
-//                System.out.println(nmemvo.getPassword());
-//                System.out.println(nmemvo.getBirth());
-//                System.out.println(nmemvo.getPhone());
+                System.out.println("sessionId="+session.getId());
+                System.out.println(nmemvo.getName());
+                System.out.println(nmemvo.getPassword());
+                System.out.println(nmemvo.getBirth());
+                System.out.println(nmemvo.getPhone());
 
 
 
