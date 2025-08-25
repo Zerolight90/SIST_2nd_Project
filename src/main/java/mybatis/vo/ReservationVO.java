@@ -5,7 +5,7 @@ public class ReservationVO {
     // DB reservation 테이블과 매핑되는 필드들
     private long reservIdx;
     private Long userIdx;
-    private Long nIdx2;
+    private Long nIdx;
     private long tIdx;
     private long sIdx;
     private long timeTableIdx;
@@ -36,8 +36,8 @@ public class ReservationVO {
     public void setReservIdx(long reservIdx) { this.reservIdx = reservIdx; }
     public Long getUserIdx() { return userIdx; }
     public void setUserIdx(Long userIdx) { this.userIdx = userIdx; }
-    public Long getnIdx2() { return nIdx2; }
-    public void setnIdx2(Long nIdx2) { this.nIdx2 = nIdx2; }
+    public Long getnIdx() { return nIdx; }
+    public void setnIdx(Long nIdx) { this.nIdx = nIdx; }
     public long gettIdx() { return tIdx; }
     public void settIdx(long tIdx) { this.tIdx = tIdx; }
     public long getsIdx() { return sIdx; }

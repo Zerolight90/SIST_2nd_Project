@@ -2,6 +2,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+<%
+    response.setHeader("Cache-Control","no-cache, no-store, must-revalidate"); // HTTP 1.1
+    response.setHeader("Pragma","no-cache"); // HTTP 1.0
+    response.setDateHeader ("Expires", 0); // Proxies
+%>
+<c:if test="${empty sessionScope.vo}">
+    <c:redirect url="Controller?type=index"/>
+</c:if>
+
 <html id="ajaxArea">
 <head>
     <title>Title</title>
@@ -207,7 +216,7 @@
     <div style="display: inline-block; justify-content: space-between; align-items: center"><p style="margin-left: 10px">${sessionScope.vo.adminId} 관리자님</p></div>
     <div style="display: inline-block; float: right; padding-top: 13px; padding-right: 10px">
         <a href="">SIST</a>
-        <a href="Controller?type=index">로그아웃</a>
+        <a href="Controller?type=adminLogOut">로그아웃</a>
     </div>
 </div>
 

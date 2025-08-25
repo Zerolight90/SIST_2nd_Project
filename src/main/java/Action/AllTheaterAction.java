@@ -30,26 +30,31 @@ public class AllTheaterAction implements Action{
         // 현재 정보가 담겨있는 theater(VO)의 theater_info_board의 정보를 문자열을 일단 뽑음
         String tFacilities = theater.getTibvo().gettFacilities(); // 보유시설
         String tFloorInfo = theater.getTibvo().gettFloorInfo(); // 층별안내
+        String tParkingInfo = theater.getTibvo().gettParkingInfo(); // 주차안내
+        String tParkingChk = theater.getTibvo().gettParkingChk(); // 주차확인
+        String tParkingPrice = theater.getTibvo().gettParkingPrice(); // 주차요금
+        String tBusRouteToTheater = theater.getTibvo().gettBusRouteToTheater(); // 버스
+        String tSubwayRouteToTheater = theater.getTibvo().gettSubwayRouteToTheater(); // 지하철
 
         // 값이 잘 들어오는지 확인
         // System.out.println("보유시설: " + tFacilities);
-        // System.out.println("층별안내: " + tFloorInfo);
+        //System.out.println("층별안내: " + tFloorInfo);
 
         // 이제 들어온 값을 구분자로 구분하여 문자열을 한개씩 만들고 만든 문자열을 배열에 한개씩 저장해서 request로 보낸다
         // ------------------------------------------------------------------------------------------------------------
 
         // 보유시설을 쉼표(,)로 구분하여 배열에 저장
-        String[] facilitiesArray = null;
+        /*String[] facilitiesArray = null;
         if (tFacilities != null && !tFacilities.trim().isEmpty()) {
             facilitiesArray = tFacilities.split(",");
             // 각 요소의 앞뒤 공백 제거
             for (int i = 0; i < facilitiesArray.length; i++) {
                 facilitiesArray[i] = facilitiesArray[i].trim();
             }
-        }
+        }*/
 
         // 층별안내를 개행문자(\n)로 구분하여 배열에 저장
-        String[] floorInfoArray = null;
+        /*String[] floorInfoArray = null;
         if (tFloorInfo != null && !tFloorInfo.trim().isEmpty()) {
             floorInfoArray = tFloorInfo.split("\n");
             // 각 요소의 앞뒤 공백 제거
@@ -57,10 +62,28 @@ public class AllTheaterAction implements Action{
                 floorInfoArray[i] = floorInfoArray[i].trim();
             }
         }
+        */
+        
+        String[] facilitiesArray = splitAndTrim(tFacilities, ",");
+        String[] floorInfoArray = splitAndTrim(tFloorInfo, "\n");
+        String[] tParkingInfoArray = splitAndTrim(tParkingInfo, "\n");
+        String[] tParkingChkArray = splitAndTrim(tParkingChk, "\n");
+        String[] tParkingPriceArray = splitAndTrim(tParkingPrice, "\n");
+        String[] tBusRouteToTheaterArray = splitAndTrim(tBusRouteToTheater, "\n");
+        String[] tSubwayRouteToTheaterArray = splitAndTrim(tSubwayRouteToTheater, "\n");
+
 
         // request에 배열 담아서 JSP로 전송
         request.setAttribute("facilitiesArr", facilitiesArray);
         request.setAttribute("floorInfoArr", floorInfoArray);
+        request.setAttribute("tParkingInfoArr", tParkingInfoArray);
+        request.setAttribute("tParkingChkArr", tParkingChkArray);
+        request.setAttribute("tParkingPriceArr", tParkingPriceArray);
+        request.setAttribute("tBusRouteToTheaterArr", tBusRouteToTheaterArray);
+        request.setAttribute("tSubwayRouteToTheaterArr", tSubwayRouteToTheaterArray);
+
+        //System.out.println("층:::::::::::::"+floorInfoArray);
+        //System.out.println("층:::::::::::::"+tParkingInfoArray);
 
         // 디버깅용 출력 (필요시 주석 해제)
 //if (facilitiesArray != null) {
@@ -118,5 +141,22 @@ public class AllTheaterAction implements Action{
         // ------------------------------------------------------------------------------------------------------------
 
         return "allTheater.jsp";
+    }
+
+    /**
+     * 특정 문자열을 구분자로 분리하고 각 요소의 앞뒤 공백을 제거하여 배열로 반환하는 함수
+     * @param inputString 분리할 원본 문자열
+     * @param delimiter 문자열을 분리할 기준이 되는 구분자
+     * @return 공백이 제거된 문자열 배열 또는 null
+     */
+    private String[] splitAndTrim(String inputString, String delimiter) {
+        if (inputString != null && !inputString.trim().isEmpty()) {
+            String[] array = inputString.split(delimiter);
+            for (int i = 0; i < array.length; i++) {
+                array[i] = array[i].trim();
+            }
+            return array;
+        }
+        return null;
     }
 }

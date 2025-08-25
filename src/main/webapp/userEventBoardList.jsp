@@ -196,11 +196,11 @@
 
                 <div id="tabCont1_1" class="tabCont" style="display:block; margin-bottom: 50px">
 
-                    <div class="inner-wrap" style="outline: 1px solid red;">
+                    <div class="inner-wrap">
 
 
 
-                        <div class="swiper-wrap" style="outline: 1px solid red; height: 375px;">
+                        <div class="swiper-wrap">
                             <p class="name" style="padding-top: 50px">추천 이벤트</p>
                             <div class="swiper mySwiper" style="height: 275px;">
                                 <div class="swiper-wrapper">

@@ -168,9 +168,57 @@ input.success {
     font-weight: bold;
 }
 
-
-@media (max-width:768px) {
-    .member{
-        width: 100%;
-    }
+/* ===================== 이용약관 페이지 ===================== */
+.terms-text {
+    width: 100%;
+    height: 300px;          /* 약간 넓게 해서 가독성 확보 */
+    border: 1px solid #dadada;
+    padding: 15px;
+    font-size: 13px;
+    line-height: 1.6em;
+    resize: none;           /* 크기 조절 불가 */
+    background-color: #fff;
+    overflow-y: auto;       /* 스크롤만 가능 */
+    border-radius: 4px;
 }
+
+.terms-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start; /* 왼쪽 정렬 */
+}
+
+.terms-form label {
+    display: flex;
+    align-items: center;
+    margin: 8px 0;
+    font-size: 14px;
+    cursor: pointer;
+    gap: 5px; /* 체크박스와 텍스트 간 간격 */
+}
+
+.terms-form input[type=checkbox] {
+    transform: scale(1); /* 너무 크면 1로 줄이기 */
+    margin: 0; /* margin 제거 후 gap으로 간격 조정 */
+}
+
+.terms-form button {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background-color: rebeccapurple;
+    color: #fff;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+    margin-top: 15px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.terms-form button:hover {
+    background-color: #6a1b9a;
+}
+
+

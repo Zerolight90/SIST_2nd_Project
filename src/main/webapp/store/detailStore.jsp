@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +10,7 @@
   <link rel="stylesheet" href="../css/reset.css">
   <link rel="stylesheet" href="../css/store.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
-  <link rel="icon" href="../images/favicon.png">
+  <link rel="icon" href="../images/store/favicon.png">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 </head>
@@ -24,11 +26,11 @@
   <div class="storeTop">
     <div class="storeTopBox">
       <div class="location">
-        <span>Home</span>
+        <a href="Controller?type=index">Home</a>
         &nbsp;>&nbsp;
         <a href="Controller?type=store">스토어</a>
         &nbsp;>&nbsp;
-        <a href="Controller?type=detailStore">스토어 상세</a>
+        <a href="">스토어 상세</a>
       </div>
     </div>
   </div>
@@ -43,7 +45,7 @@
     <div style="height: 315px; border-top: 1px solid #999999; border-bottom: 1px solid #999999; display: flex; margin-top: 10px">
       <div style="width: 440px; display: inline-block; border-right: 1px solid #999999">
         <p>
-          <img src="../images/${requestScope.vo.prodImg}" alt="" style="margin-top: 17px; margin-left: 70px"/>
+          <img src="../images/store/${requestScope.vo.prodImg}" alt="" style="margin-top: 17px; margin-left: 70px"/>
         </p>
       </div>
 
@@ -83,7 +85,7 @@
             <button id="plus" type="button">+</button>
           </div>
           <div style="width: 70px; margin-left: 350px; display: flex; font-size: 25px">
-            <p id="totalPrice">${requestScope.vo.prodPrice}</p>
+            <p id="totalPrice"><fmt:formatNumber value="${requestScope.vo.prodPrice}" type="number" pattern="#,###"/></p>
             <span>원</span>
           </div>
         </div>

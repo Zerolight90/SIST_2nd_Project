@@ -369,6 +369,13 @@ body {
     }
 }
 
+.book_btn {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+
 
 /* 푸터 */
 .footer {

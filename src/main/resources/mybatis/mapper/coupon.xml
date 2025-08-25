@@ -28,7 +28,7 @@
         cum.userIdx = #{userIdx}
         AND c.couponStatus = 0
         AND c.couponExpDate > NOW()
-        AND c.couponCategory = '영화'
+        AND c.couponCategory IN ('영화', '신규가입', '생일')
     </select>
 
     <select id="getAvailableStoreCoupons" parameterType="long" resultType="mybatis.vo.MyCouponVO">
@@ -43,7 +43,7 @@
         cum.userIdx = #{userIdx}
         AND c.couponStatus = 0
         AND c.couponExpDate > NOW()
-        AND c.couponCategory = '매점'
+        AND c.couponCategory IN ('영화', '신규가입', '생일')
     </select>
 
     <update id="useCoupon" parameterType="long">
@@ -111,10 +111,18 @@
 
     <select id="getCouponUserIdxByPaymentInfo" parameterType="map" resultType="long">
         SELECT cum.couponUserIdx
-        FROM coupon_user_mapping cum
-        JOIN payment p ON cum.userIdx = p.userIdx AND cum.couponIdx = p.couponIdx
-        WHERE p.paymentIdx = #{paymentIdx} AND cum.userIdx = #{userIdx}
-        LIMIT 1
+        FROM payment p
+        JOIN coupon_user_mapping cum ON p.userIdx = cum.userIdx AND p.couponIdx = cum.couponIdx
+        JOIN coupon c ON cum.couponIdx = c.couponIdx
+        WHERE
+        p.paymentIdx = #{paymentIdx}
+        AND p.userIdx = #{userIdx}
+        AND c.couponStatus = 1 -- 확실히 '사용된' 상태의 쿠폰 중에서만 검색
+        -- 결제 시간과 쿠폰 사용 시간이 10초 이내인 것만 대상으로 함
+        AND ABS(TIMESTAMPDIFF(SECOND, p.paymentDate, c.couponUseDate)) &lt; 10
+        -- 시간 차이가 가장 적은 순서로 정렬
+        ORDER BY ABS(TIMESTAMPDIFF(SECOND, p.paymentDate, c.couponUseDate)) ASC
+        LIMIT 1 -- 가장 정확한(시간 차이가 제일 적은) 1개만 선택
     </select>
 
     <insert id="createNewCoupon" parameterType="mybatis.vo.CouponVO">

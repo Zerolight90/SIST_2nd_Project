@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <title>비회원 예매 확인</title>
-    <link rel="stylesheet" href="<c:url value="/css/nonmenber.css"/>" />
+    <link rel="stylesheet" href="<c:url value="/css/nonmember.css"/>" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <style>
         .error { color: #c00; font-size: 0.95em; margin-top:4px; display:block; }
@@ -15,7 +15,7 @@
 <div id="non_field">
     <img class="logo" src="../images/logo.png" alt="logo">
 
-    <form id="nonForm" action="${pageContext.request.contextPath}/Controller?type=nmember_chk" method="post" novalidate>
+    <form id="nonForm" action="${pageContext.request.contextPath}/Controller?type=nmember_chk" method="post">
         <div class="field">
             <label for="u_name">이름 <small>(*필수사항)</small></label>
             <input id="u_name" name="u_name" type="text" value="${param.u_name}" placeholder="이름을 입력하세요" required />

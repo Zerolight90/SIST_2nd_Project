@@ -186,7 +186,7 @@
           </div>
           <div class="divs2" style="margin-left: 83px">
             <label for="userId">  예매율:</label>
-            <input type="text" id="userId" class="input" value="" readonly>
+            <input type="text" id="userId" class="input" value="${requestScope.movie.bookingRate}" readonly>
           </div>
         </div>
         <div style="display: flex">

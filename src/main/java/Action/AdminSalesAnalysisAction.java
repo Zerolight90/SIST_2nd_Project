@@ -56,7 +56,7 @@ public class AdminSalesAnalysisAction implements Action {
             if ("member".equals(memberType)) {
                 whereClause.append(" AND R.userIdx IS NOT NULL");
             } else if ("nmember".equals(memberType)) {
-                whereClause.append(" AND R.nIdx2 IS NOT NULL");
+                whereClause.append(" AND R.nIdx IS NOT NULL");
             }
         }
         if (theaterGroup != null && !theaterGroup.isEmpty()) {

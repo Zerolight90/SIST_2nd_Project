@@ -14,6 +14,106 @@
   <link rel="icon" href="./images/favicon.png">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+
+  <style>
+    .parking-info .parking-section .icon-box .ico-parking {
+      width: 67px;
+      height: 57px;
+      background-image: url("./images/ico/ico-parking.png");
+    }
+
+    .parking-info .parking-section .icon-box .ico-parking-confirm {
+      width: 70px;
+      height: 63px;
+      background-image: url("./images/ico/ico-confirm.png");
+    }
+
+    .parking-info .parking-section .icon-box .ico-cash {
+      width: 70px;
+      height: 68px;
+      background-image: url("./images/ico/ico-cash.png");
+    }
+
+    .parking-info .transportation-section .icon-box .ico-bus {
+      width: 67px;
+      height: 70px;
+      background-image: url("./images/ico/ico-bus.png");
+    }
+
+    .parking-info .transportation-section .icon-box .ico-metro {
+      width: 70px;
+      height: 68px;
+      background-image: url("./images/ico/ico-metro.png");
+    }
+
+    .public-transportation .transportation-section .icon-box {
+      position: absolute;
+      top: 30px;
+      left: 0;
+      width: 150px;
+      text-align: center;
+    }
+
+    .public-transportation .transportation-section .info {
+      padding-left: 150px;
+    }
+
+    .iconset {
+      overflow: hidden;
+      display: inline-block;
+      margin: -1px 0 0 0;
+      padding: 0;
+      font-size: 0;
+      line-height: 0;
+      vertical-align: middle;
+      background-position: 0 0;
+      background-repeat: no-repeat;
+    }
+
+    .parking-info .parking-section .info {
+      padding-left: 150px;
+    }
+
+    .parking-info .parking-section .icon-box {
+      position: absolute;
+      top: 30px;
+      left: 0;
+      width: 150px;
+      text-align: center;
+    }
+
+    .parking-info .parking-section {
+      min-height: 85px;
+      padding: 30px 0 0 0;
+      position: relative;
+    }
+
+    .dot-list li {
+      list-style: disc;
+    }
+
+
+    .public-transportation {
+      border: 1px solid #d8d9db;
+      border-radius: 10px;
+    }
+
+    .parking-info {
+      border: 1px solid #d8d9db;
+      border-radius: 10px;
+    }
+
+    .public-transportation .transportation-section {
+      position: relative;
+      padding: 30px 0 0 0;
+      min-height: 100px;
+      padding: 30px 0 0 0;
+      position: relative;
+    }
+
+
+
+  </style>
 </head>
 
 <body>
@@ -83,16 +183,25 @@
                         <div class="sisul-img-info">
                           <div>
                             <c:if test="${fn:contains(facility, '일반상영관')}">
-                              <img src="./images/ico-facility-theater.png" alt="일반상영관"/>
+                              <img src="./images/ico/ico-facility-theater.png" alt="일반상영관"/>
                             </c:if>
                             <c:if test="${fn:contains(facility, '장애인석')}">
-                              <img src="./images/ico-facility-theater-seat.png" alt="장애인석"/>
+                              <img src="./images/ico/ico-facility-disabled.png" alt="장애인석"/>
+                            </c:if>
+                            <c:if test="${fn:contains(facility, '부티크')}">
+                              <img src="./images/ico/ico-facility-boutique3.png" alt="부티크"/>
+                            </c:if>
+                            <c:if test="${fn:contains(facility, '스위트룸')}">
+                              <img src="./images/ico/ico-facility-sweet.png" alt="스위트룸"/>
+                            </c:if>
+                            <c:if test="${fn:contains(facility, '컴포트')}">
+                              <img src="./images/ico/ico-facility-comfort.png" alt="컴포트"/>
+                            </c:if>
+                            <c:if test="${fn:contains(facility, '스페셜')}">
+                              <img src="./images/ico/ico-facility-special.png" alt="스페셜"/>
                             </c:if>
                             <c:if test="${fn:contains(facility, '커플석')}">
                               <img src="./images/ico-facility-theater-couple.png" alt="커플석"/>
-                            </c:if>
-                            <c:if test="${fn:contains(facility, '3D관')}">
-                              <img src="./images/ico-facility-mx4d.png" alt="3D"/>
                             </c:if>
                           </div>
                           <div class="tFacilities_text">${facility}</div>
@@ -117,25 +226,116 @@
                   <div class="event-box m70">
                     <h2 class="theater traffic">교통안내</h2>
                   </div>
-                  <h3 class="small-tit m30">지도</h3>
+                  <h3 class="small-tit m30">주소</h3>
                   <p>${theater.tAddress}&nbsp;<button>주소 복사</button></p>
 
                   <%--카카오맵--%>
+                  <h3 class="small-tit m30">지도</h3>
                   <div id="map" style="width:500px; height:400px; border:1px solid purple;">
+                  </div>
+
+                  <%--주차안내--%>
+                  <h3 class="small-tit m50">주차</h3>
+                  <div class="parking-info">
+
+                    <div class="parking-info">
+                      <div class="parking-section">
+                        <div class="icon-box"><i class="iconset ico-parking" title="주차안내">주차안내</i></div>
+
+                        <div class="info">
+                          <p class="parking-tit">주차안내</p>
+
+                          <ul class="dot-list">
+                            <c:forEach var="tParkingInfoArr" items="${requestScope.tParkingInfoArr}">
+                              <li>${tParkingInfoArr}</li>
+                            </c:forEach>
+                          </ul>
+                        </div>
+                      </div>
+
+
+
+                      <div class="parking-section">
+                        <div class="icon-box"><i class="iconset ico-parking-confirm" title="주차확인">주차확인</i></div>
+
+                        <div class="info">
+                          <p class="parking-tit">주차확인</p>
+
+                          <ul class="dot-list">
+
+                            <c:forEach var="tParkingChkArr" items="${requestScope.tParkingChkArr}">
+                              <li>${tParkingChkArr}</li>
+                            </c:forEach>
+
+                          </ul>
+                        </div>
+                      </div>
+
+
+
+                      <div class="parking-section mtb30">
+                        <div class="icon-box"><i class="iconset ico-cash" title="주차요금">주차요금</i></div>
+
+                        <div class="info">
+                          <p class="parking-tit">주차요금</p>
+
+                          <ul class="dot-list">
+                            <c:forEach var="tParkingPriceArr" items="${requestScope.tParkingPriceArr}">
+                              <li>${tParkingPriceArr}</li>
+                            </c:forEach>
+                          </ul>
+                        </div>
+                      </div>
+
+                    </div>
 
                   </div>
-                  <h3 class="small-tit m50">주차</h3>
-                  <div class="parking-info" style="width:1100px; height: 400px; border:1px solid gray; border-radius: 10px;">
-                    ${theater.tibvo.tParkingInfo}
-                  </div>
+
+
+
                   <h3 class="small-tit m50">대중교통</h3>
-                  <div class="parking-info" style="width:1100px; height: 400px; border:1px solid gray; border-radius: 10px;">
-                    ${theater.tibvo.tBusRouteToTheater}
+                  <div class="parking-info" >
+                  <div class="public-transportation">
+
+                    <!-- 버스 정보 -->
+
+                    <div class="transportation-section">
+                      <div class="icon-box"><i class="iconset ico-bus" title="버스">버스</i></div>
+
+                      <div class="info">
+                        <p class="parking-tit">버스</p>
+                        <ul class="dot-list">
+                            <c:forEach var="tBusRouteToTheaterArr" items="${requestScope.tBusRouteToTheaterArr}">
+                              <li>${tBusRouteToTheaterArr}</li>
+                            </c:forEach>
+                        </ul>
+                      </div>
+                    </div>
+
+
+                    <!-- 지하철 정보 -->
+
+                    <div class="transportation-section mtb30">
+                      <div class="icon-box"><i class="iconset ico-metro" title="지하철">지하철</i></div>
+
+                      <div class="info">
+                        <p class="parking-tit">지하철</p>
+                        <ul class="dot-list">
+
+                          <c:forEach var="tSubwayRouteToTheaterArr" items="${requestScope.tSubwayRouteToTheaterArr}">
+                            <li>${tSubwayRouteToTheaterArr}</li>
+                          </c:forEach>
+
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+
                   </div>
                 </div>
 
                 <!--이벤트-->
-
                 <div class="theater-event-info">
                   <div class="event-box m70"></div>
                   <h2 class="theater event">이벤트</h2>
@@ -427,7 +627,7 @@
                         <li><span class="aqua">소방종사자</span>&nbsp;<span>공무원증을 소지하거나 정복을 입은 소방관 본인</span></li>
                       </ul>
                       <br/><br/>
-                      <p class="mtb70">관람 가격 및 시간대 운영은 극장마다 상이할 수 있으며, 상기 가격은 메가박스 **점에 한하여 적용됩니다.</p>
+                      <p class="mtb70">관람 가격 및 시간대 운영은 극장마다 상이할 수 있으며, 상기 가격은 메가박스 ${theater.tName}점에 한하여 적용됩니다.</p>
                     </div>
                   </div>
                 </div>
@@ -444,8 +644,13 @@
   <jsp:include page="/common/Footer.jsp"/>
 </footer>
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7e9af1de8ac409c7ec1e76b2d2022b5e"></script>
+
+<%--카카오 api--%>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7e9af1de8ac409c7ec1e76b2d2022b5e&libraries=services"></script>
+<%--<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7e9af1de8ac409c7ec1e76b2d2022b5e"></script>--%>
 <script>
+
+
   // 1. 모든 탭 버튼(li)과 내용 영역(div)을 가져옵니다.
   const tabs = document.querySelectorAll('.menu li');
   const tabContents = document.querySelectorAll('.tabCont');
@@ -483,74 +688,49 @@
   });
 
 
-  // 카카오 지도
-  // 지금 브렌치는 선영이 작성하고 있는 내용입니다.
-/*
+  //카카오지도_주소로 좌표 변환하여 좌표 찍기
+  var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+          mapOption = {
+            center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+            level: 3 // 지도의 확대 레벨
+          };
 
-  var theaterAddress = "서울특별시 서초구 서초대로77길 3";
+  // 지도를 생성합니다
+  var map = new kakao.maps.Map(mapContainer, mapOption);
 
-  var container = document.getElementById('map');
-  var options = {
-    center: new kakao.maps.LatLng(37.5284455288195, 127.125357402766), //위도, 경도
-    level: 3
-  };
-
-  var map = new kakao.maps.Map(container, options);
-
-  // 주소-좌표 변환 객체를 생성합니다.
+  // 주소-좌표 변환 객체를 생성합니다
   var geocoder = new kakao.maps.services.Geocoder();
 
-  // 주소로 좌표를 검색합니다.
-  geocoder.addressSearch(theaterAddress, function(result, status) {
-    // 정상적으로 검색이 완료되었을 경우
+  //극장의 주소
+  var theaterAddress = '${theater.tAddress}';
+
+  // 주소로 좌표를 검색합니다
+  geocoder.addressSearch(theaterAddress , function(result, status) {
+
+    // 정상적으로 검색이 완료됐으면
     if (status === kakao.maps.services.Status.OK) {
+
       var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
-      // 결과값으로 받은 위치를 마커로 표시합니다.
+      //좌표 확인용
+      //alert(coords);
+
+      // 결과값으로 받은 위치를 마커로 표시합니다
       var marker = new kakao.maps.Marker({
         map: map,
         position: coords
       });
 
-      // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다.
+      // 인포윈도우로 장소에 대한 설명을 표시합니다
+      var infowindow = new kakao.maps.InfoWindow({
+        content: '<div style="width:150px;text-align:center;padding:6px 0;">메가박스 ${theater.tName}</div>'
+      });
+      infowindow.open(map, marker);
+
+      // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
       map.setCenter(coords);
     }
   });
-
-*/
-
-  // 카카오 지도
-  // 지금 브렌치는 선영이 작성하고 있는 내용입니다.
-
-  var container = document.getElementById('map');
-  var options = {
-    center: new kakao.maps.LatLng(37.5284455288195, 127.125357402766), //위도, 경도
-    level: 3
-  };
-
-  var map = new kakao.maps.Map(container, options);
-
-
-  // 버튼을 클릭하면 아래 배열의 좌표들이 모두 보이게 지도 범위를 재설정합니다
-  var points = [
-    new kakao.maps.LatLng(37.5284455288195, 127.125357402766)
-  ];
-
-  // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
-  var bounds = new kakao.maps.LatLngBounds();
-
-  var i, marker;
-  for (i = 0; i < points.length; i++) {
-    // 마커를 생성
-    marker = new kakao.maps.Marker({ position : points[i] });
-    marker.setMap(map); //마커가 지도위에 표시되도록 함
-
-    // LatLngBounds 객체에 좌표를 추가합니다
-    bounds.extend(points[i]);
-  }
-
-
-
 
 
   function collapse(element) {
@@ -589,7 +769,13 @@
     console.log('선택된 날짜:', selectedDate);
     // 필요시 페이지 리로드: location.href = 'Controller?type=allTheater&date=' + selectedDate;
   }
+
+
+
 </script>
+
+
+
 
 </body>
 </html>

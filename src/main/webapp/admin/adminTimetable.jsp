@@ -1,6 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+<%
+  response.setHeader("Cache-Control","no-cache, no-store, must-revalidate"); // HTTP 1.1
+  response.setHeader("Pragma","no-cache"); // HTTP 1.0
+  response.setDateHeader ("Expires", 0); // Proxies
+%>
+<c:if test="${empty sessionScope.vo}">
+  <c:redirect url="Controller?type=index"/>
+</c:if>
+
 <html>
 <head>
   <title>Title</title>
@@ -213,7 +223,7 @@
   <div style="display: inline-block; justify-content: space-between; align-items: center"><p style="margin-left: 10px">${sessionScope.vo.adminId} 관리자님</p></div>
   <div style="display: inline-block; float: right; padding-top: 13px; padding-right: 10px">
     <a href="">SIST</a>
-    <a href="Controller?type=index">로그아웃</a>
+    <a href="Controller?type=adminLogOut">로그아웃</a>
   </div>
 </div>
 
@@ -226,7 +236,6 @@
     <div class="page-title" style="display: flex; justify-content: space-between">
       <h2>상영 시간표 목록</h2>
       <%--<a href="#" class="btn-add" style="height: 20px; margin-top: 35px">상영 시간표 생성</a>--%>
-      <p class="btn-add" style="height: 20px; margin-top: 35px">상영 시간표 생성</p>
     </div>
 
     <!-- 테이블 상단 바 영역 -->
@@ -362,32 +371,8 @@
     });
 
     $('.btn-reset').on('click', function() {
-
       $('.search-form')[0].reset();
       // location.reload(); 또는 전체 목록 출력?
-    });
-  })
-
-  // 상영 시간표 생성 다얄로그 창의 속성 지정
-  $("#adminTimeModal").dialog({
-    autoOpen: false,
-    modal: true,
-    resizable: false,
-    width: 'auto',
-    dialogClass: 'no-titlebar',
-    close: function() {
-      $(this).empty(); // 다음 모달이 열릴 때 혹시 값이 남아있으면 안 되므로 모달이 닫히면 값 비우기
-    }
-  });
-
-  $(".btn-add").on('click', function () {
-    let urlToLoad = "Controller?type=timeTableInsert";
-
-    $("#adminTimeModal").load(urlToLoad, function(response, status, xhr) {
-      if (status == "error") {
-        $(this).html("상영 시간표 생성창을 불러오는 데 실패했습니다.");
-      }
-      $("#adminTimeModal").dialog('open');
     });
   });
 </script>

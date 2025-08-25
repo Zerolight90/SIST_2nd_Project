@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:set var="cp" value="${pageContext.request.contextPath}" />
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<%--<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>--%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mypage.css">
 
 <h2 class="content-title">예매/구매 내역</h2>
@@ -142,19 +142,12 @@
         </div>
     </c:if>
 </div>
-
 <script>
     $(function() {
         const mainContent = $("#mainContent");
         const cp = "${cp}";
 
-        function reloadHistory() {
-            const filterData = $("#historyFilter select").serialize();
-            const currentPage = $(".pagination strong").text() || "1";
-            mainContent.load(cp + "/Controller?type=myReservation&cPage=" + currentPage + "&" + filterData);
-        }
-
-        function requestRefund(paymentKey, orderId) {
+        function requestRefund(paymentKey, orderId, $button, originalText) {
             const isNonMember = ("${not empty sessionScope.nmemvo}" === "true");
             let refundData = {
                 paymentKey: paymentKey,
@@ -174,28 +167,20 @@
                 type: "POST",
                 data: refundData,
                 dataType: "json",
+                // success 핸들러로 모든 성공 로직을 옮김
                 success: function(res) {
                     if (res.isSuccess) {
                         alert("정상적으로 취소되었습니다.");
-                        reloadHistory();
+                        location.reload();
                     } else {
+                        // isSuccess가 false인 경우 (서버에서 처리 중 에러 발생)
                         alert("환불 처리 중 오류가 발생했습니다: " + res.errorMessage);
+                        $button.prop('disabled', false).text(originalText);
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    // TOSS API는 성공 시 응답 본문이 없어 parsererror가 발생할 수 있음
-                    if (textStatus === "parsererror") {
-                        alert("정상적으로 취소되었습니다.");
-                        if (isNonMember) {
-                            // 비회원은 마이페이지 메인으로 이동
-                            location.href = cp + "/Controller?type=myPage";
-                        } else {
-                            // 회원은 현재 탭 리로드
-                            reloadHistory();
-                        }
-                    } else {
-                        alert("서버와 통신하는 데 실패했습니다. 잠시 후 다시 시도해 주세요.");
-                    }
+                    alert("정상적으로 취소되었습니다.");
+                    location.reload();
                 }
             });
         }
@@ -206,7 +191,7 @@
             mainContent.load(cp + "/Controller?type=myReservation&" + filterData);
         });
 
-        // 페이지네이션 링크 클릭 이벤트 (AJAX 로딩을 위해 이벤트 위임 사용)
+        // 페이지네이션 링크 클릭 이벤트
         mainContent.on("click", ".pagination a", function(e) {
             e.preventDefault();
             const targetUrl = $(this).attr("href");
@@ -214,12 +199,18 @@
             mainContent.load(targetUrl + "&" + filterData);
         });
 
-        // 예매/구매취소 버튼 클릭 이벤트 (이벤트 위임 사용)
-        mainContent.on('click', '.mybtn-outline:not(.mybtn-disabled)', function() {
-            const paymentKey = $(this).data('payment-key');
-            const orderId = $(this).data('order-id');
+        // 예매/구매취소 버튼 클릭 이벤트
+        mainContent.on('click', '.mybtn-outline:not(.mybtn-disabled)', function(e) {
+            e.preventDefault();
+            const $clickedButton = $(this);
+            const originalText = $clickedButton.text();
+
+            const paymentKey = $clickedButton.data('payment-key');
+            const orderId = $clickedButton.data('order-id');
+
             if (confirm("정말로 이 내역을 취소하시겠습니까?")) {
-                requestRefund(paymentKey, orderId);
+                $clickedButton.prop('disabled', true).text('취소 중...');
+                requestRefund(paymentKey, orderId, $clickedButton, originalText);
             }
         });
     });

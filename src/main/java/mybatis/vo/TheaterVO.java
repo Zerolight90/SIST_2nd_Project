@@ -131,4 +131,26 @@ public class TheaterVO {
     public void settStatus(String tStatus) {
         this.tStatus = tStatus;
     }
+
+
+    @Override
+    public String toString() {
+        return "TheaterVO{" +
+                "tIdx='" + tIdx + '\'' +
+                ", tName='" + tName + '\'' +
+                ", tRegion='" + tRegion + '\'' +
+                ", tAddress='" + tAddress + '\'' +
+                ", tInfo='" + tInfo + '\'' +
+                ", tScreenCount='" + tScreenCount + '\'' +
+                ", tRegDate='" + tRegDate + '\'' +
+                ", tStatus='" + tStatus + '\'' +
+                ", screenCode='" + screenCode + '\'' +
+                ", tibvo=" + tibvo +
+                ", bvo_list=" + bvo_list +
+                ", codeIdx='" + codeIdx + '\'' +
+                ", sName='" + sName + '\'' +
+                ", sCount='" + sCount + '\'' +
+                ", sStatus='" + sStatus + '\'' +
+                '}';
+    }
 }

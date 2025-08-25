@@ -2,24 +2,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="util.ConfigUtil" %><%-- ConfigUtil 임포트 --%>
+<%-- 페이지 컨텍스트에 클라이언트 키를 설정하여 아래 스크립트에서 사용 --%>
+<c:set var="tossClientKey" value="<%= ConfigUtil.getProperty(\"toss.client.key\") %>" />
 
-<%-- 상품 타입에 따라 공통으로 사용할 변수 설정 --%>
 <c:choose>
   <c:when test="${paymentType == 'paymentMovie'}">
     <c:set var="itemName" value="${reservationInfo.title}" />
     <c:set var="itemPosterUrl" value="${reservationInfo.posterUrl}" />
     <c:set var="itemFinalAmount" value="${reservationInfo.finalAmount}" />
   </c:when>
-  <c:otherwise> <%-- paymentStore --%>
+  <c:otherwise>
     <c:set var="itemName" value="${productInfo.prodName}" />
     <c:set var="itemPosterUrl" value="${pageContext.request.contextPath}/images/store/${productInfo.prodImg}" />
     <c:set var="itemFinalAmount" value="${productInfo.prodPrice}" />
   </c:otherwise>
 </c:choose>
-
-<%--
-  [수정] 문제가 되었던 스크립틀릿(<% ... %>) 블록 전체 삭제.
---%>
 
 <!DOCTYPE html>
 <html>
@@ -28,14 +26,13 @@
   <c:set var="basePath" value="${pageContext.request.contextPath}" />
   <c:set var="full_base_url" value="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}" />
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="https://js.tosspayments.com/v1/payment-widget"></script>
+  <script src="https://js.tosspayments.com/v2/standard"></script>
   <link rel="stylesheet" href="${basePath}/css/reset.css">
   <link rel="stylesheet" href="${basePath}/css/sub/sub_page_style.css">
   <link rel="stylesheet" href="${basePath}/css/payment.css">
   <link rel="icon" href="${basePath}/images/favicon.png">
 </head>
 <body>
-
 <header>
   <jsp:include page="common/sub_menu.jsp"/>
 </header>
@@ -94,6 +91,7 @@
       <div class="info_group">
         <h2>결제수단</h2>
         <div id="payment-widget"></div>
+        <div id="agreement"></div>
       </div>
     </div>
 
@@ -183,7 +181,8 @@
       </div>
       <div class="button_group">
         <button class="pay_button btn_prev" onclick="history.back()">이전</button>
-        <button class="pay_button btn_pay" onclick="requestPayment()">결제</button>
+        <%-- ✅ [수정 1] onclick 속성을 제거하고 id를 추가 --%>
+        <button class="pay_button btn_pay" id="paymentButton">결제</button>
       </div>
     </div>
   </div>
@@ -193,82 +192,114 @@
 </footer>
 
 <script>
-  const isGuest = ${!empty isGuest and isGuest};
-  const paymentType = "${paymentType}";
-  const full_base_url = "${full_base_url}";
-
-  $(document).ready(function() {
-    const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
-    const customerKey = isGuest ? "SIST_GUEST_" + new Date().getTime() : "SIST_USER_${memberInfo.userIdx}";
-    const originalAmount = parseInt('${itemFinalAmount}', 10);
+  $(document).ready(async function() {
+    // --- 1. 기본 정보 설정 ---
+    const isGuest = ${isGuest};
+    const full_base_url = "${full_base_url}";
+    const orderId = "${orderId}";
+    const clientKey = "${tossClientKey}";
+    const originalAmount = parseInt('${itemFinalAmount}', 10) || 0;
     const availablePoints = isGuest ? 0 : parseInt('<c:out value="${memberInfo.totalPoints}" default="0"/>', 10);
 
-    const paymentWidget = PaymentWidget(clientKey, customerKey);
-    const paymentMethods = paymentWidget.renderPaymentMethods("#payment-widget", { value: originalAmount });
+    // --- 2. 결제 위젯 초기화 ---
+    const tossPayments = TossPayments(clientKey);
 
-    function updatePaymentSummary() {
+    // ✅ [수정] isGuest 값에 따라 customerKey를 동적으로 설정합니다.
+    // 비회원은 ANONYMOUS, 회원은 고유 키를 사용합니다.
+    const customerKey = isGuest ? TossPayments.ANONYMOUS : "SIST_USER_${memberInfo.userIdx}";
+
+    const widgets = tossPayments.widgets({
+      customerKey,
+    });
+
+    // --- 3. 결제 금액 설정 및 UI 렌더링 ---
+    // ✅ [수정] 최초 결제 금액을 먼저 설정합니다.
+    await widgets.setAmount({
+      currency: "KRW",
+      value: originalAmount,
+    });
+
+    // ✅ [수정] 결제 UI와 약관을 렌더링합니다.
+    await Promise.all([
+      widgets.renderPaymentMethods({
+        selector: "#payment-widget", // ✅ [수정] HTML에 존재하는 ID로 변경
+        variantKey: "DEFAULT",
+      }),
+      widgets.renderAgreement({
+        selector: "#agreement",
+        variantKey: "AGREEMENT"
+      }),
+    ]);
+
+    // --- 4. 할인 적용 및 금액 업데이트 로직 ---
+    async function updatePaymentSummary() {
       let finalAmount = originalAmount;
       if (!isGuest) {
-        let couponDiscount = parseInt($('#couponSelector').find('option:selected').data('discount'), 10) || 0;
-        let pointDiscount = parseInt($('#pointInput').val()) || 0;
-        let maxPoints = originalAmount - couponDiscount;
-        if(pointDiscount < 0) pointDiscount = 0;
-        if(pointDiscount > maxPoints) pointDiscount = maxPoints;
-        if(pointDiscount > availablePoints) pointDiscount = availablePoints;
-        $('#pointInput').val(pointDiscount);
+        let couponDiscount = parseInt($('#couponSelector').find(':selected').data('discount')) || 0;
+        let pointInput = $('#pointInput');
+        let pRaw = pointInput.length > 0 ? pointInput.val().replace(/[^0-9]/g, '') : '0';
+
+        pointInput.val(pRaw);
+        let pointDiscount = parseInt(pRaw) || 0;
+        let maxPts = originalAmount - couponDiscount;
+        pointDiscount = Math.max(0, Math.min(pointDiscount, maxPts, availablePoints));
+        pointInput.val(pointDiscount);
+
         finalAmount = originalAmount - couponDiscount - pointDiscount;
         $('#couponDiscountText').text("- " + couponDiscount.toLocaleString() + " 원");
         $('#pointDiscountText').text("- " + pointDiscount.toLocaleString() + " 원");
       }
       $('#finalAmountNumber').text(finalAmount.toLocaleString());
-      paymentMethods.updateAmount(finalAmount);
+
+      // ✅ [수정] 최종 계산된 금액으로 위젯의 결제 금액을 업데이트합니다.
+      await widgets.setAmount({
+        currency: "KRW",
+        value: finalAmount,
+      });
     }
 
+    // 할인/포인트 관련 이벤트 핸들러
     if (!isGuest) {
       $('#couponSelector').on('change', updatePaymentSummary);
-      $('#pointInput').on('input', function() {
-        this.value = this.value.replace(/[^0-9]/g, '');
+      $('#pointInput').on('input', updatePaymentSummary);
+      $('#applyPointBtn').on('click', (e) => {
+        e.preventDefault();
         updatePaymentSummary();
       });
-      $('#applyPointBtn').on('click', updatePaymentSummary);
     }
 
-    window.requestPayment = function() {
-      const finalAmountForPayment = parseInt($('#finalAmountNumber').text().replace(/,/g, ''));
-      const orderId = "SIST_" + (paymentType === 'paymentMovie' ? "MOVIE_" : "STORE_") + new Date().getTime();
+    // --- 5. 결제 요청 로직 ---
+    async function requestPayment() {
+      const finalAmountForPayment = parseInt($('#finalAmountNumber').text().replace(/,/g, '')) || 0;
+      // 결제 금액이 0원일 경우 토스 API 호출 없이 바로 성공 처리 페이지로 이동할 수 있으나,
+      // 현재 프로젝트에서는 0원 결제를 허용하지 않는 것으로 가정합니다.
+      if (finalAmountForPayment <= 0) {
+        alert("총 결제 금액이 0원 이하일 경우 결제를 진행할 수 없습니다.");
+        return;
+      }
 
-      // [수정] 스크립틀릿 대신 JSTL/EL을 사용하여 JavaScript 변수 직접 생성
-      const orderName = "${fn:replace(itemName, '"', '\\"')}";
-
+      const orderName = "${fn:replace(itemName, '\"', '\\\"')}";
       const couponUserIdx = isGuest ? 0 : $('#couponSelector').val();
       const usedPoints = isGuest ? 0 : (parseInt($('#pointInput').val()) || 0);
-      const paymentTypeValue = (paymentType === 'paymentMovie' ? 0 : 1);
-      const successUrl = full_base_url + "/Controller?type=paymentConfirm&couponUserIdx=" + couponUserIdx + "&usedPoints=" + usedPoints + "&paymentType=" + paymentTypeValue;
+      const successUrl = full_base_url + "/Controller?type=paymentConfirm&orderId=" + encodeURIComponent(orderId) + "&couponUserIdx=" + couponUserIdx + "&usedPoints=" + usedPoints;
       const failUrl = full_base_url + "/paymentFail.jsp";
 
-      console.log("========== [결제 요청] 서버로 전송할 최종 데이터 ==========");
-      console.log({
-        finalAmountForPayment: finalAmountForPayment,
-        orderId: orderId,
-        orderName: orderName,
-        couponUserIdx: couponUserIdx,
-        usedPoints: usedPoints,
-        paymentTypeValue: paymentTypeValue,
-        successUrl: successUrl
-      });
-      console.log("==========================================================");
-
-      paymentWidget.requestPayment({
-        amount: finalAmountForPayment,
-        orderId: orderId,
-        orderName: orderName,
+      await widgets.requestPayment({
+        orderId,
+        orderName,
         customerName: isGuest ? "${sessionScope.nmemInfoForPayment.name}" : "<c:out value='${memberInfo.name}'/>",
         customerEmail: isGuest ? "" : "<c:out value='${memberInfo.email}'/>",
-        successUrl: successUrl,
-        failUrl: failUrl,
+        successUrl,
+        failUrl,
       });
     }
+
+    // '결제' 버튼 클릭 이벤트
+    $('#paymentButton').on('click', function() {
+      requestPayment();
     });
+  });
 </script>
+
 </body>
 </html>
