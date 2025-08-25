@@ -460,92 +460,92 @@
 
 
 
-    // 4. 휴대폰 번호 변경 폼 토글
-    $changePhoneBtn.on('click', function() {
-      $phoneChangeForm.slideToggle(200, function() { // 속도를 200ms로 조절
-        if ($phoneChangeForm.is(':visible')) {
-          $newPhoneInput.focus(); // 폼이 나타난 후 포커스
-        }
-      });
-    });
-
-    // 5. '변경할 휴대폰 번호' 폼에서 '확인' 버튼 클릭 시 (필드에만 반영, DB 커밋 안 함)
-    $submitNewPhoneBtn.on('click', function() {
-      const newPhoneValue = $newPhoneInput.val().trim();
-
-      if (newPhoneValue === '') {
-        alert('변경할 휴대폰 번호를 입력해주세요.');
-        return;
-      }
-
-      // 현재 메인 필드 값과 새로운 값이 다를 때만 업데이트
-      if (newPhoneValue !== $mainPhoneInput.val().trim()) {
-        $mainPhoneInput.val(newPhoneValue); // 메인 입력 필드 값 갱신
-      }
-
-      $newPhoneInput.val(''); // 변경 폼 입력 필드 초기화
-      $phoneChangeForm.slideUp(200); // 변경 폼 숨기기
-
-      alert('휴대폰 번호가 반영되었습니다. "정보수정" 버튼을 눌러 저장하세요.');
-    });
-
-    // 6. "정보수정" 버튼 클릭 시 (생년월일 및 휴대폰 번호 최종 DB 업데이트)
-      $('#my_btn .mybtn-change').off('click').on('click', function() {
-      let updatePromises = [];
-
-      // 생년월일 업데이트 로직
-      const currentBirthValue = $birthdateInput.val().trim();
-      const sessionBirthValue = '${sessionScope.mvo.birth}'.trim();
-
-      if (!$birthdateInput.prop('disabled') && currentBirthValue !== sessionBirthValue) {
-        let birthPromise = $.ajax({
-          url: '/Controller?type=userinfo',
-          type: 'POST',
-          data: {
-            action: 'updateBirthdate',
-            birth: currentBirthValue
-          },
-          dataType: 'json'
-        }).done(function(response) {
-          if (response.success) {
-            $birthdateInput.prop('disabled', true);
-            $birthdateInput.datepicker("option", "disabled", true);
+      // 4. 휴대폰 번호 변경 폼 토글
+      $changePhoneBtn.on('click', function() {
+        $phoneChangeForm.slideToggle(200, function() { // 속도를 200ms로 조절
+          if ($phoneChangeForm.is(':visible')) {
+            $newPhoneInput.focus(); // 폼이 나타난 후 포커스
           }
-        }).fail(function(xhr, status, error) {
-          console.error("AJAX Error (Birthdate):", status, error);
-          alert('생년월일 업데이트 중 오류가 발생했습니다.');
         });
-        updatePromises.push(birthPromise);
-      }
+      });
 
-      // 휴대폰 번호 업데이트 로직
-      const currentMainPhoneValue = $mainPhoneInput.val().trim();
+      // 5. '변경할 휴대폰 번호' 폼에서 '확인' 버튼 클릭 시 (필드에만 반영, DB 커밋 안 함)
+      $submitNewPhoneBtn.on('click', function() {
+        const newPhoneValue = $newPhoneInput.val().trim();
 
-      if ((!$mainPhoneInput.prop('disabled') && currentMainPhoneValue !== '') ||
-              ($mainPhoneInput.prop('disabled') && currentMainPhoneValue !== initialPhoneValue)) {
+        if (newPhoneValue === '') {
+          alert('변경할 휴대폰 번호를 입력해주세요.');
+          return;
+        }
 
-        if (currentMainPhoneValue !== initialPhoneValue) {
-          let phonePromise = $.ajax({
+        // 현재 메인 필드 값과 새로운 값이 다를 때만 업데이트
+        if (newPhoneValue !== $mainPhoneInput.val().trim()) {
+          $mainPhoneInput.val(newPhoneValue); // 메인 입력 필드 값 갱신
+        }
+
+        $newPhoneInput.val(''); // 변경 폼 입력 필드 초기화
+        $phoneChangeForm.slideUp(200); // 변경 폼 숨기기
+
+        alert('휴대폰 번호가 반영되었습니다. "정보수정" 버튼을 눌러 저장하세요.');
+      });
+
+      // 6. "정보수정" 버튼 클릭 시 (생년월일 및 휴대폰 번호 최종 DB 업데이트)
+      $('#my_btn .mybtn-change').off('click').on('click', function() {
+        let updatePromises = [];
+
+        // 생년월일 업데이트 로직
+        const currentBirthValue = $birthdateInput.val().trim();
+        const sessionBirthValue = '${sessionScope.mvo.birth}'.trim();
+
+        if (!$birthdateInput.prop('disabled') && currentBirthValue !== sessionBirthValue) {
+          let birthPromise = $.ajax({
             url: '/Controller?type=userinfo',
             type: 'POST',
             data: {
-              action: 'updatePhone',
-              phone: currentMainPhoneValue
+              action: 'updateBirthdate',
+              birth: currentBirthValue
             },
             dataType: 'json'
           }).done(function(response) {
             if (response.success) {
-              $mainPhoneInput.prop('disabled', true);
-              $changePhoneBtn.show();
-              initialPhoneValue = currentMainPhoneValue;
+              $birthdateInput.prop('disabled', true);
+              $birthdateInput.datepicker("option", "disabled", true);
             }
           }).fail(function(xhr, status, error) {
-            console.error("AJAX Error (Phone Update):", status, error);
-            alert('휴대폰 번호 업데이트 중 오류가 발생했습니다.');
+            console.error("AJAX Error (Birthdate):", status, error);
+            alert('생년월일 업데이트 중 오류가 발생했습니다.');
           });
-          updatePromises.push(phonePromise);
+          updatePromises.push(birthPromise);
         }
-      }
+
+        // 휴대폰 번호 업데이트 로직
+        const currentMainPhoneValue = $mainPhoneInput.val().trim();
+
+        if ((!$mainPhoneInput.prop('disabled') && currentMainPhoneValue !== '') ||
+                ($mainPhoneInput.prop('disabled') && currentMainPhoneValue !== initialPhoneValue)) {
+
+          if (currentMainPhoneValue !== initialPhoneValue) {
+            let phonePromise = $.ajax({
+              url: '/Controller?type=userinfo',
+              type: 'POST',
+              data: {
+                action: 'updatePhone',
+                phone: currentMainPhoneValue
+              },
+              dataType: 'json'
+            }).done(function(response) {
+              if (response.success) {
+                $mainPhoneInput.prop('disabled', true);
+                $changePhoneBtn.show();
+                initialPhoneValue = currentMainPhoneValue;
+              }
+            }).fail(function(xhr, status, error) {
+              console.error("AJAX Error (Phone Update):", status, error);
+              alert('휴대폰 번호 업데이트 중 오류가 발생했습니다.');
+            });
+            updatePromises.push(phonePromise);
+          }
+        }
 
         if (window.__stagedPwFlag) {
 
