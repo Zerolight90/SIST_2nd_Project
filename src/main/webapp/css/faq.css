@@ -1,0 +1,89 @@
+@charset "UTF-8";
+
+.faq-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 20px auto;
+    border-top: 2px solid gray;
+}
+
+/* FAQ 질문 항목 */
+.faq-item {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* 'Q'와 질문 텍스트를 그룹화 */
+.faq-question-title {
+    display: flex;
+    align-items: center;
+}
+
+.faq-question {
+    display: flex;
+    justify-content: space-between; /* 질문 그룹을 왼쪽에, 꺽쇠를 오른쪽에 배치합니다 */
+    align-items: center; /* 전체 세로 정렬 */
+    padding: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    border-bottom: 1px solid #e0e0e0;
+    transition: background-color 0.3s;
+}
+
+/* 아래쪽 화살표 (기본 상태) */
+.faq-question::after {
+    content: '▼';
+    font-size: 1.2em;
+    color: #6a6a6a;
+}
+
+/* 위쪽 화살표 (질문이 열렸을 때) */
+.faq-question.active::after {
+    content: '▲';
+}
+
+.faq-question:hover {
+    background-color: #f9f9f9;
+}
+
+.faq-question.active {
+    color: #555;
+    background-color: #f0f0f0;
+}
+
+/* Q 아이콘 스타일 */
+.q-icon {
+    font-size: 18px;
+    font-weight: 700;
+    color: #6a6a6a;
+    margin-right: 15px;
+}
+
+/* 답변(A) 부분 */
+.faq-answer {
+    display: none;
+    padding: 20px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #555;
+    background-color: #fcfcfc;
+    border-top: 1px solid #f0f0f0;
+    transition: display 0.4s ease-in-out;
+}
+
+.faq-answer.show {
+    display: block;
+}
+
+/* A 아이콘 스타일 */
+.a-icon {
+    font-size: 18px;
+    font-weight: 700;
+    color: #007bff; /* 파란색 계열 */
+    margin-right: 15px;
+    vertical-align: top;
+}
+
+
+

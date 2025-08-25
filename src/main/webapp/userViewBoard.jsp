@@ -50,54 +50,54 @@
                     <c:set var="prevVo" value="${requestScope.prevVo}"/>
                     <c:set var="nextVo" value="${requestScope.nextVo}"/>
                     <form method="post">
-                    <!-- 3. 공지사항 테이블 -->
-                    <table class="board-table">
-                    <caption>공지사항 상세보기</caption>
-                    <tbody>
-                    <tr>
-                    <th class="w100"><label for="boardTitle">제목</label></th>
-                    <td>
-                    ${vo.boardTitle}
-                    </td>
-                    </tr>
-                    <tr>
-                    <th class="w100">지점명</th>
-                    <td>
-                    ${vo.tvo.tName}
-                    </td>
-                    </tr>
-                    <tr>
-                    <th class="w100"><label for="board_reg_date">게시일</label></th>
-                    <td>
-                    ${vo.boardStartRegDate}
-                    </td>
-                    </tr>
-                    <tr>
-                    <th class="w100">구분</th>
-                    <%--공지/이벤트 구분--%>
-                    <td>
-                    <span>공지</span>
-                    </td>
-                    </tr>
-                    <tr>
-                    <th class="w100"><label for="board_content">내용</label></th>
-                    <td>
-                    ${vo.boardContent}
-                    </td>
-                    </tr>
-                    <c:if test="${vo.file_name ne null and vo.file_name.length() > 4}">
-                        <tr>
-                            <th>첨부파일</th>
-                            <td>
-                                <a href="javascript:down('${vo.file_name}')">
-                                        ${vo.file_name}
-                                </a>
-                            </td>
-                        </tr>
-                    </c:if>
+                        <!-- 3. 공지사항 테이블 -->
+                        <table class="board-table">
+                            <caption>공지사항 상세보기</caption>
+                            <tbody>
+                            <tr>
+                                <th class="w100"><label for="boardTitle">제목</label></th>
+                                <td>
+                                        ${vo.boardTitle}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="w100">지점명</th>
+                                <td>
+                                        ${vo.tvo.tName}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="w100"><label for="board_reg_date">게시일</label></th>
+                                <td>
+                                        ${vo.boardStartRegDate}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="w100">구분</th>
+                                    <%--공지/이벤트 구분--%>
+                                <td>
+                                    <span>공지</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="w100"><label for="board_content">내용</label></th>
+                                <td>
+                                        ${vo.boardContent}
+                                </td>
+                            </tr>
+                            <c:if test="${vo.file_name ne null and vo.file_name.length() > 4}">
+                                <tr>
+                                    <th>첨부파일</th>
+                                    <td>
+                                        <a href="javascript:down('${vo.file_name}')">
+                                                ${vo.file_name}
+                                        </a>
+                                    </td>
+                                </tr>
+                            </c:if>
 
-                    </tbody>
-                    </table>
+                            </tbody>
+                        </table>
 
                     </form>
                 </c:if>
@@ -124,30 +124,30 @@
                             </c:otherwise>
                         </c:choose>
                         <c:choose>
-                        <c:when test="${not empty prevVo}">
-                            <tr>
-                                <td>이전글</td>
-                                <td>
-                                    <a href="Controller?type=userViewBoard&boardIdx=${prevVo.boardIdx}&cPage=${param.cPage}&boardType=${vo.boardType}">
-                                            ${prevVo.boardTitle}
-                                    </a>
-                                </td>
-                            </tr>
-                        </c:when>
+                            <c:when test="${not empty prevVo}">
+                                <tr>
+                                    <td>이전글</td>
+                                    <td>
+                                        <a href="Controller?type=userViewBoard&boardIdx=${prevVo.boardIdx}&cPage=${param.cPage}&boardType=${vo.boardType}">
+                                                ${prevVo.boardTitle}
+                                        </a>
+                                    </td>
+                                </tr>
+                            </c:when>
 
-                        <c:otherwise>
-                            <tr>
-                                <td>이전글</td>
-                                <td>이전글이 없습니다.</td>
-                            </tr>
-                        </c:otherwise>
+                            <c:otherwise>
+                                <tr>
+                                    <td>이전글</td>
+                                    <td>이전글이 없습니다.</td>
+                                </tr>
+                            </c:otherwise>
                         </c:choose>
                         </tbody>
                     </table>
                 </div>
-
-                <button type="button" onclick="goList()" value="목록">목록</button>
-
+                <div class="mtb30 m30" style="text-align: center;">
+                    <button type="button" onclick="goList()" class="list-button" value="목록">목록</button>
+                </div>
             </div>
         </div>
     </div>

@@ -79,8 +79,8 @@
                     <c:when test="${item eq '장애인석'}">
                       <span class="icon ico-disabled"></span>
                     </c:when>
-                    <c:when test="${item eq 'MX4D'}">
-                      <span class="icon ico-mx4d"></span>
+                    <c:when test="${item eq '부티크'}">
+                      <span class="icon ico-boutique"></span>
                     </c:when>
                     <c:when test="${item eq '스위트룸'}">
                       <span class="icon ico-sweet"></span>

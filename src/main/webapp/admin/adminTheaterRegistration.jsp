@@ -93,8 +93,8 @@
                 <label for="disabledSeat" class="icon ico-disabled">장애인석</label>
               </li>
               <li>
-                <input type="checkbox" id="mx4d" name="tFacilities" value="MX4D" <c:if test="${fn:contains(infovo.tFacilities, 'MX4D')}">checked</c:if>>
-                <label for="mx4d" class="icon ico-mx4d">MX4D</label>
+                <input type="checkbox" id="boutique" name="tFacilities" value="부티크" <c:if test="${fn:contains(infovo.tFacilities, '부티크')}">checked</c:if>>
+                <label for="boutique" class="icon ico-boutique">부티크</label>
               </li>
               <li>
                 <input type="checkbox" id="sweetRoom" name="tFacilities" value="스위트룸" <c:if test="${fn:contains(infovo.tFacilities, '스위트룸')}">checked</c:if>>
