@@ -44,9 +44,9 @@ public class PaymentConfirmAction implements Action {
         String paymentKey = request.getParameter("paymentKey");
         String orderId = request.getParameter("orderId");
         String amountStr = request.getParameter("amount");
-
-        System.out.println("✅ 1. paymentConfirm 액션 시작");
-        System.out.println("  - paymentKey: " + paymentKey + ", orderId: " + orderId + ", amount: " + amountStr);
+//
+//        System.out.println("✅ 1. paymentConfirm 액션 시작");
+//        System.out.println("  - paymentKey: " + paymentKey + ", orderId: " + orderId + ", amount: " + amountStr);
 
         try {
             long amount = parseLongSafe(amountStr, -1L);
@@ -54,10 +54,10 @@ public class PaymentConfirmAction implements Action {
             if (paymentKey == null || orderId == null || amount < 0) {
                 throw new IllegalArgumentException("필수 결제 파라미터가 누락되었습니다.");
             }
-
-            System.out.println("✅ 2. 토스 결제 승인 API 호출 시작");
+//
+//            System.out.println("✅ 2. 토스 결제 승인 API 호출 시작");
             JSONObject tossPaymentInfo = confirmTossPayment(paymentKey, orderId, amount);
-            System.out.println("✅ 3. 토스 API 응답 수신: " + tossPaymentInfo.toJSONString());
+//            System.out.println("✅ 3. 토스 API 응답 수신: " + tossPaymentInfo.toJSONString());
 
             String status = (String) tossPaymentInfo.get("status");
             if (!"DONE".equals(status)) {
@@ -68,7 +68,7 @@ public class PaymentConfirmAction implements Action {
             if (sessionAttr == null) {
                 throw new Exception("세션 정보 유실: 결제 시간이 초과되었거나, 올바르지 않은 접근입니다.");
             }
-            System.out.println("  - 세션 정보 확인 완료");
+//            System.out.println("  - 세션 정보 확인 완료");
 
             @SuppressWarnings("unchecked")
             Map<String, Object> paymentContext = (Map<String, Object>) sessionAttr;
@@ -108,10 +108,10 @@ public class PaymentConfirmAction implements Action {
                 cancelTossPayment(paymentKey, "결제 금액 위변조 의심");
                 throw new Exception("결제 금액이 위변조되었습니다. 기대값: " + expectedAmount + ", 실제값: " + amount);
             }
-            System.out.println("  - 서버 측 금액 검증 완료");
+//            System.out.println("  - 서버 측 금액 검증 완료");
 
             ss = FactoryService.getFactory().openSession(false);
-            System.out.println("✅ 4. 데이터베이스 트랜잭션 시작");
+//            System.out.println("✅ 4. 데이터베이스 트랜잭션 시작");
 
             PaymentVO pvo = new PaymentVO();
             String userIdxStr = (mvo != null) ? mvo.getUserIdx() : null;
@@ -136,9 +136,9 @@ public class PaymentConfirmAction implements Action {
                     reservation.setnIdx(nIdx);
                     pvo.setnIdx(nIdx);
                 }
-                System.out.println("  - ReservationDAO.insertReservation 호출 전");
+//                System.out.println("  - ReservationDAO.insertReservation 호출 전");
                 ReservationDAO.insertReservation(reservation, ss);
-                System.out.println("  - ReservationDAO.insertReservation 호출 후");
+//                System.out.println("  - ReservationDAO.insertReservation 호출 후");
                 pvo.setReservIdx(reservation.getReservIdx());
             } else {
                 pvo.setPaymentType(1);
@@ -146,35 +146,35 @@ public class PaymentConfirmAction implements Action {
                 pvo.setProdIdx(product.getProdIdx());
                 if (mvo != null) pvo.setUserIdx(Long.parseLong(userIdxStr));
 
-                System.out.println("  - ProductDAO.updateProductStock 호출 전");
+//                System.out.println("  - ProductDAO.updateProductStock 호출 전");
                 Map<String, Object> params = new HashMap<>();
                 params.put("prodIdx", product.getProdIdx());
                 params.put("quantity", product.getQuantity());
                 int updatedRows = ProductDAO.updateProductStock(params, ss);
-                System.out.println("  - ProductDAO.updateProductStock 호출 후");
+//                System.out.println("  - ProductDAO.updateProductStock 호출 후");
                 if (updatedRows == 0) throw new Exception("상품 재고가 부족합니다.");
             }
 
-            System.out.println("  - PaymentDAO.addPayment 호출 전");
+//            System.out.println("  - PaymentDAO.addPayment 호출 전");
             PaymentDAO.addPayment(pvo, ss);
-            System.out.println("  - PaymentDAO.addPayment 호출 후, 생성된 paymentIdx: " + pvo.getPaymentIdx());
+//            System.out.println("  - PaymentDAO.addPayment 호출 후, 생성된 paymentIdx: " + pvo.getPaymentIdx());
 
             if (mvo != null) {
                 if (couponUserIdx > 0) {
-                    System.out.println("  - CouponDAO.useCoupon 호출 전");
+//                    System.out.println("  - CouponDAO.useCoupon 호출 전");
                     CouponDAO.useCoupon(couponUserIdx, ss);
-                    System.out.println("  - CouponDAO.useCoupon 호출 후");
+//                    System.out.println("  - CouponDAO.useCoupon 호출 후");
                 }
                 if (usedPoints > 0) {
-                    System.out.println("  - PointDAO.usePoints 호출 전");
+//                    System.out.println("  - PointDAO.usePoints 호출 전");
                     PointDAO.usePoints(Long.parseLong(userIdxStr), usedPoints, pvo.getPaymentIdx(), ss);
-                    System.out.println("  - PointDAO.usePoints 호출 후");
+//                    System.out.println("  - PointDAO.usePoints 호출 후");
                 }
             }
 
-            System.out.println("✅ 5. 데이터베이스 commit 시도");
+//            System.out.println("✅ 5. 데이터베이스 commit 시도");
             ss.commit();
-            System.out.println("✅ 6. Commit 성공!");
+//            System.out.println("✅ 6. Commit 성공!");
 
             request.setAttribute("isSuccess", true);
             request.setAttribute("isGuest", (mvo == null));
@@ -189,19 +189,19 @@ public class PaymentConfirmAction implements Action {
             return "paymentConfirm.jsp";
 
         } catch (Exception e) {
-            System.err.println("❌ 오류 발생!: " + e.getMessage());
+//            System.err.println("❌ 오류 발생!: " + e.getMessage());
             e.printStackTrace();
             if (ss != null) {
-                System.err.println("  - 데이터베이스 rollback 실행");
+//                System.err.println("  - 데이터베이스 rollback 실행");
                 ss.rollback();
             }
 
             if (paymentKey != null) {
                 try {
-                    System.err.println("  - 토스 결제 취소 API 호출 시도");
+//                    System.err.println("  - 토스 결제 취소 API 호출 시도");
                     cancelTossPayment(paymentKey, "서버 내부 오류로 인한 자동 취소");
                 } catch (Exception cancelEx) {
-                    System.err.println("  - 토스 결제 취소 중 추가 오류 발생: " + cancelEx.getMessage());
+//                    System.err.println("  - 토스 결제 취소 중 추가 오류 발생: " + cancelEx.getMessage());
                     cancelEx.printStackTrace();
                 }
             }
@@ -215,7 +215,7 @@ public class PaymentConfirmAction implements Action {
             return "paymentConfirm.jsp";
         } finally {
             if (ss != null) {
-                System.out.println("✅ 7. SqlSession 종료");
+//                System.out.println("✅ 7. SqlSession 종료");
                 ss.close();
             }
         }
@@ -276,10 +276,10 @@ public class PaymentConfirmAction implements Action {
             try (InputStream errorStream = connection.getErrorStream();
                  Reader reader = new InputStreamReader(errorStream, StandardCharsets.UTF_8)) {
                 JSONObject errorResponse = (JSONObject) new JSONParser().parse(reader);
-                System.err.println("Toss 결제 취소 실패: " + errorResponse.toJSONString());
+//                System.err.println("Toss 결제 취소 실패: " + errorResponse.toJSONString());
             }
         } else {
-            System.out.println("  - 토스 결제 취소 성공");
+//            System.out.println("  - 토스 결제 취소 성공");
         }
     }
 
