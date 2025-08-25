@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <title>비회원 예매 확인</title>
-    <link rel="stylesheet" href="<c:url value="/css/nonmenber.css"/>" />
+    <link rel="stylesheet" href="<c:url value="/css/nonmember.css"/>" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <style>
         .error { color: #c00; font-size: 0.95em; margin-top:4px; display:block; }

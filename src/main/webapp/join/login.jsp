@@ -70,9 +70,9 @@
 
                 <div class="non_member">
                     <!-- id 중복 방지를 위해 class와 data-* 속성으로 변경 -->
-                    <a href="/join/nonmenber.jsp" class="openModalBtn" data-popup-name="nonmember" data-popup-url="/join/nonmenber.jsp">비회원 예매 하기</a>
+                    <a href="/join/nonmember.jsp" class="openModalBtn" data-popup-name="nonmember" data-popup-url="/join/nonmember.jsp">비회원 예매 하기</a>
                     <span> / </span>
-                    <a href="/join/nonmenber_booking.jsp" class="openModalBtn" data-popup-name="nonmember_booking" data-popup-url="/join/nonmenber_booking.jsp">비회원 예매 확인</a>
+                    <a href="/join/nonmember_booking.jsp" class="openModalBtn" data-popup-name="nonmember_booking" data-popup-url="/join/nonmember_booking.jsp">비회원 예매 확인</a>
                 </div>
 
                 <!-- SNS 로그인 섹션 -->
