@@ -27,7 +27,7 @@
   <div class="storeTop">
     <div class="storeTopBox">
       <div class="location">
-        <span>Home</span>
+        <a href="Controller?type=index">Home</a>
         &nbsp;>&nbsp;
         <a href="Controller?type=store">스토어</a>
       </div>
@@ -118,7 +118,7 @@
       </div>
 
       <div style="margin-top: 50px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
-        <h3>팝콘 / 음료 / 굿즈</h3>
+        <h3 style="font-weight: bold; font-size: 24px; color: #3d008c">팝콘 / 음료 / 굿즈</h3>
 
         <div>
           <a href="" title="더보기" id="goods">더보기 ></a>

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%
     response.setHeader("Cache-Control","no-cache, no-store, must-revalidate"); // HTTP 1.1
@@ -211,8 +212,8 @@
                         <td>
                             <img src="../images/${vo.prodImg}" alt="avatar_poster.jpg" class="product-image">
                         </td>
-                        <td>${vo.prodPrice}</td>
-                        <td>${vo.prodStock}</td>
+                        <td><fmt:formatNumber value="${vo.prodPrice}" type="number" pattern="#,###"/>&nbsp;원</td>
+                        <td>${vo.prodStock}&nbsp;개</td>
                         <td>
                             <c:if test="${vo.prodStatus == 0}">
                                 <%--<select name="status">
@@ -244,7 +245,7 @@
 
                             <form action="Controller?type=productDelete" method="post" style="display:inline;">
                                 <input type="hidden" name="prodIdx" value="${vo.prodIdx}">
-                                <button type="submit" class="btn-edit" style="background-color:#dc3545;">삭제</button>
+                                <button type="submit" class="btn-edit" style="background-color:#f44336;">삭제</button>
                             </form>
                         </td>
                     </tr>

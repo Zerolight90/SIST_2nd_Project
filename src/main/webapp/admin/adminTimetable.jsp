@@ -236,7 +236,6 @@
     <div class="page-title" style="display: flex; justify-content: space-between">
       <h2>상영 시간표 목록</h2>
       <%--<a href="#" class="btn-add" style="height: 20px; margin-top: 35px">상영 시간표 생성</a>--%>
-      <p class="btn-add" style="height: 20px; margin-top: 35px">상영 시간표 생성</p>
     </div>
 
     <!-- 테이블 상단 바 영역 -->
@@ -372,32 +371,8 @@
     });
 
     $('.btn-reset').on('click', function() {
-
       $('.search-form')[0].reset();
       // location.reload(); 또는 전체 목록 출력?
-    });
-  })
-
-  // 상영 시간표 생성 다얄로그 창의 속성 지정
-  $("#adminTimeModal").dialog({
-    autoOpen: false,
-    modal: true,
-    resizable: false,
-    width: 'auto',
-    dialogClass: 'no-titlebar',
-    close: function() {
-      $(this).empty(); // 다음 모달이 열릴 때 혹시 값이 남아있으면 안 되므로 모달이 닫히면 값 비우기
-    }
-  });
-
-  $(".btn-add").on('click', function () {
-    let urlToLoad = "Controller?type=timeTableInsert";
-
-    $("#adminTimeModal").load(urlToLoad, function(response, status, xhr) {
-      if (status == "error") {
-        $(this).html("상영 시간표 생성창을 불러오는 데 실패했습니다.");
-      }
-      $("#adminTimeModal").dialog('open');
     });
   });
 </script>

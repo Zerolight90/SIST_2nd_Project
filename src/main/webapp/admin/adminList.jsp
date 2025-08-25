@@ -197,6 +197,51 @@
       background-color:lightgray;
     }
 
+    .btn-add {
+      background-color: #007bff;
+      color: white;
+      padding: 8px 20px;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      border: none;
+    }
+    .btn-add:hover {
+      background-color: #0056b3;
+    }
+
+    #adminCerModal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      border: 1px solid #ccc;
+      z-index: 1000;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      border-radius: 8px;
+      overflow: hidden;
+      width: 500px;
+    }
+    .btn-edit {
+      background-color: #17a2b8;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 5px;
+      font-size: 13px;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-edit:hover {
+      background-color: #138496;
+    }
+
+    .ui-dialog .ui-dialog-titlebar {
+      display: none;
+    }
   </style>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
@@ -217,8 +262,9 @@
   </div>
   <div class="admin-container">
     <!-- 페이지 타이틀 -->
-    <div class="page-title">
+    <div class="page-title" style="display: flex; justify-content: space-between">
       <h2>관리자 목록</h2>
+      <p class="btn-add" style="height: 20px; margin-top: 35px">관리자 추가</p>
     </div>
 
     <!-- 테이블 상단 바 영역 -->
@@ -257,6 +303,7 @@
         <th>아이디</th>
         <th>등급</th>
         <th>상태</th>
+        <th>관리</th>
       </tr>
       </thead>
       <tbody>
@@ -272,6 +319,16 @@
             <c:if test="${vo.adminstatus == 1}">
               <td><span class="status-badge status-active">활성</span></td>
             </c:if>
+            <td>
+              <button type="button" class="btn-edit"
+                      data-idx="${vo.tIdx}"
+                      data-id="${vo.adminId}"
+                      data-pw="${vo.adminPassword}"
+                      data-level="${vo.adminLevel}"
+                      data-status="${vo.adminstatus}"
+                      onclick="cerModal(this)">수정
+              </button>
+            </td>
           </tr>
         </c:forEach>
         <%--<tr>
@@ -320,6 +377,43 @@
   </div>
 </div>
 
+<div id="adminAdderModal" style="display:none;"></div>
+
+<div id="adminCerModal">
+  <c:set var="vo" value="${requestScope.ar}"/>
+  <div class="modalTitle"><h2>상품 수정</h2></div>
+  <form action="Controller?type=adminInsert" method="post" id="adminInsert">
+    <div class="modalBody">
+      <div class="modalDivs">
+        <label for="adminIdx">영화관 고유번호:</label>
+        <input type="text" id="tIdx" name="tIdx" class="input editable" value="">
+      </div>
+      <div class="modalDivs">
+        <label for="adminId">로그인 ID:</label>
+        <input type="text" id="adminId" name="adminId" class="input editable" value="">
+      </div>
+      <div class="modalDivs">
+        <label for="adminPw">패스워드 PW:</label>
+        <input type="password" id="adminPassword" name="adminPassword" class="input editable" value="">
+      </div>
+      <div class="modalDivs">
+        <label for="adminLevel">관리자 등급:</label>
+        <select id="adminLevel" name="adminLevel" style="margin-top: 4px">
+          <option value="Super">Super</option>
+          <option value="Manager">Manager</option>
+          <option value="Staff">Staff</option>
+        </select>
+      </div>
+    </div>
+  </form>
+
+  <div class="footer">
+    <button type="button" class="btn btnMain">저장</button>
+    <button type="button" class="btn btnSub">취소</button>
+  </div>
+  </form>
+</div>
+
 <script>
   $(".btn-search").on('click', function () {
     let formdata = $(".search-form").serialize();
@@ -343,6 +437,47 @@
     $('.search-form')[0].reset();
     // location.reload(); 또는 전체 목록 출력?
   });
+
+  // 관리자 생성 다얄로그 창의 속성 지정
+  $("#adminAdderModal").dialog({
+    autoOpen: false,
+    modal: true,
+    resizable: false,
+    width: 480,
+    dialogClass: 'no-titlebar',
+    appendTo: ".admin-container",
+    close: function() {
+      $(this).empty(); // 다음 모달이 열릴 때 혹시 값이 남아있으면 안 되므로 모달이 닫히면 값 비우기
+    }
+  });
+
+  $(".btn-add").on('click', function () {
+    let urlToLoad = "Controller?type=adminAdder";
+
+    $("#adminAdderModal").load(urlToLoad, function(response, status, xhr) {
+      if (status == "error") {
+        $(this).html("관리자 생성창을 불러오는 데 실패했습니다.");
+      }
+      $("#adminAdderModal").dialog('open');
+    });
+  });
+
+  function cerModal(str) {
+    let tIdx = $(str).data('idx');
+    let adminId = $(str).data('id');
+    let adminPassword = $(str).data('pw');
+    let adminLevel = $(str).data('level');
+    let adminstatus = $(str).data('status');
+
+    $("#pidx").val(tIdx);
+    $("#adminCerModal").find("#cerImg").val(adminId);
+    $("#adminCerModal").find("#cerPrice").val(adminPassword);
+    $("#adminCerModal").find("#cerStock").val(adminLevel);
+    $("#adminCerModal").find("#cerStatus").val(adminstatus);
+
+    // 4. 데이터가 채워진 모달 창을 보여줍니다.
+    $("#adminCerModal").show();
+  }
 </script>
 
 </body>

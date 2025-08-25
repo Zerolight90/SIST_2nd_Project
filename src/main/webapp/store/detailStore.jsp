@@ -26,7 +26,7 @@
   <div class="storeTop">
     <div class="storeTopBox">
       <div class="location">
-        <span>Home</span>
+        <a href="Controller?type=index">Home</a>
         &nbsp;>&nbsp;
         <a href="Controller?type=store">스토어</a>
         &nbsp;>&nbsp;
