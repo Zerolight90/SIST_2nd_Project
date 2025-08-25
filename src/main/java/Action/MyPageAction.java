@@ -1,5 +1,6 @@
 package Action;
 
+import util.Paging; // Paging 클래스를 다시 import 합니다.
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,32 +40,14 @@ public class MyPageAction implements Action {
                     request.setAttribute("pvo", pvo);
                     // =================================================================
 
-=======
-                    // 샘플 데이터 생성
-                    List<Map<String, String>> sampleList = new ArrayList<>();
-                    for (int i = 0; i < 5; i++) {
-                        Map<String, String> map = new HashMap<>();
-                        map.put("posterPath", "/images/umbokdong.png");
-                        map.put("paymentDate", "2025-02-1" + i + " 14:30:00");
-                        map.put("movieTitle", "샘플 영화 " + (i + 1));
-                        map.put("theaterInfo", "강남 프리미엄관");
-                        map.put("screenDate", "2025-02-2" + i + " 19:00:00");
-                        sampleList.add(map);
-                    }
-                    request.setAttribute("reservationList", sampleList);
-
->>>>>>> Stashed changes
                     viewPath = "./mypage/myPage_reservationHistory.jsp";
                     break;
 
                 case "myCoupon":
                     viewPath = "./mypage/myPage_couponList.jsp";
-<<<<<<< Updated upstream
                     break;
                 case "myPrivateinquiry":
                     viewPath = "./mypage/myPage_privateinquiry.jsp";
-=======
->>>>>>> Stashed changes
                     break;
                 case "myPoint":
                     viewPath = "./mypage/myPage_pointHistory.jsp";

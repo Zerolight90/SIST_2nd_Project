@@ -1,18 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<<<<<<< Updated upstream
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-=======
->>>>>>> Stashed changes
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
   <title>회원정보</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mypage.css">
-<<<<<<< Updated upstream
   <%-- jQuery UI CSS 추가 --%>
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
   <%-- jQuery 라이브러리 추가 --%>
@@ -602,58 +598,5 @@
   });
 </script>
 
-=======
-</head>
-<body>
-  <h2 class="content-title">개인정보 수정</h2>
-  <p>회원님의 정보를 정확히 입력해주세요.</p>
-  <h3 class="content-subtitle" style="margin-top: 30px; font-size: 18px;">기본 정보</h3>
-  <div class="form-layout">
-    <div class="form-group">
-      <span class="form-label">아이디</span>
-      <div class="form-value">
-        <span>zuirune</span>
-      </div>
-    </div>
-    <div class="form-group">
-      <span class="form-label">이름</span>
-      <div class="form-value">김쌍용</div>
-    </div>
-    <div class="form-group">
-      <span class="form-label">휴대폰</span>
-      <div class="form-value">
-        <span>010-1234-5678</span>
-        <button class="btn btn-sm">휴대폰번호 변경</button>
-      </div>
-    </div>
-    <div class="form-group" id="phone-change-form" style="display: none;">
-      <span class="form-label">변경할 휴대폰 번호</span>
-      <div class="form-value">
-        <input type="text" placeholder="'-' 없이 입력">
-        <button class="btn btn-sm btn-primary">변경</button>
-      </div>
-    </div>
-    <div class="form-group">
-      <span class="form-label">이메일</span>
-      <div class="form-value">abc@gmail.com</div>
-    </div>
-    <div class="form-group">
-      <span class="form-label">생년월일</span>
-      <div class="form-value">
-      <span>2002-02-02</span>
-      <button class="btn btn-sm">생년월일 변경</button>
-    </div>
-    </div>
-    <div class="form-group">
-      <span class="form-label">비밀번호</span>
-      <div class="form-value">
-        <span>************</span>
-        <button class="btn btn-sm">비밀번호 변경</button>
-      </div>
-    </div>
-    <button class="btn btn-sm">회원탈퇴</button>
-  </div>
-</div>
->>>>>>> Stashed changes
 </body>
 </html>

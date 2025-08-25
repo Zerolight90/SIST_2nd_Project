@@ -75,7 +75,7 @@ body {
 /* 6. 티켓 정보 및 예매 내역 내부 스타일 */
 .ticket_info .ticket_label p {
     font-size: 13px;
-    color: white;
+    color: #CED4DA;
     margin: 0 0 4px 0;
 }
 
