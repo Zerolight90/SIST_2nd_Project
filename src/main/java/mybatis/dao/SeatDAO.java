@@ -8,12 +8,12 @@ import java.util.List;
 
 public class SeatDAO {
 
-    public static SeatVO[] reserveSeat(String screenIdx){
+    public static SeatVO[] reserveSeat(String timeTableIdx){
         List<SeatVO> list = null;
         SeatVO[] ar = null;
         SqlSession ss = FactoryService.getFactory().openSession();
 
-        list = ss.selectList("seat.reserveSeat", screenIdx);
+        list = ss.selectList("seat.reserveSeat", timeTableIdx);
         ar = new SeatVO[list.size()];
         list.toArray(ar);
         ss.close();

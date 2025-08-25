@@ -163,8 +163,6 @@ public class LoginAction implements Action {
 
                 // 리다이렉트
                 session.setAttribute("mvo", mvo);
-//                System.out.println("Final redirect URL: " + url);
-
                 return "redirect:Controller?type=" + url;
 
             } else {
