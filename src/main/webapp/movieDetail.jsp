@@ -53,7 +53,7 @@
     <div class="movie-poster">
       <img src="${movie.poster}" alt="${movie.name} 포스터">
       <button class="btn">
-        <a href="Controller?type=booking&mIdx=${movie.mIdx}">예매하기</a>
+        <a class="book_btn" href="Controller?type=booking&mIdx=${movie.mIdx}">예매하기</a>
       </button>
     </div>
   </div>

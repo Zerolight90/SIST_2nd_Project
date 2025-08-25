@@ -210,7 +210,7 @@
                         <td class="align-left">${vo.prodName}</td>
                         <td class="align-left">${vo.prodInfo}</td>
                         <td>
-                            <img src="../images/${vo.prodImg}" alt="avatar_poster.jpg" class="product-image">
+                            <img src="../images/store/${vo.prodImg}" alt="avatar_poster.jpg" class="product-image">
                         </td>
                         <td><fmt:formatNumber value="${vo.prodPrice}" type="number" pattern="#,###"/>&nbsp;원</td>
                         <td>${vo.prodStock}&nbsp;개</td>

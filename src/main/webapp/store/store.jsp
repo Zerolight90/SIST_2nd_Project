@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="../css/reset.css">
   <link rel="stylesheet" href="../css/store.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
-  <link rel="icon" href="../images/favicon.png">
+  <link rel="icon" href="../images/store//favicon.png">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 </head>
@@ -75,7 +75,7 @@
           </div>
         </a>
         <p class="img" style="margin-left: 10px">
-          <img src="../images/loveComboPackage.png" alt=""/>
+          <img src="../images/store//loveComboPackage.png" alt=""/>
         </p>
       </div>
 
@@ -94,7 +94,7 @@
             <li style="width: 243px; height: 433px; margin-right: 25px; margin-left: 10px; border: 1px solid #ebebeb; border-radius: 10px">
               <a href="Controller?type=detailStore&prodIdx=${vo.prodIdx}">
                 <div class="prodTop">
-                  <img src="../images/${vo.prodImg}" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
+                  <img src="../images/store//${vo.prodImg}" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
                 </div>
                 <div class="prodBottom">
                   <div style="padding-top: 15px">
@@ -132,7 +132,7 @@
             <li style="width: 240px; height: 433px; margin-right: 25px; margin-left: 10px; margin-bottom: 20px; border: 1px solid #ebebeb; border-radius: 10px">
               <a href="Controller?type=detailStore&prodIdx=${vo.prodIdx}">
                 <div class="prodTop">
-                  <img src="../images/${vo.prodImg}" alt="" style="width: 240px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
+                  <img src="../images/store/${vo.prodImg}" alt="" style="width: 240px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
                 </div>
                 <div class="prodBottom">
                   <div style="padding-top: 15px">
@@ -167,7 +167,7 @@
           <li style="width: 243px; height: 433px; border: 1px solid #ebebeb; border-radius: 10px">
             <a href="">
               <div class="prodTop">
-                <img src="../images/normalTicket.png" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
+                <img src="../images/store//normalTicket.png" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
               </div>
               <div class="prodBottom">
                 <div style="padding-top: 15px">
@@ -198,7 +198,7 @@
             <li style="width: 243px; height: 433px; margin-right: 25px; margin-left: 10px; border: 1px solid #ebebeb; border-radius: 10px">
               <a href="Controller?type=detailStore&prodIdx=${vo.prodIdx}">
                 <div class="prodTop">
-                  <img src="../images/${vo.prodImg}" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
+                  <img src="../images/store/${vo.prodImg}" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
                 </div>
                 <div class="prodBottom">
                   <div style="padding-top: 15px">
@@ -230,7 +230,7 @@
           <li style="width: 240px; height: 433px; margin-right: 25px; margin-left: 10px; margin-bottom: 20px; border: 1px solid #ebebeb; border-radius: 10px">
             <a href="Controller?type=detailStore&prodIdx=${vo.prodIdx}">
               <div class="prodTop">
-                <img src="../images/${vo.prodImg}" alt="" style="width: 240px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
+                <img src="../images/store/${vo.prodImg}" alt="" style="width: 240px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
               </div>
               <div class="prodBottom">
                 <div style="padding-top: 15px">
@@ -259,7 +259,7 @@
           <li style="width: 243px; height: 433px; border: 1px solid #ebebeb; border-radius: 10px">
             <a href="">
               <div class="prodTop">
-                <img src="../images/normalTicket.png" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
+                <img src="../images/store//normalTicket.png" alt="" style="width: 243px; height: 243px; border-radius: 10px; background-color: #ebebeb"/>
               </div>
               <div class="prodBottom">
                 <div style="padding-top: 15px">

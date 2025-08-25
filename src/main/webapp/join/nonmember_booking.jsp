@@ -15,7 +15,7 @@
 <div id="non_field">
     <img class="logo" src="../images/logo.png" alt="logo">
 
-    <form id="nonForm" action="${pageContext.request.contextPath}/Controller?type=nmember_chk" method="post" novalidate>
+    <form id="nonForm" action="${pageContext.request.contextPath}/Controller?type=nmember_chk" method="post">
         <div class="field">
             <label for="u_name">이름 <small>(*필수사항)</small></label>
             <input id="u_name" name="u_name" type="text" value="${param.u_name}" placeholder="이름을 입력하세요" required />

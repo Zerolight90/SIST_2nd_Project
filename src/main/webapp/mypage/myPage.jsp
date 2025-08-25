@@ -27,8 +27,9 @@
 
 <article>
   <c:choose>
-    <%-- 1. 회원(mvo), 카카오(kvo), 비회원(nonvo) 중 하나라도 로그인된 상태인지 확인 --%>
-    <c:when test="${not empty sessionScope.mvo || not empty sessionScope.kvo || not empty sessionScope.nonvo}">
+    <%-- 1. 회원(mvo), 카카오(kvo), 비회원(nmemvo) 중 하나라도 로그인된 상태인지 확인 --%>
+    <c:when test="${not empty sessionScope.mvo || not empty sessionScope.kvo || not empty sessionScope.nmemvo}">
+
       <div class="container">
           <%-- 사이드 메뉴 영역 --%>
         <nav class="side-nav">
@@ -47,7 +48,7 @@
             </c:when>
 
             <%-- 1-2. 비회원일 경우 --%>
-            <c:when test="${not empty sessionScope.nonvo}">
+            <c:when test="${not empty sessionScope.nmemvo}">
               <h2>비회원 예매조회</h2>
               <ul>
                 <li><a href="${cp}/Controller?type=myReservation" class="nav-link active" data-type="myReservation">예매/구매내역</a></li>
@@ -118,8 +119,8 @@
     let initialTabType;
 
     <c:choose>
-    <%-- Case 1: 비회원일 경우 (nonvo 세션 존재) --%>
-    <c:when test="${not empty sessionScope.nonvo}">
+    <%-- Case 1: 비회원일 경우 (nmemvo 세션 존재) --%>
+    <c:when test="${not empty sessionScope.nmemvo}">
     initialTabType = "myReservation";
     firstUrl = cp + "/Controller?type=myReservation";
     </c:when>
