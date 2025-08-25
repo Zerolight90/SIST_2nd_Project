@@ -226,6 +226,23 @@
       overflow: hidden;
       width: 500px;
     }
+    .modalTitle {
+      background-color: #20c997;
+      color: white;
+      padding: 15px 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .modalTitle h2 { margin: 0; }
+    .body { padding: 25px 20px; }
+    .divs { display: flex; align-items: center; margin-bottom: 15px; }
+    .divs label { width: 130px; font-weight: bold; text-align: right; padding-right: 15px; flex-shrink: 0; }
+    .divs .input { width: 100%; height: 36px; padding: 0 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+    .divs .input.editable { background-color: #fff; }
+    .footer { padding: 20px; text-align: center; border-top: 1px solid #eee; background-color: #f8f9fa; }
+    .footer .btn { padding: 10px 30px; border: none; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer; margin: 0 5px; }
+    .footer .btnMain { background-color: #007bff; color: white; }
+    .footer .btnSub { background-color: #6c757d; color: white; }
     .btn-edit {
       background-color: #17a2b8;
       color: white;
@@ -383,20 +400,20 @@
   <c:set var="vo" value="${requestScope.ar}"/>
   <div class="modalTitle"><h2>상품 수정</h2></div>
   <form action="Controller?type=adminInsert" method="post" id="adminInsert">
-    <div class="modalBody">
-      <div class="modalDivs">
+    <div class="body">
+      <div class="divs">
         <label for="adminIdx">영화관 고유번호:</label>
         <input type="text" id="tIdx" name="tIdx" class="input editable" value="">
       </div>
-      <div class="modalDivs">
+      <div class="divs">
         <label for="adminId">로그인 ID:</label>
         <input type="text" id="adminId" name="adminId" class="input editable" value="">
       </div>
-      <div class="modalDivs">
+      <div class="divs">
         <label for="adminPw">패스워드 PW:</label>
         <input type="password" id="adminPassword" name="adminPassword" class="input editable" value="">
       </div>
-      <div class="modalDivs">
+      <div class="divs">
         <label for="adminLevel">관리자 등급:</label>
         <select id="adminLevel" name="adminLevel" style="margin-top: 4px">
           <option value="Super">Super</option>
@@ -469,11 +486,11 @@
     let adminLevel = $(str).data('level');
     let adminstatus = $(str).data('status');
 
-    $("#pidx").val(tIdx);
-    $("#adminCerModal").find("#cerImg").val(adminId);
-    $("#adminCerModal").find("#cerPrice").val(adminPassword);
-    $("#adminCerModal").find("#cerStock").val(adminLevel);
-    $("#adminCerModal").find("#cerStatus").val(adminstatus);
+    $("#tIdx").val(tIdx);
+    $("#adminCerModal").find("#adminId").val(adminId);
+    $("#adminCerModal").find("#adminPassword").val(adminPassword);
+    $("#adminCerModal").find("#adminLevel").val(adminLevel);
+    $("#adminCerModal").find("#adminstatus").val(adminstatus);
 
     // 4. 데이터가 채워진 모달 창을 보여줍니다.
     $("#adminCerModal").show();
