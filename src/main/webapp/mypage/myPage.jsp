@@ -1,9 +1,14 @@
+<<<<<<< Updated upstream
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
+=======
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+>>>>>>> Stashed changes
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="cp" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+<<<<<<< Updated upstream
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,10 +26,24 @@
 <body>
 
 <%-- 공통 헤더 (메뉴) --%>
+=======
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <title>마이페이지</title>
+  <link rel="stylesheet" href="${cp}/css/reset.css">
+  <link rel="stylesheet" href="${cp}/css/sub/sub_page_style.css">
+  <link rel="stylesheet" href="${cp}/css/mypage.css">
+  <link rel="icon" href="${cp}/images/favicon.png">
+</head>
+<body>
+
+>>>>>>> Stashed changes
 <header>
   <jsp:include page="../common/sub_menu.jsp"/>
 </header>
 
+<<<<<<< Updated upstream
 <article>
   <c:choose>
     <%-- 1. 회원(mvo), 카카오(kvo), 비회원(nmemvo) 중 하나라도 로그인된 상태인지 확인 --%>
@@ -86,6 +105,25 @@
       <c:redirect url="/Controller?type=login"/>
     </c:otherwise>
   </c:choose>
+=======
+<%-- 마이페이지 컨텐츠 --%>
+<article>
+  <div class="container">
+    <nav class="side-nav">
+      <h2>마이페이지</h2>
+      <ul>
+        <li><a href="${cp}/Controller?type=myReservation" target="contentFrame" class="nav-link active">예매/구매내역</a></li>
+        <li><a href="${cp}/Controller?type=myCoupon" target="contentFrame" class="nav-link">제휴쿠폰</a></li>
+        <li><a href="${cp}/Controller?type=myPoint" target="contentFrame" class="nav-link">멤버십 포인트</a></li>
+        <li><a href="${cp}/Controller?type=myMovieStory" target="contentFrame" class="nav-link">나의 무비스토리</a></li>
+        <li><a href="${cp}/Controller?type=myUserInfo" target="contentFrame" class="nav-link">회원정보</a></li>
+      </ul>
+    </nav>
+    <main class="main-content">
+      <iframe name="contentFrame" src="${cp}/Controller?type=myReservation" frameborder="0" style="width:100%; height:100%;"></iframe>
+    </main>
+  </div>
+>>>>>>> Stashed changes
 </article>
 
 <%-- 공통 푸터 --%>
@@ -94,6 +132,7 @@
 </footer>
 
 <script>
+<<<<<<< Updated upstream
   $(function() {
     // 다이얼로그 요소 가져오기 (카카오 회원용)
     let $dialog = $("#dialog");
@@ -163,9 +202,22 @@
       e.preventDefault(); // 링크의 기본 동작(페이지 전체 이동) 방지
       const url = $(this).attr('href');
       mainContent.load(url); // mainContent 영역만 Ajax로 새로고침
+=======
+  document.addEventListener('DOMContentLoaded', function() {
+    const navLinks = document.querySelectorAll('.side-nav .nav-link');
+    navLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        navLinks.forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+      });
+>>>>>>> Stashed changes
     });
   });
 </script>
 
 </body>
+<<<<<<< Updated upstream
 </html>
+=======
+</html>
+>>>>>>> Stashed changes

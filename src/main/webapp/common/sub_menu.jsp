@@ -8,7 +8,11 @@
         <div class="inner">
             <!-- 로고 -->
             <h1 class="logo">
+<<<<<<< Updated upstream
                 <a href="<c:url value="Controller"/>" class="logo_link">
+=======
+                <a href="#" class="logo_link">
+>>>>>>> Stashed changes
                     <img src="<c:url value="/images/logo.png"/>" alt="sist" class="logo_img" />
                 </a>
                 <span class="title">S I S T M O V I E P L E X</span>

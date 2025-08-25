@@ -8,7 +8,11 @@
         <div class="inner">
             <!-- 로고 -->
             <h1 class="logo">
+<<<<<<< Updated upstream
                 <a href="<c:url value="Controller"/>" class="logo_link">
+=======
+                <a href="#" class="logo_link">
+>>>>>>> Stashed changes
                     <img src="<c:url value="/images/logo_W.png"/>" alt="sist" class="logo_img" />
                 </a>
                 <span class="title">S I S T M O V I E P L E X</span>
@@ -26,9 +30,15 @@
 
         <c:if test="${empty sessionScope.mvo && empty sessionScope.kvo && empty sessionScope.nvo && empty sessionScope.nmemvo}">
         <ul class="nav-r_top">
+<<<<<<< Updated upstream
             <li><a href="<c:url value="/Controller?type=login"/>" class="login">로그인</a></li>
             <li><a href="<c:url value="/Controller?type=join"/>" class="signup">회원가입</a></li>
             <li><a href="<c:url value="/Controller?type=booking"/>" class="quick-booking">빠른예매</a></li>
+=======
+            <li><a href="<c:url value="/join/login.jsp"/>" class="login">로그인</a></li>
+            <li><a href="<c:url value="/join/join.jsp"/>" class="signup">회원가입</a></li>
+            <li><a href="#" class="quick-booking">빠른예매</a></li>
+>>>>>>> Stashed changes
         </ul>
         </c:if>
 
