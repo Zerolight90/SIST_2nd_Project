@@ -40,13 +40,13 @@
         WHERE reservIdx = #{reservIdx}
     </update>
 
-<!--    하드코딩된 값 제거, #{tIdx}, #{sIdx}, #{timeTableIdx} 등의 파라미터로 교체, 비회원(nIdx2) 추가-->
+<!--    하드코딩된 값 제거, #{tIdx}, #{sIdx}, #{timeTableIdx} 등의 파라미터로 교체, 비회원(nIdx) 추가-->
     <insert id="insertReservation" parameterType="mybatis.vo.ReservationVO"
             useGeneratedKeys="true" keyProperty="reservIdx">
         INSERT INTO reservation (
-        userIdx, nIdx2, tIdx, sIdx, timeTableIdx, priceIdx, reservDate, status
+        userIdx, nIdx, tIdx, sIdx, timeTableIdx, priceIdx, reservDate, status
         ) VALUES (
-        #{userIdx}, #{nIdx2}, #{tIdx}, #{sIdx}, #{timeTableIdx}, #{priceIdx}, NOW(), 1
+        #{userIdx}, #{nIdx}, #{tIdx}, #{sIdx}, #{timeTableIdx}, #{priceIdx}, NOW(), 1
         )
     </insert>
 

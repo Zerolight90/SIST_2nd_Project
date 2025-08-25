@@ -7,7 +7,8 @@
         SELECT s.seatIdx, s.seatNumber FROM seat s
         INNER JOIN seat_status ss
         on s.seatIdx = ss.seatIdx
-        AND sIdx = #{sIdx}
-        AND seatStatus = 1;
+        AND timeTableIdx = #{timeTableIdx}
+        AND seatStatus = 1
+        OR seatStatus = 2
     </select>
 </mapper>

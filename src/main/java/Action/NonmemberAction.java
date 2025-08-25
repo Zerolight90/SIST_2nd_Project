@@ -39,7 +39,7 @@ public class NonmemberAction implements Action {
                 session.setAttribute("nmemvo", inserted); // 예매 시 존재하는지 확인해야하는 녀석
 
 
-                out.print("success"); // nonmenber.jsp의 AJAX success 콜백에서 이 문자열을 받음
+                out.print("success"); // nonmember.jsp의 AJAX success 콜백에서 이 문자열을 받음
             } else {
                 // 실패 시 AJAX 실패 응답 전송
                 out.print("fail");

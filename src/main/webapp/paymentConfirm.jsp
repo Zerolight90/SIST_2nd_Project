@@ -30,7 +30,8 @@
                 <div class="ticket_info">
                   <div class="ticket_label">
                     <p>티켓 예매번호</p>
-                    <p class="ticket_number">${tossResponse.orderId}</p>
+                      <%-- (수정) tossResponse.orderId -> orderId --%>
+                    <p class="ticket_number">${orderId}</p>
                   </div>
                   <img src="${paidItem.posterUrl}" alt="포스터 이미지" class="poster">
                   <p class="poster_title">${paidItem.title}</p>
@@ -43,10 +44,8 @@
                   <tr><td class="label">관람극장/상영관</td><td class="value">${paidItem.theaterName} / ${paidItem.screenName}</td></tr>
                   <tr><td class="label">관람일시</td><td class="value">${fn:substring(paidItem.startTime, 0, 16)}</td></tr>
                   <tr><td class="label">좌석번호</td><td class="value">${paidItem.seatInfo}</td></tr>
-                    <%-- (수정) 상품금액: 최종결제액 + 할인액 + 포인트사용액 으로 계산해서 표시 --%>
-                  <tr><td class="label">상품금액</td><td class="value"><fmt:formatNumber value="${tossResponse.totalAmount + couponDiscount + pointDiscount}" pattern="#,##0" /> 원</td></tr>
+                  <tr><td class="label">상품금액</td><td class="value"><fmt:formatNumber value="${finalAmount + couponDiscount + pointDiscount}" pattern="#,##0" /> 원</td></tr>
 
-                    <%-- (수정) 회원이고, 할인 또는 포인트 사용 내역이 있을 때만 표시 --%>
                   <c:if test="${!isGuest and (couponDiscount > 0 or pointDiscount > 0)}">
                     <c:if test="${couponDiscount > 0}">
                       <tr><td class="label">쿠폰 할인</td><td class="value">- <fmt:formatNumber value="${couponDiscount}" pattern="#,##0" /> 원</td></tr>
@@ -55,8 +54,7 @@
                       <tr><td class="label">포인트 사용</td><td class="value">- <fmt:formatNumber value="${pointDiscount}" pattern="#,##0" /> 원</td></tr>
                     </c:if>
                   </c:if>
-
-                  <tr class="final_amount_row"><td class="label">최종결제금액</td><td class="value"><fmt:formatNumber value="${tossResponse.totalAmount}" pattern="#,##0" /> 원</td></tr>
+                  <tr class="final_amount_row"><td class="label">최종결제금액</td><td class="value"><fmt:formatNumber value="${finalAmount}" pattern="#,##0" /> 원</td></tr>
                 </table>
               </div>
             </div>
@@ -64,13 +62,13 @@
               <c:choose>
                 <c:when test="${isGuest}">
                   <div class="button_container">
-                  <a href="Controller?type=myPage&tab=myreservationHistory" class="btn_history">예매내역 확인</a>
-                </div>
+                    <a href="Controller?type=myPage&tab=myreservationHistory" class="btn_history">예매내역 확인</a>
+                  </div>
                 </c:when>
                 <c:otherwise>
                   <div class="button_container">
-                  <a href="Controller?type=myPage&tab=myreservationHistory" class="btn_history">나의 예매내역</a>
-                </div>
+                    <a href="Controller?type=myPage&tab=myreservationHistory" class="btn_history">나의 예매내역</a>
+                  </div>
                 </c:otherwise>
               </c:choose>
             </div>
@@ -90,12 +88,12 @@
               <div class="booking_details">
                 <h2>상품 구매가 완료되었습니다!</h2>
                 <table class="details_table">
-                  <tr><td class="label">주문번호</td><td class="value">${tossResponse.orderId}</td></tr>
+                    <%-- (수정) tossResponse.orderId -> orderId --%>
+                  <tr><td class="label">주문번호</td><td class="value">${orderId}</td></tr>
 
                     <%-- (수정) 상품금액: 최종결제액 + 할인액 + 포인트사용액 으로 계산해서 표시 --%>
-                  <tr><td class="label">상품금액</td><td class="value"><fmt:formatNumber value="${tossResponse.totalAmount + couponDiscount + pointDiscount}" pattern="#,##0" /> 원</td></tr>
+                  <tr><td class="label">상품금액</td><td class="value"><fmt:formatNumber value="${finalAmount + couponDiscount + pointDiscount}" pattern="#,##0" /> 원</td></tr>
 
-                    <%-- (수정) 회원이고, 할인 또는 포인트 사용 내역이 있을 때만 표시 --%>
                   <c:if test="${!isGuest and (couponDiscount > 0 or pointDiscount > 0)}">
                     <c:if test="${couponDiscount > 0}">
                       <tr><td class="label">쿠폰 할인</td><td class="value">- <fmt:formatNumber value="${couponDiscount}" pattern="#,##0" /> 원</td></tr>
@@ -105,7 +103,8 @@
                     </c:if>
                   </c:if>
 
-                  <tr class="final_amount_row"><td class="label">최종결제금액</td><td class="value"><fmt:formatNumber value="${tossResponse.totalAmount}" pattern="#,##0" /> 원</td></tr>
+                    <%-- (수정) tossResponse.totalAmount -> finalAmount --%>
+                  <tr class="final_amount_row"><td class="label">최종결제금액</td><td class="value"><fmt:formatNumber value="${finalAmount}" pattern="#,##0" /> 원</td></tr>
                 </table>
               </div>
             </div>

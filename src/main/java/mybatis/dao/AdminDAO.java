@@ -46,6 +46,18 @@ public class AdminDAO {
         return ar;
     }
 
+    public static void insertAdmin(Map<String, String> map){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int insert = ss.insert("admin.adminInsert", map);
+        if (insert >= 1){
+            ss.commit();
+        } else {
+            ss.rollback();
+        }
+
+        ss.close();
+    }
+
     // 극장별 총 매출을 조회하는 메소드
     public static List<RevenueVO> getSalesByTheater() {
         SqlSession ss = FactoryService.getFactory().openSession();

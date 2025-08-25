@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <style>
     .userModal {
@@ -23,18 +24,18 @@
         margin: 0;
     }
 
-    .body {
+    .modalBody {
         padding: 25px 20px;
         background-color: #fff;
     }
 
-    .divs {
+    .modalDivs {
         display: flex;
         align-items: center;
         margin-bottom: 15px;
     }
 
-    .divs label {
+    .modalDivs label {
         width: 120px;
         font-weight: bold;
         padding-right: 15px;
@@ -42,7 +43,7 @@
         flex-shrink: 0;
     }
 
-    .divs .input {
+    .modalDivs .input {
         width: 250px;
         height: 36px;
         padding: 0 10px;
@@ -51,7 +52,7 @@
         border-radius: 4px;
     }
 
-    .divs .input.editable {
+    .modalDivs .input.editable {
         background-color: #fff;
     }
 
@@ -88,31 +89,50 @@
         <h2>관리자 추가</h2>
     </div>
 
-    <div class="body">
-        <div class="divs">
-            <label for="userId">관리자 고유번호:</label>
-            <input type="text" id="userId" class="input" value="" readonly>
+    <form action="Controller?type=adminInsert" method="post" id="adminInsert">
+        <div class="modalBody">
+            <div class="modalDivs">
+                <label for="adminIdx">영화관 고유번호:</label>
+                <input type="text" id="tIdx" name="tIdx" class="input editable" value="">
+            </div>
+            <div class="modalDivs">
+                <label for="adminId">로그인 ID:</label>
+                <input type="text" id="adminId" name="adminId" class="input editable" value="">
+            </div>
+            <div class="modalDivs">
+                <label for="adminPw">패스워드 PW:</label>
+                <input type="password" id="adminPassword" name="adminPassword" class="input editable" value="">
+            </div>
+            <div class="modalDivs">
+                <label for="adminLevel">관리자 등급:</label>
+                <select id="adminLevel" name="adminLevel" style="margin-top: 4px">
+                    <option value="Super">Super</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Staff">Staff</option>
+                </select>
+            </div>
         </div>
-        <div class="divs">
-            <label for="userName">로그인 ID:</label>
-            <input type="text" id="userName" class="input editable" value="">
-        </div>
-        <div class="divs">
-            <label for="userLoginId">패스워드 PW:</label>
-            <input type="text" id="userLoginId" class="input" value="" readonly>
-        </div>
-        <div class="divs">
-            <label for="userEmail">관리자 등급:</label>
-            <input type="email" id="userEmail" class="input editable" value="">
-        </div>
-        <div class="divs">
-            <label for="userPhone">관리자 상태:</label>
-            <input type="text" id="userPhone" class="input editable" value="">
-        </div>
-    </div>
+    </form>
 
     <div class="footer">
         <button type="button" class="btn btnMain">저장</button>
         <button type="button" class="btn btnSub">취소</button>
     </div>
 </div>
+
+<script>
+    $(".btnMain").on('click', function () {
+        if ("${sessionScope.vo.adminLevel}" == "Super"){
+            $("#adminInsert").submit();
+        } else {
+            alert("Super 관리자가 아닙니다!")
+        }
+    })
+    /*$(".btnMain").on('click', function () {
+        $("#adminInsert").submit();
+    })*/
+
+    $(".btnSub").on('click', function () {
+        $("#adminAdderModal").dialog('close');
+    })
+</script>

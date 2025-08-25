@@ -85,18 +85,18 @@
                 <div><img src="https://www.megabox.co.kr/static/pc/images/reserve/img-theater-screen.png" alt="스크린 이미지"></div>
             </div>
 
-            <c:set var="alphabet" value="ZABCDEFGHIJKLMNOPQRSTUVWXY"/>
+            <c:set var="alphabet" value="ABCDEFGHIJKLMNOPQRSTUVWXYZ"/>
             <div class="seat-area">
                 <div class="seat-map">
-                    <c:forEach var="rowNum" begin="1" end="${screen.sRow}" varStatus="i">
-                        <c:set var="rowChar" value="${fn:substring(alphabet, i.index, i.index+1)}"/>
-                        <c:forEach var="colNum" begin="1" end="${screen.sColumn}" varStatus="j">
+                    <c:forEach var="rowNum" begin="1" end="${screen.sColumn}" varStatus="i">
+                        <c:set var="rowChar" value="${fn:substring(alphabet, i.index-1, i.index)}"/>
+                        <c:forEach var="colNum" begin="1" end="${screen.sRow}" varStatus="j">
                             <c:set var="seatId" value="${rowChar}${j.count}"/>
                             <button class="seat-item" onclick="selectSeat(this)"
                                     data-seat="${seatId}">
                                     ${seatId}
                             </button>
-                            <c:if test="${j.count == 2 || j.count == 6}">
+                            <c:if test="${j.count == 2 || j.count == 5}">
                                 <div class="blank"></div>
                             </c:if>
                         </c:forEach>

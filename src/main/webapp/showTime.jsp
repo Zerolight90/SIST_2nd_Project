@@ -23,9 +23,10 @@
                     <span class="seat_area">
                         <span class="disBlock">${theaterVO.tName}</span>
                         <span>
+                            ${screenVO.sName}
                             <!-- 예약된 좌석 / 전체좌석 -->
-                            ${fn:length(timevo.r_list)} /
-                            ${screenVO.sCount}
+                            (${fn:length(timevo.r_list)} /
+                            ${screenVO.sCount})
                         </span>
                     </span>
                 </button>

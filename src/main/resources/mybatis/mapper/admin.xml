@@ -50,6 +50,11 @@
         ) c WHERE c.rnum BETWEEN #{begin} AND #{end}
     </select>
 
+    <insert id="adminInsert" parameterType="Map">
+        INSERT INTO admin (tIdx, adminId, adminPassword, adminLevel, adminstatus)
+        VALUE (#{tIdx} , #{adminId}, #{adminPassword}, #{adminLevel}, 1)
+    </insert>
+
     <select id="salesByTheater" resultType="mybatis.vo.RevenueVO">
         SELECT
         t.tName AS theaterName,

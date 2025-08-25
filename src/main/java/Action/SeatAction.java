@@ -20,6 +20,7 @@ public class SeatAction implements Action{
 
         time = TimeTableDAO.getSelect(tvoIdx);
 
+        String timeTableIdx = time.getTimeTableIdx();
         String tIdx = time.gettIdx(); // 영화관 Idx
         String mIdx = time.getmIdx(); // 영화 Idx
         String sIdx = time.getsIdx(); // 상영관 Idx
@@ -36,9 +37,10 @@ public class SeatAction implements Action{
         ScreenTypeVO typeVO = null;
         typeVO = ScreenTypeDAO.getPrice(codeIdx);
 
-        // 예약이 된 좌석들은 화면에서 비활성화 해야한다.
+        // 현재 시간대의 예약이 된 좌석들은 화면에서 비활성화 해야한다.
+        // 현재 time의 Idx를 보내 seat_status에 1, 2 이라면 해당 sIdx를 비활성화
         SeatVO[] seatVO = null;
-        seatVO = SeatDAO.reserveSeat(sIdx);
+        seatVO = SeatDAO.reserveSeat(timeTableIdx);
 
         // 사용자가 선택한 영화를 저장
         request.setAttribute("time", time); // 상영시간 vo

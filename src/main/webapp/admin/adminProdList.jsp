@@ -1,5 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<%
+    response.setHeader("Cache-Control","no-cache, no-store, must-revalidate"); // HTTP 1.1
+    response.setHeader("Pragma","no-cache"); // HTTP 1.0
+    response.setDateHeader ("Expires", 0); // Proxies
+%>
+<c:if test="${empty sessionScope.vo}">
+    <c:redirect url="Controller?type=index"/>
+</c:if>
+
 <html>
 <head>
     <title>관리자 - 상품 목록</title>
@@ -145,7 +156,7 @@
     <div style="display: inline-block; justify-content: space-between; align-items: center"><p style="margin-left: 10px">${sessionScope.vo.adminId} 관리자님</p></div>
     <div style="display: inline-block; float: right; padding-top: 13px; padding-right: 10px">
         <a href="">SIST</a>
-        <a href="Controller?type=index">로그아웃</a>
+        <a href="Controller?type=adminLogOut">로그아웃</a>
     </div>
 </div>
 
@@ -201,8 +212,8 @@
                         <td>
                             <img src="../images/${vo.prodImg}" alt="avatar_poster.jpg" class="product-image">
                         </td>
-                        <td>${vo.prodPrice}</td>
-                        <td>${vo.prodStock}</td>
+                        <td><fmt:formatNumber value="${vo.prodPrice}" type="number" pattern="#,###"/>&nbsp;원</td>
+                        <td>${vo.prodStock}&nbsp;개</td>
                         <td>
                             <c:if test="${vo.prodStatus == 0}">
                                 <%--<select name="status">
@@ -231,6 +242,11 @@
                                     data-status="${vo.prodStatus}"
                                     onclick="cerModal(this)">수정
                             </button>
+
+                            <form action="Controller?type=productDelete" method="post" style="display:inline;">
+                                <input type="hidden" name="prodIdx" value="${vo.prodIdx}">
+                                <button type="submit" class="btn-edit" style="background-color:#f44336;">삭제</button>
+                            </form>
                         </td>
                     </tr>
                 </c:forEach>
