@@ -89,12 +89,12 @@
 
   const ctx = document.getElementById('movieChart');
 
-  /*let labels : [];
-  let data : [];*/
-<%--  <c:forEach var="revenue" items="${revenueList}">--%>
-<%--  labels.push('${revenue.theaterName}'); // 관객 수 TOP 5 영화 이름을 배열에 추가해야함--%>
-<%--  data.push(${revenue.totalSales});       // 관객 수 TOP 5 영화 예매율을 배열에 추가해야함--%>
-<%--  </c:forEach>--%>
+  let labels : [];
+  let data : [];
+  <c:forEach var="revenue" items="${revenueList}">
+  labels.push('${revenue.theaterName}'); // 예매율 TOP 5 영화 이름을 배열에 추가해야함
+  data.push(${revenue.totalSales});       // 예매율 수치를 배열에 추가해야함
+  </c:forEach>
   new Chart(ctx, {
     type: 'pie',
     data: {

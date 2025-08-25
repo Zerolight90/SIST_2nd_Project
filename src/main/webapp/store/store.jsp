@@ -128,7 +128,7 @@
       <div>
         <ul style="display: flex; width: 1100px; flex-wrap: wrap">
 
-          <c:forEach var="vo" items="${requestScope.ar}" varStatus="status" begin="0" end="3">
+          <c:forEach var="vo" items="${requestScope.sar}" varStatus="status" begin="0" end="3">
             <li style="width: 240px; height: 433px; margin-right: 25px; margin-left: 10px; margin-bottom: 20px; border: 1px solid #ebebeb; border-radius: 10px">
               <a href="Controller?type=detailStore&prodIdx=${vo.prodIdx}">
                 <div class="prodTop">
@@ -226,7 +226,7 @@
       <div>
         <ul style="display: flex; flex-wrap: wrap">
 
-          <c:forEach var="vo" items="${requestScope.ar}" varStatus="status">
+          <c:forEach var="vo" items="${requestScope.sar}" varStatus="status">
           <li style="width: 240px; height: 433px; margin-right: 25px; margin-left: 10px; margin-bottom: 20px; border: 1px solid #ebebeb; border-radius: 10px">
             <a href="Controller?type=detailStore&prodIdx=${vo.prodIdx}">
               <div class="prodTop">
