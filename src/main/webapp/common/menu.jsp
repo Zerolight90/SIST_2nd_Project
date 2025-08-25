@@ -27,7 +27,7 @@
         <c:if test="${empty sessionScope.mvo && empty sessionScope.kvo && empty sessionScope.nvo && empty sessionScope.nmemvo}">
         <ul class="nav-r_top">
             <li><a href="<c:url value="/Controller?type=login"/>" class="login">로그인</a></li>
-            <li><a href="<c:url value="/Controller?type=join"/>" class="signup">회원가입</a></li>
+            <li><a href="<c:url value="/Controller?type=terms"/>" class="signup">회원가입</a></li>
             <li><a href="<c:url value="/Controller?type=booking"/>" class="quick-booking">빠른예매</a></li>
         </ul>
         </c:if>

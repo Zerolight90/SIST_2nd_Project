@@ -168,6 +168,64 @@ input.success {
     font-weight: bold;
 }
 
+/* ===================== 이용약관 페이지 ===================== */
+.terms-text {
+    width: 100%;
+    height: 300px;          /* 약간 넓게 해서 가독성 확보 */
+    border: 1px solid #dadada;
+    padding: 15px;
+    font-size: 13px;
+    line-height: 1.6em;
+    resize: none;           /* 크기 조절 불가 */
+    background-color: #fff;
+    overflow-y: auto;       /* 스크롤만 가능 */
+    border-radius: 4px;
+}
+
+.terms-form {
+    margin-top: 20px;
+}
+
+.terms-form label {
+    display: block;
+    margin: 8px 0;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.terms-form input[type=checkbox] {
+    transform: scale(1.2);  /* 체크박스 크기 확대 */
+    margin-right: 8px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.terms-form button {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background-color: rebeccapurple;
+    color: #fff;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+    margin-top: 15px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.terms-form button:hover {
+    background-color: #6a1b9a;
+}
+
+/* 모바일 대응 */
+@media (max-width:768px) {
+    .terms-text {
+        height: 250px;
+    }
+}
+
+
 
 @media (max-width:768px) {
     .member{

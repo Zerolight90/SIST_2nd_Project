@@ -14,6 +14,11 @@ public class JoinAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession();
+        Boolean agreed = (Boolean) session.getAttribute("agreed");
+        if (agreed == null || !agreed) {
+            // 동의하지 않았다면 약관 페이지로 이동
+            return "redirect:Controller?type=terms";
+        }
         String sessionAuthCode = (String) session.getAttribute("emailAuthCode");
         String inputAuthCode = request.getParameter("email_auth_key");
         String sessionEmail = (String) session.getAttribute("emailToVerify");
@@ -94,6 +99,7 @@ public class JoinAction implements Action {
                     session.setAttribute("couponAlert", "'" + issuedCoupon.getCouponName() + "' 쿠폰이 발급되었습니다!");
                 }
             }
+
             // 회원가입 성공 시, 가입 완료 메시지와 사용자 이름을 request 속성에 설정
             request.setAttribute("msg", "회원가입이 완료되었습니다");
             request.setAttribute("param_u_name", name); // 로그인 페이지로 전달할 사용자 이름
