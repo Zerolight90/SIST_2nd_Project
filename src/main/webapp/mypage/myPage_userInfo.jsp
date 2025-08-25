@@ -11,10 +11,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mypage.css">
   <%-- jQuery UI CSS 추가 --%>
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-  <%-- jQuery 라이브러리 추가 --%>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <%-- jQuery UI 라이브러리 추가 --%>
-  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
 
 </head>
 <body>
@@ -161,24 +158,30 @@
 
 </div>
 
+
+<%-- jQuery 라이브러리 추가 --%>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<%-- jQuery UI 라이브러리 추가 --%>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
 <script>
   $(document).ready(function() {
     // 1. 전화번호 입력 필드 관련 변수
-    const $mainPhoneInput = $('#u_phone');
-    const $changePhoneBtn = $('#changePhoneBtn');
-    const $phoneChangeForm = $('#phone-change-form');
-    const $newPhoneInput = $('#new_u_phone');
-    const $submitNewPhoneBtn = $('#submitNewPhoneBtn'); // "확인" 버튼
+    let $mainPhoneInput = $('#u_phone');
+    let $changePhoneBtn = $('#changePhoneBtn');
+    let $phoneChangeForm = $('#phone-change-form');
+    let $newPhoneInput = $('#new_u_phone');
+    let $submitNewPhoneBtn = $('#submitNewPhoneBtn'); // "확인" 버튼
 
     // 생년월일 필드 변수
-    const $birthdateInput = $('#start_reg_date');
+    let $birthdateInput = $('#start_reg_date');
 
     // 비밀번호 변경 폼 변수 (새 비밀번호 입력 필드와 버튼)
-    const $pwChangeForm = $('#pw-change-form');
-    const $currentPasswordInput = $('#current_password_input'); // 현재 비밀번호 필드 추가
-    const $newPasswordInput = $('#new_password');
-    const $newPasswordChkInput = $('#new_password_chk'); // 새 비밀번호 확인 필드 추가
-    const $submitNewPasswordBtn = $('#submitNewPasswordBtn'); // "변경" 버튼
+    let $pwChangeForm = $('#pw-change-form');
+    let $currentPasswordInput = $('#current_password_input'); // 현재 비밀번호 필드 추가
+    let $newPasswordInput = $('#new_password');
+    let $newPasswordChkInput = $('#new_password_chk'); // 새 비밀번호 확인 필드 추가
+    let $submitNewPasswordBtn = $('#submitNewPasswordBtn'); // "변경" 버튼
 
     // 현재 세션에 저장된 전화번호 (최초 로드 시점의 값)
     // JSP에서 초기 disabled 속성을 설정했기 때문에, 이 값은 최초 상태를 확인하는 용도로만 사용됩니다.
@@ -216,12 +219,12 @@
     });
 
     $(document).ready(function() {
-      const $changePwBtn = $('#changePwBtn');
-      const $pwChangeForm = $('#pw-change-form');
-      const $currentPasswordInput = $('#current_password_input');
-      const $newPasswordInput = $('#new_password');
-      const $newPasswordChkInput = $('#new_password_chk');
-      const $submitNewPasswordBtn = $('#submitNewPasswordBtn');
+      let $changePwBtn = $('#changePwBtn');
+      let $pwChangeForm = $('#pw-change-form');
+      let $currentPasswordInput = $('#current_password_input');
+      let $newPasswordInput = $('#new_password');
+      let $newPasswordChkInput = $('#new_password_chk');
+      let $submitNewPasswordBtn = $('#submitNewPasswordBtn');
 
       // 기존 바인딩 제거(중복 바인딩 방지)
       $changePwBtn.off('click');
@@ -242,7 +245,7 @@
         }
 
         // 없으면 생성
-        const id = 'err-' + Math.random().toString(36).substr(2, 9);
+        let id = 'err-' + Math.random().toString(36).substr(2, 9);
         $msg = $('<span class="error-msg" role="alert" aria-live="polite"></span>');
         $msg.attr('id', id).css({ 'display': 'block', 'margin-top': '6px' });
         $msg.insertAfter($input);
@@ -252,7 +255,7 @@
       }
 
       function setMsg($input, text, color) {
-        const $span = getOrCreateMsgSpan($input);
+        let $span = getOrCreateMsgSpan($input);
         $span.text(text || '');
         if (text) $span.css('color', color || 'red');
         else $span.css('color', '').text('');
@@ -272,14 +275,14 @@
       // 변수 선언 (스코프는 문서 준비 내부)
       let pwCheckTimer = null;
       let pwCheckXhr = null;
-      const PW_DEBOUNCE_MS = 400;   // 디바운스 시간(밀리초)
-      const PW_MIN_LEN = 2;         // 최소 체크 길이(필요에 따라 조정)
+      let PW_DEBOUNCE_MS = 400;   // 디바운스 시간(밀리초)
+      let PW_MIN_LEN = 2;         // 최소 체크 길이(필요에 따라 조정)
 
 // input 이벤트 사용 (keyup 대신 input 권장)
       $('#current_password_input').on('input', function() {
-        const $this = $(this);
-        const u_pw = $this.val().trim();
-        const $pwConfirmCheckMsg = $("#pw_confirm_check_msg");
+        let $this = $(this);
+        let u_pw = $this.val().trim();
+        let $pwConfirmCheckMsg = $("#pw_confirm_check_msg");
 
         // 빈값이면 메시지 초기화 후 타이머/요청 취소
         if (u_pw.length === 0) {
@@ -334,11 +337,11 @@
 
 
       // 비밀번호 유효성: 영문자, 숫자, 특수문자 포함 8~16자
-      const pwCheckRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/;
+      let pwCheckRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/;
 
       // 새 비밀번호 실시간 검사
       $newPasswordInput.on('keyup', function() {
-        const val = $(this).val();
+        let val = $(this).val();
         $(this).removeClass('error');
 
         if (!val) {
@@ -364,8 +367,8 @@
 
       // 일치 검사 함수 (확인란 바로 아래에 메시지 표시)
       function checkNewPasswordMatch() {
-        const newPw = $newPasswordInput.val();
-        const newPwChk = $newPasswordChkInput.val();
+        let newPw = $newPasswordInput.val();
+        let newPwChk = $newPasswordChkInput.val();
 
         if (!newPwChk) {
           setMsg($newPasswordChkInput, '', '');
@@ -390,9 +393,9 @@
       $submitNewPasswordBtn.on('click', function(e) {
         e.preventDefault();
 
-        const currentPassword = $currentPasswordInput.val().trim();
-        const newPassword = $newPasswordInput.val().trim();
-        const newPasswordChk = $newPasswordChkInput.val().trim();
+        let currentPassword = $currentPasswordInput.val().trim();
+        let newPassword = $newPasswordInput.val().trim();
+        let newPasswordChk = $newPasswordChkInput.val().trim();
 
         // 클라이언트 검증 및 에러 메시지 표시
         if (currentPassword === '') {
@@ -426,7 +429,7 @@
           if ($msg.length) return $msg;
 
           // 없으면 input 바로 뒤에 block span 생성
-          const id = 'err-' + Math.random().toString(36).substr(2, 9);
+          let id = 'err-' + Math.random().toString(36).substr(2, 9);
           $msg = $('<span class="error-msg" role="alert" aria-live="polite"></span>')
                   .attr('id', id)
                   .css({ display: 'block', 'margin-top': '6px' });
@@ -471,7 +474,7 @@
 
     // 5. '변경할 휴대폰 번호' 폼에서 '확인' 버튼 클릭 시 (필드에만 반영, DB 커밋 안 함)
     $submitNewPhoneBtn.on('click', function() {
-      const newPhoneValue = $newPhoneInput.val().trim();
+      let newPhoneValue = $newPhoneInput.val().trim();
 
       if (newPhoneValue === '') {
         alert('변경할 휴대폰 번호를 입력해주세요.');
@@ -494,8 +497,8 @@
       let updatePromises = [];
 
       // 생년월일 업데이트 로직
-      const currentBirthValue = $birthdateInput.val().trim();
-      const sessionBirthValue = '${sessionScope.mvo.birth}'.trim();
+      let currentBirthValue = $birthdateInput.val().trim();
+      let sessionBirthValue = '${sessionScope.mvo.birth}'.trim();
 
       if (!$birthdateInput.prop('disabled') && currentBirthValue !== sessionBirthValue) {
         let birthPromise = $.ajax({
@@ -519,7 +522,7 @@
       }
 
       // 휴대폰 번호 업데이트 로직
-      const currentMainPhoneValue = $mainPhoneInput.val().trim();
+      let currentMainPhoneValue = $mainPhoneInput.val().trim();
 
       if ((!$mainPhoneInput.prop('disabled') && currentMainPhoneValue !== '') ||
               ($mainPhoneInput.prop('disabled') && currentMainPhoneValue !== initialPhoneValue)) {
@@ -549,7 +552,7 @@
 
         if (window.__stagedPwFlag) {
 
-          const commitPwPromise = $.ajax({
+          let commitPwPromise = $.ajax({
 
             url: '/Controller?type=userinfo',
             type: 'POST',

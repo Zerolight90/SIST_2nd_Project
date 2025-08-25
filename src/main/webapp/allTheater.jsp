@@ -644,6 +644,8 @@
   <jsp:include page="/common/Footer.jsp"/>
 </footer>
 
+
+<%--카카오 api--%>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7e9af1de8ac409c7ec1e76b2d2022b5e&libraries=services"></script>
 <%--<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7e9af1de8ac409c7ec1e76b2d2022b5e"></script>--%>
 <script>
