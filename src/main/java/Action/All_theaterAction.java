@@ -1,10 +1,14 @@
 package Action;
 
 import mybatis.dao.TheatherDAO;
+import mybatis.dao.UserBoardDAO;
+import mybatis.vo.AdminBoardVO;
+import mybatis.vo.MemberVO;
 import mybatis.vo.TheaterVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class All_theaterAction implements Action{
     @Override
@@ -19,6 +23,17 @@ public class All_theaterAction implements Action{
         // 이 Action 에서는 극장 테이블의 정보를 가져와 모든 극장들을 보여줘야한다.
         tvo = TheatherDAO.getList();
         request.setAttribute("tvo", tvo); // 모든 정보를 갖고있는 TheaterVO[]
+
+        //로그인 정보
+        HttpSession session = request.getSession();
+        MemberVO mvo = (MemberVO) session.getAttribute("mvo");
+
+        request.setAttribute("memberInfo", mvo);
+        
+        //공지사항 정보
+        AdminBoardVO[] boardVO = UserBoardDAO.getList("adminBoardList", 1, 5, null, null);
+        request.setAttribute("boardVO", boardVO);
+
 
         return "all_theater.jsp";
     }

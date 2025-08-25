@@ -20,7 +20,7 @@
         <ul class="nav-l_top">
             <li><a href="#" class="vip-lounge">VIP LOUNGE</a></li>
             <li><a href="#" class="membership">멤버십</a></li>
-            <li><a href="#" class="customer-center">고객센터</a></li>
+            <li><a href="Controller?type=userFaqList" class="customer-center">고객센터</a></li>
         </ul>
 
         <c:if test="${empty sessionScope.mvo && empty sessionScope.kvo && empty sessionScope.nvo && empty sessionScope.nmemvo}">

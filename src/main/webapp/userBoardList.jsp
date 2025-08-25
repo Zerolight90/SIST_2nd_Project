@@ -104,6 +104,7 @@
 
                 <div id="tabCont1_1" class="tabCont" style="display:block; margin-bottom: 50px">
                     <%--필터영역--%>
+                    <%--
                     <div class="board-list-util">
                         <div class="result-count"><strong>전체 <em class="font-gblue">${totalCount}</em>건</strong></div>
 
@@ -140,7 +141,7 @@
                             <button type="button" id="searchBtnAll" class="btn-search-input">검색</button>
                         </div>
                     </div>
-
+--%>
                     <!-- 공지사항 테이블 -->
                     <div class="notice-board-wrapper">
                         <table class="notice-board">
@@ -212,6 +213,7 @@
 
                 <div id="tabCont1_2" class="tabCont" style="display:none; margin-bottom: 50px">
                     <%--필터영역--%>
+                    <%--
                     <div class="board-list-util">
                         <div class="result-count"><strong>전체 <em class="font-gblue">${totalCount}</em>건</strong></div>
 
@@ -220,7 +222,7 @@
                             <button type="button" id="searchBtnMega" class="btn-search-input">검색</button>
                         </div>
                     </div>
-
+--%>
                     <!-- 공지사항 테이블 -->
                     <div class="notice-board-wrapper">
                         <table class="notice-board">
@@ -290,6 +292,7 @@
 
                 <div id="tabCont1_3" class="tabCont" style="display:none; margin-bottom: 50px">
                     <%--필터영역--%>
+                    <%--
                     <div class="board-list-util">
                         <div class="result-count"><strong>전체 <em class="font-gblue">${totalCount}</em>건</strong></div>
 
@@ -326,7 +329,7 @@
                             <button type="button" id="searchBtnBranch" class="btn-search-input">검색</button>
                         </div>
                     </div>
-
+--%>
                     <!-- 공지사항 테이블 -->
                     <div class="notice-board-wrapper">
                         <table class="notice-board">

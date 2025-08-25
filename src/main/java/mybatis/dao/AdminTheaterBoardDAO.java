@@ -73,7 +73,7 @@ public class AdminTheaterBoardDAO {
             // MyBatis의 useGeneratedKeys 속성으로 tvo.getTIdx()에 값이 자동으로 담김
             infovo.settIdx(tvo.gettIdx());
 
-            // theater_info_board 테이블에 INSERT
+            // theater_info_board 테이블에 Update
             cnt = ss.update("adminTheaterBoard.editTheaterInfo", infovo);
 
             // 두 쿼리가 모두 성공적으로 실행된 경우에만 최종 커밋

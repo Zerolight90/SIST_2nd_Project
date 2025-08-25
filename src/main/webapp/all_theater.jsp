@@ -85,7 +85,7 @@
                                         <c:otherwise>
                                             <%--로그인 후--%>
                                             <div class="theater-footer">
-                                                <div class="my-theater">***님의 선호극장</div>
+                                                <div class="my-theater">${memberInfo.name}님의 선호극장</div>
                                                 <div class="btn_area">
                                                     <button class="favorite-theater">선호극장 관리</button>
                                                 </div>
@@ -103,7 +103,7 @@
                     <!--극장 이벤트 영역-->
                     <div class="event-box m70 m15">
                         <h1 class="theater event-title">극장 이벤트</h1>
-                        <span class="more event"><a href="#">더보기 ></a></span>
+                        <span class="more event"><a href="Controller?type=userEventBoardList">더보기 ></a></span>
                     </div>
 
                     <div id="event_img" style="display:flex;">
@@ -126,9 +126,9 @@
                     <!--극장 이벤트 영역 끝-->
 
                     <!--극장 공지사항-->
-                    <div class="allTheater-notice-info event-box">
+                    <div class="allTheater-notice-info event-box m70">
                         <h1 class="theater notice-title">극장 공지사항</h1>
-                        <span class="more notice"><a href="#">더보기 ></a></span>
+                        <span class="more notice"><a href="Controller?type=userBoardList">더보기 ></a></span>
                     </div>
 
                     <div class="notice-board-wrapper">
@@ -142,36 +142,21 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>인천학익(시티오씨엘)</td>
-                                <td><a href="#">[인천학익] 메가 원데이 패스 행사 일정 변경 안내</a></td>
-                                <td>인천</td>
-                                <td>2025.07.28</td>
-                            </tr>
-                            <tr>
-                                <td>강남</td>
-                                <td><a href="#">[강남] 전관 대관 행사 진행에 따른 고객 안내(7/26)</a></td>
-                                <td>서울</td>
-                                <td>2025.07.21</td>
-                            </tr>
-                            <tr>
-                                <td>코엑스</td>
-                                <td><a href="#">[코엑스]시사회 진행에 따른 고객 안내 (7/20)</a></td>
-                                <td>인천</td>
-                                <td>2025.07.28</td>
-                            </tr>
-                            <tr>
-                                <td>안성스타필드</td>
-                                <td><a href="#">[안성스타필드]단체관람 행사로 인한 고객 안내 (7월 18일)</a></td>
-                                <td>경기</td>
-                                <td>2025.07.15</td>
-                            </tr>
-                            <tr>
-                                <td>상암월드컵경기장</td>
-                                <td><a href="#">[상암월드컵경기장지점] '2025 K리그' 7월 정규리그 일정 및 국대 경기 진행으로 인한 주차 안내</a></td>
-                                <td>서울</td>
-                                <td>2025.07.04</td>
-                            </tr>
+                            <c:if test="${empty boardVO}">
+                                <p>등록된 공지사항이 없습니다.</p>
+                            </c:if>
+                            <c:if test="${not empty boardVO}">
+                                <c:forEach var="notice" items="${boardVO}">
+                                <tr>
+                                    <td>${notice.tvo.tName}</td>
+                                    <td><a href="Controller?type=userViewBoard&boardIdx=${notice.boardIdx}">
+                                            ${notice.boardTitle}
+                                    </a></td>
+                                    <td>${notice.tvo.tRegion}</td>
+                                    <td>${notice.boardRegDate}</td>
+                                </tr>
+                                </c:forEach>
+                            </c:if>
                             </tbody>
                         </table>
                     </div>

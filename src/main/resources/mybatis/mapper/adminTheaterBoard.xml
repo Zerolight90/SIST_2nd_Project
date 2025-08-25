@@ -63,7 +63,7 @@
     </select>
 
     <!--극장 수정-->
-    <update id="editTheater" parameterType="mybatis.vo.TheaterVO"  useGeneratedKeys="true" keyProperty="tIdx">
+    <update id="editTheater" parameterType="mybatis.vo.TheaterVO">
         UPDATE theater
         <trim prefix="SET" suffixOverrides=",">
             <!--없으면 실행되지 않음-->
@@ -72,7 +72,6 @@
             tAddress = #{tAddress},
             tInfo = #{tInfo},
             tScreenCount = #{tScreenCount},
-            tStatus = #{tStatus},
         </trim>
         WHERE tIdx = #{tIdx, jdbcType=BIGINT}
     </update>
@@ -89,7 +88,6 @@
             tParkingPrice = #{tParkingPrice},
             tBusRouteToTheater = #{tBusRouteToTheater},
             tSubwayRouteToTheater = #{tSubwayRouteToTheater},
-            )
         </trim>
         WHERE tIdx = #{tIdx, jdbcType=BIGINT}
     </update>

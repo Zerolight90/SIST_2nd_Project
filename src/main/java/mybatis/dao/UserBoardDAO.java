@@ -134,9 +134,11 @@ public class UserBoardDAO {
     public static AdminBoardVO getPrevPost(String boardIdx, String boardType) {
         // MyBatis Mapper를 호출하여 이전 글 정보를 가져오는 로직
 
+        String bt = bungiCata(boardType);
+
         Map<String, String> map = new HashMap<>();
         map.put("boardIdx", boardIdx);
-        map.put("boardType", boardType);
+        map.put("boardType", bt);
 
         SqlSession ss = FactoryService.getFactory().openSession();
         AdminBoardVO prevVO = ss.selectOne("userBoard.getPrevPost", map);
@@ -148,9 +150,10 @@ public class UserBoardDAO {
 
     public static AdminBoardVO getNextPost(String boardIdx, String boardType) {
 
+        String bt = bungiCata(boardType);
         Map<String, String> map = new HashMap<>();
         map.put("boardIdx", boardIdx);
-        map.put("boardType", boardType);
+        map.put("boardType", bt);
 
         // MyBatis Mapper를 호출하여 다음 글 정보를 가져오는 로직
         SqlSession ss = FactoryService.getFactory().openSession();
