@@ -283,17 +283,29 @@
         let initTabs = () => {
           let tabs = document.querySelectorAll('.menu li');
           let tabContents = document.querySelectorAll('.tabCont');
-
           if (!tabs.length || !tabContents.length) return;
 
-          let minLen = Math.min(tabs.length, tabContents.length);
-          // 초기화
+          let activeTabIndex = 0;
+
+          // 세션스토리지 값 확인
+          if (sessionStorage.getItem("openReviewTab") === "true") {
+            activeTabIndex = 1; // 실관람평 탭 열기
+            sessionStorage.removeItem("openReviewTab"); // 한번만 실행
+
+            // DOM이 다 그려진 뒤 스크롤 이동 (약간 지연)
+            setTimeout(() => {
+              window.scrollTo({ top: 662, behavior: 'smooth' });
+            }, 200);
+          }
+
+          // 초기 표시
           tabs.forEach(t => t.classList.remove('selected'));
           tabContents.forEach(c => c.style.display = 'none');
-          tabs[0].classList.add('selected');
-          tabContents[0].style.display = 'block';
+          tabs[activeTabIndex].classList.add('selected');
+          tabContents[activeTabIndex].style.display = 'block';
 
-          for (let i = 0; i < minLen; i++) {
+          // 클릭 이벤트
+          for (let i = 0; i < Math.min(tabs.length, tabContents.length); i++) {
             tabs[i].addEventListener('click', function(e) {
               e.preventDefault();
               tabs.forEach(t => t.classList.remove('selected'));
@@ -304,16 +316,17 @@
           }
         };
 
-        
         // ---------------- 리뷰 ----------------
+
         let initReviews = () => {
+
           let $reviewForm = $('#reviewForm');
           let $stars = $('#starRating .star');
           let $ratingInput = $('#rating');
           let $reviewText = $('#reviewText');
           let $charCount = $('#charCount');
-
           let updateStarColors = (value) => {
+
             $stars.each(function() {
               $(this).css('color', parseInt($(this).data('value')) <= value ? '#f5a623' : '#ccc');
             });
@@ -327,6 +340,7 @@
             $ratingInput.val(val);
             updateStarColors(val);
           });
+
           $stars.css('color', '#ccc');
 
           // 글자수 카운트
@@ -335,10 +349,8 @@
           // 리뷰 폼 전송
           $reviewForm.on('submit', function(e) {
             e.preventDefault();
-
             let rating = $ratingInput.val();
             let reviewText = $reviewText.val().trim();
-
             if (!rating) { alert('평점을 선택해주세요.'); return; }
             if (!reviewText) { alert('리뷰 내용을 입력해주세요.'); return; }
 
@@ -348,38 +360,41 @@
               data: $reviewForm.serialize(),
               dataType: "json",
               success: function(data) {
-                console.log("응답:", data);
+                let newReviewHtml = `
+                    <div class="review-item">
+                      <div class="user">${data.user.charAt(0)}**</div>
+                      <div class="review-content">
+                        <div class="review-header-info">
+                          <span class="review-score">평점 ${data.rating}</span>
+                          <span class="time">${data.time}</span>
+                        </div>
+                        <p class="review-text">${data.content}</p>
+                      </div>
+                    </div>
+                  `;
+                $(".review-read").prepend(newReviewHtml);
 
-                // 새 리뷰 DOM 만들기
-                let $newReview = $(`
-          <div class="review-item">
-            <div class="user">${data.user || '익명'}</div>
-            <div class="review-content">
-              <div class="review-header-info">
-                <span class="review-score">평점 ${data.rating}</span>
-                <span class="time">${data.time}</span>
-              </div>
-              <p class="review-text">${data.content}</p>
-            </div>
-          </div>
-        `);
+                // 폼 초기화 및 탭 전환
+                $('#reviewText').val('');
+                $('#rating').val('');
+                $('.star').css('color', '#ccc');
+                $('#charCount').text('0');
 
-                // 최신 리뷰 위에 붙이기
-                $('.review-read').prepend($newReview);
-
-                // 폼 초기화
-                $reviewForm[0].reset();
-                $charCount.text('0');
-                $ratingInput.val(0);
-                updateStarColors(0);
+                $('.menu li').removeClass('selected');
+                $('.menu li').eq(1).addClass('selected');
+                $('.tabCont').hide();
+                $('#tabCont1_2').show();
 
                 alert("리뷰가 등록되었습니다!");
+                sessionStorage.setItem("openReviewTab", "true");
+                location.href = "Controller?type=movieDetail&mIdx=" + $("input[name='mIdx']").val();
               },
-
+              error: function() {
+                alert("리뷰 등록 중 오류가 발생했습니다.");
+              }
             });
           });
         };
-
 
         // ---------------- 실행 ----------------
         $(function() {
@@ -407,12 +422,9 @@
             }
           });
         });
-
       })(jQuery);
 
     </script>
-
-
 
 <jsp:include page="/common/Footer.jsp"/>
 </body>
