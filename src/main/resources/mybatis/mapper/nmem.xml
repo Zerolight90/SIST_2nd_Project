@@ -63,6 +63,7 @@
         WHERE name = #{u_name}
             AND password = #{u_pw}
             AND birth = #{u_birth}
+        ORDER BY nIdx DESC LIMIT 1
     </select>
 
 

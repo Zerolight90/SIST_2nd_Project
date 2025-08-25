@@ -8,13 +8,17 @@
             useGeneratedKeys="true" keyProperty="paymentIdx">
         INSERT INTO payment
         (
-        userIdx, reservIdx, prodIdx, couponIdx, paymentType, orderId,
+        <if test="userIdx != null and userIdx > 0">userIdx,</if>
+        <if test="nIdx != null and nIdx > 0">nIdx,</if>
+        reservIdx, prodIdx, couponIdx, paymentType, orderId,
         paymentTransactionId, paymentMethod, paymentTotal, couponDiscount,
         pointDiscount, paymentFinal, paymentStatus, paymentDate
         )
         VALUES
         (
-        #{userIdx}, #{reservIdx}, #{prodIdx}, #{couponIdx}, #{paymentType}, #{orderId},
+        <if test="userIdx != null and userIdx > 0">#{userIdx},</if>
+        <if test="nIdx != null and nIdx > 0">#{nIdx},</if>
+        #{reservIdx}, #{prodIdx}, #{couponIdx}, #{paymentType}, #{orderId},
         #{paymentTransactionId}, #{paymentMethod}, #{paymentTotal}, #{couponDiscount},
         #{pointDiscount}, #{paymentFinal}, 0, NOW()
         )

@@ -2,6 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="util.ConfigUtil" %><%-- ConfigUtil 임포트 --%>
+<%-- 페이지 컨텍스트에 클라이언트 키를 설정하여 아래 스크립트에서 사용 --%>
+<c:set var="tossClientKey" value="<%= ConfigUtil.getProperty(\"toss.client.key\") %>" />
 
 <c:choose>
   <c:when test="${paymentType == 'paymentMovie'}">
@@ -178,7 +181,8 @@
       </div>
       <div class="button_group">
         <button class="pay_button btn_prev" onclick="history.back()">이전</button>
-        <button class="pay_button btn_pay" onclick="requestPayment()">결제</button>
+        <%-- ✅ [수정 1] onclick 속성을 제거하고 id를 추가 --%>
+        <button class="pay_button btn_pay" id="paymentButton">결제</button>
       </div>
     </div>
   </div>
@@ -188,13 +192,15 @@
 </footer>
 
 <script>
-  const isGuest = ${empty isGuest ? "true" : "false"} === "true";
+  <%-- ✅ [수정 2] isGuest 변수 초기화 방식 변경 (서버에서 boolean 타입으로 값을 전달해야 함) --%>
+  const isGuest = ${isGuest};
   const paymentType = "${paymentType}";
   const full_base_url = "${full_base_url}";
   const orderId = "${orderId}";
 
   $(document).ready(async function() {
-    const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
+    // JSP 상단에서 설정한 클라이언트 키 값을 EL로 안전하게 가져온다.
+    const clientKey = "${tossClientKey}";
     const customerKey = isGuest ? "SIST_GUEST_" + Date.now() : "SIST_USER_${memberInfo.userIdx}";
     const originalAmount = parseInt('${itemFinalAmount}',10) || 0;
     const availablePoints = isGuest ? 0 : parseInt('<c:out value="${memberInfo.totalPoints}" default="0"/>',10);
@@ -210,13 +216,16 @@
       let finalAmount = originalAmount;
       if (!isGuest) {
         let couponDiscount = parseInt($('#couponSelector').find(':selected').data('discount')) || 0;
-        let pRaw = $('#pointInput').val().replace(/[^0-9]/g, '');
-        $('#pointInput').val(pRaw);
+
+        let pointInput = $('#pointInput');
+        // ✅ [수정 3] TypeError 방지를 위해 요소 존재 여부 확인
+        let pRaw = pointInput.length > 0 ? pointInput.val().replace(/[^0-9]/g, '') : '0';
+
+        pointInput.val(pRaw);
         let pointDiscount = parseInt(pRaw) || 0;
         let maxPts = originalAmount - couponDiscount;
         pointDiscount = Math.max(0, Math.min(pointDiscount, maxPts, availablePoints));
-        $('#pointInput').val(pointDiscount);
-
+        pointInput.val(pointDiscount);
         finalAmount = originalAmount - couponDiscount - pointDiscount;
         $('#couponDiscountText').text("- " + couponDiscount.toLocaleString() + " 원");
         $('#pointDiscountText').text("- " + pointDiscount.toLocaleString() + " 원");
@@ -233,14 +242,13 @@
 
     await updatePaymentSummary();
 
-    window.requestPayment = async function(){
+    async function requestPayment(){
       const finalAmountForPayment = parseInt($('#finalAmountNumber').text().replace(/,/g,''))||0;
       if(finalAmountForPayment <=0){ alert("결제 금액은 0원 이하일 수 없습니다."); return; }
 
       const orderName = "${fn:replace(itemName,'\"','\\\"')}";
       const couponUserIdx = isGuest ? 0 : $('#couponSelector').val();
       const usedPoints = isGuest ? 0 : (parseInt($('#pointInput').val())||0);
-
       const successUrl = full_base_url + "/Controller?type=paymentConfirm&orderId=" + encodeURIComponent(orderId) + "&couponUserIdx=" + couponUserIdx + "&usedPoints=" + usedPoints;
       const failUrl = full_base_url + "/paymentFail.jsp";
 
@@ -256,6 +264,10 @@
       });
     };
 
+    // ✅ [수정 4] id가 'paymentButton'인 버튼에 클릭 이벤트 연결
+    $('#paymentButton').on('click', function() {
+      requestPayment();
+    });
   });
 </script>
 
