@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,11 +26,11 @@
   <div class="storeTop">
     <div class="storeTopBox">
       <div class="location">
-        <span>Home</span>
+        <a href="Controller?type=index">Home</a>
         &nbsp;>&nbsp;
         <a href="Controller?type=store">스토어</a>
         &nbsp;>&nbsp;
-        <a href="Controller?type=detailStore">스토어 상세</a>
+        <a href="">스토어 상세</a>
       </div>
     </div>
   </div>
@@ -83,7 +85,7 @@
             <button id="plus" type="button">+</button>
           </div>
           <div style="width: 70px; margin-left: 350px; display: flex; font-size: 25px">
-            <p id="totalPrice">${requestScope.vo.prodPrice}</p>
+            <p id="totalPrice"><fmt:formatNumber value="${requestScope.vo.prodPrice}" type="number" pattern="#,###"/></p>
             <span>원</span>
           </div>
         </div>

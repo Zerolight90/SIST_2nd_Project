@@ -1,5 +1,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%
+  response.setHeader("Cache-Control","no-cache, no-store, must-revalidate"); // HTTP 1.1
+  response.setHeader("Pragma","no-cache"); // HTTP 1.0
+  response.setDateHeader ("Expires", 0); // Proxies
+%>
+<c:if test="${empty sessionScope.vo}">
+  <c:redirect url="Controller?type=index"/>
+</c:if>
+
 <html>
 <head>
   <title>Title</title>
@@ -8,6 +18,12 @@
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+  <style>
+    .content{
+      margin-top: 70px;
+      margin-left: 60px;
+    }
+  </style>
 </head>
 <body style="margin: auto">
 <!-- 관리자 화면에 처음 들어오는 보이는 상단영역 -->
@@ -15,7 +31,7 @@
   <div style="display: inline-block; justify-content: space-between; align-items: center"><p style="margin-left: 10px">${sessionScope.vo.adminId} 관리자님</p></div>
   <div style="display: inline-block; float: right; padding-top: 13px; padding-right: 10px">
     <a href="">SIST</a>
-    <a href="Controller?type=index">로그아웃</a>
+    <a href="Controller?type=adminLogOut">로그아웃</a>
   </div>
 </div>
 
@@ -24,11 +40,11 @@
     <jsp:include page="/admin/admin.jsp"/>
   </div>
   <div class="admin-container">
-    <div>
-      <h2>대시보드</h2>
+    <div class="content" style="width: 1030px; border-bottom: 2px solid #bdbdbd">
+      <h1>대시보드</h1>
     </div>
 
-  <div style="display: flex">
+  <div style="display: flex" class="content">
     <div style="width: 500px; border: 2px solid #ebebeb; border-radius: 10px">
       <div style="border-bottom: 2px solid #ebebeb">
         <p style="margin-left: 20px">인기 영화 TOP 10 예매 비율</p>

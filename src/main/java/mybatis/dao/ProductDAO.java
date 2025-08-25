@@ -90,6 +90,18 @@ public class ProductDAO {
 
         ss.close();
     }
+    public static void productDel(String prodIdx){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int delete = ss.update("product.productDel", prodIdx);
+
+        if (delete >= 1){
+            ss.commit();
+        } else {
+            ss.rollback();
+        }
+
+        ss.close();
+    }
 
     /**
      * 상품 ID를 이용해 특정 상품의 상세 정보를 반환합니다. (결제 페이지 준비용)

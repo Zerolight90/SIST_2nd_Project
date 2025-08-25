@@ -14,7 +14,7 @@
     <div class="leftDiv">
       <p class="bold">영화 관리</p>
       <div class="leftDivInner"><a href="Controller?type=adminMoviePaging">영화 정보 관리</a></div>
-      <div class="leftDivInner"><a href="Controller?type=playingInfo">영화 상영 관리</a></div>
+      <div class="leftDivInner"><a href="Controller?type=playingInfo">영화 상영 정보</a></div>
     </div>
     <div class="leftDiv">
       <p class="bold">극장 관리</p>

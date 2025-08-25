@@ -90,11 +90,15 @@
     position: relative;
     bottom: 12px;
   }
+
+  .ui-dialog .ui-dialog-titlebar {
+    display: none;
+  }
 </style>
 
 <div class="userModal">
   <div class="modalTitle">
-    <h2>상영 시간표 생성</h2>
+    <h2>TMDB API 영화 업데이트</h2>
   </div>
 
   <div class="footer">
@@ -102,7 +106,7 @@
     <div id="updateStatus" style="margin-top: 20px; font-weight: bold;"></div>
   </div>
 
-  <form action="Controller?type=" method="post" id="insert">
+  <%--<form action="Controller?type=" method="post" id="insert">
     <div class="body">
       <input type="hidden" value="${sessionScope.vo.tIdx}">
       <div class="divs">
@@ -122,18 +126,18 @@
         <input type="text" id="endTime" class="input editable" value="">
       </div>
     </div>
-  </form>
+  </form>--%>
 
-  <div>
+  <%--<div>
     <ul>
-      <%--<li>상영 시간표는 현재 예매율 순위에 따라 자동 생성됩니다</li>--%>
-      <%--<li>상영 시간대는 9:00, 11:30, 14:00, 16:30, 19:00, 21:30분으로 고정됩니다</li>--%>
-      <%--<li>하루에 최대 90개의 영화가 상영됩니다</li>--%>
+      <li>상영 시간표는 현재 예매율 순위에 따라 자동 생성됩니다</li>
+      <li>상영 시간대는 9:00, 11:30, 14:00, 16:30, 19:00, 21:30분으로 고정됩니다</li>
+      <li>하루에 최대 90개의 영화가 상영됩니다</li>
     </ul>
-  </div>
+  </div>--%>
 
   <div class="footer">
-    <button type="button" class="btn btnMain" id="createTimeTable">생성</button>
+    <%--<button type="button" class="btn btnMain" id="createTimeTable">생성</button>--%>
     <button type="button" class="btn btnSub">취소</button>
   </div>
   

@@ -20,6 +20,6 @@ public class AdminUsersUpdateAction implements Action{
 
         MemberDAO.editUsers(map);
 
-        return "Controller?type=admin";
+        return "Controller?type=userSearch";
     }
 }

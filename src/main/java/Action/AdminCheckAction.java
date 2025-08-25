@@ -27,7 +27,7 @@ public class AdminCheckAction implements Action{
 
             return "Controller?type=userSearch";
         } else {
-            return "index.jsp";
+            return "Controller?type=index";
         }
     }
 }
