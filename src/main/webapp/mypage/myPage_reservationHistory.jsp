@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:set var="cp" value="${pageContext.request.contextPath}" />
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<%--<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>--%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mypage.css">
 
 <h2 class="content-title">예매/구매 내역</h2>
