@@ -113,6 +113,7 @@ public class KakaoLoginAction implements Action {
         if (mvo != null) {
             session.setAttribute("mvo", mvo); // 세션에 mvo 정보 저장
 
+
             // ★★★★★ [수정] 생일 쿠폰 생성 및 지급 로직 ★★★★★
             try {
                 String birthDateStr = mvo.getBirth();
@@ -151,19 +152,44 @@ public class KakaoLoginAction implements Action {
 
         //카카오 로그인
         String url = "";
-        String seaturl = request.getParameter("booking");
-        String borderurl = request.getParameter("border");
+        // 세션에서 저장된 리다이렉트 URL들을 확인
+        Object seaturlObj = request.getSession().getAttribute("seaturl");
+        Object borderurlObj = request.getSession().getAttribute("borderurl");
+        Object reviewurlobj = request.getSession().getAttribute("reviewurl");
 
-        if (seaturl == null || borderurl == null) {
+        String seaturl2 = null;
+        String borderurl2 = null;
+        String reviewurl2 = null;
+
+        if (seaturlObj != null)
+            seaturl2 = seaturlObj.toString();
+        if (borderurlObj != null)
+            borderurl2 = borderurlObj.toString();
+        if (reviewurlobj != null)
+            reviewurl2 = reviewurlobj.toString();
+
+
+        // URL 결정 로직
+        if (seaturl2 != null && !seaturl2.trim().isEmpty()) {
+            url = seaturl2;
+            // 사용 후 세션에서 제거
+            request.getSession().removeAttribute("seaturl");
+        } else if (borderurl2 != null && !borderurl2.trim().isEmpty()) {
+            url = borderurl2;
+            // 사용 후 세션에서 제거
+            request.getSession().removeAttribute("reviewurl");
+        }else if (reviewurl2 != null && !reviewurl2.trim().isEmpty()) {
+            url = reviewurl2;
+
+            int idx = url.indexOf("type="); // "type=" 시작 위치 찾기
+            if (idx != -1) {
+                // "type=" 뒤부터 끝까지 잘라서 url에 다시 저장
+                url = url.substring(idx + "type=".length());
+            }
+            request.getSession().removeAttribute("reviewurl");
+        }
+        else { // 위 경우가 모두 해당되지않으면 첫화면 이동
             url = "index";
-        }
-        if (seaturl != null) {
-            System.out.println("seaturl is not null");
-            url = seaturl;
-        }
-        if (borderurl != null) {
-            System.out.println("borderurl is not null");
-            url = borderurl;
         }
 
         if (hasPhone && hasBirth) {

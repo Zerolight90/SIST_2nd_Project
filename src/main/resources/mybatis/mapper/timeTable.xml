@@ -33,6 +33,7 @@
                     select="screen.list" column="sIdx"/>
         <collection property="t_list" ofType="mybatis.vo.TheaterVO"
                     select="theater.list" column="tIdx"/>
+        <!-- time에서 받은 조건으로 받은 timeTable의 영화들에 따른 예매정보를 바탕으로 남은 좌석을 알려줘야함 -->
         <collection property="r_list" ofType="mybatis.vo.ReservationVO"
                     select="reservation.list" column="timeTableIdx"/>
         <!-- movie.list를 호출하면서 mIdx값을 인자로 보낸다. -->
@@ -43,8 +44,8 @@
     <select id="time" resultMap="map100" parameterType="Map"> <!-- 인자를 두개받아야해서 Map으로 받음 -->
         SELECT *
         FROM time_table
-        WHERE startTime &lt; #{date}
-        AND endTime &gt; #{date}
+        WHERE endTime > ${date}
+        AND status = 1
         AND mIdx = #{mIdx}
         AND tIdx = #{tIdx}
     </select>
