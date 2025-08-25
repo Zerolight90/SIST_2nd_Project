@@ -192,33 +192,51 @@
 </footer>
 
 <script>
-  <%-- ✅ [수정 2] isGuest 변수 초기화 방식 변경 (서버에서 boolean 타입으로 값을 전달해야 함) --%>
-  const isGuest = ${isGuest};
-  const paymentType = "${paymentType}";
-  const full_base_url = "${full_base_url}";
-  const orderId = "${orderId}";
-
   $(document).ready(async function() {
-    // JSP 상단에서 설정한 클라이언트 키 값을 EL로 안전하게 가져온다.
+    // --- 1. 기본 정보 설정 ---
+    const isGuest = ${isGuest};
+    const full_base_url = "${full_base_url}";
+    const orderId = "${orderId}";
     const clientKey = "${tossClientKey}";
-    const customerKey = isGuest ? "SIST_GUEST_" + Date.now() : "SIST_USER_${memberInfo.userIdx}";
-    const originalAmount = parseInt('${itemFinalAmount}',10) || 0;
-    const availablePoints = isGuest ? 0 : parseInt('<c:out value="${memberInfo.totalPoints}" default="0"/>',10);
+    const originalAmount = parseInt('${itemFinalAmount}', 10) || 0;
+    const availablePoints = isGuest ? 0 : parseInt('<c:out value="${memberInfo.totalPoints}" default="0"/>', 10);
 
+    // --- 2. 결제 위젯 초기화 ---
     const tossPayments = TossPayments(clientKey);
-    const widgets = tossPayments.widgets({ customerKey });
 
-    await widgets.setAmount({ currency: "KRW", value: originalAmount });
-    await widgets.renderPaymentMethods({ selector: "#payment-widget", variantKey: "DEFAULT" });
-    await widgets.renderAgreement({ selector: "#agreement", variantKey: "AGREEMENT" });
+    // ✅ [수정] isGuest 값에 따라 customerKey를 동적으로 설정합니다.
+    // 비회원은 ANONYMOUS, 회원은 고유 키를 사용합니다.
+    const customerKey = isGuest ? TossPayments.ANONYMOUS : "SIST_USER_${memberInfo.userIdx}";
 
+    const widgets = tossPayments.widgets({
+      customerKey,
+    });
+
+    // --- 3. 결제 금액 설정 및 UI 렌더링 ---
+    // ✅ [수정] 최초 결제 금액을 먼저 설정합니다.
+    await widgets.setAmount({
+      currency: "KRW",
+      value: originalAmount,
+    });
+
+    // ✅ [수정] 결제 UI와 약관을 렌더링합니다.
+    await Promise.all([
+      widgets.renderPaymentMethods({
+        selector: "#payment-widget", // ✅ [수정] HTML에 존재하는 ID로 변경
+        variantKey: "DEFAULT",
+      }),
+      widgets.renderAgreement({
+        selector: "#agreement",
+        variantKey: "AGREEMENT"
+      }),
+    ]);
+
+    // --- 4. 할인 적용 및 금액 업데이트 로직 ---
     async function updatePaymentSummary() {
       let finalAmount = originalAmount;
       if (!isGuest) {
         let couponDiscount = parseInt($('#couponSelector').find(':selected').data('discount')) || 0;
-
         let pointInput = $('#pointInput');
-        // ✅ [수정 3] TypeError 방지를 위해 요소 존재 여부 확인
         let pRaw = pointInput.length > 0 ? pointInput.val().replace(/[^0-9]/g, '') : '0';
 
         pointInput.val(pRaw);
@@ -226,33 +244,45 @@
         let maxPts = originalAmount - couponDiscount;
         pointDiscount = Math.max(0, Math.min(pointDiscount, maxPts, availablePoints));
         pointInput.val(pointDiscount);
+
         finalAmount = originalAmount - couponDiscount - pointDiscount;
         $('#couponDiscountText').text("- " + couponDiscount.toLocaleString() + " 원");
         $('#pointDiscountText').text("- " + pointDiscount.toLocaleString() + " 원");
       }
       $('#finalAmountNumber').text(finalAmount.toLocaleString());
-      await widgets.setAmount({ currency: "KRW", value: finalAmount });
+
+      // ✅ [수정] 최종 계산된 금액으로 위젯의 결제 금액을 업데이트합니다.
+      await widgets.setAmount({
+        currency: "KRW",
+        value: finalAmount,
+      });
     }
 
+    // 할인/포인트 관련 이벤트 핸들러
     if (!isGuest) {
       $('#couponSelector').on('change', updatePaymentSummary);
       $('#pointInput').on('input', updatePaymentSummary);
-      $('#applyPointBtn').on('click',(e)=>{ e.preventDefault(); updatePaymentSummary(); });
+      $('#applyPointBtn').on('click', (e) => {
+        e.preventDefault();
+        updatePaymentSummary();
+      });
     }
 
-    await updatePaymentSummary();
+    // --- 5. 결제 요청 로직 ---
+    async function requestPayment() {
+      const finalAmountForPayment = parseInt($('#finalAmountNumber').text().replace(/,/g, '')) || 0;
+      // 결제 금액이 0원일 경우 토스 API 호출 없이 바로 성공 처리 페이지로 이동할 수 있으나,
+      // 현재 프로젝트에서는 0원 결제를 허용하지 않는 것으로 가정합니다.
+      if (finalAmountForPayment <= 0) {
+        alert("총 결제 금액이 0원 이하일 경우 결제를 진행할 수 없습니다.");
+        return;
+      }
 
-    async function requestPayment(){
-      const finalAmountForPayment = parseInt($('#finalAmountNumber').text().replace(/,/g,''))||0;
-      if(finalAmountForPayment <=0){ alert("결제 금액은 0원 이하일 수 없습니다."); return; }
-
-      const orderName = "${fn:replace(itemName,'\"','\\\"')}";
+      const orderName = "${fn:replace(itemName, '\"', '\\\"')}";
       const couponUserIdx = isGuest ? 0 : $('#couponSelector').val();
-      const usedPoints = isGuest ? 0 : (parseInt($('#pointInput').val())||0);
+      const usedPoints = isGuest ? 0 : (parseInt($('#pointInput').val()) || 0);
       const successUrl = full_base_url + "/Controller?type=paymentConfirm&orderId=" + encodeURIComponent(orderId) + "&couponUserIdx=" + couponUserIdx + "&usedPoints=" + usedPoints;
       const failUrl = full_base_url + "/paymentFail.jsp";
-
-      console.log({ finalAmountForPayment, orderId, orderName, couponUserIdx, usedPoints, successUrl, failUrl });
 
       await widgets.requestPayment({
         orderId,
@@ -262,9 +292,9 @@
         successUrl,
         failUrl,
       });
-    };
+    }
 
-    // ✅ [수정 4] id가 'paymentButton'인 버튼에 클릭 이벤트 연결
+    // '결제' 버튼 클릭 이벤트
     $('#paymentButton').on('click', function() {
       requestPayment();
     });

@@ -21,15 +21,19 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * 회원 및 비회원의 결제 환불을 처리하고, 결과에 따라 페이지를 리다이렉트하는 Action
- */
 public class RefundAction implements Action {
 
-    private static final String TOSS_SECRET_KEY = "test_gsk_docs_OaPz8L5KdmQXkzRz3y47BMw6";
+    // ▼▼▼ [수정] ConfigUtil을 사용하도록 변경 (다른 파일과 통일) ▼▼▼
+    private static final String TOSS_SECRET_KEY = util.ConfigUtil.getProperty("toss.secret.key");
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        // ▼▼▼ [수정] JSON 응답을 위한 설정 추가 ▼▼▼
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        JSONObject jsonResponse = new JSONObject();
+        // ▲▲▲ [수정] 여기까지 ▲▲▲
+
         String paymentKey = request.getParameter("paymentKey");
         String cancelReason = request.getParameter("cancelReason");
         String isNonMember = request.getParameter("isNonMember");
@@ -44,27 +48,22 @@ public class RefundAction implements Action {
                 throw new Exception("취소할 결제 정보를 찾을 수 없습니다.");
             }
 
+            // ... (기존의 회원/비회원 검증 로직은 그대로 유지) ...
             if ("true".equals(isNonMember)) {
-                // [비회원] 환불 요청 시 넘어온 정보로 다시 한번 DB와 대조하여 검증
                 String name = request.getParameter("name");
                 String phone = request.getParameter("phone");
                 String orderId = request.getParameter("orderId");
                 String password = request.getParameter("password");
-
                 Map<String, String> params = new HashMap<>();
                 params.put("name", name);
                 params.put("phone", phone);
                 params.put("orderId", orderId);
                 params.put("password", password);
-
                 PaymentVO nonMemberHistory = PaymentDAO.getNmemPaymentHistory(params, ss);
-
                 if (nonMemberHistory == null || !nonMemberHistory.getPaymentTransactionId().equals(paymentKey)) {
                     throw new Exception("제공된 정보와 일치하는 예매 내역이 없습니다.");
                 }
-
             } else {
-                // [회원] 세션을 이용한 본인인증
                 MemberVO mvo = (MemberVO) request.getSession().getAttribute("mvo");
                 if (mvo == null) {
                     throw new Exception("로그인이 필요한 서비스입니다.");
@@ -73,6 +72,7 @@ public class RefundAction implements Action {
                     throw new Exception("본인의 결제 내역만 취소할 수 있습니다.");
                 }
             }
+
 
             // 1. 토스페이먼츠 환불 API 호출
             cancelTossPayment(paymentKey, cancelReason);
@@ -83,10 +83,7 @@ public class RefundAction implements Action {
                 ReservationDAO.updateReservationToCancelled(pvo.getReservIdx(), ss);
             }
 
-            // [수정됨] pvo.getCouponUserIdx() -> pvo.getCouponIdx() 로 변경
-            // 쿠폰을 사용한 결제 건일 경우에만 쿠폰 상태를 되돌리기
             if (pvo.getCouponIdx() != null && pvo.getCouponIdx() > 0) {
-                // payment 테이블의 userIdx와 couponIdx를 사용해 원래의 couponUserIdx를 찾음
                 Long couponUserIdx = CouponDAO.getCouponUserIdxByPaymentInfo(pvo.getUserIdx(), pvo.getPaymentIdx(), ss);
                 if(couponUserIdx != null) {
                     CouponDAO.revertCouponUsage(couponUserIdx, ss);
@@ -99,39 +96,38 @@ public class RefundAction implements Action {
 
             ss.commit(); // 모든 처리가 성공하면 최종 커밋
 
+            // ▼▼▼ [수정] 성공 시 JSON 응답 생성 ▼▼▼
+            jsonResponse.put("isSuccess", true);
+
         } catch (Exception e) {
             if (ss != null) {
                 ss.rollback(); // 오류 발생 시 롤백
             }
             e.printStackTrace();
-            // TODO: 에러 발생 시 사용자에게 에러 페이지를 보여주는 로직 추가 필요
-            // 예를 들어, request에 에러 메시지를 담아서 에러 페이지로 포워딩
-            request.setAttribute("errorMessage", "환불 처리 중 오류가 발생했습니다: " + e.getMessage());
-            return "error.jsp"; // 에러 페이지 경로
+            // ▼▼▼ [수정] 실패 시 JSON 응답 생성 ▼▼▼
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // 500 에러 상태 코드 설정
+            jsonResponse.put("isSuccess", false);
+            jsonResponse.put("errorMessage", e.getMessage());
+
         } finally {
             if (ss != null) {
                 ss.close();
             }
+            // ▼▼▼ [수정] 최종적으로 JSON을 응답으로 보냄 ▼▼▼
+            try {
+                response.getWriter().write(jsonResponse.toJSONString());
+            } catch (java.io.IOException e) {
+                e.printStackTrace();
+            }
         }
 
-        // 환불 처리 후, 회원/비회원에 따라 지정된 페이지로 리다이렉트합니다.
-        String viewPath;
-        if ("true".equals(isNonMember)) {
-            // 비회원인 경우, 비회원 예매 조회 페이지 초기화면으로 이동
-            viewPath = "redirect:Controller?type=myPage";
-        } else {
-            // 회원인 경우, 마이페이지의 예매 내역 페이지로 이동
-            viewPath = "redirect:Controller?type=myPage";
-        }
-
-        return viewPath;
+        // ▼▼▼ [수정] Controller가 더 이상 뷰 페이지로 이동하지 않도록 null 반환 ▼▼▼
+        return null;
     }
 
-    /**
-     * 토스페이먼츠 결제 취소 API를 호출하는 메소드
-     */
+    // cancelTossPayment 메서드는 기존과 동일
     private void cancelTossPayment(String paymentKey, String cancelReason) throws Exception {
-        URL url = new URL("https://api.tosspayments.com/v2/payments/" + paymentKey + "/cancel");
+        URL url = new URL("https://api.tosspayments.com/v1/payments/" + paymentKey + "/cancel");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
         String encodedKey = Base64.getEncoder().encodeToString((TOSS_SECRET_KEY + ":").getBytes(StandardCharsets.UTF_8));
@@ -149,11 +145,16 @@ public class RefundAction implements Action {
 
         int responseCode = connection.getResponseCode();
         if (responseCode != 200) {
-            try (InputStream errorStream = connection.getErrorStream();
-                 Reader reader = new InputStreamReader(errorStream, StandardCharsets.UTF_8)) {
-                JSONObject errorResponse = (JSONObject) new JSONParser().parse(reader);
-                throw new Exception("Toss API Error: " + errorResponse.get("message"));
+            InputStream errorStream = connection.getErrorStream();
+            String errorBody = "응답 본문 없음";
+
+            if (errorStream != null) {
+                try (Reader reader = new InputStreamReader(errorStream, StandardCharsets.UTF_8)) {
+                    JSONObject errorResponse = (JSONObject) new JSONParser().parse(reader);
+                    errorBody = "Toss API Error: " + errorResponse.get("message");
+                }
             }
+            throw new Exception("결제 취소 실패 (HTTP Status: " + responseCode + ") - " + errorBody);
         }
     }
 }

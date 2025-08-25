@@ -65,7 +65,4 @@
             AND birth = #{u_birth}
         ORDER BY nIdx DESC LIMIT 1
     </select>
-
-
-
 </mapper>

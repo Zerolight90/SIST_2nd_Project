@@ -15,12 +15,23 @@
     </select>
 
     <select id="getWatchedMovies" parameterType="java.util.Map" resultType="mybatis.vo.MovieStoryVO">
-        SELECT m.poster AS posterUrl, m.name AS title, wm.mIdx
-        FROM watched_movie wm
-                 JOIN movie m ON wm.mIdx = m.mIdx
-        WHERE wm.userIdx = #{userIdx}
-        ORDER BY wm.watchedIdx DESC
-            LIMIT #{offset}, #{numPerPage}
+        SELECT
+        m.mIdx,
+        m.name AS title,
+        m.poster AS posterUrl
+        FROM payment p
+        JOIN reservation res ON p.reservIdx = res.reservIdx
+        JOIN time_table tt ON res.timeTableIdx = tt.timeTableIdx
+        JOIN movie m ON tt.mIdx = m.mIdx
+        WHERE
+        p.userIdx = #{userIdx}
+        AND p.paymentStatus = 0
+        AND p.paymentType = 0
+        AND tt.startTime > NOW()
+        GROUP BY
+        m.mIdx, m.name, m.poster ORDER BY
+        MIN(tt.startTime) ASC
+        LIMIT #{offset}, #{numPerPage}
     </select>
 
     <select id="getWatchedCount" parameterType="Long" resultType="int">
