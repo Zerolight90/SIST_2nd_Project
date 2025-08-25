@@ -25,6 +25,9 @@
   <div class="inner-wrap">
     <div class="util-title">
       <h2>빠른예매</h2>
+      <c:if test="${not empty param.throw_mIdx}">
+        무야호
+      </c:if>
     </div>
     <form action="Controller" method="post">
       <div id="booking-wrap">
@@ -67,7 +70,11 @@
                       <div class="movie_all">
                         <c:forEach var="movieVO" items="${tvo.m_list}" varStatus="j">
                           <img src="/images/${movieVO.age}.png" alt="${movieVO.age}세"/>
-                          <button type="button" class="movie-btn" onclick="selectMovie(this, '${movieVO.mIdx}')">&nbsp;&nbsp;${movieVO.name}</button>
+                          <button type="button" class="movie-btn 
+                          <c:if test="${not empty param.throw_mIdx and param.throw_mIdx == movieVO.mIdx}">
+                          selected-btn
+                          </c:if>
+                          " onclick="selectMovie(this, '${movieVO.mIdx}')">&nbsp;&nbsp;${movieVO.name}</button>
                           <input type="hidden" value="${movieVO.mIdx}"/>
                           <hr/>
                         </c:forEach>
@@ -155,7 +162,16 @@
 <div class="booking-data" style="display: none">
   <form action="Controller" method="post" name="ff">
     <input type="hidden" name="date" id="form_date" value=""/>
-    <input type="hidden" name="mIdx" id="form_mIdx" value=""/>
+    <c:choose>
+      <c:when test="${not empty param.throw_mIdx}">
+        <!-- 인자를 받으며 페이지를 로딩한 경우 -->
+        <input type="hidden" name="mIdx" id="form_mIdx" value="${param.throw_mIdx}"/>
+      </c:when>
+      <c:otherwise>
+        <!-- 인자없이 페이지 로드한 경우 -->
+        <input type="hidden" name="mIdx" id="form_mIdx" value=""/>
+      </c:otherwise>
+    </c:choose>
     <input type="hidden" name="tIdx" id="form_tIdx" value=""/>
   </form>
 </div>

@@ -67,7 +67,7 @@
                                 <span class="heart-icon"></span>
                                 <span class="like-count">${!empty likeCountMap[movie.mIdx] ? likeCountMap[movie.mIdx] : 0}</span>
                             </button>
-                            <a href="Controller?type=booking&mIdx=${movie.mIdx}" class="reserve-btn">예매</a>
+                            <a href="Controller?type=booking&throw_mIdx=${movie.mIdx}" class="reserve-btn">예매</a>
                         </div>
                     </div>
                 </c:forEach>
