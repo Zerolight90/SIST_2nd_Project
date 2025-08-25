@@ -183,21 +183,24 @@ input.success {
 }
 
 .terms-form {
-    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start; /* 왼쪽 정렬 */
 }
 
 .terms-form label {
-    display: block;
+    display: flex;
+    align-items: center;
     margin: 8px 0;
     font-size: 14px;
     cursor: pointer;
+    gap: 5px; /* 체크박스와 텍스트 간 간격 */
 }
 
 .terms-form input[type=checkbox] {
-    transform: scale(1.2);  /* 체크박스 크기 확대 */
-    margin-right: 8px;
-    vertical-align: middle;
-    cursor: pointer;
+    transform: scale(1); /* 너무 크면 1로 줄이기 */
+    margin: 0; /* margin 제거 후 gap으로 간격 조정 */
 }
 
 .terms-form button {
@@ -218,17 +221,4 @@ input.success {
     background-color: #6a1b9a;
 }
 
-/* 모바일 대응 */
-@media (max-width:768px) {
-    .terms-text {
-        height: 250px;
-    }
-}
 
-
-
-@media (max-width:768px) {
-    .member{
-        width: 100%;
-    }
-}
