@@ -25,9 +25,6 @@
   <div class="inner-wrap">
     <div class="util-title">
       <h2>빠른예매</h2>
-      <c:if test="${not empty param.throw_mIdx}">
-        무야호
-      </c:if>
     </div>
     <form action="Controller" method="post">
       <div id="booking-wrap">
@@ -39,7 +36,11 @@
                 <c:set var="dayStr" value="${fn:substring(dvo.locDate, 8, 10)}" />
                 <c:choose>
                   <c:when test="${fn:startsWith(dayStr, '0')}">
-                    <button type="button" class="btn date-btn" onclick="selectDate(this, '${dvo.locDate}')">${fn:substring(dayStr, 1, 2)}&nbsp;${fn:substring(dvo.dow, 0, 1)}</button>
+                    <button type="button" class="btn date-btn
+                          <c:if test="${not empty param.throw_selectTime and param.throw_selectTime == movieVO.mIdx}">
+                          selected-btn
+                          </c:if>
+                          " onclick="selectDate(this, '${dvo.locDate}')">${fn:substring(dayStr, 1, 2)}&nbsp;${fn:substring(dvo.dow, 0, 1)}</button>
                     <input type="hidden" value="${dvo.locDate}"/>
                   </c:when>
                   <c:otherwise>
@@ -102,7 +103,11 @@
                   <c:if test="${theaterArr != null && fn:length(theaterArr) > 0}">
                     <div class="theater_all">
                       <c:forEach var="theaterVO" items="${theaterArr}" varStatus="i">
-                        <button type="button" name="tIdx" id="tIdx${i.index}" class="theater-btn" onclick="selectTheater(this, '${theaterVO.tIdx}')">&nbsp;&nbsp;${theaterVO.tName}</button>
+                        <button type="button" name="tIdx" id="tIdx${i.index}" class="theater-btn
+                          <c:if test="${not empty param.throw_mIdx and param.throw_mIdx == movieVO.mIdx}">
+                          selected-btn
+                          </c:if>
+                          " onclick="selectTheater(this, '${theaterVO.tIdx}')">&nbsp;&nbsp;${theaterVO.tName}</button>
                         <input type="hidden" value="${theaterVO.tIdx}">
                       </c:forEach>
                     </div>
@@ -161,7 +166,16 @@
 
 <div class="booking-data" style="display: none">
   <form action="Controller" method="post" name="ff">
-    <input type="hidden" name="date" id="form_date" value=""/>
+    <c:choose>
+      <c:when test="${not empty param.throw_mIdx}">
+        <!-- 인자를 받으며 페이지를 로딩한 경우 -->
+        <input type="hidden" name="mIdx" id="form_mIdx" value="${param.throw_mIdx}"/>
+      </c:when>
+      <c:otherwise>
+        <!-- 인자없이 페이지 로드한 경우 -->
+        <input type="hidden" name="date" id="form_date" value=""/>
+      </c:otherwise>
+    </c:choose>
     <c:choose>
       <c:when test="${not empty param.throw_mIdx}">
         <!-- 인자를 받으며 페이지를 로딩한 경우 -->
@@ -172,7 +186,16 @@
         <input type="hidden" name="mIdx" id="form_mIdx" value=""/>
       </c:otherwise>
     </c:choose>
-    <input type="hidden" name="tIdx" id="form_tIdx" value=""/>
+    <c:choose>
+      <c:when test="${not empty param.throw_mIdx}">
+        <!-- 인자를 받으며 페이지를 로딩한 경우 -->
+        <input type="hidden" name="mIdx" id="form_mIdx" value="${param.throw_mIdx}"/>
+      </c:when>
+      <c:otherwise>
+        <!-- 인자없이 페이지 로드한 경우 -->
+        <input type="hidden" name="tIdx" id="form_tIdx" value=""/>
+      </c:otherwise>
+    </c:choose>
   </form>
 </div>
 

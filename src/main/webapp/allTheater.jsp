@@ -467,7 +467,7 @@
                                       <%-- 같은 영화, 같은 상영관인 경우 시간 표시 --%>
                                       <c:if test="${timeSlotVO.m_list[0].name eq currentMovie and
                                              timeSlotVO.s_list[0].sName eq currentScreen}">
-                                        <div class="time-btn" onclick="selectShowTime('${timeSlotVO.startTime}', '${timeSlotVO.s_list[0].sIdx}', ${timeSlotVO.m_list[0].mIdx})">
+                                        <div class="time-btn" onclick="selectShowTime('${timeSlotVO.timeTableIdx}')">
                                           <span>${fn:substring(timeSlotVO.startTime, 11, 16)}</span>
                                           <em>${timeSlotVO.s_list[0].sCount - fn:length(timeSlotVO.r_list)}석</em> <!-- 전체좌석수 - 결제된 좌석 수 (남은좌석) -->
                                         </div>
@@ -751,11 +751,10 @@
 
   // woojin 영화 목록
   // 상영시간 선택 함수
-  function selectShowTime(showTime, screenIdx, movieIdx) {
+  function selectShowTime(tvoIdx) {
     // 예매 페이지로 이동하는 로직
-    console.log('선택된 상영시간:', showTime, '상영관:', screenIdx, '영화고유번호:' + movieIdx);
     // 실제 예매 페이지로 이동
-    location.href = 'Controller?type=booking&throw_mIdx=' + movieIdx
+    location.href = 'Controller?type=seat&tvoIdx=' + tvoIdx
   }
 
   // 날짜 선택 함수 (기존 inDate 함수 개선)
