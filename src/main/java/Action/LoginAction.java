@@ -91,9 +91,10 @@ public class LoginAction implements Action {
                 Object reviewurlobj = request.getSession().getAttribute("reviewurl");
                 Object inquiryurlobj = request.getSession().getAttribute("inquiryurl");
                 Object allTheaterobj = request.getSession().getAttribute("allTheaterurl");
-                System.out.println(seaturlObj);
-                System.out.println(borderurlObj);
-                System.out.println(reviewurlobj);
+
+                //.out.println(seaturlObj);
+                //System.out.println(borderurlObj);
+                //System.out.println(reviewurlobj);
 
                 String seaturl2 = null;
                 String borderurl2 = null;
@@ -113,17 +114,17 @@ public class LoginAction implements Action {
 
                 if (reviewurlobj != null) {
                     reviewurl2 = reviewurlobj.toString();
-                    System.out.println("Found reviewurl2 in session: " + reviewurl2);
+                    //System.out.println("Found reviewurl2 in session: " + reviewurl2);
                 }
 
                 if (inquiryurlobj != null) {
                     inquiryurl2 = inquiryurlobj.toString();
-                    System.out.println("Found inquiryurl2 in session: " + inquiryurl2);
+                   //System.out.println("Found inquiryurl2 in session: " + inquiryurl2);
                 }
 
                 if (allTheaterobj != null) {
                     allTheaterurl2 = allTheaterobj.toString();
-                    System.out.println("Found theaterurl2 in session: " + allTheaterurl2);
+                    //System.out.println("Found theaterurl2 in session: " + allTheaterurl2);
                 }
 
                 // URL 결정 로직
@@ -158,7 +159,7 @@ public class LoginAction implements Action {
 //                    System.out.println("Redirecting to border page: " + allTheaterurl2);
                     url = allTheaterurl2;
                     // 사용 후 세션에서 제거
-                    request.getSession().removeAttribute("all_theater");
+                    request.getSession().removeAttribute("allTheaterurl");
                 }
                 else {
 //                    System.out.println("No redirect URL found, going to index");
