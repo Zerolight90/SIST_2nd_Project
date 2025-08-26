@@ -42,7 +42,7 @@
       <div class="stats_txt">
         <p class="stats">
           <i class="fa-solid fa-ticket" aria-hidden="true"></i>
-          예매율 <c:out value="${movie.bookingRate}"/>%
+          예매율 <fmt:formatNumber value="${movie.bookingRate}" pattern="#,##0.0"/>%
         </p>
         <p class="stats">
           <i class="fa-solid fa-users" aria-hidden="true"></i>
