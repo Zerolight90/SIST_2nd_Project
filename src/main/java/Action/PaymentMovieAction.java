@@ -1,7 +1,6 @@
 package Action;
 
 import mybatis.dao.CouponDAO;
-import mybatis.dao.MemberDAO;
 import mybatis.dao.PriceDAO;
 import mybatis.vo.MemberVO;
 import mybatis.vo.MyCouponVO;
@@ -18,7 +17,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID; // ✅ 고유성 보장을 위해 UUID 사용 권장
+import java.util.UUID;
 
 public class PaymentMovieAction implements Action {
     @Override
@@ -33,7 +32,6 @@ public class PaymentMovieAction implements Action {
         MemberVO mvo = (MemberVO) session.getAttribute("mvo");
         NmemVO nmemvo = (NmemVO) session.getAttribute("nmemvo");
 
-        // ✅ 비정상 접근 방어: 회원, 비회원 정보 둘 다 없으면 에러 페이지로
         if (mvo == null && nmemvo == null) {
             request.setAttribute("errorMsg", "로그인 정보가 없습니다. 다시 시도해주세요.");
             return "error.jsp";
@@ -83,7 +81,7 @@ public class PaymentMovieAction implements Action {
                     + (seniorCount * elderPrice)
                     + (specialCount * elderPrice);
 
-            // 조조 할인
+            // 조조 할인 계산
             String timeDiscountName = "";
             int timeDiscountAmount = 0;
             if (hour < 9) {
@@ -91,7 +89,7 @@ public class PaymentMovieAction implements Action {
                 timeDiscountAmount = morningDiscountValue * totalPersons;
             }
 
-            // 좌석 할인
+            // 좌석 할인 계산
             int seatDiscountAmount = 0;
             if (seatInfo != null && !seatInfo.isEmpty()) {
                 String[] seats = seatInfo.split(",");
@@ -102,9 +100,10 @@ public class PaymentMovieAction implements Action {
                 }
             }
 
+            // 최종 결제 금액 계산
             int finalAmount = subtotal - timeDiscountAmount - seatDiscountAmount;
 
-            // --- 3. ReservationVO 생성 ---
+            // --- 3. ReservationVO 객체 생성 및 모든 정보 저장 ---
             ReservationVO reservation = new ReservationVO();
             if (timeTableIdxStr != null) reservation.setTimeTableIdx(Long.parseLong(timeTableIdxStr));
             if (tIdxStr != null) reservation.settIdx(Long.parseLong(tIdxStr));
@@ -116,17 +115,24 @@ public class PaymentMovieAction implements Action {
             reservation.setScreenName(screenName);
             reservation.setStartTime(startTimeStr);
             reservation.setSeatInfo(seatInfo);
-            reservation.setFinalAmount(finalAmount);
+
+            // 인원 정보 저장
             reservation.setAdultCount(adultCount);
             reservation.setTeenCount(teenCount);
             reservation.setSeniorCount(seniorCount);
             reservation.setSpecialCount(specialCount);
+
+            // 계산된 모든 가격 정보 저장
+            reservation.setSubtotal(subtotal);
+            reservation.setAdultPrice(baseAdultPrice);
+            reservation.setTeenPrice(teenPrice);
+            reservation.setElderPrice(elderPrice);
             reservation.setTimeDiscountName(timeDiscountName);
             reservation.setTimeDiscountAmount(timeDiscountAmount);
             reservation.setSeatDiscountAmount(seatDiscountAmount);
+            reservation.setFinalAmount(finalAmount);
 
-            // --- 4. orderId + 결제정보 세션에 저장 ---
-            // ✅ currentTimeMillis 대신 UUID로 고유성을 더 확실하게 보장
+            // --- 4. orderId 생성 + 결제정보 세션에 저장 ---
             String orderId = "SIST_MOVIE_" + UUID.randomUUID().toString().replace("-", "");
 
             Map<String, Object> paymentContext = new HashMap<>();
@@ -140,30 +146,19 @@ public class PaymentMovieAction implements Action {
             request.setAttribute("paymentType", "paymentMovie");
             request.setAttribute("reservationInfo", reservation);
             request.setAttribute("price", price);
-            request.setAttribute("finalAmount", finalAmount);
 
-            // ✅ 회원/비회원 분기 처리 로직 수정
             if (mvo != null) {
                 // 회원 처리
                 request.setAttribute("isGuest", false);
                 String userIdx = mvo.getUserIdx();
                 List<MyCouponVO> couponList = CouponDAO.getAvailableMovieCoupons(Long.parseLong(userIdx));
-
-                // ✅ DB 중복 조회 제거, 세션에 있는 mvo를 그대로 사용
                 request.setAttribute("memberInfo", mvo);
                 request.setAttribute("couponList", couponList);
-
-                // ✅ payment.jsp에서 비회원 정보가 null이 되도록 명시적으로 설정
                 request.setAttribute("nmemInfoForPayment", null);
-
-            } else { // nmemvo는 맨 위에서 null이 아님을 확인했으므로 else로 처리 가능
+            } else {
                 // 비회원 처리
                 request.setAttribute("isGuest", true);
-
-                // ✅ 비회원 정보를 payment.jsp에서 사용할 수 있도록 request에 저장
                 request.setAttribute("nmemInfoForPayment", nmemvo);
-
-                // ✅ 회원이 아니므로 쿠폰과 멤버 정보는 null 또는 빈 값으로 설정
                 request.setAttribute("couponList", null);
                 request.setAttribute("memberInfo", null);
             }
