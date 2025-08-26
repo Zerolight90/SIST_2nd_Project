@@ -235,7 +235,7 @@
     <!-- 페이지 타이틀 -->
     <div class="page-title" style="display: flex; justify-content: space-between">
       <h2>상영 시간표 목록</h2>
-      <%--<a href="#" class="btn-add" style="height: 20px; margin-top: 35px">상영 시간표 생성</a>--%>
+      <a href="Controller?type=endTimeTable" class="btn-add" style="height: 20px; margin-top: 35px">상영 종료 시간표 동기화</a>
     </div>
 
     <!-- 테이블 상단 바 영역 -->

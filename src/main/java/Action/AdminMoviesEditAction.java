@@ -1,5 +1,6 @@
 package Action;
 
+import mybatis.dao.FavoriteMovieDAO;
 import mybatis.dao.MovieDAO;
 import mybatis.dao.MoviedetailDAO;
 import mybatis.vo.MovieVO;
@@ -12,6 +13,7 @@ public class AdminMoviesEditAction implements Action{
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String mIdx = request.getParameter("mIdx");
+        int like = FavoriteMovieDAO.getLikeCount(mIdx);
 
         MovieVO vo = MovieDAO.getById(mIdx);
 
@@ -43,6 +45,7 @@ public class AdminMoviesEditAction implements Action{
         }
 
         request.setAttribute("vo", vo);
+        request.setAttribute("like", like);
 
         return "admin/adminMovieModal.jsp";
     }

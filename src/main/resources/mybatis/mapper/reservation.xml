@@ -66,4 +66,18 @@
         WHERE
         r.reservIdx = #{reservIdx}
     </select>
+
+    <select id="reservNum" resultType="map">
+        SELECT
+        MONTH(reservDate) AS month,
+        COUNT(*) AS reservNum
+        FROM
+        reservation
+        WHERE
+        YEAR(reservDate) = YEAR(CURDATE())
+        GROUP BY
+        MONTH(reservDate)
+        ORDER BY
+        month
+    </select>
 </mapper>

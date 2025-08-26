@@ -33,6 +33,15 @@ public class MovieDAO {
         return ar;
     }
 
+    public static List<MovieVO> rateMovie() {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<MovieVO> list = ss.selectList("movie.rateMovie");
+
+        ss.close();
+
+        return list;
+    }
+
     public static MovieVO getById(String mIdx) {
         SqlSession ss = FactoryService.getFactory().openSession();
         MovieVO movie = ss.selectOne("movie.list", mIdx);
@@ -133,7 +142,6 @@ public class MovieDAO {
         ss.close();
         return (total == null) ? 0 : total;
     }
-
 
     // TOP 4 영화 가져오기
     public static List<MovieVO> getTopMovies(String category) {

@@ -156,9 +156,9 @@
       <div class="divs" style="margin: 30px; display: block">
         <img src="${requestScope.vo.poster}" style="width: 370px; margin-bottom: 15px">
         <label for="userId">포스터 이미지 URL:</label><br/>
-        <input type="text" id="userId" name="poster" class="input" value="${requestScope.vo.poster}" style="margin-top: 10px">
+        <input type="text" id="userId" name="poster" class="input" value="${requestScope.vo.poster}" readonly style="margin-top: 10px">
         <label for="userId" style="position: relative; top: 10px">상세 포스터 이미지 URL:</label><br/>
-        <input type="text" id="userId" name="poster" class="input" value="${requestScope.vo.background}" style="margin-top: 20px">
+        <input type="text" id="userId" name="poster" class="input" value="${requestScope.vo.background}" readonly style="margin-top: 20px">
       </div>
       <div></div>
     </div>
@@ -186,17 +186,17 @@
           </div>
           <div class="divs2" style="margin-left: 83px">
             <label for="userId">  예매율:</label>
-            <input type="text" id="userId" class="input" value="${requestScope.movie.bookingRate}" readonly>
+            <input type="text" id="userId" class="input" value="${requestScope.movie.bookingRate}&nbsp;%" readonly>
           </div>
         </div>
         <div style="display: flex">
           <div class="divs2">
             <label for="userId">누적 관객수:</label>
-            <input type="text" id="userId" class="input" value="${requestScope.vo.audNum}" readonly>
+            <input type="text" id="userId" class="input" value="${requestScope.vo.audNum}&nbsp;명" readonly>
           </div>
           <div class="divs2" style="margin-left: 67px">
             <label for="userId">좋아요 수:</label>
-            <input type="text" id="userId" class="input" value="" readonly>
+            <input type="text" id="userId" class="input" value="${requestScope.like}&nbsp;개" readonly>
           </div>
         </div>
       </div>
@@ -206,7 +206,7 @@
       </div>
       <div class="divs">
         <label for="userLoginId">상영 시간:</label>
-        <input type="text" id="userLoginId" class="input" value="${requestScope.vo.runtime}" readonly>
+        <input type="text" id="userLoginId" class="input" value="${requestScope.vo.runtime}&nbsp;분" readonly>
       </div>
       <div class="divs">
         <label for="userEmail">관람 등급:</label>
@@ -226,11 +226,11 @@
       </div>
       <div class="divs">
         <label for="userDate">시놉시스:</label>
-        <input type="text" id="userDate" name="synop" class="input" style="height: 100px" value="${requestScope.vo.synop}">
+        <textarea id="userDate" name="synop" class="input" style="height: 100px; word-wrap: break-word; padding: 7px 10px" readonly>${requestScope.vo.synop}</textarea>
       </div>
       <div class="divs">
         <label for="trailer">영화 예고편 URL:</label>
-        <input type="text" id="trailer" name="trailer" class="input" style="height: 36px" value="${requestScope.vo.trailer}">
+        <input type="text" id="trailer" name="trailer" class="input" style="height: 36px" readonly value="${requestScope.vo.trailer}">
       </div>
       <div>
         <button type="button" class="btn btnMain" id="timeTable" style="margin-left: 347px;">상영 시간표 생성</button>
