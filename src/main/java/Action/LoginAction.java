@@ -34,16 +34,16 @@ public class LoginAction implements Action {
 
             // 만약 booking에서 Parameter를 받으면 Session에 저장함 (Request가 아닌!)
             String seaturl = request.getParameter("booking");
-            System.out.println("seaturl parameter: " + seaturl);
+            //System.out.println("seaturl parameter: " + seaturl);
             if (seaturl != null) {
                 request.getSession().setAttribute("seaturl", seaturl); // Session에 저장!
-                System.out.println("Saved seaturl to session: " + seaturl);
+                //System.out.println("Saved seaturl to session: " + seaturl);
             }
 
             String borderurl = request.getParameter("border");
             if (borderurl != null) {
                 request.getSession().setAttribute("borderurl", borderurl); // border도 Session에 저장
-                System.out.println("Saved borderurl to session: " + borderurl);
+                //System.out.println("Saved borderurl to session: " + borderurl);
             }
 
             String reviewurl = request.getParameter("review");
@@ -58,7 +58,7 @@ public class LoginAction implements Action {
             //1:1문의
             String inquiryurl = request.getParameter("userInquiryWrite");
             if (inquiryurl != null) {
-                System.out.println("Saved inquiryurl to session: " + inquiryurl);
+                //System.out.println("Saved inquiryurl to session: " + inquiryurl);
                 request.getSession().setAttribute("inquiryurl", inquiryurl); // inquiry도 Session에 저장
             }
 
@@ -66,7 +66,7 @@ public class LoginAction implements Action {
             String allTheaterurl = request.getParameter("all_theater");
             if (allTheaterurl != null) {
                 request.getSession().setAttribute("allTheaterurl", allTheaterurl); // inquiry도 Session에 저장
-                System.out.println("Saved all_theater to session: " + allTheaterurl);
+                //System.out.println("Saved all_theater to session: " + allTheaterurl);
             }
 
 
