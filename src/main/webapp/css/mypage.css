@@ -432,3 +432,21 @@ article {
 .ui-dialog .ui-dialog-title {
     color: #ffffff;
 }
+.poster_placeholder {
+    width: 120px; /* .poster 클래스와 동일한 너비 */
+    min-width: 120px; /* .poster 클래스와 동일한 너비 */
+    height: 171px; /* .poster 클래스와 동일한 높이 */
+    background-color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #aaa;
+    text-align: center;
+    border-radius: 4px;
+    font-size: 14px;
+}
+.poster_placeholder i {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
