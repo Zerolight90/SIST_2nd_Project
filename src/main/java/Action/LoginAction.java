@@ -58,8 +58,15 @@ public class LoginAction implements Action {
             //1:1문의
             String inquiryurl = request.getParameter("userInquiryWrite");
             if (inquiryurl != null) {
-                request.getSession().setAttribute("inquiryurl", inquiryurl); // inquiry도 Session에 저장
                 System.out.println("Saved inquiryurl to session: " + inquiryurl);
+                request.getSession().setAttribute("inquiryurl", inquiryurl); // inquiry도 Session에 저장
+            }
+
+            //극장 로그인
+            String allTheaterurl = request.getParameter("all_theater");
+            if (allTheaterurl != null) {
+                request.getSession().setAttribute("allTheaterurl", allTheaterurl); // inquiry도 Session에 저장
+                System.out.println("Saved all_theater to session: " + allTheaterurl);
             }
 
 
@@ -83,6 +90,7 @@ public class LoginAction implements Action {
                 Object borderurlObj = request.getSession().getAttribute("borderurl");
                 Object reviewurlobj = request.getSession().getAttribute("reviewurl");
                 Object inquiryurlobj = request.getSession().getAttribute("inquiryurl");
+                Object allTheaterobj = request.getSession().getAttribute("allTheaterurl");
                 System.out.println(seaturlObj);
                 System.out.println(borderurlObj);
                 System.out.println(reviewurlobj);
@@ -91,6 +99,7 @@ public class LoginAction implements Action {
                 String borderurl2 = null;
                 String reviewurl2 = null;
                 String inquiryurl2 = null;
+                String allTheaterurl2 = null;
 
                 if (seaturlObj != null) {
                     seaturl2 = seaturlObj.toString();
@@ -108,8 +117,13 @@ public class LoginAction implements Action {
                 }
 
                 if (inquiryurlobj != null) {
-                    inquiryurl2 = reviewurlobj.toString();
+                    inquiryurl2 = inquiryurlobj.toString();
                     System.out.println("Found inquiryurl2 in session: " + inquiryurl2);
+                }
+
+                if (allTheaterobj != null) {
+                    allTheaterurl2 = allTheaterobj.toString();
+                    System.out.println("Found theaterurl2 in session: " + allTheaterurl2);
                 }
 
                 // URL 결정 로직
@@ -139,6 +153,12 @@ public class LoginAction implements Action {
                     url = inquiryurl2;
                     // 사용 후 세션에서 제거
                     request.getSession().removeAttribute("inquiryurl");
+
+                }else if (allTheaterurl2 != null && !allTheaterurl2.trim().isEmpty()) {
+//                    System.out.println("Redirecting to border page: " + allTheaterurl2);
+                    url = allTheaterurl2;
+                    // 사용 후 세션에서 제거
+                    request.getSession().removeAttribute("all_theater");
                 }
                 else {
 //                    System.out.println("No redirect URL found, going to index");
@@ -184,7 +204,7 @@ public class LoginAction implements Action {
 
                 // 리다이렉트
                 session.setAttribute("mvo", mvo);
-                return "redirect:Controller?type=" + url;
+                return "redirect:Controller?type=" + url; //all_theater
 
             } else {
                 // 로그인 실패
