@@ -65,4 +65,10 @@
             AND birth = #{u_birth}
         ORDER BY nIdx DESC LIMIT 1
     </select>
+
+    <select id="findNmemByInfo" parameterType="mybatis.vo.NmemVO" resultType="mybatis.vo.NmemVO">
+        SELECT * FROM nmember
+        WHERE name = #{name} AND phone = #{phone} AND birth = #{birth}
+        LIMIT 1
+    </select>
 </mapper>

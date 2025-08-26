@@ -80,5 +80,28 @@ public class NmemDAO {
         return nmemvo;
     }
 
+    /**
+     * 이름, 연락처, 생년월일로 비회원 정보를 조회하는 메소드. (자체 세션 관리)
+     * NonmemberAction에서 사용합니다.
+     * @param vo name, phone, birth를 담은 NmemVO 객체
+     * @return 조회된 NmemVO 객체, 없으면 null
+     */
+    public static NmemVO findNmemByInfo(NmemVO vo) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        NmemVO result = ss.selectOne("nmem.findNmemByInfo", vo);
+        ss.close();
+        return result;
+    }
+
+    /**
+     * 이름, 연락처, 생년월일로 비회원 정보를 조회하는 메소드. (외부 세션 사용)
+     * PaymentConfirmAction과 같이 트랜잭션 관리가 필요할 때 사용합니다.
+     * @param vo name, phone, birth를 담은 NmemVO 객체
+     * @param ss 외부에서 전달받은 SqlSession 객체
+     * @return 조회된 NmemVO 객체, 없으면 null
+     */
+    public static NmemVO findNmemByInfo(NmemVO vo, SqlSession ss) {
+        return ss.selectOne("nmem.findNmemByInfo", vo);
+    }
 
 }
