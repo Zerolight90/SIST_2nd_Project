@@ -72,7 +72,7 @@ public class AdminSalesAnalysisAction implements Action {
 
             // theaterNamesForGroup이 비어있지 않을 때만 조건 추가
             if (!theaterNamesForGroup.isEmpty()) {
-                whereClause.append(" AND T.tName IN ");
+//                whereClause.append(" AND T.tName IN ");
                 // MyBatis <foreach>와 동일한 로직을 위해 theaterNames를 파라미터 맵에 추가
                 searchParams.put("theaterNames", theaterNamesForGroup);
             }
