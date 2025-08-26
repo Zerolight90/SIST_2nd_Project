@@ -103,25 +103,25 @@
             <c:if test="${reservationInfo.adultCount > 0}">
               <div class="summary_item">
                 <span>성인 ${reservationInfo.adultCount}</span>
-                <span class="value"><fmt:formatNumber value="${reservationInfo.adultCount * (price.week - price.day)}" pattern="#,##0"/> 원</span>
+                <span class="value"><fmt:formatNumber value="${reservationInfo.adultCount * reservationInfo.adultPrice}" pattern="#,##0"/> 원</span>
               </div>
             </c:if>
             <c:if test="${reservationInfo.teenCount > 0}">
               <div class="summary_item">
                 <span>청소년 ${reservationInfo.teenCount}</span>
-                <span class="value"><fmt:formatNumber value="${reservationInfo.teenCount * price.teen}" pattern="#,##0"/> 원</span>
+                <span class="value"><fmt:formatNumber value="${reservationInfo.teenCount * reservationInfo.teenPrice}" pattern="#,##0"/> 원</span>
               </div>
             </c:if>
             <c:if test="${reservationInfo.seniorCount > 0}">
               <div class="summary_item">
                 <span>경로 ${reservationInfo.seniorCount}</span>
-                <span class="value"><fmt:formatNumber value="${reservationInfo.seniorCount * price.elder}" pattern="#,##0"/> 원</span>
+                <span class="value"><fmt:formatNumber value="${reservationInfo.seniorCount * reservationInfo.elderPrice}" pattern="#,##0"/> 원</span>
               </div>
             </c:if>
             <c:if test="${reservationInfo.specialCount > 0}">
               <div class="summary_item">
                 <span>우대 ${reservationInfo.specialCount}</span>
-                <span class="value"><fmt:formatNumber value="${reservationInfo.specialCount * price.elder}" pattern="#,##0"/> 원</span>
+                <span class="value"><fmt:formatNumber value="${reservationInfo.specialCount * reservationInfo.elderPrice}" pattern="#,##0"/> 원</span>
               </div>
             </c:if>
           </div>

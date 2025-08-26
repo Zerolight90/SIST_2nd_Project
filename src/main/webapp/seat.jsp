@@ -425,7 +425,7 @@
             let seat = seat_list[i];
             let seat_type = seat.charAt(0);
             if(seat_type === 'A') {
-                seatDiscount += 1000;
+                // seatDiscount += 1000;
                 <%--console.log(`A열 할인: ${seat} -1000원`);--%>
             }
         }

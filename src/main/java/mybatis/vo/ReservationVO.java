@@ -20,9 +20,8 @@ public class ReservationVO {
     private String screenName;
     private String startTime;
     private String seatInfo;
-    private int finalAmount;
 
-    // (추가) 결제 페이지 상세 내역 표시용 필드
+    // 결제 페이지 상세 내역 표시용 필드
     private int adultCount;
     private int teenCount;
     private int seniorCount;
@@ -30,6 +29,13 @@ public class ReservationVO {
     private String timeDiscountName;
     private int timeDiscountAmount;
     private int seatDiscountAmount;
+    private int finalAmount;
+
+    // 가격 및 할인 정보
+    private int subtotal;             // 할인 전 순수 금액
+    private int adultPrice;           // 계산된 성인 1인 단가
+    private int teenPrice;            // 계산된 청소년 1인 단가
+    private int elderPrice;           // 계산된 경로/우대 1인 단가
 
     // --- Getters and Setters ---
     public long getReservIdx() { return reservIdx; }
@@ -81,5 +87,35 @@ public class ReservationVO {
     public int getSeatDiscountAmount() { return seatDiscountAmount; }
     public void setSeatDiscountAmount(int seatDiscountAmount) { this.seatDiscountAmount = seatDiscountAmount; }
 
+    public int getSubtotal() {
+        return subtotal;
+    }
 
+    public void setSubtotal(int subtotal) {
+        this.subtotal = subtotal;
+    }
+
+    public int getAdultPrice() {
+        return adultPrice;
+    }
+
+    public void setAdultPrice(int adultPrice) {
+        this.adultPrice = adultPrice;
+    }
+
+    public int getTeenPrice() {
+        return teenPrice;
+    }
+
+    public void setTeenPrice(int teenPrice) {
+        this.teenPrice = teenPrice;
+    }
+
+    public int getElderPrice() {
+        return elderPrice;
+    }
+
+    public void setElderPrice(int elderPrice) {
+        this.elderPrice = elderPrice;
+    }
 }
