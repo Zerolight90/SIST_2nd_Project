@@ -73,7 +73,7 @@
         <th>구분</th>
         <th>제목</th>
         <th>게시기간</th>
-        <th>삭제여부</th>
+        <%--<th>삭제여부</th>--%>
       </tr>
       </thead>
       <tbody>
@@ -92,10 +92,10 @@
           </td>
           <td>${vo.boardStartRegDate} ~ ${vo.boardEndRegDate}</td>
             <%--삭제여부 확인하기용--%>
-          <td>
+          <%--<td>
             <c:if test="${vo.boardStatus eq '0'}"> 삭제안된 글</c:if>
             <c:if test="${vo.boardStatus eq '1'}"> 삭제된글</c:if>
-          </td>
+          </td>--%>
         </tr>
       </c:forEach>
       </tbody>

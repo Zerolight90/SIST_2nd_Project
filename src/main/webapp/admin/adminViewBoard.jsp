@@ -113,7 +113,7 @@
             <th class="w100">지점명</th>
             <td>
               <%--지점명 들어갈 자리--%>
-              <span>${tName}</span>
+              <span>${vo.tvo.tName}</span>
             </td>
           </tr>
           <tr>
