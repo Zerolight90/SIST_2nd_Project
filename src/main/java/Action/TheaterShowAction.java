@@ -21,6 +21,7 @@ public class TheaterShowAction implements Action{
         TimeTableVO[] showTime = null;
 
         String date = request.getParameter("date");
+        System.out.println(date);
         String mIdx = request.getParameter("mIdx");
         String tIdx = request.getParameter("tIdx");
 

@@ -44,8 +44,7 @@
     <select id="time" resultMap="map100" parameterType="Map"> <!-- 인자를 두개받아야해서 Map으로 받음 -->
         SELECT *
         FROM time_table
-        WHERE endTime > ${date}
-        AND status = 1
+        WHERE #{date} = DATE(startTime)
         AND mIdx = #{mIdx}
         AND tIdx = #{tIdx}
     </select>
