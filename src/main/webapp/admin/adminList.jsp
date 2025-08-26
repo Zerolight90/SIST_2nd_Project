@@ -338,6 +338,7 @@
             </c:if>
             <td>
               <button type="button" class="btn-edit"
+                      data-admin="${vo.adminIdx}"
                       data-idx="${vo.tIdx}"
                       data-id="${vo.adminId}"
                       data-pw="${vo.adminPassword}"
@@ -398,11 +399,15 @@
 
 <div id="adminCerModal">
   <c:set var="vo" value="${requestScope.ar}"/>
-  <div class="modalTitle"><h2>상품 수정</h2></div>
-  <form action="Controller?type=adminInsert" method="post" id="adminInsert">
+  <div class="modalTitle"><h2>관리자 수정</h2></div>
+  <form action="Controller?type=adminUpdate" method="post" id="adminUpdate">
     <div class="body">
       <div class="divs">
-        <label for="adminIdx">영화관 고유번호:</label>
+        <label for="adminIdx">관리자 고유번호:</label>
+        <input type="text" id="adminIdx" name="adminIdx" class="input" value="" readonly>
+      </div>
+      <div class="divs">
+        <label for="tIdx">영화관 고유번호:</label>
         <input type="text" id="tIdx" name="tIdx" class="input editable" value="">
       </div>
       <div class="divs">
@@ -419,6 +424,13 @@
           <option value="Super">Super</option>
           <option value="Manager">Manager</option>
           <option value="Staff">Staff</option>
+        </select>
+      </div>
+      <div class="divs">
+        <label for="adminstatus">관리자 상태:</label>
+        <select id="adminstatus" name="adminstatus" style="margin-top: 4px">
+          <option value="0">정지</option>
+          <option value="1">활성</option>
         </select>
       </div>
     </div>
@@ -480,12 +492,14 @@
   });
 
   function cerModal(str) {
+    let adminIdx = $(str).data(('admin'));
     let tIdx = $(str).data('idx');
     let adminId = $(str).data('id');
     let adminPassword = $(str).data('pw');
     let adminLevel = $(str).data('level');
     let adminstatus = $(str).data('status');
 
+    $("#adminCerModal").find("#adminIdx").val(adminIdx);
     $("#tIdx").val(tIdx);
     $("#adminCerModal").find("#adminId").val(adminId);
     $("#adminCerModal").find("#adminPassword").val(adminPassword);
@@ -495,6 +509,18 @@
     // 4. 데이터가 채워진 모달 창을 보여줍니다.
     $("#adminCerModal").show();
   }
+
+  $("#adminCerModal .btnMain").on('click', function () {
+    if ("${sessionScope.vo.adminLevel}" == "Super"){
+      $("#adminUpdate").submit();
+    } else {
+      alert("Super 관리자가 아닙니다!")
+    }
+  })
+
+  $("#adminCerModal .btnSub").on('click', function () {
+    $("#adminCerModal").hide();
+  })
 </script>
 
 </body>

@@ -170,7 +170,7 @@
     }
   });
 
-  // 극장별 총 매출 차트
+  /*// 극장별 총 매출 차트
   const theaterLabels = [];
   const salesData = [];
   <c:forEach var="revenue" items="${revenueList}">
@@ -217,7 +217,7 @@
   }
   }
   }
-  });
+  });*/
   </script>
 
 </body>
