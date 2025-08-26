@@ -212,21 +212,23 @@
       <div class="divs">
         <label for="userEmail">관람 등급:</label>
 
-<%--        <c:if test="${fn:contains(requestScope.vo.age, 'ALL')}">--%>
-<%--          <input type="text" id="userEmail" name="age" class="input editable" value="전체 이용가">--%>
-<%--        </c:if>--%>
-<%--        <c:if test="${requestScope.vo.age == 12}">--%>
-<%--          <input type="text" id="userEmail" name="age" class="input editable" value="12세 이용가">--%>
-<%--        </c:if>--%>
-<%--        <c:if test="${requestScope.vo.age == 15}">--%>
-<%--          <input type="text" id="userEmail" name="age" class="input editable" value="15세 이용가">--%>
-<%--        </c:if>--%>
-<%--        <c:if test="${requestScope.vo.age == 19}">--%>
-<%--          <input type="text" id="userEmail" name="age" class="input editable" value="19세 이용가">--%>
-<%--        </c:if>--%>
-<%--        <c:if test="${requestScope.vo.age eq '정보 없음'}">--%>
-<%--          <input type="text" id="userEmail" name="age" class="input editable" value="정보 없음">--%>
-<%--        </c:if>--%>
+<%--        <c:choose>--%>
+<%--          <c:when test="${requestScope.vo.age eq 'ALL'}">--%>
+<%--            <input type="text" id="userEmail" name="age" class="input editable" value="전체 이용가">--%>
+<%--          </c:when>--%>
+<%--          <c:when test="${requestScope.vo.age == 12}">--%>
+<%--            <input type="text" id="userEmail" name="age" class="input editable" value="12세 이용가">--%>
+<%--          </c:when>--%>
+<%--          <c:when test="${requestScope.vo.age == 15}">--%>
+<%--            <input type="text" id="userEmail" name="age" class="input editable" value="15세 이용가">--%>
+<%--          </c:when>--%>
+<%--          <c:when test="${requestScope.vo.age == 19}">--%>
+<%--            <input type="text" id="userEmail" name="age" class="input editable" value="19세 이용가">--%>
+<%--          </c:when>--%>
+<%--          <c:otherwise>--%>
+<%--            <input type="text" id="userEmail" name="age" class="input editable" value="정보 없음">--%>
+<%--          </c:otherwise>--%>
+<%--        </c:choose>--%>
 
         <input type="text" id="userEmail" name="age" class="input editable" value="${requestScope.vo.age}">
       </div>
