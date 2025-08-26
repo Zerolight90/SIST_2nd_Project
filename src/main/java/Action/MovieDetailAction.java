@@ -43,12 +43,11 @@ public class MovieDetailAction implements Action{
             int totalReservations = MovieDAO.getTotalReservationsForShowingMovies();
 
             if(totalReservations > 0) {
-                double rate = 0;
                 // 3-2) 분자 (해당 영화 예매 수) 구하기
                 int movieReservations = MovieDAO.getReservationCountByMovie(movie.getmIdx());
 
                 // 3-3) 예매율 계산
-                rate = ((double) movieReservations / totalReservations) * 100;
+                double rate = ((double) movieReservations / totalReservations) * 100;
 
                 // 3-4) 계산된 예매율을 MovieVO에 설정
                 movie.setBookingRate(rate);
