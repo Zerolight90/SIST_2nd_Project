@@ -62,7 +62,11 @@ public class MyMovieStoryAction implements Action {
             // DB 조회를 위한 파라미터 맵 생성
             Map<String, Object> params = new HashMap<>();
             params.put("userIdx", userIdx);
-            params.put("offset", p.getBegin() - 1);
+            int offset = p.getBegin() - 1;
+            if (offset < 0) {
+                offset = 0; // offset이 음수이면 0으로 강제 변환
+            }
+            params.put("offset", offset);
             params.put("numPerPage", p.getNumPerPage());
 
             // 데이터 목록 조회

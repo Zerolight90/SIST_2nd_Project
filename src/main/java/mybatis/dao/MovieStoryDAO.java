@@ -30,9 +30,11 @@ public class MovieStoryDAO {
     // 본 영화 전체 개수 조회
     public static int getWatchedCount(Long userIdx) {
         SqlSession ss = FactoryService.getFactory().openSession();
-        int count = ss.selectOne("movieStory.getWatchedCount", userIdx);
+        // MyBatis가 결과를 찾지 못해 null을 반환할 경우를 대비
+        Integer count = ss.selectOne("movieStory.getWatchedCount", userIdx);
         ss.close();
-        return count;
+        // count가 null이면 0을, 아니면 실제 count 값을 반환
+        return count == null ? 0 : count;
     }
 
     // 위시리스트 조회 (페이징 적용)
@@ -46,8 +48,10 @@ public class MovieStoryDAO {
     // 위시리스트 전체 개수 조회
     public static int getWishCount(Long userIdx) {
         SqlSession ss = FactoryService.getFactory().openSession();
-        int count = ss.selectOne("favMovie.getFavoriteCount", userIdx);
+        // MyBatis가 결과를 찾지 못해 null을 반환할 경우를 대비
+        Integer count = ss.selectOne("favMovie.getFavoriteCount", userIdx);
         ss.close();
-        return count;
+        // count가 null이면 0을, 아니면 실제 count 값을 반환
+        return count == null ? 0 : count;
     }
 }
