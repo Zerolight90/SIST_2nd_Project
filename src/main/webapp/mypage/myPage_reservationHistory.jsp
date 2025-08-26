@@ -3,7 +3,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:set var="cp" value="${pageContext.request.contextPath}" />
-<%--<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>--%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mypage.css">
 
 <h2 class="content-title">예매/구매 내역</h2>
@@ -40,7 +39,48 @@
 
         <c:forEach var="item" items="${historyList}">
             <div class="history-card">
-                <img src="${item.itemPosterUrl}" alt="포스터/상품이미지" class="poster">
+                    <%-- 결제 타입(영화/스토어)에 따라 이미지 경로를 분기하고, 이미지가 없을 경우 플레이스홀더 표시 --%>
+                <c:choose>
+                    <%-- 영화 예매(paymentType == 0)의 경우 --%>
+                    <c:when test="${item.paymentType == 0}">
+                        <c:choose>
+                            <c:when test="${not empty item.itemPosterUrl}">
+                                <img src="${item.itemPosterUrl}" alt="${item.itemTitle} 포스터" class="poster">
+                            </c:when>
+                            <c:otherwise>
+                                <div class="poster_placeholder">
+                                    <i class="fa-solid fa-image"></i>
+                                    <span>Poster Not Found</span>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:when>
+
+                    <%-- 스토어 구매(paymentType == 1)의 경우 --%>
+                    <c:when test="${item.paymentType == 1}">
+                        <c:choose>
+                            <c:when test="${not empty item.itemPosterUrl}">
+                                <%-- paymentConfirm.jsp를 참고하여 스토어 이미지 경로를 올바르게 구성 --%>
+                                <img src="${cp}/images/store/${item.itemPosterUrl}" alt="${item.itemTitle} 이미지" class="poster">
+                            </c:when>
+                            <c:otherwise>
+                                <div class="poster_placeholder">
+                                    <i class="fa-solid fa-image"></i>
+                                    <span>Product Image Not Found</span>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:when>
+
+                    <%-- 예외적인 경우 기본 플레이스홀더 --%>
+                    <c:otherwise>
+                        <div class="poster_placeholder">
+                            <i class="fa-solid fa-image"></i>
+                            <span>Image Not Available</span>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+                    <%-- ========================================================== --%>
 
                 <div class="details-wrapper">
                     <p class="title">${item.itemTitle}</p>

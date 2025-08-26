@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="../css/reset.css">
   <link rel="stylesheet" href="../css/sub/sub_page_style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
   <link rel="stylesheet" href="../css/mypage.css">
   <link rel="icon" href="../images/favicon.png">
 </head>
