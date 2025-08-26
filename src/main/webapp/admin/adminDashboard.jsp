@@ -56,7 +56,7 @@
     <div>
       <div style="margin-left: 20px; width: 500px; border: 2px solid #ebebeb; border-radius: 10px">
         <div style="border-bottom: 2px solid #ebebeb">
-          <p style="margin-left: 20px">월별 이용자 수 추이</p>
+          <p style="margin-left: 20px">월별 예매 수 추이</p>
         </div>
         <div>
           <canvas id="userChart" style="width: 500px; height: 500px"></canvas>
@@ -89,19 +89,19 @@
 
   const ctx = document.getElementById('movieChart');
 
-  let labels : [];
-  let data : [];
-  <c:forEach var="revenue" items="${revenueList}">
-  labels.push('${revenue.theaterName}'); // 예매율 TOP 5 영화 이름을 배열에 추가해야함
-  data.push(${revenue.totalSales});       // 예매율 수치를 배열에 추가해야함
+  const dashLabels = [];
+  const dashData = [];
+  <c:forEach var="revenue" items="${list}">
+  dashLabels.push('${revenue.name}'); // 예매율 TOP 10 영화 이름을 배열에 추가해야함
+  dashData.push(${revenue.bookingRate}); // 예매율 수치를 배열에 추가해야함
   </c:forEach>
   new Chart(ctx, {
     type: 'pie',
     data: {
-      labels: ['어벤져스', '슈퍼맨', '28년 후', 'SIST', '마라톤', '워낭소리'],
+      labels: dashLabels,
       datasets: [{
         label: '예매 수',
-        data: [12, 19, 3, 5, 2, 3],
+        data: dashData,
         borderWidth: 1
       }]
     },
@@ -136,13 +136,25 @@
   });
 
   const utx = document.getElementById('userChart');
+
+  <%--const userData = new Array(12).fill(0);--%>
+  <%--<c:forEach var="revenue" items="${userList}">--%>
+  <%--userData[${revenue.month - 1}] = ${revenue.reservNum};--%>
+  <%--</c:forEach>--%>
+
+  const userData = [
+    <c:forEach var="count" items="${userList}" varStatus="status">
+      ${count}<c:if test="${!status.last}">,</c:if>
+    </c:forEach>
+  ];
+
   new Chart(utx, {
     type: 'line',
     data: {
       labels: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
       datasets: [{
-        label: '월별 이용자 수',
-        data: [12000, 19000, 30000, 50000, 20000, 30000, 12354, 60459, 30405, 20485, 10593, 43002],
+        label: '월별 예매 수',
+        data: userData,
         borderWidth: 1
       }]
     },

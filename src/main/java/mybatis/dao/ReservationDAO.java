@@ -62,4 +62,12 @@ public class ReservationDAO {
     public static TimeTableVO getScreeningTimeByReservIdx(Long reservIdx, SqlSession ss) {
         return ss.selectOne("reservation.getScreeningTime", reservIdx);
     }
+
+    public static List<Map<String, Object>> reservNum(){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<Map<String, Object>> list = ss.selectList("reservation.reservNum");
+
+        ss.close();
+        return list;
+    }
 }

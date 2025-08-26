@@ -143,4 +143,10 @@
         VALUES(#{tIdx}, #{mIdx}, #{sIdx}, #{startTime}, #{endTime}, 1, #{date})
     </insert>
 
+    <update id="endTimeTable">
+        UPDATE time_table
+        SET status = 0
+        WHERE endTime &lt; NOW()
+    </update>
+
 </mapper>

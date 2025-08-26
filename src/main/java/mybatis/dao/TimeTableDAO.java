@@ -118,4 +118,16 @@ public class TimeTableDAO {
         ss.close();
         return ar;
     }
+
+    public static void endTimeTable(){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int update = ss.update("timeTable.endTimeTable");
+        if (update >= 1){
+            ss.commit();
+        } else {
+            ss.rollback();
+        }
+
+        ss.close();
+    }
 }
