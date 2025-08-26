@@ -29,7 +29,7 @@
 
     <c:if test="${requestScope.vo ne null}">
       <c:set var="vo" value="${requestScope.vo}"/>
-      <form method="post">
+      <form method="post" name="ff">
         <!-- 3. 공지사항 테이블 -->
         <table class="board-table">
           <caption>1:1문의 상세보기</caption>
@@ -43,14 +43,12 @@
           <tr>
             <th class="w100">UserID</th>
             <td>
-              <%--지점명 들어갈 자리--%>
               <span>${vo.mvo.id}</span>
             </td>
           </tr>
           <tr>
             <th class="w100">회원이름</th>
             <td>
-                <%--지점명 들어갈 자리--%>
               <span>${vo.mvo.name}</span>
             </td>
           </tr>
@@ -128,7 +126,7 @@
       </c:if>
 
       <%-- 답변이 달려 있다면 또는 AJAX 성공 시 --%>
-      <c:if test="${vo.bvo != null}">
+      <%--<c:if test="${vo.bvo != null}">
         <div class="page-title">
           <h2>답변</h2>
         </div>
@@ -150,19 +148,22 @@
               <tr>
                 <th class="w100">첨부파일:</th>
                 <td>
-                  <input type="file" id="file" name="file"/>
+                  <a href="javascript:down('${vo.file_name}')">
+                      ${vo.file_name}
+                  </a>
                 </td>
               </tr>
             </c:if>
           </table>
           <div style="text-align:right; margin-top:10px;">
-            <button type="button" id="showEditFormBtn">수정하기</button>
+            <c:if test="${vo.tvo.tIdx eq adminInfo.tIdx}">
+              <button type="button" id="showEditFormBtn">수정하기</button>
+            </c:if>
           </div>
         </div>
-      </c:if>
+      </c:if>--%>
 
-      <%--
-        &lt;%&ndash;답변이 달려 있다면&ndash;%&gt;
+        <%--답변이 달려 있다면--%>
       <c:if test="${vo.bvo != null}">
         <div class="page-title">
           <h2>답변</h2>
@@ -171,7 +172,7 @@
           <table class="adSaveInquiry">
             <tr>
               <th class="w100">제목</th>
-              <td>[답변] ${vo.boardTitle}</td>
+              <td>[답변] ${vo.bvo.boardTitle}</td>
             </tr>
             <tr>
               <th class="w100">지점명</th>
@@ -181,25 +182,26 @@
               <th class="w100">내용</th>
               <td>${vo.bvo.boardContent}</td>
             </tr>
-            <c:if test="${vo.file_name ne null and vo.file_name.length() > 4}">
-            <tr>
-              <th class="w100">첨부파일:</th>
-              <td>
-                <input type="file" id="file" name="file"/>
-              </td>
-            </tr>
+            <c:if test="${vo.bvo.file_name ne null and vo.bvo.file_name.length() > 4}">
+              <tr>
+                <th class="w100">첨부파일:</th>
+                <td>
+                  <a href="javascript:down('${vo.bvo.file_name}')">
+                      ${vo.bvo.file_name}
+                  </a>
+                </td>
+              </tr>
             </c:if>
           </table>
-          <div style="text-align:right; margin-top:10px;">
-            <button type="button" id="showEditFormBtn">수정하기</button>
-          </div>
         </div>
-
-      </c:if>--%>
+      </c:if>
 
     </c:if>
   </div>
 </div>
+<form name="ff" method="post" action="" style="display:none;">
+  <input type="hidden" name="f_name" value=""/>
+</form>
 
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -231,7 +233,7 @@
         dataType: "html" // 서버로부터 HTML 응답을 기대
       }).done(function(res) {
         // 성공 시 서버로부터 받은 HTML을 특정 영역에 삽입
-        $('#answerDisplayArea').html(res);
+        /*$('#answerDisplayArea').html(res);
 
         // '답변하기' 폼과 버튼 숨기기
         $('#answerFormContainer').hide();
@@ -239,6 +241,11 @@
 
         // '수정하기' 버튼 보이게 하기 (필요 시)
         $('#showEditFormBtn').show();
+*/
+        // 서버 요청 성공 시
+        alert("답변이 성공적으로 등록되었습니다.");
+        // 페이지 새로고침
+        location.reload();
 
       }).fail(function(xhr, status, error) {
         console.error("AJAX 요청 실패:", status, error);
@@ -284,12 +291,12 @@
   }
 
   //파일 다운로드
-  /*function down(fname) {
+  function down(fname) {
     document.ff.action = "admin/download.jsp";
     document.ff.f_name.value = fname;
     document.ff.submit();
   }
-*/
+
 </script>
 </body>
 </html>

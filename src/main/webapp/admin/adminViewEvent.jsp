@@ -157,8 +157,10 @@
         <tfoot>
         <tr>
           <td colspan="2">
+            <c:if test="${vo.tvo.tIdx eq adminInfo.tIdx}">
             <button type="button" onclick="goEdit()" value="수정">수정</button>
             <button type="button" onclick="goDel()" value="삭제">삭제</button>
+            </c:if>
             <button type="button" onclick="goList()" value="목록">목록</button>
           </td>
         </tr>

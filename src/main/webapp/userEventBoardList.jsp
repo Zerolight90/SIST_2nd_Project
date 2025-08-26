@@ -8,153 +8,13 @@
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./css/tab.css">
     <link rel="stylesheet" href="./css/theater.css">
+    <link rel="stylesheet" href="./css/board.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
     <link rel="icon" href="${pageContext.request.contextPath}/images/favicon.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 
-
-    <style>
-
-        .inner-wrap {
-            position: relative;
-            width: 1100px;
-            margin: 0 auto;
-        }
-
-        .event-list{
-            height: 365px;
-        }
-
-        .event-list ul li {
-            position: relative;
-            float: left;
-            width: 245px;
-            margin: 0 0 0 40px;
-            padding: 0;
-        }
-
-        /*1,5,9,, 번째 게시물 margin:0 주기*/
-        .event-list ul li:nth-child(4n + 1) {
-            margin:0;
-        }
-
-        /*5번째 게시물부터 위 간격주기*/
-        .event-list ul li:nth-child(n + 5) {
-            margin-top: 60px;
-        }
-
-        .event-list ul li a {
-            overflow: hidden;
-            display: block;
-            border: 1px solid #e4e4e4;
-            border-radius: 10px;
-            min-height: 364px;
-        }
-        .event-list ul li a .img {
-            width: 100%;
-            height: 244px;
-            font-size: 0;
-            line-height: 0;
-            border-bottom: 1px solid #e4e4e4;
-            background-color: #eee;
-        }
-
-        .event-list ul li a .img img {
-            width: 100% !important;
-            height: 243px !important;
-        }
-
-        .event-list ul li a .tit {
-            overflow: hidden;
-            height: 60px;
-            margin: 0 0 10px 0;
-            padding: 20px 17px 0 17px;
-            line-height: 1.3;
-            font-weight: 700;
-            color: #222;
-            display: block !important;
-        }
-
-        .event-list ul li a .date {
-            padding: 0 17px 20px 17px;
-            font-size: .8667em;
-            line-height: 1.1;
-            color: #666;
-        }
-
-        .event-list p {
-            display: block;
-            margin: 0;
-            padding: 0;
-        }
-
-        a:link {
-            color: #444;
-            text-decoration: none;
-        }
-
-        a {
-            background-color: transparent;
-        }
-
-        .notice-tab .tab-event{
-            width: 25% !important;
-        }
-
-        .name{
-            padding: 40px 0 20px 0;
-            display: inline-block;
-            font-size: 13px;
-            font-size: 1.4666em;
-            color: #503396;
-        }
-
-        .right{
-            float: right;
-            margin-top: 50px;
-        }
-
-        /*슬라이드**********************************************/
-        .swiper-wrap .count {
-            position: absolute; /* 슬라이더 위에 겹쳐서 표시 */
-            right: 0;
-            top: 0;
-            z-index: 10; /* 다른 요소보다 위에 표시 */
-            color: #fff; /* 글자색 흰색 */
-            background-color: rgba(0, 0, 0, 0.5); /* 배경 반투명 검정 */
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 14px;
-        }
-
-        /* 여러 배너를 담는 컨테이너 */
-        .banner-group {
-            display: flex; /* 자식 요소를 가로로 정렬 */
-            gap: 20px; /* 배너 사이 간격 */
-        }
-
-        /* 개별 배너 아이템 */
-        .banner-item {
-            flex-basis: 50%; /* 컨테이너 너비의 50%를 차지 */
-        }
-
-        /* 이미지에 맞게 크기 조절 */
-        .banner-item img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        /*게시물 정렬 맞추기*/
-        .clearfix::after {
-            content: "";
-            display: table;
-            clear: both;
-        }
-
-    </style>
 </head>
 
 <body>
@@ -340,10 +200,10 @@
                     <div class="board-list-util">
                         <div class="result-count"><strong>전체 <em class="font-gblue">${totalCount}</em>건</strong></div>
 
-                        <div class="board-search"   style="margin-left: auto;" >
+                       <%-- <div class="board-search"   style="margin-left: auto;" >
                             <input type="text" id="searchTxtMega" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value="" maxlength="15">
                             <button type="button" id="searchBtnMega" class="btn-search-input">검색</button>
-                        </div>
+                        </div>--%>
                     </div>
 
                     <div class="event-list m15">
@@ -373,10 +233,10 @@
                     <div class="board-list-util">
                         <div class="result-count"><strong>전체 <em class="font-gblue">${totalCount}</em>건</strong></div>
 
-                        <div class="board-search"   style="margin-left: auto;" >
+                        <%--<div class="board-search"   style="margin-left: auto;" >
                             <input type="text" id="searchTxtMega" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value="" maxlength="15">
                             <button type="button" id="searchBtnMega" class="btn-search-input">검색</button>
-                        </div>
+                        </div>--%>
                     </div>
 
                     <div class="event-list m15">
@@ -404,10 +264,10 @@
                     <div class="board-list-util">
                         <div class="result-count"><strong>전체 <em class="font-gblue">${totalCount}</em>건</strong></div>
 
-                        <div class="board-search"   style="margin-left: auto;" >
+                        <%--<div class="board-search"   style="margin-left: auto;" >
                             <input type="text" id="searchTxtMega" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value="" maxlength="15">
                             <button type="button" id="searchBtnMega" class="btn-search-input">검색</button>
-                        </div>
+                        </div>--%>
                     </div>
 
                     <div class="event-list m15">

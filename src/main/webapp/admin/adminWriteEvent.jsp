@@ -119,7 +119,7 @@
           <th class="w100">지점명</th>
           <td>
             <%--지점명 들어갈 자리--%>
-            <span>강동점</span>
+            <span>${tName}</span>
           </td>
         </tr>
         <tr>

@@ -3,6 +3,7 @@ package mybatis.dao;
 import mybatis.Service.FactoryService;
 import mybatis.vo.AdminBoardVO;
 import mybatis.vo.MemberVO;
+import mybatis.vo.TheaterVO;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.HashMap;
@@ -59,7 +60,7 @@ public class UserBoardDAO {
     }
 
     //1:1문의 작성
-    public static int add(String boardType, String boardTitle, String boardContent, String fname, String oname, String boardStartRegDate, String is_answered, MemberVO mvo){
+    public static int add(String boardType, String boardTitle, String boardContent, String fname, String oname, String boardStartRegDate, String is_answered, String tIdx, MemberVO mvo){
 
         if(boardType.equals("userInquiryWrite")){
             boardType="QnA";
@@ -71,6 +72,8 @@ public class UserBoardDAO {
 
         Map<String, String> map = new HashMap<>();
 
+        System.out.println("tIdxtIdxtIdxtIdxtIdxtIdxtIdxtIdx"+tIdx);
+
         map.put("boardType", boardType);
         map.put("boardTitle", boardTitle);
         map.put("boardContent", boardContent);
@@ -78,6 +81,7 @@ public class UserBoardDAO {
         map.put("oname", oname);
         map.put("boardStartRegDate", boardStartRegDate);
         map.put("is_answered", is_answered);
+        map.put("tIdx", tIdx);
         map.put("userIdx", mvo.getUserIdx());
 
         SqlSession ss= FactoryService.getFactory().openSession();
@@ -164,4 +168,18 @@ public class UserBoardDAO {
 
         return nextVO;
     }
+
+    //
+    public static List<AdminBoardVO> getBoardInfo(String tIdx){
+        List<AdminBoardVO> list = null;
+        SqlSession ss= FactoryService.getFactory().openSession();
+        list = ss.selectList("userBoard.getBoardToTheater", tIdx);
+        if(list == null) {
+            System.out.println("boardInfo is null");
+        }
+        ss.close();
+        return list;
+    }
+
+
 }

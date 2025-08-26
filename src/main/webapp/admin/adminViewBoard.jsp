@@ -113,7 +113,7 @@
             <th class="w100">지점명</th>
             <td>
               <%--지점명 들어갈 자리--%>
-              <span>${vo.tvo.tName}</span>
+              <span>${tName}</span>
             </td>
           </tr>
           <tr>
@@ -150,9 +150,11 @@
         <tfoot>
         <tr>
           <td colspan="2">
-            <button type="button" onclick="goEdit()" value="수정">수정</button>
+            <c:if test="${vo.tvo.tIdx eq adminInfo.tIdx}">
+            <button type="button" onclick="goEdit()" value="수정">수정 </button>
             <button type="button" onclick="goDel()" value="삭제">삭제</button>
-            <button type="button" onclick="goList()" value="목록">목록</button>
+            </c:if>
+            <button type="button" onclick="goList()" value="목록">목록 </button>
           </td>
         </tr>
         </tfoot>

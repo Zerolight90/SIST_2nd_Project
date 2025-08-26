@@ -2,14 +2,17 @@ package Action;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import mybatis.dao.TheatherDAO;
 import mybatis.dao.UserBoardDAO;
 import mybatis.vo.MemberVO;
+import mybatis.vo.TheaterVO;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.util.Arrays;
 
 public class UserBoardWriteAction implements Action{
 
@@ -19,11 +22,17 @@ public class UserBoardWriteAction implements Action{
         HttpSession session = request.getSession();
         MemberVO mvo = (MemberVO) session.getAttribute("mvo");
 
-        /*if (mvo == null) {
-            return "/mypage/myPage_privateinquiry.jsp";
-        }*/
 
         request.setAttribute("memberInfo", mvo);
+
+        if (mvo == null) {
+            return "Controller?type=userInquiryWrite";
+        }
+
+
+        TheaterVO[] theaterList  =  TheatherDAO.getList();
+        request.setAttribute("theaterList", theaterList);
+
 
         //반환값을 String으로 준비
         String viewPath = null;
@@ -36,7 +45,6 @@ public class UserBoardWriteAction implements Action{
         } else if (enc_type.startsWith("multipart")) {
 
             try {
-
                 ServletContext application = request.getServletContext();
                 String realPath = application.getRealPath("/bbs_upload");
 
@@ -46,8 +54,11 @@ public class UserBoardWriteAction implements Action{
                 String boardContent = mr.getParameter("boardContent");
                 String boardType = mr.getParameter("type");
                 String is_answered = mr.getParameter("is_answered");
+                String tIdx = mr.getParameter("tIdx");
+
 
                 File f = mr.getFile("file");
+
 
                 String fname = null;
                 String oname = null;
@@ -58,7 +69,7 @@ public class UserBoardWriteAction implements Action{
 
                 //System.out.println(boardType +":::::::::::타입에 대한 설명입니다");
 
-                UserBoardDAO.add(boardType, boardTitle, boardContent, fname, oname, boardType, is_answered, mvo);
+                UserBoardDAO.add(boardType, boardTitle, boardContent, fname, oname, boardType, is_answered, tIdx ,mvo);
 
                 viewPath = "/userInquiryWrite.jsp";
 

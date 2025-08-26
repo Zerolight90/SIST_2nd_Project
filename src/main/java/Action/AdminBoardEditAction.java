@@ -101,7 +101,6 @@ public class AdminBoardEditAction implements Action{
                     viewPath = "Controller?type=adminViewInquiry&boardIdx=" + boardIdx + "&cPage=" + cPage;
                 }
 
-                viewPath = "Controller?type=adminViewBoard&boardIdx=" + boardIdx + "&cPage=" + cPage;
 
             } catch (Exception e) {
                 e.printStackTrace();

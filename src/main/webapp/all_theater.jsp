@@ -70,7 +70,6 @@
                             </div>
                         </c:forEach>
                     </div>
-
                 <div class="user-theater">
                                     <c:choose>
                                         <c:when test="${empty sessionScope.mvo && empty sessionScope.kvo && empty sessionScope.nmemvo}">
@@ -78,7 +77,7 @@
                                             <div class="theater-footer">
                                                 <div class="my-theater">나의 선호극장 정보</div>
                                                 <div class="btn_area">
-                                                    <button class="login-btn">로그인하기</button>
+                                                    <button class="login-btn" onclick = "location.href ='Controller?type=login&all_theater=all_theater'">로그인하기</button>
                                                 </div>
                                             </div>
                                         </c:when>

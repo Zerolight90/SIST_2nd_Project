@@ -64,7 +64,7 @@
     <!--게시물 작성-->
     <insert id="add" parameterType="map">
         INSERT INTO board(userIdx, tIdx, boardType, boardTitle, boardContent, file_name, ori_name, boardStatus, is_answered, boardRegDate)
-        VALUES (#{userIdx}, 1, #{boardType}, #{boardTitle}, #{boardContent}, #{fname}, #{oname}, 0, 0, NOW())
+        VALUES (#{userIdx}, #{tIdx}, #{boardType}, #{boardTitle}, #{boardContent}, #{fname}, #{oname}, 0, 0, NOW())
     </insert>
 
     <!--공지사항 상세 이전글-->
@@ -93,5 +93,9 @@
         SELECT * FROM board
         WHERE tIdx = #{tIdx}
     </select>
+
+
+
+
 
 </mapper>

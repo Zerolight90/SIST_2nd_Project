@@ -111,7 +111,7 @@
 
     <form action="Controller?type=adminEditEvent" method="post"
           encType="multipart/form-data">
-      <input type="hidden" name="boardType" value="이벤트"/>
+      <input type="hidden" name="boardType" value="adminEditEvent"/>
       <input type="hidden" name="boardIdx" value="${param.boardIdx}"/>
       <input type="hidden" name="cPage" value="${param.cPage}"/>
       <!-- 3. 공지사항 테이블 -->
@@ -340,7 +340,7 @@
       //이미지의 경로를 보내도록 되어있다.
       //그것을 받아 editor에 img태그를 넣어주면 된다.
       $("#board_content").summernote("editor.insertImage", res.img_url);
-      console.log("img_url:::::::::::::::"+ res.img_url);
+      //console.log("img_url:::::::::::::::"+ res.img_url);
     });
 
   }

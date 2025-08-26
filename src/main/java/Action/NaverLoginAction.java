@@ -135,10 +135,15 @@ public class NaverLoginAction implements Action {
         Object seaturlObj = request.getSession().getAttribute("seaturl");
         Object borderurlObj = request.getSession().getAttribute("borderurl");
         Object reviewurlobj = request.getSession().getAttribute("reviewurl");
+        Object inquiryurlobj = request.getSession().getAttribute("inquiryurl");
+        Object allTheaterobj = request.getSession().getAttribute("allTheaterurl");
+
 
         String seaturl2 = null;
         String borderurl2 = null;
         String reviewurl2 = null;
+        String inquiryurl2 = null;
+        String allTheaterurl2 = null;
 
         if (seaturlObj != null)
             seaturl2 = seaturlObj.toString();
@@ -146,6 +151,10 @@ public class NaverLoginAction implements Action {
             borderurl2 = borderurlObj.toString();
         if (reviewurlobj != null)
             reviewurl2 = reviewurlobj.toString();
+        if (inquiryurlobj != null)
+            inquiryurl2 = inquiryurlobj.toString();
+        if (allTheaterobj != null)
+            allTheaterurl2 = allTheaterobj.toString();
 
 
         // URL 결정 로직
@@ -166,6 +175,14 @@ public class NaverLoginAction implements Action {
                 url = url.substring(idx + "type=".length());
             }
             request.getSession().removeAttribute("reviewurl");
+        }else if (inquiryurl2 != null && !inquiryurl2.trim().isEmpty()) {
+            url = inquiryurl2;
+            // 사용 후 세션에서 제거
+            request.getSession().removeAttribute("inquiryurl");
+        }else if (allTheaterurl2 != null && !allTheaterurl2.trim().isEmpty()) {
+            url = allTheaterurl2;
+            // 사용 후 세션에서 제거
+            request.getSession().removeAttribute("allTheaterurl");
         }
         else { // 위 경우가 모두 해당되지않으면 첫화면 이동
             url = "index";

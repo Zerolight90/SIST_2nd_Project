@@ -244,7 +244,7 @@
         전체 <strong>${totalCount}</strong>건
       </div>
       <form class="search-form" action="#" method="get">
-        <select name="search_field">
+        <%--<select name="search_field">
           <option value="all">지역 선택</option>
           <option value="name">대상</option>
           <option value="id">로그 정보</option>
@@ -255,7 +255,7 @@
           <option value="name">대상</option>
           <option value="id">로그 정보</option>
           <option value="email">관리자 ID</option>
-        </select>
+        </select>--%>
         <input type="text" name="search_keyword" placeholder="검색어를 입력해주세요.">
         <button type="submit" class="btn btn-search" onclick="searchTitle()">검색</button>
         <button type="button" class="btn btn-reset">초기화</button>
@@ -274,9 +274,11 @@
       </tr>
       </thead>
       <tbody>
+
       <!-- DB에서 반복문으로 생성 -->
       <c:set var="p" value="${requestScope.page}" scope="page"/>
       <c:forEach items="${requestScope.ar}" var="vo" varStatus="vs1">
+        <c:if test="${adminInfo.tIdx eq vo.tvo.tIdx}">
         <tr>
           <c:set var="num" value="${p.totalCount - ((p.nowPage-1)*p.numPerPage+ vs1.index)}"/>
           <td>${num}</td>
@@ -293,6 +295,7 @@
             <c:if test="${vo.is_answered eq '1'}"> 답변완료</c:if>
           </td>
         </tr>
+        </c:if>
       </c:forEach>
       </tbody>
 
@@ -318,13 +321,13 @@
           </c:if>
           <%--현재 페이지 외의 버튼들--%>
           <c:if test="${p.nowPage != vs.index}">
-            <li><a href="Controller?type=adminBoardList&cPage=${vs.index}">${vs.index}</a></li>
+            <li><a href="Controller?type=adminInquiryList&cPage=${vs.index}">${vs.index}</a></li>
           </c:if>
         </c:forEach>
 
 
         <c:if test="${p.endPage < p.totalPage}">
-          <li><a href="Controller?type=adminBoardList&cPage=${p.nowPage+p.pagePerBlock}">&gt;</a></li> <%--&gt; :: >>--%>
+          <li><a href="Controller?type=adminInquiryList&cPage=${p.nowPage+p.pagePerBlock}">&gt;</a></li> <%--&gt; :: >>--%>
         </c:if>
         <c:if test="${p.endPage >= p.totalPage}">
           <li class="nav-arrow disable">&gt;</li>

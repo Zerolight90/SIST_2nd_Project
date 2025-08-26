@@ -183,7 +183,7 @@
         <tfoot>
         <tr>
           <td colspan="2">
-            <button type="submit" id="save_btn">등록</button>
+            <button type="button" id="save_btn" onclick="sendData()">등록</button>
             <button type="button" id="cancel_btn" onclick="goList()">취소</button>
           </td>
         </tr>
@@ -200,17 +200,61 @@
 
 
 <script>
-
   //게시글 등록
   function sendData(){
 
     //유효성 검사
-    //제목
-    let title = $("#boardTitle").val();
-    if(title.trim().length < 1){
-      alert("제목을 입력하세요!");
-      $("#boardTitle").val("");
-      $("#boardTitle").focus();
+    //지점명
+    let tName = $("#tName").val();
+    if(tName.trim().length < 1){
+      alert("지점명을 입력하세요");
+      $("#tName").val("");
+      $("#tName").focus();
+      return;
+    }
+
+    //지점 설명
+    let tInfo = $("#tInfo").val();
+    if(tInfo.trim().length < 1){
+      alert("지점 설명을 입력하세요");
+      $("#tInfo").val("");
+      $("#tInfo").focus();
+      return;
+    }
+
+    //지역
+    let region = $("#region").val();
+    if(region.trim().length < 1){
+      alert("지역을 선택하세요");
+      $("#region").val("");
+      $("#region").focus();
+      return;
+    }
+
+    //주소
+    let tAddress = $("#tAddress").val();
+    if(tAddress.trim().length < 1){
+      alert("주소를 입력하세요");
+      $("#tAddress").val("");
+      $("#tAddress").focus();
+      return;
+    }
+
+    //보유시설
+    /*let tFacilities = $(".tFacilities").val();
+    if(tFacilities.trim().length < 1){
+      alert("지역을 선택하세요");
+      $("#tAddress").val("");
+      $("#tAddress").focus();
+      return;
+    }*/
+
+    //주차안내
+    let tParkingInfo = $("#tParkingInfo").val();
+    if(tParkingInfo.trim().length < 1){
+      alert("주차 안내 정보를 입력하세요");
+      $("#tParkingInfo").val("");
+      $("#tParkingInfo").focus();
       return;
     }
 

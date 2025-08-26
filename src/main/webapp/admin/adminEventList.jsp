@@ -229,7 +229,7 @@
       </div>
       <form class="search-form" action="Controller" method="get">
         <input type="hidden" name="type" value="adminEventList">
-        <select name="search_field">
+        <%--<select name="search_field">
           <option value="all">지역 선택</option>
           <option value="name">대상</option>
           <option value="id">로그 정보</option>
@@ -240,7 +240,7 @@
           <option value="name">대상</option>
           <option value="id">로그 정보</option>
           <option value="email">관리자 ID</option>
-        </select>
+        </select>--%>
         <%--검색기능--%>
         <input type="text" name="searchKeyword" id="searchKeyword" placeholder="검색어를 입력해주세요." value="${param.searchKeyword}">
         <button type="button" class="btn btn-search" onclick="searchTitle()">검색</button>
