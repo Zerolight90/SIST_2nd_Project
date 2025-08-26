@@ -92,7 +92,6 @@
                   <img src="${posterUrlResolved}" alt="${movie.title}">
                 </a>
                 <h4>${movie.title}</h4>
-                <button class="mybtn">관람평쓰기</button>
               </div>
             </c:forEach>
           </c:when>
