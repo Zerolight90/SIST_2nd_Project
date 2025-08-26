@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <style>
   .userModal {
@@ -124,7 +125,13 @@
       </div>
       <div class="divs">
         <label for="userStatus">회원 상태:</label>
-        <input type="text" id="userStatus" name="status" class="input" value="${requestScope.vo.status}" readonly>
+
+        <c:if test="${requestScope.vo.status == 0}">
+          <input type="text" id="userStatus" name="status" class="input" value="활성" readonly>
+        </c:if>
+        <c:if test="${requestScope.vo.status == 1}">
+          <input type="text" id="userStatus" name="status" class="input" value="탈퇴" readonly>
+        </c:if>
       </div>
     </form>
   </div>

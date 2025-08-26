@@ -55,6 +55,16 @@
         VALUE (#{tIdx} , #{adminId}, #{adminPassword}, #{adminLevel}, 1)
     </insert>
 
+    <insert id="updateAdmin" parameterType="Map">
+        UPDATE admin SET
+        tIdx = #{tIdx},
+        adminId = #{adminId},
+        adminPassword = #{adminPassword},
+        adminLevel = #{adminLevel},
+        adminstatus = #{adminstatus}
+        WHERE adminIdx = #{adminIdx}
+    </insert>
+
     <select id="salesByTheater" resultType="mybatis.vo.RevenueVO">
         SELECT
         t.tName AS theaterName,
