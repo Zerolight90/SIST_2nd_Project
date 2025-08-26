@@ -25,20 +25,26 @@
       <c:choose>
         <c:when test="${!empty reviewList}">
           <c:forEach var="review" items="${reviewList}">
-            <div class="review-item">
-                <%-- 포스터 경로 처리 --%>
+            <div class="review-item" id="review-${review.reviewIdx}">
               <c:set var="posterUrlResolved">
                 <c:choose>
                   <c:when test="${review.posterUrl.startsWith('http')}">${review.posterUrl}</c:when>
                   <c:otherwise>${cp}${review.posterUrl}</c:otherwise>
                 </c:choose>
               </c:set>
-              <img src="${posterUrlResolved}" alt="${review.title}" style="width:80px; height:auto; object-fit:cover;"/>
+              <img src="${posterUrlResolved}" alt="${review.title}"/>
               <div class="review-content">
                 <h4>${review.title}</h4>
-                <p>${review.comment}</p>
+                <div class="rating-display">평점 ★ ${review.rating}</div>
+                <p class="comment-display">${review.comment}</p>
               </div>
-              <div class="review-actions"><a href="#">수정</a><a href="#">삭제</a></div>
+              <div class="review-actions">
+                <button class="mybtn-small btn-update"
+                        data-review-idx="${review.reviewIdx}"
+                        data-rating="${review.rating}"
+                        data-comment="${review.comment}">수정</button>
+                <button class="mybtn-small btn-delete" data-review-idx="${review.reviewIdx}">삭제</button>
+              </div>
             </div>
           </c:forEach>
         </c:when>
@@ -48,7 +54,25 @@
       </c:choose>
     </div>
   </c:if>
+    <%-- 관람평 수정을 위한 모달(팝업창) HTML --%>
+    <div id="review-edit-dialog" title="관람평 수정" style="display:none;">
+      <form id="review-edit-form">
+        <input type="hidden" id="edit-review-idx" name="reviewIdx">
+        <fieldset>
+          <label for="edit-rating" style="display:block; margin-bottom:5px;">평점</label>
+          <select name="rating" id="edit-rating" class="text ui-widget-content ui-corner-all" style="width:100%; padding:8px; margin-bottom:15px;">
+            <option value="5">★★★★★ (5)</option>
+            <option value="4">★★★★☆ (4)</option>
+            <option value="3">★★★☆☆ (3)</option>
+            <option value="2">★★☆☆☆ (2)</option>
+            <option value="1">★☆☆☆☆ (1)</option>
+          </select>
 
+          <label for="edit-comment" style="display:block; margin-bottom:5px;">내용</label>
+          <textarea rows="5" name="comment" id="edit-comment" class="text ui-widget-content ui-corner-all" style="width:100%; padding:8px;"></textarea>
+        </fieldset>
+      </form>
+    </div>
   <%-- ==================== 2. 본 영화 탭 ==================== --%>
   <c:if test="${currentTab == 'watched'}">
     <div class="tab-pane active">
@@ -137,6 +161,5 @@
     </div>
   </c:if>
 </div>
-
 </body>
 </html>

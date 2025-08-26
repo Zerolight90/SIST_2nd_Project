@@ -5,13 +5,21 @@
 <mapper namespace="movieStory">
 
     <select id="getReviews" parameterType="Long" resultType="mybatis.vo.MovieStoryVO">
-        SELECT m.poster AS posterUrl,
-               m.name AS title,
-               r.reviewContent AS comment,
-               r.mIdx AS mIdx
-        FROM review r
-                 JOIN movie m ON r.mIdx = m.mIdx
-        WHERE r.userIdx = #{userIdx} AND r.reviewStatus = 0
+        SELECT
+        r.reviewIdx AS reviewIdx,
+        r.reviewRating AS rating,
+        m.poster AS posterUrl,
+        m.name AS title,
+        r.reviewContent AS comment,
+        r.mIdx AS mIdx
+        FROM
+        review r
+        JOIN
+        movie m ON r.mIdx = m.mIdx
+        WHERE
+        r.userIdx = #{userIdx} AND r.reviewStatus = 0
+        ORDER BY
+        r.reviewDate DESC
     </select>
 
     <select id="getWatchedMovies" parameterType="java.util.Map" resultType="mybatis.vo.MovieStoryVO">

@@ -16,7 +16,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
   <link rel="stylesheet" href="../css/mypage.css">
   <link rel="icon" href="../images/favicon.png">
-  <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 </head>
 <body>
 
@@ -95,77 +94,123 @@
 
 <script>
   $(function() {
-    // 다이얼로그 요소 가져오기 (카카오 회원용)
-    let $dialog = $("#dialog");
+    const cp = "${cp}";
+    const mainContent = $("#mainContent"); // mainContent를 jQuery 객체로 한 번만 선언
 
-    // 카카오 회원이면서 추가 정보가 필요한 경우에만 다이얼로그 초기화 및 실행
+    // 1. 카카오 회원 추가 정보 입력 유도 다이얼로그
+    let $dialog = $("#dialog");
     if ($dialog.length > 0) {
-      let option = {
-        modal: true, autoOpen: false,
+      $dialog.dialog({
+        modal: true, autoOpen: true,
         title: '추가 정보 입력 안내',
-        width: 450, height: 250, resizable: false,
-        buttons: { "확인": function() { $dialog.dialog("close"); } }
-      };
-      $dialog.dialog(option);
-      $dialog.dialog("open");
+        width: 450, resizable: false,
+        buttons: { "확인": function() { $(this).dialog("close"); } }
+      });
     }
 
-    // 메인 컨텐츠 영역을 jQuery 객체로 저장
-    const mainContent = $("#mainContent");
-    const cp = "${cp}"; // Context Path 변수
-
-    // --- 1. 첫 화면 결정 및 로드 ---
+    // 2. 마이페이지 첫 화면 로드
     let firstUrl;
     let initialTabType;
-
     <c:choose>
-    <%-- Case 1: 비회원일 경우 (nmemvo 세션 존재) --%>
     <c:when test="${not empty sessionScope.nmemvo}">
     initialTabType = "myReservation";
-    firstUrl = cp + "/Controller?type=myReservation";
+    firstUrl = `${cp}/Controller?type=myReservation`;
     </c:when>
-
-    <%-- Case 2: 카카오 회원이면서 추가 정보가 필요할 경우 --%>
     <c:when test="${not empty sessionScope.kvo && (empty sessionScope.mvo || empty sessionScope.mvo.birth || empty sessionScope.mvo.phone)}">
     initialTabType = "myUserInfo";
-    firstUrl = cp + "/Controller?type=myUserInfo";
+    firstUrl = `${cp}/Controller?type=myUserInfo`;
     </c:when>
-
-    <%-- Case 3: 그 외 모든 회원 (정회원, 정보입력 완료한 카카오 회원) --%>
     <c:otherwise>
     initialTabType = "myReservation";
-    firstUrl = cp + "/Controller?type=myReservation";
+    firstUrl = `${cp}/Controller?type=myReservation`;
     </c:otherwise>
     </c:choose>
 
-    // 결정된 탭에 'active' 클래스를 적용하고, mainContent에 첫 화면을 로드
     $('.side-nav .nav-link').removeClass('active');
     $('.side-nav .nav-link[data-type="' + initialTabType + '"]').addClass('active');
     mainContent.load(firstUrl);
 
+    // 3. 모든 클릭 이벤트 핸들러 (이벤트 위임 방식)
 
-    // --- 2. 이벤트 핸들러 설정 (이벤트 위임 방식) ---
-
-    // 2-1. 좌측 사이드 메뉴 클릭 처리 (비활성화된 링크는 제외)
+    // 3-1. 사이드 메뉴 클릭
     $('.side-nav .nav-link:not(.disabled)').on('click', function(e) {
-      e.preventDefault(); // 기본 링크 동작 방지
-      $('.side-nav .nav-link').removeClass('active'); // 모든 메뉴에서 active 클래스 제거
-      $(this).addClass('active'); // 클릭한 메뉴에 active 클래스 추가
-      const url = $(this).attr('href');
-      mainContent.load(url); // Ajax로 메인 영역 교체
+      e.preventDefault();
+      $('.side-nav .nav-link').removeClass('active');
+      $(this).addClass('active');
+      mainContent.load($(this).attr('href'));
     });
 
-    // 2-2. 동적으로 로드된 컨텐츠 내부의 링크 처리 (공통 핸들러)
-    // .tab-nav a: 무비스토리 탭
-    // .pagination a: 페이지 번호
-    // .view-link: 1:1문의 제목
-    mainContent.on('click', '.tab-nav a, .pagination a, .view-link', function(e) {
-      e.preventDefault(); // 링크의 기본 동작(페이지 전체 이동) 방지
-      const url = $(this).attr('href');
-      mainContent.load(url); // mainContent 영역만 Ajax로 새로고침
+    // 3-2. 동적으로 로드된 컨텐츠 내부의 모든 링크 및 버튼 처리
+    mainContent.on('click', 'a.view-link, .tab-nav a, .pagination a', function(e) {
+      e.preventDefault();
+      mainContent.load($(this).attr('href'));
     });
+
+    // 3-3. 나의 무비스토리 - 삭제 버튼
+    mainContent.on("click", ".btn-delete", function() {
+      const reviewIdx = $(this).data("review-idx");
+      if (confirm("정말로 이 관람평을 삭제하시겠습니까?")) {
+        $.ajax({
+          url: `${cp}/Controller?type=deleteReview`,
+          type: "POST",
+          data: { reviewIdx: reviewIdx },
+          dataType: "json",
+          success: (response) => {
+            if (response.success) {
+              alert("관람평이 삭제되었습니다.");
+              $("#review-" + reviewIdx).fadeOut(500, function() { $(this).remove(); });
+            } else { alert("삭제 실패: " + response.message); }
+          },
+          error: () => alert("서버 통신 중 오류가 발생했습니다.")
+        });
+      }
+    });
+
+    // 3-4. 나의 무비스토리 - 수정 버튼
+    mainContent.on("click", ".btn-update", function() {
+      const reviewIdx = $(this).data("review-idx");
+      const rating = $(this).data("rating");
+      const comment = $(this).data("comment");
+
+      const dialog = $("#review-edit-dialog");
+      dialog.find("#edit-review-idx").val(reviewIdx);
+      dialog.find("#edit-rating").val(rating);
+      dialog.find("#edit-comment").val(comment);
+
+      dialog.dialog({
+        autoOpen: true, height: 400, width: 450, modal: true, title: '관람평 수정',
+        buttons: {
+          "저장": function() { submitReviewUpdate($(this)); },
+          "취소": function() { $(this).dialog("close"); }
+        }
+      });
+    });
+
+    // 4. 수정 내용 전송 함수 (3-4에서 호출)
+    function submitReviewUpdate(dialogInstance) {
+      const reviewIdx = dialogInstance.find("#edit-review-idx").val();
+      const updatedRating = dialogInstance.find("#edit-rating").val();
+      const updatedComment = dialogInstance.find("#edit-comment").val();
+
+      $.ajax({
+        url: `${cp}/Controller?type=updateReview`,
+        type: "POST",
+        data: { reviewIdx, rating: updatedRating, comment: updatedComment },
+        dataType: "json",
+        success: (response) => {
+          if (response.success) {
+            alert("관람평이 수정되었습니다.");
+            const reviewItem = $("#review-" + reviewIdx);
+            reviewItem.find(".rating-display").text("평점 ★ " + updatedRating);
+            reviewItem.find(".comment-display").text(updatedComment);
+            reviewItem.find(".btn-update").data({ rating: updatedRating, comment: updatedComment });
+            dialogInstance.dialog("close");
+          } else { alert("수정 실패: " + response.message); }
+        },
+        error: () => alert("서버 통신 중 오류가 발생했습니다.")
+      });
+    }
   });
 </script>
-
 </body>
 </html>

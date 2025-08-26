@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class ReviewDAO {
 
@@ -52,6 +53,31 @@ public class ReviewDAO {
             return list;
         }
 
+    // 관람평 수정을 위한 메소드
+    public static int updateReview(Map<String, String> params) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int result = ss.update("review.update", params);
+        if (result > 0) {
+            ss.commit();
+        } else {
+            ss.rollback();
+        }
+        ss.close();
+        return result;
+    }
+
+    // 관람평 삭제를 위한 메소드
+    public static int deleteReview(Map<String, String> params) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int result = ss.delete("review.delete", params);
+        if (result > 0) {
+            ss.commit();
+        } else {
+            ss.rollback();
+        }
+        ss.close();
+        return result;
+    }
 
 }
 

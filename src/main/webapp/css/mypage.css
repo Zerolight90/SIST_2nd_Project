@@ -362,3 +362,73 @@ article {
     transform: none !important;          /* 호버 효과 제거 */
     box-shadow: none !important;         /* 호버 효과 제거 */
 }
+
+/* 리뷰 아이템을 카드 형태로 변경 */
+.review-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 20px;
+    border: 1px solid #f0f0f0;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    position: relative;
+    transition: box-shadow 0.3s;
+}
+.review-item:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.review-item img {
+    width: 80px;
+    height: 114px; /* 비율 유지 */
+    object-fit: cover;
+    margin-right: 20px;
+    border-radius: 4px;
+}
+.review-content {
+    flex-grow: 1;
+}
+.review-content h4 {
+    margin: 0 0 8px;
+    font-size: 17px;
+}
+.review-content .rating-display {
+    font-size: 14px;
+    color: #f5a623; /* 별점 색상 */
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+.review-content .comment-display {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* 수정/삭제 버튼을 우측 상단에 배치 */
+.review-actions {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 8px;
+}
+.review-actions .mybtn-small {
+    padding: 5px 12px;
+    font-size: 13px;
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.review-actions .mybtn-small:hover {
+    background-color: #eee;
+}
+
+/* jQuery UI 다이얼로그(모달) 제목 스타일 */
+.ui-dialog .ui-dialog-titlebar {
+    background: #8e44ad; /* mypage.css 테마 색상 */
+    border: none;
+}
+.ui-dialog .ui-dialog-title {
+    color: #ffffff;
+}

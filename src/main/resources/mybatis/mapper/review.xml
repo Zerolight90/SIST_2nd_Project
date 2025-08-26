@@ -64,6 +64,19 @@
         VALUES (#{userIdx}, #{mIdx}, #{reviewRating}, #{reviewContent}, NOW(), #{ip}, '0')
     </insert>
 
+    <update id="update" parameterType="java.util.Map">
+        UPDATE review
+        SET
+        reviewRating = #{rating},
+        reviewContent = #{comment},
+        reviewDate = NOW()
+        WHERE
+        reviewIdx = #{reviewIdx} AND userIdx = #{userIdx}
+    </update>
 
+    <delete id="delete" parameterType="java.util.Map">
+        DELETE FROM review
+        WHERE reviewIdx = #{reviewIdx} AND userIdx = #{userIdx}
+    </delete>
 
 </mapper>
