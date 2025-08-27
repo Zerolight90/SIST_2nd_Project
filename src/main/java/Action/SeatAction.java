@@ -9,8 +9,16 @@ import javax.servlet.http.HttpServletResponse;
 public class SeatAction implements Action{
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("SeatAction");
+        System.out.println("login_after_tvoIdx:" + (String)request.getSession().getAttribute("login_after_tvoIdx"));
+        String tvoIdx = null;
         // 사용자가 최종적으로 선택한 영화 timetable을 받고
-        String tvoIdx =  request.getParameter("tvoIdx");
+        if(request.getParameter("tvoIdx") != null) {
+            tvoIdx =  request.getParameter("tvoIdx");
+        }
+        if(request.getAttribute("tvoIdx") != null){
+            tvoIdx = (String)request.getAttribute("tvoIdx");
+        }
         TimeTableVO time = null;
         TheaterVO theater = null;
         MovieVO movie = null;

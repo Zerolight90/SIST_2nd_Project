@@ -189,6 +189,7 @@
       </c:otherwise>
     </c:choose>
     <input type="hidden" value="booking" name="booking"/>
+    <input type="hidden" value="seat" name="seat"/>
     <input type="hidden" name="tvoIdx" id="tvoIdx" value=""/>
     <input type="hidden" name="type" id="type" value=""/>
   </form>
@@ -238,6 +239,7 @@
       document.tvo_form.submit();
     } else {
       alert("로그인화면으로 이동합니다");
+      document.tvo_form.tvoIdx.value = tvoIdx;
       document.getElementById("type").value = "login"; //  hidden input에 값 세팅
       document.tvo_form.submit();
     }

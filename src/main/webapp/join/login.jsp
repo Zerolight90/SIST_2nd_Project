@@ -17,6 +17,9 @@
 </head>
 
 <body>
+<c:if test="${not Empty requestScope.login_after_tvoIdx}">
+<input type="hidden" id="login_after_tvoIdx" value="${requestScope.login_after_tvoIdx}"/>
+</c:if>
 <article>
     <%-- 가입완료 메시지 알림 --%>
     <c:if test="${not empty msg}">

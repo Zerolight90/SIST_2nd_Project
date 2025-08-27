@@ -33,11 +33,14 @@ public class LoginAction implements Action {
             String url = "index"; // 기본값을 index로 설정
 
             // 만약 booking에서 Parameter를 받으면 Session에 저장함 (Request가 아닌!)
-            String seaturl = request.getParameter("booking");
+            String seaturl = request.getParameter("seat");
+            String tvoIdx = request.getParameter("tvoIdx");
+            System.out.println("tvoIdx: " + tvoIdx); // 1
+            request.getSession().setAttribute("login_after_tvoIdx", tvoIdx); // 넘어온 tvoIdx를 바로 세션저장
             //System.out.println("seaturl parameter: " + seaturl);
             if (seaturl != null) {
                 request.getSession().setAttribute("seaturl", seaturl); // Session에 저장!
-                //System.out.println("Saved seaturl to session: " + seaturl);
+                System.out.println("Saved seaturl to session: " + seaturl);
             }
 
             String borderurl = request.getParameter("border");
@@ -104,7 +107,7 @@ public class LoginAction implements Action {
 
                 if (seaturlObj != null) {
                     seaturl2 = seaturlObj.toString();
-//                    System.out.println("Found seaturl2 in session: " + seaturl2);
+                    System.out.println("Found seaturl2 in session: " + seaturl2);
                 }
 
                 if (borderurlObj != null) {
