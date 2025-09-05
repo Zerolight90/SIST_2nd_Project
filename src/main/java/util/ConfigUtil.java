@@ -18,7 +18,7 @@ public class ConfigUtil {
                 throw new IOException("config.properties 파일을 찾을 수 없습니다.");
             }
         } catch (IOException e) {
-            throw new ExceptionInInitializerError("설정 파일 로딩 실패: " + e.getMessage());
+//            throw new ExceptionInInitializerError("설정 파일 로딩 실패: " + e.getMessage());
         }
 
     }
