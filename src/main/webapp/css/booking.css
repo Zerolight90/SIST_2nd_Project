@@ -496,7 +496,6 @@ body {
     width: 270px;
     height: 25px;
     line-height: 25px;
-    border: 1px solid #999;
     border-radius: 5px;
     margin-bottom: 1px;
 }
@@ -507,7 +506,6 @@ body {
     width: 100px;
     height: 25px;
     line-height: 25px;
-    border: 1px solid #999;
     border-radius: 5px;
     margin-bottom: 1px;
 }
@@ -528,7 +526,6 @@ body {
     display: flex;
     justify-content: center;
     line-height: 20px;
-    border: 1px solid #999;
     border-radius: 5px;
     font-size: 14px;
 }
@@ -571,23 +568,23 @@ body {
 }
 
 .date-container .btn.selected-btn {
-    background: #f8f8ff !important;
-    color: #6c5ce7;
+    background: #c7c2f1 !important;
+    color: black;
 }
 
 .movie_all button.selected-btn {
-    background: #f8f8ff !important;
-    color: #6c5ce7;
+    background: #c7c2f1 !important;
+    color: black;
 }
 
 .theater_all button.selected-btn {
-    background: #f8f8ff !important;
-    color: #6c5ce7;
+    background: #c7c2f1 !important;
+    color: black;
 }
 
 #time-container button.selected-btn {
-    background: #f8f8ff !important;
-    color: #6c5ce7;
+    background: #c7c2f1 !important;
+    color: black;
 }
 
 /* 기본 버튼 hover 효과 */
@@ -595,6 +592,6 @@ body {
 .movie_all button:hover,
 .theater_all button:hover,
 #time-container button:hover {
-    background: #e8e8ff;
+    background: #c7c2f1;
     transition: background-color 0.2s ease;
 }
