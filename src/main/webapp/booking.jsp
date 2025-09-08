@@ -69,7 +69,14 @@
                     <c:if test="${tvo.m_list != null && fn:length(tvo.m_list) > 0}">
                       <div class="movie_all">
                         <c:forEach var="movieVO" items="${tvo.m_list}" varStatus="j">
-                          <img src="/images/${movieVO.age}.png" alt="${movieVO.age}세"/>
+                          <c:choose>
+                            <c:when test="${movieVO.age eq '정보 없음'}">
+                              <img src="/images/ALL.png" alt="ALL"/>
+                            </c:when>
+                            <c:otherwise>
+                              <img src="/images/${movieVO.age}.png" alt="${movieVO.age}세"/>
+                            </c:otherwise>
+                          </c:choose>
                           <button type="button" class="movie-btn 
                           <c:if test="${not empty param.throw_mIdx and param.throw_mIdx == movieVO.mIdx}">
                           selected-btn
