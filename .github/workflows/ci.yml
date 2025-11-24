@@ -1,0 +1,88 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 8
+      uses: actions/setup-java@v4
+      with:
+        java-version: '8'
+        distribution: 'temurin'
+        cache: 'maven'
+        
+    - name: Build with Maven
+      run: mvn clean package -DskipTests
+      
+    - name: Run tests
+      run: mvn test
+      
+    - name: Upload WAR artifact
+      if: success()
+      uses: actions/upload-artifact@v4
+      with:
+        name: war-artifact
+        path: target/*.war
+        retention-days: 7
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+    - name: Download WAR artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: war-artifact
+        
+    - name: Deploy WAR to EC2
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        key: ${{ secrets.SSH_KEY }}
+        source: "*.war"
+        target: "/opt/deploy"
+        strip_components: 0
+        
+    - name: Stop Tomcat and Deploy
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          echo "Stopping Tomcat..."
+          sudo systemctl stop tomcat10 || true
+          
+          echo "Backing up existing application..."
+          if [ -d "/var/lib/tomcat10/webapps/ROOT" ]; then
+            sudo mkdir -p /opt/backup/$(date +%Y%m%d_%H%M%S)
+            sudo cp -r /var/lib/tomcat10/webapps/ROOT /opt/backup/$(date +%Y%m%d_%H%M%S)/ || true
+          fi
+          
+          echo "Deploying new WAR file..."
+          sudo rm -rf /var/lib/tomcat10/webapps/ROOT
+          sudo cp /opt/deploy/*.war /var/lib/tomcat10/webapps/ROOT.war
+          sudo chown tomcat:tomcat /var/lib/tomcat10/webapps/ROOT.war
+          
+          echo "Starting Tomcat..."
+          sudo systemctl start tomcat10
+          
+          echo "Waiting for Tomcat to start..."
+          sleep 10
+          
+          echo "Checking Tomcat status..."
+          sudo systemctl status tomcat10 --no-pager || true
+          
+          echo "Deployment completed!"
+
