@@ -40,13 +40,13 @@ public class Controller extends HttpServlet {
         ServletContext application = this.getServletContext();
 
         String realPath = application.getRealPath(myParam);
-//        System.out.println(realPath);
+        //        System.out.println(realPath);
 
         //절대경로화 시킨 이유는
         //해당 파일의 내용(클래스 경로)을 스트림을 이용하여
         //읽어와서 Properties객체 담기 위함이다.
         Properties prop= new Properties();
-//        prop.setProperty("index", "emp.action.IndexAction");
+        //        prop.setProperty("index", "emp.action.IndexAction");
         //위처럼 저장을 해야하지만 이렇게 하면 기능이 하나 생길때마다
         //소스코드를 수정해야 하는 번거로움이 있다.
 
@@ -90,9 +90,6 @@ public class Controller extends HttpServlet {
                 e.printStackTrace();
             }
         }//while의 끝
-
-
-
     }
 
 
@@ -111,17 +108,25 @@ public class Controller extends HttpServlet {
         //원하는 객체를 얻어내자
         Action action = actionMap.get(type);
 
-        String viewPath = action.execute(request, response);
+        String viewPath = null;
+        try {
+            viewPath = action.execute(request, response);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         //viewPath가 null이면 현재 컨트롤러를 sendRedirect로 다시 호출되도록 하자
-        if(viewPath == null){
+        if (viewPath == null) {
             response.sendRedirect("Controller");
-        }else {
-            //forward로 이동
+        } else if (viewPath.startsWith("redirect:")) {
+            response.sendRedirect(viewPath.substring("redirect:".length()));
+        } else {
             RequestDispatcher disp = request.getRequestDispatcher(viewPath);
             disp.forward(request, response);
-
         }
+
+
+
     }
 
     @Override

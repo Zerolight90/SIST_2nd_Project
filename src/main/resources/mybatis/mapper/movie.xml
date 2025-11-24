@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="movie">
+
+    <select id="getName" resultType="mybatis.vo.MovieVO"
+            parameterType="String">
+        select name from movie
+        WHERE mIdx = #{mIdx}
+    </select>
+
+    <!-- 전체영화 총 x개의 영화가 검색되었습니다 에서 x를 계산 -->
+    <select id="getTotalCount" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM movie
+        <where>
+            <choose>
+                <when test="category == 'boxoffice'">
+                    `date` &lt;= NOW()
+                </when>
+                <when test="category == 'scheduled'">
+                    `date` > NOW() AND status = '상영종료'
+                </when>
+                <when test="category == 'filmsociety'">
+                    gen LIKE '%다큐멘터리%' AND status = '상영중'
+                </when>
+                <when test="category == 'classicsociety'">
+                    gen LIKE '%음악%' AND status = '상영중'
+                </when>
+            </choose>
+        </where>
+    </select>
+
+    <!-- 전체영화 카테고리별로 필터링해서 보여주는 기능 -->
+    <select id="getMovieList" parameterType="java.util.Map" resultType="mybatis.vo.MovieVO">
+        SELECT *
+        FROM movie m
+        <where>
+            <choose>
+                <when test="category == 'boxoffice'">
+                    `date` &lt;= NOW()
+                </when>
+                <when test="category == 'scheduled'">
+                    `date` > NOW() AND status = '상영종료'
+                </when>
+                <when test="category == 'filmsociety'">
+                    gen LIKE '%다큐멘터리%' AND status = '상영중'
+                </when>
+                <when test="category == 'classicsociety'">
+                    gen LIKE '%음악%' AND status = '상영중'
+                </when>
+            </choose>
+        </where>
+
+        <choose>
+            <when test="category == 'boxoffice'">
+                ORDER BY (
+                SELECT COUNT(*)
+                FROM reservation r
+                JOIN time_table tt ON r.timeTableIdx = tt.timeTableIdx
+                WHERE tt.mIdx = m.mIdx
+                AND r.status = 0
+                ) DESC
+            </when>
+            <when test="category == 'scheduled'"> ORDER BY date ASC </when>
+            <otherwise> ORDER BY date DESC </otherwise>
+        </choose>
+        LIMIT #{offset}, #{numPerPage}
+    </select>
+
+    <select id="all" resultType="mybatis.vo.MovieVO">
+        SELECT * FROM movie <!-- 모든 영화를 보여줌 -->
+    </select>
+
+    <!-- 상영중인 영화들의 mIdx를 인자로 받아서 반환한다. -->
+    <select id="list" resultType="mybatis.vo.MovieVO"
+            parameterType="String">
+        select * from movie
+        WHERE mIdx = #{mIdx}
+    </select>
+
+    <!-- 모든 영화를 불러오는 쿼리 (종민) -->
+    <select id="getMovieInfo" resultType="mybatis.vo.MovieVO">
+        select * from movie
+    </select>
+    <select id="rateMovie" resultType="mybatis.vo.MovieVO">
+        select * from movie
+    </select>
+
+    <!-- 관리자가 특정 조건값으로 영화를 검색하는 쿼리 (종민) -->
+    <select id="getMovieSearch" resultType="mybatis.vo.MovieVO" parameterType="Map">
+        SELECT * FROM(
+        SELECT @RN:=@RN+1 AS rnum, a.* FROM(
+        SELECT * FROM movie
+        <where>
+            <if test="datepicker != null and datepicker != ''">
+                AND date = #{datepicker}
+            </if>
+
+            <if test="movie_status != null and movie_status != ''">
+                <if test="movie_status == 'playing'">
+                    AND date &lt;= CURDATE()
+                </if>
+                <if test="movie_status == 'yet'">
+                    AND date &gt; CURDATE()
+                </if>
+            </if>
+
+            <if test="movie_level != null and movie_level != ''">
+                AND age = #{movie_level}
+            </if>
+
+            <if test="search_keyword != null and search_keyword != ''">
+                <choose>
+                    <when test="search_field == 'name'">
+                        AND name LIKE CONCAT('%', #{search_keyword}, '%')
+                    </when>
+                    <when test="search_field == 'actor'">
+                        AND actor LIKE CONCAT('%', #{search_keyword}, '%')
+                    </when>
+                    <when test="search_field == 'gen'">
+                        AND gen LIKE CONCAT('%', #{search_keyword}, '%')
+                    </when>
+                    <otherwise>
+                        AND (name LIKE CONCAT('%', #{search_keyword}, '%') OR actor LIKE CONCAT('%', #{search_keyword}, '%'))
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+        ORDER BY mIdx DESC
+        ) a, (SELECT @RN:=0) b
+        ) c WHERE c.rnum BETWEEN #{begin} AND #{end}
+    </select>
+
+    <select id="searchTotalCount" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM movie
+        WHERE name LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+
+    <select id="search" parameterType="java.util.Map" resultType="mybatis.vo.MovieVO">
+        SELECT *
+        FROM movie
+        WHERE name LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY date DESC
+        LIMIT #{offset}, #{numPerPage}
+    </select>
+
+    <!-- 관리자가 영화 정보를 수정하는 쿼리 (종민) -->
+    <update id="editMovies" parameterType="Map">
+        UPDATE movie SET poster = #{poster},
+        gen = #{gen},
+        age = #{age},
+        date = #{date},
+        dir = #{dir},
+        status = #{status}
+        WHERE name = #{name}
+    </update>
+
+    <select id="getReservationCountByMovie" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM reservation r
+        JOIN time_table tt ON r.timeTableIdx = tt.timeTableIdx
+        WHERE tt.mIdx = #{mIdx}
+        AND r.status = 0
+    </select>
+
+    <select id="getTotalReservationsForShowingMovies" resultType="int">
+        SELECT COUNT(*)
+        FROM reservation r
+        JOIN time_table tt ON r.timeTableIdx = tt.timeTableIdx
+        JOIN movie m ON tt.mIdx = m.mIdx
+        WHERE m.`date` &lt;= NOW()
+        AND r.status = 0
+    </select>
+
+    <!-- 예매율 TOP 4 영화 조회 -->
+    <select id="getTopMovies" resultType="mybatis.vo.MovieVO">
+        SELECT *
+        FROM movies
+        WHERE category = #{category}
+        ORDER BY booking_rate DESC
+        LIMIT 4
+    </select>
+
+
+</mapper>

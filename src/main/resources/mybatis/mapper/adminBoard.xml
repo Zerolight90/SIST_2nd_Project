@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="adminBoard">
+
+    <!--1:1은 association-->
+    <resultMap id="map1" type="mybatis.vo.AdminBoardVO">
+        <id property="boardIdx" column="boardIdx"/>
+        <association property="tvo" javaType="mybatis.vo.TheaterVO" select="theater.getTheater" column="tIdx"/>
+        <association property="mvo" javaType="mybatis.vo.MemberVO" select="member.findByIdx" column="userIdx"/>
+        <association property="bvo" javaType="mybatis.vo.AdminBoardVO" select="getBoard2" column="boardIdx"/>
+    </resultMap>
+
+    <!--공지사항에 대한 전체 목록 추출-->
+    <select id="adminBoardList" resultMap="map1">
+        SELECT * FROM(
+            SELECT @RN:=@RN+1 AS rnum, a.* FROM(
+                SELECT * FROM board
+                WHERE boardStatus = 0
+                AND boardType = #{boardType}
+                AND parent_boardIdx IS NULL
+                <if test="searchKeyword != null and searchKeyword != ''">
+                    AND boardTitle LIKE CONCAT('%', #{searchKeyword}, '%')
+                </if>
+                ORDER BY boardIdx DESC
+            ) a, (SELECT @RN:=0) b
+        ) c WHERE c.rnum BETWEEN #{begin} AND #{end}
+    </select>
+
+    <!--총 게시물 수를 반환하는 기능-->
+    <!--총 페이지 수를 알아야 한다. 그래야 반복문을 돌리면서 제어를 할 수 있다. 총게시물 수가 있어야 총 페이지 수를 구할 수 있다.-->
+    <select id="totalCount" resultType="int" parameterType="String">
+        SELECT COUNT(*) FROM board
+        WHERE boardStatus = 0
+        AND boardType = #{boardType}
+        <!--AND tIdx = #{tIdx}-->
+        AND parent_boardIdx IS NULL
+    </select>
+
+    <!--게시물 작성-->
+    <insert id="add" parameterType="Map">
+        INSERT INTO board(adminIdx, parent_boardIdx, tIdx, boardType, sub_boardType, boardTitle, boardContent, file_name, ori_name, thumbnail_url, boardStartRegDate, boardEndRegDate, boardStatus, is_answered, boardRegDate)
+        VALUES (#{adminIdx}, #{parent_boardIdx}, #{writer}, #{boardType}, #{subBoardType}, #{title}, #{content}, #{fname}, #{oname}, #{thumbfilename}, #{boardStartRegDate}, #{boardEndRegDate}, 0, NULL, NOW())
+    </insert>
+
+    <!--게시물 보기-->
+    <select id="getBoard" parameterType="String" resultMap="map1">
+        SELECT * FROM board
+        WHERE boardIdx = #{boardIdx}
+    </select>
+
+    <select id="getBoard2" parameterType="String" resultMap="map1">
+        SELECT * FROM board
+        WHERE parent_boardIdx = #{boardIdx}
+        LIMIT 1
+    </select>
+
+    <!--게시물 삭제-->
+    <!--추후 로그인 한 경우에는 같은 아이디글만 삭제하도록 구현할 예정-->
+    <update id="del" parameterType="String">
+        UPDATE board
+        SET boardStatus = 1
+        WHERE boardIdx = #{boardIdx}
+    </update>
+
+
+    <!--게시물 수정-->
+    <update id="edit" parameterType="Map">
+        UPDATE board
+        <trim prefix="SET" suffixOverrides=",">
+            <!--없으면 실행되지 않음-->
+            sub_boardType = #{subBoardType},
+            boardTitle = #{boardTitle},
+            boardContent = #{boardContent},
+            boardStartRegDate = #{boardStartRegDate},
+            boardEndRegDate = #{boardEndRegDate},
+            <if test="fname != null">
+                file_name = #{fname},
+                ori_name = #{oname}
+            </if>
+            <if test="thumbfilename != null">
+                thumbnail_url = #{thumbfilename}
+            </if>
+        </trim>
+        WHERE boardIdx = #{boardIdx}
+    </update>
+
+
+    <!--관리자가 답변을 달았을 때 답변상태 업데이트-->
+    <update id="update" parameterType="map">
+        UPDATE board set is_answered = 1
+        WHERE boardIdx = #{boardIdx}
+    </update>
+
+    <!--<resultMap id="map1" type="mybatis.vo.AdminVO">
+        <id property="adminIdx" column="adminIdx"/>
+        <association property="tvo" javaType="mybatis.vo.TheaterVO" select="getTName" column="tIdx"/>
+    </resultMap>-->
+
+    <!--극장 정보 가져오기-->
+    <select id="getTName" parameterType="String" resultType="String">
+        SELECT tName
+        FROM theater
+        WHERE tIdx = #{tIdx}
+    </select>
+
+
+</mapper>

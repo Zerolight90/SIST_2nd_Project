@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="coupon">
+
+    <select id="getAllCoupon" resultType="mybatis.vo.CouponVO">
+        select * from coupon
+    </select>
+    <delete id="delSelectedCoupon" parameterType="String">
+        delete from coupon
+        where couponIdx = #{cIdx}
+    </delete>
+    <insert id="addCoupon" parameterType="Map">
+        INSERT INTO coupon (couponCategory, couponName, couponInfo, couponRegDate, couponExpDate, couponStatus, discountValue)
+        VALUES (#{category}, #{cName}, #{cInfo}, NOW(), DATE_ADD(NOW(), INTERVAL 2 YEAR), 0, #{disValue})
+    </insert>
+
+    <select id="getAvailableMovieCoupons" parameterType="long" resultType="mybatis.vo.MyCouponVO">
+        SELECT
+        cum.couponUserIdx,
+        c.couponName,
+        c.discountValue AS discountValue
+        FROM
+        coupon_user_mapping cum
+        JOIN coupon c ON cum.couponIdx = c.couponIdx
+        WHERE
+        cum.userIdx = #{userIdx}
+        AND c.couponStatus = 0
+        AND c.couponExpDate > NOW()
+        AND c.couponCategory IN ('영화', '신규가입', '생일')
+    </select>
+
+    <select id="getAvailableStoreCoupons" parameterType="long" resultType="mybatis.vo.MyCouponVO">
+        SELECT
+        cum.couponUserIdx,
+        c.couponName,
+        c.discountValue AS discountValue
+        FROM
+        coupon_user_mapping cum
+        JOIN coupon c ON cum.couponIdx = c.couponIdx
+        WHERE
+        cum.userIdx = #{userIdx}
+        AND c.couponStatus = 0
+        AND c.couponExpDate > NOW()
+        AND c.couponCategory IN ('영화', '신규가입', '생일')
+    </select>
+
+    <update id="useCoupon" parameterType="long">
+        UPDATE coupon c
+        JOIN coupon_user_mapping cum ON c.couponIdx = cum.couponIdx
+        SET
+        c.couponStatus = 1,
+        c.couponUseDate = NOW()
+        WHERE
+        cum.couponUserIdx = #{couponUserIdx}
+    </update>
+
+    <select id="getCouponByCouponUserIdx" parameterType="long" resultType="mybatis.vo.MyCouponVO">
+        SELECT
+        cum.couponUserIdx,
+        c.couponIdx,
+        c.couponName,
+        c.discountValue AS discountValue
+        FROM
+        coupon_user_mapping cum
+        JOIN coupon c ON cum.couponIdx = c.couponIdx
+        WHERE
+        cum.couponUserIdx = #{couponUserIdx}
+    </select>
+
+    <select id="getHistory" parameterType="long" resultType="mybatis.vo.MyCouponVO">
+        SELECT
+        c.couponCategory,
+        c.couponName,
+        c.couponExpDate,
+        c.couponStatus,
+        c.discountValue
+        FROM
+        coupon_user_mapping cum
+        JOIN coupon c ON cum.couponIdx = c.couponIdx
+        WHERE
+        cum.userIdx = #{userIdx}
+        ORDER BY
+        c.couponExpDate DESC
+    </select>
+
+    <update id="revertCouponUsage" parameterType="long">
+        UPDATE coupon c
+        JOIN coupon_user_mapping cum ON c.couponIdx = cum.couponIdx
+        SET
+        c.couponStatus = 0, -- 0: 미사용
+        c.couponUseDate = NULL
+        WHERE
+        cum.couponUserIdx = #{couponUserIdx}
+    </update>
+
+    <insert id="issueCoupon" parameterType="map">
+        INSERT INTO coupon_user_mapping (userIdx, couponIdx)
+        VALUES (#{userIdx}, #{couponIdx})
+    </insert>
+
+    <select id="checkBirthdayCouponIssued" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM coupon_user_mapping cum
+        JOIN coupon c ON cum.couponIdx = c.couponIdx
+        WHERE cum.userIdx = #{userIdx}
+        AND cum.couponIdx = #{couponIdx}
+        AND YEAR(c.couponRegDate) = YEAR(CURDATE())
+    </select>
+
+    <select id="getCouponUserIdxByPaymentInfo" parameterType="map" resultType="long">
+        SELECT cum.couponUserIdx
+        FROM payment p
+        JOIN coupon_user_mapping cum ON p.userIdx = cum.userIdx AND p.couponIdx = cum.couponIdx
+        JOIN coupon c ON cum.couponIdx = c.couponIdx
+        WHERE
+        p.paymentIdx = #{paymentIdx}
+        AND p.userIdx = #{userIdx}
+        AND c.couponStatus = 1 -- 확실히 '사용된' 상태의 쿠폰 중에서만 검색
+        -- 결제 시간과 쿠폰 사용 시간이 10초 이내인 것만 대상으로 함
+        AND ABS(TIMESTAMPDIFF(SECOND, p.paymentDate, c.couponUseDate)) &lt; 10
+        -- 시간 차이가 가장 적은 순서로 정렬
+        ORDER BY ABS(TIMESTAMPDIFF(SECOND, p.paymentDate, c.couponUseDate)) ASC
+        LIMIT 1 -- 가장 정확한(시간 차이가 제일 적은) 1개만 선택
+    </select>
+
+    <insert id="createNewCoupon" parameterType="mybatis.vo.CouponVO">
+        INSERT INTO coupon (couponCategory, couponName, couponInfo, couponRegDate, couponExpDate, couponStatus, discountValue)
+        VALUES (#{couponCategory}, #{couponName}, #{couponInfo}, NOW(), DATE_ADD(NOW(), INTERVAL 30 DAY), 0, #{discountValue});
+
+        <selectKey keyProperty="couponIdx" resultType="String" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <insert id="issueCouponToUser" parameterType="map">
+        INSERT INTO coupon_user_mapping (couponIdx, userIdx)
+        VALUES (#{couponIdx}, #{userIdx})
+    </insert>
+
+    <select id="hasReceivedBirthdayCouponThisYear" parameterType="long" resultType="int">
+        SELECT COUNT(*)
+        FROM coupon_user_mapping cum
+        JOIN coupon c ON cum.couponIdx = c.couponIdx
+        WHERE cum.userIdx = #{userIdx}
+        AND c.couponCategory = '생일'
+        AND YEAR(c.couponRegDate) = YEAR(CURDATE())
+    </select>
+</mapper>

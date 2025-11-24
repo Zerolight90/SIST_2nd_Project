@@ -3,9 +3,73 @@
 /*이너 선 스타일(확인용)*/
 .inner-wrap{
     width: 1100px;
-    margin: 0 auto;
+    margin: auto;
+    border: none;
     /*border: 1px solid darkblue;*/
 }
+
+/*상단 바(진입경로)*/
+.topBox {
+    background-color: #e2e2e2;
+    height: 42px;
+}
+.theaterTopBox {
+    width: 1100px;
+    height: 42px;
+    margin: auto;
+}
+
+.location {
+    padding-top: 13px;
+}
+
+
+/*상단 건물 이미지*/
+.img {
+    width: 1100px;
+    height: 190px;
+    background-image: url('../images/img-theater-detail.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;       /* 이미지 비율 유지하며 요소 크기에 맞게 채움 */
+    background-position: center;  /* 중앙 정렬 */
+    margin: 0 auto;               /* 가운데 정렬 (부모가 block 기준일 경우) */
+    display: flex;
+    align-items: center;         /* 텍스트 수직 가운데 */
+    justify-content: center;     /* 텍스트 수평 가운데 */
+    color: white;                /* 텍스트 색상 */
+    font-size: 24px;             /* 텍스트 크기 조절 */
+    font-weight: bold;
+}
+
+
+.theater-detail-page{
+    background-color: #111;
+}
+
+.theater-name-box {
+    all: unset;
+    padding-left: 10px;
+    /*border: solid 1px black;*/
+    width: 150px;
+    height: 50px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/*li태그 점*/
+
+.floor-info li,
+.section .show-li,
+.direct_inquiry_info>ul>li{
+    display: list-item !important;
+    list-style: disc inside !important;
+    padding: 0 0 0 8px !important;
+}
+
+.floor-info {
+    margin-top: 30px;
+}
+
 
 
 /***********제목 시작***********/
@@ -48,6 +112,24 @@
     margin-bottom: 15px !important;
 }
 
+
+
+.mtb70{
+    margin-bottom: 70px !important;
+}
+
+.mtb50{
+    margin-bottom: 50px !important;
+}
+
+.mtb30{
+    margin-bottom: 30px !important;
+}
+
+.mtb15{
+    margin-bottom: 15px !important;
+}
+
 .table-wrap {
     margin-top: 20px;
 }
@@ -58,7 +140,7 @@
 }
 
 h3.small-tit {
-    padding: 0 0 10px 0;
+    padding: 0 0 16px 0;
     font-size: 1.2em;
     color: #222;
 }
@@ -67,6 +149,22 @@ h3.small-tit {
     color: #01738b;
 }
 
+.theater-info-text {
+    padding: 0;
+    border-bottom: 1px solid #d8d9db;
+}
+
+.sisul-img-info {
+    float: left;
+    width: 111px;
+    margin: 0 25px 30px 0;
+    padding: 0;
+    text-align: center;
+}
+
+.theater-floor-info ul {
+    overflow: hidden;
+}
 /***********제목 끝***********/
 
 
@@ -150,7 +248,7 @@ table th {
 .notice-board td {
     padding: 12px 10px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    /*border-bottom: 1px solid #ddd;*/
 }
 
 /* 헤더 스타일 */
@@ -202,19 +300,6 @@ table th {
     text-decoration: underline;
 }
 
-/*****************탭 시작****************/
-.ec-base-tab {
-    border: 5px solid gray;   /* 빨간 네모 테두리 */
-    border-radius: 10px;
-    width: 100%;        /* 영역 폭 제한 (선택사항) */
-    height: 240px;
-    margin: 20px auto;       /* 중앙 정렬 */
-    box-sizing: border-box;
-}
-
-/*****************탭 끝****************/
-
-
 
 .icon {
     width: 111px;
@@ -223,12 +308,11 @@ table th {
 }
 
 
-
-
-
-/*
-*/
-
+.box-info ul{
+    border:1px solid #e0e0e0;
+    border-radius: 5px;
+    padding: 10px;
+}
 
 .collapsible {
     background-color: #777;
@@ -260,12 +344,6 @@ table th {
     float: right;
     margin-left: 5px;
 }
-/*.active:after {
-    content: "\2212";
-}*/
-
-
-
 
 
 
@@ -273,24 +351,14 @@ table th {
 
 /* 전체 공지사항 박스 */
 .theater-notice-info {
-    border: 1px solid red;
+    /*border: 1px solid red;*/
     width: 100%;
-    /*padding: 20px;*/
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     margin: 30px auto;
 }
 
-/*!* "공지사항" 타이틀 *!
-.th-title.notice {
-    font-size: 24px;
-    font-weight: bold;
-    color: #3b2e84;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 10px;
-}*/
 
 /* 공지사항 버튼 스타일 */
 .collapsible {
@@ -346,7 +414,8 @@ table th {
 
 /*li태그*/
 li::marker {
-    font-size: 0.2em; /* 점의 크기 사이즈조절 */
+    font-size: 0.4em; /* 점의 크기 사이즈조절 */
+    text-align: center;
 }
 
 
@@ -358,24 +427,25 @@ li::marker {
     padding: 0;
     margin: 40px auto 0;
     width: 1100px;
-    border-bottom: 1px solid #ccc;
 }
 
 .sub-tab-menu li {
     flex: 1; /* 탭 너비 균등 분배 */
     text-align: center;
+    border: 1px solid #ccc;
 }
 
 .tab-link {
+    all: unset; /* 기본 버튼 스타일 초기화 */
     display: block;
     width: 100%;
     padding: 16px 0;
-    text-decoration: none;
     font-size: 18px;
     font-weight: bold;
     color: #000;
+    text-align: center;
     border-bottom: 3px solid transparent;
-    /*transition: all 0.3s;*/
+    cursor: pointer;
 }
 
 .tab-link:hover {
@@ -387,25 +457,724 @@ li::marker {
     border-bottom: 3px solid #503396;
 }
 
-
-
 * {
     box-sizing: border-box;
 }
 
-/*body {
-    font-family: 'Noto Sans KR', sans-serif;
-    margin: 0;
-    padding: 0;
-}*/
-
 
 .tab-content {
     display: none;
-    border: 1px solid #ccc;
+    /*border: 1px solid #ccc;*/
     border-top: none;
 }
 
 .tab-content.show {
     display: block !important;
+}
+
+
+
+/*전체극장>나의 선호극장 정보*/
+.all-theater-box .favorite-box{
+    position:absolute;
+    padding: 0 20px;
+    width:100%;
+    bottom: 0;
+    left: 0;
+    line-height: 54px;
+    border-radius: 0 0 10px 10px;
+    background-color: #ecf0f4;
+    box-sizing: border-box;
+}
+
+.region-col {
+    flex: 1; /* 각 열이 사용 가능한 공간을 균등하게 차지 */
+    padding: 0 10px; /* 각 열 내부 좌우 여백 */
+    border-right: 1px solid #ddd; /* 열 사이에 구분선 추가 */
+    list-style: none; /* 리스트 마커 제거 */
+    padding-left: 0; /* 기본 패딩 제거 */
+    margin: 0; /* 기본 마진 제거 */
+}
+
+.region-col:last-child {
+    border-right: none; /* 마지막 열에는 구분선 제거 */
+}
+
+.region-col li {
+    padding: 5px 0; /* 각 극장명 위아래 여백 */
+    font-size: 14px;
+    color: #333;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+}
+
+.show-movie-list .show-movie .show-movie-list-title {
+    border-bottom: 1px solid gray;
+    border-top: 1px solid gray;
+    background-color: #F7F8F9;
+    padding: 5px;
+}
+
+.show-movie-list .show-movie .show-theater-info{
+    border: 1px solid gray;
+}
+
+
+
+
+/*지워야될수도 있음*/
+/* 상영시간표 전체 섹션 컨테이너 */
+.show-movie-list {
+    width: 100%;
+    margin: 20px auto;
+    border-bottom: 1px solid #e0e0e0;
+    background-color: #fff;
+}
+
+/* 각 영화의 상영 정보 박스 */
+.show-movie {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f0f0f0; /* 영화별 구분선 */
+}
+
+.show-movie:last-child {
+    border-bottom: none; /* 마지막 영화는 구분선 없음 */
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+/* 영화 제목 및 정보 (그리드 이미지의 "좀비딸" 부분) */
+.show-movie .show-movie-list-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.show-movie .title-movie-title {
+    width: 800px;
+    margin: 0 70px 0 10px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #333;
+}
+
+.show-movie .information {
+    margin: 0px 20px;
+    width: 140px;
+    font-size: 14px;
+    color: #666;
+}
+
+.show-movie .show-status {
+    font-weight: bold;
+    color: #503396; /* 상영중 색상 */
+}
+
+/* 각 상영관 정보 (1관, 4관 등) */
+.show-theater-info {
+    border: 1px solid #eee;
+    overflow: hidden; /* 내부 테두리 잘라내기 */
+}
+
+.show-theater-info .theater-info {
+    display: flex;
+    align-items: stretch; /* 세로 높이를 맞춤 */
+    border-bottom: 1px solid #f9f9f9; /* 상영관별 구분선 */
+}
+
+.show-theater-info .theater-info:last-child {
+    border-bottom: none;
+}
+
+.show-theater-info .theater-type {
+    flex-basis: 100px;
+    padding: 15px 20px;
+    background-color: #f7f7f7;
+    border-right: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+    margin-right: 20px;
+}
+
+.show-theater-info .theater-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.show-theater-info .chair {
+    font-size: 13px;
+    color: #777;
+}
+
+.show-theater-info .theater-time {
+    flex-grow: 1; /* 남은 공간을 모두 차지 */
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+}
+
+.show-theater-info .theater-type-area {
+    width: 50px; /* 2D, 3D 등 타입 영역 너비 */
+    text-align: center;
+    font-size: 14px;
+    color: #888;
+    border-right: 1px solid #eee;
+    padding: 0 10px;
+}
+
+.show-theater-info .theater-time-box {
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: wrap; /* 시간 버튼이 넘치면 다음 줄로 */
+    gap: 10px; /* 시간 버튼 사이 간격 */
+    padding-left: 20px;
+}
+
+.time-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80px; /* 시간 버튼 너비 */
+    height: 60px; /* 시간 버튼 높이 */
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background-color: #fcfcfc;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.time-btn:hover {
+    background-color: #e6e6e6;
+    border-color: #ccc;
+}
+
+.time-btn span {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.time-btn em {
+    font-style: normal; /* 기본 기울임 제거 */
+    font-size: 12px;
+    color: #503396; /* 남은 좌석수 색상 */
+    margin-top: 3px;
+}
+
+/* 날짜 선택 및 기타 상단 메뉴 (grgrg.PNG 상단 부분) */
+.show-schedule-header {
+    width: 1100px;
+    margin: 0 auto 30px;
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.show-schedule-header h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.date-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.date-navigation .month-selector {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #555;
+    font-weight: bold;
+}
+
+.date-navigation .month-selector button {
+    background: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    color: #555;
+}
+
+.date-navigation .calendar-days {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: #f7f7f7;
+    border-radius: 6px;
+}
+
+.date-navigation .calendar-days li {
+    flex: 1;
+    padding: 10px 0;
+    text-align: center;
+    font-size: 14px;
+    color: #777;
+    cursor: pointer;
+    border-right: 1px solid #eee;
+}
+
+.date-navigation .calendar-days li:last-child {
+    border-right: none;
+}
+
+.date-navigation .calendar-days li.today {
+    background-color: #503396;
+    color: #fff;
+    border-radius: 6px;
+}
+
+.date-navigation .calendar-days li span {
+    display: block;
+}
+.date-navigation .calendar-days li .day-of-week {
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+.info-icons {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap; /* 아이콘이 많으면 줄바꿈 */
+    gap: 15px; /* 아이콘 간격 */
+    margin-top: 20px;
+    font-size: 13px;
+    color: #666;
+}
+
+.info-icons .icon-item {
+    display: flex;
+    align-items: center;
+}
+
+.info-icons .icon-item img {
+    width: 18px; /* 아이콘 크기 */
+    height: 18px;
+    margin-right: 5px;
+}
+
+.info-icons .info-link {
+    margin-left: auto; /* 우측 정렬 */
+    font-weight: bold;
+    color: #503396;
+    text-decoration: none;
+}
+
+
+
+/***********all_theater*************/
+
+/*전체극장 목록*/
+.theater-wrapper {
+    width: 1100px;
+    border: 2px solid #aaa;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+/* 탭 메뉴 */
+.region-tabs {
+    display: flex;
+    border-bottom: 1px solid #3d008c;
+    border-top: 1px solid #3d008c;
+}
+
+.region-tabs li {
+    list-style: none;
+
+    /*border: none !important;*/
+    /*padding: 10px 20px;*/
+    cursor: pointer;
+    /*border-right: 1px solid #ddd;*/
+    /*background-color: #f9f9f9;*/
+    width: 100%;
+}
+
+.region-tabs li:last-child {
+    border-right: none;
+}
+
+/*.region-tabs li.active {
+    background-color: #444;
+    color: white;
+    font-weight: bold;
+}*/
+
+.area_mv{
+    width: 100% !important;
+}
+
+/* 극장 리스트 영역 */
+.theater-list {
+    display: flex;
+}
+
+.theater-column {
+    width: 20%;
+}
+
+.theater-column ul {
+    padding-left: 0;
+}
+
+.theater-column li {
+    list-style: none;
+    padding: 3px 0;
+    font-size: 14px;
+    color: #333;
+}
+
+/*.theater-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 40px;
+    padding: 0 10px 6px 10px;
+    background-color: #f2f5f9;
+    border-top: 1px solid #e0e0e0;
+    margin-top: 10px;
+    border-radius: 0 0 8px 8px;
+    box-sizing: border-box;
+}*/
+
+.my-theater {
+    font-size: 14px;
+    color: #007b9e;
+    line-height: 1;
+}
+
+.login-btn {
+    border: 1px solid #6945db;
+    color: #6945db;
+    background: white;
+    padding: 6px 14px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.login-btn:hover {
+    background: #6945db;
+    color: white;
+}
+
+.theater-footer {
+    position: relative;
+    height: 40px;
+    border-top: 1px solid #e0e0e0;
+    background-color: #f2f5f9;
+    margin-top: 10px;
+    border-radius: 0 0 8px 8px;
+}
+
+/* 선호극장 텍스트 */
+.my-theater {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    font-size: 14px;
+    color: #007b9e;
+}
+
+/* 로그인 버튼 */
+/* 선호 극장 */
+.login-btn,
+.favorite-theater {
+    position: absolute;
+    bottom: 6px;
+    right: 10px;
+    border: 1px solid #6945db;
+    color: #6945db;
+    background: white;
+    padding: 6px 14px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.login-btn:hover,
+.favorite-theater:hover {
+    background: #6945db;
+    color: white;
+}
+
+/*고객센터영역*/
+
+/*고객센터영역-공지사항*/
+.notice-tab-wrap{
+    position: relative;
+    margin-bottom: 50px;
+}
+
+.notice-tab-wrap ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background: none !important;
+}
+.notice-tab-wrap ul li{
+    position: relative;
+    float: left;
+    width: 20% !important;
+    border: 1px solid #d8d9db;
+    border-left: 0 !important;
+}
+
+.notice-tab-wrap ul li.on.btn{
+    border-left: 1px solid black;
+    border-top: 1px solid black;
+}
+
+.notice-tab-wrap ul li .btn {
+    display: block;
+    width: 100% !important;
+    height: 34px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    line-height: 34px;
+    text-align: center;
+    background-color: transparent;
+    text-decoration: none
+}
+
+.aside {
+    width: 200px;
+    float: left;
+    margin-top: 50px;
+}
+
+.lnb {
+    background: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.lnb .tit {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #222;
+}
+
+.lnb ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.lnb ul li {
+    margin-bottom: 10px;
+}
+
+.lnb ul li:hover {
+    background-color: #e6e6fa;
+}
+
+.lnb ul li a {
+    display: block;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.lnb ul li.on a {
+    background-color: #503396;
+    color: #fff;
+}
+
+.page-content {
+    float: right;
+    width: calc(100% - 260px);
+    margin-left: 50px;
+    margin-top: 50px;
+}
+
+.page-content-event {
+    float: right;
+    margin-top: 50px;
+}
+
+.tit{
+    padding: 0 0 26px 0;
+    font-size: 1.8666em;
+    font-weight: 400;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    color: #222;
+}
+
+.board-list-util {
+    margin: 30px 0 15px 0;
+    text-align: right;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.board-list-util .result-count {
+    position: relative;
+    float: left;
+    margin: 0;
+    padding-top: 15px;
+    line-height: 1.1;
+    vertical-align: top;
+    align-items: center;
+
+}
+.dropdown {
+    padding-top: 15px;
+    line-height: 1.1;
+    vertical-align: center;
+    margin-left: auto;
+}
+
+.board-search{
+    padding-top: 15px;
+    line-height: 1.1;
+    vertical-align: top;
+}
+#searchTxt{
+    height: 35px;
+    text-align: center;
+    width: 180px;
+    border: 1px solid #d8d9db;
+    border-radius: 3px;
+}
+
+#searchBtn{
+    height: 35px;
+    text-align: center;
+    border: 1px solid #d8d9db;
+    border-radius: 3px;
+}
+
+#dropdown-select{
+    margin-right: 10px;
+    border-radius: 5px;
+    height: 35px;
+    text-align: center;
+    width: 80px;
+    border: 1px solid #d8d9db;
+}
+#dropdown-mv{
+    margin-right: 10px;
+    border-radius: 5px;
+    height: 35px;
+    text-align: center;
+    width: 80px;
+    border: 1px solid #d8d9db;
+}
+
+.pagination {
+    clear: both;
+    position: relative;
+    margin: 0 auto;
+    padding: 30px 0 0 0;
+    text-align: center;
+}
+
+.result-count .font-gblue{
+    color: #01738b !important;
+}
+
+/*//고객센터영역-공지사항 끝*/
+/*//고객센터영역 끝*/
+
+/*all_theater끝*/
+
+/* 날짜 선택영역 css */
+
+/* 상단 날짜 영역 */
+.booking-date {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.date-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.date-container button {
+    all: unset;
+    padding: 15px 29px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.date-container button:hover {
+    background-color: #f7f8f9;
+    border-bottom: 2px solid #503396;
+}
+
+.date-item {
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    min-width: 80px;
+}
+
+.show-movie img{
+    width: 20px;
+    height: 20px;
+    margin: 3px;
+}
+
+/* 선택된 날짜 버튼 스타일 */
+.date-item .btn.selected-date {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+/* 상영시간 버튼 호버 효과 */
+.time-btn:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+.time-btn {
+    transition: background-color 0.2s;
+    border-radius: 4px;
+    padding: 5px 10px;
+    margin: 2px;
+    display: inline-block;
+    border: 1px solid #ddd;
+}
+
+
+/* 게시판 목록으로 버튼 */
+.list-button {
+    background-color: #503396;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    text-align: center;
 }

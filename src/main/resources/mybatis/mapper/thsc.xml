@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="thsc">
+    <select id="getThscInfo" resultType="mybatis.vo.TheaterVO">
+        select t.tRegion, t.tName, t.tStatus, s.sName, s.sIdx, s.sCount, s.sStatus, s.screenCode from theater t
+        inner join screen s ON t.tIdx = s.tIdx
+    </select>
+
+    <select id="getThscSearch" resultType="mybatis.vo.TheaterVO" parameterType="Map">
+        <!--select t.tRegion, t.tName, t.tStatus, s.sName, s.sIdx, s.sCount, s.sStatus, s.screenCode from theater t
+        inner join screen s ON t.tIdx = s.tIdx-->
+        SELECT * FROM(
+        SELECT @RN:=@RN+1 AS rnum, a.* FROM(
+        SELECT t.tRegion, t.tName, t.tStatus, s.sName, s.sIdx, s.sCount, s.sStatus, s.screenCode
+        FROM theater t
+        inner join screen s ON t.tIdx = s.tIdx
+        <where>
+            <if test="thsc_level != null and thsc_level != ''">
+                <choose>
+                    <when test="thsc_level == 'theaterName'">
+                        AND t.tName LIKE CONCAT ('%', #{search_keyword}, '%')
+                    </when>
+                    <when test="thsc_level == 'screenType'">
+                        AND s.screenCode LIKE CONCAT ('%', #{search_keyword}, '%')
+                    </when>
+                </choose>
+            </if>
+        </where>
+        ORDER BY sIdx DESC
+        ) a, (SELECT @RN:=0) b
+        ) c WHERE c.rnum BETWEEN #{begin} AND #{end}
+    </select>
+</mapper>

@@ -1,0 +1,294 @@
+@charset "UTF-8";
+
+/* 기본 폰트 및 여백 초기화 */
+body {
+    font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+    color: #333;
+    margin: 20px;
+    background-color: #f9f9f9;
+}
+
+/* 전체 컨테이너 */
+.admin-container {
+    width: 1200px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+
+/* 3. 회원 목록 테이블 */
+.board-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 14px;
+}
+
+.board-table th {
+    padding: 12px 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.board-table thead {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    border-top: 2px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.board-table td {
+    padding: 12px 0px 10px 121px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+input[type="text"]{
+    height: 30px;
+}
+
+button[type="button"]{
+    width: 90px;
+    height: 35px;
+}
+
+.board-table tfoot>tr>td{
+    text-align: right;
+}
+
+.w100{
+    width:100px;
+}
+
+.board-table caption{
+    text-indent: -9999px;
+    height: 0;
+}
+
+#answerFormContainer{
+    border-top: 2px solid #333;
+}
+
+/* 답변 폼 컨테이너의 전체적인 스타일 */
+#answerFormContainer,
+#showAnswerForm{
+    /* 필요에 따라 컨테이너에 여백이나 테두리 추가 */
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+/* 제목과 내용을 포함하는 테이블 스타일 */
+#answered-form table,
+#showAnswerForm table{
+    width: 100%; /* 테이블 너비 100%로 설정 */
+    border-collapse: collapse; /* 셀 경계선 병합 */
+    margin-bottom: 15px; /* 테이블 아래 여백 추가 */
+}
+
+/* 테이블 헤더(<th>)와 데이터(<td>) 셀 스타일 */
+#answered-form th,
+#answered-form td,
+#showAnswerForm th,
+#showAnswerForm td{
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+}
+
+/* 제목 입력 필드 스타일 */
+#answerTitle {
+    width: 663px; /* 제목 텍스트박스 너비 */
+    /* 비활성화된 것처럼 보이게 하는 스타일 */
+    background-color: #f0f0f0; /* 회색 배경 */
+    border: 1px solid #ccc; /* 연한 회색 테두리 */
+    color: #555; /* 글자색을 약간 어둡게 */
+    cursor: default; /* 마우스 커서를 기본 화살표로 변경 */
+
+    /* 비활성화 및 포커스 방지 */
+    pointer-events: none; /* 클릭 이벤트 비활성화 */
+    -webkit-user-select: none; /* 텍스트 선택 방지 (웹킷 브라우저) */
+    -moz-user-select: none; /* 텍스트 선택 방지 (모질라 브라우저) */
+    -ms-user-select: none; /* 텍스트 선택 방지 (마이크로소프트 브라우저) */
+    user-select: none; /* 텍스트 선택 방지 */
+}
+
+/* 내용 텍스트박스 스타일 */
+#answered-form textarea[name="answerContent"] {
+    width: 663px; /* 너비 */
+    height: 254px; /* 높이 */
+    padding: 10px; /* 내부 여백 */
+    box-sizing: border-box; /* 패딩과 테두리를 너비에 포함 */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical; /* 세로 크기 조절만 가능하게 설정 */
+}
+
+/* 버튼 컨테이너 스타일 */
+#answered-form div {
+    text-align: right;
+}
+
+/* 버튼 스타일 */
+#answered-form button,
+#showAnswerForm button{
+    padding: 8px 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    margin-left: 5px;
+}
+
+#submitAnswerBtn,
+#showEditFormBtn{
+    background-color: #007bff; /* 파란색 배경 */
+    color: white; /* 흰색 글자 */
+}
+
+#cancelBtn {
+    background-color: #6c757d; /* 회색 배경 */
+    color: white; /* 흰색 글자 */
+}
+
+
+
+/*유저화면단 이벤트, 공지 스타일*/
+
+.inner-wrap {
+    position: relative;
+    width: 1100px;
+    margin: 0 auto;
+}
+
+.event-list{
+    height: 365px;
+}
+
+.event-list ul li {
+    position: relative;
+    float: left;
+    width: 245px;
+    margin: 0 0 0 40px;
+    padding: 0;
+}
+
+/*1,5,9,, 번째 게시물 margin:0 주기*/
+.event-list ul li:nth-child(4n + 1) {
+    margin:0;
+}
+
+/*5번째 게시물부터 위 간격주기*/
+.event-list ul li:nth-child(n + 5) {
+    margin-top: 60px;
+}
+
+.event-list ul li a {
+    overflow: hidden;
+    display: block;
+    border: 1px solid #e4e4e4;
+    border-radius: 10px;
+    min-height: 364px;
+}
+.event-list ul li a .img {
+    width: 100%;
+    height: 244px;
+    font-size: 0;
+    line-height: 0;
+    border-bottom: 1px solid #e4e4e4;
+    background-color: #eee;
+}
+
+.event-list ul li a .img img {
+    width: 100% !important;
+    height: 243px !important;
+}
+
+.event-list ul li a .tit {
+    overflow: hidden;
+    height: 60px;
+    margin: 0 0 10px 0;
+    padding: 20px 17px 0 17px;
+    line-height: 1.3;
+    font-weight: 700;
+    color: #222;
+    display: block !important;
+}
+
+.event-list ul li a .date {
+    padding: 0 17px 20px 17px;
+    font-size: .8667em;
+    line-height: 1.1;
+    color: #666;
+}
+
+.event-list p {
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+a:link {
+    color: #444;
+    text-decoration: none;
+}
+
+a {
+    background-color: transparent;
+}
+
+.notice-tab .tab-event{
+    width: 25% !important;
+}
+
+.name{
+    padding: 40px 0 20px 0;
+    display: inline-block;
+    font-size: 13px;
+    font-size: 1.4666em;
+    color: #503396;
+}
+
+.right{
+    float: right;
+    margin-top: 50px;
+}
+
+/*슬라이드**********************************************/
+.swiper-wrap .count {
+    position: absolute; /* 슬라이더 위에 겹쳐서 표시 */
+    right: 0;
+    top: 0;
+    z-index: 10; /* 다른 요소보다 위에 표시 */
+    color: #fff; /* 글자색 흰색 */
+    background-color: rgba(0, 0, 0, 0.5); /* 배경 반투명 검정 */
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+/* 여러 배너를 담는 컨테이너 */
+.banner-group {
+    display: flex; /* 자식 요소를 가로로 정렬 */
+    gap: 20px; /* 배너 사이 간격 */
+}
+
+/* 개별 배너 아이템 */
+.banner-item {
+    flex-basis: 50%; /* 컨테이너 너비의 50%를 차지 */
+}
+
+/* 이미지에 맞게 크기 조절 */
+.banner-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/*게시물 정렬 맞추기*/
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="point">
+
+    <update id="deductUserPoints" parameterType="map">
+        UPDATE user
+        SET totalPoints = totalPoints - #{pointsToUse}
+        WHERE userIdx = #{userIdx} AND totalPoints >= #{pointsToUse}
+    </update>
+
+    <select id="getHistory" parameterType="long" resultType="mybatis.vo.PointVO">
+        SELECT * FROM point
+        WHERE userIdx = #{userIdx}
+        ORDER BY transactionDate DESC
+    </select>
+
+    <insert id="insertPointHistory" parameterType="mybatis.vo.PointVO">
+        INSERT INTO point (userIdx, paymentIdx, transactionType, amount, description, transactionDate)
+        VALUES (#{userIdx}, #{paymentIdx}, #{transactionType}, #{amount}, #{description}, NOW())
+    </insert>
+
+    <update id="decreaseUserPoints" parameterType="java.util.Map">
+        UPDATE user
+        SET totalPoints = totalPoints - #{pointsToUse}
+        WHERE userIdx = #{userIdx}
+          AND totalPoints >= #{pointsToUse}
+    </update>
+
+    <update id="addUserPoints" parameterType="map">
+        UPDATE user
+        SET totalPoints = totalPoints + #{pointsToRevert}
+        WHERE userIdx = #{userIdx}
+    </update>
+
+    <insert id="insertPointRefundHistory" parameterType="mybatis.vo.PointVO">
+        INSERT INTO point (userIdx, transactionType, amount, description, transactionDate, relatedPaymentIdx)
+        VALUES (#{userIdx}, 2, #{amount}, '결제 취소에 따른 포인트 환불', NOW(), #{relatedPaymentIdx})
+        -- transactionType 2: 환불 적립
+    </insert>
+</mapper>

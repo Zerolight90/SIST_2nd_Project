@@ -1,0 +1,388 @@
+body {
+    margin: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #f9f9f9;
+    color: #333;
+}
+
+/* 헤더 */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background: #111;
+    color: #fff;
+}
+
+.header .logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* 영화 메인 */
+#movie_content{
+    background-color: #111111;
+}
+.movie-hero {
+    width: 1100px;
+    height: 520px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    padding: 40px;
+    /*border-radius: 15px;*/
+    overflow: hidden;
+    color: #fff;
+    background: #222;
+}
+
+.movie-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    /*border-radius: 15px;*/
+    z-index: 0;
+}
+
+.movie_bg {
+    position: absolute;
+    top: 50%;
+    left: 150%;
+    width: 1800px;  /* 충분히 크게 */
+    height: 600px;
+    transform: translate(-50%, -50%);
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.2);
+    /*border-radius: 15px;*/
+    z-index: -1;
+    /*border: 1px solid red;*/
+}
+
+.movie-info {
+    max-width: 60%;
+    position: relative;
+    z-index: 1;
+    text-align: left;
+}
+
+.movie-info h2 {
+    font-size: 38px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.movie-info p {
+    font-size: 16px;
+    margin: 8px 0;
+}
+
+.movie-info .stats_txt {
+    position: absolute;
+    bottom: 0;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+.movie-info .stats_txt i{
+    font-size: 15px;
+    padding-right: 5px;
+    color: #FFFFFF;
+}
+
+.movie-poster {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    position: relative;
+    z-index: 1;
+    gap: 20px;
+}
+
+.movie-poster img {
+    position: absolute;
+    bottom: 80px;
+    width: 260px;
+    height: 374px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    object-fit: cover;
+}
+
+.movie-poster .btn {
+    position: absolute;
+    bottom: 10px;
+    width: 260px; /* 포스터 너비에 맞춤 */
+    padding: 14px 0;
+    background: #0abde3;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: 700;
+    transition: background 0.3s ease;
+    text-align: center;
+}
+
+.movie-poster .btn:hover {
+    background: #098dbf;
+}
+
+
+
+
+/* 탭 메뉴 */
+.tabs ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-bottom: 2px solid #ddd;
+}
+
+.tabs ul li {
+    padding: 15px 25px;
+    cursor: pointer;
+}
+
+.tabs ul li.active {
+    border-bottom: 3px solid #0abde3;
+    font-weight: bold;
+}
+
+/* 컨텐츠 */
+.content {
+    padding: 20px 40px;
+    background: #fff;
+    margin-bottom: 20px;
+}
+
+
+#playerWrapper{
+    display:flex;
+    justify-content:center;     /* 가로 가운데 */
+    align-items:center;         /* 세로 가운데 */
+    width:100%;
+    min-height:405px;           /* 오타( / ) 제거 */
+    margin:0 auto;
+}
+
+#player{
+    width:100%;
+    max-width:720px;            /* 최대 720px */
+    aspect-ratio:16/9;          /* 16:9 비율 유지 */
+}
+
+#player iframe{
+    width:100% !important;
+    height:100% !important;
+    display:block;
+    border:0;
+}
+
+
+
+/* ===== ec-base-tab.typeLight.eTab 개선 스타일 ===== */
+.ec-base-tab.typeLight.eTab {
+    width: 1100px;
+    margin: 40px auto;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #222;
+}
+
+/* 탭 메뉴 래퍼 */
+.ec-base-tab.typeLight.eTab .menu {
+    display: flex;
+    gap: 10px;
+    padding: 0;
+    margin: 0 0 20px 0;
+    list-style: none;
+    border-bottom: 2px solid #eee;
+    align-items: center;
+}
+
+/* 각 탭 아이템 */
+.ec-base-tab.typeLight.eTab .menu li {
+    padding: 12px 20px;
+    cursor: pointer;
+    border-radius: 8px 8px 0 0;
+    color: #444;
+    transition: background 0.18s ease, color 0.18s ease, transform 0.12s ease;
+    user-select: none;
+    font-weight: 600;
+}
+
+/* 탭 hover 및 focus (접근성 고려) */
+.ec-base-tab.typeLight.eTab .menu li:hover,
+.ec-base-tab.typeLight.eTab .menu li:focus {
+    background: rgba(10,189,227,0.06);
+    color: #0abde3;
+    outline: none;
+    transform: translateY(-1px);
+}
+
+/* 선택된(활성) 탭 스타일 */
+.ec-base-tab.typeLight.eTab .menu li.selected,
+.ec-base-tab.typeLight.eTab .menu li.active {
+    background: linear-gradient(180deg, rgba(10,189,227,0.06), rgba(10,189,227,0.02));
+    color: #0abde3;
+    border-bottom: 3px solid #0abde3;
+    box-shadow: 0 -2px 0 rgba(10,189,227,0.04) inset;
+}
+
+/* 모바일/작은 화면에서 탭을 스크롤 가능하게 처리 */
+.ec-base-tab.typeLight.eTab .menu {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+}
+
+/* 탭 컨텐츠 영역 */
+.ec-base-tab.typeLight.eTab .tabCont {
+    display: none;
+    background: #fff;
+    padding: 28px;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 180px;
+}
+
+/* 활성 컨텐츠 보이기 */
+.ec-base-tab.typeLight.eTab .tabCont.active,
+.ec-base-tab.typeLight.eTab .tabCont {
+    display: block;
+}
+
+/* 제목 및 본문 가독성 */
+.ec-base-tab.typeLight.eTab .tabCont h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 20px;
+    color: #111;
+    font-weight: 700;
+}
+.ec-base-tab.typeLight.eTab .tabCont p {
+    margin: 8px 0;
+    line-height: 1.7;
+    color: #444;
+    font-size: 15px;
+}
+
+/* 나이 등급 등 강조 요소 */
+.ec-base-tab.typeLight.eTab .age-rating {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: #f2f6f8;
+    color: #0a3b4d;
+    font-weight: 700;
+    margin-left: 6px;
+}
+
+/* 그레프 */
+.rating-wrapper {
+    display: flex;
+    width: 800px;
+    max-width: 100%;
+    gap: 50px;
+    justify-content: center;
+    align-items: center;
+    margin: 80px auto 40px auto;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #4a3ea1;
+    border: 1px solid #888888;
+    border-radius: 10px;
+    box-sizing: border-box;
+    padding: 20px 0;
+    background: #fff;
+}
+
+
+.rating-item {
+    flex: 1;
+    text-align: center;
+    border-right: 1px solid #888888;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.rating-item:last-child {
+    border-right: none;
+}
+
+.label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.sub-label {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #555;
+}
+
+.audience-number {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+/* 캔버스 크기 조절 */
+.rating-item canvas {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* 반응형 간단 처리 */
+@media (max-width: 768px) {
+    .rating-wrapper {
+        flex-direction: column;
+        width: 90%;
+        gap: 30px;
+        border: none;
+        padding: 0;
+    }
+    .rating-item {
+        border: none;
+        padding: 0;
+    }
+}
+
+.book_btn {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+
+
+/* 푸터 */
+.footer {
+    text-align: center;
+    padding: 20px;
+    background: #111;
+    color: #aaa;
+    margin-top: 40px;
+}
+

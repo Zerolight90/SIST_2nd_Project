@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="theater">
+    <!-- map100에서 호출 -->
+    <select id="list" resultType="mybatis.vo.TheaterVO" parameterType="String">
+        SELECT * FROM theater
+        WHERE tIdx = #{tIdx}
+    </select>
+
+    <select id="all" resultType="mybatis.vo.TheaterVO">
+        SELECT * FROM theater
+    </select>
+
+    <select id="region" resultType="mybatis.vo.TheaterVO">
+        SELECT * FROM theater
+        WHERE
+    </select>
+
+    <!--파라미터를 기본키로 받아서 해당 극장정보를 반환한다.-->
+    <select id="getTheater" resultType="mybatis.vo.TheaterVO" parameterType="String">
+        SELECT * FROM theater
+        WHERE tIdx = #{tIdx, jdbcType=BIGINT}
+    </select>
+
+    <resultMap id="theaterInfo" type="mybatis.vo.TheaterVO">
+        <id property="tIdx" column="tIdx"/>
+
+        <!-- TheaterVO 있는 멤버변수들 중 TheaterInfoBoardVO tibvo; -->
+        <collection property="tibvo" ofType="mybatis.vo.TheaterInfoBoardVO"
+                    select="theater.mapInfoBoard" column="tIdx"/>
+        <collection property="bvo_list" ofType="mybatis.vo.AdminBoardVO"
+                    select="userBoard.getBoardToTheater" column="tIdx"/>
+        <!-- theater.mapInfoBoard 호출하면서 tIdx를 인자로 보낸다. -->
+    </resultMap>
+
+    <select id="getTheaterInfo" resultMap="theaterInfo" parameterType="String">
+        SELECT * FROM theater
+        WHERE tIdx = #{tIdx}
+    </select>
+
+    <select id="mapInfoBoard" resultType="mybatis.vo.TheaterInfoBoardVO" parameterType="String">
+        SELECT * FROM theater_info_board
+        WHERE tIdx = #{tIdx}
+    </select>
+
+    <select id="select" resultType="mybatis.vo.TheaterVO" parameterType="mybatis.vo.TheaterVO">
+        SELECT * FROM theater
+        WHERE tIdx = #{tIdx}
+    </select>
+
+    <!--선영추가-->
+    <!--공지사항에 대한 전체 목록 추출-->
+    <select id="adminTheaterList" resultMap="map1">
+        SELECT * FROM(
+        SELECT @RN:=@RN+1 AS rnum, a.* FROM(
+        SELECT * FROM theater
+        ORDER BY tIdx DESC
+        ) a, (SELECT @RN:=0) b
+        ) c WHERE c.rnum BETWEEN #{begin} AND #{end}
+    </select>
+
+    <!--총 게시물 수를 반환하는 기능-->
+    <!--총 페이지 수를 알아야 한다. 그래야 반복문을 돌리면서 제어를 할 수 있다. 총게시물 수가 있어야 총 페이지 수를 구할 수 있다.-->
+    <select id="totalCount" resultType="int">
+        SELECT COUNT(*) FROM theater
+    </select>
+
+    <!--1:1은 association-->
+    <resultMap id="map1" type="mybatis.vo.TheaterVO">
+        <id property="tIdx" column="tIdx"/>
+    </resultMap>
+
+    <!-- all_theater의 지역 탭 표현하기 위해 중복되지않는 지역 값 가져옴 -->
+    <select id="getRegion" resultType="mybatis.vo.TheaterVO">
+        SELECT DISTINCT tRegion FROM theater
+    </select>
+</mapper>

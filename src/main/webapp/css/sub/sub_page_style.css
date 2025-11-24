@@ -5,6 +5,11 @@ body, header, article {
     margin: 0;
     padding: 0;
 }
+body{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* 뷰포트 높이의 100% */
+}
 
 /* ======== 헤더 ======== */
 header {
@@ -16,15 +21,22 @@ header {
     z-index: 3000;
     color: #000;         /* <-- 모든 글자 검정 */
 }
+article{
+    flex-grow: 1;
+}
+
 
 /* ======= 상단/우측 네비 ======== */
 .menu1 {
-    position: relative;
+    /*position: relative;*/
     width: 100%;
 }
 
 .inner {
+    position: relative;
     display: flex;
+    width: 1100px;
+    margin: 0 auto;
     justify-content: center;
     align-items: center;
 }
@@ -142,12 +154,19 @@ header {
 }
 
 /* ======== 메인 메뉴(중앙) ======== */
-.nav-center-wrapper {
+.nav{
+    width: 1100px;
+    height: 100%;
+    margin: 0 auto;
     position: relative;
-    width: 100%;
+    /*border: 1px solid red;*/
+}
+.nav-center-wrapper {
+    position: absolute;
+    margin: 0 auto;
+    width: 800px;
     display: flex;
     justify-content: center;
-    background: #fff !important;    /* <-- 흰색 */
 }
 
 .nav-center {
@@ -155,12 +174,12 @@ header {
     width: 800px;
     height: 50px;
     margin: 0 auto;
-    position: relative;
-    top: -50px;
+    position: absolute;
+    top: 45px;
+    left: 155px;
     justify-content: space-between;
     align-items: center;
     z-index: 3200;
-    background: #fff !important;   /* <-- 흰색 */
 }
 
 /* ======= submenu-bg(서브메뉴 배경) ======= */
@@ -171,14 +190,14 @@ header {
     top: 100px;
     width: 100vw;
     height: 30px;
-    background: #009996  !important;    /* <-- 흰색 */
+    background: #009996  !important;
     z-index: 300;
     opacity: 0.96;
     pointer-events: none;
 }
 
 /* ======= 메뉴/서브메뉴 구조 및 계층 제한 ======= */
-.nav-center .main-item {
+.main-item {
     position: relative;
     z-index: 3250;
 }
@@ -244,7 +263,7 @@ header {
 .nav-center .submenu li a {
     display: block;
     padding: 0 20px;
-    line-height: 15px;
+    line-height: 25px;
     font-size: 15px;
     font-weight: 400;
     font-family: 'Noto Sans KR', sans-serif;

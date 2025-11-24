@@ -1,0 +1,265 @@
+@charset "UTF-8";
+
+body {
+    background-color: #F8F9FA;
+}
+
+.confirmation_container {
+    width: 1000px;
+    margin: 50px auto;
+}
+
+.confirmation_container h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    padding-bottom: 25px;
+    border-bottom: 2px solid #333;
+}
+
+/* [수정] 메인 정보 박스 - 그림자 효과 추가 */
+.confirmation_box {
+    display: flex;
+    color: #fff;
+    border-radius: 15px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    background-color: #495057; /* 오른쪽 배경이 왼쪽을 뚫고 나오지 않도록 기본 배경색 지정 */
+}
+
+/* [수정] 티켓 펀칭 효과 (좌) */
+.confirmation_box::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -15px;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #F8F9FA;
+}
+
+/* [추가] 티켓 펀칭 효과 (우) */
+.confirmation_box::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -15px;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #F8F9FA;
+}
+
+
+/* [수정] 왼쪽 티켓 정보 스타일 */
+.ticket_info {
+    width: 320px;
+    padding: 30px;
+    background: linear-gradient(135deg, #6244a8, #503396); /* 그라데이션 배경 */
+    border-right: 2px dashed rgba(255, 255, 255, 0.5);
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    text-align: center;
+}
+
+.ticket_info .ticket_label {
+    margin-bottom: 20px;
+}
+
+.ticket_info .ticket_label p {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+    letter-spacing: 1px;
+    margin: 0 0 4px 0;
+}
+
+.ticket_info .ticket_number {
+    font-size: 24px;
+    font-weight: bold;
+    color: #FFF;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.ticket_info .poster {
+    width: 200px;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+    margin: 0 auto;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* [추가] 이미지 없을 때 플레이스홀더 스타일 */
+.poster_placeholder {
+    width: 200px;
+    height: 280px; /* 포스터 비율에 맞게 높이 지정 */
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.poster_placeholder i {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.poster_placeholder span {
+    font-size: 14px;
+}
+
+.ticket_info .poster_title {
+    font-weight: bold;
+    color: #FFF;
+    font-size: 22px;
+    margin-top: 20px;
+    word-break: keep-all; /* 제목이 깨지지 않도록 */
+}
+
+/* [추가] 스토어 구매 시 스타일 */
+.ticket_info.store_theme {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+}
+.store_title {
+    font-size: 36px;
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    font-family: 'Impact', sans-serif;
+    letter-spacing: 1px;
+}
+.quantity {
+    margin-top: 10px;
+    font-size: 16px;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+/* [수정] 오른쪽 예매 상세 내역 */
+.booking_details {
+    flex: 1; /* 남은 공간 모두 차지 */
+    padding: 30px 40px;
+    background-color: #495057;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.booking_details h2 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #FFF;
+    margin-bottom: 25px;
+}
+
+.booking_details h2 i {
+    color: #28a745; /* 성공 아이콘 색상 */
+    margin-right: 10px;
+}
+
+.details_table {
+    width: 100%;
+    font-size: 16px;
+}
+
+.details_table td {
+    padding: 12px 0;
+}
+
+.details_table .label {
+    width: 140px;
+    color: #ADB5BD;
+}
+
+.details_table .value {
+    color: #FFF;
+    font-weight: 600;
+}
+
+.details_table .value.discount {
+    color: #ffc107; /* 할인 금액 색상 */
+}
+
+/* [추가] 정보 그룹 간 구분선 */
+.details_table tr.divider td {
+    padding: 10px 0;
+    border-bottom: 1px solid #5a6268;
+}
+
+/* [수정] 최종결제금액 강조 */
+.final_amount_row {
+    border-top: 1px solid #5a6268;
+}
+
+.final_amount_row .label {
+    font-size: 18px;
+    color: #FFF;
+}
+
+.final_amount_row .value {
+    font-size: 24px;
+    color: #17a2b8; /* 최종 금액 색상 */
+    font-weight: 700;
+}
+
+
+/* [수정] 하단 버튼 */
+.button_container {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.btn_history {
+    padding: 15px 60px;
+    font-size: 16px;
+    background-color: #503396;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s;
+    box-shadow: 0 4px 15px rgba(80, 51, 150, 0.3);
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn_history:hover {
+    background-color: #3f2875;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(80, 51, 150, 0.4);
+}
+
+/* [추가] 결제 실패 스타일 */
+.error_box {
+    padding: 40px;
+    background-color: #FFF;
+    border: 1px solid #DEE2E6;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.error_box h2 {
+    font-size: 22px;
+    color: #dc3545;
+    margin-bottom: 15px;
+}
+.error_box h2 i {
+    margin-right: 10px;
+}
+
+.error_box .error_message {
+    font-size: 16px;
+    color: #6C757D;
+    margin-bottom: 30px;
+}

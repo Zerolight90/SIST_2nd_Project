@@ -3,19 +3,46 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+
     <environments default="">
         <environment id="">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/my_db"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/web_movie"/>
                 <property name="username" value="root"/>
                 <property name="password" value="1111"/>
             </dataSource>
         </environment>
     </environments>
     <mappers>
-        <mapper resource="mybatis/mapper/Movie.xml"/>
-        <mapper resource="mybatis/mapper/Users.xml"/>
+        <mapper resource="mybatis/mapper/adminBoard.xml"/>
+        <mapper resource="mybatis/mapper/coupon.xml"/>
+        <mapper resource="mybatis/mapper/movie.xml"/>
+        <mapper resource="mybatis/mapper/payment.xml"/>
+        <mapper resource="mybatis/mapper/point.xml"/>
+        <mapper resource="mybatis/mapper/coupon.xml"/>
+        <mapper resource="mybatis/mapper/product.xml"/>
+        <mapper resource="mybatis/mapper/reservation.xml"/>
+        <mapper resource="mybatis/mapper/member.xml"/>
+        <mapper resource="mybatis/mapper/nmem.xml"/>
+        <mapper resource="mybatis/mapper/admin.xml"/>
+        <mapper resource="mybatis/mapper/log.xml"/>
+        <mapper resource="mybatis/mapper/timeTable.xml"/>
+        <mapper resource="mybatis/mapper/theater.xml"/>
+        <mapper resource="mybatis/mapper/thsc.xml"/>
+        <mapper resource="mybatis/mapper/screen.xml"/>
+        <mapper resource="mybatis/mapper/movie_story.xml"/>
+        <mapper resource="mybatis/mapper/price.xml"/>
+        <mapper resource="mybatis/mapper/screenType.xml"/>
+        <mapper resource="mybatis/mapper/userBoard.xml"/>
+        <mapper resource="mybatis/mapper/favMovie.xml"/>
+        <mapper resource="mybatis/mapper/seatStatus.xml"/>
+        <mapper resource="mybatis/mapper/seat.xml"/>
+        <mapper resource="mybatis/mapper/myPaymentHistory.xml"/>
+        <mapper resource="mybatis/mapper/movie_story.xml"/>
+        <mapper resource="mybatis/mapper/moviedetail.xml"/>
+        <mapper resource="mybatis/mapper/review.xml"/>
+        <mapper resource="mybatis/mapper/adminTheaterBoard.xml"/>
     </mappers>
 </configuration>

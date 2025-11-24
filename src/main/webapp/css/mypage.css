@@ -1,0 +1,452 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+/* --- 기본 & 레이아웃 --- */
+body, html {
+    font-family: 'Noto Sans KR', sans-serif;
+    /* ▼▼▼ 배경색을 흰색으로 변경 ▼▼▼ */
+    background-color: #fff;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+article {
+    padding: 50px 0; /* 상하 여백 확대 */
+}
+
+.container {
+    display: flex;
+    width: 1200px;
+    margin: 0 auto;
+    background-color: #fff;
+    /* 그림자 효과를 더 자연스럽게 수정 */
+    box-shadow: 0 4px 25px rgba(0,0,0,0.07);
+    border-radius: 8px; /* 컨테이너에 둥근 모서리 추가 */
+    overflow: hidden; /* 둥근 모서리 적용을 위해 추가 */
+    min-height: 80vh;
+}
+
+.side-nav {
+    width: 220px;
+    padding: 40px 0; /* 좌우 패딩 제거 */
+    background-color: #fff;
+    border-right: 1px solid #eee;
+    flex-shrink: 0;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 40px 50px; /* 좌우 패딩 확대 */
+}
+
+/* --- 사이드 네비게이션 (개선) --- */
+.side-nav h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    padding: 0 20px; /* h2에도 패딩 적용 */
+}
+
+.side-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.side-nav li a {
+    display: block;
+    padding: 16px 20px; /* 패딩 미세 조정 */
+    text-decoration: none;
+    color: #555;
+    font-size: 16px;
+    /* border-bottom 제거하여 더 깔끔하게 */
+    position: relative; /* 호버 효과 기준점 */
+    transition: background-color 0.3s, color 0.3s;
+    cursor: pointer;
+    border-left: 4px solid transparent; /* 왼쪽에 투명 보더 추가 */
+}
+
+/* 활성화 및 호버 시, 보라색 보더와 배경으로 강조 */
+.side-nav li a.active,
+.side-nav li a:hover {
+    background-color: #f5effb; /* 연한 보라색 배경 */
+    color: #8e44ad;
+    font-weight: 700; /* 굵게 변경 */
+    border-left-color: #8e44ad; /* 왼쪽에 보라색 보더 표시 */
+}
+
+/* --- 공통 컨텐츠 스타일 (개선) --- */
+.content-title {
+    font-size: 26px; /* 폰트 크기 확대 */
+    font-weight: 700;
+    padding-bottom: 15px;
+    /* border를 더 얇고 부드럽게 변경 */
+    border-bottom: 1px solid #eee;
+    margin-bottom: 35px;
+}
+.content-section { margin-bottom: 50px; }
+
+/* --- 테이블 스타일 (개선) --- */
+.data-table { width: 100%; border-collapse: collapse; text-align: center; font-size: 15px; }
+.data-table th, .data-table td { padding: 16px 10px; border-bottom: 1px solid #f0f0f0; } /* 패딩 조정, 색상 변경 */
+.data-table th { background-color: #fafafa; font-weight: 500; color: #333; }
+.data-table td { color: #555; }
+.data-table .item-title { text-align: left; }
+.data-table .status-used { color: #999; }
+.data-table .status-available { color: #8e44ad; font-weight: bold; }
+.data-table .status-unanswered { color: #555;}
+
+/* --- 버튼 스타일 (개선) --- */
+.mybtn { display: inline-block; padding: 10px 18px; border: 1px solid #ccc; background-color: #fff; color: #333; border-radius: 5px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s ease-in-out; }
+.mybtn:hover { transform: translateY(-2px); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.mybtn-primary { background-color: #8e44ad; border-color: #8e44ad; color: #fff; }
+.mybtn-primary:hover { background-color: #732d91; border-color: #732d91; transform: translateY(-2px); box-shadow: 0 2px 8px rgba(142, 68, 173, 0.4); }
+
+/* --- 필터/조회 영역 --- */
+.filter-area { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; }
+.filter-area select, .filter-area input[type="date"] { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+.filter-area .radio-group input { margin-right: 5px; }
+.filter-area .radio-group label { margin-right: 15px; }
+
+/* --- 페이징 스타일 (allmovie.css 와 동일하게) --- */
+.pagination {
+    text-align: center;
+    margin-top: 40px;
+    padding-bottom: 40px;
+}
+
+.pagination a,
+.pagination strong {
+    display: inline-block;
+    min-width: 32px;
+    padding: 8px;
+    margin: 0 4px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    text-decoration: none;
+    box-sizing: border-box;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.pagination a:hover {
+    background-color: #f5f5f5;
+    border-color: #ccc;
+}
+
+.pagination strong {
+    background-color: #503396; /* allmovie와 통일된 보라색 */
+    border-color: #503396;
+    color: #fff;
+    cursor: default;
+}
+
+/* --- 예매내역 카드 (개선) --- */
+.reservation-card { display: flex; border: 1px solid #eee; border-radius: 8px; padding: 20px; margin-bottom: 20px; align-items: center; transition: box-shadow 0.3s, transform 0.3s; }
+.reservation-card:hover { transform: translateY(-5px); box-shadow: 0 6px 18px rgba(0,0,0,0.08); }
+.reservation-card img { width: 90px; height: 130px; object-fit: cover; border-radius: 4px; margin-right: 25px; }
+.reservation-card .info { flex-grow: 1; }
+.reservation-card .info p { margin: 0 0 8px 0; }
+.reservation-card .info .date { font-size: 14px; color: #888; }
+.reservation-card .info .title { font-size: 19px; font-weight: bold; margin-bottom: 12px; }
+.reservation-card .info .details { font-size: 15px; color: #555; }
+.reservation-card .action { width: 100px; text-align: center; }
+
+/* --- 탭 스타일 --- */
+.tab-nav {
+    display: flex;
+    justify-content: center; /* 탭 메뉴들을 중앙으로 정렬 */
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 30px;
+}
+
+.tab-nav a {
+    flex-grow: 1; /* 각 탭이 동일한 비율로 너비를 차지하도록 설정 */
+    text-align: center; /* 탭 내부 텍스트 중앙 정렬 */
+    padding: 15px 20px; /* 상하 패딩을 늘려 더 시원하게 보이도록 수정 */
+    text-decoration: none;
+    color: #888;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.3s, border-color 0.3s;
+    font-size: 16px;
+}
+
+.tab-nav a.active, .tab-nav a:hover {
+    color: #8e44ad;
+    font-weight: 500;
+    border-bottom-color: #8e44ad;
+}
+
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+
+/* --- 무비스토리 (개선) --- */
+.review-item { display: flex; padding: 20px 0; border-bottom: 1px solid #f0f0f0; }
+.review-item img { width: 80px; margin-right: 20px; border-radius: 4px; }
+.review-item .review-content { flex-grow: 1; }
+.review-item .review-actions a { color: #888; text-decoration: none; font-size: 14px; margin-left: 10px; }
+
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 한 줄에 5개 아이템 표시 */
+    gap: 20px; /* 아이템 간격 조정 */
+}
+
+.movie-card { text-align: center; transition: transform 0.3s, box-shadow 0.3s; border-radius: 8px; overflow: hidden;}
+.movie-card:hover { transform: translateY(-5px); box-shadow: 0 6px 18px rgba(0,0,0,0.1); }
+.movie-card img { width: 100%; height: auto; object-fit: cover; margin-bottom: 10px; display: block; aspect-ratio: 2 / 3; /* 이미지 비율 유지 */}
+
+
+/* --- 회원정보 (개선) --- */
+.form-layout { max-width: 600px; margin: 40px auto; }
+.form-group { display: flex; align-items: center; padding: 20px 0; border-bottom: 1px solid #f0f0f0; }
+.form-group:last-child { border-bottom: none; }
+.form-group .form-label { width: 150px; font-weight: 500; color: #333; }
+.form-group .form-value { flex-grow: 1; display: flex; align-items: center; gap: 10px; color: #555; }
+
+/* --- 포인트 (개선) --- */
+.point-summary-box {
+    display: flex;
+    background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%); /* 그라데이션 배경 적용 */
+    color: #fff; /* 텍스트 흰색 */
+    padding: 40px;
+    border-radius: 12px; /* 둥근 모서리 확대 */
+    margin-bottom: 40px;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 8px 25px rgba(142, 68, 173, 0.3); /* 그림자 효과 추가 */
+}
+.point-summary-box .available-points h3 { font-size: 18px; font-weight: 400; margin-bottom: 10px; opacity: 0.9; }
+.point-summary-box .available-points .points {
+    font-size: 42px; /* 폰트 크기 확대 */
+    font-weight: 700;
+    color: #fff;
+}
+.point-summary-box .point-details {
+    flex-basis: 50%;
+    background-color: rgba(255,255,255,0.1); /* 반투명 배경 */
+    color: #fff;
+    padding: 25px;
+    border-radius: 8px;
+}
+.point-details table { width: 100%; }
+.point-details .value { text-align: right; font-weight: 500; }
+.point-details .total { font-size: 18px; color: #fff; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 15px; margin-top: 10px; }
+.point-details .total { font-size: 18px; color: #fff; font-weight: bold; border-top: 1px solid #eee; padding-top: 10px; } /* 변경됨 */
+
+
+/* mypage.css에 추가하거나 이곳에 직접 추가하여 스타일을 조정합니다. */
+/* .form-group 내부 .form-value에 버튼이 같이 있을 때 정렬을 위한 스타일 */
+.form-group .form-value input[type="password"] {
+    margin-right: 10px; /* 버튼과의 간격 */
+}
+.form-group .form-value {
+    display: block; /* 내부 요소들을 가로로 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+}
+
+/* 에러 메시지를 항상 아래에 보이게 함 */
+.error-msg, label.error {
+    display: block;
+    margin-top: 6px;
+    color: red;
+}
+
+#changePhoneBtn, #submitNewPhoneBtn{
+    margin-left: 10px !important;
+}
+
+/* jQuery UI 다이얼로그 제목바 색상 맞춤 */
+.ui-dialog .ui-dialog-titlebar {
+    background: #8e44ad !important;        /* 제목바 배경을 버튼 컬러로 변경 */
+    border: none !important;               /* 필요 시 테두리 제거 */
+}
+
+.ui-dialog .ui-dialog-title {
+    color: #ffffff !important;             /* 제목 텍스트를 흰색으로 변경 */
+    font-weight: 600 !important;           /* 원하면 굵기 조정 */
+}
+
+/* 닫기 버튼이 어두운 배경에 안 보이는 경우 색상/이미지 조정 */
+.ui-dialog .ui-dialog-titlebar-close {
+    color: #ffffff !important;             /* 기본 아이콘 색 변경 (아이콘 폰트/이미지 방식에 따라 다름) */
+    opacity: 0.9 !important;
+}
+
+#my_btn{
+    display: flex;
+    justify-content: right;
+    gap: 10px;
+    /*border: 1px skyblue solid;*/
+}
+
+#submitNewPasswordBtn{
+    width: 63.77px;
+    margin-right: 180px !important;
+}
+
+.no-content {
+    text-align: center;
+    padding: 50px 0;
+    color: #888;
+}
+
+/* --- 예매/구매내역 카드 UI 개선 --- */
+.history-card {
+    display: flex;
+    align-items: center; /* 세로 중앙 정렬 */
+    gap: 25px;           /* 요소들 사이의 간격 */
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #fff;
+}
+
+.history-card .poster {
+    width: 100px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 4px;
+    flex-shrink: 0; /* 컨테이너가 줄어들어도 이미지 크기 유지 */
+}
+
+.history-card .details-wrapper {
+    flex-grow: 1; /* 정보 영역이 남은 공간을 모두 차지 */
+}
+
+.history-card .title {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin: 0 0 15px 0;
+}
+
+.history-card .details-table {
+    width: 100%;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.history-card .details-table td {
+    padding: 4px 0;
+}
+
+.history-card .details-table .label {
+    width: 90px;
+    color: #333;
+}
+
+.history-card .action-area {
+    width: 120px; /* 버튼 영역의 너비를 고정 */
+    text-align: center;
+    flex-shrink: 0;
+}
+
+/* 버튼이 100% 너비를 차지하지 않도록 수정 */
+.history-card .mybtn-outline {
+    width: auto; /* 버튼 크기를 내용에 맞게 자동 조절 */
+    padding: 8px 16px;
+}
+
+/* ====[추가] 비활성화된 버튼을 위한 스타일==== */
+.mybtn-disabled,
+.mybtn-disabled:hover {
+    background-color: #f0f0f0 !important; /* 배경색 */
+    color: #aaa !important;            /* 글자색 */
+    border-color: #ddd !important;     /* 테두리색 */
+    cursor: not-allowed !important;      /* 커서 모양 */
+    transform: none !important;          /* 호버 효과 제거 */
+    box-shadow: none !important;         /* 호버 효과 제거 */
+}
+
+/* 리뷰 아이템을 카드 형태로 변경 */
+.review-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 20px;
+    border: 1px solid #f0f0f0;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    position: relative;
+    transition: box-shadow 0.3s;
+}
+.review-item:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.review-item img {
+    width: 80px;
+    height: 114px; /* 비율 유지 */
+    object-fit: cover;
+    margin-right: 20px;
+    border-radius: 4px;
+}
+.review-content {
+    flex-grow: 1;
+}
+.review-content h4 {
+    margin: 0 0 8px;
+    font-size: 17px;
+}
+.review-content .rating-display {
+    font-size: 14px;
+    color: #f5a623; /* 별점 색상 */
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+.review-content .comment-display {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* 수정/삭제 버튼을 우측 상단에 배치 */
+.review-actions {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 8px;
+}
+.review-actions .mybtn-small {
+    padding: 5px 12px;
+    font-size: 13px;
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.review-actions .mybtn-small:hover {
+    background-color: #eee;
+}
+
+/* jQuery UI 다이얼로그(모달) 제목 스타일 */
+.ui-dialog .ui-dialog-titlebar {
+    background: #8e44ad; /* mypage.css 테마 색상 */
+    border: none;
+}
+.ui-dialog .ui-dialog-title {
+    color: #ffffff;
+}
+.poster_placeholder {
+    width: 120px; /* .poster 클래스와 동일한 너비 */
+    min-width: 120px; /* .poster 클래스와 동일한 너비 */
+    height: 171px; /* .poster 클래스와 동일한 높이 */
+    background-color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #aaa;
+    text-align: center;
+    border-radius: 4px;
+    font-size: 14px;
+}
+.poster_placeholder i {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}

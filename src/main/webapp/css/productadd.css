@@ -1,0 +1,180 @@
+.adminContent{
+    margin: 10px 10px 0 10px;
+}
+
+#table caption {
+}
+
+.dialog {
+    display: none;
+}
+
+.adminContent table{
+    border: 1px solid #000000;
+    border-collapse: collapse;
+    border-top: 2px solid #000000;
+    width: 700px
+}
+
+.producthead{
+    display: flex;
+    justify-content: space-between;
+}
+#table {
+    text-align: center;
+    margin: 0 auto;
+    width: 100%;
+}
+#table td{
+    height: 90px;
+    border: 1px solid #000000;
+}
+#table tr:nth-child(1) td{
+    height: 40px;
+}
+#table td:nth-child(1){
+    width: 50px;
+}
+#table td:nth-child(2){
+    width: 100px;
+}
+#table td:nth-child(3){
+    width: 200px;
+}
+#table td:nth-child(4){
+    width: 100px;
+}
+#table td:nth-child(5){
+    width: 80px;
+}
+#table td:nth-child(6){
+    width: 40px;
+}
+#table td:nth-child(7){
+    width: 40px;
+}
+#table td:nth-child(8){
+    width: 50px;
+}
+#table td:nth-child(9){
+    width: 50px;
+}
+
+.button {
+    background-color: #402a7a;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    height: 25px;
+    line-height: 25px;
+    border-radius: 5px;
+}
+
+.producthead .button{
+    width: 100px;
+}
+
+#table td .button{
+    width: 40px;
+}
+
+#productAddModal{
+    display: none; /* 기본적으로 숨김 상태 */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border: 1px solid #ccc;
+    z-index: 1000;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+#productCerModal{
+    display: none; /* 기본적으로 숨김 상태 */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border: 1px solid #ccc;
+    z-index: 1000;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+
+.modalTitle {
+    background-color: #20c997;
+    color: white;
+    padding: 15px 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.modalTitle h2 {
+    margin: 0;
+}
+
+.body {
+    padding: 25px 20px;
+    background-color: #fff;
+}
+
+.divs {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.divs label {
+    width: 120px;
+    font-weight: bold;
+    padding-right: 15px;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.divs .input {
+    width: 250px;
+    height: 36px;
+    padding: 0 10px;
+    border: 1px solid #ddd;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+}
+
+.divs .input.editable {
+    background-color: #fff;
+}
+
+.footer {
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid #eee;
+    background-color: #f8f9fa;
+}
+
+.footer .btn {
+    padding: 10px 30px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 0 5px;
+}
+
+.footer .btnMain {
+    background-color: #007bff;
+    color: white;
+}
+
+.footer .btnSub {
+    background-color: #6c757d;
+    color: white;
+}

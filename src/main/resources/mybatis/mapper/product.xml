@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="product">
+    <select id="getProductById" parameterType="int" resultType="mybatis.vo.ProductVO">
+        SELECT * FROM Product WHERE productIdx = #{productIdx}
+    </select>
+
+    <select id="getAllProd" resultType="mybatis.vo.ProductVO">
+        select * from product
+    </select>
+
+    <select id="getSnackProd" resultType="mybatis.vo.ProductVO">
+        select * from product
+        where prodCategory = 1 and prodStatus = 0
+    </select>
+
+    <select id="getTicketProd" resultType="mybatis.vo.ProductVO">
+        select * from product
+        where prodCategory = 2 and prodStatus = 0
+    </select>
+
+    <select id="getSelectProd" resultType="mybatis.vo.ProductVO" parameterType="String">
+        select * from product
+        where prodIdx = #{prodIdx}
+    </select>
+
+    <insert id="productAdd" parameterType="Map">
+        INSERT INTO product (prodCategory, prodName, prodInfo, prodPrice, prodStock, prodImg, prodRegDate, prodStatus)
+        VALUES (#{prodCategory}, #{prodName}, #{prodInfo}, #{prodPrice}, #{prodStock}, #{prodImg}, #{prodRegDate}, #{prodStatus})
+    </insert>
+
+    <update id="productCer" parameterType="Map">
+        UPDATE product SET
+        prodCategory = #{category},
+        prodName = #{productName}, prodInfo = #{description},
+        prodPrice = #{price}, prodStock = #{stock},
+        prodImg = #{img}, prodRegDate = #{prodRegDate},
+        prodStatus = #{status}
+        WHERE prodIdx = #{prodIdx}
+    </update>
+
+    <delete id="productDel" parameterType="String">
+        DELETE FROM product
+        WHERE prodIdx = #{prodIdx}
+    </delete>
+
+    <update id="updateStock" parameterType="java.util.Map">
+        <![CDATA[
+        UPDATE product
+        SET
+            prodStock = prodStock - #{quantity},
+            prodStatus = CASE WHEN (prodStock - #{quantity}) > 0 THEN 0 ELSE 1 END
+        WHERE
+            prodIdx = #{prodIdx}
+          AND prodStock >= #{quantity}
+    ]]>
+    </update>
+</mapper>

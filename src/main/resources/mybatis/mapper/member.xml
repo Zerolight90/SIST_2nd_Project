@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+
+    <!--아이디와 비밀번호를 인자로 받아서 로그인을 수행하는 select -->
+    <select id="login" parameterType="Map"
+            resultType="mybatis.vo.MemberVO">
+        SELECT * FROM web_movie.user
+        WHERE id = #{m_id} AND pw = #{m_pw} AND status = 0
+    </select>
+
+    <!--인자로 MemberVO를 받아서 memeber를 추가하는 insert -->
+    <insert id="add" parameterType="mybatis.vo.MemberVO">
+        INSERT INTO web_movie.user(id, pw, birth, name, gender, phone, email, totalPoints, status,joinDate, joinPath)
+        VALUES(#{id}, #{pw}, #{birth}, #{name}, #{gender}, #{phone}, #{email}, 0, 0, DATE(NOW()), #{joinPath})
+    </insert>
+
+
+    <update id="updateKakaoUser" parameterType="map">
+        UPDATE web_movie.user
+        SET birth = #{birth}
+        WHERE id = #{k_id}
+    </update>
+
+    <update id="updateUserPhone" parameterType="map">
+        UPDATE web_movie.user
+        SET phone = #{phone}
+        WHERE id = #{id}
+    </update>
+
+
+        <!-- KakaoVO 전용 회원가입 쿼리 -->
+    <insert id="addKakaoUser" parameterType="mybatis.vo.KakaoVO">
+        INSERT INTO web_movie.user(id, pw, birth, name, gender, phone, email, totalPoints, status, joinDate, joinPath)
+        VALUES(#{k_id},#{pw}, #{birth}, #{k_name}, #{gender}, #{phone}, #{k_email}, 0, 0, DATE(NOW()), 'Kakao')
+    </insert>
+
+
+    <!-- 아이디를 인자로 받아서 중복확인하는 select -->
+    <select id="id_check" parameterType="String" resultType="mybatis.vo.MemberVO">
+        SELECT * FROM web_movie.user
+        WHERE id = #{m_id}
+    </select>
+
+    <!-- 회원정보 수정에서 기존 비밀번호가 맞는지 체크하는 select -->
+    <select id="pw_check" parameterType="map" resultType="int">
+
+        SELECT COUNT(*) FROM web_movie.user
+        WHERE id = #{id} AND pw = #{pw}
+
+    </select>
+
+    <!-- 카카오 ID로 사용자 존재 여부 확인 쿼리 추가 -->
+    <select id="checkKakaoId" parameterType="String" resultType="mybatis.vo.KakaoVO">
+        SELECT * FROM web_movie.user
+        WHERE id = #{k_id}
+    </select>
+
+    <!-- 모든 유저를 불러오는 쿼리 (종민) -->
+    <select id="getMemInfo" resultType="mybatis.vo.MemberVO">
+        select * from web_movie.user
+    </select>
+
+    <!-- 관리자가 특정한 조건값으로 유저를 검색하는 쿼리 (종민) -->
+    <select id="getMemSearch" resultType="mybatis.vo.MemberVO" parameterType="Map">
+        SELECT * FROM(
+        SELECT @RN:=@RN+1 AS rnum, a.* FROM(
+        SELECT * FROM user
+        <where>
+            <if test="user_status != null and user_status != ''">
+                AND status = #{user_status}
+            </if>
+
+            <if test="datepicker != null and datepicker != ''">
+                AND joinDate = #{datepicker}
+            </if>
+
+            <if test="search_keyword != null and search_keyword != ''">
+                <choose>
+                    <when test="search_field == 'name'">
+                        AND name LIKE CONCAT('%', #{search_keyword}, '%')
+                    </when>
+                    <when test="search_field == 'id'">
+                        AND id LIKE CONCAT('%', #{search_keyword}, '%')
+                    </when>
+                    <when test="search_field == 'email'">
+                        AND email LIKE CONCAT('%', #{search_keyword}, '%')
+                    </when>
+                    <otherwise>
+                        AND (name LIKE CONCAT('%', #{search_keyword}, '%') OR id LIKE CONCAT('%', #{search_keyword}, '%'))
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+        ORDER BY userIdx DESC
+        ) a, (SELECT @RN:=0) b
+        ) c WHERE c.rnum BETWEEN #{begin} AND #{end}
+
+        <!--SELECT userIdx, name, id, email, phone, totalPoints, status, joinDate
+        FROM user
+        <where>
+            <if test="user_status != null and user_status != ''">
+                AND status = #{user_status}
+            </if>
+
+            <if test="datepicker != null and datepicker != ''">
+                AND joinDate = #{datepicker}
+            </if>
+
+            <if test="search_keyword != null and search_keyword != ''">
+                <choose>
+                    <when test="search_field == 'name'">
+                        AND name LIKE CONCAT('%', #{search_keyword}, '%')
+                    </when>
+                    <when test="search_field == 'id'">
+                        AND id LIKE CONCAT('%', #{search_keyword}, '%')
+                    </when>
+                    <when test="search_field == 'email'">
+                        AND email LIKE CONCAT('%', #{search_keyword}, '%')
+                    </when>
+                    <otherwise>
+                        AND (name LIKE CONCAT('%', #{search_keyword}, '%') OR id LIKE CONCAT('%', #{search_keyword}, '%'))
+                    </otherwise>
+                </choose>
+            </if>
+        </where>-->
+        <!--ORDER BY userIdx DESC-->
+    </select>
+    
+    <update id="editUsers" parameterType="Map">
+        UPDATE user SET name = #{name},
+        email = #{email},
+        phone = #{phone},
+        totalPoints = #{totalPoints}
+        WHERE userIdx = #{userIdx}
+    </update>
+
+    <select id="findByIdx" parameterType="long" resultType="mybatis.vo.MemberVO">
+        SELECT * FROM user WHERE userIdx = #{userIdx}
+    </select>
+
+
+    <update id="updatePassword" parameterType="Map">
+        UPDATE user set
+        pw = #{password}
+        WHERE id =#{m_id}
+    </update>
+
+    <!-- 회원탈퇴 로직 -->
+    <update id="goodbye" parameterType="string">
+        UPDATE user set
+        status = 1
+        WHERE id = #{id} AND status = 0
+    </update>
+
+    <!-- 네이버 신규 회원 등록 -->
+     <insert id="addNaverUser" parameterType="mybatis.vo.NaverVO">
+        INSERT INTO web_movie.user
+        (id, pw, birth, name, gender, phone, email, totalPoints, status, joinDate, joinPath)
+        VALUES
+        (#{n_id}, #{pw}, #{n_birthday}, #{n_name}, #{n_gender}, #{n_Phone}, #{n_email}, 0, 0, DATE(NOW()), 'Naver')
+    </insert>
+
+
+    <!-- 네이버 ID 중복 확인 -->
+    <select id="checkNaverId" parameterType="String" resultType="mybatis.vo.NaverVO">
+        select * FROM web_movie.user
+        WHERE id = #{n_id}
+    </select>
+
+    <!-- 네이버 ID로 MemberVO 조회 -->
+    <select id="findByNaverId" parameterType="String" resultType="mybatis.vo.MemberVO">
+        select * FROM web_movie.user
+        WHERE id = #{n_id}
+    </select>
+
+    <!-- 네이버 사용자 정보 업데이트 (전화번호/생년 등) -->
+    <update id="updateNaverUser" parameterType="map">
+        UPDATE web_movie.user
+        SET
+        phone = #{phone},
+        birth = #{birth},
+        birthYear = #{birthYear}
+        WHERE id = #{n_id}
+    </update>
+
+
+    <!--아이디찾기 -->
+    <select id="searchID" parameterType="map" resultType="mybatis.vo.MemberVO">
+        SELECT * FROM web_movie.user
+        WHERE name = #{m_name}
+            AND phone = #{m_phone}
+            AND birth = #{m_birth}
+            AND email = #{m_email}
+            AND status = 0
+        </select>
+</mapper>

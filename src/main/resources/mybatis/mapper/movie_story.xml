@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="movieStory">
+
+    <select id="getReviews" parameterType="Long" resultType="mybatis.vo.MovieStoryVO">
+        SELECT
+        r.reviewIdx AS reviewIdx,
+        r.reviewRating AS rating,
+        m.poster AS posterUrl,
+        m.name AS title,
+        r.reviewContent AS comment,
+        r.mIdx AS mIdx
+        FROM
+        review r
+        JOIN
+        movie m ON r.mIdx = m.mIdx
+        WHERE
+        r.userIdx = #{userIdx} AND r.reviewStatus = 0
+        ORDER BY
+        r.reviewDate DESC
+    </select>
+
+    <select id="getWatchedMovies" parameterType="java.util.Map" resultType="mybatis.vo.MovieStoryVO">
+        SELECT
+        m.mIdx,
+        m.name AS title,
+        m.poster AS posterUrl
+        FROM payment p
+        JOIN reservation res ON p.reservIdx = res.reservIdx
+        JOIN time_table tt ON res.timeTableIdx = tt.timeTableIdx
+        JOIN movie m ON tt.mIdx = m.mIdx
+        WHERE
+        p.userIdx = #{userIdx}
+        AND p.paymentStatus = 0
+        AND p.paymentType = 0
+        AND tt.startTime > NOW()
+        GROUP BY
+        m.mIdx, m.name, m.poster ORDER BY
+        MIN(tt.startTime) ASC
+        LIMIT #{offset}, #{numPerPage}
+    </select>
+
+    <select id="getWatchedCount" parameterType="Long" resultType="int">
+        SELECT COUNT(*)
+        FROM watched_movie
+        WHERE userIdx = #{userIdx}
+    </select>
+
+</mapper>

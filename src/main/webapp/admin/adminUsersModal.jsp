@@ -1,0 +1,156 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<style>
+  .userModal {
+    font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+    font-size: 14px;
+    color: #333;
+    width: 480px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .modalTitle {
+    background-color: #20c997;
+    color: white;
+    padding: 15px 20px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .modalTitle h2 {
+    margin: 0;
+  }
+
+  .body {
+    padding: 25px 20px;
+    background-color: #fff;
+  }
+
+  .divs {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  .divs label {
+    width: 120px;
+    font-weight: bold;
+    padding-right: 15px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .divs .input {
+    width: 250px;
+    height: 36px;
+    padding: 0 10px;
+    border: 1px solid #ddd;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+  }
+
+  .divs .input.editable {
+    background-color: #fff;
+  }
+
+  .footer {
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid #eee;
+    background-color: #f8f9fa;
+  }
+
+  .footer .btn {
+    padding: 10px 30px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 0 5px;
+  }
+
+  .footer .btnMain {
+    background-color: #007bff;
+    color: white;
+  }
+
+  .footer .btnSub {
+    background-color: #6c757d;
+    color: white;
+  }
+</style>
+
+<div class="userModal">
+  <div class="modalTitle">
+    <h2>사용자 상세 정보</h2>
+  </div>
+
+  <div class="body">
+    <form action="Controller?type=adminUsersUpdate" method="post" id="frm">
+      <div class="divs">
+        <label for="userId">유저 고유번호:</label>
+        <input type="text" id="userId" name="userIdx" class="input" value="${requestScope.vo.userIdx}" readonly>
+      </div>
+      <div class="divs">
+        <label for="userName">이름:</label>
+        <input type="text" id="userName" name="name" class="input editable" value="${requestScope.vo.name}">
+      </div>
+      <div class="divs">
+        <label for="userLoginId">ID:</label>
+        <input type="text" id="userLoginId" name="id" class="input" value="${requestScope.vo.id}" readonly>
+      </div>
+      <div class="divs">
+        <label for="userEmail">이메일:</label>
+        <input type="email" id="userEmail" name="email" class="input editable" value="${requestScope.vo.email}">
+      </div>
+      <div class="divs">
+        <label for="userPhone">연락처:</label>
+        <input type="text" id="userPhone" name="phone" class="input editable" value="${requestScope.vo.phone}">
+      </div>
+      <div class="divs">
+        <label for="userPoint">보유 포인트:</label>
+        <input type="text" id="userPoint" name="totalPoints" class="input editable" value="${requestScope.vo.totalPoints}">
+      </div>
+      <%--<div class="divs">
+        <label for="userLevel">회원 등급:</label>
+        <input type="text" id="userLevel" class="input" value="${requestScope.vo.userIdx}" readonly>
+      </div>--%>
+      <div class="divs">
+        <label for="userDate">가입일:</label>
+        <input type="text" id="userDate" name="joinDate" class="input" value="${requestScope.vo.joinDate}" readonly>
+      </div>
+      <div class="divs">
+        <label for="userStatus">회원 상태:</label>
+
+        <c:if test="${requestScope.vo.status == 0}">
+          <input type="text" id="userStatus" name="status" class="input" value="활성" readonly>
+        </c:if>
+        <c:if test="${requestScope.vo.status == 1}">
+          <input type="text" id="userStatus" name="status" class="input" value="탈퇴" readonly>
+        </c:if>
+      </div>
+    </form>
+  </div>
+
+  <div class="footer">
+    <button type="button" class="btn btnMain">저장</button>
+    <button type="button" class="btn btnSub">취소</button>
+  </div>
+  
+  <script>
+    $(function () {
+      $(".btnMain").on('click', function () {
+        $("#frm").submit();
+      })
+
+      $(".btnSub").on('click', function () {
+        $("#adminUsersModal").dialog('close');
+      })
+    });
+  </script>
+  
+</div>

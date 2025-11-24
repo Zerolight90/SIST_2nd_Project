@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="nmem">
+    <!-- 모든 비회원 정보를 가져오는 쿼리 (종민) -->
+    <select id="getNmem" resultType="mybatis.vo.NmemVO">
+        select * from nmember
+    </select>
+
+    <!-- 관리자가 특정 조건값으로 비회원을 검색하는 쿼리 (종민) -->
+    <select id="getNmemSearch" resultType="mybatis.vo.NmemVO" parameterType="Map">
+        SELECT * FROM(
+        SELECT @RN:=@RN+1 AS rnum, a.* FROM(
+        SELECT * FROM nmember
+        <where>
+            <if test="datepicker != null and datepicker != ''">
+                AND joinDate = #{datepicker}
+            </if>
+
+            <if test="search_keyword != null and search_keyword != ''">
+                <choose>
+                    <when test="search_field == name">
+                        AND name LIKE CONCAT('%', #{search_keyword}, '%')
+                    </when>
+                    <when test="search_field == email">
+                        AND email LIKE CONCAT('%', #{search_keyword}, '%')
+                    </when>
+                    <otherwise>
+                        AND (name LIKE CONCAT('%', #{search_keyword}, '%') OR email LIKE CONCAT('%', #{search_keyword}, '%'))
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+        ORDER BY nIdx DESC
+        ) a, (SELECT @RN:=0) b
+        ) c WHERE c.rnum BETWEEN #{begin} AND #{end}
+    </select>
+
+    <!-- 비회원 추가 테이블(영환)-->
+    <insert id="add" parameterType="mybatis.vo.NmemVO">
+        INSERT INTO nmember (name, phone, password, birth, email, joinDate)
+        VALUES (#{name}, #{phone}, #{password}, #{birth}, #{email}, NOW())
+    </insert>
+
+
+    <insert id="insertNmember" parameterType="mybatis.vo.NmemVO"
+            useGeneratedKeys="true" keyProperty="nIdx">
+        INSERT INTO nmember (name, phone, password, joinDate)
+        VALUES (#{name}, #{phone}, #{password}, NOW())
+    </insert>
+
+    <select id="getByEmail" parameterType="string" resultType="mybatis.vo.NmemVO">
+        SELECT  nIdx, name, phone, password, birth, email, joinDate
+        FROM nmember
+        WHERE email = #{email}
+        ORDER BY joinDate DESC
+        LIMIT 1
+    </select>
+
+    <select id="bookchk" parameterType="Map" resultType="mybatis.vo.NmemVO">
+        SELECT * FROM web_movie.nmember
+        WHERE name = #{u_name}
+            AND password = #{u_pw}
+            AND birth = #{u_birth}
+        ORDER BY nIdx DESC LIMIT 1
+    </select>
+
+    <select id="findNmemByInfo" parameterType="mybatis.vo.NmemVO" resultType="mybatis.vo.NmemVO">
+        SELECT * FROM nmember
+        WHERE name = #{name} AND phone = #{phone} AND birth = #{birth}
+        LIMIT 1
+    </select>
+</mapper>

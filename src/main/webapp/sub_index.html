@@ -3,13 +3,15 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>SIST BOX 쌍용박스</title>
+    <title>SIST BOX 쌍용박스-로그인</title>
     <link rel="stylesheet" href="./css/sub/sub_page_style.css">
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!--폰트어썸 css 라이브러리-->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
     <link rel="icon" href="./images/favicon.png">
+
+
 </head>
 
 <body>
@@ -38,7 +40,7 @@
 
         <ul class="nav-r_top">
             <li><a href="#" class="login">로그인</a></li>
-            <li><a href="#" class="signup">회원가입</a></li>
+            <li><a href="./join/join.html" class="signup">회원가입</a></li>
             <li><a href="#" class="quick-booking">빠른예매</a></li>
         </ul>
     </div>
@@ -65,68 +67,72 @@
         </ul>
     </div>
 
-    <div class="nav-center">
-        <ul class="l_main">
-            <li class="main-item has-submenu">
-                <a href="#">영화</a>
-                <ul class="submenu">
-                    <li><a href="#">전체 영화</a></li>
-                </ul>
-            </li>
-            <li class="main-item has-submenu">
-                <a href="#">예매</a>
-                <ul class="submenu">
-                    <li><a href="#">빠른예매</a></li>
-                    <li><a href="#">상영시간표</a></li>
-                    <li><a href="#">더 부티크 프라이빗 예매</a></li>
-                </ul>
-            </li>
-            <li class="main-item has-submenu">
-                <a href="#">극장</a>
-                <ul class="submenu">
-                    <li><a href="#">전체 극장</a></li>
-                    <li><a href="#">특별관</a></li>
-                </ul>
-            </li>
-        </ul>
+    <div class="nav">
+        <div class="nav-center">
+            <ul class="l_main">
+                <li class="main-item has-submenu">
+                    <a href="#">영화</a>
+                    <ul class="submenu">
+                        <li><a href="#">전체 영화</a></li>
+                    </ul>
+                </li>
+                <li class="main-item has-submenu">
+                    <a href="#">예매</a>
+                    <ul class="submenu">
+                        <li><a href="#">빠른예매</a></li>
+                        <li><a href="#">상영시간표</a></li>
+                        <li><a href="#">더 부티크 프라이빗 예매</a></li>
+                    </ul>
+                </li>
+                <li class="main-item has-submenu">
+                    <a href="#">극장</a>
+                    <ul class="submenu">
+                        <li><a href="#">전체 극장</a></li>
+                        <li><a href="#">특별관</a></li>
+                    </ul>
+                </li>
+            </ul>
 
 
-        <ul class="r_main">
-            <li class="main-item has-submenu">
-                <a href="#">이벤트</a>
-                <ul class="submenu">
-                    <li><a href="#">진행중인 이벤트</a></li>
-                    <li><a href="#">지난 이벤트</a></li>
-                    <li><a href="#">당첨자 확인</a></li>
-                </ul>
-            </li>
-            <li class="main-item store-menu"><a href="#">스토어</a></li>
-            <li class="main-item has-submenu">
-                <a href="#">혜택</a>
-                <ul class="submenu">
-                    <li><a href="#">메가박스 멤버쉽</a></li>
-                    <li><a href="#">제휴/할인</a></li>
-                </ul>
-            </li>
-        </ul>
-        <div class="submenu-bg"></div>
-        <script>
-            // jQuery 코드
-            $(function () {
-                // "스토어"를 제외한 메뉴만 hover 효과 적용
-                $('.nav-center .main-item:not(.store-menu) > a').mouseenter(function () {
-                    $('.submenu-bg').css('display', 'block');
+            <ul class="r_main">
+                <li class="main-item has-submenu">
+                    <a href="#">이벤트</a>
+                    <ul class="submenu">
+                        <li><a href="#">진행중인 이벤트</a></li>
+                        <li><a href="#">지난 이벤트</a></li>
+                        <li><a href="#">당첨자 확인</a></li>
+                    </ul>
+                </li>
+                <li class="main-item store-menu"><a href="#">스토어</a></li>
+                <li class="main-item has-submenu">
+                    <a href="#">혜택</a>
+                    <ul class="submenu">
+                        <li><a href="#">메가박스 멤버쉽</a></li>
+                        <li><a href="#">제휴/할인</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="submenu-bg"></div>
+            <script>
+                // jQuery 코드
+                $(function () {
+                    // "스토어"를 제외한 메뉴만 hover 효과 적용
+                    $('.nav-center .main-item:not(.store-menu) > a').mouseenter(function () {
+                        $('.submenu-bg').css('display', 'block');
+                    });
+
+                    $('.nav-center .main-item:not(.store-menu)').mouseleave(function () {
+                        $('.submenu-bg').css('display', 'none');
+                    });
                 });
 
-                $('.nav-center .main-item:not(.store-menu)').mouseleave(function () {
-                    $('.submenu-bg').css('display', 'none');
-                });
-            });
-
-        </script>
+            </script>
+        </div>
     </div>
 
 </header>
+
+
 
 
 <footer>
